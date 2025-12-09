@@ -1,0 +1,215 @@
+"use client";
+import { Button } from "@/components/ui/Button";
+import { Textarea } from "@/components/ui/Textarea";
+import { Calendar, MessageCircle, Send } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useCreateAnswer } from "../_api/mutations/useCreateAnswer";
+import { toast } from "sonner";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/Label";
+import { Progress } from "@/components/ui/progress";
+
+import { usePathname } from "next/navigation";
+type Question = {
+  id: string;
+  question: string;
+  answers_count: string | number;
+  description?: string;
+  week?: number;
+  answer_options: {
+    content: string;
+    vote_count: number;
+    _id: string;
+  }[];
+};
+
+type TProps = {
+  data: {
+    hasAnswered: boolean;
+    question: Question;
+    statistics: {
+      option_id: string;
+      content: string;
+      count: number;
+      percentage: number;
+    }[];
+    userAnswer?: {
+      answer_option_id: string;
+      comment: string;
+      question_id: string;
+    };
+  };
+  onAnswerSubmitted?: () => void;
+  overview?: boolean;
+};
+
+export default function AnswerForm({
+  data,
+  overview = false,
+  onAnswerSubmitted,
+}: TProps) {
+  const pathname = usePathname();
+
+  const isWeeklyQuestionPage = pathname.includes("weekly-question");
+  const { question, hasAnswered, statistics, userAnswer } = data;
+  const {
+    question: title,
+    description,
+    answers_count,
+    week,
+    answer_options,
+  } = question;
+
+  const [option, setOption] = useState<string>("");
+  const [answerText, setAnswerText] = useState("");
+  const router = useRouter();
+
+  const { mutate: mutateCreateAnswer, isPending } = useCreateAnswer();
+
+  useEffect(() => {
+    if (hasAnswered && !!userAnswer) {
+      // setAnswerText(userAnswer.comment);
+      setOption(userAnswer.answer_option_id);
+    }
+  }, [userAnswer, hasAnswered]);
+
+  // const handleRedirect = () => {
+  //   router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
+  // }
+
+  const handleSubmit = () => {
+    if (!Boolean(option)) {
+      return toast.error("Please select an answer option");
+    }
+
+    mutateCreateAnswer(
+      {
+        id: question.id,
+        comment: answerText,
+        answer_option_id: option,
+      },
+      {
+        onSuccess: () => {
+          onAnswerSubmitted && onAnswerSubmitted();
+          if (overview) {
+            router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
+          }
+          toast.success("Answer submitted");
+          setAnswerText("");
+        },
+      }
+    );
+  };
+
+  return (
+    <div className="max-w-5xl w-full mx-auto space-y-8">
+      <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-100">
+        <h1 className="text-3xl md:text-4xl font-bold text-[#300043] mb-4">
+          Q: {title}
+        </h1>
+
+        {description && (
+          <p className="text-gray-600 text-lg leading-relaxed">{description}</p>
+        )}
+
+        <RadioGroup
+          value={option}
+          onValueChange={(val) => {
+            setOption(val);
+          }}
+          className="mt-3 mb-6"
+          disabled={hasAnswered && overview}
+        >
+          {answer_options?.length > 0 &&
+            answer_options.map((option) => {
+              const percentage = statistics.find(
+                (data) => data.option_id == option._id
+              )?.percentage;
+
+              return (
+                <div
+                  className="flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+                  key={option._id}
+                >
+                  <div className="flex items-center gap-3 flex-1">
+                    <RadioGroupItem
+                      value={option._id}
+                      id={option._id}
+                      className="size-5 cursor-pointer!"
+                      // disabled={hasAnswered && !!userAnswer}
+                    />
+                    <Label
+                      htmlFor={option._id}
+                      className="capitalize font-normal text-lg cursor-pointer"
+                    >
+                      {option.content}
+                    </Label>
+                  </div>
+
+                  {!overview && hasAnswered && (
+                    <div className="flex items-center gap-2 flex-1">
+                      <span>{percentage}%</span>
+                      <Progress value={percentage} className="" />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+        </RadioGroup>
+
+        {!overview && (
+          <>
+            <h3 className="text-xl font-bold text-[#300043] mb-4 flex items-center gap-2">
+              <Send className="h-5 w-5 text-soft" />
+              Share Your Comment
+            </h3>
+
+            <Textarea
+              placeholder="Write your answer here..."
+              value={answerText}
+              onChange={(e) => setAnswerText(e.target.value)}
+              className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+              rows={3}
+            />
+          </>
+        )}
+        {hasAnswered && overview ? (
+          <Button
+            onClick={() => {
+              router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
+            }}
+            isLoading={isPending}
+            disabled={isPending}
+            className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+          >
+            See answers and comments
+          </Button>
+        ) : (
+          <Button
+            onClick={handleSubmit}
+            isLoading={isPending}
+            disabled={isPending}
+            className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+          >
+            {/* {isPending ? "Submitting..." : "Submit Answer"} */}
+            {!isWeeklyQuestionPage
+              ? " See answers and comments"
+              : isPending
+              ? "Submitting..."
+              : "Submit Answer"}
+          </Button>
+        )}
+
+        <div className="flex items-center gap-6 mt-6 pt-6 border-t border-gray-100">
+          <div className="flex items-center gap-2 text-gray-500">
+            <MessageCircle className="h-5 w-5" />
+            <span className="text-sm font-medium">
+              {answers_count} {answers_count === 1 ? "Answer" : "Answers"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

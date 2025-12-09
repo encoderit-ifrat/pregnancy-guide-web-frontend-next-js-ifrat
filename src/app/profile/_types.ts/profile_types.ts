@@ -1,0 +1,35 @@
+export interface FormData {
+  babyName: string;
+  gender: string;
+  dueDate: string;
+  motherName: string;
+  lastPeriodDate: string;
+  dob: string;
+  weight: string;
+  height: string;
+}
+
+export interface BabyProfile {
+  _id: string;
+  name?: string;
+  avatar?: string;
+  upcoming: boolean;
+  gender?: string;
+  dob?: string;
+  dueDate?: string;
+  lastPeriodDate?: string;
+  current_pregnancy_week?: string;
+  weight?: string;
+  height?: string;
+}
+
+export interface ProfileDetail {
+  key: string;
+  label: string;
+  value: string;
+}
+
+export interface FormProfileProps {
+  initialData: any;
+  onSubmitForDialogAndRefetch?: () => void;
+}
