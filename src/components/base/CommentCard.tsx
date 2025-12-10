@@ -38,16 +38,17 @@ export type TCommentCard = {
   created_by: { name: string; avatar: string };
 };
 export type TCommentCardProps = {
-  content: string;
+  // content: string;
   data: TCommentCard;
 };
-export default function CommentCard({ data, content }: TCommentCardProps) {
+export default function CommentCard({ data }: TCommentCardProps) {
   const { user: currentUser } = useCurrentUser();
   console.log("👉 ~ CommentCard ~ currentUser:", currentUser);
 
   const {
     _id,
     question_id,
+    comment,
     comments = [],
     createdAt,
     updatedAt,
@@ -115,7 +116,8 @@ export default function CommentCard({ data, content }: TCommentCardProps) {
 
       {/* Comment Content */}
       <p className="text-gray-800 leading-relaxed mb-4">
-        {content || "No answer"}
+        {/* {content || "No answer"} */}
+        {comment || "No answer"}
       </p>
 
       {/* Comments Section */}

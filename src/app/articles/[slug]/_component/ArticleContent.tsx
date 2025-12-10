@@ -12,9 +12,7 @@ export default function ArticleContent({
 }) {
   return (
     <article
-      className={`${
-        hasToC ? "w-full lg:w-2/3" : "w-full"
-      } prose prose-lg max-w-none
+      className={`${hasToC && "lg:w-2/3!"} w-full! prose prose-lg max-w-none
         prose-headings:text-[#300043] prose-headings:font-bold
         prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
         prose-p:text-gray-700 prose-p:leading-relaxed

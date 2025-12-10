@@ -16,41 +16,81 @@ type Article = {
   excerpt?: string;
 };
 
-// Server-side HTML parsing
+// function extractHeadings(htmlContent: string): {
+//   headings: { id: string; text: string; level: number }[];
+//   contentWithIds: string;
+// } {
+//   const headingRegex = /<(h[1-6])(.*?)>([\s\S]*?)<\/\1>/gi;
+
+//   const headings: { id: string; text: string; level: number }[] = [];
+//   let index = 0;
+
+//   let contentWithIds = htmlContent;
+
+//   contentWithIds = contentWithIds.replace(
+//     headingRegex,
+//     (match, tag, attrs, inner) => {
+//       const level = Number(tag[1]);
+
+//       // Extract inner text (remove HTML tags)
+//       const text = inner.replace(/<[^>]+>/g, "").trim();
+
+//       // Check if heading already has an ID
+//       const existingId = attrs.match(/\sid=["']([^"']+)["']/);
+
+//       let id = existingId ? existingId[1] : `heading-${index}`;
+
+//       // Save heading
+//       headings.push({ id, text, level });
+
+//       index++;
+
+//       // If ID exists → return unchanged
+//       if (existingId) return match;
+
+//       // Otherwise → inject ID after the tag name
+//       return `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
+//     }
+//   );
+
+//   return { headings, contentWithIds };
+// }
 function extractHeadings(htmlContent: string): {
-  headings: Heading[];
+  headings: { id: string; text: string; level: number }[];
   contentWithIds: string;
 } {
-  const headingRegex = /<(h[1-6])([^>]*)>(.*?)<\/\1>/gi;
-  const headings: Heading[] = [];
-  let match;
+  const headingRegex = /<(h[1-6])(.*?)>([\s\S]*?)<\/\1>/gi;
+
+  const headings: { id: string; text: string; level: number }[] = [];
   let index = 0;
 
   let contentWithIds = htmlContent;
-  headingRegex.lastIndex = 0;
 
-  while ((match = headingRegex.exec(htmlContent)) !== null) {
-    const tag = match[1];
-    const attributes = match[2];
-    const text = match[3].replace(/<[^>]*>/g, "");
-    const level = parseInt(tag[1]);
+  contentWithIds = contentWithIds.replace(
+    headingRegex,
+    (match, tag, attrs, inner) => {
+      const level = Number(tag[1]);
 
-    const existingId = attributes.match(/id=["']([^"']+)["']/);
-    const id = existingId ? existingId[1] : `heading-${index}`;
+      // Extract inner text (remove HTML tags)
+      const text = inner.replace(/<[^>]+>/g, "").trim();
 
-    headings.push({ id, text, level });
+      // Check if heading already has an ID
+      const existingId = attrs.match(/\sid=["']([^"']+)["']/);
 
-    if (!existingId) {
-      const originalTag = match[0];
-      const newTag = originalTag.replace(
-        new RegExp(`<${tag}([^>]*)>`, "i"),
-        `<${tag}$1 id="${id}">`
-      );
-      contentWithIds = contentWithIds.replace(originalTag, newTag);
+      const id = existingId ? existingId[1] : `heading-${index}`;
+
+      // Save heading
+      headings.push({ id, text, level });
+
+      index++;
+
+      // If ID exists → return unchanged
+      if (existingId) return match;
+
+      // Otherwise → inject ID after tag name
+      return `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
     }
-
-    index++;
-  }
+  );
 
   return { headings, contentWithIds };
 }

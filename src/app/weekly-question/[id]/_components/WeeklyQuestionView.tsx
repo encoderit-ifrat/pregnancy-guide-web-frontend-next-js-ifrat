@@ -95,17 +95,21 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
         </h2>
 
         {allAnswers?.length > 0 ? (
-          allAnswers.map((answer: TCommentCard) => (
-            <CommentCard
-              key={answer._id}
-              content={
-                question.answer_options.find(
-                  (oldAnswer: any) => oldAnswer._id === answer.answer_option_id
-                )?.content
-              }
-              data={answer}
-            />
-          ))
+          allAnswers.map((answer: TCommentCard) => {
+            console.log("👉 ~ WeeklyQuestionView ~ answer:", answer);
+            return (
+              <CommentCard
+                key={answer._id}
+                // content={
+                //   question.answer_options.find(
+                //     (oldAnswer: any) =>
+                //       oldAnswer._id === answer.answer_option_id
+                //   )?.content
+                // }
+                data={answer}
+              />
+            );
+          })
         ) : (
           <div className="bg-white rounded-xl shadow-md p-12 text-center border border-gray-100">
             <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
