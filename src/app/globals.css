@@ -1,6 +1,57 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@plugin "@tailwindcss/typography";
+/* TipTap task list layout fix */
+.prose li.task-list-item {
+  /* display: flex;
+  align-items: center;
+  gap: 0.5rem; */
+  @apply flex items-center gap-2;
+}
+
+/* Keep checkbox inline */
+.prose li.task-list-item > label {
+  /* display: flex;
+  align-items: center;
+  margin: 0; */
+  @apply flex items-center m-0;
+}
+
+/* Remove Typography margins */
+.prose li.task-list-item > div,
+.prose li.task-list-item p {
+  @apply m-0;
+
+  /* text-decoration-line: line-through; */
+}
+.prose ul li.task-list-item[data-checked="true"] p {
+  @apply line-through text-gray-500;
+}
+.prose ul li.task-list-item label {
+  @apply !pointer-events-none !select-none;
+}
+.prose input[type="checkbox"] {
+  @apply pointer-events-none! select-none!;
+}
+
+.prose .columns .column {
+  @apply border-none p-0;
+}
+.prose .columns {
+  @apply grid grid-cols-1 gap-4;
+}
+.prose .columns[cols] {
+  --cols: attr(cols number);
+}
+@media (min-width: 40rem) {
+  .prose .columns {
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  }
+}
+div.no-tailwind p span {
+  white-space: wrap !important;
+}
 @theme {
   /* === Base Colors === */
   /* fontFamily: {
@@ -181,7 +232,8 @@
   margin-block: 1em;
 }
 
-.no-tailwind ul, .no-tailwind ol {
+.no-tailwind ul,
+.no-tailwind ol {
   list-style: revert;
   margin-block: 1em;
   padding-inline-start: 40px;
@@ -199,16 +251,18 @@
   display: list-item;
 }
 
-.no-tailwind strong, .no-tailwind b {
+.no-tailwind strong,
+.no-tailwind b {
   font-weight: bold;
 }
 
-.no-tailwind em, .no-tailwind i {
+.no-tailwind em,
+.no-tailwind i {
   font-style: italic;
 }
 
 .no-tailwind a {
-  color: #0000EE;
+  color: #0000ee;
   text-decoration: underline;
 }
 
@@ -231,16 +285,15 @@
 }
 
 .no-tailwind table {
-
 }
 
-.no-tailwind th, .no-tailwind td {
+.no-tailwind th,
+.no-tailwind td {
   padding: 0.5rem;
 }
 
 .no-tailwind td {
-  border: 1px solid #BF6EFF;
-
+  border: 1px solid #bf6eff;
 }
 
 /* Article Button   */
@@ -270,12 +323,12 @@
 }
 
 .btn-theme-primary {
-  background: linear-gradient(180deg, #9D81E1 0%, #BF6EFF 100%);
+  background: linear-gradient(180deg, #9d81e1 0%, #bf6eff 100%);
   color: white !important;
 }
 
 .btn-dark {
-  background-color: #3D3177;
+  background-color: #3d3177;
   color: white !important;
 }
 

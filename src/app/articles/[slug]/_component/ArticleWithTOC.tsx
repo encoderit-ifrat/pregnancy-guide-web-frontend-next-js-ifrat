@@ -10,6 +10,7 @@ type Heading = {
 };
 
 type Article = {
+  show_table_of_content: boolean;
   title: string;
   content: string;
   cover_image?: string;
@@ -118,8 +119,10 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
         </p>
       )}
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {headings.length > 0 && <TableOfContents headings={headings} />}
+      <div className="flex flex-col lg:flex-row">
+        {headings.length > 0 && article.show_table_of_content && (
+          <TableOfContents headings={headings} />
+        )}
         <ArticleContent content={contentWithIds} hasToC={headings.length > 0} />
       </div>
     </>

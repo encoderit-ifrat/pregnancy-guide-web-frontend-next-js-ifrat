@@ -21,30 +21,14 @@ function PregnancyDetails({ userData, weeklyDetails }: any) {
   return (
     <section className="w-full  max-w-4xl my-10  mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
       <div className="flex-1 md:max-w-1/2 size-full shrink-0 text-center md:text-left popover-foreground pt-10 lg:pt-0 px-4">
-        {/* <p className="text-[2.75rem] font-semibold font-poppins leading-10 text-wrap">
-          {`HI ${userData?.name}`}
-        </p>
-        <p className="text-2xl leading-8 font-normal  font-roboto text-text-dark">
-          {`You’re ${
-            userData?.details?.current_pregnancy_data?.week || 0
-          } week and ${
-            userData?.details?.current_pregnancy_data?.day || 0
-          }`}{" "}
-          <br className="block lg:hidden" /> days pregnant!
-        </p>
-        <p className="text-lg  font-roboto leading-20 text-text-deep text-center lg:text-left">
-          {`You’re almost there! ${
-            pregnancyProgressInfo?.daysLeft || 0
-          } days to go`}
-        </p>
-        <p className="text-base font-thin text-center lg:text-left leading-6 text-text-mid ">
-          {weeklyDetails?.description}
-        </p> */}
         {weeklyDetails?.description && (
+          // <div className="bg-red-500">
           <div
             className="no-tailwind"
+            // className="truncate! whitespace-normal! text-wrap!"
             dangerouslySetInnerHTML={{ __html: updatedHtml }}
           />
+          // </div>
         )}
 
         <Button variant="outline" size="lg" className="my-10">

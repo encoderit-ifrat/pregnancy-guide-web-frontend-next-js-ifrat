@@ -40,7 +40,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
   };
 
   return (
-    <aside className="w-full lg:w-1/4 p-4 rounded-lg lg:sticky lg:top-20 h-fit self-start bg-purple-50 border border-purple-200">
+    <aside className="w-full lg:w-1/4 lg:mr-8 p-4 rounded-lg lg:sticky lg:top-20 h-fit self-start bg-purple-50 border border-purple-200">
       <h3 className="font-bold mb-3 pb-2 border-b-2 border-purple-300 text-[#300043]">
         Table of Contents
       </h3>
