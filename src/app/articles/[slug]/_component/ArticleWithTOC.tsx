@@ -123,7 +123,8 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
         {headings.length > 0 && article.show_table_of_content && (
           <TableOfContents headings={headings} />
         )}
-        <ArticleContent content={contentWithIds} hasToC={headings.length > 0} />
+        {/*  hasToC={headings.length > 0} */}
+        <ArticleContent content={contentWithIds} />
       </div>
     </>
   );

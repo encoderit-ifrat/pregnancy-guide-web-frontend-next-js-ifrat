@@ -2,52 +2,24 @@
 @import "tw-animate-css";
 
 @plugin "@tailwindcss/typography";
-/* TipTap task list layout fix */
-.prose li.task-list-item {
-  /* display: flex;
-  align-items: center;
-  gap: 0.5rem; */
-  @apply flex items-center gap-2;
-}
 
-/* Keep checkbox inline */
-.prose li.task-list-item > label {
-  /* display: flex;
-  align-items: center;
-  margin: 0; */
-  @apply flex items-center m-0;
+/* .view-editor-content .tiptap.ProseMirror {
+  padding: 0 !important;
 }
-
-/* Remove Typography margins */
-.prose li.task-list-item > div,
-.prose li.task-list-item p {
-  @apply m-0;
-
-  /* text-decoration-line: line-through; */
+.view-editor-content .reactjs-tiptap-editor {
+  background: transparent !important;
+} */
+.view-editor-content .tiptap.ProseMirror {
+  all: revert !important;
 }
-.prose ul li.task-list-item[data-checked="true"] p {
-  @apply line-through text-gray-500;
+.view-editor-content .tiptap.ProseMirror .columns {
+  @apply max-md:grid max-sm:grid-cols-1 max-md:grid-cols-2;
 }
-.prose ul li.task-list-item label {
-  @apply !pointer-events-none !select-none;
-}
-.prose input[type="checkbox"] {
-  @apply pointer-events-none! select-none!;
-}
-
-.prose .columns .column {
-  @apply border-none p-0;
-}
-.prose .columns {
-  @apply grid grid-cols-1 gap-4;
-}
-.prose .columns[cols] {
-  --cols: attr(cols number);
-}
-@media (min-width: 40rem) {
-  .prose .columns {
-    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-  }
+.view-editor-content
+  .tiptap.ProseMirror
+  .task-list-item
+  input[type="checkbox"] {
+  all: revert;
 }
 div.no-tailwind p span {
   white-space: wrap !important;
@@ -272,7 +244,7 @@ div.no-tailwind p span {
 }
 
 /* checkbox */
-.no-tailwind input[type="checkbox"] {
+/* .no-tailwind input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -282,9 +254,9 @@ div.no-tailwind p span {
   cursor: not-allowed;
   pointer-events: none;
   transition: all 0.2s ease;
-}
+} */
 
-.no-tailwind table {
+/* .no-tailwind table {
 }
 
 .no-tailwind th,
@@ -294,7 +266,7 @@ div.no-tailwind p span {
 
 .no-tailwind td {
   border: 1px solid #bf6eff;
-}
+} */
 
 /* Article Button   */
 

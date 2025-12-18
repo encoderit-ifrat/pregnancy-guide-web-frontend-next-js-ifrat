@@ -5,10 +5,6 @@ import Navbar from "@/components/Navbar/Navbar";
 import { Roboto, Poppins, Playfair_Display } from "next/font/google";
 import Footer from "@/components/Footer/Footer";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-// import "@fontsource/roboto";
-// import "@fontsource/roboto/500.css"; // Weight 400.
-// // import "@fontsource/roboto/500.css"; // Weight 500.
-// import "@fontsource/roboto/900-italic.css"; // Italic variant.
 import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
 import { UserProvider } from "@/providers/UserProvider";
@@ -56,7 +52,7 @@ export default function RootLayout({
         <SessionWrapper>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
