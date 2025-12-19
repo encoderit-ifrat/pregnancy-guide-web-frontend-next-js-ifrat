@@ -21,6 +21,16 @@
   input[type="checkbox"] {
   all: revert;
 }
+.view-editor-content table {
+  border: none !important;
+  border-collapse: collapse;
+}
+
+/* .view-editor-content td,
+.view-editor-content th {
+  border: none !important;
+} */
+
 div.no-tailwind p span {
   white-space: wrap !important;
 }

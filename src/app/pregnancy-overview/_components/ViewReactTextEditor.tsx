@@ -203,6 +203,7 @@ export const ViewReactTextEditor = ({ content }: TextEditorProps) => {
     content,
     extensions,
     immediatelyRender: false,
+    editable: false,
   });
 
   useEffect(() => {
@@ -214,8 +215,36 @@ export const ViewReactTextEditor = ({ content }: TextEditorProps) => {
       editor.commands.setContent(content);
     }
   }, [content, editor]);
+  useEffect(() => {
+    const root = document.querySelector(".view-editor-content");
+    if (!root) return;
+
+    const wrapTables = () => {
+      const tables = root.querySelectorAll("table");
+      tables.forEach((table) => {
+        const parent = table.parentElement;
+        if (!parent || parent.classList.contains("tableWrapper")) return; // already wrapped
+        const wrapper = document.createElement("div");
+        wrapper.className = "tableWrapper";
+        parent.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+      });
+    };
+
+    // Initial wrap (if already rendered)
+    wrapTables();
+
+    // Observe future changes
+    const observer = new MutationObserver(() => {
+      wrapTables();
+    });
+
+    observer.observe(root, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [editor]);
   return (
-    <div className="overflow-hidden! pointer-events-none view-editor-content">
+    <div className="overflow-hidden! view-editor-content">
       <RichTextProvider editor={editor as Editor}>
         <div className="flex max-h-full w-full flex-col">
           <EditorContent editor={editor} />
