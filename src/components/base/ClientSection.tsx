@@ -50,7 +50,7 @@ const ClientSection = ({ testimonials }: ReviewsResponse) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const maxIndex = Math.max(0, testimonials.length - cardsPerView);
+  const maxIndex = Math.max(0, testimonials?.length - cardsPerView);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => Math.max(0, prev - 1));
@@ -60,7 +60,7 @@ const ClientSection = ({ testimonials }: ReviewsResponse) => {
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
-  const visibleClients = testimonials.slice(
+  const visibleClients = testimonials?.slice(
     currentIndex,
     currentIndex + cardsPerView
   );
@@ -84,7 +84,7 @@ const ClientSection = ({ testimonials }: ReviewsResponse) => {
               cardsPerView === 3 ? "grid-cols-1 lg:grid-cols-3" : "grid-cols-1"
             } place-items-center`}
           >
-            {visibleClients.map((client: Review, index: number) => (
+            {visibleClients?.map((client: Review, index: number) => (
               <ClientCard
                 key={currentIndex + index}
                 text={client.content}

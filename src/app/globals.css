@@ -15,6 +15,9 @@
 .view-editor-content .tiptap.ProseMirror .columns {
   @apply max-md:grid max-sm:grid-cols-1 max-md:grid-cols-2;
 }
+.view-editor-content .tiptap.ProseMirror .columns .column {
+  @apply border-none;
+}
 .view-editor-content
   .tiptap.ProseMirror
   .task-list-item

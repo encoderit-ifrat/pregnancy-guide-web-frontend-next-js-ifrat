@@ -112,7 +112,27 @@ export const ViewReactTextEditor = ({ content }: TextEditorProps) => {
     SearchAndReplace,
     Clear,
     FontFamily,
-    Heading,
+    Heading.configure({
+      levels: [1, 2, 3, 4, 5, 6],
+    }).extend({
+      addAttributes() {
+        return {
+          ...this.parent?.(),
+          id: {
+            default: null,
+            parseHTML: (element) => element.getAttribute("id"),
+            renderHTML: (attributes) => {
+              if (!attributes.id) {
+                return {};
+              }
+              return {
+                id: attributes.id,
+              };
+            },
+          },
+        };
+      },
+    }),
     FontSize,
     Bold,
     Italic,

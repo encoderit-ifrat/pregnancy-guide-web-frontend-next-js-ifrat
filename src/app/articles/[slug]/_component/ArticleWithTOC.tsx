@@ -124,7 +124,9 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
           <TableOfContents headings={headings} />
         )}
         {/*  hasToC={headings.length > 0} */}
-        <ArticleContent content={contentWithIds} />
+        <div className="w-full lg:flex-1 min-w-0">
+          <ArticleContent content={contentWithIds} />
+        </div>
       </div>
     </>
   );
