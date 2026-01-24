@@ -89,7 +89,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       </AnswerForm>
 
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-[#300043] flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <MessageCircle className="h-6 w-6 text-soft" />
           Submitted Answers
         </h2>

@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // Set session expiration time (30 days in seconds)
     updateAge: 24 * 60 * 60, // Refresh session every 24 hours
   },
- cookies: {
+  cookies: {
     sessionToken: {
       name:
         process.env.NODE_ENV === "production"
@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
       },
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,// Make sure this is set!
+  secret: process.env.NEXTAUTH_SECRET, // Make sure this is set!
   pages: {
     signIn: "/login",
   },

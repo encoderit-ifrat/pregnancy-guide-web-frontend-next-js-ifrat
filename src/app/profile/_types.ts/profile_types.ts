@@ -29,7 +29,6 @@ export interface ProfileDetail {
   value: string;
 }
 
-export interface FormProfileProps {
-  initialData: any;
-  onSubmitForDialogAndRefetch?: () => void;
-}
+import { FormProfileProps } from "./profile_form_types";
+
+export type { FormProfileProps };

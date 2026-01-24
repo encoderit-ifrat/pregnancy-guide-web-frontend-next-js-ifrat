@@ -50,6 +50,8 @@ import { useMutationDeleteChecklist } from "../_api/mutations/UseMutationDeleteC
 import Loading from "@/app/loading";
 import ChecklistForm from "../_component/CheckListForm";
 import Link from "next/link";
+import { ChecklistFormData } from "../_types/checklist_page_types";
+import { ChecklistItemWithItems } from "../_types/checklist_item_types";
 
 export default function CheckLists() {
   const router = useRouter();
@@ -57,11 +59,7 @@ export default function CheckLists() {
   const queryID = searchParams.get("id");
   const page = searchParams.get("page") || "1";
 
-  const [formData, setFormData] = useState<{
-    type: "default" | "update" | "delete";
-    id: string;
-    data?: any;
-  }>({ type: "default", id: "" });
+  const [formData, setFormData] = useState<ChecklistFormData>({ type: "default", id: "" });
   const { isAuthenticated } = useCurrentUser();
   const { data, isLoading, refetch, isFetching } =
     useQueryGetAllMyCompletedChecklists({
@@ -86,15 +84,15 @@ export default function CheckLists() {
       {
         onSuccess(res) {
           toast.success("Checklist updated successfully.");
-          setFilterLists((old: any) =>
-            old.map((item: any) => {
+          setFilterLists((old: ChecklistItemWithItems[] | undefined) =>
+            (old ?? []).map((item: ChecklistItemWithItems) => {
               return {
                 ...item,
-                items: item.items.map((data: any) => {
-                  if (data._id == id) {
+                items: item.items.map((data: { _id: string; is_completed?: boolean }) => {
+                  if (data._id === id) {
                     return {
                       ...data,
-                      checked: !data.checked,
+                      is_completed: !data.is_completed,
                     };
                   } else {
                     return data;
@@ -160,10 +158,10 @@ export default function CheckLists() {
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full space-y-3">
-          {filteredLists?.map((item: any, index: number) => {
+          {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
             const hasItemDetails =
               item?.items?.length > 0 &&
-              item.items.some((itm: any) => itm.title && itm.description);
+              item.items.some((itm) => itm.title && itm.description);
 
             return (
               <AccordionItem
@@ -182,7 +180,7 @@ export default function CheckLists() {
                         <CheckCircle2 className="h-6 w-6 text-soft" />
                       </div>
                       <div className="flex-1">
-                        <h2 className="text-2xl md:text-2xl font-bold text-[#300043] w-full max-w-32 md:max-w-md truncate">
+                        <h2 className="text-2xl md:text-2xl font-bold text-foreground w-full max-w-32 md:max-w-md truncate">
                           {item.title}
                         </h2>
                         {item.description && (
@@ -195,19 +193,19 @@ export default function CheckLists() {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-4 rounded-lg space-y-2">
-                  {item?.items?.map((itm: any, idx: number) => (
+                  {item?.items?.map((itm, idx: number) => (
                     <div
                       key={idx}
                       className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all ${
-                        itm.checked
+                        itm.is_completed
                           ? "bg-green-50 border-2 border-green-300"
                           : "bg-gray-50 border-2 border-gray-200 hover:border-purple-300"
                       }`}
                     >
                       <div className="pt-0.5">
-                        {toggleLoading == itm._id && isPending ? (
+                        {toggleLoading === itm._id && isPending ? (
                           <Spinner variant="circle" />
-                        ) : itm.checked ? (
+                        ) : itm.is_completed ? (
                           <CheckCircle2 className="h-6 w-6 text-green-600 shrink-0" />
                         ) : (
                           <Circle className="h-6 w-6 text-gray-400 shrink-0" />
@@ -216,7 +214,7 @@ export default function CheckLists() {
                       <div className="flex-1">
                         <span
                           className={`text-lg block ${
-                            itm.checked
+                            itm.is_completed
                               ? "text-green-800 line-through"
                               : "text-gray-700"
                           }`}
@@ -226,7 +224,7 @@ export default function CheckLists() {
                         {itm.description && (
                           <p
                             className={`text-sm mt-1 ${
-                              itm.checked
+                              itm.is_completed
                                 ? "text-green-700 opacity-75"
                                 : "text-gray-600"
                             }`}

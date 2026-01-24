@@ -9,8 +9,9 @@ import WeeklyArticle from "./WeeklyArticle";
 import ImageOverview from "./ImageOverview";
 import CheckLists from "./CheckLists";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
+import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
 
-export default function PregnancyOverview({ pregnancyData }: any) {
+export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewProps) {
   const { articles, questions, checklist, weeklyDetails, userProfile } =
     pregnancyData ?? {};
   const latest = articles?.latest || {};
@@ -52,7 +53,7 @@ export default function PregnancyOverview({ pregnancyData }: any) {
       <ImageOverview data={bannerArticle ?? []} />
 
       {
-        <section className="bg-[#B8A8D2] pb-32 md:pb-96">
+        <section className="bg-section pb-32 md:pb-96">
           <SpecialArticleSection data={specialArticle ?? []} />
         </section>
       }

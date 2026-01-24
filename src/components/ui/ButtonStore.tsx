@@ -9,26 +9,21 @@ type StoreButtonProps = {
   className?: string;
 };
 
-export default function ButtonStore({ src, alt = "", href, className }: StoreButtonProps) {
+export default function ButtonStore({
+  src,
+  alt = "",
+  href,
+  className,
+}: StoreButtonProps) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(
-        "flex items-center justify-center transition",
-        className
-      )}
+      className={cn("flex items-center justify-center transition", className)}
     >
       <div className="relative w-full sm:w-[204px] h-[64px]">
-      {src && (
-        <Image
-          src={src}
-          alt="alt"
-          fill
-          className="object-contain"
-        />
-      )}
+        {src && <Image src={src} alt="alt" fill className="object-contain" />}
       </div>
     </a>
   );

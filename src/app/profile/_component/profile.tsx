@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/Button";
 import { BabyProfile, ProfileDetail } from "../_types.ts/profile_types";
 import { DeleteConfirmDialog } from "@/components/base/DeleteConfirmDialog";
 import { useBabyDelete } from "../_api/mutations/useBabyDelete";
+import { ProfileFormData } from "../_types.ts/profile_form_types";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -44,11 +45,7 @@ export default function ProfilePage() {
     { key: "partnerName", label: "PARTNER NAME", value: "" },
     { key: "email", label: "EMAIL", value: "" },
   ]);
-  const [formData, setFormData] = useState<{
-    type: "default" | "update" | "delete";
-    id: string;
-    data?: any;
-  }>({ type: "default", id: "" });
+  const [formData, setFormData] = useState<ProfileFormData>({ type: "default", id: "" });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [hasChanges, setHasChanges] = useState<boolean>(false);
@@ -159,9 +156,9 @@ export default function ProfilePage() {
         updatedData.dob = user?.dob;
         updatedData.gender = user?.gender;
         updatedData.mobile = user?.mobile;
-        (updatedData.details.due_date = user?.details?.due_date),
+        ((updatedData.details.due_date = user?.details?.due_date),
           (updatedData.details.last_period_date =
-            user?.details?.last_period_date);
+            user?.details?.last_period_date));
       });
 
       // Add avatar if there's a pending upload

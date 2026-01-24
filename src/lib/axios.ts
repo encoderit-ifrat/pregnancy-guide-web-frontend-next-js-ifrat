@@ -151,7 +151,7 @@ api.interceptors.response.use(
           status: 503,
           data,
         });
-        
+
       default:
         // Catch-all for any unhandled errors
         toast.error(`Unexpected Error (${status})`, {
@@ -167,7 +167,6 @@ api.interceptors.response.use(
           data,
         });
     }
-
   }
 );
 

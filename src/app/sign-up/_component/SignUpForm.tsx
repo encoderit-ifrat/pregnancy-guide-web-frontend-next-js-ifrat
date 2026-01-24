@@ -54,9 +54,10 @@ export default function RegisterForm() {
         const successMessage = data?.data?.data?.message;
         toast.success(successMessage || "Registration Successful");
       },
-      onError(error: any) {
+      onError(error: unknown) {
+        const axiosError = error as { response?: { data?: { message?: string } } };
         const errorMessage =
-          error.response?.data?.message ?? "Registration failed";
+          axiosError.response?.data?.message ?? "Registration failed";
         toast.error(errorMessage);
       },
     });

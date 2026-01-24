@@ -1,11 +1,11 @@
-'use client'
+"use client";
 import Image from "next/image";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Footer() {
-    const { user, isAuthenticated } = useCurrentUser();
+  const { user, isAuthenticated } = useCurrentUser();
   return (
     <div className="relative ">
       <div className="absolute -translate-y-full w-full">
@@ -34,7 +34,10 @@ export default function Footer() {
 
           {/* Navigation Links */}
           <div className="flex flex-wrap justify-center gap-2 text-xs lg:text-sm mb-6">
-            <Link  href={isAuthenticated ? "/pregnancy-overview" : "/"} className="hover:underline">
+            <Link
+              href={isAuthenticated ? "/pregnancy-overview" : "/"}
+              className="hover:underline"
+            >
               Home
             </Link>
             <span>|</span>

@@ -10,7 +10,9 @@ import CheckListItem from "@/app/check-lists/_component/CheckListItem";
 
 // import { Button } from "@/components/ui/Button";
 
-export default function CheckLists({ checkLists, count }: any) {
+import { CheckListsProps } from "../_types/checklists_component_types";
+
+export default function CheckLists({ checkLists, count }: CheckListsProps) {
   return (
     <div className="px-4 sm:pt-12 lg:pt-15  space-y-2  lg:text-start max-w-5xl mx-auto pb-7 lg:pb-15">
       {/* <p className="text-foreground font-semibold leading-20px text-3xl lg:text-4xl pb-7 lg:pt-11">
@@ -21,7 +23,7 @@ export default function CheckLists({ checkLists, count }: any) {
           <div className="bg-purple-200 p-3 rounded-full">
             <CheckCircle2 className="size-6 text-soft" />
           </div>
-          <h2 className="text-2xl font-bold text-[#300043]">CHECKLISTS</h2>
+          <h2 className="text-2xl font-bold text-foreground">CHECKLISTS</h2>
         </div>
         <Button
           asChild

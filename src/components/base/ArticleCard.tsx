@@ -23,19 +23,19 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <div className="shrink-0 flex flex-col md:flex-row  gap-2 w-full  max-w-xl md:max-w-xs min-h-64 md:min-h-36 ">
       <div className="shrink-0 relative min-w-full min-h-64 md:min-h-36 md:min-w-2/6">
-      <Link href={`/articles/${slug}`}>
-        <Image
-          // src={BASE_URL + image}
-          src={imageLinkGenerator(image)}
-          alt={title}
-          fill
-          className="object-cover"
-        />
+        <Link href={`/articles/${slug}`}>
+          <Image
+            // src={BASE_URL + image}
+            src={imageLinkGenerator(image)}
+            alt={title}
+            fill
+            className="object-cover"
+          />
         </Link>
       </div>
       <div className="shrink-0 flex-1 flex flex-col justify-between gap-2 ">
         <p className="font-roboto text-xl lg:text-2xl text-foreground whitespace-nowrap truncate max-w-48">
-             <Link href={`/articles/${slug}`}> {title}</Link>
+          <Link href={`/articles/${slug}`}> {title}</Link>
         </p>
         <p className="text-sm leading-6 text-text-mid line-clamp-2">
           {description}

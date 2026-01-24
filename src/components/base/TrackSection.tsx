@@ -2,8 +2,9 @@ import IconMom from "@/assets/IconMom";
 import TrackCard from "./TrackCard";
 import HeaderText from "../ui/HeaderText";
 import EllipseSVG from "../svg/EllipseSVG";
+import { TrackSectionProps } from "./_types/track_section_types";
 
-const TrackSection = ({ articles = [] }: { articles: any[] }) => {
+const TrackSection = ({ articles = [] }: TrackSectionProps) => {
   const modifiedArticles = [...articles].slice(0, 4);
   return (
     <section className=" bg-soft relative  text-background ">
@@ -15,7 +16,7 @@ const TrackSection = ({ articles = [] }: { articles: any[] }) => {
       />
       <div className="px-4">
         <div className="relative py-10 ">
-          <div className="relative z-10 w-full flex flex-col md:flex-row max-w-5xl gap-4 md:shadow-[0_0_90px_0_#00000085] mx-auto p-4 bg-soft-white rounded-2xl">
+          <div className="relative z-10 w-full flex flex-col md:flex-row max-w-5xl gap-4 md:shadow-[0_0_90px_0_var(--color-bg-shadow)] mx-auto p-4 bg-soft-white rounded-2xl">
             <div className="flex justify-center items-center lg:justify-start flex-1">
               <IconMom />
             </div>

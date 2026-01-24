@@ -48,6 +48,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "../loading";
 import Link from "next/link";
 import CheckListItem from "@/app/check-lists/_component/CheckListItem";
+import { ChecklistFormData } from "./_types/checklist_page_types";
 
 export default function CheckLists() {
   const router = useRouter();
@@ -55,11 +56,7 @@ export default function CheckLists() {
   const queryID = searchParams.get("id");
   const page = searchParams.get("page") || "1";
 
-  const [formData, setFormData] = useState<{
-    type: "default" | "update" | "delete";
-    id: string;
-    data?: any;
-  }>({ type: "default", id: "" });
+  const [formData, setFormData] = useState<ChecklistFormData>({ type: "default", id: "" });
   const { isAuthenticated } = useCurrentUser();
   const { data, isLoading, refetch, isFetching } = useQueryGetAllMyChecklists({
     params: {

@@ -3,10 +3,10 @@
 import { useState, ReactElement } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
-
-import { Input } from "@/components/ui/Input";
+import { Input, InputVariant, InputSize } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import ErrorText from "../base/ErrorText";
+import { cn } from "@/lib/utils";
 
 type FormInputPasswordProps = {
   name: string;
@@ -15,6 +15,9 @@ type FormInputPasswordProps = {
   label: string;
   placeholder?: string;
   iconComponent?: ReactElement;
+  variant?: InputVariant;
+  size?: InputSize;
+  className?: string;
 };
 
 export function FormInputPassword({
@@ -24,17 +27,20 @@ export function FormInputPassword({
   label,
   placeholder = "Password",
   iconComponent,
+  variant = "rounded-full",
+  size = "md",
+  className,
 }: FormInputPasswordProps) {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible((prev) => !prev);
 
   return (
-    <div className="space-y-1.5 w-full max-w-[563px]">
+    <div className="space-y-1.5 w-full">
       <Label htmlFor={name} className={errors[name] ? "text-destructive" : ""}>
         {label}
       </Label>
 
-      <div className="relative flex items-center bg-[#EEEEEE] w-full rounded-full">
+      <div className="relative flex items-center w-full max-w-[563px]">
         <Controller
           name={name}
           control={control}
@@ -44,8 +50,14 @@ export function FormInputPassword({
               id={name}
               type={isVisible ? "text" : "password"}
               placeholder={placeholder}
-              className={`rounded-full px-4 py-2 pe-9 w-[563px] ${iconComponent ? "pl-10 md:pl-10" : ""
-                } ${errors[name] ? "border-destructive" : ""}`}
+              variant={variant}
+              size={size}
+              hasIcon={!!iconComponent}
+              className={cn(
+                "w-full pr-9",
+                errors[name] && "border-destructive",
+                className
+              )}
               aria-invalid={errors[name] ? "true" : "false"}
               {...field}
             />
@@ -54,7 +66,7 @@ export function FormInputPassword({
 
         {/* Left-side icon */}
         {iconComponent && (
-          <div className="absolute left-3 flex items-center text-muted-foreground">
+          <div className="absolute left-3 flex items-center text-muted-foreground pointer-events-none">
             {iconComponent}
           </div>
         )}
@@ -65,10 +77,7 @@ export function FormInputPassword({
           onClick={toggleVisibility}
           aria-label={isVisible ? "Hide password" : "Show password"}
           aria-pressed={isVisible}
-          className="absolute inset-y-0 right-0 flex h-full w-9 items-center
-           justify-center text-muted-foreground/80 hover:text-foreground focus-visible:border-ring
-           focus-visible:ring-ring/50 rounded-e-md transition-[color,box-shadow] outline-none focus:z-10
-           focus-visible:ring-[3px]"
+          className="absolute inset-y-0 right-0 flex h-full w-9 items-center justify-center text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px]"
         >
           {isVisible ? (
             <EyeOffIcon size={16} aria-hidden="true" />

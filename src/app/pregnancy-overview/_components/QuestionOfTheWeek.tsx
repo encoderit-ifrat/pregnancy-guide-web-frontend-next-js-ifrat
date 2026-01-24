@@ -9,7 +9,9 @@ import AnswerForm, {
 import { useRouter } from "next/navigation";
 import React from "react";
 
-function QuestionOfTheWeek({ question }: { question: any }) {
+import { QuestionOfTheWeekProps } from "@/app/weekly-question/[id]/_types/weekly_question_types";
+
+function QuestionOfTheWeek({ question }: QuestionOfTheWeekProps) {
   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
   const router = useRouter();
 

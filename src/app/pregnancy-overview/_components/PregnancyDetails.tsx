@@ -11,7 +11,9 @@ import React from "react";
 {
   /* <div dangerouslySetInnerHTML={{ __html: updatedHtml }} /> */
 }
-function PregnancyDetails({ userData, weeklyDetails }: any) {
+import { PregnancyDetailsProps } from "../_types/pregnancy_details_types";
+
+function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   const htmlString = weeklyDetails?.description;
 
   const updatedHtml = htmlString?.replace("$name", userData?.name);

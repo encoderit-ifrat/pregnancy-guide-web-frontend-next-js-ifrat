@@ -1,12 +1,41 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+export type TextareaVariant = "default" | "rounded-full" | "square";
+export type TextareaSize = "sm" | "md" | "lg";
+
+export interface TextareaProps extends Omit<React.ComponentProps<"textarea">, "size"> {
+  variant?: TextareaVariant;
+  size?: TextareaSize;
+}
+
+function Textarea({
+  className,
+  variant = "rounded-full",
+  size = "md",
+  ...props
+}: TextareaProps) {
+  const baseStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-light border-input flex w-full min-w-0 border bg-input text-base shadow-xs transition-[color,box-shadow] outline-none resize-none text-left placeholder:text-left disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50";
+  
+  const variantStyles = {
+    default: "rounded-2xl",
+    "rounded-full": "rounded-full",
+    square: "rounded-none",
+  };
+
+  const sizeStyles = {
+    sm: "px-3 py-2 text-sm",
+    md: "px-8 py-2 text-base md:text-xl sm:text-base",
+    lg: "px-10 py-4 text-lg md:text-2xl",
+  };
+
   return (
     <textarea
       data-slot="textarea"
       className={cn(
-        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-light border-input flex py-2 w-full min-w-0 rounded-2xl border bg-transparent px-3 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-xl sm:text-base",
+        baseStyles,
+        variantStyles[variant],
+        sizeStyles[size],
         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         className

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 type IconWaveProps = {
   className?: string;
 };
@@ -14,7 +14,7 @@ export default function IconWave4({ className }: IconWaveProps) {
     >
       <mask
         id="mask0_77_347"
-        style={{ maskType: 'luminance' }}
+        style={{ maskType: "luminance" }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -27,7 +27,7 @@ export default function IconWave4({ className }: IconWaveProps) {
       <g mask="url(#mask0_77_347)">
         <mask
           id="mask1_77_347"
-          style={{ maskType: 'luminance' }}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"

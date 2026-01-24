@@ -27,19 +27,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useQueryGetAllCategories } from "./api/queries/useQueryGetAllCategories";
+import { Category } from "@/types/shared";
+import { NavigationLink } from "./_types/navbar_types";
+
 export default function Navbar() {
-  const [navigationLinks, setNavigationLinks] = useState<
-    { href: string; label: string }[]
-  >([]);
+  const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const router = useRouter();
   const { data: categories, isLoading: isLoadingCategories } =
     useQueryGetAllCategories();
 
   useEffect(() => {
-    if (categories?.data?.data.length > 0) {
-      const data = categories.data.data;
+    if (categories?.data?.data && Array.isArray(categories.data.data) && categories.data.data.length > 0) {
+      const categoryData = categories.data.data as Category[];
       setNavigationLinks(
-        data.map((category: any) => ({
+        categoryData.map((category) => ({
           href: `/search-article?page=1&category=${category.slug}`,
           label: category.name,
         }))
@@ -138,7 +139,7 @@ export default function Navbar() {
                     <NavigationMenuItem key={index}>
                       <Link
                         href={link.href}
-                        className="text-[#141414] hover:text-primary py-2 px-2 lg:px-3 font-medium text-sm lg:text-base whitespace-nowrap"
+                        className="text-text-dark-gray hover:text-primary py-2 px-2 lg:px-3 font-medium text-sm lg:text-base whitespace-nowrap"
                       >
                         {link.label}
                       </Link>

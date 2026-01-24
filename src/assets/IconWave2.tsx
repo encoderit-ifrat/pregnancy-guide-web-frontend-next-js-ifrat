@@ -1,14 +1,20 @@
-import React from 'react';
+import React from "react";
 type IconWaveProps = {
   className?: string;
 };
 
 export default function IconWave2({ className }: IconWaveProps) {
   return (
-    <svg width="1820" height="335" viewBox="0 0 1820 335" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="1820"
+      height="335"
+      viewBox="0 0 1820 335"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <mask
         id="mask0_77_430"
-        style={{ maskType: 'luminance' }}
+        style={{ maskType: "luminance" }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -20,7 +26,7 @@ export default function IconWave2({ className }: IconWaveProps) {
       <g mask="url(#mask0_77_430)">
         <mask
           id="mask1_77_430"
-          style={{ maskType: 'luminance' }}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
@@ -38,7 +44,7 @@ export default function IconWave2({ className }: IconWaveProps) {
 
         <mask
           id="mask2_77_430"
-          style={{ maskType: 'luminance' }}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
@@ -51,7 +57,7 @@ export default function IconWave2({ className }: IconWaveProps) {
           <g opacity="0.41">
             <mask
               id="mask3_77_430"
-              style={{ maskType: 'luminance' }}
+              style={{ maskType: "luminance" }}
               maskUnits="userSpaceOnUse"
               x="94"
               y="0"

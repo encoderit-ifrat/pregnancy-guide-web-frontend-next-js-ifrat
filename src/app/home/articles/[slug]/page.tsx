@@ -79,7 +79,7 @@ export default async function PublicArticlePage({
     <div className="bg-background min-h-svh pb-32  md:pb-96">
       <div className="min-h-screen w-full max-w-6xl mx-auto  pt-24 py-8 px-4">
         <div className="bg-soft-white rounded-lg p-7">
-          <h1 className="text-4xl md:text-5xl  font-bold text-[#300043] mb-6 text-wrap">
+          <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
             {article?.title}
           </h1>
           <ArticleWithTOC article={article} />

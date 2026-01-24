@@ -107,7 +107,7 @@ export const AnswerFormTitle = () => {
   const { question: title } = question;
 
   return (
-    <h1 className="text-3xl md:text-4xl font-bold text-[#300043] mb-4">
+    <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
       Q: {title}
     </h1>
   );
@@ -195,7 +195,7 @@ export const AnswerFormComment = () => {
 
   return (
     <>
-      <h3 className="text-xl font-bold text-[#300043] mb-4 flex items-center gap-2">
+      <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
         <Send className="h-5 w-5 text-soft" />
         Share Your Comment
       </h3>

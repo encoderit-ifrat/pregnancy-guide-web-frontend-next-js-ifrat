@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { CircleIcon } from "@/components/ui/CircleIcon";
 import IconLock from "@/assets/IconLock";
@@ -22,24 +21,10 @@ import { useResetPassword } from "../_api/mutations/useResetPassword";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-// Updated schema with password matching validation
-const ChangePasswordSchema = z
-  .object({
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"], // This shows the error on the confirmPassword field
-  });
-
-type ChangePasswordSchemaType = z.infer<typeof ChangePasswordSchema>;
+import {
+  ResetPasswordSchema,
+  ResetPasswordSchemaType,
+} from "../_types/change_password_types";
 
 export default function ChangePasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,8 +33,8 @@ export default function ChangePasswordForm() {
   const { mutate: resetPassword, isPending } = useResetPassword();
   const router = useRouter();
 
-  const form = useForm<ChangePasswordSchemaType>({
-    resolver: zodResolver(ChangePasswordSchema),
+  const form = useForm<ResetPasswordSchemaType>({
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
@@ -67,7 +52,7 @@ export default function ChangePasswordForm() {
     }
   }, [router]);
 
-  const onSubmit = (values: ChangePasswordSchemaType) => {
+  const onSubmit = (values: ResetPasswordSchemaType) => {
     if (!token) {
       toast.error("Reset token is missing");
       return;
@@ -83,7 +68,7 @@ export default function ChangePasswordForm() {
           toast.success("Password reset successfully!");
           form.reset();
           router.push("/login");
-        }
+        },
       }
     );
   };

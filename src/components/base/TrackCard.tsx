@@ -33,7 +33,7 @@ const TrackCard: React.FC<TrackCardProps> = ({
   );
 
   return (
-    <div className="bg-[#FFFFFF] rounded-lg p-2 flex flex-col md:flex-row gap-4 items-center md:items-center">
+    <div className="bg-soft-white rounded-lg p-2 flex flex-col md:flex-row gap-4 items-center md:items-center">
       {/* Photo */}
       <div className="shrink-0">
         <Link

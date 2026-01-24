@@ -59,7 +59,7 @@ export default async function Page() {
 
   // Fetch data with the token
   const { data: pregnancyData, error } = await getPregnancyData(token);
-    console.log({pregnancyData})
+  console.log({ pregnancyData });
 
   // Handle error state
   if (error) {

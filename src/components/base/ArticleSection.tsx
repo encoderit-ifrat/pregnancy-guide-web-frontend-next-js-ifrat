@@ -79,15 +79,17 @@ const ArticleSection = ({ data }: TProps) => {
         ref={scrollRef}
         className="flex flex-col md:flex-row items-center flex-nowrap gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
       >
-        {data?.map(({ _id, cover_image, thumbnail_image, title, excerpt, slug }) => (
-          <ArticleCard
-            key={_id}
-            image={thumbnail_image}
-            title={title}
-            description={excerpt}
-            slug={slug}
-          />
-        ))}
+        {data?.map(
+          ({ _id, cover_image, thumbnail_image, title, excerpt, slug }) => (
+            <ArticleCard
+              key={_id}
+              image={thumbnail_image}
+              title={title}
+              description={excerpt}
+              slug={slug}
+            />
+          )
+        )}
       </div>
     </div>
   );

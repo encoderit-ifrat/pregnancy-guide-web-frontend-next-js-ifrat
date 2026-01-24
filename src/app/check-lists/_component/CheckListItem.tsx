@@ -12,20 +12,17 @@ import { useMutationToggleChecklist } from "../_api/mutations/UseMutationToggleC
 import { Spinner } from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 
+import { CheckListItemProps, ChecklistItemWithItems } from "../_types/checklist_item_types";
+
 export default function CheckListItem({
   checklistItems,
   overview = false,
-  onDeleteAction = (i: any) => {},
-  onEditAction = (i: any) => {},
-}: {
-  checklistItems: any[];
-  overview?: boolean;
-  onDeleteAction?: (i: any) => void;
-  onEditAction?: (i: any) => void;
-}) {
+  onDeleteAction,
+  onEditAction,
+}: CheckListItemProps) {
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
-  const [filteredLists, setFilterLists] = useState<any[]>([]);
+  const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>([]);
 
   const router = useRouter();
 
@@ -41,16 +38,16 @@ export default function CheckListItem({
       {
         onSuccess(res) {
           toast.success("Checklist updated successfully.");
-          setFilterLists((old: any) => {
+          setFilterLists((old: ChecklistItemWithItems[]) => {
             // Update the checked status
-            const updated = old.map((item: any) => {
+            const updated = old.map((item: ChecklistItemWithItems) => {
               return {
                 ...item,
-                items: item.items.map((data: any) => {
+                items: item.items.map((data) => {
                   if (data._id === id) {
                     return {
                       ...data,
-                      checked: !data.checked,
+                      is_completed: !data.is_completed,
                     };
                   } else {
                     return data;
@@ -60,8 +57,8 @@ export default function CheckListItem({
             });
 
             // Filter out checklists where all items are checked
-            return updated.filter((item: any) => {
-              const allChecked = item.items.every((itm: any) => itm.checked);
+            return updated.filter((item: ChecklistItemWithItems) => {
+              const allChecked = item.items.every((itm) => itm.is_completed);
               if (allChecked) {
                 // toast.success(`"${item.title}" completed and removed! 🎉`);
                 return false; // Remove this checklist
@@ -81,10 +78,10 @@ export default function CheckListItem({
 
   return (
     <Accordion type="single" collapsible className="w-full space-y-3">
-      {filteredLists?.map((item: any, index: number) => {
+      {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
         const hasItemDetails =
           item?.items?.length > 0 &&
-          item.items.some((itm: any) => itm.title && itm.description);
+          item.items.some((itm) => itm.title && itm.description);
 
         return (
           <AccordionItem
@@ -103,7 +100,7 @@ export default function CheckListItem({
                     <CheckCircle2 className="h-6 w-6 text-soft" />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-2xl md:text-2xl font-bold text-[#300043] w-full max-w-32 md:max-w-md truncate">
+                    <h2 className="text-2xl md:text-2xl font-bold text-foreground w-full max-w-32 md:max-w-md truncate">
                       {item.title}
                     </h2>
                     {item.description && (
@@ -119,14 +116,14 @@ export default function CheckListItem({
                       className="size-5"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onEditAction(item);
+                        onEditAction?.(item);
                       }}
                     />
                     <Trash2
                       className="size-5"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onDeleteAction(item);
+                        onDeleteAction?.(item);
                       }}
                     />
                   </div>

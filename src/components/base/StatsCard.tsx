@@ -8,7 +8,7 @@ type StatsCardProps = {
 
 const StatsCard: React.FC<StatsCardProps> = ({ icon, number, label }) => {
   return (
-    <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-[#5C4F9D]">
+    <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-circle">
       {/* Icon */}
       <div className="w-[50px] h-[50px] sm:w-[55px] sm:h-[55px] md:w-[60px] md:h-[60px] flex-shrink-0">
         {icon}
