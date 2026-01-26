@@ -1,13 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/providers/QueryProvider";
-import Navbar from "@/components/Navbar/Navbar";
 import { Roboto, Poppins, Playfair_Display } from "next/font/google";
-import Footer from "@/components/Footer/Footer";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
 import { UserProvider } from "@/providers/UserProvider";
+import {Header} from "@/components/layout/Header";
+import WaveDivider from "@/components/ui/svg/WaveDivider";
+import {Footer} from "@/components/layout/Footer";
 
 // Roboto font
 export const roboto = Roboto({
@@ -57,12 +58,13 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ReactQueryProvider>
-              <Navbar />
+              <Header/>
               <UserProvider>
                 {children}
                 <Toaster richColors position="top-right" />
               </UserProvider>
-              <Footer />
+              {/* divider */} <WaveDivider className="text-primary"/>
+              <Footer/>
             </ReactQueryProvider>
           </ThemeProvider>
         </SessionWrapper>

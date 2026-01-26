@@ -70,8 +70,6 @@ export default async function Page() {
         <DownloadCtaSection/>
         <TestimonialsSection/>
       </main>
-      {/* divider */} <WaveDivider className="text-primary"/>
-      <Footer/>
     </div>
   );
 }
