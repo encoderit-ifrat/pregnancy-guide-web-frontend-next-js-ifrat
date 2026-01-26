@@ -12,21 +12,14 @@ import {useQueryGetAllCategories} from "@/components/Navbar/api/queries/useQuery
 import {Category} from "@/types/shared";
 import {useCurrentUser} from "@/hooks/useCurrentUser";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {getInitial} from "@/app/profile/_component/profile";
+import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import {signOut} from "next-auth/react";
-
-const navLinks = [
-  {href: "/forlossning", label: "Förlossning"},
-  {href: "/gravidhalsa", label: "Gravidhälsa"},
-  {href: "/mat-och-kostrad", label: "Mat och kostråd"},
-  {href: "/graviditet", label: "Graviditet"},
-];
+import ExpandableSearchBar from "@/components/base/ExpandableSearchBar";
 
 export function Header() {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const router = useRouter();
-  const {data: categories, isLoading: isLoadingCategories} = useQueryGetAllCategories();
+  const {data: categories} = useQueryGetAllCategories();
 
   useEffect(() => {
     if (categories?.data?.data && Array.isArray(categories.data.data) && categories.data.data.length > 0) {
@@ -40,7 +33,7 @@ export function Header() {
     }
   }, [categories]);
 
-  const {user, isAuthenticated} = useCurrentUser();
+  const {isAuthenticated} = useCurrentUser();
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,6 +47,10 @@ export function Header() {
   const [headerHeight, setHeaderHeight] = useState(0);
   // Detect small screens (Tailwind's md breakpoint = 768px). On screens < md we always show the dark logo.
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Refs to store original body styles so we can restore them
+  const bodyOverflowRef = useRef<string | null>(null);
+  const bodyPaddingRightRef = useRef<string | null>(null);
 
   useEffect(() => {
     // Update header height on mount, on resize and when sticky state changes (header height changes between states)
@@ -120,6 +117,41 @@ export function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    if (isMenuOpen) {
+      // save original body overflow and paddingRight
+      bodyOverflowRef.current = document.body.style.overflow ?? "";
+      bodyPaddingRightRef.current = document.body.style.paddingRight ?? "";
+
+      // calculate scrollbar width to avoid layout shift when hiding scrollbar
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+
+      // disable scroll and hide scrollbar
+      document.body.style.overflow = "hidden";
+    } else if (bodyOverflowRef.current !== null) {
+      // restore original styles
+      document.body.style.overflow = bodyOverflowRef.current;
+      document.body.style.paddingRight = bodyPaddingRightRef.current ?? "";
+      bodyOverflowRef.current = null;
+      bodyPaddingRightRef.current = null;
+    }
+
+    // cleanup on unmount
+    return () => {
+      if (bodyOverflowRef.current !== null) {
+        document.body.style.overflow = bodyOverflowRef.current;
+        document.body.style.paddingRight = bodyPaddingRightRef.current ?? "";
+        bodyOverflowRef.current = null;
+        bodyPaddingRightRef.current = null;
+      }
+    };
+  }, [isMenuOpen]);
+
   const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${
       isSticky ? "" : "lg:bg-primary"
   }`;
@@ -164,8 +196,11 @@ export function Header() {
               </div>
 
               {/* Desktop Navigation */}
-              <nav className="hidden items-center gap-6 lg:flex">
-                {navigationLinks.map((link, index) => {
+              <nav className={cn(
+                  "hidden items-center gap-6 lg:flex transition-opacity duration-300",
+                  isSearchExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
+              )}>
+                {navigationLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                       <Link
@@ -180,32 +215,23 @@ export function Header() {
                   );
                 })}
               </nav>
-
             </div>
 
             {/* Desktop Actions */}
             <div className="hidden items-center gap-4 lg:flex">
-              <button
-                  type="button"
-                  className="bg-primary-light text-secondary transition-colors hover:text-primary p-2 rounded-full"
-                  aria-label="Search"
-              >
-                <Search className="h-5 w-5"/>
-              </button>
-              <div className="h-6 w-px bg-gray-200"/>
+              <div className="hidden md:block">
+                <ExpandableSearchBar
+                    isExpanded={isSearchExpanded}
+                    onExpandChange={setIsSearchExpanded}
+                />
+              </div>
+              <div className="h-6 w-[2px] bg-primary"/>
               {isAuthenticated ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild className="cursor-pointer">
                       <Avatar className="size-9">
-                        {user?.avatar && (
-                            <AvatarImage
-                                src={user.avatar}
-                                alt="profile image"
-                                className="object-cover"
-                            />
-                        )}
-                        <AvatarFallback className="bg-primary-gradient text-popover-foreground uppercase">
-                          {getInitial(user?.name)}
+                        <AvatarFallback className="bg-primary/20 text-popover-foreground uppercase">
+                          <User className="h-6 w-6"/>
                         </AvatarFallback>
                       </Avatar>
                     </DropdownMenuTrigger>
@@ -271,7 +297,7 @@ export function Header() {
           >
             <div className="border-t border-gray-100 bg-white w-full">
               <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
-                {navLinks.map((link) => {
+                {navigationLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                       <Link

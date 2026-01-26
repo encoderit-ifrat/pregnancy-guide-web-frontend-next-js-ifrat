@@ -49,7 +49,7 @@ export default function RootLayout({
       lang="en"
       className={`${roboto.variable} ${poppins.variable} ${playfair.variable}`}
     >
-      <body className={`${roboto.className} ${poppins.variable} w-full`}>
+      <body className={`${roboto.className} ${poppins.variable} antialiased w-full max-w-[2480px] mx-auto`}>
         <SessionWrapper>
           <ThemeProvider
             attribute="class"
