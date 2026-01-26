@@ -13,6 +13,7 @@ import CheckLists from "./CheckLists";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
 import WeekSelector from "./WeekSelector";
 import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
+import WaveDivider from "@/components/ui/svg/WaveDivider";
 
 export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewProps) {
   const articles = pregnancyData?.articles;
@@ -48,12 +49,13 @@ export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewPr
         userData={userProfile as any}
         weeklyDetails={weeklyDetails as any}
       />
-      {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
-        <WeeklyDetails data={weeklyArticle[0]} />
-      )}
-      {Boolean(questions?.data?.[0]?._id) && (
-        <QuestionOfTheWeek question={questions?.data?.[0] as any} />
-      )}
+      {/* divider */} <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]"/>
+      {/*{Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (*/}
+      {/*  <WeeklyDetails data={weeklyArticle[0]} />*/}
+      {/*)}*/}
+      {/*{Boolean(questions?.data?.[0]?._id) && (*/}
+      {/*  <QuestionOfTheWeek question={questions?.data?.[0] as any} />*/}
+      {/*)}*/}
       {Boolean(popularWeek?.[0]?.title) && popularWeek?.[0] && (
         <WeeklyArticle data={popularWeek[0]} />
       )}

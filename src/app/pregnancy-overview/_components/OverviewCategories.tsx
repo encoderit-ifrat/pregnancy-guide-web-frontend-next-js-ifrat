@@ -39,7 +39,7 @@ function OverviewCategories() {
   const currentWeek = day > 0 ? week + 1 : week;
 
   return (
-      <section className="w-full pt-20 max-w-6xl mx-auto ">
+      <section className="w-full pt-10 max-w-6xl mx-auto ">
         <div className="flex items-center justify-evenly  gap-2 text-foreground px-4 md:px-6">
           {overviewCategories.map((category) => {
             const {id, icon, name} = category;

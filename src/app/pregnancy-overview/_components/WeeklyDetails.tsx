@@ -25,14 +25,6 @@ function WeeklyDetails({ data = initialData }: TProps) {
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
     <section>
-      <Image
-        src="/assets/logo/sss.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="object-cover w-full h-auto"
-        priority
-      />
       <div className="bg-soft-purple py-10 lg:py-20 -mt-1">
         <div className="w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="relative w-full lg:w-1/2 h-[320px] sm:h-[380px] lg:h-[471px] order-2 lg:order-1 px-6 sm:px-8 lg:px-0">

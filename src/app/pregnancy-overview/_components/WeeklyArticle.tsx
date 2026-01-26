@@ -23,14 +23,6 @@ function WeeklyArticle({ data = initialData }: TProps) {
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
     <section className="">
-      <Image
-        src={"/assets/logo/sss.svg"}
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="w-full h-auto object-cover"
-        priority
-      />
       <div className="-mt-1 bg-soft-purple w-full mx-auto flex flex-col lg:flex-row items-center justify-between gap-4 p-5">
         <div className="w-full max-w-5xl mx-auto bg-soft-white   gap-4 flex flex-col md:flex-row ">
           <div className="md:p-4">
@@ -68,14 +60,6 @@ function WeeklyArticle({ data = initialData }: TProps) {
           </div>
         </div>
       </div>
-      <Image
-        src="/assets/logo/sssss.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="object-cover w-full h-auto bg-soft-purple"
-        priority
-      />
     </section>
   );
 }
