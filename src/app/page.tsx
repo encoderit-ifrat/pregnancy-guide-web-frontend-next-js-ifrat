@@ -1,5 +1,5 @@
 import React from "react";
-import { Metadata } from "next";
+import {Metadata} from "next";
 import {ConcaveCurve} from "@/components/ui/svg/ConcaveCurve";
 import WaveDivider from "@/components/ui/svg/WaveDivider";
 import {HeroSection} from "@/components/home/HeroSection";
@@ -22,7 +22,7 @@ async function getHomePageData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/home`, {
       // Enable ISR with revalidation (optional)
-      next: { revalidate: 10 }, // Revalidate every hour
+      next: {revalidate: 10}, // Revalidate every hour
     });
 
     if (!res.ok) {
@@ -41,24 +41,24 @@ export default async function Page() {
   console.log("👉 ~ Page ~ homePageData:", homePageData);
 
   return (
-    <div className="min-h-svh bg-white">
-      <main>
-        <HeroSection/>
-        <MissionSection/>
-        {/* divider */} <ConcaveCurve/>
-        <AppShowcaseSection/>
-        {/* divider */} <WaveDivider className="text-[#F6F0FF]" bgClassName="bg-primary-light"/>
-        <div className="bg-[#F6F0FF]">
-          <HowItWorksSection/>
-          <StatsSection/>
-        </div>
-        {/* divider */} <WaveDivider className="text-[#FDFBFF]" bgClassName="bg-[#F6F0FF]"/>
-        <TrackYourWeekSection/>
-        {/* divider */} <WaveDivider className="text-primary-light" bgClassName="bg-[#FDFBFF]"/>
-        <WhyChooseUsSection/>
-        <DownloadCtaSection/>
-        <TestimonialsSection/>
-      </main>
-    </div>
+      <div className="min-h-svh bg-white">
+        <main>
+          <HeroSection/>
+          <MissionSection/>
+          {/* divider */} <ConcaveCurve/>
+          <AppShowcaseSection/>
+          {/* divider */} <WaveDivider className="text-[#F6F0FF]" bgClassName="bg-primary-light"/>
+          <div className="bg-[#F6F0FF]">
+            <HowItWorksSection/>
+            <StatsSection/>
+          </div>
+          {/* divider */} <WaveDivider className="text-[#FDFBFF]" bgClassName="bg-[#F6F0FF]"/>
+          <TrackYourWeekSection data={homePageData?.data?.articles || []}/>
+          {/* divider */} <WaveDivider className="text-primary-light" bgClassName="bg-[#FDFBFF]"/>
+          <WhyChooseUsSection/>
+          <DownloadCtaSection/>
+          <TestimonialsSection data={homePageData?.data?.testimonials?.data || []}/>
+        </main>
+      </div>
   );
 }
