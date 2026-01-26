@@ -1,27 +1,16 @@
-import Image from "next/image";
 import React from "react";
-import TrackSection from "@/components/base/TrackSection";
-import StepsSection from "@/components/base/StepSection";
-import MessageSection from "@/components/base/MessageSection";
-import ClientSection from "@/components/base/ClientSection";
-import AboutSection from "@/components/base/AboutSection";
-import ContentDetailsMiddle from "@/components/home/ContentDetailsMiddle";
-import ContentDetailsLast from "@/components/home/ContentDetailsLast";
-import BackgroundBannerHome from "@/components/home/BackgroundBannerHome";
-import StatsSection from "@/components/base/StateSection";
 import { Metadata } from "next";
-import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
+import {ConcaveCurve} from "@/components/ui/svg/ConcaveCurve";
+import WaveDivider from "@/components/ui/svg/WaveDivider";
 import {HeroSection} from "@/components/home/HeroSection";
 import {MissionSection} from "@/components/home/MissionSection";
-import {ConcaveCurve} from "@/components/ui/svg/ConcaveCurve";
 import {AppShowcaseSection} from "@/components/home/AppShowcaseSection";
-import WaveDivider from "@/components/ui/svg/WaveDivider";
 import {HowItWorksSection} from "@/components/home/HowItWorksSection";
 import {TrackYourWeekSection} from "@/components/home/TrackWeekSection";
 import {WhyChooseUsSection} from "@/components/home/WhyChooseUsSection";
 import {DownloadCtaSection} from "@/components/home/DownloadCtaSection";
 import {TestimonialsSection} from "@/components/home/TestimonialsSection";
-import {Footer} from "react-day-picker";
+import {StatsSection} from "@/components/home/StatsSection";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
