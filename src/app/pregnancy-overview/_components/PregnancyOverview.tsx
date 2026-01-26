@@ -9,52 +9,71 @@ import WeeklyArticle from "./WeeklyArticle";
 import ImageOverview from "./ImageOverview";
 import CheckLists from "./CheckLists";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
+import WeekSelector from "./WeekSelector";
 import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
 
 export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewProps) {
-  const { articles, questions, checklist, weeklyDetails, userProfile } =
-    pregnancyData ?? {};
-  const latest = articles?.latest || {};
-  const popularWeek = articles?.popularWeek || {};
-  const specialArticle = articles?.specialArticle || {};
-  const bannerArticle = articles?.bannerArticle || {};
-  const weeklyArticle = articles?.weeklyArticles || {};
+  const articles = pregnancyData?.articles;
+  const questions = pregnancyData?.questions;
+  const checklist = pregnancyData?.checklist;
+  const weeklyDetails = pregnancyData?.weeklyDetails;
+  const userProfile = pregnancyData?.userProfile;
+
+  const latest = articles?.latest || [];
+  const popularWeek = articles?.popularWeek || [];
+  const specialArticle = articles?.specialArticle || [];
+  const bannerArticle = articles?.bannerArticle || [];
+  const weeklyArticle = articles?.weeklyArticles || [];
+
+  const currentWeek = userProfile?.details?.current_pregnancy_week || 0;
+
+  const handleWeekChange = (week: number) => {
+    // Handle week change logic here (e.g., fetch new data for that week)
+    console.log("Week changed to:", week);
+  };
+
   return (
     <div className="">
       <ScrollToTop />
       <OverviewCategories />
-      <PregnancyDetails
-        userData={userProfile || {}}
-        weeklyDetails={weeklyDetails || {}}
+      <WeekSelector
+        currentWeek={currentWeek}
+        onWeekChange={handleWeekChange}
+        minWeek={0}
+        maxWeek={45}
       />
-      {Boolean(weeklyArticle?.[0]?.title) && (
-        <WeeklyDetails data={weeklyArticle?.[0]} />
+      <PregnancyDetails
+        userData={userProfile as any}
+        weeklyDetails={weeklyDetails as any}
+      />
+      {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
+        <WeeklyDetails data={weeklyArticle[0]} />
       )}
-      {Boolean(questions?.data?.[0]?._id) && (
-        <QuestionOfTheWeek question={questions?.data?.[0]} />
+      {Boolean(questions?.data?.[0]?._id) && questions?.data?.[0] && (
+        <QuestionOfTheWeek question={questions.data[0]} />
       )}
-      {Boolean(popularWeek?.[0]?.title) && (
-        <WeeklyArticle data={popularWeek?.[0]} />
+      {Boolean(popularWeek?.[0]?.title) && popularWeek?.[0] && (
+        <WeeklyArticle data={popularWeek[0]} />
       )}
 
       <section className="-mt-1">
         <div className="bg-sidebar-accent">
           <CheckLists
-            checkLists={checklist?.data}
+            checkLists={checklist?.data as any}
             count={checklist?.pagination.total}
           />
         </div>
       </section>
       {Boolean(latest?.length) && (
         <section>
-          <ArticleSection data={latest ?? []} />
+          <ArticleSection data={(latest as any) ?? []} />
         </section>
       )}
-      <ImageOverview data={bannerArticle ?? []} />
+      <ImageOverview data={(bannerArticle as any) ?? []} />
 
       {
         <section className="bg-section pb-32 md:pb-96">
-          <SpecialArticleSection data={specialArticle ?? []} />
+          <SpecialArticleSection data={(specialArticle as any) ?? []} />
         </section>
       }
     </div>
