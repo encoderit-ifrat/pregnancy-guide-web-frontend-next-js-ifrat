@@ -37,6 +37,48 @@
 div.no-tailwind p span {
   white-space: wrap !important;
 }
+
+:root {
+  /* Primary Colors */
+  --primary: #A97AEC;
+  --primary-light: #EDE9FE;
+  --primary-muted: #C4B5FD;
+  /*--primary-dark: #5B21B6;*/
+  --primary-dark: #3D3177;
+
+  /* Text Colors */
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+
+  /* Background Colors */
+  --background: #FFFFFF;
+  --background-alt: #F5F3FF;
+
+  /* Accent Colors */
+  --accent-purple: #A855F7;
+  --accent-violet: #8B5CF6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-muted: var(--primary-muted);
+  --color-primary-dark: var(--primary-dark);
+  --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --font-heading: var(--font-heading);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
 @theme {
   /* === Base Colors === */
   /* fontFamily: {
@@ -146,6 +188,98 @@ div.no-tailwind p span {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom utilities for curved backgrounds */
+.curved-top {
+  border-radius: 0 0 50% 50% / 0 0 100px 100px;
+}
+
+.curved-bottom {
+  border-radius: 50% 50% 0 0 / 80px 80px 0 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+/*.swiper-slide {*/
+/*  text-align: center;*/
+/*  font-size: 18px;*/
+
+/*  !* Center slide text vertically *!*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.swiper-pagination {
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliderOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*gradient white transparent white*/
+  background: transparent;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, 0) 85%, rgba(255, 255, 255, 1) 100%);
+}
+
+/*.swiper-button-prev {*/
+/*  left: 10px !important;*/
+/*}*/
+
+/*.swiper-button-next {*/
+/*  right: 10px !important;*/
+/*}*/
+
+.swiper-button-prev,
+.swiper-button-next {
+  background: white;
+  border-radius: 100%;
+  transform: scale(0.8);
+  transition: transform 0.2s ease-in-out;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  transform: scale(1) !important;
+}
+
+.swiper-button-prev .swiper-navigation-icon,
+.swiper-button-next .swiper-navigation-icon {
+  height: 16px;
 }
 
 /* === Gradient Utilities === */
@@ -396,25 +530,26 @@ div.no-tailwind p span {
   outline-offset: 2px;
 }
 
+
 /*Custom scrollbar*/
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px var(--color-soft-white);
-  border-radius: 10px;
+  box-shadow: inset 0 0 5px var(--color-primary-muted);
+  /*border-radius: 10px;*/
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 10px;
+  background: linear-gradient(180deg, var(--color-primary-muted), var(--color-primary));
+  /*border-radius: 10px;*/
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
+  background: var(--color-primary-dark);
 }

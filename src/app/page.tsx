@@ -5,10 +5,9 @@ import StepsSection from "@/components/base/StepSection";
 import MessageSection from "@/components/base/MessageSection";
 import ClientSection from "@/components/base/ClientSection";
 import AboutSection from "@/components/base/AboutSection";
-import HeaderText from "@/components/ui/HeaderText";
-import ContentDetailsMiddle from "@/components/Home/ContentDetailsMiddle";
-import ContentDetailsLast from "@/components/Home/ContentDetailsLast";
-import BackgroundBannerHome from "@/components/Home/BackgroundBannerHome";
+import ContentDetailsMiddle from "@/components/home/ContentDetailsMiddle";
+import ContentDetailsLast from "@/components/home/ContentDetailsLast";
+import BackgroundBannerHome from "@/components/home/BackgroundBannerHome";
 import StatsSection from "@/components/base/StateSection";
 import { Metadata } from "next";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
@@ -43,33 +42,16 @@ export default async function Page() {
 
   return (
     <div className="bg-background min-h-svh pb-32  md:pb-96">
-      <ScrollToTop />
-      <BackgroundBannerHome />
-      <ContentDetailsMiddle />
-      <StepsSection />
-      <TrackSection articles={homePageData?.data?.articles} />
-      <StatsSection />
-      <MessageSection />
-      <ClientSection testimonials={homePageData?.data?.testimonials?.data} />
-      <AboutSection />
-      <ContentDetailsLast />
-      {/* <Image
-        src="/assets/logo/vectorSecond.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="w-full h-auto object-cover"
-        priority
-      /> */}
+      {/*<ScrollToTop />*/}
+      {/*<BackgroundBannerHome />*/}
+      {/*<ContentDetailsMiddle />*/}
+      {/*<StepsSection />*/}
+      {/*<TrackSection articles={homePageData?.data?.articles} />*/}
+      {/*<StatsSection />*/}
+      {/*<MessageSection />*/}
+      {/*<ClientSection testimonials={homePageData?.data?.testimonials?.data} />*/}
+      {/*<AboutSection />*/}
+      {/*<ContentDetailsLast />*/}
     </div>
   );
 }
-
-// Optional: Generate static params for dynamic routes
-// export async function generateStaticParams() {
-//   return [];
-// }
-
-// Optional: Configure dynamic behavior
-// export const dynamic = 'force-static'; // or 'force-dynamic', 'auto'
-// export const revalidate = 3600; // ISR: revalidate every hour
