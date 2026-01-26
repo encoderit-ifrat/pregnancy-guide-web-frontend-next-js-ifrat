@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ArticleSection from "@/components/base/ArticleSection";
 import SpecialArticleSection from "@/components/base/SpecialArticleSection";
@@ -33,15 +35,15 @@ export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewPr
   };
 
   return (
-    <div className="">
+    <div className="bg-[#F6F0FF]">
       <ScrollToTop />
-      <OverviewCategories />
       <WeekSelector
         currentWeek={currentWeek}
         onWeekChange={handleWeekChange}
         minWeek={0}
         maxWeek={45}
       />
+      <OverviewCategories />
       <PregnancyDetails
         userData={userProfile as any}
         weeklyDetails={weeklyDetails as any}
@@ -49,8 +51,8 @@ export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewPr
       {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
         <WeeklyDetails data={weeklyArticle[0]} />
       )}
-      {Boolean(questions?.data?.[0]?._id) && questions?.data?.[0] && (
-        <QuestionOfTheWeek question={questions.data[0]} />
+      {Boolean(questions?.data?.[0]?._id) && (
+        <QuestionOfTheWeek question={questions?.data?.[0] as any} />
       )}
       {Boolean(popularWeek?.[0]?.title) && popularWeek?.[0] && (
         <WeeklyArticle data={popularWeek[0]} />
