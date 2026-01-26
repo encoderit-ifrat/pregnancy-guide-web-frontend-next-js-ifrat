@@ -4,13 +4,17 @@ import {useState, useEffect, useRef} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import {Search, X} from "lucide-react";
+import {LogOut, Search, User, X} from "lucide-react";
 import {Button} from "@/components/ui/Button";
 import {cn} from "@/lib/utils";
 import {NavigationLink} from "@/components/Navbar/_types/navbar_types";
 import {useQueryGetAllCategories} from "@/components/Navbar/api/queries/useQueryGetAllCategories";
 import {Category} from "@/types/shared";
 import {useCurrentUser} from "@/hooks/useCurrentUser";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {getInitial} from "@/app/profile/_component/profile";
+import {signOut} from "next-auth/react";
 
 const navLinks = [
   {href: "/forlossning", label: "Förlossning"},
@@ -189,7 +193,51 @@ export function Header() {
                 <Search className="h-5 w-5"/>
               </button>
               <div className="h-6 w-px bg-gray-200"/>
-              <Button>Logga In</Button>
+              {isAuthenticated ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className="cursor-pointer">
+                      <Avatar className="size-9">
+                        {user?.avatar && (
+                            <AvatarImage
+                                src={user.avatar}
+                                alt="profile image"
+                                className="object-cover"
+                            />
+                        )}
+                        <AvatarFallback className="bg-primary-gradient text-popover-foreground uppercase">
+                          {getInitial(user?.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator/>
+                      <Link href="/profile">
+                        <DropdownMenuItem className="hover:bg-black/5">
+                          <User className="mr-2 size-4"/>
+                          Profile
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href="/change-password">
+                        <DropdownMenuItem className="hover:bg-black/5">
+                          <User className="mr-2 size-4"/>
+                          Change Password
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem
+                          className="hover:bg-black/5"
+                          onClick={() => signOut({callbackUrl: "/"})}
+                      >
+                        <LogOut className="mr-2 size-4"/>
+                        Log Out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+              ) : (
+                  <Button
+                      onClick={() => router.push("/login")}
+                  >Logga In</Button>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
