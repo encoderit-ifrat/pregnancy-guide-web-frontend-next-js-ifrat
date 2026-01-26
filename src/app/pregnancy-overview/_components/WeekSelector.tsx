@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {ChevronLeft, ChevronRight} from "lucide-react";
 import {cn} from "@/lib/utils";
 
@@ -18,13 +18,27 @@ export default function WeekSelector({
                                        maxWeek = 45,
                                      }: WeekSelectorProps) {
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
+  const [visibleWeekCount, setVisibleWeekCount] = useState(7);
+
+  useEffect(() => {
+    function updateVisibleWeekCount() {
+      if (typeof window !== "undefined" && window.innerWidth < 767) {
+        setVisibleWeekCount(3);
+      } else {
+        setVisibleWeekCount(7);
+      }
+    }
+
+    updateVisibleWeekCount();
+    window.addEventListener("resize", updateVisibleWeekCount);
+    return () => window.removeEventListener("resize", updateVisibleWeekCount);
+  }, []);
 
   // Ensure minWeek and maxWeek are defined numbers
   const min = minWeek ?? 0;
   const max = maxWeek ?? 45;
 
   // Calculate visible weeks (current week +/- 2 on each side)
-  const visibleWeekCount = 7;
   const halfVisible = Math.floor(visibleWeekCount / 2);
   const startWeek = Math.max(min, selectedWeek - halfVisible);
   const endWeek = Math.min(max, startWeek + visibleWeekCount - 1);
@@ -51,14 +65,14 @@ export default function WeekSelector({
   };
 
   return (
-      <div className="flex items-center justify-center gap-3 py-6 px-4 md:px-6 pt-12">
-        <div className="flex items-center gap-4 bg-white rounded-full px-10 py-3 shadow-2xl shadow-primary/40 border border-gray-100">
+      <div className="flex items-center justify-center gap-3 py-6 px-4 md:px-6 md:pt-12">
+        <div className="flex items-center gap-2 sm:gap-3 bg-white rounded-full px-6 md:px-8 py-3 shadow-2xl shadow-primary/40 border border-gray-100">
           {/* Previous Button */}
           <button
               onClick={handlePrevious}
               disabled={selectedWeek === min}
               className={cn(
-                  "flex items-center justify-center rounded-full w-10 h-10 transition-colors mr-3",
+                  "flex items-center justify-center rounded-full w-10 h-10 transition-colors mr-2 md:mr-3",
                   selectedWeek === min
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                       : "border border-primary text-primary hover:bg-primary hover:text-white"
@@ -91,7 +105,7 @@ export default function WeekSelector({
               onClick={handleNext}
               disabled={selectedWeek === max}
               className={cn(
-                  "flex items-center justify-center rounded-full w-10 h-10 transition-colors ml-3",
+                  "flex items-center justify-center rounded-full w-10 h-10 transition-colors ml-2 md:ml-3",
                   selectedWeek === max
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                       : "border border-primary text-primary hover:bg-primary hover:text-white"

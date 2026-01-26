@@ -97,7 +97,7 @@ export function Header() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Tailwind md breakpoint is 768px -> use max-width: 767px to represent < md
-    const mql = window.matchMedia("(max-width: 767px)");
+    const mql = window.matchMedia("(max-width: 1024px)");
     const onChange = (e: MediaQueryListEvent | MediaQueryList) => setIsSmallScreen((e as any).matches);
     // initial
     setIsSmallScreen(mql.matches);
