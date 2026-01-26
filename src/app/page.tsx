@@ -11,6 +11,17 @@ import BackgroundBannerHome from "@/components/home/BackgroundBannerHome";
 import StatsSection from "@/components/base/StateSection";
 import { Metadata } from "next";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
+import {HeroSection} from "@/components/home/HeroSection";
+import {MissionSection} from "@/components/home/MissionSection";
+import {ConcaveCurve} from "@/components/ui/svg/ConcaveCurve";
+import {AppShowcaseSection} from "@/components/home/AppShowcaseSection";
+import WaveDivider from "@/components/ui/svg/WaveDivider";
+import {HowItWorksSection} from "@/components/home/HowItWorksSection";
+import {TrackYourWeekSection} from "@/components/home/TrackWeekSection";
+import {WhyChooseUsSection} from "@/components/home/WhyChooseUsSection";
+import {DownloadCtaSection} from "@/components/home/DownloadCtaSection";
+import {TestimonialsSection} from "@/components/home/TestimonialsSection";
+import {Footer} from "react-day-picker";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
@@ -41,17 +52,26 @@ export default async function Page() {
   console.log("👉 ~ Page ~ homePageData:", homePageData);
 
   return (
-    <div className="bg-background min-h-svh pb-32  md:pb-96">
-      {/*<ScrollToTop />*/}
-      {/*<BackgroundBannerHome />*/}
-      {/*<ContentDetailsMiddle />*/}
-      {/*<StepsSection />*/}
-      {/*<TrackSection articles={homePageData?.data?.articles} />*/}
-      {/*<StatsSection />*/}
-      {/*<MessageSection />*/}
-      {/*<ClientSection testimonials={homePageData?.data?.testimonials?.data} />*/}
-      {/*<AboutSection />*/}
-      {/*<ContentDetailsLast />*/}
+    <div className="min-h-svh bg-white">
+      <main>
+        <HeroSection/>
+        <MissionSection/>
+        {/* divider */} <ConcaveCurve/>
+        <AppShowcaseSection/>
+        {/* divider */} <WaveDivider className="text-[#F6F0FF]" bgClassName="bg-primary-light"/>
+        <div className="bg-[#F6F0FF]">
+          <HowItWorksSection/>
+          <StatsSection/>
+        </div>
+        {/* divider */} <WaveDivider className="text-[#FDFBFF]" bgClassName="bg-[#F6F0FF]"/>
+        <TrackYourWeekSection/>
+        {/* divider */} <WaveDivider className="text-primary-light" bgClassName="bg-[#FDFBFF]"/>
+        <WhyChooseUsSection/>
+        <DownloadCtaSection/>
+        <TestimonialsSection/>
+      </main>
+      {/* divider */} <WaveDivider className="text-primary"/>
+      <Footer/>
     </div>
   );
 }
