@@ -33,8 +33,7 @@ import { NavigationLink } from "./_types/navbar_types";
 export default function Navbar() {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const router = useRouter();
-  const { data: categories, isLoading: isLoadingCategories } =
-    useQueryGetAllCategories();
+  const { data: categories, isLoading: isLoadingCategories } = useQueryGetAllCategories();
 
   useEffect(() => {
     if (categories?.data?.data && Array.isArray(categories.data.data) && categories.data.data.length > 0) {

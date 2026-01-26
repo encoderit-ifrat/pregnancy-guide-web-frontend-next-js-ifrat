@@ -1,12 +1,16 @@
 "use client";
 
 import {useState, useEffect, useRef} from "react";
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {Search, X} from "lucide-react";
 import {Button} from "@/components/ui/Button";
 import {cn} from "@/lib/utils";
+import {NavigationLink} from "@/components/Navbar/_types/navbar_types";
+import {useQueryGetAllCategories} from "@/components/Navbar/api/queries/useQueryGetAllCategories";
+import {Category} from "@/types/shared";
+import {useCurrentUser} from "@/hooks/useCurrentUser";
 
 const navLinks = [
   {href: "/forlossning", label: "Förlossning"},
@@ -16,6 +20,25 @@ const navLinks = [
 ];
 
 export function Header() {
+  const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
+  const router = useRouter();
+  const {data: categories, isLoading: isLoadingCategories} = useQueryGetAllCategories();
+
+  useEffect(() => {
+    if (categories?.data?.data && Array.isArray(categories.data.data) && categories.data.data.length > 0) {
+      const categoryData = categories.data.data as Category[];
+      setNavigationLinks(
+          categoryData.map((category) => ({
+            href: `/search-article?page=1&category=${category.slug}`,
+            label: category.name,
+          }))
+      );
+    }
+  }, [categories]);
+
+  const {user, isAuthenticated} = useCurrentUser();
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -121,7 +144,10 @@ export function Header() {
             <div className="flex items-center gap-4 md:gap-16">
               {/* Logo */}
               <div className={logoClassName}>
-                <Link href="/" className="flex-shrink-0">
+                <Link
+                    href={isAuthenticated ? "/pregnancy-overview" : "/"}
+                    className="flex-shrink-0"
+                >
                   <Image
                       src={logoSrc}
                       alt="Familj"
@@ -135,7 +161,7 @@ export function Header() {
 
               {/* Desktop Navigation */}
               <nav className="hidden items-center gap-6 lg:flex">
-                {navLinks.map((link) => {
+                {navigationLinks.map((link, index) => {
                   const isActive = pathname === link.href;
                   return (
                       <Link
