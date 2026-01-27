@@ -13,11 +13,11 @@ export default function AuthCard({
                   alt="Auth illustration"
                   width={400}
                   height={400}
-                  className="object-fit object-cover rounded h-full w-full"
+                  className="object-fit object-cover rounded max-h-68 md:max-h-full md:h-full w-full"
               />
           )}
         </div>
-        <div>
+        <div className="max-w-[400px] sm:w-full mx-auto">
           {children}
         </div>
       </div>
