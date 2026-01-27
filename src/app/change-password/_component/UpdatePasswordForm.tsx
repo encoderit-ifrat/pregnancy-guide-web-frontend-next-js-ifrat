@@ -25,6 +25,8 @@ import {
   ChangePasswordSchemaType,
 } from "../_types/change_password_types";
 import { useChangePassword } from "../_api/mutations/useChangePassword";
+import {PasswordInput} from "@/components/base/PasswordInput";
+import * as React from "react";
 
 export default function UpdatePasswordForm() {
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -66,24 +68,11 @@ export default function UpdatePasswordForm() {
           name="oldPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showOldPassword ? "text" : "password"}
-                    placeholder="Old Password"
+                <PasswordInput
+                    label="Old Password"
                     {...field}
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div onClick={() => setShowOldPassword(!showOldPassword)}>
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showOldPassword ? "text-primary" : "text-gray"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,22 +87,10 @@ export default function UpdatePasswordForm() {
             <FormItem>
               <FormLabel></FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showNewPassword ? "text" : "password"}
-                    placeholder="New Password"
+                <PasswordInput
+                    label="New Password"
                     {...field}
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div onClick={() => setShowNewPassword(!showNewPassword)}>
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showNewPassword ? "text-primary" : "text-gray"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -128,26 +105,10 @@ export default function UpdatePasswordForm() {
             <FormItem>
               <FormLabel></FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm New Password"
+                <PasswordInput
+                    label="Confirm New Password"
                     {...field}
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showConfirmPassword ? "text-primary" : "text-gray"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

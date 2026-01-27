@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {Eye, EyeOff} from "lucide-react";
+import {cn} from "@/lib/utils";
 
 export type InputVariant = "default" | "rounded-full" | "square";
 export type InputSize = "sm" | "md" | "lg";
@@ -82,9 +82,9 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
                   tabIndex={-1}
               >
                 {showPassword ? (
-                    <Eye className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray-400"}`} />
+                    <Eye className={`w-5 h-5 pt-1 ${showPassword ? "text-primary" : "text-gray-400"}`}/>
                 ) : (
-                    <EyeOff className={`w-5 h-5 text-gray-400`} />
+                    <EyeOff className={`w-5 h-5 pt-1 text-gray-400`}/>
                 )}
               </button>
             </div>
@@ -95,4 +95,4 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
 
 PasswordInput.displayName = "PasswordInput";
 
-export { PasswordInput };
+export {PasswordInput};

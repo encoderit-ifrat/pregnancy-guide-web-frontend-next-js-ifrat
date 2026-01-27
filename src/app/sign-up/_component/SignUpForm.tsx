@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema, RegisterSchemaType } from "../_types/register_types";
 import { Button } from "@/components/ui/Button";
-import { PasswordInput } from "@/components/ui/PasswordInput";
 
 import {
   Form,
@@ -22,6 +21,7 @@ import { RegisterFormType, useSignUp } from "../_api/mutations/useSignuUp";
 import { toast } from "sonner";
 import * as React from "react";
 import { ChevronRight } from "lucide-react";
+import {PasswordInput} from "@/components/base/PasswordInput";
 
 export default function RegisterForm() {
   const form = useForm<RegisterSchemaType>({

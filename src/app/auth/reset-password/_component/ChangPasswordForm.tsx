@@ -1,9 +1,9 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/Button";
-import { CircleIcon } from "@/components/ui/CircleIcon";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {Button} from "@/components/ui/Button";
+import {CircleIcon} from "@/components/ui/CircleIcon";
 import IconLock from "@/assets/IconLock";
 import IconTick from "@/assets/IconTick";
 
@@ -15,22 +15,25 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
+import {Input} from "@/components/ui/Input";
 import Header from "@/components/ui/SectionHeader";
-import { useResetPassword } from "../_api/mutations/useResetPassword";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import {useResetPassword} from "../_api/mutations/useResetPassword";
+import {useEffect, useState} from "react";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
 import {
   ResetPasswordSchema,
   ResetPasswordSchemaType,
 } from "../_types/change_password_types";
+import {PasswordInput} from "@/components/base/PasswordInput";
+import * as React from "react";
+import Link from "next/link";
 
 export default function ChangePasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  const { mutate: resetPassword, isPending } = useResetPassword();
+  const {mutate: resetPassword, isPending} = useResetPassword();
   const router = useRouter();
 
   const form = useForm<ResetPasswordSchemaType>({
@@ -58,18 +61,18 @@ export default function ChangePasswordForm() {
       return;
     }
     resetPassword(
-      {
-        token,
-        password: values.password,
-        confirm_password: values.confirmPassword,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Password reset successfully!");
-          form.reset();
-          router.push("/login");
+        {
+          token,
+          password: values.password,
+          confirm_password: values.confirmPassword,
         },
-      }
+        {
+          onSuccess: () => {
+            toast.success("Password reset successfully!");
+            form.reset();
+            router.push("/login");
+          },
+        }
     );
   };
 
@@ -78,111 +81,75 @@ export default function ChangePasswordForm() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="lg:space-y-2 w-full max-w-lg p-6 lg:p-10 pt-14 bg-soft-white rounded-2xl shadow-md"
-      >
-        {/* Top Icon */}
-        <CircleIcon className="mx-auto mb-4 w-28 h-28 lg:w-34 lg:h-34">
-          <IconTick className="w-10 h-10" />
-        </CircleIcon>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
 
-        {/* Title */}
-        <Header
-          title="Change Password"
-          description="Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent
-          faucibus, elit a euismod rhoncus."
-        />
-
-        {/* New Password */}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel></FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    {...field}
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div onClick={() => setShowPassword(!showPassword)}>
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showPassword ? "text-primary" : "text-gray"
-                        }`}
+          {/* New Password */}
+          <FormField
+              control={form.control}
+              name="password"
+              render={({field}) => (
+                  <FormItem>
+                    <FormControl>
+                      <PasswordInput
+                          label="Password"
+                          {...field}
                       />
-                    </div>
-                  </div>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+              )}
+          />
 
-        {/* Confirm Password */}
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel></FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    {...field}
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showConfirmPassword ? "text-primary" : "text-gray"
-                        }`}
+          {/* Confirm Password */}
+          <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({field}) => (
+                  <FormItem>
+                    <FormControl>
+                      <PasswordInput
+                          label="Confirm Password"
+                          {...field}
                       />
-                    </div>
-                  </div>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+              )}
+          />
 
-        {/* Submit Button */}
-        <div className="pt-11 lg:pt-15 pb-8 lg:pb-15">
-          <Button
-            type="submit"
-            size="lg"
-            className="w-full uppercase 
+          {/* Submit Button */}
+          <div className="pt-10 lg:pt-12">
+            <Button
+                type="submit"
+                size="lg"
+                className="w-full uppercase
                      text-sm sm:text-base md:text-lg lg:text-xl 
                      h-11 sm:h-12 md:h-13 lg:h-14
                      leading-none"
-            disabled={isPending}
-            isLoading={isPending}
-          >
-            Confirm
-          </Button>
-        </div>
-      </form>
-    </Form>
+                disabled={isPending}
+                isLoading={isPending}
+            >
+              Change Password
+            </Button>
+          </div>
+
+          <div className="my-6 flex items-center justify-center text-gray-200">
+            <div className="w-full h-px bg-gray-200"></div>
+            <div className="mx-2">OR</div>
+            <div className="w-full h-px bg-gray-200"></div>
+          </div>
+
+          {/* Login Link */}
+          <div className="text-xs sm:text-sm md:text-base lg:text-xl leading-tight">
+            <p className="text-center text-text-dark">
+              Already have an account?{" "}
+              <Link href="/login" className="text-circle-border hover:underline">
+                Sign In
+              </Link>
+            </p>
+          </div>
+        </form>
+      </Form>
   );
 }
