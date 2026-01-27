@@ -184,7 +184,6 @@ export default function RegisterForm() {
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             ref={field.ref}
-                            className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 mt-0.5 sm:mt-0"
                         />
                       </FormControl>
                       <FormLabel className="text-xs sm:text-sm md:text-base lg:text-lg text-text-dark font-normal leading-tight m-0">
