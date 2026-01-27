@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import WaveLeaf from "@/components/ui/svg/WaveLeaf";
+import WaveLeaf from "@/components/layout/svg/WaveLeaf";
 
 export function HeroSection() {
   return (

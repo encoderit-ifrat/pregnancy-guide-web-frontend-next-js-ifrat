@@ -7,8 +7,9 @@ import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
 import { UserProvider } from "@/providers/UserProvider";
 import {Header} from "@/components/layout/Header";
-import WaveDivider from "@/components/ui/svg/WaveDivider";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 import {Footer} from "@/components/layout/Footer";
+import FooterWaveDivider from "@/components/layout/svg/FooterWaveDivider";
 
 // Roboto font
 export const roboto = Roboto({
@@ -63,7 +64,7 @@ export default function RootLayout({
                 {children}
                 <Toaster richColors position="top-right" />
               </UserProvider>
-              {/* divider */} <WaveDivider className="text-primary"/>
+              {/* divider */} <FooterWaveDivider className="text-primary"/>
               <Footer/>
             </ReactQueryProvider>
           </ThemeProvider>

@@ -1,7 +1,7 @@
 import React from "react";
 import {Metadata} from "next";
-import {ConcaveCurve} from "@/components/ui/svg/ConcaveCurve";
-import WaveDivider from "@/components/ui/svg/WaveDivider";
+import {ConcaveCurve} from "@/components/layout/svg/ConcaveCurve";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 import {HeroSection} from "@/components/home/HeroSection";
 import {MissionSection} from "@/components/home/MissionSection";
 import {AppShowcaseSection} from "@/components/home/AppShowcaseSection";
@@ -11,7 +11,7 @@ import {WhyChooseUsSection} from "@/components/home/WhyChooseUsSection";
 import {DownloadCtaSection} from "@/components/home/DownloadCtaSection";
 import {TestimonialsSection} from "@/components/home/TestimonialsSection";
 import {StatsSection} from "@/components/home/StatsSection";
-import WaveLeaf from "@/components/ui/svg/WaveLeaf";
+import WaveLeaf from "@/components/layout/svg/WaveLeaf";
 
 export const metadata: Metadata = {
   title: "Home | Familij",

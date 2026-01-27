@@ -13,7 +13,7 @@ import CheckLists from "./CheckLists";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
 import WeekSelector from "./WeekSelector";
 import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
-import WaveDivider from "@/components/ui/svg/WaveDivider";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 
 export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewProps) {
   const articles = pregnancyData?.articles;

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {Heart, Zap} from "lucide-react";
 import {Card} from "@/components/ui/Card";
-import WaveDivider from "../ui/svg/WaveDivider";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 import IconHeading from "@/components/ui/text/IconHeading";
 import VCard from "@/components/ui/cards/VCard";
 import {SectionHeading} from "@/components/ui/text/SectionHeading";

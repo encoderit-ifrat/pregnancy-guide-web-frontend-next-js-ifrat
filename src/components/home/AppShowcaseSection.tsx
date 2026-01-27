@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {Heart, Sparkles} from "lucide-react";
-import { ConcaveCurve } from "../ui/svg/ConcaveCurve";
+import { ConcaveCurve } from "@/components/layout/svg/ConcaveCurve";
 import IconHeading from "@/components/ui/text/IconHeading";
 import {SectionHeading} from "@/components/ui/text/SectionHeading";
 

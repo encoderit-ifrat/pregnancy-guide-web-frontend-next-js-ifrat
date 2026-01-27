@@ -1,6 +1,6 @@
 import Image from "next/image";
 import {Download, Heart} from "lucide-react";
-import WaveDivider from "../ui/svg/WaveDivider";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 import IconHeading from "@/components/ui/text/IconHeading";
 import {SectionHeading} from "@/components/ui/text/SectionHeading";
 
