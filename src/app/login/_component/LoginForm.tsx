@@ -28,6 +28,8 @@ import {useState} from "react";
 import {loginRequestType, useLogin} from "../_api/mutations/useLogin";
 import {toast} from "sonner";
 import api from "@/lib/axios";
+import {ChevronRight, Eye, EyeOff} from "lucide-react";
+import * as React from "react";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -83,29 +85,17 @@ export default function LoginForm() {
 
   return (
       <Form {...form}>
-        <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full max-w-lg
-                   px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:p-10 lg:pt-14
-                   min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-auto"
-        >
-          <div className="mb-5">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-popover-foreground mb-2">
-              Login
-            </h3>
-            <p>Login into your existing Familj Account.</p>
-          </div>
-
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           {/* Email Field */}
           <FormField
               control={form.control}
               name="email"
               render={({field}) => (
                   <FormItem className="mb-3 sm:mb-4 lg:mb-2">
+                    <label className="text-lg font-medium text-text-purple">Email</label>
                     <FormControl>
                       <div className="relative">
                         <Input
-                            label="Email"
                             variant="default"
                             placeholder="User Email"
                             {...field}
@@ -123,22 +113,22 @@ export default function LoginForm() {
               name="password"
               render={({field}) => (
                   <FormItem className="mb-3 sm:mb-4 lg:mb-2">
+                    <label className="text-lg font-medium text-text-purple">Password</label>
                     <FormControl>
                       <div className="relative">
                         <Input
-                            label="Password"
                             type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             variant="default"
                             {...field}
                         />
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 px-6">
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 px-4 pb-2">
                           <div onClick={() => setShowPassword(!showPassword)}>
-                            <IconLock
-                                className={`w-5 h-5 ${
-                                    showPassword ? "text-primary" : "text-gray"
-                                }`}
-                            />
+                            {showPassword ?
+                                <Eye className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray"}`}/>
+                                :
+                                <EyeOff className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray"}`}/>
+                            }
                           </div>
                         </div>
                       </div>
@@ -158,7 +148,7 @@ export default function LoginForm() {
                 control={form.control}
                 name="acceptTerms"
                 render={({field}) => (
-                    <FormItem className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+                    <FormItem className="flex items-center md:gap-2">
                       <FormControl>
                         <CheckBox
                             checked={field.value}
@@ -168,9 +158,7 @@ export default function LoginForm() {
                         />
                       </FormControl>
                       <FormLabel
-                          className="text-xs sm:text-sm
-                                      text-text-dark font-normal whitespace-nowrap 
-                                      leading-tight m-0"
+                          className="text-xs text-text-dark font-normal whitespace-nowrap leading-tight m-0"
                       >
                         Remember for 30 Days
                       </FormLabel>
@@ -179,7 +167,7 @@ export default function LoginForm() {
             />
             <Link
                 href="/forgot-password"
-                className="text-red-500 hover:underline text-xs sm:text-sm whitespace-nowrap leading-tight">
+                className="text-red-500 hover:underline text-xs whitespace-nowrap leading-tight">
               Forgot Password?
             </Link>
           </div>
@@ -188,14 +176,12 @@ export default function LoginForm() {
           <Button
               type="submit"
               size="lg"
-              className="w-full uppercase
-                     text-sm sm:text-base md:text-lg lg:text-xl 
-                     h-11 sm:h-12
-                     leading-none"
+              className="w-full uppercase text-lg lg:text-xl h-12 leading-none flex "
               isLoading={loading}
               disabled={loading}
           >
-            Login
+            <span>Login</span>
+            <ChevronRight className="w-8 h-8 ml-1"/>
           </Button>
 
           <div className="my-6 flex items-center justify-center text-gray-200">
@@ -205,7 +191,7 @@ export default function LoginForm() {
           </div>
 
           {/* Sign Up Link */}
-          <div className="text-xs sm:text-sm md:text-base whitespace-nowrap leading-tight">
+          <div className="text-base whitespace-nowrap leading-tight">
             <p className="text-center text-text-dark">
               Don&apos;t have an account?{" "}
               <Link

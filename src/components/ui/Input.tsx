@@ -44,7 +44,13 @@ function Input({
 
   return (
       <div className="mb-2">
-        {label && <label htmlFor="input">{label}</label>}
+        {label &&
+            <div className="mb-1">
+              <label className="text-lg font-medium text-text-purple" htmlFor="input">
+                {label}
+              </label>
+            </div>
+        }
         <input
             type={type}
             data-slot="input"

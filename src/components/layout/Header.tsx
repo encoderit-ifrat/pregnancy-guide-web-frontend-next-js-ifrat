@@ -152,6 +152,10 @@ export function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
   const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${
       isSticky ? "" : "lg:bg-primary"
   }`;
@@ -326,7 +330,7 @@ export function Header() {
                   </div>
                 </div>
                 <div className="mt-4 flex flex-col gap-3">
-                  <Button className="w-full">Logga In</Button>
+                  <Button className="w-full" onClick={() => router.push("/login")}>Logga In</Button>
                 </div>
               </nav>
             </div>

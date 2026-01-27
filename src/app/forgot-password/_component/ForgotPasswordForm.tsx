@@ -23,6 +23,8 @@ import {Input} from "@/components/ui/Input";
 import Header from "@/components/ui/SectionHeader";
 import {useForgotPassword} from "../_api/useForgotPassword";
 import {toast} from "sonner";
+import {ChevronRight} from "lucide-react";
+import * as React from "react";
 
 export default function ForgotPasswordForm() {
   const form = useForm<ForgotPasswordSchemaType>({
@@ -45,23 +47,13 @@ export default function ForgotPasswordForm() {
 
   return (
       <Form {...form}>
-        <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full max-w-lg p-6 lg:p-10 pt-14 bg-soft-white rounded-2xl"
-        >
-          {/* Title + Description */}
-          <Header
-              title="Forgot Password"
-              description="Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus."
-          />
-
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           {/* Email Field */}
           <FormField
               control={form.control}
               name="email"
               render={({field}) => (
                   <FormItem className="mb-7">
-                    <FormLabel></FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
@@ -90,7 +82,8 @@ export default function ForgotPasswordForm() {
               isLoading={forgotPasswordMutation?.isPending}
               disabled={forgotPasswordMutation?.isPending}
           >
-            Send
+            <span>Continue</span>
+            <ChevronRight className="w-8 h-8 ml-1"/>
           </Button>
         </form>
       </Form>

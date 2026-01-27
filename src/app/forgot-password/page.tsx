@@ -8,6 +8,8 @@ export default function page() {
   return (
       <div className="max-w-5xl mx-auto">
         <AuthCard
+            title="Forgot Password"
+            description="Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus."
             image="/images/auth/forget-password.png"
         >
           <ForgotPassword/>
