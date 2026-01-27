@@ -172,7 +172,7 @@ export function Header() {
         <header
             ref={headerRef}
             className={cn(
-                "w-full z-50 transition-transform duration-300 ease-in-out bg-[#F6F0FF] backdrop-blur-md",
+                "w-full z-50 transition-transform duration-300 ease-in-out",
                 isSticky ? "fixed top-0 left-0 right-0" : "relative",
                 isSticky && !isVisible ? "-translate-y-full" : "translate-y-0"
             )}

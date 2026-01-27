@@ -23,7 +23,7 @@ function Input({
                }: InputProps) {
   const baseStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary" +
       " selection:text-primary-foreground focus:border-primary flex min-w-0 w-full " +
-      "max-w-[563px] border-1 focus:bg-white bg-input text-base shadow-xs transition-[color,box-shadow]" +
+      "max-w-[563px] border-1 focus:bg-white bg-primary-light text-base shadow-xs transition-[color,box-shadow]" +
       " outline-none " +
       "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium " +
       "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50";

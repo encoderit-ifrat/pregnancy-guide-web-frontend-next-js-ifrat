@@ -215,12 +215,14 @@ export default function RegisterForm() {
             <ChevronRight className="w-8 h-8 ml-1"/>
           </Button>
 
+          <div className="my-6 flex items-center justify-center text-gray-200">
+            <div className="w-full h-px bg-gray-200"></div>
+            <div className="mx-2">OR</div>
+            <div className="w-full h-px bg-gray-200"></div>
+          </div>
+
           {/* Login Link */}
-          <div
-              className="text-xs sm:text-sm md:text-base lg:text-xl
-                        mt-10
-                        leading-tight"
-          >
+          <div className="text-xs sm:text-sm md:text-base lg:text-xl leading-tight">
             <p className="text-center text-text-dark">
               Already have an account?{" "}
               <Link href="/login" className="text-circle-border hover:underline">

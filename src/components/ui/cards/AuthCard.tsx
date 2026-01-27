@@ -29,7 +29,7 @@ export default function AuthCard({
         </div>
         <div className="z-[2] -translate-y-10 w-full rounded-3xl bg-white sm:w-full mx-auto flex items-center justify-center">
           <div
-              className="w-full max-w-[460px] min-h-[500px] px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:p-10 lg:pt-14"
+              className="w-full max-w-[500px] min-h-[500px] px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:p-10 lg:pt-14"
           >
             <div className="my-5">
               {title &&
