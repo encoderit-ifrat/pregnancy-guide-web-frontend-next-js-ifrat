@@ -5,7 +5,7 @@ export default function AuthCard({
                                    children
                                  }) {
   return (
-      <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto shadow-xl rounded">
+      <div className="mb-10 sm:my-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto shadow-xl rounded">
         <div>
           {image && (
               <Image
@@ -13,7 +13,7 @@ export default function AuthCard({
                   alt="Auth illustration"
                   width={400}
                   height={400}
-                  className="object-fit object-cover rounded max-h-68 md:max-h-full md:h-full w-full"
+                  className="object-fit object-cover object-[0_30%] rounded max-h-60 md:max-h-full md:h-full w-full"
               />
           )}
         </div>

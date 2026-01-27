@@ -175,7 +175,7 @@ export function Header() {
         >
           <div className={cn(
               "max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6",
-              isSticky ? "h-20" : "h-36 lg:h-20"
+              isSticky ? "h-20" : "h-20 lg:h-20"
           )}>
             <div className="flex items-center gap-4 md:gap-16">
               {/* Logo */}
