@@ -1,37 +1,29 @@
 "use client";
 
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {RegisterSchema, RegisterSchemaType} from "../_types/register_types";
-import {AxiosError} from "axios";
-import {Button} from "@/components/ui/Button";
-import {CircleIcon} from "@/components/ui/CircleIcon";
-import IconPerson from "@/assets/IconPerson";
-import IconEmail from "@/assets/IconEmail";
-import IconLock from "@/assets/IconLock";
-import IconPersonPlaceholder from "@/assets/IconPersonPlaceholder";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema, RegisterSchemaType } from "../_types/register_types";
+import { Button } from "@/components/ui/Button";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 
 import {
   Form,
   FormField,
   FormItem,
-  FormLabel,
   FormControl,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/Form";
-import {Input} from "@/components/ui/Input";
+import { Input } from "@/components/ui/Input";
 
 import Link from "next/link";
-import {CheckBox} from "@/components/ui/Checkbox";
-import {RegisterFormType, useSignUp} from "../_api/mutations/useSignuUp";
-import {toast} from "sonner";
-import {useState} from "react";
+import { CheckBox } from "@/components/ui/Checkbox";
+import { RegisterFormType, useSignUp } from "../_api/mutations/useSignuUp";
+import { toast } from "sonner";
 import * as React from "react";
-import {ChevronRight, Eye, EyeOff} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export default function RegisterForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -74,7 +66,7 @@ export default function RegisterForm() {
             <FormField
                 control={form.control}
                 name="name"
-                render={({field}) => (
+                render={({ field }) => (
                     <FormItem className="mb-3 sm:mb-4 lg:mb-2">
                       <FormControl>
                         <div className="relative">
@@ -85,7 +77,7 @@ export default function RegisterForm() {
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm"/>
+                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
                     </FormItem>
                 )}
             />
@@ -94,7 +86,7 @@ export default function RegisterForm() {
             <FormField
                 control={form.control}
                 name="email"
-                render={({field}) => (
+                render={({ field }) => (
                     <FormItem className="mb-3 sm:mb-4 lg:mb-2">
                       <FormControl>
                         <div className="relative">
@@ -105,7 +97,7 @@ export default function RegisterForm() {
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm"/>
+                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
                     </FormItem>
                 )}
             />
@@ -114,28 +106,16 @@ export default function RegisterForm() {
             <FormField
                 control={form.control}
                 name="password"
-                render={({field}) => (
+                render={({ field }) => (
                     <FormItem className="mb-3 sm:mb-4 lg:mb-2">
-                      <label className="text-lg font-medium text-text-purple">Password</label>
                       <FormControl>
-                        <div className="relative">
-                          <Input
-                              type={showPassword ? "text" : "password"}
-                              placeholder="Password"
-                              {...field}
-                          />
-                          <div className="absolute right-0 top-1/2 -translate-y-1/2 px-4 pb-2">
-                            <div onClick={() => setShowPassword(!showPassword)}>
-                              {showPassword ?
-                                  <Eye className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray"}`}/>
-                                  :
-                                  <EyeOff className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray"}`}/>
-                              }
-                            </div>
-                          </div>
-                        </div>
+                        <PasswordInput
+                            label="Password"
+                            placeholder="Password"
+                            {...field}
+                        />
                       </FormControl>
-                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm"/>
+                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
                     </FormItem>
                 )}
             />
@@ -144,40 +124,27 @@ export default function RegisterForm() {
             <FormField
                 control={form.control}
                 name="confirmPassword"
-                render={({field}) => (
+                render={({ field }) => (
                     <FormItem className="mb-3 sm:mb-4 lg:mb-2">
-                      <label className="text-lg font-medium text-text-purple">Confirm Password</label>
                       <FormControl>
-                        <div className="relative">
-                          <Input
-                              type={showConfirmPassword ? "text" : "password"}
-                              placeholder="Confirm Password"
-                              {...field}
-                          />
-                          <div className="absolute right-0 top-1/2 -translate-y-1/2 px-4 pb-2">
-                            <div onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                              {showConfirmPassword ?
-                                  <Eye className={`w-5 h-5 ${showConfirmPassword ? "text-primary" : "text-gray"}`}/>
-                                  :
-                                  <EyeOff className={`w-5 h-5 ${showConfirmPassword ? "text-primary" : "text-gray"}`}/>
-                              }
-                            </div>
-                          </div>
-                        </div>
+                        <PasswordInput
+                            label="Confirm Password"
+                            placeholder="Confirm Password"
+                            {...field}
+                        />
                       </FormControl>
-                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm"/>
+                      <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
                     </FormItem>
                 )}
             />
           </div>
 
           {/* Checkbox and Terms */}
-          <div
-              className="flex items-start sm:items-center my-8">
+          <div className="flex items-start sm:items-center my-8">
             <FormField
                 control={form.control}
                 name="acceptTerms"
-                render={({field}) => (
+                render={({ field }) => (
                     <FormItem className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
                       <FormControl>
                         <CheckBox
@@ -207,12 +174,12 @@ export default function RegisterForm() {
               isLoading={signUpMutation?.isPending}
               disabled={signUpMutation?.isPending}
               className="w-full uppercase
-                     text-sm sm:text-base md:text-lg lg:text-xl 
+                     text-sm sm:text-base md:text-lg lg:text-xl
                      h-11 sm:h-12 md:h-13 lg:h-14
                      leading-none"
           >
             <span>Sign Up</span>
-            <ChevronRight className="w-8 h-8 ml-1"/>
+            <ChevronRight className="w-8 h-8 ml-1" />
           </Button>
 
           <div className="my-6 flex items-center justify-center text-gray-200">

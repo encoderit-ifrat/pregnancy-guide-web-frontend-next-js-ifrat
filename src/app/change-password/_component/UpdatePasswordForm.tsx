@@ -59,21 +59,7 @@ export default function UpdatePasswordForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="lg:space-y-2 w-full max-w-[647px] p-6 lg:p-10 pt-14 bg-soft-white rounded-2xl shadow-md"
-      >
-        {/* Top Icon */}
-        <CircleIcon className="mx-auto mb-4 w-28 h-28 lg:w-34 lg:h-34">
-          <IconTick className="w-10 h-10" />
-        </CircleIcon>
-
-        {/* Title */}
-        <Header
-          title="Change Password"
-          description="Enter your current password and choose a new secure password for your account."
-        />
-
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Old Password */}
         <FormField
           control={form.control}
@@ -87,11 +73,6 @@ export default function UpdatePasswordForm() {
                     type={showOldPassword ? "text" : "password"}
                     placeholder="Old Password"
                     {...field}
-                    // className="rounded-full pl-14 pr-14 lg:text-xl text-base text-text-mid"
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
                   />
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
                     <div onClick={() => setShowOldPassword(!showOldPassword)}>
@@ -122,11 +103,6 @@ export default function UpdatePasswordForm() {
                     type={showNewPassword ? "text" : "password"}
                     placeholder="New Password"
                     {...field}
-                    // className="rounded-full pl-14 pr-14 lg:text-xl text-base text-text-mid"
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
                   />
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
                     <div onClick={() => setShowNewPassword(!showNewPassword)}>
@@ -157,11 +133,6 @@ export default function UpdatePasswordForm() {
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm New Password"
                     {...field}
-                    // className="rounded-full pl-14 pr-14 lg:text-xl text-base text-text-mid"
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
                   />
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
                     <div
