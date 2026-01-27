@@ -16,7 +16,7 @@ function Input({
                  label,
                  className,
                  type,
-                 variant = "rounded-full",
+                 variant = "default",
                  size = "md",
                  hasIcon = false,
                  ...props

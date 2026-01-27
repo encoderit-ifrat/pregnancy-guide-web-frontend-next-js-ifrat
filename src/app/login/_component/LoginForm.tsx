@@ -96,7 +96,6 @@ export default function LoginForm() {
                     <FormControl>
                       <div className="relative">
                         <Input
-                            variant="default"
                             placeholder="User Email"
                             {...field}
                         />
@@ -119,7 +118,6 @@ export default function LoginForm() {
                         <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Password"
-                            variant="default"
                             {...field}
                         />
                         <div className="absolute right-0 top-1/2 -translate-y-1/2 px-4 pb-2">
@@ -176,7 +174,7 @@ export default function LoginForm() {
           <Button
               type="submit"
               size="lg"
-              className="w-full uppercase text-lg lg:text-xl h-12 leading-none flex "
+              className="w-full uppercase text-lg lg:text-xl h-12 leading-none flex"
               isLoading={loading}
               disabled={loading}
           >

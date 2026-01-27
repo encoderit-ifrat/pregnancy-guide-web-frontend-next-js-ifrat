@@ -23,7 +23,7 @@ export default function AuthCard({
                   alt="Auth illustration"
                   width={400}
                   height={400}
-                  className="object-fit object-cover object-[0_30%] md:rounded max-h-68 md:max-h-full md:h-full w-full"
+                  className="object-fit object-cover object-[0_25%] md:rounded max-h-60 md:max-h-full md:h-full w-full"
               />
           )}
         </div>
