@@ -1,39 +1,39 @@
 "use client";
 
-import {useState, useEffect, useRef} from "react";
-import {usePathname, useRouter} from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import {LogOut, Search, User, X} from "lucide-react";
-import {Button} from "@/components/ui/Button";
-import {cn} from "@/lib/utils";
-import {NavigationLink} from "@/components/Navbar/_types/navbar_types";
-import {useQueryGetAllCategories} from "@/components/Navbar/api/queries/useQueryGetAllCategories";
-import {Category} from "@/types/shared";
-import {useCurrentUser} from "@/hooks/useCurrentUser";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {Avatar, AvatarFallback} from "@/components/ui/avatar";
-import {signOut} from "next-auth/react";
+import { LogOut, Search, User, X } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
+import { NavigationLink } from "@/components/Navbar/_types/navbar_types";
+import { useQueryGetAllCategories } from "@/components/Navbar/api/queries/useQueryGetAllCategories";
+import { Category } from "@/types/shared";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { signOut } from "next-auth/react";
 import ExpandableSearchBar from "@/components/base/ExpandableSearchBar";
 
 export function Header() {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const router = useRouter();
-  const {data: categories} = useQueryGetAllCategories();
+  const { data: categories } = useQueryGetAllCategories();
 
   useEffect(() => {
     if (categories?.data?.data && Array.isArray(categories.data.data) && categories.data.data.length > 0) {
       const categoryData = categories.data.data as Category[];
       setNavigationLinks(
-          categoryData.map((category) => ({
-            href: `/search-article?page=1&category=${category.slug}`,
-            label: category.name,
-          }))
+        categoryData.map((category) => ({
+          href: `/search-article?page=1&category=${category.slug}`,
+          label: category.name,
+        }))
       );
     }
   }, [categories]);
 
-  const {isAuthenticated} = useCurrentUser();
+  const { isAuthenticated } = useCurrentUser();
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,7 +90,7 @@ export function Header() {
       lastScrollY.current = current;
     };
 
-    window.addEventListener("scroll", handleScroll, {passive: true});
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -156,195 +156,194 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${
-      isSticky ? "" : "lg:bg-primary"
-  }`;
+  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"
+    }`;
 
   // Choose logo source: on small screens always use dark logo; otherwise dark when sticky, light when not.
   const logoSrc = isSmallScreen
+    ? "/images/logo/logo-dark.png"
+    : isSticky
       ? "/images/logo/logo-dark.png"
-      : isSticky
-          ? "/images/logo/logo-dark.png"
-          : "/images/logo/logo-light.png";
+      : "/images/logo/logo-light.png";
 
   return (
-      <>
-        <header
-            ref={headerRef}
-            className={cn(
-                "w-full z-50 transition-transform duration-300 ease-in-out",
-                isSticky ? "fixed top-0 left-0 right-0 bg-primary-light/90 backdrop-blur-md shadow-2xl shadow-primary/50" : "relative",
-                isSticky && !isVisible ? "-translate-y-full" : "translate-y-0"
-            )}
-        >
-          <div className={cn(
-              "max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6",
-              isSticky ? "h-20" : "h-20 lg:h-20"
-          )}>
-            <div className="flex items-center gap-4 md:gap-16">
-              {/* Logo */}
-              <div className={logoClassName}>
-                <Link
-                    href={isAuthenticated ? "/pregnancy-overview" : "/"}
-                    className="flex-shrink-0"
-                >
-                  <Image
-                      src={logoSrc}
-                      alt="Familj"
-                      width={60}
-                      height={30}
-                      className="h-10 w-auto md:h-10"
-                      priority
-                  />
-                </Link>
-              </div>
-
-              {/* Desktop Navigation */}
-              <nav className={cn(
-                  "hidden items-center gap-6 lg:flex transition-opacity duration-300",
-                  isSearchExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
-              )}>
-                {navigationLinks.map((link) => {
-                  const isActive = pathname === link.href;
-                  return (
-                      <Link
-                          key={link.href}
-                          href={link.href}
-                          className={`text-sm font-medium transition-colors hover:text-primary-dark ${
-                              isActive ? "text-primary font-semibold" : "text-text-secondary"
-                          }`}
-                      >
-                        {link.label}
-                      </Link>
-                  );
-                })}
-              </nav>
-            </div>
-
-            {/* Desktop Actions */}
-            <div className="hidden items-center gap-4 lg:flex">
-              <div className="hidden md:block">
-                <ExpandableSearchBar
-                    isExpanded={isSearchExpanded}
-                    onExpandChange={setIsSearchExpanded}
+    <>
+      <header
+        ref={headerRef}
+        className={cn(
+          "w-full z-50 transition-transform duration-300 ease-in-out",
+          isSticky ? "fixed top-0 left-0 right-0 bg-primary-light/90 backdrop-blur-md shadow-2xl shadow-primary/50" : "relative",
+          isSticky && !isVisible ? "-translate-y-full" : "translate-y-0"
+        )}
+      >
+        <div className={cn(
+          "max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6",
+          isSticky ? "h-20" : "h-20 lg:h-20"
+        )}>
+          <div className="flex items-center gap-4 md:gap-16">
+            {/* Logo */}
+            <div className={logoClassName}>
+              <Link
+                href={isAuthenticated ? "/pregnancy-overview" : "/"}
+                className="flex-shrink-0"
+              >
+                <Image
+                  src={logoSrc}
+                  alt="Familj"
+                  width={60}
+                  height={30}
+                  className="h-10 w-auto md:h-10"
+                  priority
                 />
-              </div>
-              <div className="h-6 w-[2px] bg-primary"/>
-              {isAuthenticated ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild className="cursor-pointer">
-                      <Avatar className="size-9">
-                        <AvatarFallback className="bg-primary/20 text-popover-foreground uppercase">
-                          <User className="h-6 w-6"/>
-                        </AvatarFallback>
-                      </Avatar>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                      <DropdownMenuSeparator/>
-                      <Link href="/profile">
-                        <DropdownMenuItem className="hover:bg-black/5">
-                          <User className="mr-2 size-4"/>
-                          Profile
-                        </DropdownMenuItem>
-                      </Link>
-                      <Link href="/change-password">
-                        <DropdownMenuItem className="hover:bg-black/5">
-                          <User className="mr-2 size-4"/>
-                          Change Password
-                        </DropdownMenuItem>
-                      </Link>
-                      <DropdownMenuItem
-                          className="hover:bg-black/5"
-                          onClick={() => signOut({callbackUrl: "/"})}
-                      >
-                        <LogOut className="mr-2 size-4"/>
-                        Log Out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-              ) : (
-                  <Button
-                      onClick={() => router.push("/login")}
-                  >Logga In</Button>
-              )}
+              </Link>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-                type="button"
-                className="lg:hidden bg-[#EEE4FD] p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMenuOpen ? (
-                  <X className="h-8 w-8 text-primary-dark"/>
-              ) : (
-                  // <Menu className="h-8 w-8 text-primary-dark"/>
-                  <div>
-                    <div className="w-6 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
-                    <div className="w-4 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
-                    <div className="w-2 h-1 bg-primary-dark rounded-lg"></div>
-                  </div>
-              )}
-            </button>
+            {/* Desktop Navigation */}
+            <nav className={cn(
+              "hidden items-center gap-6 lg:flex transition-opacity duration-300",
+              isSearchExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
+            )}>
+              {navigationLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`text-sm font-medium transition-colors hover:text-primary-dark ${isActive ? "text-primary font-semibold" : "text-text-secondary"
+                      }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
 
-          {/* Mobile Navigation */}
-          {/* Mobile menu: always present but translated off-screen when closed so it can animate */}
-          <div
-              className={cn(
-                  "fixed z-50 left-0 w-full lg:hidden transition-transform duration-300 ease-in-out",
-                  isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
-              )}
-              style={{top: headerHeight}}
+          {/* Desktop Actions */}
+          <div className="hidden items-center gap-4 lg:flex">
+            <div className="hidden md:block">
+              <ExpandableSearchBar
+                isExpanded={isSearchExpanded}
+                onExpandChange={setIsSearchExpanded}
+              />
+            </div>
+            <div className="h-6 w-[2px] bg-primary" />
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="cursor-pointer">
+                  <Avatar className="size-9">
+                    <AvatarFallback className="bg-primary/20 text-popover-foreground uppercase">
+                      <User className="h-6 w-6" />
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href="/profile">
+                    <DropdownMenuItem className="hover:bg-black/5">
+                      <User className="mr-2 size-4" />
+                      Profile
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link href="/change-password">
+                    <DropdownMenuItem className="hover:bg-black/5">
+                      <User className="mr-2 size-4" />
+                      Change Password
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem
+                    className="hover:bg-black/5"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                  >
+                    <LogOut className="mr-2 size-4" />
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                href="/login"
+              >
+                <Button>Logga In</Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            className="lg:hidden bg-[#EEE4FD] p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            <div className="border-t border-gray-100 bg-white w-full">
-              <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
-                {navigationLinks.map((link) => {
-                  const isActive = pathname === link.href;
-                  return (
-                      <Link
-                          key={link.href}
-                          href={link.href}
-                          className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
-                              isActive ? "text-primary bg-primary-light" : "text-text-primary"
-                          }`}
-                          onClick={() => setIsMenuOpen(false)}
-                      >
-                        {link.label}
-                      </Link>
-                  );
-                })}
-                <div>
-                  <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">
-                    <label htmlFor="mobile-search">
-                      <Search className="h-6 w-6"/>
-                    </label>
-                    <input
-                        id="mobile-search"
-                        type="text"
-                        placeholder="Search ..."
-                        className="block w-full px-2 py-2 focus:outline-none bg-transparent"
-                    />
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-col gap-3">
-                  <Button className="w-full" onClick={() => router.push("/login")}>Logga In</Button>
-                </div>
-              </nav>
-            </div>
-          </div>
-        </header>
+            {isMenuOpen ? (
+              <X className="h-8 w-8 text-primary-dark" />
+            ) : (
+              // <Menu className="h-8 w-8 text-primary-dark"/>
+              <div>
+                <div className="w-6 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
+                <div className="w-4 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
+                <div className="w-2 h-1 bg-primary-dark rounded-lg"></div>
+              </div>
+            )}
+          </button>
+        </div>
 
-        {/* spacer to avoid layout jump when header becomes fixed */}
-        {isSticky && <div style={{height: headerHeight}} aria-hidden className="w-full"/>}
-        {/*overlay*/}
-        {isMenuOpen && (<div
-            className="fixed inset-0 z-40 bg-black/10 backdrop-blur-xs h-screen w-full"
-            aria-hidden="true"
-            onClick={() => setIsMenuOpen(false)}
-        />)}
-      </>
+        {/* Mobile Navigation */}
+        {/* Mobile menu: always present but translated off-screen when closed so it can animate */}
+        <div
+          className={cn(
+            "fixed z-50 left-0 w-full lg:hidden transition-transform duration-300 ease-in-out",
+            isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
+          )}
+          style={{ top: headerHeight }}
+        >
+          <div className="border-t border-gray-100 bg-white w-full">
+            <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
+              {navigationLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${isActive ? "text-primary bg-primary-light" : "text-text-primary"
+                      }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+              <div>
+                <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">
+                  <label htmlFor="mobile-search">
+                    <Search className="h-6 w-6" />
+                  </label>
+                  <input
+                    id="mobile-search"
+                    type="text"
+                    placeholder="Search ..."
+                    className="block w-full px-2 py-2 focus:outline-none bg-transparent"
+                  />
+                </div>
+              </div>
+              <div className="mt-4 flex flex-col gap-3">
+                <Button className="w-full" onClick={() => router.push("/login")}>Logga In</Button>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* spacer to avoid layout jump when header becomes fixed */}
+      {isSticky && <div style={{ height: headerHeight }} aria-hidden className="w-full" />}
+      {/*overlay*/}
+      {isMenuOpen && (<div
+        className="fixed inset-0 z-40 bg-black/10 backdrop-blur-xs h-screen w-full"
+        aria-hidden="true"
+        onClick={() => setIsMenuOpen(false)}
+      />)}
+    </>
   );
 }

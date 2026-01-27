@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import {Tag, Shield, Cloud, Zap, Headphones, ChevronLeft, ChevronRight, FileText} from "lucide-react";
+import { Tag, Shield, Cloud, Zap, Headphones, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {Slider} from "@/components/ui/Slider";
-import {SwiperSlide} from "swiper/react";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { Slider } from "@/components/ui/Slider";
+import { SwiperSlide } from "swiper/react";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 const features = [
   {
@@ -54,11 +54,11 @@ export function WhyChooseUsSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-primary-light py-16 md:py-24">
+    <section className="relative overflow-hidden bg-primary-light">
       <div className="max-w-7xl relative mx-auto px-4">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <IconHeading text="Choose Us" icon={<Tag/>} className="text-primary justify-center"/>
+          <IconHeading text="Choose Us" icon={<Tag />} className="text-primary justify-center" />
           <SectionHeading>Why choose Us</SectionHeading>
         </div>
 
@@ -100,7 +100,7 @@ export function WhyChooseUsSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#240443]/100 via-[#240443]/20 to-transparent"/>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#240443]/100 via-[#240443]/20 to-transparent" />
                 </div>
 
                 {/* Content */}
@@ -112,7 +112,7 @@ export function WhyChooseUsSection() {
                     </div>
                     <div>
                       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                        <feature.icon className="h-8 w-8 text-white"/>
+                        <feature.icon className="h-8 w-8 text-white" />
                       </div>
                     </div>
                   </div>
