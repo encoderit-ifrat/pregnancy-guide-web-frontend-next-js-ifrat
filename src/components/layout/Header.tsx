@@ -173,7 +173,8 @@ export function Header() {
         className={cn(
           "w-full z-50 transition-transform duration-300 ease-in-out",
           isSticky ? "fixed top-0 left-0 right-0 bg-primary-light/90 backdrop-blur-md shadow-2xl shadow-primary/50" : "relative",
-          isSticky && !isVisible ? "-translate-y-full" : "translate-y-0"
+          isSticky && !isVisible ? "-translate-y-full" : "translate-y-0",
+          pathname === '/' ? 'bg-[#F6F0FF]' : ''
         )}
       >
         <div className={cn(

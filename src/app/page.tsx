@@ -11,7 +11,6 @@ import {WhyChooseUsSection} from "@/components/home/WhyChooseUsSection";
 import {DownloadCtaSection} from "@/components/home/DownloadCtaSection";
 import {TestimonialsSection} from "@/components/home/TestimonialsSection";
 import {StatsSection} from "@/components/home/StatsSection";
-import WaveLeaf from "@/components/layout/svg/WaveLeaf";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
