@@ -4,7 +4,7 @@ import WaveLeaf from "@/components/ui/svg/WaveLeaf";
 
 export function HeroSection() {
   return (
-    <section className="relative bg-[#F6F0FF] pt-2 pb-6 md:pb-10 lg:pb-0 xl:pb-16">
+    <section className="relative bg-[#F6F0FF] pt-2 pb-0 md:pb-16 lg:pb-0">
       <div className="max-w-7xl mx-auto px-4 md:mb-4">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
           {/* Content */}
@@ -55,7 +55,7 @@ export function HeroSection() {
           <div className="order-2 flex justify-center lg:order-2 lg:justify-end">
             <div className="relative w-full max-w-md lg:max-w-lg">
               <Image
-                src="/images/hero/tree-roots.png"
+                src="/images/hero/egg-tree.png"
                 alt="Tree of life illustration"
                 width={500}
                 height={600}
