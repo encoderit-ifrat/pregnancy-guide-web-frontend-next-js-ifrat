@@ -67,7 +67,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <WaveLeaf className="text-[#FFFFFF] absolute bottom-0 left-0 right-0 z-[1]"/>
+      <WaveLeaf className="text-[#FFFFFF] absolute bottom-0 left-0 right-0 z-[1]" />
     </section>
   );
 }
