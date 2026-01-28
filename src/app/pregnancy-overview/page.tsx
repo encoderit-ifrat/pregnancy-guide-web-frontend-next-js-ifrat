@@ -49,7 +49,7 @@ export default async function Page() {
   if (!session || !session.token) {
     return (
       <div className="p-4">
-        <p>Please log in to view your pregnancy overview.</p>
+        <p>Please login to view your pregnancy overview.</p>
       </div>
     );
   }

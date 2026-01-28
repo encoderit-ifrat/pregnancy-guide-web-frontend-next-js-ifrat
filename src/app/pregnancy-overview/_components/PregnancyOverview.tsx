@@ -37,7 +37,7 @@ export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewPr
 
   return (
     <div className="bg-[#F6F0FF]">
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <WeekSelector
         currentWeek={currentWeek}
         onWeekChange={handleWeekChange}
@@ -49,13 +49,13 @@ export default function PregnancyOverview({ pregnancyData }: PregnancyOverviewPr
         userData={userProfile as any}
         weeklyDetails={weeklyDetails as any}
       />
-      {/* divider */} <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]"/>
-      {/*{Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (*/}
-      {/*  <WeeklyDetails data={weeklyArticle[0]} />*/}
-      {/*)}*/}
-      {/*{Boolean(questions?.data?.[0]?._id) && (*/}
-      {/*  <QuestionOfTheWeek question={questions?.data?.[0] as any} />*/}
-      {/*)}*/}
+      {/* divider */} <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]" />
+      {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
+        <WeeklyDetails data={weeklyArticle[0]} />
+      )}
+      {Boolean(questions?.data?.[0]?._id) && (
+        <QuestionOfTheWeek question={questions?.data?.[0] as any} />
+      )}
       {Boolean(popularWeek?.[0]?.title) && popularWeek?.[0] && (
         <WeeklyArticle data={popularWeek[0]} />
       )}
