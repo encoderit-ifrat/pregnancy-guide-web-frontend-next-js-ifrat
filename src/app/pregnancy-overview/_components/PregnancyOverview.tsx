@@ -12,13 +12,13 @@ import ImageOverview from "./ImageOverview";
 import CheckLists from "./CheckLists";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
 import WeekSelector from "./WeekSelector";
-import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
+import {PregnancyOverviewProps} from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 
 export default function PregnancyOverview({
-  pregnancyData,
-}: PregnancyOverviewProps) {
+                                            pregnancyData,
+                                          }: PregnancyOverviewProps) {
   const articles = pregnancyData?.articles;
   const questions = pregnancyData?.questions;
   const checklist = pregnancyData?.checklist;
@@ -48,15 +48,15 @@ export default function PregnancyOverview({
         minWeek={0}
         maxWeek={45}
       />
-      <OverviewCategories />
+      <OverviewCategories/>
       <PregnancyDetails
         userData={userProfile as any}
         weeklyDetails={weeklyDetails as any}
       />
       {/* divider */}{" "}
-      <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]" />
+      <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]"/>
       {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
-        <WeeklyDetails data={weeklyArticle[0]} />
+        <WeeklyDetails data={weeklyArticle[0]}/>
       )}
       {Boolean(questions?.data?.[0]?._id) && (
         <QuestionOfTheWeek
@@ -66,26 +66,36 @@ export default function PregnancyOverview({
       )}
       {popularWeeks && popularWeeks?.length > 0 && (
         <>
-          <WeeklyArticle articles={popularWeeks} />
+          <WeeklyArticle articles={popularWeeks}/>
         </>
       )}
-      <section className="-mt-1">
-        <div className="bg-sidebar-accent">
-          <CheckLists
-            checkLists={checklist?.data as any}
-            count={checklist?.pagination.total}
-          />
+      <section className="relative w-full mx-auto">
+        <div className="relative bg-[#F5EEFF] overflow-hidden">
+          {/* Background image with 20% opacity */}
+          <div className="absolute inset-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center"></div>
+          <div className="absolute inset-0 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10"></div>
+
+          <div className="relative z-10">
+            <WaveDivider className="text-white" bgClassName="bg-red-500"/>
+            <div className="">
+              <CheckLists
+                checkLists={checklist?.data as any}
+                count={checklist?.pagination.total}
+              />
+            </div>
+            <WaveDivider className="text-[#F6F0FF]" bgClassName="bg-transparent"/>
+          </div>
         </div>
       </section>
       {Boolean(latest?.length) && (
         <section>
-          <ArticleSection data={(latest as any) ?? []} />
+          <ArticleSection data={(latest as any) ?? []}/>
         </section>
       )}
-      <ImageOverview data={(bannerArticle as any) ?? []} />
+      <ImageOverview data={(bannerArticle as any) ?? []}/>
       {
         <section className="bg-section pb-32 md:pb-96">
-          <SpecialArticleSection data={(specialArticle as any) ?? []} />
+          <SpecialArticleSection data={(specialArticle as any) ?? []}/>
         </section>
       }
     </div>
