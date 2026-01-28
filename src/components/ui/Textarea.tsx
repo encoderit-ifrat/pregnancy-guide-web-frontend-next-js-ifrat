@@ -11,11 +11,11 @@ export interface TextareaProps extends Omit<React.ComponentProps<"textarea">, "s
 
 function Textarea({
   className,
-  variant = "rounded-full",
+  variant = "default",
   size = "md",
   ...props
 }: TextareaProps) {
-  const baseStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-light border-input flex w-full min-w-0 border bg-input text-base shadow-xs transition-[color,box-shadow] outline-none resize-none text-left placeholder:text-left disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50";
+  const baseStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground border-input flex w-full min-w-0 border bg-input text-base shadow-xs transition-[color,box-shadow] outline-none resize-none text-left placeholder:text-left disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50";
   
   const variantStyles = {
     default: "rounded-2xl",
