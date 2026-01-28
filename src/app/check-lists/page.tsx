@@ -56,7 +56,10 @@ export default function CheckLists() {
   const queryID = searchParams.get("id");
   const page = searchParams.get("page") || "1";
 
-  const [formData, setFormData] = useState<ChecklistFormData>({ type: "default", id: "" });
+  const [formData, setFormData] = useState<ChecklistFormData>({
+    type: "default",
+    id: "",
+  });
   const { isAuthenticated } = useCurrentUser();
   const { data, isLoading, refetch, isFetching } = useQueryGetAllMyChecklists({
     params: {

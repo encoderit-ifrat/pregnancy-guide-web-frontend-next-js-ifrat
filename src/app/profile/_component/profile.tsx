@@ -45,7 +45,10 @@ export default function ProfilePage() {
     { key: "partnerName", label: "PARTNER NAME", value: "" },
     { key: "email", label: "EMAIL", value: "" },
   ]);
-  const [formData, setFormData] = useState<ProfileFormData>({ type: "default", id: "" });
+  const [formData, setFormData] = useState<ProfileFormData>({
+    type: "default",
+    id: "",
+  });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [hasChanges, setHasChanges] = useState<boolean>(false);

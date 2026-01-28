@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import {PropsWithChildren} from 'react';
-import {Swiper} from 'swiper/react';
-import type {SwiperOptions} from 'swiper/types';
-import {Autoplay, FreeMode, Navigation, Pagination} from 'swiper/modules';
+import { PropsWithChildren } from "react";
+import { Swiper } from "swiper/react";
+import type { SwiperOptions } from "swiper/types";
+import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 interface SliderProps extends PropsWithChildren {
   options?: SwiperOptions;
 }
 
-export function Slider({children, options}: SliderProps) {
+export function Slider({ children, options }: SliderProps) {
   return (
     <Swiper
       modules={[Navigation, Pagination, FreeMode, Autoplay]}
       {...options}
       className="mySwiper !px-6 !py-2 !pb-10"
       style={{
-        '--swiper-navigation-color': '#000',
-        '--swiper-pagination-color': '#000',
+        "--swiper-navigation-color": "#000",
+        "--swiper-pagination-color": "#000",
       }}
     >
       {children}

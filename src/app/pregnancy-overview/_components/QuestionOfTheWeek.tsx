@@ -16,7 +16,7 @@ import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 
 function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
-//   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
+  //   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
 
   const { data, isLoading } = useQueryGetAllAnswers({
     params: { id: question?._id },
@@ -28,7 +28,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     statistics,
     userAnswer,
   } = data?.data ?? {};
-//   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
+  //   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
   return (
     <section className="relative w-full mx-auto">
       <div className="relative bg-[#F5EEFF] overflow-hidden">
@@ -85,7 +85,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                       </p>
 
                       <div className="grid grid-cols-1 gap-2">
-                          <AnswerFormRadioGroup disabled={hasAnswered} />
+                        <AnswerFormRadioGroup disabled={hasAnswered} />
                         {/* {hasAnswered && (<AnswerFormPercentage />)} */}
                       </div>
 

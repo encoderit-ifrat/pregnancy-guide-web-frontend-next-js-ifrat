@@ -86,11 +86,7 @@ export default function LoginForm() {
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
               <FormControl>
                 <div className="relative">
-                  <Input
-                    label="Email"
-                    placeholder="User Email"
-                    {...field}
-                  />
+                  <Input label="Email" placeholder="User Email" {...field} />
                 </div>
               </FormControl>
               <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
@@ -105,10 +101,7 @@ export default function LoginForm() {
           render={({ field }) => (
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
               <FormControl>
-                <PasswordInput
-                  label="Password"
-                  {...field}
-                />
+                <PasswordInput label="Password" {...field} />
               </FormControl>
               <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
             </FormItem>
@@ -131,12 +124,10 @@ export default function LoginForm() {
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     ref={field.ref}
-                  // className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5"
+                    // className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5"
                   />
                 </FormControl>
-                <FormLabel
-                  className="text-xs text-text-dark font-normal whitespace-nowrap leading-tight m-0"
-                >
+                <FormLabel className="text-xs text-text-dark font-normal whitespace-nowrap leading-tight m-0">
                   Remember for 30 Days
                 </FormLabel>
               </FormItem>
@@ -144,7 +135,8 @@ export default function LoginForm() {
           />
           <Link
             href="/forgot-password"
-            className="text-red-500 hover:underline text-xs whitespace-nowrap leading-tight">
+            className="text-red-500 hover:underline text-xs whitespace-nowrap leading-tight"
+          >
             Forgot Password?
           </Link>
         </div>

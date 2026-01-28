@@ -102,8 +102,8 @@ export default function FormProfile({
   // Watch the form values at component level
   const lastPeriodDate = form.watch("lastPeriodDate");
   const dueDate = form.watch("dueDate");
-  const { weeks, days } = lastPeriodDate 
-    ? calculateWeeksPregnant(lastPeriodDate) 
+  const { weeks, days } = lastPeriodDate
+    ? calculateWeeksPregnant(lastPeriodDate)
     : { weeks: 0, days: 0 };
 
   // Auto-calculate due date when last period date changes

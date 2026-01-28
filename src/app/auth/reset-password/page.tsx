@@ -6,14 +6,14 @@ import UpdatePasswordForm from "@/app/change-password/_component/UpdatePasswordF
 
 export default function page() {
   return (
-      <div className="max-w-5xl mx-auto">
-        <AuthCard
-            title="Change Password"
-            description="Enter your current password and choose a new secure password for your account."
-            image="/images/auth/change-password.png"
-        >
-          <ChangePasswordForm/>
-        </AuthCard>
-      </div>
+    <div className="max-w-5xl mx-auto">
+      <AuthCard
+        title="Change Password"
+        description="Enter your current password and choose a new secure password for your account."
+        image="/images/auth/change-password.png"
+      >
+        <ChangePasswordForm />
+      </AuthCard>
+    </div>
   );
 }

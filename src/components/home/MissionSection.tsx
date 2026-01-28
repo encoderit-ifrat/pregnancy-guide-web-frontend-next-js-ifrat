@@ -1,8 +1,8 @@
 import Image from "next/image";
-import {Download, Heart} from "lucide-react";
+import { Download, Heart } from "lucide-react";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export function MissionSection() {
   return (
@@ -25,15 +25,19 @@ export function MissionSection() {
           {/* Content */}
           <div className="order-1 md:order-2 text-center md:text-left">
             {/* Section Label */}
-            <IconHeading text="Mission" icon={<Heart/>} className="text-primary justify-center md:justify-start"/>
+            <IconHeading
+              text="Mission"
+              icon={<Heart />}
+              className="text-primary justify-center md:justify-start"
+            />
             <SectionHeading>Our Mission</SectionHeading>
 
             <p className="mx-auto max-w-lg text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
               Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse
-              vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac
-              pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo
-              sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae.
-              Suspendissecommodo vulputate congue. Cras nec dui e
+              vitae risus et nulla blandit condimentum. Nunc pellentesque, felis
+              ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet
+              felis justo sed quam. Cras consequat lobortis dui, ut auctor elit
+              porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e
             </p>
           </div>
         </div>

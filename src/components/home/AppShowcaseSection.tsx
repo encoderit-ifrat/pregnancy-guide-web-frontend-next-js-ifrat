@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import {Heart, Sparkles} from "lucide-react";
+import { Heart, Sparkles } from "lucide-react";
 import { ConcaveCurve } from "@/components/layout/svg/ConcaveCurve";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export function AppShowcaseSection() {
   return (
@@ -15,15 +15,24 @@ export function AppShowcaseSection() {
           {/* Content */}
           <div className="text-center lg:text-left">
             {/* Section Label */}
-            <IconHeading text="Pellentesque" icon={<Sparkles/>} className="text-primary justify-center lg:justify-start"/>
-            <SectionHeading>Impersapienrhoncus<br />Etiampharetra</SectionHeading>
+            <IconHeading
+              text="Pellentesque"
+              icon={<Sparkles />}
+              className="text-primary justify-center lg:justify-start"
+            />
+            <SectionHeading>
+              Impersapienrhoncus
+              <br />
+              Etiampharetra
+            </SectionHeading>
 
             <p className="mx-auto mb-8 max-w-lg text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
-              Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices.
-              Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus
-              dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac
-              metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo
-              in, mollis dictum lectus. Suspendisse semper.
+              Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi
+              ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus
+              molestie sed. Vivamus dignissim ultrices porta. Quisque vel
+              pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec
+              eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis
+              dictum lectus. Suspendisse semper.
             </p>
           </div>
 
@@ -31,12 +40,12 @@ export function AppShowcaseSection() {
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
               <Image
-                    src="/images/mobiles.png"
-                    alt="App screenshot"
-                    width={600}
-                    height={400}
-                    className="h-full w-full"
-                  />
+                src="/images/mobiles.png"
+                alt="App screenshot"
+                width={600}
+                height={400}
+                className="h-full w-full"
+              />
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {Download} from "lucide-react";
+import { Download } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 
 export function DownloadCtaSection() {
@@ -29,18 +29,23 @@ pointer-events-none
       <div className="max-w-7xl relative z-10 mx-auto px-4">
         <div className="max-w-xl">
           {/* Section Label */}
-          <IconHeading text="Consectetu" icon={<Download/>} className="text-white/80"/>
+          <IconHeading
+            text="Consectetu"
+            icon={<Download />}
+            className="text-white/80"
+          />
 
           <h2 className="mb-6 text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
             Etiam phar etr...
           </h2>
 
           <p className="mb-8 max-w-md text-base leading-relaxed text-white/80 md:text-lg">
-            Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices.
-            Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus
-            dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac
-            metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae
-            leo in, mollis dictum lectus. Suspendissesemper.
+            Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi
+            ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus
+            molestie sed. Vivamus dignissim ultrices porta. Quisque vel
+            pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec
+            eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis
+            dictum lectus. Suspendissesemper.
           </p>
 
           {/* App Store Badges */}

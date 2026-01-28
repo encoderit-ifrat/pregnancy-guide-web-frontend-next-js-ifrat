@@ -1,16 +1,16 @@
 import clsx from "clsx";
 
 type WaveDividerProps = {
-  className?: string;     // controls wave (fill) color
-  height?: string;        // controls svg height
-  bgClassName?: string;   // controls wrapper background
+  className?: string; // controls wave (fill) color
+  height?: string; // controls svg height
+  bgClassName?: string; // controls wrapper background
 };
 
 export default function WaveDivider({
-                                      className = "text-purple-50",
-                                      height = "h-40 lg:h-auto",
-                                      bgClassName = "bg-transparent",
-                                    }: WaveDividerProps) {
+  className = "text-purple-50",
+  height = "h-40 lg:h-auto",
+  bgClassName = "bg-transparent",
+}: WaveDividerProps) {
   return (
     <div className={clsx("w-full", bgClassName)}>
       <svg

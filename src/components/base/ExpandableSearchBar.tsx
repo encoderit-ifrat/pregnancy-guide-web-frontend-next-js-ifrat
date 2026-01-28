@@ -85,11 +85,12 @@ export default function ExpandableSearchBar({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!expanded || !searchTerm) return
+          if (!expanded || !searchTerm) return;
           handleSearch();
         }}
-        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${expanded ? "w-96 opacity-100" : "w-0 opacity-0"
-          }`}
+        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
+          expanded ? "w-96 opacity-100" : "w-0 opacity-0"
+        }`}
       >
         <Input
           placeholder={placeholder}
@@ -105,12 +106,12 @@ export default function ExpandableSearchBar({
               <Button
                 type="submit"
                 className="-mr-3 h-11 rounded-md text-sm px-4 bg-primary text-white hover:bg-primary/90 flex items-center justify-center cursor-pointer"
-              >Go</Button>
+              >
+                Go
+              </Button>
             </div>
           }
         />
-
-
       </form>
     </div>
   );

@@ -1,7 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { Tag, Shield, Cloud, Zap, Headphones, ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import {
+  Tag,
+  Shield,
+  Cloud,
+  Zap,
+  Headphones,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+} from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
@@ -58,7 +67,11 @@ export function WhyChooseUsSection() {
       <div className="max-w-7xl relative mx-auto px-4">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <IconHeading text="Choose Us" icon={<Tag />} className="text-primary justify-center" />
+          <IconHeading
+            text="Choose Us"
+            icon={<Tag />}
+            className="text-primary justify-center"
+          />
           <SectionHeading>Why choose Us</SectionHeading>
         </div>
 
@@ -67,7 +80,7 @@ export function WhyChooseUsSection() {
             spaceBetween: 10,
             slidesPerView: 1,
             pagination: pagination,
-            navigation: true, 
+            navigation: true,
             breakpoints: {
               640: {
                 slidesPerView: 1,
@@ -81,7 +94,7 @@ export function WhyChooseUsSection() {
                 slidesPerView: 4,
                 spaceBetween: 20,
               },
-            }
+            },
           }}
         >
           {features.map((feature, index) => (
@@ -106,8 +119,12 @@ export function WhyChooseUsSection() {
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="mb-1 text-lg font-bold">{feature.title}</h3>
-                      <p className="text-sm text-white/80">{feature.description}</p>
+                      <h3 className="mb-1 text-lg font-bold">
+                        {feature.title}
+                      </h3>
+                      <p className="text-sm text-white/80">
+                        {feature.description}
+                      </p>
                     </div>
                     <div>
                       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">

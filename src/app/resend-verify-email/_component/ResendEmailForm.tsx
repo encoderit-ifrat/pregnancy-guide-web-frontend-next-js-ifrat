@@ -40,8 +40,12 @@ export default function ResendEmailForm() {
         toast.success(data?.data?.data?.message);
       },
       onError(error: unknown) {
-        const axiosError = error as { response?: { data?: { message?: string } } };
-        toast.error(axiosError?.response?.data?.message ?? "Failed to resend email");
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        toast.error(
+          axiosError?.response?.data?.message ?? "Failed to resend email"
+        );
       },
     });
     form.reset();

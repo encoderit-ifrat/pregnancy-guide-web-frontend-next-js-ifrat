@@ -7,12 +7,12 @@ type TProps = {
 
 export default function IconPartner({ className }: TProps) {
   return (
-      <Image
-          src="/images/partner.png"
-          alt="Babu"
-          width={443}
-          height={380}
-          className={className}
-      />
+    <Image
+      src="/images/partner.png"
+      alt="Babu"
+      width={443}
+      height={380}
+      className={className}
+    />
   );
 }

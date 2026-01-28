@@ -12,7 +12,9 @@ export function HeroSection() {
             <h1 className="mb-4 text-4xl font-bold leading-tight text-text-primary md:text-5xl lg:text-6xl">
               <span className="font-light text-primary">Companion</span>
               <br />
-              <span className="font-bold md:font-black text-primary-dark">During Pregnancy</span>
+              <span className="font-bold md:font-black text-primary-dark">
+                During Pregnancy
+              </span>
             </h1>
             <p className="mx-auto mb-8 text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
               Discover Familj, your trusted companion throughout every stage of

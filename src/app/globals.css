@@ -40,24 +40,24 @@ div.no-tailwind p span {
 
 :root {
   /* Primary Colors */
-  --primary: #A97AEC;
-  --primary-light: #EDE9FE;
-  --primary-muted: #C4B5FD;
+  --primary: #a97aec;
+  --primary-light: #ede9fe;
+  --primary-muted: #c4b5fd;
   /*--primary-dark: #5B21B6;*/
-  --primary-dark: #3D3177;
+  --primary-dark: #3d3177;
 
   /* Text Colors */
-  --text-primary: #1F2937;
-  --text-secondary: #6B7280;
-  --text-muted: #9CA3AF;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
 
   /* Background Colors */
-  --background: #FFFFFF;
-  --background-alt: #F5F3FF;
+  --background: #ffffff;
+  --background-alt: #f5f3ff;
 
   /* Accent Colors */
-  --accent-purple: #A855F7;
-  --accent-violet: #8B5CF6;
+  --accent-purple: #a855f7;
+  --accent-violet: #8b5cf6;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -145,7 +145,7 @@ div.no-tailwind p span {
   --color-card: #ffffff;
   --color-card-foreground: #300043;
   --color-popover: #ffffff;
-  --color-popover-foreground: #3D3177;
+  --color-popover-foreground: #3d3177;
   --color-border: #e5e5e5;
   --color-input: #e5e5e5;
   --color-ring: #a080e1;
@@ -210,10 +210,14 @@ html {
   border-radius: 50% 50% 0 0 / 80px 80px 0 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
 }
-
 
 .swiper {
   width: 100%;
@@ -237,7 +241,6 @@ h1, h2, h3, h4, h5, h6 {
   object-fit: cover;
 }
 
-
 .swiper-pagination {
   width: 100% !important;
   display: flex;
@@ -253,7 +256,13 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   /*gradient white transparent white*/
   background: transparent;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, 0) 85%, rgba(255, 255, 255, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 15%,
+    rgba(255, 255, 255, 0) 85%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 
 /*.swiper-button-prev {*/
@@ -530,7 +539,6 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
-
 /*Custom scrollbar*/
 /* width */
 ::-webkit-scrollbar {
@@ -545,7 +553,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--color-primary-muted), var(--color-primary));
+  background: linear-gradient(
+    180deg,
+    var(--color-primary-muted),
+    var(--color-primary)
+  );
   /*border-radius: 10px;*/
 }
 

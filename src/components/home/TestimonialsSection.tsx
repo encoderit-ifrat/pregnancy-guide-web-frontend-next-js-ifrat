@@ -1,13 +1,13 @@
 "use client";
 
-import {Star, Quote} from "lucide-react";
-import {Card} from "@/components/ui/Card";
+import { Star, Quote } from "lucide-react";
+import { Card } from "@/components/ui/Card";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {Slider} from "@/components/ui/Slider";
-import {SwiperSlide} from 'swiper/react';
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { Slider } from "@/components/ui/Slider";
+import { SwiperSlide } from "swiper/react";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
-export function TestimonialsSection({data}) {
+export function TestimonialsSection({ data }) {
   const pagination = {
     renderBullet: function (index, className) {
       return '<span class="' + className + '"></span>';
@@ -19,7 +19,11 @@ export function TestimonialsSection({data}) {
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <IconHeading text="Vestibulum" icon={<Quote/>} className="text-primary justify-center"/>
+          <IconHeading
+            text="Vestibulum"
+            icon={<Quote />}
+            className="text-primary justify-center"
+          />
           <SectionHeading>Hear from our happy Clients</SectionHeading>
         </div>
 
@@ -47,35 +51,39 @@ export function TestimonialsSection({data}) {
                   slidesPerView: 4,
                   spaceBetween: 20,
                 },
-              }
+              },
             }}
           >
-            {data && data.length && data.map((testimonial) => (
-              <SwiperSlide key={testimonial.id} className="h-auto flex">
-                <Card className="min-h-[220px] h-full flex flex-col border border-gray-100 p-6 transition-shadow hover:shadow-lg">
-                  {/* Stars */}
-                  <div className="mb-4 flex gap-1">
-                    {Array.from({length: testimonial?.rating}).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-amber-400 text-amber-400"
-                      />
-                    ))}
-                  </div>
+            {data &&
+              data.length &&
+              data.map((testimonial) => (
+                <SwiperSlide key={testimonial.id} className="h-auto flex">
+                  <Card className="min-h-[220px] h-full flex flex-col border border-gray-100 p-6 transition-shadow hover:shadow-lg">
+                    {/* Stars */}
+                    <div className="mb-4 flex gap-1">
+                      {Array.from({ length: testimonial?.rating }).map(
+                        (_, i) => (
+                          <Star
+                            key={i}
+                            className="h-4 w-4 fill-amber-400 text-amber-400"
+                          />
+                        )
+                      )}
+                    </div>
 
-                  {/* Text */}
-                  <p className="mb-4 line-clamp-4 transition-all text-sm leading-relaxed text-text-secondary">
-                  {/*<p className="mb-4 line-clamp-4 hover:line-clamp-none transition-all text-sm leading-relaxed text-text-secondary">*/}
-                    {testimonial?.content}
-                  </p>
+                    {/* Text */}
+                    <p className="mb-4 line-clamp-4 transition-all text-sm leading-relaxed text-text-secondary">
+                      {/*<p className="mb-4 line-clamp-4 hover:line-clamp-none transition-all text-sm leading-relaxed text-text-secondary">*/}
+                      {testimonial?.content}
+                    </p>
 
-                  {/* Author */}
-                  <p className="mt-auto font-semibold text-primary">
-                    {testimonial?.user?.name}
-                  </p>
-                </Card>
-              </SwiperSlide>
-            ))}
+                    {/* Author */}
+                    <p className="mt-auto font-semibold text-primary">
+                      {testimonial?.user?.name}
+                    </p>
+                  </Card>
+                </SwiperSlide>
+              ))}
           </Slider>
         </div>
       </div>

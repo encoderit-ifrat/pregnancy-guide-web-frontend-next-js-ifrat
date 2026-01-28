@@ -49,7 +49,9 @@ export default function RegisterForm() {
         toast.success(successMessage || "Registration Successful");
       },
       onError(error: unknown) {
-        const axiosError = error as { response?: { data?: { message?: string } } };
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
         const errorMessage =
           axiosError.response?.data?.message ?? "Registration failed";
         toast.error(errorMessage);

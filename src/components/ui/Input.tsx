@@ -5,7 +5,10 @@ import { cn } from "@/lib/utils";
 export type InputVariant = "default" | "rounded-full" | "square";
 export type InputSize = "sm" | "md" | "lg";
 
-export interface InputProps extends Omit<React.ComponentProps<"input">, "size"> {
+export interface InputProps extends Omit<
+  React.ComponentProps<"input">,
+  "size"
+> {
   variant?: InputVariant;
   size?: InputSize;
   hasIcon?: boolean;
@@ -25,7 +28,8 @@ function Input({
   append,
   ...props
 }: InputProps) {
-  const baseStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary" +
+  const baseStyles =
+    "file:text-foreground placeholder:text-muted-foreground selection:bg-primary" +
     " selection:text-white border-[#F3EAFF] focus:border-primary flex min-w-0 w-full " +
     "border-2 focus:bg-white bg-[#FBF8FF] text-base shadow-xs transition-[color,box-shadow]" +
     " outline-none " +
@@ -49,13 +53,16 @@ function Input({
 
   return (
     <div className="mb-2">
-      {label &&
+      {label && (
         <div className="mb-1">
-          <label className="text-lg font-medium text-text-purple" htmlFor="input">
+          <label
+            className="text-lg font-medium text-text-purple"
+            htmlFor="input"
+          >
             {label}
           </label>
         </div>
-      }
+      )}
       <div className="relative">
         {prepend && (
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -73,7 +80,7 @@ function Input({
             appendPadding,
             "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
             className,
-            "focus:text-primary",
+            "focus:text-primary"
           )}
           {...props}
         />

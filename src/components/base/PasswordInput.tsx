@@ -6,23 +6,17 @@ import { Input } from "../ui/Input";
 export type InputVariant = "default" | "rounded-full" | "square";
 export type InputSize = "sm" | "md" | "lg";
 
-export interface PasswordInputProps extends Omit<React.ComponentProps<"input">, "size" | "type"> {
+export interface PasswordInputProps extends Omit<
+  React.ComponentProps<"input">,
+  "size" | "type"
+> {
   variant?: InputVariant;
   size?: InputSize;
   label?: string;
 }
 
 const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
-  (
-    {
-      label,
-      className,
-      variant = "default",
-      size = "md",
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, className, variant = "default", size = "md", ...props }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const togglePassword = () => {
@@ -33,7 +27,10 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
       <div className="mb-2">
         {label && (
           <div className="mb-1">
-            <label className="text-lg font-medium text-text-purple" htmlFor="password-input">
+            <label
+              className="text-lg font-medium text-text-purple"
+              htmlFor="password-input"
+            >
               {label}
             </label>
           </div>
@@ -70,7 +67,9 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
             tabIndex={-1}
           >
             {showPassword ? (
-              <Eye className={`w-5 h-5 pt-1 ${showPassword ? "text-primary" : "text-gray-400"}`} />
+              <Eye
+                className={`w-5 h-5 pt-1 ${showPassword ? "text-primary" : "text-gray-400"}`}
+              />
             ) : (
               <EyeOff className={`w-5 h-5 pt-1 text-gray-400`} />
             )}

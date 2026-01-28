@@ -31,17 +31,17 @@ const StatsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
           {stats.map((stat, index) => (
-              <StatsCard
-                  key={index}
-                  number={stat.value}
-                  label={stat.label}
-                  icon={<stat.icon className="h-10 w-10 text-text-primary" />}
-              />
+            <StatsCard
+              key={index}
+              number={stat.value}
+              label={stat.label}
+              icon={<stat.icon className="h-10 w-10 text-text-primary" />}
+            />
           ))}
         </div>
       </div>
     </section>
   );
-}
+};
 
 export { StatsSection };

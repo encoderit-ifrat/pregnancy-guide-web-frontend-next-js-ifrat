@@ -1,14 +1,14 @@
 "use client";
 
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ForgotPasswordSchema,
   ForgotPasswordSchemaType,
 } from "../_types/forgot_password_types";
 
-import {Button} from "@/components/ui/Button";
-import {CircleIcon} from "@/components/ui/CircleIcon";
+import { Button } from "@/components/ui/Button";
+import { CircleIcon } from "@/components/ui/CircleIcon";
 import IconEmail from "@/assets/IconEmail";
 import IconTick from "@/assets/IconTick";
 import {
@@ -19,11 +19,11 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/Form";
-import {Input} from "@/components/ui/Input";
+import { Input } from "@/components/ui/Input";
 import Header from "@/components/ui/SectionHeader";
-import {useForgotPassword} from "../_api/useForgotPassword";
-import {toast} from "sonner";
-import {ChevronRight} from "lucide-react";
+import { useForgotPassword } from "../_api/useForgotPassword";
+import { toast } from "sonner";
+import { ChevronRight } from "lucide-react";
 import * as React from "react";
 
 export default function ForgotPasswordForm() {
@@ -46,46 +46,46 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          {/* Email Field */}
-          <FormField
-              control={form.control}
-              name="email"
-              render={({field}) => (
-                  <FormItem className="mb-7">
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                            label="Email"
-                            type="email"
-                            placeholder="User Email"
-                            variant="default"
-                            {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Email Field */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="mb-7">
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    label="Email"
+                    type="email"
+                    placeholder="User Email"
+                    variant="default"
+                    {...field}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Submit Button */}
-          <Button
-              type="submit"
-              size="lg"
-              // className="w-full uppercase text-xl leading-[100%]"
-              className="w-full uppercase
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          size="lg"
+          // className="w-full uppercase text-xl leading-[100%]"
+          className="w-full uppercase
                      text-sm sm:text-base md:text-lg lg:text-xl 
                      h-11 sm:h-12 md:h-13 lg:h-14
                      leading-none"
-              isLoading={forgotPasswordMutation?.isPending}
-              disabled={forgotPasswordMutation?.isPending}
-          >
-            <span>Continue</span>
-            <ChevronRight className="w-8 h-8 ml-1"/>
-          </Button>
-        </form>
-      </Form>
+          isLoading={forgotPasswordMutation?.isPending}
+          disabled={forgotPasswordMutation?.isPending}
+        >
+          <span>Continue</span>
+          <ChevronRight className="w-8 h-8 ml-1" />
+        </Button>
+      </form>
+    </Form>
   );
 }

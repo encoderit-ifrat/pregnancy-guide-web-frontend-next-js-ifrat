@@ -55,7 +55,8 @@ export function Footer() {
               />
             </Link>
             <p className="mb-6 max-w-xs text-sm leading-relaxed text-white/80">
-              Din trygga följeslagare genom graviditeten med personliga insikter och expertråd.
+              Din trygga följeslagare genom graviditeten med personliga insikter
+              och expertråd.
             </p>
           </div>
 

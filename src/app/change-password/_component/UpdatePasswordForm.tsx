@@ -57,10 +57,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput
-                  label="Old Password"
-                  {...field}
-                />
+                <PasswordInput label="Old Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,10 +71,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput
-                  label="New Password"
-                  {...field}
-                />
+                <PasswordInput label="New Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -91,10 +85,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput
-                  label="Confirm New Password"
-                  {...field}
-                />
+                <PasswordInput label="Confirm New Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

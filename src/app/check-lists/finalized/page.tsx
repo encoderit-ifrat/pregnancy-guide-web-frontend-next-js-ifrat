@@ -59,7 +59,10 @@ export default function CheckLists() {
   const queryID = searchParams.get("id");
   const page = searchParams.get("page") || "1";
 
-  const [formData, setFormData] = useState<ChecklistFormData>({ type: "default", id: "" });
+  const [formData, setFormData] = useState<ChecklistFormData>({
+    type: "default",
+    id: "",
+  });
   const { isAuthenticated } = useCurrentUser();
   const { data, isLoading, refetch, isFetching } =
     useQueryGetAllMyCompletedChecklists({
@@ -88,16 +91,18 @@ export default function CheckLists() {
             (old ?? []).map((item: ChecklistItemWithItems) => {
               return {
                 ...item,
-                items: item.items.map((data: { _id: string; is_completed?: boolean }) => {
-                  if (data._id === id) {
-                    return {
-                      ...data,
-                      is_completed: !data.is_completed,
-                    };
-                  } else {
-                    return data;
+                items: item.items.map(
+                  (data: { _id: string; is_completed?: boolean }) => {
+                    if (data._id === id) {
+                      return {
+                        ...data,
+                        is_completed: !data.is_completed,
+                      };
+                    } else {
+                      return data;
+                    }
                   }
-                }),
+                ),
               };
             })
           );

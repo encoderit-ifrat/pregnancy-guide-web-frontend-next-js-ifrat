@@ -12,7 +12,10 @@ import { useMutationToggleChecklist } from "../_api/mutations/UseMutationToggleC
 import { Spinner } from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 
-import { CheckListItemProps, ChecklistItemWithItems } from "../_types/checklist_item_types";
+import {
+  CheckListItemProps,
+  ChecklistItemWithItems,
+} from "../_types/checklist_item_types";
 
 export default function CheckListItem({
   checklistItems,
@@ -22,7 +25,9 @@ export default function CheckListItem({
 }: CheckListItemProps) {
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
-  const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>([]);
+  const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
+    []
+  );
 
   const router = useRouter();
 

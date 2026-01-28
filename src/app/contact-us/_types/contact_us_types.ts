@@ -18,7 +18,10 @@ export const ContactSchema = z.object({
   phone: z
     .string()
     .min(1, "Phone number is required")
-    .regex(/^[0-9+\-\s()]+$/, "Phone number can only contain numbers and +, -, (, )")
+    .regex(
+      /^[0-9+\-\s()]+$/,
+      "Phone number can only contain numbers and +, -, (, )"
+    )
     .min(10, "Phone number must be at least 10 digits")
     .max(20, "Phone number must be less than 20 characters"),
   location: z
