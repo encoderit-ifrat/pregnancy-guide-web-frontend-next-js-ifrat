@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import {cn} from "@/lib/utils";
 
 type WaveDividerProps = {
   className?: string; // controls wave (fill) color
@@ -12,9 +12,9 @@ export default function WaveDivider({
   bgClassName = "bg-transparent",
 }: WaveDividerProps) {
   return (
-    <div className={clsx("w-full", bgClassName)}>
+    <div className={cn("w-full", bgClassName)}>
       <svg
-        className={clsx(
+        className={cn(
           "block w-full fill-current max-w-none shrink-0 -mb-1",
           height,
           className

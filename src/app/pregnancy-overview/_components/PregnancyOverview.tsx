@@ -15,6 +15,7 @@ import WeekSelector from "./WeekSelector";
 import {PregnancyOverviewProps} from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
+import WaveDivider2 from "@/components/layout/svg/WaveDivider2";
 
 export default function PregnancyOverview({
                                             pregnancyData,
@@ -70,13 +71,18 @@ export default function PregnancyOverview({
         </>
       )}
       <section className="relative w-full mx-auto">
-        <div className="relative bg-[#F5EEFF] overflow-hidden">
-          {/* Background image with 20% opacity */}
-          <div className="absolute inset-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center"></div>
-          <div className="absolute inset-0 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10"></div>
+        <div>
+          {/* Background image */}
+          <div className="absolute inset-0 z-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center"/>
+          <div
+            className="absolute inset-0 z-10 bg-gradient-to-t from-[#240443] to-[#230343]/0 pointer-events-none"
+          />
+          {/* Overlay image */}
+          <div className="absolute inset-0 z-20 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-20"/>
 
-          <div className="relative z-10">
-            <WaveDivider className="text-white" bgClassName="bg-red-500"/>
+          {/* Content */}
+          <div className="relative z-30">
+            <WaveDivider2 waveColorClass="text-white" bgClassName="bg-transparent"/>
             <div className="">
               <CheckLists
                 checkLists={checklist?.data as any}
