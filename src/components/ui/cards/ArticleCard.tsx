@@ -17,10 +17,10 @@ type BigSliderCardProps = {
 
 export default function ArticleCard({data = {}}: BigSliderCardProps) {
   return (
-    <Card className="bg-white rounded-lg shadow-[0_6px_24px_rgba(60,64,67,0.08)] p-6">
+    <Card className="bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         {/* Left: text content */}
-        <div className="px-2 md:px-6">
+        <div className="order-2 md:order-1 px-2 md:pl-6 md:pr-10">
           <h3 className="text-2xl md:text-3xl font-semibold text-[#3b2b6f] mb-4">{data?.title}</h3>
           <p className="text-sm md:text-base text-gray-600 mb-6 max-w-xl">{data?.excerpt}</p>
 
@@ -33,18 +33,18 @@ export default function ArticleCard({data = {}}: BigSliderCardProps) {
         </div>
 
         {/* Right: image with circular logo overlay */}
-        <div className="relative flex justify-end">
+        <div className="order-1 md:order-2 mb-6 md:mb-0 relative">
           <Image
             src={imageLinkGenerator(data?.cover_image || data?.thumbnail_image)}
             alt={data?.title || ''}
             width={840}
             height={600}
-            className="object-cover rounded-lg w-full h-full border"
+            className="object-fit object-cover rounded-lg w-[400px] h-[400px]! border"
           />
 
           {/* circular logo badge */}
-          <div className="absolute transform left-1/2 top-0 md:left-0 md:top-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary
-          w-22 h-22 md:w-24 md:h-24 rounded-full flex items-center justify-center border-6 md:border-8 border-white">
+          <div className="absolute transform left-1/2 bottom-0 md:left-0 md:top-1/2 -translate-x-1/2 translate-y-1/2 md:-translate-y-1/2 bg-primary
+          size-26 md:size-28 rounded-full flex items-center justify-center border-8 md:border-10 border-white">
             <div className="flex items-center justify-center">
               <Logo dark={false}/>
             </div>

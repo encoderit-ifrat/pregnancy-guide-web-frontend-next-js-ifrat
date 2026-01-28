@@ -11,11 +11,13 @@ import "swiper/css/navigation";
 import {cn} from "@/lib/utils";
 
 interface SliderProps extends PropsWithChildren {
+  className?: string;
   options?: SwiperOptions;
   sideOverlayClassName: string;
 }
 
 export function Slider({
+                         className = "!px-6 !py-2 !pb-10",
                          children,
                          options,
                          sideOverlayClassName = "bg-primary-light",
@@ -24,7 +26,10 @@ export function Slider({
     <Swiper
       modules={[Navigation, Pagination, FreeMode, Autoplay]}
       {...options}
-      className="mySwiper !px-6 !py-2 !pb-10"
+      className={cn(
+        "mySwiper",
+        className
+      )}
       style={{
         "--swiper-navigation-color": "#000",
         "--swiper-pagination-color": "#000",

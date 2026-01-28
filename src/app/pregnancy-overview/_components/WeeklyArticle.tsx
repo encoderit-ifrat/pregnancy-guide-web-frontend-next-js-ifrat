@@ -48,12 +48,13 @@ function WeeklyArticle({articles}: TProps) {
         {articles && articles.length && (
           <Slider
             options={{
-              spaceBetween: 10,
+              spaceBetween: 30,
               slidesPerView: 1,
               pagination: pagination,
               navigation: true,
             }}
             sideOverlayClassName="bg-white w-4"
+            className="px-7! py-10!"
           >
             {articles.map((article, index) => (
               <SwiperSlide key={index} className="h-auto flex">
