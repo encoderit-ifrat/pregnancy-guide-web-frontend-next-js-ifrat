@@ -222,7 +222,7 @@ export function Header() {
           <div className="flex items-center gap-4">
             {/* Desktop Actions */}
             <div className="flex items-center gap-4">
-              <div className="hidden lg:block">
+              <div className="hidden lg:flex items-center gap-4">
                 <ExpandableSearchBar
                   isExpanded={isSearchExpanded}
                   onExpandChange={setIsSearchExpanded}

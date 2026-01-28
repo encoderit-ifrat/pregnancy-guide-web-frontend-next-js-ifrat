@@ -27,12 +27,10 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useState } from "react";
 import { loginRequestType, useLogin } from "../_api/mutations/useLogin";
 import { toast } from "sonner";
-import api from "@/lib/axios";
-import { ChevronRight, Eye, EyeOff } from "lucide-react";
-import * as React from "react";
+import { ChevronRight } from "lucide-react";
+import { PasswordInput } from "@/components/base/PasswordInput";
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -92,10 +90,10 @@ export default function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
-              <label className="text-lg font-medium text-text-purple">Email</label>
               <FormControl>
                 <div className="relative">
                   <Input
+                    label="Email"
                     placeholder="User Email"
                     {...field}
                   />
@@ -112,24 +110,11 @@ export default function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
-              <label className="text-lg font-medium text-text-purple">Password</label>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    {...field}
-                  />
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 px-4 pb-2">
-                    <div onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ?
-                        <Eye className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray"}`} />
-                        :
-                        <EyeOff className={`w-5 h-5 ${showPassword ? "text-primary" : "text-gray"}`} />
-                      }
-                    </div>
-                  </div>
-                </div>
+                <PasswordInput
+                  label="Password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
             </FormItem>

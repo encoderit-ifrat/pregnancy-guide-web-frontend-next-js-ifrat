@@ -70,7 +70,6 @@ export default function ResendEmailForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input

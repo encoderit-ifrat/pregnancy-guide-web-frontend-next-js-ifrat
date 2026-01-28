@@ -3,10 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { CircleIcon } from "@/components/ui/CircleIcon";
-import IconLock from "@/assets/IconLock";
-import IconTick from "@/assets/IconTick";
-
 import {
   Form,
   FormField,
@@ -15,24 +11,16 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
-import Header from "@/components/ui/SectionHeader";
-import { useState } from "react";
 import { toast } from "sonner";
-import * as z from "zod";
 import {
   ChangePasswordSchema,
   ChangePasswordSchemaType,
 } from "../_types/change_password_types";
 import { useChangePassword } from "../_api/mutations/useChangePassword";
-import {PasswordInput} from "@/components/base/PasswordInput";
+import { PasswordInput } from "@/components/base/PasswordInput";
 import * as React from "react";
 
 export default function UpdatePasswordForm() {
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const { mutate: changePassword, isPending } = useChangePassword();
 
   const form = useForm<ChangePasswordSchemaType>({
@@ -70,8 +58,8 @@ export default function UpdatePasswordForm() {
             <FormItem>
               <FormControl>
                 <PasswordInput
-                    label="Old Password"
-                    {...field}
+                  label="Old Password"
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -85,11 +73,10 @@ export default function UpdatePasswordForm() {
           name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
                 <PasswordInput
-                    label="New Password"
-                    {...field}
+                  label="New Password"
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -103,11 +90,10 @@ export default function UpdatePasswordForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
                 <PasswordInput
-                    label="Confirm New Password"
-                    {...field}
+                  label="Confirm New Password"
+                  {...field}
                 />
               </FormControl>
               <FormMessage />

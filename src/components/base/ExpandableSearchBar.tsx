@@ -73,10 +73,10 @@ export default function ExpandableSearchBar({
           onClick={handleExpand}
         >
           <div
-              className="bg-primary-light text-secondary transition-colors hover:text-primary p-2 rounded-full"
-              aria-label="Search"
+            className="bg-primary-light text-secondary transition-colors hover:text-primary p-4 rounded-full"
+            aria-label="Search"
           >
-            <Search className="h-6 w-6 text-primary-dark"/>
+            <Search className="h-8 w-8 text-primary-dark" />
           </div>
         </Button>
       )}
@@ -85,35 +85,32 @@ export default function ExpandableSearchBar({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if(!expanded || !searchTerm) return
+          if (!expanded || !searchTerm) return
           handleSearch();
         }}
-        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
-          expanded ? "w-96 opacity-100" : "w-0 opacity-0"
-        }`}
+        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${expanded ? "w-96 opacity-100" : "w-0 opacity-0"
+          }`}
       >
         <Input
           placeholder={placeholder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="h-10 rounded-lg pl-8 md:pl-10 pr-20  border border-gray-300 transition-all duration-300
-                     focus:ring-0! focus:outline-none! bg-white!"
           autoFocus={expanded}
-          prepend={<Search className="size-4 md:size-5"/>}
+          prepend={<Search className="size-4 md:size-5" />}
           append={
-          <div className="flex items-center gap-2">
-            {searchTerm && (
-              <X onClick={handleClear} className="h-5 w-5 cursor-pointer" />
-            )}
-            <Button
-              type="submit"
-              className="-mr-3 h-10 rounded-md text-sm px-4 bg-primary text-white hover:bg-primary/90 flex items-center justify-center cursor-pointer"
-            >Go</Button>
-          </div>
+            <div className="flex items-center gap-2">
+              {searchTerm && (
+                <X onClick={handleClear} className="h-5 w-5 cursor-pointer" />
+              )}
+              <Button
+                type="submit"
+                className="-mr-3 h-11 rounded-md text-sm px-4 bg-primary text-white hover:bg-primary/90 flex items-center justify-center cursor-pointer"
+              >Go</Button>
+            </div>
           }
         />
 
-        
+
       </form>
     </div>
   );
