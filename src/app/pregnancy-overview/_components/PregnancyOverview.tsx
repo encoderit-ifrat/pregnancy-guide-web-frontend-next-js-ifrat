@@ -16,6 +16,9 @@ import {PregnancyOverviewProps} from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider2 from "@/components/layout/svg/WaveDivider2";
+import IconHeading from "@/components/ui/text/IconHeading";
+import {Heart} from "lucide-react";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
 
 export default function PregnancyOverview({
                                             pregnancyData,
@@ -84,6 +87,15 @@ export default function PregnancyOverview({
           <div className="relative z-30">
             <WaveDivider2 waveColorClass="text-white" bgClassName="bg-transparent"/>
             <div className="">
+              <div className="text-center text-white">
+                <IconHeading
+                  text="Our CHECKLISTS"
+                  icon={<Heart />}
+                  className="text-white justify-center"
+                />
+                <SectionHeading className="text-white">Weekly Details</SectionHeading>
+                <p>Expert advice, real stories, and helpful tips to support you and your family at every stage.</p>
+              </div>
               <CheckLists
                 checkLists={checklist?.data as any}
                 count={checklist?.pagination.total}
