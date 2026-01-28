@@ -3,13 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, LoginSchemaType } from "../_types/login_types";
-
 import { Button } from "@/components/ui/Button";
-import { CircleIcon } from "@/components/ui/CircleIcon";
-import IconPerson from "@/assets/IconPerson";
-import IconEmail from "@/assets/IconEmail";
-import IconLock from "@/assets/IconLock";
-
 import {
   Form,
   FormField,
