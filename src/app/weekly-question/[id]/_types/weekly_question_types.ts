@@ -53,4 +53,5 @@ export type WeeklyQuestionViewProps = {
 
 export type QuestionOfTheWeekProps = {
   question: Question;
+  currentWeek: number;
 };

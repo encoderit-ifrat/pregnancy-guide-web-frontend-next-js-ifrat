@@ -6,7 +6,6 @@ import AnswerForm, {
   AnswerFormSeeAnswersButton,
   AnswerFormSubmitButton,
 } from "@/app/weekly-question/[id]/_components/AnswerForm";
-import { useRouter } from "next/navigation";
 import React from "react";
 
 import { QuestionOfTheWeekProps } from "@/app/weekly-question/[id]/_types/weekly_question_types";
@@ -14,9 +13,8 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import {FileQuestion} from "lucide-react";
 import {SectionHeading} from "@/components/ui/text/SectionHeading";
 
-function QuestionOfTheWeek({ question }: QuestionOfTheWeekProps) {
+function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
-  const router = useRouter();
 
   const { data, isLoading } = useQueryGetAllAnswers({
     params: { id: question?._id },
@@ -30,43 +28,59 @@ function QuestionOfTheWeek({ question }: QuestionOfTheWeekProps) {
   } = data?.data ?? {};
   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
   return (
-    <section className="bg-[#F5EEFF] relative w-full mx-auto">
+    <section className="bg-[#F5EEFF] relative w-full mx-auto pb-10 md:pb-16">
       <div className="text-center">
         <IconHeading text="Question" icon={<FileQuestion/>} className="text-primary justify-center"/>
         <SectionHeading>Question of the Week</SectionHeading>
-      </div>
-      <div className="my-6 space-y-4 relative z-10 flex flex-col items-center justify-center text-center px-6 lg:px-0 ">
-        <p className="font-roboto text-base lg:text-xl font-normal text-text-dark">
-          {question?.title}
-        </p>
-        {!isLoading && (
-          <AnswerForm
-            data={{
-              hasAnswered,
-              userAnswer,
-              question: {
-                id: questionData?._id,
-                question: questionData?.title,
-                description: questionData?.content,
-                answers_count: questionData?.answers_count,
-                answer_options: questionData?.answer_options,
-              },
-              statistics: statistics?.statistics || [],
-            }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <AnswerFormRadioGroup disabled={hasAnswered} />
-              {hasAnswered && <AnswerFormPercentage />}
-            </div>
-            <div className="mt-4">
-              {hasAnswered ? (
-                <AnswerFormSeeAnswersButton />
-              ) : (
-                <AnswerFormSubmitButton />
-              )}
-            </div>
-          </AnswerForm>
+        {/* Week badge */}
+        {typeof currentWeek !== "undefined" && (
+          <div className="inline-block bg-white/90 text-primary font-bold text-sm px-4 py-1 rounded-full mb-6">
+            Week {currentWeek} question
+          </div>
         )}
+      </div>
+
+      {/* Outer decorative card to match the target layout (large rounded container with subtle bottom shadow/highlight) */}
+      <div className="max-w-5xl mx-auto px-6 lg:px-0 mt-8">
+        <div className="bg-white rounded-3xl shadow-[0_10px_0_rgba(100,16,242,0.5)]">
+          {/* Place AnswerForm inside this outer card. The AnswerForm itself renders an inner white card where the options live. */}
+          <div className="flex flex-col items-center text-center">
+            {!isLoading && (
+              <AnswerForm
+                data={{
+                  hasAnswered,
+                  userAnswer,
+                  question: {
+                    id: questionData?._id,
+                    question: questionData?.title,
+                    description: questionData?.content,
+                    answers_count: questionData?.answers_count,
+                    answer_options: questionData?.answer_options,
+                  },
+                  statistics: statistics?.statistics || [],
+                }}
+              >
+                {/* Move the question title inside the AnswerForm so it sits within the white card. */}
+                <p className="font-roboto text-lg md:text-2xl lg:text-3xl font-medium text-text-dark mb-6">
+                  {question?.title}
+                </p>
+
+                <div className="grid grid-cols-1 gap-3">
+                  <AnswerFormRadioGroup disabled={hasAnswered} />
+                  {hasAnswered && <AnswerFormPercentage />}
+                </div>
+
+                <div className="mt-6">
+                  {hasAnswered ? (
+                    <AnswerFormSeeAnswersButton />
+                  ) : (
+                    <AnswerFormSubmitButton />
+                  )}
+                </div>
+              </AnswerForm>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );

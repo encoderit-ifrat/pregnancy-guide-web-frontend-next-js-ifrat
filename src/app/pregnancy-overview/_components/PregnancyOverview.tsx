@@ -29,7 +29,8 @@ export default function PregnancyOverview({pregnancyData}: PregnancyOverviewProp
     const bannerArticle = articles?.bannerArticle || [];
     const weeklyArticle = articles?.weeklyArticles || [];
 
-    const currentWeek = userProfile?.details?.current_pregnancy_week || 0;
+    const currentWeek = userProfile?.details?.current_pregnancy_data?.week || 0;
+    console.log('12', userProfile)
 
     const handleWeekChange = (week: number) => {
         // Handle week change logic here (e.g., fetch new data for that week)
@@ -57,11 +58,17 @@ export default function PregnancyOverview({pregnancyData}: PregnancyOverviewProp
             {Boolean(questions?.data?.[0]?._id) && (
                 <>
                     {/* divider */} <ConcaveCurve className="text-[#F5EEFF]" bgClassName="bg-white"/>
-                    <QuestionOfTheWeek question={questions?.data?.[0] as any}/>
+                    <QuestionOfTheWeek
+                        currentWeek={currentWeek}
+                        question={questions?.data?.[0] as any}
+                    />
                 </>
             )}
             {Boolean(popularWeek?.[0]?.title) && popularWeek?.[0] && (
-                <WeeklyArticle data={popularWeek[0]}/>
+                <>
+                    {/* divider */} <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]"/>
+                    <WeeklyArticle data={popularWeek[0]}/>
+                </>
             )}
 
             <section className="-mt-1">

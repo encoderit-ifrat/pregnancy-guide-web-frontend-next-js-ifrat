@@ -16,7 +16,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/progress";
 
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 type Question = {
   id: string;
@@ -92,8 +91,8 @@ export default function AnswerForm({
         setAnswerText,
       }}
     >
-      <div className="max-w-5xl w-full mx-auto space-y-8">
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-100">
+      <div className="w-full mx-auto space-y-8">
+        <div className="bg-white rounded-2xl p-8">
           {children}
         </div>
       </div>
@@ -126,36 +125,43 @@ export const AnswerFormRadioGroup = ({
   const { question } = data;
   const { answer_options } = question;
 
+  const getLetter = (index: number) => String.fromCharCode(97 + index); // a, b, c...
+
   return (
     <RadioGroup
       value={option}
       onValueChange={(val) => {
         setOption(val);
       }}
-      className="mt-3 mb-6"
+      className="mt-3 mb-6 flex flex-col gap-3"
       {...props}
       // disabled={hasAnswered}
     >
       {answer_options?.length > 0 &&
-        answer_options.map((option) => {
+        answer_options.map((optionItem, idx) => {
           return (
             <div
-              className="flex flex-col md:flex-row md:items-center md:justify-between gap-3"
-              key={option._id}
+              className="w-full"
+              key={optionItem._id}
             >
-              <div className="flex items-center gap-3 flex-1">
+              <label
+                htmlFor={optionItem._id}
+                className="flex items-center gap-4 bg-[#F2EAFB] rounded-xl p-4 cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-white border border-purple-100 text-primary font-medium">
+                  {getLetter(idx)}
+                </div>
+
+                <div className="flex-1 text-left text-lg font-normal text-foreground">
+                  {optionItem.content}
+                </div>
+
                 <RadioGroupItem
-                  value={option._id}
-                  id={option._id}
-                  className="size-5 cursor-pointer!"
+                  value={optionItem._id}
+                  id={optionItem._id}
+                  className="opacity-0 pointer-events-none absolute"
                 />
-                <Label
-                  htmlFor={option._id}
-                  className="capitalize font-normal text-lg cursor-pointer text-left"
-                >
-                  {option.content}
-                </Label>
-              </div>
+              </label>
             </div>
           );
         })}
