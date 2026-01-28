@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/Button";
-import { Slider } from "@/components/ui/Slider";
+import {Button} from "@/components/ui/Button";
+import {Slider} from "@/components/ui/Slider";
 import IconHeading from "@/components/ui/text/IconHeading";
-import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import { FileQuestion } from "lucide-react";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import {imageLinkGenerator} from "@/helpers/imageLinkGenerator";
+import {FileQuestion} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { SwiperSlide } from "swiper/react";
+import {SwiperSlide} from "swiper/react";
 
 const initialData = {
   title: "",
@@ -27,7 +27,7 @@ type TProps = {
   };
 };
 
-function WeeklyArticle({ articles = initialData }: TProps) {
+function WeeklyArticle({articles = initialData}: TProps) {
   const pagination = {
     renderBullet: function (index, className) {
       return '<span class="' + className + '"></span>';
@@ -40,7 +40,7 @@ function WeeklyArticle({ articles = initialData }: TProps) {
         <div className="max-w-3xl text-center mx-auto">
           <IconHeading
             text="Articles"
-            icon={<FileQuestion />}
+            icon={<FileQuestion/>}
             className="text-primary justify-center"
           />
           <SectionHeading>
@@ -52,7 +52,7 @@ function WeeklyArticle({ articles = initialData }: TProps) {
           </p>
         </div>
 
-        {data && <Slider
+        {articles && articles.length && <Slider
           options={{
             spaceBetween: 10,
             slidesPerView: 1,

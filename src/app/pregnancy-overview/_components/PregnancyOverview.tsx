@@ -64,7 +64,7 @@ export default function PregnancyOverview({
           question={questions?.data?.[0] as any}
         />
       )}
-      {popularWeek && (
+      {popularWeek && popularWeek?.length > 0 && (
         <>
           <WeeklyArticle articles={popularWeek} />
         </>
