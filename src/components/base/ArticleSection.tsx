@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-import ArticleCard from "./ArticleCard";
+import ArticleCard from "../ui/cards/ArticleCard";
 // import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/Button";
