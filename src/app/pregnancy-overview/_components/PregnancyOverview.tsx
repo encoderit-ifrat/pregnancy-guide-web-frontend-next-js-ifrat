@@ -64,9 +64,9 @@ export default function PregnancyOverview({
           question={questions?.data?.[0] as any}
         />
       )}
-      {Boolean(popularWeek?.[0]?.title) && popularWeek?.[0] && (
+      {popularWeek && (
         <>
-          <WeeklyArticle data={popularWeek[0]} />
+          <WeeklyArticle articles={popularWeek} />
         </>
       )}
       <section className="-mt-1">
