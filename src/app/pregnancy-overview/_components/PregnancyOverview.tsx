@@ -26,7 +26,7 @@ export default function PregnancyOverview({
   const userProfile = pregnancyData?.userProfile;
 
   const latest = articles?.latest || [];
-  const popularWeek = articles?.popularWeek || [];
+  const popularWeeks = articles?.popularWeeks || [];
   const specialArticle = articles?.specialArticle || [];
   const bannerArticle = articles?.bannerArticle || [];
   const weeklyArticle = articles?.weeklyArticles || [];
@@ -64,9 +64,9 @@ export default function PregnancyOverview({
           question={questions?.data?.[0] as any}
         />
       )}
-      {popularWeek && popularWeek?.length > 0 && (
+      {popularWeeks && popularWeeks?.length > 0 && (
         <>
-          <WeeklyArticle articles={popularWeek} />
+          <WeeklyArticle articles={popularWeeks} />
         </>
       )}
       <section className="-mt-1">

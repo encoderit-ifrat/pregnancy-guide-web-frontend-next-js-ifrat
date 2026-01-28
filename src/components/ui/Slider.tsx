@@ -1,19 +1,25 @@
 "use client";
 
-import { PropsWithChildren } from "react";
-import { Swiper } from "swiper/react";
-import type { SwiperOptions } from "swiper/types";
-import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
+import {PropsWithChildren} from "react";
+import {Swiper} from "swiper/react";
+import type {SwiperOptions} from "swiper/types";
+import {Autoplay, FreeMode, Navigation, Pagination} from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import {cn} from "@/lib/utils";
 
 interface SliderProps extends PropsWithChildren {
   options?: SwiperOptions;
+  sideOverlayClassName: string;
 }
 
-export function Slider({ children, options }: SliderProps) {
+export function Slider({
+                         children,
+                         options,
+                         sideOverlayClassName = "bg-primary-light",
+                       }: SliderProps) {
   return (
     <Swiper
       modules={[Navigation, Pagination, FreeMode, Autoplay]}
@@ -27,8 +33,14 @@ export function Slider({ children, options }: SliderProps) {
       {children}
 
       {/*overlay to hide slide under next button*/}
-      <div className="h-full w-[10px] bg-primary-light absolute top-0 z-[1] right-0"></div>
-      <div className="h-full w-[10px] bg-primary-light absolute top-0 z-[1] left-0"></div>
+      <div className={cn(
+        "h-full w-[10px] absolute top-0 z-[1] right-0",
+        sideOverlayClassName
+      )}></div>
+      <div className={cn(
+        "h-full w-[10px] absolute top-0 z-[1] left-0",
+        sideOverlayClassName
+      )}></div>
     </Swiper>
   );
 }

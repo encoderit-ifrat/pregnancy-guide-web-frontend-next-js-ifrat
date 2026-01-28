@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "encoder-test-vpn.space",
         pathname: "/**", // allows all image paths from this domain
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "/**", // allows all image paths from this domain
+      },
     ],
   },
 };

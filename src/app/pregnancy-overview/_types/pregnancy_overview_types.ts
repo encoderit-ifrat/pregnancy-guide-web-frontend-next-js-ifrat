@@ -62,7 +62,7 @@ export type Checklist = {
 
 export type ArticlesData = {
   latest: Article[];
-  popularWeek: Article[];
+  popularWeeks: Article[];
   specialArticle: Article[];
   bannerArticle: Article[];
   weeklyArticles: Article[];
