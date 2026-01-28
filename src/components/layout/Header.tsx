@@ -4,17 +4,15 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { LogOut, Search, User, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { NavigationLink } from "@/components/Navbar/_types/navbar_types";
 import { useQueryGetAllCategories } from "@/components/Navbar/api/queries/useQueryGetAllCategories";
 import { Category } from "@/types/shared";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { signOut } from "next-auth/react";
 import ExpandableSearchBar from "@/components/base/ExpandableSearchBar";
+import { ProfileDropDown } from "./ProfileDropDown";
 
 export function Header() {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
@@ -171,15 +169,14 @@ export function Header() {
       <header
         ref={headerRef}
         className={cn(
-          "w-full z-50 transition-transform duration-300 ease-in-out",
-          isSticky ? "fixed top-0 left-0 right-0 bg-primary-light/90 backdrop-blur-md shadow-2xl shadow-primary/50" : "relative",
+          "w-full z-50 transition-transform duration-300 ease-in-out bg-[#F6F0FF]",
+          isSticky ? "fixed top-0 left-0 right-0 backdrop-blur-md shadow-2xl shadow-primary/50" : "relative",
           isSticky && !isVisible ? "-translate-y-full" : "translate-y-0",
-          pathname === '/' ? 'bg-[#F6F0FF]' : ''
         )}
       >
         <div className={cn(
           "max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6",
-          isSticky ? "h-20" : "h-20 lg:h-20"
+          isSticky ? "h-20" : "h-28 lg:h-20"
         )}>
           <div className="flex items-center gap-4 md:gap-16">
             {/* Logo */}
@@ -230,38 +227,7 @@ export function Header() {
             </div>
             <div className="h-6 w-[2px] bg-primary" />
             {isAuthenticated ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="cursor-pointer">
-                  <Avatar className="size-9">
-                    <AvatarFallback className="bg-primary/20 text-popover-foreground uppercase">
-                      <User className="h-6 w-6" />
-                    </AvatarFallback>
-                  </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <Link href="/profile">
-                    <DropdownMenuItem className="hover:bg-black/5">
-                      <User className="mr-2 size-4" />
-                      Profile
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href="/change-password">
-                    <DropdownMenuItem className="hover:bg-black/5">
-                      <User className="mr-2 size-4" />
-                      Change Password
-                    </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuItem
-                    className="hover:bg-black/5"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                  >
-                    <LogOut className="mr-2 size-4" />
-                    Log Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <ProfileDropDown />
             ) : (
               <Link
                 href="/login"

@@ -54,7 +54,7 @@ export function WhyChooseUsSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-primary-light">
+    <section className="relative overflow-hidden bg-primary-light pt-10 pb-20">
       <div className="max-w-7xl relative mx-auto px-4">
         {/* Section Header */}
         <div className="mb-12 text-center">
@@ -62,13 +62,12 @@ export function WhyChooseUsSection() {
           <SectionHeading>Why choose Us</SectionHeading>
         </div>
 
-
         <Slider
           options={{
             spaceBetween: 10,
             slidesPerView: 1,
             pagination: pagination,
-            navigation: true,
+            navigation: true, 
             breakpoints: {
               640: {
                 slidesPerView: 1,

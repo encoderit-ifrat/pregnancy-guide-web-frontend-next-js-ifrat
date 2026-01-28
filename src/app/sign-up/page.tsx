@@ -6,14 +6,14 @@ import LoginForm from "@/app/login/_component/LoginForm";
 
 export default function page() {
   return (
-      <div className="max-w-6xl mx-auto">
-        <AuthCard
-            title="Sign Up"
-            description="Create an account to access expert guidance, resources, and support for every stage of parenthood."
-            image="/images/auth/sign-up.png"
-        >
-          <RegisterForm/>
-        </AuthCard>
-      </div>
+    <div className="max-w-5xl mx-auto">
+      <AuthCard
+        title="Sign Up"
+        description="Create an account to access expert guidance, resources, and support for every stage of parenthood."
+        image="/images/auth/sign-up.png"
+      >
+        <RegisterForm />
+      </AuthCard>
+    </div>
   );
 }
