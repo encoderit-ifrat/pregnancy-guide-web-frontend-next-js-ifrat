@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, X } from "lucide-react";
+import { LogOut, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { NavigationLink } from "@/components/Navbar/_types/navbar_types";
@@ -13,6 +13,7 @@ import { Category } from "@/types/shared";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import ExpandableSearchBar from "@/components/base/ExpandableSearchBar";
 import { ProfileDropDown } from "./ProfileDropDown";
+import { signOut } from "next-auth/react";
 
 export function Header() {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
@@ -217,44 +218,48 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden items-center gap-4 lg:flex">
-            <div className="hidden md:block">
-              <ExpandableSearchBar
-                isExpanded={isSearchExpanded}
-                onExpandChange={setIsSearchExpanded}
-              />
-            </div>
-            <div className="h-6 w-[2px] bg-primary" />
-            {isAuthenticated ? (
-              <ProfileDropDown />
-            ) : (
-              <Link
-                href="/login"
-              >
-                <Button>Logga In</Button>
-              </Link>
-            )}
-          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="lg:hidden bg-[#EEE4FD] p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? (
-              <X className="h-8 w-8 text-primary-dark" />
-            ) : (
-              // <Menu className="h-8 w-8 text-primary-dark"/>
-              <div>
-                <div className="w-6 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
-                <div className="w-4 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
-                <div className="w-2 h-1 bg-primary-dark rounded-lg"></div>
+          <div className="flex items-center gap-4">
+            {/* Desktop Actions */}
+            <div className="flex items-center gap-4">
+              <div className="hidden lg:block">
+                <ExpandableSearchBar
+                  isExpanded={isSearchExpanded}
+                  onExpandChange={setIsSearchExpanded}
+                />
+                <div className="h-6 w-[2px] bg-primary" />
               </div>
-            )}
-          </button>
+              {isAuthenticated ? (
+                <ProfileDropDown />
+              ) : (
+                <Link
+                  href="/login"
+                  className="hidden lg:block"
+                >
+                  <Button>Logga In</Button>
+                </Link>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              className="lg:hidden bg-[#EEE4FD] p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMenuOpen ? (
+                <X className="h-8 w-8 text-primary-dark" />
+              ) : (
+                // <Menu className="h-8 w-8 text-primary-dark"/>
+                <div>
+                  <div className="w-6 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
+                  <div className="w-4 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
+                  <div className="w-2 h-1 bg-primary-dark rounded-lg"></div>
+                </div>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -296,7 +301,23 @@ export function Header() {
                 </div>
               </div>
               <div className="mt-4 flex flex-col gap-3">
-                <Button className="w-full" onClick={() => router.push("/login")}>Logga In</Button>
+                {isAuthenticated ? (
+                  <Button
+                    className="w-full"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                  >
+                    <LogOut className="mr-2 size-4" />
+                    Log Out
+                  </Button>
+                ) :
+                  (
+                    <Link
+                      href="/login"
+                    >
+                      <Button className="w-full">Logga In</Button>
+                    </Link>
+                  )
+                }
               </div>
             </nav>
           </div>

@@ -8,7 +8,7 @@ export function ProfileDropDown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
-                <Avatar className="size-9">
+                <Avatar className="size-12">
                     <AvatarFallback className="bg-primary/20 text-popover-foreground uppercase">
                         <User className="h-6 w-6" />
                     </AvatarFallback>
