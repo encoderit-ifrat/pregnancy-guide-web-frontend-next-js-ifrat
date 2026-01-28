@@ -220,7 +220,6 @@ export const AnswerFormSeeAnswersButton = () => {
       onClick={() => {
         router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
       }}
-      className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
     >
       See answers and comments
     </Button>
@@ -267,7 +266,8 @@ export const AnswerFormSubmitButton = ({
       onClick={handleSubmit}
       isLoading={isPending}
       disabled={isPending}
-      className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+      variant="outline"
+      className="w-full max-w-lg md:w-auto px-8 py-3"
     >
       {isPending ? "Submitting..." : text}
     </Button>

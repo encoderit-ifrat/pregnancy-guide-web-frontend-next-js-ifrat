@@ -1,6 +1,6 @@
 import React from "react";
 import {Metadata} from "next";
-import {ConcaveCurve} from "@/components/layout/svg/ConcaveCurve";
+import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import {HeroSection} from "@/components/home/HeroSection";
 import {MissionSection} from "@/components/home/MissionSection";
