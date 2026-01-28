@@ -78,7 +78,7 @@ export default function PregnancyOverview({
             className="absolute inset-0 z-10 bg-gradient-to-t from-[#240443] to-[#230343]/0 pointer-events-none"
           />
           {/* Overlay image */}
-          <div className="absolute inset-0 z-20 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-20"/>
+          <div className="absolute inset-0 z-20 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10"/>
 
           {/* Content */}
           <div className="relative z-30">
@@ -89,7 +89,7 @@ export default function PregnancyOverview({
                 count={checklist?.pagination.total}
               />
             </div>
-            <WaveDivider className="text-[#F6F0FF]" bgClassName="bg-transparent"/>
+            <WaveDivider className="text-[#F6F0FF] transfor translate-y-[2px]" bgClassName="bg-transparent"/>
           </div>
         </div>
       </section>
