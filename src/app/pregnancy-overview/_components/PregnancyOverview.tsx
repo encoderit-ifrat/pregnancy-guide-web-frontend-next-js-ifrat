@@ -57,7 +57,7 @@ export default function PregnancyOverview({pregnancyData}: PregnancyOverviewProp
             )}
             {Boolean(questions?.data?.[0]?._id) && (
                 <>
-                    {/* divider */} <ConcaveCurve className="text-[#F5EEFF]" bgClassName="bg-white"/>
+                    {/* divider */} <ConcaveCurve className="text-[#F5EEFF] h-10! sm:h-20! md:h-24! lg:h-30!" bgClassName="bg-white"/>
                     <QuestionOfTheWeek
                         currentWeek={currentWeek}
                         question={questions?.data?.[0] as any}
