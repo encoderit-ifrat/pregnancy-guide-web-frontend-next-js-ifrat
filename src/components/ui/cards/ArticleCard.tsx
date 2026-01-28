@@ -1,56 +1,47 @@
-import Image from "next/image";
-import {Card} from "@/components/ui/Card";
 import React from "react";
-import {imageLinkGenerator} from "@/helpers/imageLinkGenerator";
-import Logo from "@/components/ui/Logo";
-import {cn} from "@/lib/utils";
 
-type BigSliderCardProps = {
-  data?: {
-    title?: string;
-    excerpt?: string;
-    cover_image?: string;
-    slug: string;
-    thumbnail_image?: string;
-  };
-};
-
-export default function ArticleCard({data = {}}: BigSliderCardProps) {
+export default function VCard({ step }) {
   return (
-    <Card className="bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-        {/* Left: text content */}
-        <div className="order-2 md:order-1 px-2 md:pl-6 md:pr-10">
-          <h3 className="text-2xl md:text-3xl font-semibold text-[#3b2b6f] mb-4">{data?.title}</h3>
-          <p className="text-sm md:text-base text-gray-600 mb-6 max-w-xl">{data?.excerpt}</p>
+    <div className="group relative w-full max-w-[400px] rounded-3xl bg-white shadow-xl transition-all duration-300 hover:shadow-2xl">
+      {/* Image Container with V-shape cutout */}
+      <div className="relative aspect-[4/3] overflow-hidden rounded-t-3xl">
+        <img
+          src={step.image}
+          alt={step.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
 
-          <button
-            type="button"
-            className="inline-block px-6 py-3 rounded-full border-2 border-purple-300 text-purple-600 hover:bg-purple-50 transition-colors duration-200"
-          >
-            Read More
-          </button>
-        </div>
+        {/* Decorative gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
 
-        {/* Right: image with circular logo overlay */}
-        <div className="order-1 md:order-2 mb-6 md:mb-0 relative">
-          <Image
-            src={imageLinkGenerator(data?.cover_image || data?.thumbnail_image)}
-            alt={data?.title || ''}
-            width={840}
-            height={600}
-            className="object-fit object-cover rounded-lg w-[400px] h-[400px]! border"
+        {/* V-Shape SVG Overlay */}
+        <svg
+          className="absolute left-0 right-0 bottom-0 w-full -mb-[1px] !-m4-[4px] block"
+          height="95"
+          viewBox="0 0 400 95"
+          fill="none"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.0289 19.6399C3.93064 17.0213 0.385356 5.89198 0 0.654665V95H400V0C400 11.5221 390.751 17.4577 386.127 18.9853L350.289 27.4959C320.809 34.479 253.815 49.6659 229.48 56.3011C198.266 64.8118 197.11 64.1571 169.364 57.6105L97.6879 39.9345C74.7592 34.2608 26.1272 22.2586 15.0289 19.6399Z"
+            fill="white"
           />
+        </svg>
 
-          {/* circular logo badge */}
-          <div className="absolute transform left-1/2 bottom-0 md:left-0 md:top-1/2 -translate-x-1/2 translate-y-1/2 md:-translate-y-1/2 bg-primary
-          size-26 md:size-28 rounded-full flex items-center justify-center border-8 md:border-10 border-white">
-            <div className="flex items-center justify-center">
-              <Logo dark={false}/>
-            </div>
-          </div>
+        {/* Number Badge */}
+        <div className="absolute bottom-2 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-primary text-lg font-bold text-white shadow-lg transition-transform duration-300 z-20">
+          {step.number}
         </div>
       </div>
-    </Card>
+
+      {/* Content */}
+      <div className="px-6 pb-12 pt-2 text-center">
+        <h3 className="mb-3 text-2xl font-bold text-gray-800">{step.title}</h3>
+        <p className="text-sm leading-relaxed text-gray-600">
+          {step.description}
+        </p>
+      </div>
+    </div>
   );
 }

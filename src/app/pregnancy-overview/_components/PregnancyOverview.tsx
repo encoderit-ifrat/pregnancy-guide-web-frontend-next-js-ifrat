@@ -12,17 +12,17 @@ import ImageOverview from "./ImageOverview";
 import CheckLists from "./CheckLists";
 import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
 import WeekSelector from "./WeekSelector";
-import {PregnancyOverviewProps} from "../_types/pregnancy_overview_types";
+import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider2 from "@/components/layout/svg/WaveDivider2";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {Heart} from "lucide-react";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { Heart } from "lucide-react";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function PregnancyOverview({
-                                            pregnancyData,
-                                          }: PregnancyOverviewProps) {
+  pregnancyData,
+}: PregnancyOverviewProps) {
   const articles = pregnancyData?.articles;
   const questions = pregnancyData?.questions;
   const checklist = pregnancyData?.checklist;
@@ -52,15 +52,15 @@ export default function PregnancyOverview({
         minWeek={0}
         maxWeek={45}
       />
-      <OverviewCategories/>
+      <OverviewCategories />
       <PregnancyDetails
         userData={userProfile as any}
         weeklyDetails={weeklyDetails as any}
       />
       {/* divider */}{" "}
-      <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]"/>
+      <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]" />
       {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
-        <WeeklyDetails data={weeklyArticle[0]}/>
+        <WeeklyDetails data={weeklyArticle[0]} />
       )}
       {Boolean(questions?.data?.[0]?._id) && (
         <QuestionOfTheWeek
@@ -70,22 +70,23 @@ export default function PregnancyOverview({
       )}
       {popularWeeks && popularWeeks?.length > 0 && (
         <>
-          <WeeklyArticle articles={popularWeeks}/>
+          <WeeklyArticle articles={popularWeeks} />
         </>
       )}
       <section className="relative w-full mx-auto">
         <div>
           {/* Background image */}
-          <div className="absolute inset-0 z-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center"/>
-          <div
-            className="absolute inset-0 z-10 bg-gradient-to-t from-[#240443] to-[#230343]/0 pointer-events-none"
-          />
+          <div className="absolute inset-0 z-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#240443] to-[#230343]/0 pointer-events-none" />
           {/* Overlay image */}
-          <div className="absolute inset-0 z-20 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10"/>
+          <div className="absolute inset-0 z-20 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10" />
 
           {/* Content */}
           <div className="relative z-30">
-            <WaveDivider2 waveColorClass="text-white" bgClassName="bg-transparent"/>
+            <WaveDivider2
+              waveColorClass="text-white"
+              bgClassName="bg-transparent"
+            />
             <div className="">
               <div className="text-center text-white">
                 <IconHeading
@@ -93,27 +94,35 @@ export default function PregnancyOverview({
                   icon={<Heart />}
                   className="text-white justify-center"
                 />
-                <SectionHeading className="text-white">Weekly Details</SectionHeading>
-                <p>Expert advice, real stories, and helpful tips to support you and your family at every stage.</p>
+                <SectionHeading className="text-white">
+                  Weekly Details
+                </SectionHeading>
+                <p>
+                  Expert advice, real stories, and helpful tips to support you
+                  and your family at every stage.
+                </p>
               </div>
               <CheckLists
                 checkLists={checklist?.data as any}
                 count={checklist?.pagination.total}
               />
             </div>
-            <WaveDivider className="text-[#F6F0FF] transfor translate-y-[2px]" bgClassName="bg-transparent"/>
+            <WaveDivider
+              className="text-[#F6F0FF] transfor translate-y-[2px]"
+              bgClassName="bg-transparent"
+            />
           </div>
         </div>
       </section>
       {Boolean(latest?.length) && (
         <section>
-          <ArticleSection data={(latest as any) ?? []}/>
+          <ArticleSection data={(latest as any) ?? []} />
         </section>
       )}
-      <ImageOverview data={(bannerArticle as any) ?? []}/>
+      <ImageOverview data={(bannerArticle as any) ?? []} />
       {
         <section className="bg-section pb-32 md:pb-96">
-          <SpecialArticleSection data={(specialArticle as any) ?? []}/>
+          <SpecialArticleSection data={(specialArticle as any) ?? []} />
         </section>
       }
     </div>

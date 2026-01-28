@@ -1,8 +1,6 @@
 import React from "react";
 
-export default function Logo({
-  color = "white",
-                             }) {
+export default function Logo({ color = "white" }) {
   return (
     <svg
       className="size-full"

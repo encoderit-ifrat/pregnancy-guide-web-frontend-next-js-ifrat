@@ -1,4 +1,4 @@
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 type WaveDividerProps = {
   className?: string; // controls wave (fill) color
