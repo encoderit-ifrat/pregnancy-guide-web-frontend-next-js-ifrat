@@ -11,7 +11,7 @@ import React from "react";
 
 import { QuestionOfTheWeekProps } from "@/app/weekly-question/[id]/_types/weekly_question_types";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {Heart} from "lucide-react";
+import {FileQuestion} from "lucide-react";
 import {SectionHeading} from "@/components/ui/text/SectionHeading";
 
 function QuestionOfTheWeek({ question }: QuestionOfTheWeekProps) {
@@ -30,9 +30,9 @@ function QuestionOfTheWeek({ question }: QuestionOfTheWeekProps) {
   } = data?.data ?? {};
   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
   return (
-    <section className="relative w-full mx-auto">
+    <section className="bg-[#F5EEFF] relative w-full mx-auto">
       <div className="text-center">
-        <IconHeading text="Question" icon={<Heart/>} className="text-primary justify-center"/>
+        <IconHeading text="Question" icon={<FileQuestion/>} className="text-primary justify-center"/>
         <SectionHeading>Question of the Week</SectionHeading>
       </div>
       <div className="my-6 space-y-4 relative z-10 flex flex-col items-center justify-center text-center px-6 lg:px-0 ">
