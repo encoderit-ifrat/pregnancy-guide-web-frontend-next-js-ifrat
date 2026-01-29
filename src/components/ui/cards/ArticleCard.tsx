@@ -4,6 +4,7 @@ import { Button } from "../Button";
 import { BASE_URL } from "@/data/global_data";
 import Link from "next/link";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import {ChevronRight} from "lucide-react";
 
 type ArticleCardProps = {
   image: string;
@@ -21,14 +22,14 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   onClick,
 }) => {
   return (
-    <div className="bg-white p-2 md:p-3 rounded shadow">
-      <div className="shrink-0 relative min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
+    <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded shadow">
+      <div className="shrink-0 relative overflow-hidden min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
         <Link href={`/articles/${slug}`}>
           <Image
             src={imageLinkGenerator(image)}
             alt={title}
             fill
-            className="object-cover rounded"
+            className="object-cover rounded transition-transform duration-500 group-hover:scale-105"
           />
         </Link>
       </div>
@@ -48,6 +49,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           >
             READ MORE
           </Button>*/}
+        </Link>
+      </div>
+      <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
+        <Link
+          href={`/articles/${slug || "article-not-found"}`}
+        >
+          <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
+            <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]" />
+          </button>
         </Link>
       </div>
     </div>
