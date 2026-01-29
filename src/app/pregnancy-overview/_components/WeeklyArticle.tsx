@@ -59,7 +59,7 @@ function WeeklyArticle({ articles }: TProps) {
               loop: true,
             }}
             sideOverlayClassName="bg-white w-4"
-            className="px-7! py-10! h-full"
+            className="px-7! py-10! lg:pb-14! h-full"
           >
             {articles.map((article, index) => (
               <SwiperSlide key={index} className="h-full flex">
