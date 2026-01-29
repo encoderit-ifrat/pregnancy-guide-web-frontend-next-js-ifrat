@@ -1,5 +1,5 @@
 "use client";
-import React, {useRef} from "react";
+import React from "react";
 import ArticleCard from "../ui/cards/ArticleCard";
 import {Heart} from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
@@ -47,7 +47,7 @@ const ArticleSection = ({data}: TProps) => {
   return (
     <div
       className={cn(
-        "relative pl-4 pb-10 pt-4 sm:pb-15 lg:pb-18 lg:text-start",
+        "relative overflow-hidden pl-4 pb-10 pt-4 sm:pb-15 lg:pb-18 lg:text-start",
         // "max-w-7xl mx-auto",
       )}
     >
@@ -99,10 +99,10 @@ const ArticleSection = ({data}: TProps) => {
                 spaceBetween: 20,
               },
             },
-            loop: true,
+            // loop: true,
           }}
           sideOverlayClassName="bg-transparent"
-          className="overflow-visible topNavigation sm:pl-7! pt-4! pb-14! h-full"
+          className="overflow-visible topNavigation sm:pl-7 !pt-4 !pb-14 h-full"
         >
           {data.map(({_id, cover_image, thumbnail_image, title, excerpt, slug}, index) => (
             <SwiperSlide key={_id + index} className="h-auto flex">
