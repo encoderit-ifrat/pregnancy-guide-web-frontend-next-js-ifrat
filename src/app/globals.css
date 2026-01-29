@@ -294,9 +294,7 @@ h6 {
 .topNavigation.swiper,
 .topNavigation.mySwiper,
 .topNavigation .swiper,
-.topNavigation .swiper-wrapper,
-.mySwiper.topNavigation,
-.mySwiper.topNavigation .swiper-wrapper {
+.topNavigation .swiper-wrapper {
   overflow: visible !important;
 }
 
