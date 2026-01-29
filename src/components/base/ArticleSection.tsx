@@ -83,7 +83,7 @@ const ArticleSection = ({data}: TProps) => {
                 spaceBetween: 10,
               },
               321: {
-                slidesPerView: 1.3,
+                slidesPerView: 1.2,
                 spaceBetween: 10,
               },
               768: {
@@ -104,10 +104,9 @@ const ArticleSection = ({data}: TProps) => {
           sideOverlayClassName="bg-transparent"
           className="overflow-visible topNavigation sm:pl-7! pt-4! pb-14! h-full"
         >
-          {data.map(({_id, cover_image, thumbnail_image, title, excerpt, slug}) => (
-            <SwiperSlide key={_id} className="h-auto flex">
+          {data.map(({_id, cover_image, thumbnail_image, title, excerpt, slug}, index) => (
+            <SwiperSlide key={_id + index} className="h-auto flex">
               <ArticleCard
-                key={_id}
                 image={thumbnail_image || cover_image}
                 title={title}
                 description={excerpt}

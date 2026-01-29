@@ -289,6 +289,19 @@ h6 {
   transition: transform 0.2s ease-in-out;
 }
 
+.topNavigation > .swiper-button-prev,
+.topNavigation > .swiper-button-next {
+  top: 0 !important;
+}
+
+.topNavigation > .swiper-button-prev {
+  right: 100px !important;
+}
+
+.topNavigation > .swiper-button-next {
+  right: 0 !important;
+}
+
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
   transform: scale(1) !important;
