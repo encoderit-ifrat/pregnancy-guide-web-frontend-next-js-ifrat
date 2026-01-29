@@ -79,7 +79,7 @@ export default function PregnancyOverview({
       </CheckListSection>
       {Boolean(latest?.length) && (
         <section className="bg-primary-light">
-          <ArticleSection data={[...latest, ...latest, ...latest]} />
+          <ArticleSection data={(latest as any) || []} />
         </section>
       )}
       {/* divider */}

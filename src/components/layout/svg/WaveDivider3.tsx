@@ -20,7 +20,7 @@ export default function WaveDivider3({
           waveColorClass
         )}
         viewBox="0 0 1441 97"
-        preserveAspectRatio="xMidYMin slice"
+        preserveAspectRatio="xMaxYMin slice"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >

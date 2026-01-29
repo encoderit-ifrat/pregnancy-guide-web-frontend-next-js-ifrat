@@ -44,7 +44,7 @@ export default function CheckListSection({
             {children}
           </div>
           <WaveDivider3
-            waveColorClass="text-primary-light transfor translate-y-[2px]"
+            waveColorClass="text-primary-light transform translate-y-[2px]"
             bgClassName="bg-transparent"
           />
         </div>
