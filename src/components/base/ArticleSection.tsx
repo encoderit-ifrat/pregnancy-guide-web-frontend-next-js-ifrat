@@ -49,11 +49,10 @@ const ArticleSection = ({data}: TProps) => {
       className={cn(
         "relative pl-4 pb-10 sm:pb-7 lg:pb-15 lg:text-start",
         // "max-w-7xl mx-auto",
-        "md:pl-[20%] lg:pl-[20%] xl:pl-[20%]",
       )}
     >
       {/* Section Header */}
-      <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div>
           <IconHeading
             text="Atricles"
@@ -71,7 +70,7 @@ const ArticleSection = ({data}: TProps) => {
         <Slider
           options={{
             spaceBetween: 10,
-            slidesPerView: 1.3,
+            slidesPerView: 1,
             pagination: pagination,
             navigation: true,
             // autoplay: {
@@ -79,7 +78,11 @@ const ArticleSection = ({data}: TProps) => {
             //   disableOnInteraction: false,
             // },
             breakpoints: {
-              640: {
+              320: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+              },
+              321: {
                 slidesPerView: 1.3,
                 spaceBetween: 10,
               },
