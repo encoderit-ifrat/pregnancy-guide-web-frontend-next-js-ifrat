@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/Button";
-import { Slider } from "@/components/ui/Slider";
+import {Button} from "@/components/ui/Button";
+import {Slider} from "@/components/ui/Slider";
 import IconHeading from "@/components/ui/text/IconHeading";
-import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import { FileQuestion } from "lucide-react";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import {imageLinkGenerator} from "@/helpers/imageLinkGenerator";
+import {FileQuestion} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { SwiperSlide } from "swiper/react";
+import {SwiperSlide} from "swiper/react";
 import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
 
 type TProps = {
@@ -20,7 +20,7 @@ type TProps = {
   }[];
 };
 
-function WeeklyArticle({ articles }: TProps) {
+function WeeklyArticle({articles}: TProps) {
   const pagination = {
     renderBullet: function (index, className) {
       return '<span class="' + className + '"></span>';
@@ -33,7 +33,7 @@ function WeeklyArticle({ articles }: TProps) {
         <div className="max-w-3xl text-center mx-auto">
           <IconHeading
             text="Articles"
-            icon={<FileQuestion />}
+            icon={<FileQuestion/>}
             className="text-primary justify-center"
           />
           <SectionHeading>
@@ -65,10 +65,9 @@ function WeeklyArticle({ articles }: TProps) {
             {articles.map((article, index) => (
               <SwiperSlide
                 key={index}
-                className="h-full flex justify-items-stretch!"
-                style={{ alignSelf: "stretch" }}
+                style={{alignSelf: "stretch"}}
               >
-                <ArticleBigCard data={article} />
+                <ArticleBigCard data={article}/>
               </SwiperSlide>
             ))}
           </Slider>
