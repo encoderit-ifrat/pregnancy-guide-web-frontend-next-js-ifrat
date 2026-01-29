@@ -83,7 +83,6 @@ export default function PregnancyOverview({
             ...latest,
             ...latest,
             ...latest,
-            ...latest,
           ]}/>
         </section>
       )}

@@ -24,7 +24,7 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
           <h3 className="text-2xl md:text-3xl font-semibold text-[#3b2b6f] mb-4">
             {data?.title}
           </h3>
-          <p className="text-sm md:text-base text-gray-600 mb-6 max-w-xl line-clamp-8">
+          <p className="text-sm md:text-base text-gray-600 mb-6 max-w-xl line-clamp-6 md:line-clamp-8">
             {data?.excerpt}
           </p>
 

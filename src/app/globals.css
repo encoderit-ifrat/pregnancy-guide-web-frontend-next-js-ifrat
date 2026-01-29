@@ -308,17 +308,16 @@ h6 {
 .topNavigation .swiper-button-next,
 .mySwiper.topNavigation > .swiper-button-prev,
 .mySwiper.topNavigation > .swiper-button-next {
-  top: -26px !important;
-  right: 10px !important;
-  left: auto !important;
   z-index: 50;
+  @apply left-auto -top-[56px] right-[10px] md:-top-[60px] md:right-[10px] lg:-top-[60px] lg:right-[120px];
 }
 
 /* Offset prev so they sit side-by-side on the right */
 .topNavigation > .swiper-button-prev,
 .topNavigation .swiper-button-prev,
 .mySwiper.topNavigation > .swiper-button-prev {
-  right: 66px !important; /* offset prev to the left of next */
+  /*right: 66px !important; !* offset prev to the left of next *!*/
+  @apply right-[66px] md:right-[66px] lg:right-[180px];
 }
 
 .swiper-button-prev:hover,
