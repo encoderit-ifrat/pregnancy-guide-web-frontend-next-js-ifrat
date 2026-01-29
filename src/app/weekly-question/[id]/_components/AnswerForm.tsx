@@ -92,7 +92,7 @@ export default function AnswerForm({
       }}
     >
       <div className="w-full mx-auto space-y-8">
-        <div className="bg-white rounded-2xl p-8">{children}</div>
+        <div className="bg-white rounded-2xl">{children}</div>
       </div>
     </AnswerFormContext.Provider>
   );
@@ -143,7 +143,7 @@ export const AnswerFormRadioGroup = ({
               <label
                 htmlFor={optionItem._id}
                 onClick={() => setOption(optionItem._id)}
-                className={`flex items-center gap-4 rounded-xl p-4 cursor-pointer transition-shadow ${
+                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${
                   isSelected
                     ? "bg-primary text-white shadow-md"
                     : "bg-[#F2EAFB] text-foreground hover:shadow-md"
