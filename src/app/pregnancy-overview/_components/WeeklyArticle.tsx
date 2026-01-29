@@ -52,12 +52,17 @@ function WeeklyArticle({ articles }: TProps) {
               slidesPerView: 1,
               pagination: pagination,
               navigation: true,
+              autoplay: {
+                delay: 4000,
+                pauseOnMouseEnter: true,
+              },
+              loop: true,
             }}
             sideOverlayClassName="bg-white w-4"
-            className="px-7! py-10!"
+            className="px-7! py-10! h-full"
           >
             {articles.map((article, index) => (
-              <SwiperSlide key={index} className="h-auto flex">
+              <SwiperSlide key={index} className="h-full flex">
                 <ArticleBigCard data={article} />
               </SwiperSlide>
             ))}

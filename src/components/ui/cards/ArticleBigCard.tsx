@@ -17,14 +17,14 @@ type BigSliderCardProps = {
 
 export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
   return (
-    <Card className="bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-6">
+    <Card className="h-full flex flex-col bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-3 sm:p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         {/* Left: text content */}
         <div className="order-2 md:order-1 px-2 md:pl-6 md:pr-10">
           <h3 className="text-2xl md:text-3xl font-semibold text-[#3b2b6f] mb-4">
             {data?.title}
           </h3>
-          <p className="text-sm md:text-base text-gray-600 mb-6 max-w-xl">
+          <p className="text-sm md:text-base text-gray-600 mb-6 max-w-xl line-clamp-8">
             {data?.excerpt}
           </p>
 
@@ -43,7 +43,7 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
             alt={data?.title || ""}
             width={840}
             height={600}
-            className="object-fit object-cover rounded-lg w-[400px] h-[400px]! border"
+            className="object-fit object-cover rounded-lg w-[340px] !h-[340px] sm:w-[400px] sm:!h-[400px] border"
           />
 
           {/* circular logo badge */}
