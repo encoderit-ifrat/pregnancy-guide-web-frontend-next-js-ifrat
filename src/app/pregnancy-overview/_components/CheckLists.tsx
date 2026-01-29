@@ -54,9 +54,6 @@ export default function CheckLists({checkLists, count}: CheckListsProps) {
         >
           <Link href="/check-lists" className="flex items-center gap-2">
             See All
-            <span className="px-2 py-0.5 text-[10px] lg:text-xs font-medium rounded-full bg-purple-100 text-purple-700">
-              {count || 0}
-            </span>
           </Link>
         </Button>
       </div>
