@@ -47,7 +47,7 @@ const ArticleSection = ({data}: TProps) => {
   return (
     <div
       className={cn(
-        "relative pl-4 pb-10 sm:pb-7 lg:pb-15 lg:text-start",
+        "relative pl-4 pb-10 pt-4 sm:pb-15 lg:pb-18 lg:text-start",
         // "max-w-7xl mx-auto",
       )}
     >
@@ -102,7 +102,7 @@ const ArticleSection = ({data}: TProps) => {
             loop: true,
           }}
           sideOverlayClassName="bg-transparent"
-          className="overflow-visible sm:pl-7! py-10! h-full"
+          className="overflow-visible sm:pl-7! pt-4! pb-14! h-full"
         >
           {data.map(({_id, cover_image, thumbnail_image, title, excerpt, slug}) => (
             <SwiperSlide key={_id} className="h-auto flex">

@@ -14,6 +14,7 @@ import WeekSelector from "./WeekSelector";
 import {PregnancyOverviewProps} from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import CheckListSection from "@/app/pregnancy-overview/_components/CheckListSection";
+import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 
 export default function PregnancyOverview({
                                             pregnancyData,
@@ -86,9 +87,14 @@ export default function PregnancyOverview({
           ]}/>
         </section>
       )}
+      {/* divider */}
+      <ConcaveCurve
+        className="text-white h-10! sm:h-20! md:h-24! lg:h-30!"
+        bgClassName="bg-primary-light"
+      />
       <ImageOverview data={(bannerArticle as any) ?? []}/>
       {
-        <section className="bg-section pb-32 md:pb-96">
+        <section className="bg-white pb-32 md:pb-96">
           <SpecialArticleSection data={(specialArticle as any) ?? []}/>
         </section>
       }

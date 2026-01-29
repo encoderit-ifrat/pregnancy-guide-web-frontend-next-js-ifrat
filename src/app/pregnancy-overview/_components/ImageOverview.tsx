@@ -33,7 +33,7 @@ type TProps = {
 
 function ImageOverview({ data }: TProps) {
   return (
-    <section className="relative w-full mx-auto bg-chart-5 px-4 py-12 lg:py-20">
+    <section className="relative w-full mx-auto bg-white px-4 py-12 lg:py-20">
       {Boolean(data?.[0]?.slug) && (
         <div className="relative max-w-5xl w-full mx-auto h-[300px] sm:h-[400px] lg:h-[600px]">
           <Link href={`/articles/${data?.[0]?.slug || "article-not-found"}`}>
