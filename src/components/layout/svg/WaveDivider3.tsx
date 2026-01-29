@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import {cn} from "@/lib/utils";
 
 type TopWaveDividerProps = {
   bgClassName?: string; // section background (e.g. bg-red-500)
@@ -6,11 +6,11 @@ type TopWaveDividerProps = {
   height?: string;
 };
 
-export default function WaveDivider2({
-  bgClassName = "bg-transparent",
-  waveColorClass = "text-red-200",
-  height = "h-40 lg:h-auto",
-}: TopWaveDividerProps) {
+export default function WaveDivider3({
+                                         bgClassName = "bg-transparent",
+                                         waveColorClass = "text-primary-light",
+                                         height = "h-40 lg:h-auto",
+                                       }: TopWaveDividerProps) {
   return (
     <div className={cn("relative w-full overflow-hidden", bgClassName)}>
       <svg
@@ -24,10 +24,7 @@ export default function WaveDivider2({
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <path
-          d="M492.266 73.3714C279.889 121.2 75.5984 85.4957 0 61.6651V0H1440V82.5692C1314.5 96.7688 1226.5 73.5141 1198 62.9049C946.422 -30.7454 757.737 13.5857 492.266 73.3714Z"
-          fill="white"
-        />
+        <path d="M492.266 23.6286C279.889 -24.1999 75.5984 11.5043 0 35.3349V97H1440V14.4308C1314.5 0.231155 1226.5 23.4859 1198 34.0951C946.422 127.745 757.737 83.4143 492.266 23.6286Z"/>
       </svg>
     </div>
   );

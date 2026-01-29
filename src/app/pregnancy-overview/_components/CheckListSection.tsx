@@ -4,6 +4,7 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import { Heart } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
+import WaveDivider3 from "@/components/layout/svg/WaveDivider3";
 
 export default function CheckListSection({
   children,
@@ -42,8 +43,8 @@ export default function CheckListSection({
             </div>
             {children}
           </div>
-          <WaveDivider
-            className="text-[#F6F0FF] transfor translate-y-[2px]"
+          <WaveDivider3
+            waveColorClass="text-primary-light transfor translate-y-[2px]"
             bgClassName="bg-transparent"
           />
         </div>

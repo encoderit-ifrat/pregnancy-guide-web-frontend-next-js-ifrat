@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 interface SliderProps extends PropsWithChildren {
   className?: string;
   options?: SwiperOptions;
-  sideOverlayClassName: string;
+  sideOverlayClassName?: string;
 }
 
 export function Slider({

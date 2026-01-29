@@ -1,9 +1,12 @@
 "use client";
-import React, { useRef } from "react";
+import React, {useRef} from "react";
 import ArticleCard from "../ui/cards/ArticleCard";
-// import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "../ui/Button";
+import {Heart} from "lucide-react";
+import IconHeading from "@/components/ui/text/IconHeading";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import {SwiperSlide} from "swiper/react";
+import {Slider} from "@/components/ui/Slider";
+import {cn} from "@/lib/utils";
 
 export type Category = {
   _id: string;
@@ -34,62 +37,82 @@ type TProps = {
   data: Article[];
 };
 
-const ArticleSection = ({ data }: TProps) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 300;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
+const ArticleSection = ({data}: TProps) => {
+  const pagination = {
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '"></span>';
+    },
   };
 
   return (
-    <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start max-w-5xl mx-auto pb-10">
+    <div
+      className={cn(
+        "relative pl-4 pb-10 sm:pb-7 lg:pb-15 lg:text-start",
+        // "max-w-7xl mx-auto",
+        "md:pl-[20%] lg:pl-[20%] xl:pl-[20%]",
+      )}
+    >
       {/* Section Header */}
       <div className="flex items-center justify-between">
-        <p className="text-foreground font-semibold  text-3xl lg:text-4xl py-7">
-          OUR ARTICLES
-        </p>
-        {/* Scroll Buttons (floating on sides) */}
-        <div className="justify-between pointer-events-none gap-4 hidden md:flex">
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => handleScroll("left")}
-            className="rounded-full shadow-md bg-background/80 backdrop-blur pointer-events-auto"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => handleScroll("right")}
-            className="rounded-full shadow-md bg-background/80 backdrop-blur pointer-events-auto"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </Button>
+        <div>
+          <IconHeading
+            text="Atricles"
+            icon={<Heart/>}
+            className="text-primary"
+          />
+          <SectionHeading>
+            OUR ARTICLES
+          </SectionHeading>
         </div>
       </div>
 
-      {/* Scrollable Article Cards */}
-      <div
-        ref={scrollRef}
-        className="flex flex-col md:flex-row items-center flex-nowrap gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
-      >
-        {data?.map(
-          ({ _id, cover_image, thumbnail_image, title, excerpt, slug }) => (
-            <ArticleCard
-              key={_id}
-              image={thumbnail_image}
-              title={title}
-              description={excerpt}
-              slug={slug}
-            />
-          )
-        )}
+      <div>
+        {/* Scrollable Article Cards */}
+        <Slider
+          options={{
+            spaceBetween: 10,
+            slidesPerView: 1.3,
+            pagination: pagination,
+            navigation: true,
+            // autoplay: {
+            //   delay: 2500,
+            //   disableOnInteraction: false,
+            // },
+            breakpoints: {
+              640: {
+                slidesPerView: 1.3,
+                spaceBetween: 10,
+              },
+              768: {
+                slidesPerView: 2.5,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1366: {
+                slidesPerView: 3.5,
+                spaceBetween: 20,
+              },
+            },
+            loop: true,
+          }}
+          sideOverlayClassName="bg-transparent"
+          className="overflow-visible sm:pl-7! py-10! h-full"
+        >
+          {data.map(({_id, cover_image, thumbnail_image, title, excerpt, slug}) => (
+            <SwiperSlide key={_id} className="h-auto flex">
+              <ArticleCard
+                key={_id}
+                image={thumbnail_image || cover_image}
+                title={title}
+                description={excerpt}
+                slug={slug}
+              />
+            </SwiperSlide>
+          ))}
+        </Slider>
       </div>
     </div>
   );
