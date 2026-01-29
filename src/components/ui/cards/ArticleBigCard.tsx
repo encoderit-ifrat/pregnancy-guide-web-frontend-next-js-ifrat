@@ -17,7 +17,7 @@ type BigSliderCardProps = {
 
 export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
   return (
-    <Card className="h-full flex flex-col bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-3 sm:p-6">
+    <Card className="h-full flex flex-col grow! bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-3 sm:p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         {/* Left: text content */}
         <div className="order-2 md:order-1 px-2 md:pl-6 md:pr-10">

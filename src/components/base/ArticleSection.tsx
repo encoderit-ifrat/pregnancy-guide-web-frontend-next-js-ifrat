@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import ArticleCard from "../ui/cards/ArticleCard";
-import {Heart} from "lucide-react";
+import { Heart } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
-import {SwiperSlide} from "swiper/react";
-import {Slider} from "@/components/ui/Slider";
-import {cn} from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { SwiperSlide } from "swiper/react";
+import { Slider } from "@/components/ui/Slider";
+import { cn } from "@/lib/utils";
 
 export type Category = {
   _id: string;
@@ -37,7 +37,7 @@ type TProps = {
   data: Article[];
 };
 
-const ArticleSection = ({data}: TProps) => {
+const ArticleSection = ({ data }: TProps) => {
   const pagination = {
     renderBullet: function (index, className) {
       return '<span class="' + className + '"></span>';
@@ -47,7 +47,7 @@ const ArticleSection = ({data}: TProps) => {
   return (
     <div
       className={cn(
-        "relative overflow-hidden pl-4 pb-10 pt-4 sm:pb-15 lg:pb-18 lg:text-start",
+        "relative overflow-hidden pl-4 pb-10 pt-4 sm:pb-15 lg:pb-18 lg:text-start"
         // "max-w-7xl mx-auto",
       )}
     >
@@ -56,12 +56,10 @@ const ArticleSection = ({data}: TProps) => {
         <div>
           <IconHeading
             text="Atricles"
-            icon={<Heart/>}
+            icon={<Heart />}
             className="text-primary"
           />
-          <SectionHeading>
-            OUR ARTICLES
-          </SectionHeading>
+          <SectionHeading>OUR ARTICLES</SectionHeading>
         </div>
       </div>
 
@@ -104,16 +102,21 @@ const ArticleSection = ({data}: TProps) => {
           sideOverlayClassName="bg-transparent"
           className="overflow-visible topNavigation sm:pl-7 !pt-4 !pb-14 h-full"
         >
-          {data.map(({_id, cover_image, thumbnail_image, title, excerpt, slug}, index) => (
-            <SwiperSlide key={_id + index} className="h-auto flex">
-              <ArticleCard
-                image={thumbnail_image || cover_image}
-                title={title}
-                description={excerpt}
-                slug={slug}
-              />
-            </SwiperSlide>
-          ))}
+          {data.map(
+            (
+              { _id, cover_image, thumbnail_image, title, excerpt, slug },
+              index
+            ) => (
+              <SwiperSlide key={_id + index} className="h-auto flex">
+                <ArticleCard
+                  image={thumbnail_image || cover_image}
+                  title={title}
+                  description={excerpt}
+                  slug={slug}
+                />
+              </SwiperSlide>
+            )
+          )}
         </Slider>
       </div>
     </div>

@@ -1,18 +1,18 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import CheckList from "@/components/base/CheckList";
-import {CheckCircle2} from "lucide-react";
-import {Button} from "@/components/ui/Button";
+import { CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import {CheckboxItem} from "@radix-ui/react-menu";
+import { CheckboxItem } from "@radix-ui/react-menu";
 import CheckListItem from "@/app/check-lists/_component/CheckListItem";
 
 // import { Button } from "@/components/ui/Button";
 
-import {CheckListsProps} from "../_types/checklists_component_types";
+import { CheckListsProps } from "../_types/checklists_component_types";
 
-export default function CheckLists({checkLists, count}: CheckListsProps) {
+export default function CheckLists({ checkLists, count }: CheckListsProps) {
   return (
     <div className="px-4 sm:pt-12 lg:pt-15  space-y-2  lg:text-start max-w-4xl mx-auto pb-7 lg:pb-15">
       {/*<div className="flex items-center justify-between">*/}
@@ -46,12 +46,10 @@ export default function CheckLists({checkLists, count}: CheckListsProps) {
         {/*    // description={item.description}*/}
         {/*  />*/}
         {/*))}*/}
-        <CheckListItem checklistItems={checkLists} overview={true}/>
+        <CheckListItem checklistItems={checkLists} overview={true} />
       </div>
       <div className="flex justify-center my-10">
-        <Button
-          className="w-full max-w-3xl"
-        >
+        <Button className="w-full max-w-3xl">
           <Link href="/check-lists" className="flex items-center gap-2">
             See All
           </Link>

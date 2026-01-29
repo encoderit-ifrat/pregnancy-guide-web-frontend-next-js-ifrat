@@ -4,7 +4,7 @@ import { Button } from "../Button";
 import { BASE_URL } from "@/data/global_data";
 import Link from "next/link";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import {ChevronRight} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 type ArticleCardProps = {
   image: string;
@@ -41,7 +41,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           {description}
         </p>
         <Link href={`/articles/${slug}`} className="text-primary text-sm">
-            Read more
+          Read more
           {/*<Button
             variant="softPurple"
             onClick={onClick}
@@ -52,9 +52,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         </Link>
       </div>
       <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
-        <Link
-          href={`/articles/${slug || "article-not-found"}`}
-        >
+        <Link href={`/articles/${slug || "article-not-found"}`}>
           <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
             <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]" />
           </button>
