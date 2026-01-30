@@ -3,7 +3,7 @@
 import { PropsWithChildren } from "react";
 import { Swiper } from "swiper/react";
 import type { SwiperOptions } from "swiper/types";
-import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
+import { Grid, Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -24,7 +24,7 @@ export function Slider({
 }: SliderProps) {
   return (
     <Swiper
-      modules={[Navigation, Pagination, FreeMode, Autoplay]}
+      modules={[Grid, Navigation, Pagination, FreeMode, Autoplay]}
       {...options}
       className={cn("mySwiper", className)}
       style={{

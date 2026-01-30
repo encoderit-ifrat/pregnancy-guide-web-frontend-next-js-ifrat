@@ -82,16 +82,23 @@ export default function PregnancyOverview({
           <ArticleSection data={(latest as any) || []} />
         </section>
       )}
-      {/* divider */}
-      <ConcaveCurve
-        className="text-white h-10! sm:h-20! md:h-24! lg:h-30!"
-        bgClassName="bg-primary-light"
-      />
-      <ImageOverview data={(bannerArticle as any) ?? []} />
-      {
-        <section className="bg-white pb-32 md:pb-96">
+
+      {Boolean(bannerArticle.length) &&
+        <>
+          {/* divider */}
+          <ConcaveCurve
+            className="text-white h-10! sm:h-20! md:h-24! lg:h-30!"
+            bgClassName="bg-primary-light"
+          />
+          <ImageOverview data={(bannerArticle as any) ?? []} />
+        </>
+      }
+      {Boolean(specialArticle.length) &&
+        <>
+          {/* divider */}
+          <WaveDivider className="text-primary-light" bgClassName="bg-white" />
           <SpecialArticleSection data={(specialArticle as any) ?? []} />
-        </section>
+        </>
       }
     </div>
   );

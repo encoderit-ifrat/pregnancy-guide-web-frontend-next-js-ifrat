@@ -59,7 +59,7 @@ const ArticleSection = ({ data }: TProps) => {
             icon={<Heart />}
             className="text-primary"
           />
-          <SectionHeading>OUR ARTICLES</SectionHeading>
+          <SectionHeading>Our Articles</SectionHeading>
         </div>
       </div>
 

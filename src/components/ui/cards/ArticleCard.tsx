@@ -11,6 +11,7 @@ type ArticleCardProps = {
   title: string;
   description: string;
   slug: string;
+  showButton?: boolean;
   onClick?: () => void; // optional click handler for the button
 };
 
@@ -19,6 +20,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   title,
   description,
   slug,
+  showButton = true,
   onClick,
 }) => {
   return (
@@ -51,13 +53,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           </Button>*/}
         </Link>
       </div>
-      <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
-        <Link href={`/articles/${slug || "article-not-found"}`}>
-          <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
-            <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]" />
-          </button>
-        </Link>
-      </div>
+      {showButton && (
+        <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
+          <Link href={`/articles/${slug || "article-not-found"}`}>
+            <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
+              <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]" />
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

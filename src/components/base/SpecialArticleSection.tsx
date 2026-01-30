@@ -1,8 +1,11 @@
 "use client";
 import React, { useRef } from "react";
-import SpecialArticleCard from "./SpecialArticleCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "../ui/Button"; // or "@/components/ui/button" depending on your folder structure
+import ArticleCard from "../ui/cards/ArticleCard";
+import IconHeading from "../ui/text/IconHeading";
+import { SectionHeading } from "../ui/text/SectionHeading";
+import { SwiperSlide } from "swiper/react";
+import { Heart } from "lucide-react";
+import { Slider } from "../ui/Slider";
 
 export type Category = {
   _id: string;
@@ -34,66 +37,102 @@ type TProps = {
 };
 
 const SpecialArticleSection = ({ data }: TProps) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 300;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
+  const pagination = {
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '"></span>';
+    },
   };
 
   return (
-    <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start max-w-7xl mx-auto pb-10">
-      {Boolean(data?.length) && (
-        <>
-          <div className="flex items-center justify-between">
-            <p className="text-foreground font-semibold text-3xl lg:text-4xl py-7">
-              SPECIAL ARTICLES
-            </p>
-
-            {/* Scroll Buttons (hidden on mobile) */}
-            <div className="justify-between pointer-events-none gap-4 hidden md:flex">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => handleScroll("left")}
-                className="rounded-full shadow-md bg-background/80 backdrop-blur pointer-events-auto"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => handleScroll("right")}
-                className="rounded-full shadow-md bg-background/80 backdrop-blur pointer-events-auto"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-          <div
-            ref={scrollRef}
-            className="flex flex-col md:flex-row items-center flex-nowrap gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
-          >
-            {data.map(
-              ({ _id, cover_image, thumbnail_image, title, excerpt, slug }) => (
-                <SpecialArticleCard
-                  key={_id}
-                  // image={data?.length > 1 ? thumbnail_image : cover_image}
-                  image={thumbnail_image}
-                  title={title}
-                  description={excerpt}
-                  slug={slug}
+    <section className="bg-primary-light">
+      <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start max-w-7xl mx-auto pb-10">
+        {Boolean(data?.length) && (
+          <>
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <div>
+                <IconHeading
+                  text="Atricles"
+                  icon={<Heart />}
+                  className="text-primary"
                 />
-              )
-            )}
-          </div>
-        </>
-      )}
-    </div>
+                <SectionHeading>Special Articles</SectionHeading>
+              </div>
+            </div>
+            <div
+              className="flex flex-col md:flex-row items-center flex-nowrap gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
+            >
+              <Slider
+                options={{
+                  spaceBetween: 10,
+                  slidesPerView: 1,
+                  navigation: true,
+                  pagination: {
+                    ...pagination,
+                    enabled: true,
+                  },
+                  grid: {
+                    rows: 1,
+                    fill: "row",
+                  },
+                  breakpoints: {
+                    320: {
+                      slidesPerView: 1,
+                      spaceBetween: 10,
+                      grid: {
+                        rows: 1,
+                        fill: "row",
+                      },
+                    },
+                    321: {
+                      slidesPerView: 1.2,
+                      spaceBetween: 10,
+                    },
+                    768: {
+                      slidesPerView: 2.5,
+                      spaceBetween: 20,
+                      grid: {
+                        rows: 1,
+                        fill: "row",
+                      },
+                    },
+                    1024: {
+                      slidesPerView: 3,
+                      spaceBetween: 20,
+                      grid: {
+                        rows: 2,
+                        fill: "row",
+                      },
+                      pagination: {
+                        enabled: false,
+                      },
+                    },
+                  },
+                }}
+                sideOverlayClassName="bg-transparent"
+                className="overflow-visible topNavigation sm:pl-7 !pt-4 !pb-14 h-full"
+              >
+                {data.map(
+                  (
+                    { _id, cover_image, thumbnail_image, title, excerpt, slug },
+                    index
+                  ) => (
+                    <SwiperSlide key={_id + index} className="h-auto flex">
+                      <ArticleCard
+                        image={thumbnail_image || cover_image}
+                        title={title}
+                        description={excerpt}
+                        slug={slug}
+                        showButton={false}
+                      />
+                    </SwiperSlide>
+                  )
+                )}
+              </Slider>
+            </div>
+          </>
+        )}
+      </div>
+    </section>
   );
 };
 
