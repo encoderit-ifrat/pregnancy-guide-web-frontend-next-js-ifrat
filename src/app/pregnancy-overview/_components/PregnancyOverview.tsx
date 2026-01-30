@@ -32,7 +32,6 @@ export default function PregnancyOverview({
   const weeklyArticle = articles?.weeklyArticles || [];
 
   const currentWeek = userProfile?.details?.current_pregnancy_data?.week || 0;
-  console.log("12", userProfile);
 
   const handleWeekChange = (week: number) => {
     // Handle week change logic here (e.g., fetch new data for that week)
