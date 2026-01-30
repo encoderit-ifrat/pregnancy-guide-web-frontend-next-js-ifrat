@@ -100,7 +100,7 @@ const ArticleSection = ({ data }: TProps) => {
             // loop: true,
           }}
           sideOverlayClassName="bg-transparent"
-          className="overflow-visible topNavigation sm:pl-7 !pt-4 !pb-14 h-full"
+          className="overflow-visible topNavigation sm:pl-7 pt-4! pb-14! h-full"
         >
           {data.map(
             (

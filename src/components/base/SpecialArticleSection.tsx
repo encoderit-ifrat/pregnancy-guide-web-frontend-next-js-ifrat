@@ -45,10 +45,10 @@ const SpecialArticleSection = ({ data }: TProps) => {
 
   return (
     <section className="bg-primary-light">
-      <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start max-w-7xl mx-auto pb-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:pb-7 lg:pb-15 lg:text-start pb-10">
         {Boolean(data?.length) && (
           <>
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <div>
                 <IconHeading
                   text="Atricles"
@@ -109,7 +109,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
                   },
                 }}
                 sideOverlayClassName="bg-transparent"
-                className="overflow-visible topNavigation sm:pl-7 !pt-4 !pb-14 h-full"
+                  className="overflow-visible sm:pl-7 pt-4! pb-14! h-full"
               >
                 {data.map(
                   (
