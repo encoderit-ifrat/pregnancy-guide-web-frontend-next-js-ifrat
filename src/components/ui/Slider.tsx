@@ -1,15 +1,21 @@
 "use client";
 
-import {PropsWithChildren} from "react";
-import {Swiper} from "swiper/react";
-import type {SwiperOptions} from "swiper/types";
-import {Grid, Autoplay, FreeMode, Navigation, Pagination} from "swiper/modules";
+import { PropsWithChildren } from "react";
+import { Swiper } from "swiper/react";
+import type { SwiperOptions } from "swiper/types";
+import {
+  Grid,
+  Autoplay,
+  FreeMode,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import 'swiper/css/grid';
+import "swiper/css/grid";
 import "swiper/css/navigation";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface SliderProps extends PropsWithChildren {
   className?: string;
@@ -18,11 +24,11 @@ interface SliderProps extends PropsWithChildren {
 }
 
 export function Slider({
-                         className = "!px-6 !py-2 !pb-10",
-                         children,
-                         options,
-                         sideOverlayClassName = "bg-primary-light",
-                       }: SliderProps) {
+  className = "!px-6 !py-2 !pb-10",
+  children,
+  options,
+  sideOverlayClassName = "bg-primary-light",
+}: SliderProps) {
   return (
     <Swiper
       modules={[Grid, Navigation, Pagination, FreeMode, Autoplay]}

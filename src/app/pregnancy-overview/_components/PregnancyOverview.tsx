@@ -82,7 +82,7 @@ export default function PregnancyOverview({
         </section>
       )}
 
-      {Boolean(bannerArticle.length) &&
+      {Boolean(bannerArticle.length) && (
         <>
           {/* divider */}
           <ConcaveCurve
@@ -91,14 +91,14 @@ export default function PregnancyOverview({
           />
           <ImageOverview data={(bannerArticle as any) ?? []} />
         </>
-      }
-      {Boolean(specialArticle.length) &&
+      )}
+      {Boolean(specialArticle.length) && (
         <>
           {/* divider */}
           <WaveDivider className="text-primary-light" bgClassName="bg-white" />
           <SpecialArticleSection data={(specialArticle as any) ?? []} />
         </>
-      }
+      )}
     </div>
   );
 }

@@ -22,9 +22,9 @@
 }
 
 .view-editor-content
-.tiptap.ProseMirror
-.task-list-item
-input[type="checkbox"] {
+  .tiptap.ProseMirror
+  .task-list-item
+  input[type="checkbox"] {
   all: revert;
 }
 
@@ -261,11 +261,11 @@ h6 {
   /*gradient white transparent white*/
   background: transparent;
   background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0) 15%,
-      rgba(255, 255, 255, 0) 85%,
-      rgba(255, 255, 255, 1) 100%
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 15%,
+    rgba(255, 255, 255, 0) 85%,
+    rgba(255, 255, 255, 1) 100%
   );
 }
 
@@ -591,9 +591,9 @@ h6 {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(
-      180deg,
-      var(--color-primary-muted),
-      var(--color-primary)
+    180deg,
+    var(--color-primary-muted),
+    var(--color-primary)
   );
   /*border-radius: 10px;*/
 }

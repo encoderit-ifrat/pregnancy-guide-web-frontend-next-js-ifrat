@@ -33,9 +33,7 @@ export default function CheckListSection({
                 icon={<Heart />}
                 className="text-white justify-center"
               />
-              <SectionHeading className="text-white">
-                Checklists
-              </SectionHeading>
+              <SectionHeading className="text-white">Checklists</SectionHeading>
               <p className="max-w-[420px] mx-auto">
                 Expert advice, real stories, and helpful tips to support you and
                 your family at every stage.

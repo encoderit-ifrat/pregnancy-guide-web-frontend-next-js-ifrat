@@ -1,13 +1,19 @@
 "use client";
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import ArticleCard from "../ui/cards/ArticleCard";
 import IconHeading from "../ui/text/IconHeading";
-import {SectionHeading} from "../ui/text/SectionHeading";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Heart} from "lucide-react";
-import {Slider} from "../ui/Slider";
-import {Autoplay, FreeMode, Grid, Navigation, Pagination} from "swiper/modules";
-import {cn} from "@/lib/utils";
+import { SectionHeading } from "../ui/text/SectionHeading";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Heart } from "lucide-react";
+import { Slider } from "../ui/Slider";
+import {
+  Autoplay,
+  FreeMode,
+  Grid,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
+import { cn } from "@/lib/utils";
 
 export type Category = {
   _id: string;
@@ -38,7 +44,7 @@ type TProps = {
   data: Article[];
 };
 
-const SpecialArticleSection = ({data}: TProps) => {
+const SpecialArticleSection = ({ data }: TProps) => {
   const pagination = {
     renderBullet: function (index, className) {
       return '<span class="' + className + '"></span>';
@@ -54,14 +60,13 @@ const SpecialArticleSection = ({data}: TProps) => {
               <div>
                 <IconHeading
                   text="Atricles"
-                  icon={<Heart/>}
+                  icon={<Heart />}
                   className="text-primary"
                 />
                 <SectionHeading>Special Articles</SectionHeading>
               </div>
             </div>
             <div>
-
               {/*<Swiper*/}
               {/*  modules={[Grid, Navigation, Pagination, FreeMode, Autoplay]}*/}
               {/*  spaceBetween={10}*/}
@@ -141,7 +146,6 @@ const SpecialArticleSection = ({data}: TProps) => {
               {/*  ></div>*/}
               {/*</Swiper>*/}
 
-
               <Slider
                 options={{
                   spaceBetween: 10,
@@ -194,7 +198,7 @@ const SpecialArticleSection = ({data}: TProps) => {
               >
                 {data.map(
                   (
-                    {_id, cover_image, thumbnail_image, title, excerpt, slug},
+                    { _id, cover_image, thumbnail_image, title, excerpt, slug },
                     index
                   ) => (
                     <SwiperSlide key={_id + index} className="">

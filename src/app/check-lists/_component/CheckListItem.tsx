@@ -98,7 +98,7 @@ export default function CheckListItem({
               className={`flex items-center justify-between pr-4 
                 ${!hasItemDetails ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              <div className="flex items-center justify-between gap-3 size-full p-4">
+              <div className="size-full p-4">
                 <div className="sm:ml-6 text-primary-dark">
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
@@ -132,49 +132,57 @@ export default function CheckListItem({
                 )}
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4">
-              {item?.items?.map((itm: any, idx: number) => (
+            <AccordionContent>
+              {/* percentage Completed */}
+              <div className="relative h-0.5 w-full bg-gray-200">
                 <div
-                  key={idx}
-                  onClick={() => handleChecklistToggle(itm._id)}
-                  className={`flex items-center gap-4 p-4 cursor-pointer transition-all ${itm.checked
-                    ? "bg-green-50"
-                    : "hover:bg-gray-50 border-b"
+                  className="absolute h-0.5 bg-green-500"
+                  style={{ width: `${item?.progress?.percentage || 0}%` }}
+                ></div>
+              </div>
+              <div className="px-4">
+                {item?.items?.map((itm: any, idx: number) => (
+                  <div
+                    key={idx}
+                    onClick={() => handleChecklistToggle(itm._id)}
+                    className={`flex items-center gap-4 p-4 cursor-pointer transition-all ${
+                      itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
                     }`}
-                >
-                  <div className="pt-0.5">
-                    {toggleLoading == itm._id && isPending ? (
-                      <Spinner variant="circle" />
-                    ) : itm.checked ? (
-                      <div className="bg-green-600 rounded-full p-1">
-                        <Check className="h-4 w-4 text-white shrink-0" />
-                      </div>
-                    ) : (
-                      <Circle className="h-6 w-6 text-gray-400 shrink-0" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <h4
-                      className={`text-xl text-primary-dark font-bold block ${itm.checked
-                        ? "text-green-800"
-                        : "text-gray-700"
+                  >
+                    <div className="pt-0.5">
+                      {toggleLoading == itm._id && isPending ? (
+                        <Spinner variant="circle" />
+                      ) : itm.checked ? (
+                        <div className="bg-green-600 rounded-full p-1">
+                          <Check className="h-4 w-4 text-white shrink-0" />
+                        </div>
+                      ) : (
+                        <Circle className="h-6 w-6 text-gray-400 shrink-0" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h4
+                        className={`text-xl text-primary-dark font-bold block ${
+                          itm.checked ? "text-green-800" : "text-gray-700"
                         }`}
-                    >
-                      {itm.title}
-                    </h4>
-                    {itm.description && (
-                      <p
-                        className={`text-sm text-primary-dark font-medium mt-1 ${itm.checked
-                          ? "text-green-700 opacity-75"
-                          : "text-gray-600"
-                          }`}
                       >
-                        {itm.description}
-                      </p>
-                    )}
+                        {itm.title}
+                      </h4>
+                      {itm.description && (
+                        <p
+                          className={`text-sm text-primary-dark font-medium mt-1 ${
+                            itm.checked
+                              ? "text-green-700 opacity-75"
+                              : "text-gray-600"
+                          }`}
+                        >
+                          {itm.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </AccordionContent>
           </AccordionItem>
         );
