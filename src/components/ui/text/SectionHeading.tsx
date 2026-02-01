@@ -10,7 +10,7 @@ export const SectionHeading = ({
 }) => (
   <h2
     className={cn(
-      "mb-6 text-4xl md:text-4xl lg:text-5xl font-semibold text-primary-dark leading-[1.4]",
+      "mb-4 text-4xl md:text-4xl lg:text-5xl font-semibold text-primary-dark leading-[1.4]",
       className
     )}
   >

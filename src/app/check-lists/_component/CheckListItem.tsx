@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CheckCircle2, Circle, SquarePen, Trash2 } from "lucide-react";
+import { Check, CheckCircle2, Circle, SquarePen, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   Accordion,
@@ -92,28 +92,25 @@ export default function CheckListItem({
           <AccordionItem
             key={item._id}
             value={`item-${index}`}
-            className="bg-white rounded-2xl shadow-lg border border-purple-100 pr-2"
+            className="bg-white rounded-2xl shadow-lg"
           >
             <AccordionTrigger
-              className={`flex items-center justify-between pr-4${
-                !hasItemDetails ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`flex items-center justify-between pr-4 
+                ${!hasItemDetails ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               <div className="flex items-center justify-between gap-3 size-full p-4">
-                <div className="flex flex-1 items-center gap-3">
-                  <div className="bg-purple-100 p-3 rounded-full">
+                <div className="sm:ml-6 text-primary-dark">
+                  {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-2xl md:text-2xl font-bold text-foreground w-full max-w-32 md:max-w-md truncate">
-                      {item.title}
-                    </h2>
-                    {item.description && (
-                      <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
+                  </div> */}
+                  <h2 className="text-2xl md:text-2xl font-bold text-foreground w-full max-w-32 md:max-w-md truncate">
+                    {item.title}
+                  </h2>
+                  {item.description && (
+                    <p className="text-sm mt-1 line-clamp-2">
+                      {item.description}
+                    </p>
+                  )}
                 </div>
                 {!overview && item.userId && (
                   <div className="flex items-center gap-3">
@@ -135,43 +132,42 @@ export default function CheckListItem({
                 )}
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4 rounded-lg space-y-2">
+            <AccordionContent className="px-4">
               {item?.items?.map((itm: any, idx: number) => (
                 <div
                   key={idx}
                   onClick={() => handleChecklistToggle(itm._id)}
-                  className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all ${
-                    itm.checked
-                      ? "bg-green-50 border-2 border-green-300"
-                      : "bg-gray-50 border-2 border-gray-200 hover:border-purple-300"
-                  }`}
+                  className={`flex items-center gap-4 p-4 cursor-pointer transition-all ${itm.checked
+                    ? "bg-green-50"
+                    : "hover:bg-gray-50 border-b"
+                    }`}
                 >
                   <div className="pt-0.5">
                     {toggleLoading == itm._id && isPending ? (
                       <Spinner variant="circle" />
                     ) : itm.checked ? (
-                      <CheckCircle2 className="h-6 w-6 text-green-600 shrink-0" />
+                      <div className="bg-green-600 rounded-full p-1">
+                        <Check className="h-4 w-4 text-white shrink-0" />
+                      </div>
                     ) : (
                       <Circle className="h-6 w-6 text-gray-400 shrink-0" />
                     )}
                   </div>
                   <div className="flex-1">
-                    <span
-                      className={`text-lg block ${
-                        itm.checked
-                          ? "text-green-800 line-through"
-                          : "text-gray-700"
-                      }`}
+                    <h4
+                      className={`text-xl text-primary-dark font-bold block ${itm.checked
+                        ? "text-green-800"
+                        : "text-gray-700"
+                        }`}
                     >
                       {itm.title}
-                    </span>
+                    </h4>
                     {itm.description && (
                       <p
-                        className={`text-sm mt-1 ${
-                          itm.checked
-                            ? "text-green-700 opacity-75"
-                            : "text-gray-600"
-                        }`}
+                        className={`text-sm text-primary-dark font-medium mt-1 ${itm.checked
+                          ? "text-green-700 opacity-75"
+                          : "text-gray-600"
+                          }`}
                       >
                         {itm.description}
                       </p>
