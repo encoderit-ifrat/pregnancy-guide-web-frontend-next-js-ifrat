@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import CheckList from "@/components/base/CheckList";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { CheckboxItem } from "@radix-ui/react-menu";
@@ -48,10 +48,14 @@ export default function CheckLists({ checkLists, count }: CheckListsProps) {
         {/*))}*/}
         <CheckListItem checklistItems={checkLists} overview={true} />
       </div>
-      <div className="flex justify-center my-10">
+      <div className="flex justify-center my-14">
         <Button className="w-full max-w-3xl">
           <Link href="/check-lists" className="flex items-center gap-2">
             See All
+            <ChevronRight className="size-4" />
+            {/* <span className="px-2 py-0.5 text-[10px] lg:text-xs font-medium rounded-full bg-purple-100 text-purple-700"> */}
+            {/* {count || 0} */}
+            {/* </span> */}
           </Link>
         </Button>
       </div>

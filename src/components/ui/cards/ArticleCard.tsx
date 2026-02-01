@@ -24,8 +24,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   onClick,
 }) => {
   return (
-    <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded shadow">
-      <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
+    <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow">
+      {image && <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
         <Link href={`/articles/${slug}`}>
           <Image
             src={imageLinkGenerator(image)}
@@ -34,7 +34,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             className="object-cover rounded bg-primary-gradient transition-transform duration-500 group-hover:scale-105"
           />
         </Link>
-      </div>
+      </div>}
       <div className="p-4 flex-1 flex flex-col justify-between gap-2 ">
         <p className="font-semibold text-primary-dark font-roboto text-xl lg:text-2xl whitespace-nowrap truncate">
           <Link href={`/articles/${slug}`}> {title}</Link>
@@ -42,7 +42,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <p className="text-sm leading-6 text-text-mid line-clamp-3">
           {description}
         </p>
-        <Link href={`/articles/${slug}`} className="text-primary text-sm">
+        <Link href={`/articles/${slug}`} className="text-primary font-semibold text-sm">
           Read more
           {/*<Button
             variant="softPurple"
@@ -54,10 +54,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         </Link>
       </div>
       {showButton && (
-        <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
+        <div className="absolute -bottom-11 -right-11 transition-transform duration-300 group-hover:scale-130">
           <Link href={`/articles/${slug || "article-not-found"}`}>
-            <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
-              <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]" />
+            <button className="size-20 bg-primary text-white transition rounded-full relative cursor-pointer">
+              <ChevronRight className="h-5 w-5 text-white absolute top-[16px] left-[10px]" />
             </button>
           </Link>
         </div>
