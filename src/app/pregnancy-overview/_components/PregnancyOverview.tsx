@@ -8,7 +8,7 @@ import PregnancyDetails from "./PregnancyDetails";
 import WeeklyDetails from "./WeeklyDetails";
 import QuestionOfTheWeek from "./QuestionOfTheWeek";
 import WeeklyArticle from "./WeeklyArticle";
-import ImageOverview from "./ImageOverview";
+import OurArticle from "./OurArticle";
 import CheckLists from "./CheckLists";
 import WeekSelector from "./WeekSelector";
 import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
@@ -82,14 +82,14 @@ export default function PregnancyOverview({
         </section>
       )}
 
-      {Boolean(bannerArticle.length) && (
+      {Boolean(latest.length) && (
         <>
           {/* divider */}
           <ConcaveCurve
             className="text-white h-10! sm:h-20! md:h-24! lg:h-30!"
             bgClassName="bg-primary-light"
           />
-          <ImageOverview data={(bannerArticle as any) ?? []} />
+          <OurArticle data={(latest as any) ?? []} />
         </>
       )}
       {Boolean(specialArticle.length) && (
