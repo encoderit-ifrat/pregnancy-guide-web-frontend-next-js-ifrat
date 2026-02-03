@@ -62,7 +62,7 @@ export default function SearchArticle({
 
   return (
     <div className="p-4 w-full">
-      <div className="section flex flex-col gap-6">
+      <div className="section flex flex-col gap-6 mb-4">
         {/* <ArticleStats /> */}
         {initialQuery && (
           <SearchResultHeader query={initialQuery} category="Articles" />

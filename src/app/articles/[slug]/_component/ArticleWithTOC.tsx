@@ -113,9 +113,6 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
           />
         </div>
       )}
-      <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
-        {article?.title}
-      </h1>
 
       {/*{article?.excerpt && (*/}
       {/*  <p className="mb-6 text-lg text-gray-600 leading-relaxed">*/}
@@ -129,6 +126,9 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
         )}
         {/*  hasToC={headings.length > 0} */}
         <div className="w-full lg:flex-1 min-w-0">
+          <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
+            {article?.title}
+          </h1>
           <ArticleContent content={contentWithIds} />
         </div>
       </div>
