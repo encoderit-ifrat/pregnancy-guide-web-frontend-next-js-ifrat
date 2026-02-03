@@ -107,7 +107,7 @@ const ArticleSection = ({ data }: TProps) => {
               { _id, cover_image, thumbnail_image, title, excerpt, slug },
               index
             ) => (
-              <SwiperSlide key={_id + index} className="h-auto flex">
+              <SwiperSlide key={_id + index} className="h-auto! flex">
                 <ArticleCard
                   image={thumbnail_image || cover_image}
                   title={title}

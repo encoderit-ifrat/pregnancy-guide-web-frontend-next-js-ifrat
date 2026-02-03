@@ -201,7 +201,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
                     { _id, cover_image, thumbnail_image, title, excerpt, slug },
                     index
                   ) => (
-                    <SwiperSlide key={_id + index} className="">
+                    <SwiperSlide key={_id + index} className="h-auto!">
                       <ArticleCard
                         image={thumbnail_image || cover_image}
                         title={title}

@@ -24,7 +24,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   onClick,
 }) => {
   return (
-    <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow">
+    <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow h-full flex flex-col">
       {image && <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
         <Link href={`/articles/${slug}`}>
           <Image
@@ -35,11 +35,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           />
         </Link>
       </div>}
-      <div className="p-4 flex-1 flex flex-col justify-between gap-2 ">
+      <div className="p-4 flex flex-col justify-between gap-2 flex-1">
         <p className="font-semibold text-primary-dark font-roboto text-xl lg:text-2xl whitespace-nowrap truncate">
           <Link href={`/articles/${slug}`}> {title}</Link>
         </p>
-        <p className="text-sm leading-6 text-text-mid line-clamp-3">
+        <p className="text-sm flex-1 leading-6 text-text-mid line-clamp-3">
           {description}
         </p>
         <Link href={`/articles/${slug}`} className="text-primary font-semibold text-sm">

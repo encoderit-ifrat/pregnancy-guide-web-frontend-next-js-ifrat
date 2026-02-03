@@ -41,9 +41,9 @@ function OurArticle({ data }: TProps) {
 
   return (
     <section className="relative w-full mx-auto bg-white px-4 py-12 lg:py-20">
-      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 gap-10 lg:grid-cols-2">
+      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 gap-10 md:grid-cols-2">
       {Boolean(firstArticle?.slug) && (
-        <div className="h-[300px] sm:h-[400px] lg:h-[600px]">
+        <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
           <Link href={`/articles/${firstArticle?.slug || "article-not-found"}`}>
             <Image
               src={imageLinkGenerator(firstArticle?.cover_image)}
@@ -68,7 +68,7 @@ function OurArticle({ data }: TProps) {
         </div>
       )}
         {(otherArticles || []).map((article) => (
-        <div className="h-[300px] sm:h-[400px] lg:h-[600px]">
+        <div className="">
           <Link href={`/articles/${article?.slug || "article-not-found"}`}>
             <Image
               src={imageLinkGenerator(article?.cover_image)}

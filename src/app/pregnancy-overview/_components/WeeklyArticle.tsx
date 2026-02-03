@@ -63,7 +63,7 @@ function WeeklyArticle({ articles }: TProps) {
             className="px-7! py-10! lg:pb-14! h-full"
           >
             {articles.map((article, index) => (
-              <SwiperSlide key={index} style={{ alignSelf: "stretch" }}>
+              <SwiperSlide key={index} className="h-auto!">
                 <ArticleBigCard data={article} />
               </SwiperSlide>
             ))}
