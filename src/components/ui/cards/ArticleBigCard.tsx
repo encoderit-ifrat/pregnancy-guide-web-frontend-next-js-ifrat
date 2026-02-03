@@ -4,6 +4,9 @@ import React from "react";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Logo from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import {ChevronRight, Trash2} from "lucide-react";
+import {Button} from "@/components/ui/Button";
 
 type BigSliderCardProps = {
   data?: {
@@ -28,12 +31,23 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
             {data?.excerpt}
           </p>
 
-          <button
-            type="button"
-            className="inline-block px-6 py-3 rounded-full border-2 border-purple-300 text-purple-600 hover:bg-purple-50 transition-colors duration-200"
-          >
-            Read More
-          </button>
+          <Link href={`/articles/${data?.slug || "article-not-found"}`} className="w-full">
+            <Button
+                type="button"
+                variant="outline"
+                className="w-full h-11 sm:h-12 md:h-13 lg:h-14 "
+            >
+              Read More
+              <ChevronRight className="h-5 w-5 text-purple-600" />
+            </Button>
+          {/*<button*/}
+          {/*  type="button"*/}
+          {/*  className="block w-full px-6 py-3 rounded-full border-2 border-purple-300 text-purple-600 hover:bg-purple-50 transition-colors duration-200"*/}
+          {/*>*/}
+          {/*  Read More*/}
+          {/*  <ChevronRight className="h-5 w-5 text-purple-600" />*/}
+          {/*</button>*/}
+          </Link>
         </div>
 
         {/* Right: image with circular logo overlay */}
