@@ -49,14 +49,14 @@ function OurArticle({ data }: TProps) {
   return (
     <section className="relative w-full bg-white">
       <div className="section">
-        <div className="md:flex md:justify-between items-center">
-          <div>
+        <div className="py-6 md:py-0 md:flex md:justify-between items-center">
+          <div className="text-center md:text-left">
             <IconHeading
               text="Articles"
               icon={<Heart />}
-              className="text-primary items-center"
+              className="text-primary justify-center md:justify-start"
             />
-            <SectionHeading>Banner Article</SectionHeading>
+            <SectionHeading>Banner article</SectionHeading>
           </div>
           <div className="hidden md:block">
             <Link href="/articles">
@@ -67,12 +67,12 @@ function OurArticle({ data }: TProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:gap-10 md:grid-cols-2">
           {firstArticle?.slug && (
-            <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
-              <Link
-                href={`/articles/${firstArticle?.slug || "article-not-found"}`}
-              >
+            <Link
+              href={`/articles/${firstArticle?.slug || "article-not-found"}`}
+            >
+              <div className="border rounded-xl">
                 <Image
                   src={imageLinkGenerator(
                     firstArticle?.thumbnail || firstArticle?.cover_image
@@ -80,26 +80,26 @@ function OurArticle({ data }: TProps) {
                   alt={firstArticle?.title || "Banner Image"}
                   height={600}
                   width={600}
-                  className="object-cover border rounded-lg w-full h-full mb-4"
+                  className="object-cover rounded-xl w-full h-full"
                   priority
                 />
-              </Link>
-              <div>
-                <h4 className="text-primary-dark text-xl font-semibold">
-                  {firstArticle.title}
-                </h4>
-                <p>{firstArticle.excerpt}</p>
+                <div className="p-4">
+                  <h4 className="text-primary-dark text-xl font-semibold">
+                    {firstArticle.title}
+                  </h4>
+                  <p>{firstArticle.excerpt}</p>
+                </div>
               </div>
-            </div>
+            </Link>
           )}
           <div className="">
             {(otherArticles || []).map((article) => (
               <Link href={`/articles/${article?.slug || "article-not-found"}`}>
                 <div
-                  className="w-full flex gap-4 mb-4 items-center border rounded-lg"
+                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border rounded-xl"
                   key={article._id}
                 >
-                  <div className="mr-2 flex-shrink-0">
+                  <div className="hidden md:block flex-shrink-0">
                     <Image
                       src={imageLinkGenerator(
                         article?.thumbnail || article?.cover_image
@@ -107,14 +107,14 @@ function OurArticle({ data }: TProps) {
                       alt={article?.title || "Banner Image"}
                       height={200}
                       width={200}
-                      className="object-cover h-42 w-42 rounded-lg"
+                      className="object-cover h-46 w-46 rounded-xl"
                     />
                   </div>
-                  <div className="">
+                  <div className="p-4">
                     <h4 className="text-primary-dark text-xl font-semibold">
                       {article.title}
                     </h4>
-                    <p>{article.excerpt}</p>
+                    <p className="line-clamp-4">{article.excerpt}</p>
                   </div>
                 </div>
               </Link>

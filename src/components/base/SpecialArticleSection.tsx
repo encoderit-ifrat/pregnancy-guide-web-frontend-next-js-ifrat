@@ -57,9 +57,9 @@ const SpecialArticleSection = ({ data }: TProps) => {
         <div className="w-full text-center pb-6 md:mt-6">
           <div>
             <IconHeading
-                text="Atricles"
-                icon={<Heart />}
-                className="text-primary justify-center"
+              text="Atricles"
+              icon={<Heart />}
+              className="text-primary justify-center"
             />
             <SectionHeading>Special Articles</SectionHeading>
           </div>
