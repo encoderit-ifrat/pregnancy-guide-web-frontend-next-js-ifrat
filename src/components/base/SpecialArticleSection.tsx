@@ -4,7 +4,7 @@ import ArticleCard from "../ui/cards/ArticleCard";
 import IconHeading from "../ui/text/IconHeading";
 import { SectionHeading } from "../ui/text/SectionHeading";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {ChevronRight, Heart} from "lucide-react";
+import { ChevronRight, Heart } from "lucide-react";
 import { Slider } from "../ui/Slider";
 import {
   Autoplay,
@@ -15,7 +15,7 @@ import {
 } from "swiper/modules";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import {Button} from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
 export type Category = {
   _id: string;
@@ -135,11 +135,13 @@ const SpecialArticleSection = ({ data }: TProps) => {
                 )
               )}
             </Slider>
-            <Link href="/articles">
-              <Button variant="default" className="px-6">
-                View All <ChevronRight className="ml-2" />
-              </Button>
-            </Link>
+            <div className="justify-center hidden md:flex md:mt-8">
+              <Link href="/articles">
+                <Button variant="default" className="px-8">
+                  View All <ChevronRight className="ml-2" />
+                </Button>
+              </Link>
+            </div>
           </>
         )}
       </div>
