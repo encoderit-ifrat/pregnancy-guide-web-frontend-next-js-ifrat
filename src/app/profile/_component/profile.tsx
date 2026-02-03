@@ -7,7 +7,7 @@ import IconLayingBaby from "@/assets/IconLayingBaby";
 import IconPlus from "@/assets/IconPlus";
 import { AppDialog } from "@/components/base/AppDialog";
 import { CircleIcon } from "@/components/ui/CircleIcon";
-import { Camera, CheckLine, Trash2 } from "lucide-react";
+import { Camera, CheckLine, Pencil, Trash2 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import FormProfile from "@/components/Form/FormProfile";
 import {
@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/AlertDialog";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { Input } from "postcss";
+import { cn } from "@/lib/utils";
 export const getInitial = (name?: string): string => {
   return name ? name.charAt(0).toUpperCase() : "U";
 };
@@ -238,9 +240,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <section className="min-h-svh">
+    <section className="">
       <div className="relative bg-[#F6F0FF] pt-2">
-        <div className="relative z-20 px-4 max-w-6xl mx-auto w-full h-42">
+        <div className="relative z-20 px-4 max-w-7xl mx-auto w-full h-42">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center transform translate-y-[10px] md:translate-y-[40px]">
             <div className="relative">
               <CircleIcon className="w-[90px] h-[90px] lg:w-[158px] lg:h-[158px] relative overflow-hidden">
@@ -298,61 +300,69 @@ export default function ProfilePage() {
         />
       </div>
 
-      <div className="max-w-6xl w-full mx-auto mt-20">
-        <h4 className="text-primary-dark text-2xl font-semibold">
-          Edit profile
-        </h4>
-        <div className="flex w-full  mx-auto bg-soft-white rounded-2xl p-6 lg:p-8 flex-col lg:flex-row gap-8 lg:gap-10">
+      <div className="max-w-7xl w-full mx-auto mt-20">
+        <div className="flex items-center justify-between mb-6 md:mb-20">
+          <h4 className="text-primary-dark text-3xl font-semibold">
+            Edit profile
+          </h4>
+          <p>
+            <strong>Last Updated:</strong>
+          </p>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-18">
           {/* Left Section */}
           <div className="flex-1 w-full lg:max-w-1/2 flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <p className="text-3xl text-wrap  max-w-full font-medium  text-popover-foreground text-center lg:text-left uppercase">
+            <div className="flex flex-col gap-4">
+              <p className="text-3xl text-wrap max-w-full font-medium text-center lg:text-left">
                 {user.name || "Guest User"}
               </p>
+
               {profileDetails.map((item, id) => (
-                <div
-                  key={id}
-                  className="flex text-popover-foreground justify-between items-center bg-light hover:bg-purple-50 transition px-4 rounded-full"
-                >
-                  <span className="text-xs lg:text-lg whitespace-nowrap">
+                <div key={id} className="mb-2">
+                  <div className="whitespace-nowrap font-medium mb-2">
                     {item.label}:
-                  </span>
-                  <input
-                    value={item.value}
-                    onChange={(e) => handleChange(id, e.target.value)}
-                    disabled={editingIndex !== id}
-                    className={`outline-none shadow-none text-xs lg:text-xl w-full bg-transparent h-18 px-2
-                    ${
+                  </div>
+                  <div
+                    className={cn(
+                      "flex justify-between items-center border-2 transition px-4 rounded shadow-md shadow-primary-light",
                       editingIndex === id
-                        ? "bg-soft-white cursor-text"
-                        : "cursor-default"
-                    }`}
-                  />
-                  {item.key == "email" ? null : editingIndex === id ? (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={handleSave}
-                        className="hover:opacity-70 transition"
-                        title="Save"
-                      >
-                        <CheckLine size={20} />
-                      </button>
-                      <button
-                        onClick={handleCancel}
-                        className="text-red-600 hover:text-red-700"
-                        title="Cancel"
-                      >
-                        <span className="text-xl">×</span>
-                      </button>
-                    </div>
-                  ) : (
-                    // <button onClick={() => handleEditToggle(id)} title="Edit">
-                    <IconEdit
-                      onClick={() => handleEditToggle(id)}
-                      className="size-4 shrink-0"
+                        ? "bg-white border-primary"
+                        : "bg-primary-light/50"
+                    )}
+                  >
+                    <input
+                      value={item.value}
+                      onChange={(e) => handleChange(id, e.target.value)}
+                      disabled={editingIndex !== id}
+                      className={`outline-none shadow-none text-xs lg:text-xl w-full h-12 
+                    ${editingIndex === id ? "cursor-text" : "cursor-default"}`}
                     />
-                    // </button>
-                  )}
+                    {item.key == "email" ? null : editingIndex === id ? (
+                      <div className="flex gap-3">
+                        <button
+                          onClick={handleSave}
+                          className="hover:opacity-70 transition"
+                          title="Save"
+                        >
+                          <CheckLine size={20} />
+                        </button>
+                        <button
+                          onClick={handleCancel}
+                          className="text-red-600 hover:text-red-700"
+                          title="Cancel"
+                        >
+                          <span className="text-xl">×</span>
+                        </button>
+                      </div>
+                    ) : (
+                      // <button onClick={() => handleEditToggle(id)} title="Edit">
+                      <IconEdit
+                        onClick={() => handleEditToggle(id)}
+                        className="size-4 shrink-0"
+                      />
+                      // </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -378,25 +388,28 @@ export default function ProfilePage() {
             )}
           </div>
 
-          <div className="hidden lg:block w-px bg-muted-gray"></div>
-
           {/* Right Section */}
           <div className="flex-1 w-full lg:max-w-1/2 flex flex-col gap-6 text-popover-foreground">
-            <h2 className="lg:text-4xl text-3xl font-medium text-center lg:text-left">
-              MY PROFILES
-            </h2>
+            <p className="text-3xl text-wrap max-w-full font-medium text-center lg:text-left">
+              My Profiles
+            </p>
 
             <div className="flex flex-col gap-4">
               {babyProfiles.length > 0 ? (
                 babyProfiles.map((profile, index) => (
                   <div
                     key={index}
-                    className="flex text-popover-foreground justify-between items-center bg-light hover:bg-purple-50 transition px-4 rounded-full"
+                    className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
                   >
-                    <div className="flex items-center gap-5 py-2">
-                      <CircleIcon className="size-12 md:size-22 relative overflow-hidden">
+                    <div className="flex items-center gap-5 py-6">
+                      <CircleIcon className="size-12 md:size-56 relative overflow-hidden">
                         {profile.upcoming ? (
-                          <IconLayingBaby />
+                          <Image
+                            src="/images/3d_baby.png"
+                            alt={profile.name || "Baby"}
+                            fill
+                            className="object-cover"
+                          />
                         ) : profile.avatar ? (
                           <Image
                             src={profile.avatar}
@@ -411,11 +424,13 @@ export default function ProfilePage() {
                         )}
                       </CircleIcon>
 
-                      <div className="text-text-dark">
-                        <p className="text-lg lg:text-2xl uppercase">
-                          {profile.upcoming ? "Pregnant" : profile.name}
-                        </p>
-                        <p className="text-sm">
+                      <div className="">
+                        <p className="text-lg lg:text-2xl">Pregnant</p>
+                        <p className="text-lg lg:text-2xl mb-4">
+                          <span className="text-primary">
+                            {profile.upcoming ? "Been Pregnant" : profile.name}
+                          </span>
+                          :
                           {profile.upcoming
                             ? `${
                                 user?.details?.current_pregnancy_data?.week || 0
@@ -424,82 +439,95 @@ export default function ProfilePage() {
                               } days`
                             : "Newborn"}
                         </p>
-                      </div>
-                    </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center gap-2">
-                      {/* Edit Baby Profile */}
-                      <AppDialog
-                        title="Edit Baby Profile"
-                        customTrigger={
-                          <IconEdit className="size-4 md:size-6 cursor-pointer" />
-                        }
-                      >
-                        {(close) => (
-                          <FormProfile
-                            initialData={profile}
-                            onSubmitForDialogAndRefetch={async () => {
-                              await refetch();
-                              close();
+                        {/* Actions */}
+                        <div className="flex items-center gap-2">
+                          {/* Edit Baby Profile */}
+                          <AppDialog
+                            title="Edit Baby Profile"
+                            customTrigger={
+                              <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
+                                <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
+                                <span className="text-sm">Edit</span>
+                              </button>
+                            }
+                          >
+                            {(close) => (
+                              <FormProfile
+                                initialData={profile}
+                                onSubmitForDialogAndRefetch={async () => {
+                                  await refetch();
+                                  close();
+                                }}
+                              />
+                            )}
+                          </AppDialog>
+
+                          {/* Delete Baby Profile */}
+                          <button
+                            className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
+                            onClick={() => {
+                              setFormData({ type: "delete", id: profile._id });
                             }}
-                          />
-                        )}
-                      </AppDialog>
+                          >
+                            <Trash2 className="size-4 cursor-pointer mr-2" />
+                            <span className="text-sm">Delete</span>
+                          </button>
 
-                      {/* Delete Baby Profile */}
-                      <Trash2
-                        className="size-4 md:size-6 cursor-pointer hover:opacity-70 hover:text-red-500 transition"
-                        onClick={() => {
-                          setFormData({ type: "delete", id: profile._id });
-                        }}
-                      />
-                      <AlertDialog
-                        open={formData.type == "delete"}
-                        onOpenChange={() =>
-                          setFormData({ type: "default", id: "" })
-                        }
-                      >
-                        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Delete Baby Profile
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete. This action
-                              cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <Button
-                              onClick={() => {
-                                babyDelete(
-                                  { id: formData.id },
-                                  {
-                                    onSuccess: async (data) => {
-                                      await refetch();
-                                      toast.success(
-                                        data?.data?.message ||
-                                          "Profile deleted successfully"
-                                      );
-                                      setFormData({ type: "default", id: "" });
-                                    },
+                          <AlertDialog
+                            open={formData.type == "delete"}
+                            onOpenChange={() =>
+                              setFormData({ type: "default", id: "" })
+                            }
+                          >
+                            {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete Baby Profile
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete. This action
+                                  cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <Button
+                                  onClick={() => {
+                                    babyDelete(
+                                      { id: formData.id },
+                                      {
+                                        onSuccess: async (data) => {
+                                          await refetch();
+                                          toast.success(
+                                            data?.data?.message ||
+                                              "Profile deleted successfully"
+                                          );
+                                          setFormData({
+                                            type: "default",
+                                            id: "",
+                                          });
+                                        },
 
-                                    onError(error) {
-                                      setFormData({ type: "default", id: "" });
-                                    },
-                                  }
-                                );
-                              }}
-                              disabled={babyDeletePending}
-                            >
-                              {babyDeletePending ? "Loading..." : "Confirm"}
-                            </Button>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                                        onError(error) {
+                                          setFormData({
+                                            type: "default",
+                                            id: "",
+                                          });
+                                        },
+                                      }
+                                    );
+                                  }}
+                                  disabled={babyDeletePending}
+                                >
+                                  {babyDeletePending ? "Loading..." : "Confirm"}
+                                </Button>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))
