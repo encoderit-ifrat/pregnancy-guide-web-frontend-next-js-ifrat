@@ -3,6 +3,9 @@ import React from "react";
 import SearchArticle from "./_component/SearchArticle";
 import Image from "next/image";
 import { Metadata } from "next";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { HeroSection } from "@/components/home/HeroSection";
+import {HeroSection2} from "@/components/home/HeroSection2";
 
 // Force SSR for dynamic search queries
 export const dynamic = "force-dynamic";
@@ -118,22 +121,16 @@ export default async function Page({
   const articlesData = await getArticles(params);
 
   return (
-    <div className="pb-56">
-      <div className="flex items-center justify-center pt-[150px] pb-[200px] px-4">
+    <div className="min-h-svh bg-white">
+      <main>
+        <HeroSection2 />
+
         <SearchArticle
           initialQuery={params.search || ""}
           initialData={articlesData?.data?.data || []}
           meta={articlesData?.data?.pagination || null}
         />
-      </div>
-      {/* <Image
-        src="/assets/logo/vectorSecond.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="w-full h-auto object-cover"
-        priority
-      /> */}
+      </main>
     </div>
   );
 }

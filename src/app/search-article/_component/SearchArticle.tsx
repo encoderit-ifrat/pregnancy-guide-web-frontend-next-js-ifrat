@@ -8,6 +8,8 @@ import SearchResultHeader from "@/components/base/SearchResultHeader";
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/base/Pagination";
+import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 
 type Meta = {
   total: number;
@@ -59,17 +61,8 @@ export default function SearchArticle({
   };
 
   return (
-    <div className="px-4 w-full flex flex-col items-center gap-6">
-      {/* Centered Search Bar */}
-      {/* <div className="w-full max-w-lg mx-auto">
-        <BaseSearchBar
-          placeholder="Search by content or baby name"
-          onSearch={handleSearch}
-          defaultValue={initialQuery}
-        />
-      </div> */}
-
-      <div className="w-full max-w-[1000px] flex flex-col gap-6">
+    <div className="px-4 w-full">
+      <div className="section flex flex-col gap-6">
         {/* <ArticleStats /> */}
         {initialQuery && (
           <SearchResultHeader query={initialQuery} category="Articles" />
@@ -77,10 +70,10 @@ export default function SearchArticle({
       </div>
 
       {/* Article Cards */}
-      <div className="w-full max-w-[1000px] flex flex-col gap-6">
+      <div className="section flex flex-col gap-6">
         {initialData.length > 0 ? (
           initialData.map((article) => (
-            <ContentCard key={article._id} article={article} />
+            <ArticleBigCard key={article._id} data={article} />
           ))
         ) : (
           <p className="text-center text-gray-500 py-10">
@@ -91,7 +84,7 @@ export default function SearchArticle({
 
       {/* Pagination */}
       {meta && meta.last_page > 1 && (
-        <div className="w-full max-w-[1000px] mt-8">
+        <div className="section mt-8">
           <Pagination
             currentPage={meta.current_page}
             totalPages={meta.last_page} // ← Changed from meta.total to meta.last_page

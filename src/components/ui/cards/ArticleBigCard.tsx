@@ -43,16 +43,18 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
             alt={data?.title || ""}
             width={840}
             height={600}
-            className="object-fit object-cover rounded-lg w-[340px] h-[340px]! sm:w-[400px] sm:h-[400px]! border"
+            className="object-fit object-cover rounded-lg h-[340px]! min-w-full sm:h-[400px]! border"
           />
 
           {/* circular logo badge */}
           <div
             className="absolute transform left-1/2 bottom-0 md:left-0 md:top-1/2 -translate-x-1/2 translate-y-1/2 md:-translate-y-1/2 bg-primary
-          size-26 md:size-28 rounded-full flex items-center justify-center border-8 md:border-10 border-white"
+          size-26 md:size-28 rounded-full flex items-center justify-center border-8 md:border-8 border-white"
           >
             <div className="flex items-center justify-center">
-              <Logo dark={false} />
+              <div>
+                <Logo dark={false} className={cn("h-8 w-auto")} />
+              </div>
             </div>
           </div>
         </div>

@@ -54,7 +54,7 @@ export default async function Page() {
     );
   }
 
-  // Get token from session (adjust based on your session structure)
+  // Get token from the session (adjust based on your session structure)
   const token = session.token;
 
   // Fetch data with the token
