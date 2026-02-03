@@ -42,7 +42,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <p className="text-sm flex-1 leading-6 text-text-mid line-clamp-3">
           {description}
         </p>
-        <Link href={`/articles/${slug}`} className="text-primary font-semibold text-sm">
+        <Link
+          href={`/articles/${slug}`}
+          className="text-primary font-semibold text-sm"
+        >
           Read more
           {/*<Button
             variant="softPurple"
