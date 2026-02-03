@@ -46,7 +46,7 @@ const SpecialArticleSectionCopy = ({ data }: TProps) => {
   };
 
   return (
-    <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start max-w-7xl mx-auto pb-10">
+    <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start section pb-10">
       {Boolean(data?.length) && (
         <>
           <div className="flex items-center justify-between">

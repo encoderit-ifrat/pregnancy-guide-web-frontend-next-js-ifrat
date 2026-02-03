@@ -28,7 +28,7 @@ const stats = [
 const StatsSection: React.FC = () => {
   return (
     <section className="pt-8 pb-20">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="section">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
           {stats.map((stat, index) => (
             <StatsCard

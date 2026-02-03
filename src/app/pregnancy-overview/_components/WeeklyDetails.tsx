@@ -28,7 +28,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
     <section className="bg-white">
-      <div className="max-w-7xl mx-auto py-10 lg:py-16 -mt-1">
+      <div className="section py-10 lg:py-16 -mt-1">
         <div className="text-center">
           <IconHeading
             text="Articles"

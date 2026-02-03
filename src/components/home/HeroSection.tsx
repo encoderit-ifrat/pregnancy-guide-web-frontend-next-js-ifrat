@@ -5,7 +5,7 @@ import WaveLeaf from "@/components/layout/svg/WaveLeaf";
 export function HeroSection() {
   return (
     <section className="relative bg-[#F6F0FF] pt-2 pb-0 md:pb-16 lg:pb-0">
-      <div className="max-w-7xl mx-auto px-4 md:mb-4">
+      <div className="section px-4 md:mb-4">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
           {/* Content */}
           <div className="order-1 text-center lg:order-1 lg:text-left">

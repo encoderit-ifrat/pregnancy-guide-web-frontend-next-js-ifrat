@@ -41,7 +41,7 @@ export function Footer() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="sections">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Logo and Description */}
           <div className="lg:col-span-1">

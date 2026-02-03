@@ -30,7 +30,7 @@ const steps = [
 export function HowItWorksSection() {
   return (
     <section className="relative py-10 md:pb-10">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="section">
         {/* Section Header */}
         <div className="mb-12 text-center">
           <IconHeading

@@ -238,6 +238,9 @@ h6 {
 /*  align-items: center;*/
 /*}*/
 
+.section {
+  @apply px-4 max-w-7xl mx-auto w-full;
+}
 .swiper-slide img {
   display: block;
   width: 100%;

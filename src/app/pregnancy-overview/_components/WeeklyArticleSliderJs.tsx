@@ -29,7 +29,7 @@ function WeeklyArticleSliderJs({ articles }: TProps) {
 
   return (
     <section className="bg-white pb-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="section">
         <div className="max-w-3xl text-center mx-auto">
           <IconHeading
             text="Articles"

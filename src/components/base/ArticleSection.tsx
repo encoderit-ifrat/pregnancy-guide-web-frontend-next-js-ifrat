@@ -48,11 +48,10 @@ const ArticleSection = ({ data }: TProps) => {
     <div
       className={cn(
         "relative overflow-hidden pl-4 pb-10 pt-4 sm:pb-15 lg:pb-18 lg:text-start"
-        // "max-w-7xl mx-auto",
       )}
     >
       {/* Section Header */}
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="section flex items-center justify-between">
         <div>
           <IconHeading
             text="Atricles"

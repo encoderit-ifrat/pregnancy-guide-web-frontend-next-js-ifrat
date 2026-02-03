@@ -86,7 +86,7 @@ export default function PregnancyOverview({
         <>
           {/* divider */}
           <ConcaveCurve
-            className="text-white h-10! sm:h-20! md:h-24! lg:h-30!"
+            className="text-white h-10! sm:h-20! md:h-24! lg:h-42!"
             bgClassName="bg-primary-light"
           />
           <OurArticle data={(latest as any) ?? []} />

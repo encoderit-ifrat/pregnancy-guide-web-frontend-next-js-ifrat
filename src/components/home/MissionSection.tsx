@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 export function MissionSection() {
   return (
     <section className="relative pt-6 pb-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="section">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
           {/* Image */}
           <div className="order-2 md:order-1 flex justify-center lg:justify-end">

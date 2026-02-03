@@ -11,7 +11,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   );
 
   return (
-    <section className="w-full max-w-7xl mx-auto my-10">
+    <section className="w-full max-w-7xl p-2 mx-auto my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         {/*card*/}
         <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4">

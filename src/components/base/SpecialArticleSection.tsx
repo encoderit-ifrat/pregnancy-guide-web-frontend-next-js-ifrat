@@ -53,167 +53,86 @@ const SpecialArticleSection = ({ data }: TProps) => {
 
   return (
     <section className="bg-primary-light">
-      <div className="relative max-w-7xl mx-auto px-4 sm:pb-7 lg:pb-15 lg:text-start pb-10">
+      <div className="relative section px-4 sm:pb-7 lg:pb-15 lg:text-start pb-10">
+        <div className="w-full text-center pb-6 md:mt-6">
+          <div>
+            <IconHeading
+                text="Atricles"
+                icon={<Heart />}
+                className="text-primary justify-center"
+            />
+            <SectionHeading>Special Articles</SectionHeading>
+          </div>
+        </div>
         {Boolean(data?.length) && (
           <>
-            <div className="flex items-center justify-between">
-              <div>
-                <IconHeading
-                  text="Atricles"
-                  icon={<Heart />}
-                  className="text-primary"
-                />
-                <SectionHeading>Special Articles</SectionHeading>
-              </div>
-            </div>
-            <div>
-              {/*<Swiper*/}
-              {/*  modules={[Grid, Navigation, Pagination, FreeMode, Autoplay]}*/}
-              {/*  spaceBetween={10}*/}
-              {/*  slidesPerView={1}*/}
-              {/*  navigation={true}*/}
-              {/*  pagination={{*/}
-              {/*    ...pagination,*/}
-              {/*    clickable: true,*/}
-              {/*    enabled: true,*/}
-              {/*  }}*/}
-              {/*  grid={{*/}
-              {/*    rows: 2,*/}
-              {/*    fill: "row",*/}
-              {/*  }}*/}
-              {/*  breakpoints={{*/}
-              {/*    320: {*/}
-              {/*      slidesPerView: 1,*/}
-              {/*      spaceBetween: 10,*/}
-              {/*      grid: {*/}
-              {/*        rows: 1,*/}
-              {/*        fill: "row",*/}
-              {/*      },*/}
-              {/*    },*/}
-              {/*    321: {*/}
-              {/*      slidesPerView: 1.2,*/}
-              {/*      spaceBetween: 10,*/}
-              {/*    },*/}
-              {/*    768: {*/}
-              {/*      slidesPerView: 2.5,*/}
-              {/*      spaceBetween: 20,*/}
-              {/*      grid: {*/}
-              {/*        rows: 1,*/}
-              {/*        fill: "row",*/}
-              {/*      },*/}
-              {/*    },*/}
-              {/*    1024: {*/}
-              {/*      slidesPerView: 3,*/}
-              {/*      spaceBetween: 20,*/}
-              {/*      grid: {*/}
-              {/*        rows: 2,*/}
-              {/*        fill: "row",*/}
-              {/*      },*/}
-              {/*      pagination: {*/}
-              {/*        enabled: false,*/}
-              {/*      },*/}
-              {/*    },*/}
-              {/*  }}*/}
-              {/*  className={cn("")}*/}
-              {/*>*/}
-              {/*  {data.map(*/}
-              {/*    (*/}
-              {/*      {_id, cover_image, thumbnail_image, title, excerpt, slug},*/}
-              {/*      index*/}
-              {/*    ) => (*/}
-              {/*      <SwiperSlide key={_id + index} className="">*/}
-              {/*        <ArticleCard*/}
-              {/*          image={thumbnail_image || cover_image}*/}
-              {/*          title={title}*/}
-              {/*          description={excerpt}*/}
-              {/*          slug={slug}*/}
-              {/*          showButton={false}*/}
-              {/*        />*/}
-              {/*      </SwiperSlide>*/}
-              {/*    )*/}
-              {/*  )}*/}
-
-              {/*  /!*overlay to hide slide under next button*!/*/}
-              {/*  <div*/}
-              {/*    className={cn(*/}
-              {/*      "h-full w-[10px] absolute top-0 z-[1] right-0",*/}
-              {/*    )}*/}
-              {/*  ></div>*/}
-              {/*  <div*/}
-              {/*    className={cn(*/}
-              {/*      "h-full w-[10px] absolute top-0 z-[1] left-0",*/}
-              {/*    )}*/}
-              {/*  ></div>*/}
-              {/*</Swiper>*/}
-
-              <Slider
-                options={{
-                  spaceBetween: 10,
-                  slidesPerView: 1,
-                  navigation: true,
-                  pagination: {
-                    ...pagination,
-                    enabled: true,
-                  },
-                  grid: {
-                    rows: 1,
-                    fill: "row",
-                  },
-                  breakpoints: {
-                    320: {
-                      slidesPerView: 1,
-                      spaceBetween: 10,
-                      grid: {
-                        rows: 1,
-                        fill: "row",
-                      },
-                    },
-                    321: {
-                      slidesPerView: 1.2,
-                      spaceBetween: 10,
-                    },
-                    768: {
-                      slidesPerView: 2.5,
-                      spaceBetween: 20,
-                      grid: {
-                        rows: 1,
-                        fill: "row",
-                      },
-                    },
-                    1024: {
-                      slidesPerView: 3,
-                      spaceBetween: 20,
-                      grid: {
-                        rows: 2,
-                        fill: "row",
-                      },
-                      pagination: {
-                        enabled: false,
-                      },
+            <Slider
+              options={{
+                spaceBetween: 10,
+                slidesPerView: 1,
+                navigation: true,
+                pagination: {
+                  ...pagination,
+                  enabled: true,
+                },
+                grid: {
+                  rows: 1,
+                  fill: "row",
+                },
+                breakpoints: {
+                  320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                    grid: {
+                      rows: 1,
+                      fill: "row",
                     },
                   },
-                }}
-                sideOverlayClassName="bg-transparent"
-                className=""
-              >
-                {data.map(
-                  (
-                    { _id, cover_image, thumbnail_image, title, excerpt, slug },
-                    index
-                  ) => (
-                    <SwiperSlide key={_id + index} className="h-auto!">
-                      <ArticleCard
-                        image={thumbnail_image || cover_image}
-                        title={title}
-                        description={excerpt}
-                        slug={slug}
-                        showButton={false}
-                      />
-                    </SwiperSlide>
-                  )
-                )}
-              </Slider>
-            </div>
+                  321: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10,
+                  },
+                  768: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 20,
+                    grid: {
+                      rows: 1,
+                      fill: "row",
+                    },
+                  },
+                  1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                    grid: {
+                      rows: 2,
+                      fill: "row",
+                    },
+                    pagination: {
+                      enabled: false,
+                    },
+                  },
+                },
+              }}
+              sideOverlayClassName="bg-transparent"
+              className=""
+            >
+              {data.map(
+                (
+                  { _id, cover_image, thumbnail_image, title, excerpt, slug },
+                  index
+                ) => (
+                  <SwiperSlide key={_id + index} className="h-auto!">
+                    <ArticleCard
+                      image={thumbnail_image || cover_image}
+                      title={title}
+                      description={excerpt}
+                      slug={slug}
+                      showButton={false}
+                    />
+                  </SwiperSlide>
+                )
+              )}
+            </Slider>
           </>
         )}
       </div>

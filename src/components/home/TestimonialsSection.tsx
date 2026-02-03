@@ -16,7 +16,7 @@ export function TestimonialsSection({ data }) {
 
   return (
     <section className="bg-white py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="section">
         {/* Section Header */}
         <div className="mb-12 text-center">
           <IconHeading

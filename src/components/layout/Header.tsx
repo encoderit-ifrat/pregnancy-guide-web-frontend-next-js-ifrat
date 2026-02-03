@@ -186,7 +186,7 @@ export function Header() {
       >
         <div
           className={cn(
-            "max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6",
+            "section flex items-center justify-between md:px-6",
             isSticky ? "h-20" : "h-28 lg:h-20"
           )}
         >
