@@ -48,7 +48,7 @@ function OurArticle({ data }: TProps) {
 
   return (
     <section className="relative w-full bg-white">
-      <div className="section">
+      <div className="section pb-6">
         <div className="py-6 md:py-0 md:flex md:justify-between items-center">
           <div className="text-center md:text-left">
             <IconHeading
@@ -60,7 +60,7 @@ function OurArticle({ data }: TProps) {
           </div>
           <div className="hidden md:block">
             <Link href="/articles">
-              <Button className="px-6">
+              <Button variant="default" className="px-6">
                 View All <ChevronRight className="ml-2" />
               </Button>
             </Link>
@@ -72,7 +72,7 @@ function OurArticle({ data }: TProps) {
             <Link
               href={`/articles/${firstArticle?.slug || "article-not-found"}`}
             >
-              <div className="border rounded-xl">
+              <div className="border rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg">
                 <Image
                   src={imageLinkGenerator(
                     firstArticle?.thumbnail || firstArticle?.cover_image
@@ -96,7 +96,7 @@ function OurArticle({ data }: TProps) {
             {(otherArticles || []).map((article) => (
               <Link href={`/articles/${article?.slug || "article-not-found"}`}>
                 <div
-                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border rounded-xl"
+                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg"
                   key={article._id}
                 >
                   <div className="hidden md:block flex-shrink-0">
