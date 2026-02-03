@@ -2,6 +2,7 @@ import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import ArticleContent from "./ArticleContent";
 import TableOfContents from "./TableOfContents";
 import Image from "next/image";
+import React from "react";
 
 type Heading = {
   id: string;
@@ -112,12 +113,15 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
           />
         </div>
       )}
+      <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
+        {article?.title}
+      </h1>
 
-      {article?.excerpt && (
-        <p className="mb-6 text-lg text-gray-600 leading-relaxed">
-          {article?.excerpt}
-        </p>
-      )}
+      {/*{article?.excerpt && (*/}
+      {/*  <p className="mb-6 text-lg text-gray-600 leading-relaxed">*/}
+      {/*    {article?.excerpt}*/}
+      {/*  </p>*/}
+      {/*)}*/}
 
       <div className="flex flex-col lg:flex-row">
         {headings.length > 0 && article.show_table_of_content && (

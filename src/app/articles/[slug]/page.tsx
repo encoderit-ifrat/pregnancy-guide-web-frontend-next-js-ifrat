@@ -112,10 +112,7 @@ export default async function ArticlePage({
         />
       </section>
       <div className="relative z-20 px-4 pt-6 md:pt-24 pb-10 md:pb-20">
-        <div className="section bg-soft-white shadow-2xl rounded-lg p-6">
-          <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
-            {article?.title}
-          </h1>
+        <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-lg p-6">
           <ArticleWithTOC article={article} />
         </div>
       </div>
