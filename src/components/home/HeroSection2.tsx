@@ -12,10 +12,11 @@ export function HeroSection2() {
           <div className="order-1 text-center lg:order-1 lg:text-left">
             <p className="text-primary text-2xl">Förlossning</p>
             <h1 className="mb-4 text-3xl font-bold leading-tight md:text-5xl text-primary-dark">
-               Helpful Articles for Every Step of Your Pregnancy
+              Helpful Articles for Every Step of Your Pregnancy
             </h1>
             <p className="mx-auto mb-8 text-sm leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
-              Expert-written guides, tips, and insights to support you from pregnancy to parenthood.
+              Expert-written guides, tips, and insights to support you from
+              pregnancy to parenthood.
             </p>
           </div>
 
@@ -35,7 +36,10 @@ export function HeroSection2() {
         </div>
       </div>
 
-        <WaveDivider className="text-white -mb-2" bgClassName="bg-[#F6F0FF]" />
+      <WaveDivider
+        className="text-white transform translate-y-[1px]"
+        bgClassName="bg-[#F6F0FF]"
+      />
     </section>
   );
 }

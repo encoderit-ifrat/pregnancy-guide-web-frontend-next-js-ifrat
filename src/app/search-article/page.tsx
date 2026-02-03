@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { HeroSection } from "@/components/home/HeroSection";
-import {HeroSection2} from "@/components/home/HeroSection2";
+import { HeroSection2 } from "@/components/home/HeroSection2";
 
 // Force SSR for dynamic search queries
 export const dynamic = "force-dynamic";
@@ -121,7 +121,7 @@ export default async function Page({
   const articlesData = await getArticles(params);
 
   return (
-    <div className="min-h-svh bg-white">
+    <div className="min-h-svh mb-6 md:pb-10">
       <main>
         <HeroSection2 />
 
