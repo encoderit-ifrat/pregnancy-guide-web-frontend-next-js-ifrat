@@ -25,7 +25,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 }) => {
   return (
     <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow h-full flex flex-col">
-      {image && <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
+      <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
         <Link href={`/articles/${slug}`}>
           <Image
             src={imageLinkGenerator(image)}
@@ -34,7 +34,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             className="object-cover rounded bg-primary-gradient transition-transform duration-500 group-hover:scale-105"
           />
         </Link>
-      </div>}
+      </div>
       <div className="p-4 flex flex-col justify-between gap-2 flex-1">
         <p className="font-semibold text-primary-dark font-roboto text-xl lg:text-2xl whitespace-nowrap truncate">
           <Link href={`/articles/${slug}`}> {title}</Link>

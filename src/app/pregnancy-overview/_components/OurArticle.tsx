@@ -24,6 +24,7 @@ export type Article = {
   tags: Tag[];
   status: "published" | "draft" | "archived";
   cover_image: string;
+  thumbnail: string;
   featured: boolean;
 };
 
@@ -32,54 +33,56 @@ type TProps = {
 };
 
 function OurArticle({ data }: TProps) {
-  const firstArticle = data?.[0];
-  const otherArticles = data?.slice(1);
+  const [firstArticle, ...otherArticles] = data;
 
   if (!data || data.length === 0) {
     return null;
   }
 
   return (
-    <section className="relative w-full mx-auto bg-white px-4 py-12 lg:py-20">
+    <section className="relative w-full bg-white">
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 gap-10 md:grid-cols-2">
-      {Boolean(firstArticle?.slug) && (
+      {firstArticle?.slug && (
         <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
           <Link href={`/articles/${firstArticle?.slug || "article-not-found"}`}>
             <Image
-              src={imageLinkGenerator(firstArticle?.cover_image)}
+              src={imageLinkGenerator(firstArticle?.thumbnail || firstArticle?.cover_image)}
               alt={firstArticle?.title || "Banner Image"}
               height={600}
               width={600}
-              className="object-cover"
+              className="object-cover border rounded-lg w-full h-full mb-4"
               priority
             />
           </Link>
-          <Image
-            src="/assets/logo/sipLayer.svg"
-            alt="Overlay"
-            fill
-            className="object-cover mix-blend-hard-light pointer-events-none"
-          />
-          <div className="absolute bottom-11 lg:bottom-18 left-1/2 -translate-x-1/2 w-[90%] text-center px-2  sm:left-6 sm:translate-x-0 sm:text-left sm:w-auto lg:left-20 ">
-            <p className="text-2xl lg:leading-10 leading-6 text-soft-white uppercase text-start">
-              {firstArticle?.title}
-            </p>
+          <div>
+            <h4 className="text-primary-dark text-xl font-semibold">
+              {firstArticle.title}
+            </h4>
+            <p>{firstArticle.excerpt}</p>
           </div>
         </div>
       )}
-        {(otherArticles || []).map((article) => (
         <div className="">
-          <Link href={`/articles/${article?.slug || "article-not-found"}`}>
-            <Image
-              src={imageLinkGenerator(article?.cover_image)}
-              alt={article?.title || "Banner Image"}
-              fill
-              className="object-cover"
-              priority
-            />
-          </Link>
+        {(otherArticles || []).map((article) => (
+        <div className="w-full grid grid-cols-2 gap-4 mb-4" key={article._id}>
+          <div className="mr-4">
+            {/*<Link href={`/articles/${article?.slug || "article-not-found"}`}>*/}
+              <Image
+                  src={imageLinkGenerator(article?.thumbnail || article?.cover_image)}
+                  alt={article?.title || "Banner Image"}
+                  height={200}
+                  width={200}
+                  className="object-cover h-48 w-48 rounded-lg"
+              />
+            {/*</Link>*/}
+          </div>
+         <div>
+           <h4 className="text-primary-dark text-xl font-semibold">{article.title}</h4>
+           <p>{article.excerpt}</p>
+         </div>
         </div>
         ))}
+        </div>
       </div>
     </section>
   );

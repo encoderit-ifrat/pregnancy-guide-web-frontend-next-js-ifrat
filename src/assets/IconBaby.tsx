@@ -13,6 +13,7 @@ export default function IconBaby({ className }: TProps) {
       width={443}
       height={380}
       className={className}
+      loading="lazy"
     />
   );
 }
