@@ -39,6 +39,7 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
+import BabyPercentage from "@/app/profile/_component/babyPercentage";
 
 export const getInitial = (name?: string): string => {
   return name ? name.charAt(0).toUpperCase() : "U";
@@ -402,55 +403,13 @@ export default function ProfilePage() {
                     key={index}
                     className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
                   >
-                    <div className="flex flex-wrap items-center justify-center gap-5 py-6">
-
-                      {/*3d Baby progress*/}
-                      <div className="flex flex-row flex-nowrap">
-                        <div className="w-58 flex justify-around">
-                          <div className="relative w-full max-w-[80%] mx-auto my-2.5 rounded-full border-6 border-white shadow-lg">
-                            {/* Circular SVG Chart */}
-                            <svg
-                                viewBox="0 0 36 36"
-                                className="block w-full h-auto rotate-180"
-                            >
-                              {/* Background circle */}
-                              <path
-                                  className="fill-none stroke-primary-light/80 stroke-2 stroke-linecap-round"
-                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                              />
-                              {/* Progress circle */}
-                              <path
-                                  className="fill-none stroke-primary stroke-2 stroke-linecap-round animate-[progress_1s_ease-out_forwards]"
-                                  strokeDasharray={`${user?.details?.current_pregnancy_data?.percentage || 0}, 100`}
-                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                              />
-                            </svg>
-
-                            {/* Center Image */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-32 rounded-full overflow-hidden">
-                              {profile.upcoming ? (
-                                  <Image
-                                      src="/images/3d_baby.png"
-                                      alt={profile.name || "Baby"}
-                                      fill
-                                      className="object-cover"
-                                  />
-                              ) : profile.avatar ? (
-                                  <Image
-                                      src={profile.avatar}
-                                      alt={profile.name || "Baby"}
-                                      fill
-                                      className="object-cover"
-                                  />
-                              ) : (
-                                  <span className="text-3xl font-bold text-popover-foreground">
-                            {getInitial(profile.name)}
-                          </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="flex items-center justify-center gap- py-6">
+                      <BabyPercentage
+                        percentage={
+                          user?.details?.current_pregnancy_data?.percentage || 0
+                        }
+                        profile={profile}
+                      />
 
                       <div className="text-center lg:text-left">
                         <p className="text-lg lg:text-2xl">Pregnant</p>
