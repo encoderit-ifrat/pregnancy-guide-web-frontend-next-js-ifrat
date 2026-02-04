@@ -89,6 +89,14 @@ export default function ProfilePage() {
   // Populate form with user data
   useEffect(() => {
     if (user) {
+      const formValues = {
+        name: user.name || "",
+        familyName: user?.details?.family_name || "",
+        partnerName: user?.details?.partner_name || "",
+        email: user.email || "",
+      };
+
+      form.reset(formValues);
       setProfileDetails([
         {
           key: "name",
@@ -153,32 +161,26 @@ export default function ProfilePage() {
     useBasicProfileUpdate();
 
   const handleSave = async (): Promise<void> => {
+    const formValues = form.getValues(); // Get current form values
+
     if (!hasChanges && !pendingAvatar) {
       setIsEditing(false);
       return;
     }
-    try {
-      // Prepare profile data
-      const updatedData: Partial<BasicProfileRequestType> = {};
-      profileDetails.forEach((item) => {
-        updatedData.details = updatedData.details ?? {};
-        if (item.key === "name") {
-          updatedData.name = item.value;
-        }
-        if (item.key === "familyName") {
-          updatedData.details.family_name = item.value;
-        }
 
-        if (item.key === "partnerName") {
-          updatedData.details.partner_name = item.value;
-        }
-        updatedData.dob = user?.dob;
-        updatedData.gender = user?.gender;
-        updatedData.mobile = user?.mobile;
-        ((updatedData.details.due_date = user?.details?.due_date),
-          (updatedData.details.last_period_date =
-            user?.details?.last_period_date));
-      });
+    try {
+      const updatedData: Partial<BasicProfileRequestType> = {
+        name: formValues.name,
+        dob: user?.dob,
+        gender: user?.gender,
+        mobile: user?.mobile,
+        details: {
+          family_name: formValues.familyName,
+          partner_name: formValues.partnerName,
+          due_date: user?.details?.due_date,
+          last_period_date: user?.details?.last_period_date,
+        },
+      };
 
       // Add avatar if there's a pending upload
       if (pendingAvatar) {
@@ -193,9 +195,13 @@ export default function ProfilePage() {
           refetch();
           toast.success("Profile updated successfully");
         },
-        onError: (error) => {},
+        onError: (error) => {
+          toast.error("Failed to update profile");
+        },
       });
-    } catch (error) {}
+    } catch (error) {
+      toast.error("An error occurred");
+    }
   };
 
   const handleCancel = (): void => {
@@ -330,27 +336,31 @@ export default function ProfilePage() {
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSave)}>
                   {profileDetails.map((item, id) => (
-                    <div key={id} className="mb-2">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem className="mb-3 sm:mb-4 lg:mb-2">
-                            <FormControl>
-                              <div className="relative">
-                                <Input
-                                  label={item.label}
-                                  {...field}
-                                  // value={item.value}
-                                  disabled={item.key === "email"}
-                                />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                      <div key={id} className="mb-2">
+                        <FormField
+                            control={form.control}
+                            name={item.key as "name" | "familyName" | "partnerName" | "email"} // Fix: use the actual field name
+                            render={({ field }) => (
+                                <FormItem className="mb-3 sm:mb-4 lg:mb-2">
+                                  <FormControl>
+                                    <div className="relative">
+                                      <Input
+                                          label={item.label}
+                                          {...field}
+                                          disabled={item.key === "email"}
+                                          onChange={(e) => {
+                                            field.onChange(e); // Update form state
+                                            setHasChanges(true); // Track changes
+                                            setIsEditing(true);
+                                          }}
+                                      />
+                                    </div>
+                                  </FormControl>
+                                  <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
+                                </FormItem>
+                            )}
+                        />
+                      </div>
                   ))}
                 </form>
               </Form>
