@@ -12,8 +12,8 @@ export default function BabyPercentage({
   return (
     <>
       {/*3d Baby progress*/}
-      <div className="w-60 flex justify-around">
-        <div className="relative w-full max-w-[80%] mx-auto my-2.5 rounded-full border-3 border-white shadow-lg">
+      <div className="w-52 min-w-52 mx-auto">
+        <div className="relative mx-auto rounded-full border-3 border-white shadow-lg">
           {/* Circular SVG Chart */}
           <svg
             viewBox="0 0 36 36"

@@ -403,7 +403,7 @@ export default function ProfilePage() {
                     key={index}
                     className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
                   >
-                    <div className="flex items-center justify-center gap- py-6">
+                    <div className="flex flex-wrap items-center justify-center gap-2 py-6">
                       <BabyPercentage
                         percentage={
                           user?.details?.current_pregnancy_data?.percentage || 0
@@ -411,7 +411,7 @@ export default function ProfilePage() {
                         profile={profile}
                       />
 
-                      <div className="text-center lg:text-left">
+                      <div className="mx-auto text-center lg:text-left">
                         <p className="text-lg lg:text-2xl">Pregnant</p>
                         <p className="text-lg lg:text-2xl mb-4">
                           <span className="text-primary">
@@ -428,7 +428,7 @@ export default function ProfilePage() {
                         </p>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center lg:justify-start gap-2">
                           {/* Edit Baby Profile */}
                           <AppDialog
                             title="Edit Baby Profile"
@@ -460,60 +460,59 @@ export default function ProfilePage() {
                             <Trash2 className="size-4 cursor-pointer mr-2" />
                             <span className="text-sm">Delete</span>
                           </button>
-
-                          <AlertDialog
+                        </div>
+                        <AlertDialog
                             open={formData.type == "delete"}
                             onOpenChange={() =>
-                              setFormData({ type: "default", id: "" })
+                                setFormData({ type: "default", id: "" })
                             }
-                          >
-                            {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Delete Baby Profile
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Are you sure you want to delete. This action
-                                  cannot be undone.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <Button
+                        >
+                          {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Delete Baby Profile
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete. This action
+                                cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <Button
                                   onClick={() => {
                                     babyDelete(
-                                      { id: formData.id },
-                                      {
-                                        onSuccess: async (data) => {
-                                          await refetch();
-                                          toast.success(
-                                            data?.data?.message ||
-                                              "Profile deleted successfully"
-                                          );
-                                          setFormData({
-                                            type: "default",
-                                            id: "",
-                                          });
-                                        },
+                                        { id: formData.id },
+                                        {
+                                          onSuccess: async (data) => {
+                                            await refetch();
+                                            toast.success(
+                                                data?.data?.message ||
+                                                "Profile deleted successfully"
+                                            );
+                                            setFormData({
+                                              type: "default",
+                                              id: "",
+                                            });
+                                          },
 
-                                        onError(error) {
-                                          setFormData({
-                                            type: "default",
-                                            id: "",
-                                          });
-                                        },
-                                      }
+                                          onError(error) {
+                                            setFormData({
+                                              type: "default",
+                                              id: "",
+                                            });
+                                          },
+                                        }
                                     );
                                   }}
                                   disabled={babyDeletePending}
-                                >
-                                  {babyDeletePending ? "Loading..." : "Confirm"}
-                                </Button>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
+                              >
+                                {babyDeletePending ? "Loading..." : "Confirm"}
+                              </Button>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </div>
                   </div>
