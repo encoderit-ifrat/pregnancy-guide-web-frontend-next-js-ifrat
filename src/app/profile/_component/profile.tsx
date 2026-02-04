@@ -209,21 +209,21 @@ export default function ProfilePage() {
       setProfileDetails([
         {
           key: "name",
-          label: "NAME",
+          label: "Name",
           value: user.name || "",
         },
         {
           key: "familyName",
-          label: "FAMILY NAME",
+          label: "Family Name",
           value: user?.details?.family_name || "",
         },
         {
           key: "partnerName",
-          label: "PARTNER NAME",
+          label: "Partner Name",
           value: user?.details?.partner_name || "",
         },
 
-        { key: "email", label: "EMAIL", value: user.email || "" },
+        { key: "email", label: "Email", value: user.email || "" },
       ]);
     }
     setAvatarPreview(null);
