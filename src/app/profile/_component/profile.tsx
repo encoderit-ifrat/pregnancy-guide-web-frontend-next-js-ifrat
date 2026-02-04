@@ -2,12 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import IconEdit from "@/assets/IconEdit";
-import IconLayingBaby from "@/assets/IconLayingBaby";
 import IconPlus from "@/assets/IconPlus";
 import { AppDialog } from "@/components/base/AppDialog";
 import { CircleIcon } from "@/components/ui/CircleIcon";
-import { Camera, CheckLine, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import FormProfile from "@/components/Form/FormProfile";
 import {
@@ -15,11 +13,9 @@ import {
   useBasicProfileUpdate,
 } from "../_api/mutations/useBasicProfileUpdate";
 import { useFileUploadTempFolder } from "../_api/mutations/useFileUploadTempFolder";
-import { API_BASE_URL } from "@/consts";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { BabyProfile, ProfileDetail } from "../_types.ts/profile_types";
-import { DeleteConfirmDialog } from "@/components/base/DeleteConfirmDialog";
 import { useBabyDelete } from "../_api/mutations/useBabyDelete";
 import { ProfileFormData } from "../_types.ts/profile_form_types";
 import {
@@ -31,18 +27,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/AlertDialog";
-import { HeroSection2 } from "@/components/home/HeroSection2";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
-import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { LoginSchema, LoginSchemaType } from "@/app/login/_types/login_types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
   Form,
   FormField,
   FormItem,
-  FormLabel,
   FormControl,
   FormMessage,
 } from "@/components/ui/Form";
@@ -100,21 +92,20 @@ export default function ProfilePage() {
       setProfileDetails([
         {
           key: "name",
-          label: "NAME",
+          label: "Name",
           value: user.name || "",
         },
         {
           key: "familyName",
-          label: "FAMILY NAME",
+          label: "Female Name",
           value: user?.details?.family_name || "",
         },
         {
           key: "partnerName",
-          label: "PARTNER NAME",
+          label: "Partner Name",
           value: user?.details?.partner_name || "",
         },
-
-        { key: "email", label: "EMAIL", value: user.email || "" },
+        { key: "email", label: "Email", value: user.email || "" },
       ]);
       setPendingAvatar(user?.avatar);
       setBabyProfiles(user?.details?.babies || []);
@@ -236,7 +227,7 @@ export default function ProfilePage() {
   if (isLoading) {
     return (
       <section className="w-full px-4 pt-10 lg:py-20">
-        <div className="flex max-w-[1200px] w-full mx-auto bg-soft-white rounded-2xl p-6 lg:p-8 justify-center items-center min-h-[400px]">
+        <div className="flex max-w-300 w-full mx-auto bg-soft-white rounded-2xl p-6 lg:p-8 justify-center items-center min-h-[400px]">
           <p className="text-xl text-popover-foreground">Loading profile...</p>
         </div>
       </section>
@@ -256,19 +247,19 @@ export default function ProfilePage() {
   }
 
   return (
-    <section className="">
+    <section className="pb-6">
       <div className="relative bg-[#F6F0FF] pt-2">
-        <div className="relative z-20 px-4 max-w-7xl mx-auto w-full h-42">
+        <div className="relative z-20 px-4 max-w-7xl mx-auto w-full h-52 lg:h-42 mb-30! lg:mb-auto">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center transform translate-y-[10px] md:translate-y-[40px]">
             <div className="relative">
-              <CircleIcon className="w-[90px] h-[90px] lg:w-[158px] lg:h-[158px] relative overflow-hidden shadow-xl">
+              <CircleIcon className="size-42 lg:size-48 relative overflow-hidden shadow-xl">
                 {avatarPreview || user?.avatar ? (
                   <Image
                     src={avatarPreview || user?.avatar}
                     alt={user?.name || "User"}
                     fill
                     className="object-cover rounded-full border-8 border-primary"
-                    sizes="(max-width: 1024px) 90px, 158px"
+                    sizes="(max-width: 1024px) 180px, 158px"
                   />
                 ) : (
                   <span className="text-3xl lg:text-6xl font-bold text-popover-foreground">
@@ -307,11 +298,17 @@ export default function ProfilePage() {
                 className="hidden"
               />
             </div>
+            <div className="block lg:hidden text-center">
+              <p className="text-3xl text-wrap max-w-full font-medium lg:text-left mb-2">
+                {user.name || "Guest User"}
+              </p>
+              <p>Your account is ready, you can now apply for advice.</p>
+            </div>
           </div>
         </div>
 
         <WaveDivider
-          className="absolute bottom-0 z-10 text-white transform translate-y-[1px]"
+          className="absolute bottom-0 z-10 text-white transform translate-y-px"
           bgClassName="bg-[#F6F0FF]"
         />
       </div>
@@ -321,7 +318,7 @@ export default function ProfilePage() {
           <h4 className="text-primary-dark text-3xl font-semibold">
             Edit profile
           </h4>
-          <p>
+          <p className="hidden lg:block">
             <strong>Last Updated:</strong>
           </p>
         </div>
@@ -329,38 +326,44 @@ export default function ProfilePage() {
           {/* Left Section */}
           <div className="flex-1 w-full lg:max-w-1/2 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <p className="text-3xl text-wrap max-w-full font-medium text-center lg:text-left">
+              <p className="hidden lg:block text-3xl text-wrap max-w-full font-medium text-center lg:text-left">
                 {user.name || "Guest User"}
               </p>
 
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSave)}>
                   {profileDetails.map((item, id) => (
-                      <div key={id} className="mb-2">
-                        <FormField
-                            control={form.control}
-                            name={item.key as "name" | "familyName" | "partnerName" | "email"} // Fix: use the actual field name
-                            render={({ field }) => (
-                                <FormItem className="mb-3 sm:mb-4 lg:mb-2">
-                                  <FormControl>
-                                    <div className="relative">
-                                      <Input
-                                          label={item.label}
-                                          {...field}
-                                          disabled={item.key === "email"}
-                                          onChange={(e) => {
-                                            field.onChange(e); // Update form state
-                                            setHasChanges(true); // Track changes
-                                            setIsEditing(true);
-                                          }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
-                                </FormItem>
-                            )}
-                        />
-                      </div>
+                    <div key={id} className="mb-2">
+                      <FormField
+                        control={form.control}
+                        name={
+                          item.key as
+                            | "name"
+                            | "familyName"
+                            | "partnerName"
+                            | "email"
+                        } // Fix: use the actual field name
+                        render={({ field }) => (
+                          <FormItem className="mb-3 sm:mb-4 lg:mb-2">
+                            <FormControl>
+                              <div className="relative">
+                                <Input
+                                  label={item.label}
+                                  {...field}
+                                  disabled={item.key === "email"}
+                                  onChange={(e) => {
+                                    field.onChange(e); // Update form state
+                                    setHasChanges(true); // Track changes
+                                    setIsEditing(true);
+                                  }}
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   ))}
                 </form>
               </Form>
@@ -388,9 +391,9 @@ export default function ProfilePage() {
 
           {/* Right Section */}
           <div className="flex-1 w-full lg:max-w-1/2 flex flex-col gap-6 text-popover-foreground">
-            <p className="text-3xl text-wrap max-w-full font-medium text-center lg:text-left">
+            <h4 className="text-3xl text-wrap max-w-full font-medium text-left">
               My Profiles
-            </p>
+            </h4>
 
             <div className="flex flex-col gap-4">
               {babyProfiles.length > 0 ? (
@@ -399,30 +402,57 @@ export default function ProfilePage() {
                     key={index}
                     className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
                   >
-                    <div className="flex items-center gap-5 py-6">
-                      <CircleIcon className="size-12 md:size-56 relative overflow-hidden">
-                        {profile.upcoming ? (
-                          <Image
-                            src="/images/3d_baby.png"
-                            alt={profile.name || "Baby"}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : profile.avatar ? (
-                          <Image
-                            src={profile.avatar}
-                            alt={profile.name || "Baby"}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <span className="text-3xl font-bold text-popover-foreground">
+                    <div className="flex flex-wrap items-center justify-center gap-5 py-6">
+
+                      {/*3d Baby progress*/}
+                      <div className="flex flex-row flex-nowrap">
+                        <div className="w-58 flex justify-around">
+                          <div className="relative w-full max-w-[80%] mx-auto my-2.5 rounded-full border-6 border-white shadow-lg">
+                            {/* Circular SVG Chart */}
+                            <svg
+                                viewBox="0 0 36 36"
+                                className="block w-full h-auto rotate-180"
+                            >
+                              {/* Background circle */}
+                              <path
+                                  className="fill-none stroke-primary-light/80 stroke-2 stroke-linecap-round"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                              />
+                              {/* Progress circle */}
+                              <path
+                                  className="fill-none stroke-primary stroke-2 stroke-linecap-round animate-[progress_1s_ease-out_forwards]"
+                                  strokeDasharray={`${user?.details?.current_pregnancy_data?.percentage || 0}, 100`}
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                              />
+                            </svg>
+
+                            {/* Center Image */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-32 rounded-full overflow-hidden">
+                              {profile.upcoming ? (
+                                  <Image
+                                      src="/images/3d_baby.png"
+                                      alt={profile.name || "Baby"}
+                                      fill
+                                      className="object-cover"
+                                  />
+                              ) : profile.avatar ? (
+                                  <Image
+                                      src={profile.avatar}
+                                      alt={profile.name || "Baby"}
+                                      fill
+                                      className="object-cover"
+                                  />
+                              ) : (
+                                  <span className="text-3xl font-bold text-popover-foreground">
                             {getInitial(profile.name)}
                           </span>
-                        )}
-                      </CircleIcon>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                      <div className="">
+                      <div className="text-center lg:text-left">
                         <p className="text-lg lg:text-2xl">Pregnant</p>
                         <p className="text-lg lg:text-2xl mb-4">
                           <span className="text-primary">
