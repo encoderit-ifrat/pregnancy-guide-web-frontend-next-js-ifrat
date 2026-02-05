@@ -92,9 +92,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       </AnswerForm>
 
       <div className="space-y-4">
-        <SectionHeading variant="h4">
-          Submitted Comments
-        </SectionHeading>
+        <SectionHeading variant="h4">Submitted Comments</SectionHeading>
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {

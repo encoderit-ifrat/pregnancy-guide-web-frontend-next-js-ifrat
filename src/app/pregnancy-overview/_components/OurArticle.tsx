@@ -94,7 +94,10 @@ function OurArticle({ data }: TProps) {
           )}
           <div className="">
             {(otherArticles || []).map((article) => (
-              <Link key={article?.slug} href={`/articles/${article?.slug || "article-not-found"}`}>
+              <Link
+                key={article?.slug}
+                href={`/articles/${article?.slug || "article-not-found"}`}
+              >
                 <div
                   className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg"
                   key={article._id}

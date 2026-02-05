@@ -124,7 +124,10 @@ export default function CommentCard({ data }: TCommentCardProps) {
             {/* {content || "No answer"} */}
             {comment || "No answer"}
           </p>
-          <div onClick={() => setIsOpen(!isOpen)} className="max-w-fit hover:no-underline hover:text-primary cursor-pointer">
+          <div
+            onClick={() => setIsOpen(!isOpen)}
+            className="max-w-fit hover:no-underline hover:text-primary cursor-pointer"
+          >
             <div className="flex items-center gap-2 mb-3 ">
               <MessageCircle className="h-4 w-4 text-gray-400" />
               <span className="text-sm font-medium text-gray-600 hover:text-primary">
@@ -141,18 +144,10 @@ export default function CommentCard({ data }: TCommentCardProps) {
         <div>
           {/* like / dislike */}
           <div className="flex items-center gap-2 md:mr-4">
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full"
-            >
+            <Button variant="outline" size="icon" className="rounded-full">
               <ThumbsUp className="h-4 w-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full"
-            >
+            <Button variant="outline" size="icon" className="rounded-full">
               <ThumbsDown className="h-4 w-4" />
             </Button>
           </div>

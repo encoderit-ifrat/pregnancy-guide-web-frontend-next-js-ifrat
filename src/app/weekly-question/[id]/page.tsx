@@ -5,6 +5,7 @@ import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { CircleQuestionMark, Heart } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 // Generate dynamic metadata
 export async function generateMetadata({
@@ -30,31 +31,27 @@ export default async function Page({
   const { t } = await searchParams; // Get the timestamp
 
   return (
-    <div className="relative min-h-svh">
-      <section className="absolute bg-[#F6F0FF] top-0 left-0 w-full h-[60vh] z-10">
-        <div className="h-[50vh]"></div>
-        <WaveDivider
-          className="text-white transform translate-y-px"
-          bgClassName="bg-[#F6F0FF]"
+    <PageContainer>
+      <div className="flex flex-col items-center justify-center mb-10">
+        {/* Section Label */}
+        <IconHeading
+          text="Question"
+          icon={<CircleQuestionMark />}
+          className="text-primary justify-center md:justify-start"
         />
-      </section>
-      <div className="relative z-20 px-4 pt-6 md:pt-24 pb-10 md:pb-20">
-        <div className="flex flex-col items-center justify-center mb-10">
-          {/* Section Label */}
-          <IconHeading
-            text="Question"
-            icon={<CircleQuestionMark />}
-            className="text-primary justify-center md:justify-start"
-          />
-          <SectionHeading>Question of the week</SectionHeading>
-          <p className="max-w-lg text-center">Answer the weekly pregnancy question, explore community responses, and express how you’re feeling.</p>
-        </div>
-
-        <div className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl border-b-6
-        border-b-primary">
-          <WeeklyQuestionView id={id} timestamp={t} />
-        </div>
+        <SectionHeading>Question of the week</SectionHeading>
+        <p className="max-w-lg text-center">
+          Answer the weekly pregnancy question, explore community responses, and
+          express how you’re feeling.
+        </p>
       </div>
-    </div>
+
+      <div
+        className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl border-b-6
+        border-b-primary"
+      >
+        <WeeklyQuestionView id={id} timestamp={t} />
+      </div>
+    </PageContainer>
   );
 }

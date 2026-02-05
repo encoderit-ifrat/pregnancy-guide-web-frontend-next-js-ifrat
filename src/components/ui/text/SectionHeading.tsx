@@ -19,14 +19,5 @@ export const SectionHeading = ({
     h6: "mb-4 text-md md:text-md lg:text-lg font-semibold text-primary-dark leading-[1.4]",
   };
 
-  return (
-    <h2
-      className={cn(
-        variantClasses[variant],
-        className
-      )}
-    >
-      {children}
-    </h2>
-  );
-}
+  return <h2 className={cn(variantClasses[variant], className)}>{children}</h2>;
+};

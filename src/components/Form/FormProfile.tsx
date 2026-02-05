@@ -135,8 +135,9 @@ export default function FormProfile({
         weeks,
         days,
         source: "lastPeriod",
-        message: `You are ${weeks} week${weeks !== 1 ? "s" : ""} ${days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-          } pregnant! 💕`,
+        message: `You are ${weeks} week${weeks !== 1 ? "s" : ""} ${
+          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
+        } pregnant! 💕`,
       };
     } else if (primarySource === "dd" && dueDate) {
       const { weeks, days } = calculateWeeksFromDueDate(dueDate);
@@ -144,9 +145,11 @@ export default function FormProfile({
         weeks,
         days,
         source: "dueDate",
-        message: `You are approximately ${weeks} week${weeks !== 1 ? "s" : ""
-          } ${days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-          } pregnant! 💕`,
+        message: `You are approximately ${weeks} week${
+          weeks !== 1 ? "s" : ""
+        } ${
+          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
+        } pregnant! 💕`,
       };
     }
 
@@ -157,8 +160,9 @@ export default function FormProfile({
         weeks,
         days,
         source: "lastPeriod",
-        message: `You are ${weeks} week${weeks !== 1 ? "s" : ""} ${days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-          } pregnant! 💕`,
+        message: `You are ${weeks} week${weeks !== 1 ? "s" : ""} ${
+          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
+        } pregnant! 💕`,
       };
     } else if (dueDate) {
       const { weeks, days } = calculateWeeksFromDueDate(dueDate);
@@ -166,9 +170,11 @@ export default function FormProfile({
         weeks,
         days,
         source: "dueDate",
-        message: `You are approximately ${weeks} week${weeks !== 1 ? "s" : ""
-          } ${days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-          } pregnant! 💕`,
+        message: `You are approximately ${weeks} week${
+          weeks !== 1 ? "s" : ""
+        } ${
+          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
+        } pregnant! 💕`,
       };
     }
     return null;
