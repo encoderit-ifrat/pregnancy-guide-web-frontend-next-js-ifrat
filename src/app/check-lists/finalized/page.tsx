@@ -51,7 +51,7 @@ import ChecklistForm from "../_component/CheckListForm";
 import Link from "next/link";
 import { ChecklistFormData } from "../_types/checklist_page_types";
 import { ChecklistItemWithItems } from "../_types/checklist_item_types";
-import {PageContainer} from "@/components/layout/PageContainer";
+import { PageContainer } from "@/components/layout/PageContainer";
 import CheckListItem from "@/app/check-lists/_component/CheckListItem";
 
 export default function CheckLists() {
@@ -160,18 +160,15 @@ export default function CheckLists() {
             </p>
           </div>
 
-          <CheckListItem
-              checklistItems={filteredLists}
-              overview={true}
-          />
+          <CheckListItem checklistItems={filteredLists} overview={true} />
           {meta && meta.last_page > 1 && (
-              <div className="w-full max-w-3xl mx-auto mt-8">
-                <Pagination
-                    currentPage={meta.current_page}
-                    totalPages={meta.last_page} // ← Changed from meta.total to meta.last_page
-                    onPageChange={handlePageChange}
-                />
-              </div>
+            <div className="w-full max-w-3xl mx-auto mt-8">
+              <Pagination
+                currentPage={meta.current_page}
+                totalPages={meta.last_page} // ← Changed from meta.total to meta.last_page
+                onPageChange={handlePageChange}
+              />
+            </div>
           )}
         </div>
 

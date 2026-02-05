@@ -18,6 +18,10 @@ export type ChecklistItemWithItems = {
   items: ChecklistItem[];
   is_active: boolean;
   userId?: string;
+  all_checked?: boolean;
+  progress?: {
+    percentage: number;
+  };
 };
 
 export type CheckListItemProps = {

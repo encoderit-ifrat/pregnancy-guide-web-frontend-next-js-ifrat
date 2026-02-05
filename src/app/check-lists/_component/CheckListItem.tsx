@@ -129,9 +129,11 @@ export default function CheckListItem({
               }
             >
               <div className="size-full pl-0 p-4 flex items-center cursor-pointer">
-                {item?.all_checked && <div>
-                    <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 sm:mr-0"/>
-                </div>}
+                {item?.all_checked && (
+                  <div>
+                    <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 sm:mr-0" />
+                  </div>
+                )}
                 <div className="sm:pl-6 text-primary-dark">
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
