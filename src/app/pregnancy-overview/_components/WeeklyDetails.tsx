@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/Button";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -24,35 +27,32 @@ type TProps = {
 function WeeklyDetails({ data = initialData }: TProps) {
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
-    <section>
-      <Image
-        src="/assets/logo/sss.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="object-cover w-full h-auto"
-        priority
-      />
-      <div className="bg-soft-purple py-10 lg:py-20 -mt-1">
-        <div className="w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="relative w-full lg:w-1/2 h-[320px] sm:h-[380px] lg:h-[471px] order-2 lg:order-1 px-6 sm:px-8 lg:px-0">
+    <section className="bg-white">
+      <div className="section py-10 lg:py-16 -mt-1">
+        <div className="text-center">
+          <IconHeading
+            text="Articles"
+            icon={<Heart />}
+            className="text-primary justify-center"
+          />
+          <SectionHeading>Weekly Details</SectionHeading>
+        </div>
+
+        <div className="bg-white shadow-lg p-5 rounded-2xl">
+          <div className="relative w-full h-[180] md:h-145">
             <Link href={`/articles/${slug || "article-not-found"}`}>
-              <div className="relative w-full h-full">
-                <Image
-                  src={imageLinkGenerator(cover_image)}
-                  alt={title}
-                  fill
-                  className="object-cover lg:object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                  priority
-                />
-              </div>
+              <Image
+                src={imageLinkGenerator(cover_image || thumbnail_image)}
+                alt={title}
+                width="1366"
+                height="580"
+                className="w-full h-full rounded-2xl object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
+                priority
+              />
             </Link>
           </div>
-          <div className="px-6 sm:px-8 w-full lg:w-1/2 space-y-4 text-center lg:text-left popover-foreground order-1 lg:order-2">
-            <p className="text-3xl sm:text-4xl lg:text-5xl font-medium whitespace-nowrap">
-              WEEKLY DETAILS
-            </p>
+          <div className="px-4 py-4 w-full lg:w-1/2 space-y-4 text-center lg:text-left popover-foreground order-1 lg:order-2">
             <Link href={`/articles/${slug || "article-not-found"}`}>
               <p className="text-lg sm:text-xl lg:text-2xl text-text-dark">
                 {title}
@@ -61,9 +61,11 @@ function WeeklyDetails({ data = initialData }: TProps) {
             <p className="text-sm sm:text-base leading-6 text-text-mid">
               {excerpt}
             </p>
-            <div className="pt-3">
+            <div className="pt-2">
               <Link href={`/articles/${slug || "article-not-found"}`}>
-                <Button variant="darkPurple">Read More</Button>
+                <Button variant="outline" className="px-12">
+                  Read More
+                </Button>
               </Link>
             </div>
           </div>

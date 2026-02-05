@@ -6,12 +6,17 @@ import AnswerForm, {
   AnswerFormSeeAnswersButton,
   AnswerFormSubmitButton,
 } from "@/app/weekly-question/[id]/_components/AnswerForm";
-import { useRouter } from "next/navigation";
 import React from "react";
 
-function QuestionOfTheWeek({ question }: { question: any }) {
-  console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
-  const router = useRouter();
+import { QuestionOfTheWeekProps } from "@/app/weekly-question/[id]/_types/weekly_question_types";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { FileQuestion } from "lucide-react";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
+
+function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
+  //   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
 
   const { data, isLoading } = useQueryGetAllAnswers({
     params: { id: question?._id },
@@ -23,59 +28,84 @@ function QuestionOfTheWeek({ question }: { question: any }) {
     statistics,
     userAnswer,
   } = data?.data ?? {};
-  console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
+  //   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
   return (
-    <section className="relative w-full mx-auto  py-10  lg:py-30 ">
-      <div className="my-6 space-y-4 relative z-10 flex flex-col items-center justify-center text-center px-6 lg:px-0 ">
-        <p className="font-poppins text-3xl lg:text-4xl font-semibold  whitespace-nowrap">
-          Question of the Week
-        </p>
-        <p className="font-roboto text-base lg:text-xl font-normal text-text-dark">
-          {question?.title}
-        </p>
-        {!isLoading && (
-          // <AnswerForm
-          // data={{
-          //   hasAnswered,
-          //   userAnswer,
-          //   question: {
-          //     id: questionData?._id,
-          //     question: questionData?.title,
-          //     description: questionData?.content,
-          //     answers_count: questionData?.answers_count,
-          //     answer_options: questionData?.answer_options,
-          //   },
-          //   statistics: statistics?.statistics || [],
-          // }}
-          //   overview={true}
-          // />
-          <AnswerForm
-            data={{
-              hasAnswered,
-              userAnswer,
-              question: {
-                id: questionData?._id,
-                question: questionData?.title,
-                description: questionData?.content,
-                answers_count: questionData?.answers_count,
-                answer_options: questionData?.answer_options,
-              },
-              statistics: statistics?.statistics || [],
-            }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <AnswerFormRadioGroup disabled={hasAnswered} />
-              {hasAnswered && <AnswerFormPercentage />}
-            </div>
-            <div className="mt-4">
-              {hasAnswered ? (
-                <AnswerFormSeeAnswersButton />
-              ) : (
-                <AnswerFormSubmitButton />
+    <section className="relative w-full mx-auto">
+      <div className="relative bg-[#F5EEFF] overflow-hidden">
+        {/* Background image with 20% opacity */}
+        <div className="absolute inset-0 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10"></div>
+
+        {/* Content */}
+        <div className="relative z-10">
+          {/* divider */}
+          <ConcaveCurve
+            className="text-[#F5EEFF] h-10! sm:h-20! md:h-24! lg:h-30!"
+            bgClassName="bg-white"
+          />
+
+          <div className="pb-10 md:pb-16">
+            <div className="text-center">
+              <IconHeading
+                text="Question"
+                icon={<FileQuestion />}
+                className="text-primary justify-center"
+              />
+              <SectionHeading>Question of the Week</SectionHeading>
+              {/* Week badge */}
+              {typeof currentWeek !== "undefined" && (
+                <div className="inline-block bg-white/90 text-primary font-bold text-sm px-4 py-1 rounded-full mb-6">
+                  Week {currentWeek} question
+                </div>
               )}
             </div>
-          </AnswerForm>
-        )}
+
+            {/* Outer decorative card to match the target layout (large rounded container with subtle bottom shadow/highlight) */}
+            <div className="md:max-w-4xl mx-auto rounded-2xl bg-white/40 p-3 pb-5 mt-8">
+              <div className="bg-white rounded-3xl shadow-[0_8px_0_rgba(100,16,242,0.5)] md:shadow-[0_10px_0_rgba(100,16,242,0.5)]">
+                {/* Place the AnswerForm inside this outer card. The AnswerForm itself renders an inner white card where the options live. */}
+                <div className="flex flex-col items-center text-center p-3 pt-6 md:p-6">
+                  {!isLoading && (
+                    <AnswerForm
+                      data={{
+                        hasAnswered,
+                        userAnswer,
+                        question: {
+                          id: questionData?._id,
+                          question: questionData?.title,
+                          description: questionData?.content,
+                          answers_count: questionData?.answers_count,
+                          answer_options: questionData?.answer_options,
+                        },
+                        statistics: statistics?.statistics || [],
+                      }}
+                    >
+                      {/* Move the question title inside the AnswerForm so it sits within the white card. */}
+                      <p className="font-roboto text-lg md:text-2xl lg:text-3xl font-medium text-text-dark mb-6">
+                        {question?.title}
+                      </p>
+
+                      <div className="grid grid-cols-1 gap-2">
+                        <AnswerFormRadioGroup disabled={hasAnswered} />
+                        {/* {hasAnswered && (<AnswerFormPercentage />)} */}
+                      </div>
+
+                      <div className="my-6 md:mb-0 md:mt-6">
+                        {hasAnswered ? (
+                          <AnswerFormSeeAnswersButton />
+                        ) : (
+                          <AnswerFormSubmitButton />
+                        )}
+                      </div>
+                    </AnswerForm>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* divider */}
+          <WaveDivider className="text-white" bgClassName="bg-transparent" />
+        </div>
       </div>
     </section>
   );

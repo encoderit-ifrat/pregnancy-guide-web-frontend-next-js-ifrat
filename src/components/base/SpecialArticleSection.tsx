@@ -1,8 +1,21 @@
 "use client";
 import React, { useRef } from "react";
-import SpecialArticleCard from "./SpecialArticleCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "../ui/Button"; // or "@/components/ui/button" depending on your folder structure
+import ArticleCard from "../ui/cards/ArticleCard";
+import IconHeading from "../ui/text/IconHeading";
+import { SectionHeading } from "../ui/text/SectionHeading";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { ChevronRight, Heart } from "lucide-react";
+import { Slider } from "../ui/Slider";
+import {
+  Autoplay,
+  FreeMode,
+  Grid,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 export type Category = {
   _id: string;
@@ -34,66 +47,105 @@ type TProps = {
 };
 
 const SpecialArticleSection = ({ data }: TProps) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 300;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
+  const pagination = {
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '"></span>';
+    },
   };
 
   return (
-    <div className="relative px-4 sm:pb-7 lg:pb-15 lg:text-start max-w-5xl mx-auto pb-10">
-      {Boolean(data?.length) && (
-        <>
-          <div className="flex items-center justify-between">
-            <p className="text-foreground font-semibold text-3xl lg:text-4xl py-7">
-              SPECIAL ARTICLES
-            </p>
-
-            {/* Scroll Buttons (hidden on mobile) */}
-            <div className="justify-between pointer-events-none gap-4 hidden md:flex">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => handleScroll("left")}
-                className="rounded-full shadow-md bg-background/80 backdrop-blur pointer-events-auto"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => handleScroll("right")}
-                className="rounded-full shadow-md bg-background/80 backdrop-blur pointer-events-auto"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
+    <section className="bg-primary-light">
+      <div className="relative section px-4 sm:pb-7 lg:pb-15 lg:text-start pb-10">
+        <div className="w-full text-center pb-6 md:pt-6">
+          <div>
+            <IconHeading
+              text="Atricles"
+              icon={<Heart />}
+              className="text-primary justify-center"
+            />
+            <SectionHeading>Special Articles</SectionHeading>
+          </div>
+        </div>
+        {Boolean(data?.length) && (
+          <>
+            <Slider
+              options={{
+                spaceBetween: 10,
+                slidesPerView: 1,
+                navigation: true,
+                pagination: {
+                  ...pagination,
+                  enabled: true,
+                },
+                grid: {
+                  rows: 1,
+                  fill: "row",
+                },
+                breakpoints: {
+                  320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                    grid: {
+                      rows: 1,
+                      fill: "row",
+                    },
+                  },
+                  321: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10,
+                  },
+                  768: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 20,
+                    grid: {
+                      rows: 1,
+                      fill: "row",
+                    },
+                  },
+                  1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                    grid: {
+                      rows: 2,
+                      fill: "row",
+                    },
+                    pagination: {
+                      enabled: false,
+                    },
+                  },
+                },
+              }}
+              sideOverlayClassName="bg-transparent"
+              className=""
+            >
+              {data.map(
+                (
+                  { _id, cover_image, thumbnail_image, title, excerpt, slug },
+                  index
+                ) => (
+                  <SwiperSlide key={_id + index} className="h-auto!">
+                    <ArticleCard
+                      image={thumbnail_image || cover_image}
+                      title={title}
+                      description={excerpt}
+                      slug={slug}
+                      showButton={false}
+                    />
+                  </SwiperSlide>
+                )
+              )}
+            </Slider>
+            <div className="justify-center hidden md:flex md:mt-8">
+              <Link href="/articles">
+                <Button variant="default" className="px-8">
+                  View All <ChevronRight className="ml-2" />
+                </Button>
+              </Link>
             </div>
-          </div>
-          <div
-            ref={scrollRef}
-            className="flex flex-col md:flex-row items-center flex-nowrap gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
-          >
-            {data.map(
-              ({ _id, cover_image, thumbnail_image, title, excerpt, slug }) => (
-                <SpecialArticleCard
-                  key={_id}
-                  // image={data?.length > 1 ? thumbnail_image : cover_image}
-                  image={thumbnail_image}
-                  title={title}
-                  description={excerpt}
-                  slug={slug}
-                />
-              )
-            )}
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </section>
   );
 };
 

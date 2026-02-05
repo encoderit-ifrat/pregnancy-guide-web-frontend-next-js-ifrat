@@ -1,62 +1,74 @@
-import PercentagePieChart from "@/components/chart/PieChart";
-import { Button } from "@/components/ui/Button";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { calculatePregnancyProgress } from "@/utlis/calculateDate";
-import { getPregnancyMessage } from "@/utlis/getPregnancyMessage";
-import Image from "next/image";
 import React from "react";
-// const htmlString = '<p>asd as <p> <h1> dsa h1/> <p> ${name}</p>';
-// const updatedHtml = htmlString.replace('${name}', currentUser);
-// // Then render using dangerouslySetInnerHTML
-{
-  /* <div dangerouslySetInnerHTML={{ __html: updatedHtml }} /> */
-}
-function PregnancyDetails({ userData, weeklyDetails }: any) {
+import { calculatePregnancyProgress } from "@/utlis/calculateDate";
+import { PregnancyDetailsProps } from "../_types/pregnancy_details_types";
+
+function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   const htmlString = weeklyDetails?.description;
 
   const updatedHtml = htmlString?.replace("$name", userData?.name);
   const pregnancyProgressInfo = calculatePregnancyProgress(
     userData?.details?.last_period_date
   );
+
   return (
-    <section className="w-full  max-w-4xl my-10  mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
-      <div className="flex-1 md:max-w-1/2 size-full shrink-0 text-center md:text-left popover-foreground pt-10 lg:pt-0 px-4">
-        {weeklyDetails?.description && (
-          // <div className="bg-red-500">
-          <div
-            className="no-tailwind"
-            // className="truncate! whitespace-normal! text-wrap!"
-            dangerouslySetInnerHTML={{ __html: updatedHtml }}
-          />
-          // </div>
-        )}
-
-        <Button variant="outline" size="lg" className="my-10">
-          <span className="font-light">Due Date:</span>{" "}
-          {pregnancyProgressInfo?.dueDate}
-        </Button>
-      </div>
-      <div className=" overflow-hidden p-10 relative flex-1 size-full shrink-0 px-4">
-        <Image
-          src="/pregnant-woman.png"
-          alt="pregnant-woman.png"
-          fill
-          // className="absolute z-10 size-full object-contain  left-0 top-0 translate-x-1/4"
-          className="z-10 object-contain  left-0 top-0 translate-x-4/12 md:translate-x-3/12 scale-90"
-        />
-        <PercentagePieChart
-          value={pregnancyProgressInfo?.percentage || 0}
-          className={"size-full"}
-        />
-
-        <div className="absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 text-center">
-          <p className="text-8xl lg:text-7xl">{`${Math.ceil(
-            pregnancyProgressInfo?.percentage || 0
-          )}%`}</p>
-          <p className="capitalize font-semibold">completed</p>
-          <p className="capitalize font-medium">
+    <section className="w-full max-w-7xl p-2 mx-auto my-10">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
+        {/*card*/}
+        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4">
+          <h3 className="text-primary-dark text-xl font-semibold mb-2">
             {pregnancyProgressInfo?.trimester}
-          </p>
+          </h3>
+          <h3 className="text-xl mb-4">
+            <span className="text-primary-dark font-semibold">
+              Been pregnant:
+            </span>
+            <span>
+              {pregnancyProgressInfo?.week} weeks {pregnancyProgressInfo?.day}{" "}
+              days
+            </span>
+          </h3>
+          <div className="text-xl">
+            <span className="text-primary">
+              {pregnancyProgressInfo?.percentage || 0}%
+            </span>
+            Completed
+          </div>
+          {/*slider*/}
+          <div>
+            <div className="w-full bg-gray-100 rounded-full h-4 mt-2">
+              <div
+                className="relative bg-primary h-4 rounded-full"
+                style={{ width: `${pregnancyProgressInfo?.percentage || 0}%` }}
+              >
+                <div className="h-6 w-6 bg-white shadow-lg border border-black rounded-full absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*card*/}
+        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4">
+          <h3 className="text-primary-dark  text-xl font-semibold">
+            Week-{pregnancyProgressInfo?.week} {userData.name}
+          </h3>
+          {weeklyDetails?.description && (
+            <div
+              className="no-tailwind"
+              dangerouslySetInnerHTML={{ __html: updatedHtml }}
+            />
+          )}
+        </div>
+        {/*card*/}
+        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4 text-xl">
+          <h3 className="mb-2">
+            <span className="text-primary-dark font-semibold">Due Date:</span>{" "}
+            {pregnancyProgressInfo?.dueDate}
+          </h3>
+          <h3>
+            <span className="text-primary-dark font-semibold">
+              Days remaining to birth:
+            </span>{" "}
+            {pregnancyProgressInfo?.daysLeft} days
+          </h3>
         </div>
       </div>
     </section>

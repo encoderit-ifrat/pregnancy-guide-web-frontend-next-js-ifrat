@@ -2,7 +2,6 @@ import React from "react";
 import WeeklyQuestionView from "./_components/WeeklyQuestionView";
 import { Metadata } from "next";
 
-
 // Generate dynamic metadata
 export async function generateMetadata({
   params,

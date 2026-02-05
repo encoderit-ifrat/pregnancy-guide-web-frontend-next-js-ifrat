@@ -1,0 +1,47 @@
+import React from "react";
+
+export default function VCard({ step }) {
+  return (
+    <div className="group relative w-full max-w-[400px] rounded-3xl bg-white shadow-xl transition-all duration-300 hover:shadow-2xl">
+      {/* Image Container with V-shape cutout */}
+      <div className="relative aspect-[4/3] overflow-hidden rounded-t-3xl">
+        <img
+          src={step.image}
+          alt={step.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+
+        {/* Decorative gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
+
+        {/* V-Shape SVG Overlay */}
+        <svg
+          className="absolute left-0 right-0 bottom-0 w-full -mb-[1px] !-m4-[4px] block"
+          height="95"
+          viewBox="0 0 400 95"
+          fill="none"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.0289 19.6399C3.93064 17.0213 0.385356 5.89198 0 0.654665V95H400V0C400 11.5221 390.751 17.4577 386.127 18.9853L350.289 27.4959C320.809 34.479 253.815 49.6659 229.48 56.3011C198.266 64.8118 197.11 64.1571 169.364 57.6105L97.6879 39.9345C74.7592 34.2608 26.1272 22.2586 15.0289 19.6399Z"
+            fill="white"
+          />
+        </svg>
+
+        {/* Number Badge */}
+        <div className="absolute bottom-2 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-primary text-lg font-bold text-white shadow-lg transition-transform duration-300 z-20">
+          {step.number}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="px-6 pb-12 pt-2 text-center">
+        <h3 className="mb-3 text-2xl font-bold text-gray-800">{step.title}</h3>
+        <p className="text-sm leading-relaxed text-gray-600">
+          {step.description}
+        </p>
+      </div>
+    </div>
+  );
+}

@@ -1,21 +1,19 @@
 import React from "react";
 import ForgotPassword from "./_component/ForgotPasswordForm";
 import Image from "next/image";
+import AuthCard from "@/components/ui/cards/AuthCard";
+import LoginForm from "@/app/login/_component/LoginForm";
 
 export default function page() {
   return (
-    <div className="min-h-svh  md:pb-96">
-      <div className="flex items-center justify-center  p-4 pt-24">
+    <div className="max-w-5xl mx-auto">
+      <AuthCard
+        title="Forgot Password"
+        description="Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus."
+        image="/images/auth/forget-password.png"
+      >
         <ForgotPassword />
-      </div>
-      {/* <Image
-        src="/assets/logo/vectorSecond.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="w-full h-auto object-cover"
-        priority
-      /> */}
+      </AuthCard>
     </div>
   );
 }

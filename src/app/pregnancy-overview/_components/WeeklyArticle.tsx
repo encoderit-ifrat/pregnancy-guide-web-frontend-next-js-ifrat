@@ -1,81 +1,75 @@
 import { Button } from "@/components/ui/Button";
+import { Slider } from "@/components/ui/Slider";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { FileQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-const initialData = {
-  title: "",
-  excerpt: "",
-  cover_image: "",
-  slug: "",
-  thumbnail_image: "",
-};
+import { SwiperSlide } from "swiper/react";
+import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
+
 type TProps = {
-  data: {
+  articles: {
     title: string;
     excerpt: string;
     cover_image: string;
     slug: string;
     thumbnail_image?: string;
-  };
+  }[];
 };
-function WeeklyArticle({ data = initialData }: TProps) {
-  const { title, excerpt, cover_image, slug, thumbnail_image } = data;
-  return (
-    <section className="">
-      <Image
-        src={"/assets/logo/sss.svg"}
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="w-full h-auto object-cover"
-        priority
-      />
-      <div className="-mt-1 bg-soft-purple w-full mx-auto flex flex-col lg:flex-row items-center justify-between gap-4 p-5">
-        <div className="w-full max-w-5xl mx-auto bg-soft-white   gap-4 flex flex-col md:flex-row ">
-          <div className="md:p-4">
-            <div className="relative shrink-0 flex-1 min-w-full md:min-w-56 min-h-80 bg-gray-100">
-              <Link href={`/articles/${slug}`}>
-                <Image
-                  src={imageLinkGenerator(cover_image)}
-                  alt={title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                  priority
-                />
-              </Link>
-            </div>
-          </div>
 
-          <div className="w-full space-y-4 lg:text-start h-fit my-auto p-4">
-            <p className="text-2xl lg:text-3xl text-popover-foreground ">
-              <Link href={`/articles/${slug}`} className="text-wrap">
-                {title}
-              </Link>
-            </p>
-            <p className="text-base leading-6 text-text-mid">{excerpt}</p>
-            <div>
-              <Link href={`/articles/${slug}`}>
-                <Button
-                  variant="softPurple"
-                  className="w-auto self-start px-4 py-2"
-                >
-                  Read More
-                </Button>
-              </Link>
-            </div>
-          </div>
+function WeeklyArticle({ articles }: TProps) {
+  const pagination = {
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '"></span>';
+    },
+  };
+
+  return (
+    <section className="bg-white pb-6">
+      <div className="section">
+        <div className="max-w-3xl text-center mx-auto">
+          <IconHeading
+            text="Articles"
+            icon={<FileQuestion />}
+            className="text-primary justify-center"
+          />
+          <SectionHeading>
+            Articles & Insights for Your Pregnancy Journey
+          </SectionHeading>
+          <p>
+            Expert advice, real stories, and helpful tips to support you and
+            your family at every stage.
+          </p>
         </div>
+
+        {articles && articles.length && (
+          <Slider
+            options={{
+              spaceBetween: 30,
+              // slidesPerView: 1,
+              slidesPerView: "auto",
+              pagination: pagination,
+              navigation: true,
+              // autoplay: {
+              //   delay: 4000,
+              //   pauseOnMouseEnter: true,
+              // },
+              loop: true,
+            }}
+            sideOverlayClassName="bg-white w-4"
+            className="px-7! py-10! lg:pb-14! h-full"
+          >
+            {articles.map((article, index) => (
+              <SwiperSlide key={index} className="h-auto!">
+                <ArticleBigCard data={article} />
+              </SwiperSlide>
+            ))}
+          </Slider>
+        )}
       </div>
-      <Image
-        src="/assets/logo/sssss.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="object-cover w-full h-auto bg-soft-purple"
-        priority
-      />
     </section>
   );
 }

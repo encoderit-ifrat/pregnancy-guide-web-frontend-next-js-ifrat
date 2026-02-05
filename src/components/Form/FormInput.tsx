@@ -1,8 +1,9 @@
 import { Controller, Control, FieldErrors } from "react-hook-form";
-import { Input } from "@/components/ui/Input";
+import { ReactElement } from "react";
+import { Input, InputVariant, InputSize } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import ErrorText from "../base/ErrorText";
-import { ReactElement } from "react";
+import { cn } from "@/lib/utils";
 
 type FormInputProps = {
   name: string;
@@ -13,7 +14,9 @@ type FormInputProps = {
   disabled?: boolean;
   type?: "text" | "email" | "number" | "password";
   iconComponent?: ReactElement;
-  iconSize?: number | string; // 
+  variant?: InputVariant;
+  size?: InputSize;
+  className?: string;
 };
 
 export function FormInput({
@@ -25,6 +28,9 @@ export function FormInput({
   placeholder = "",
   type = "text",
   iconComponent,
+  variant = "rounded-full",
+  size = "md",
+  className,
 }: FormInputProps) {
   return (
     <div className="space-y-1.5 w-full relative">
@@ -37,7 +43,7 @@ export function FormInput({
         </Label>
       )}
 
-      <div className="relative flex items-center">
+      <div className="relative flex items-center w-full max-w-[563px]">
         <Controller
           name={name}
           control={control}
@@ -48,8 +54,14 @@ export function FormInput({
               type={type}
               disabled={disabled}
               placeholder={placeholder}
-              className={`peer rounded-full px-4 py-2 pe-9 w-[563px] bg-[#EEEEEE] ${iconComponent ? "pl-10" : ""
-                } ${errors[name] ? "border-destructive" : ""}`}
+              variant={variant}
+              size={size}
+              hasIcon={!!iconComponent}
+              className={cn(
+                "w-full",
+                errors[name] && "border-destructive",
+                className
+              )}
               aria-invalid={errors[name] ? "true" : "false"}
               {...field}
             />
@@ -58,7 +70,7 @@ export function FormInput({
 
         {/* Icon wrapper */}
         {iconComponent && (
-          <div className="absolute left-3  items-center text-muted-foreground w-[20px] h-[14px]">
+          <div className="absolute left-3 flex items-center text-muted-foreground w-[20px] h-[14px] pointer-events-none">
             {iconComponent}
           </div>
         )}

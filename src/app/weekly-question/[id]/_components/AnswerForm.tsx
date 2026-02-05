@@ -13,11 +13,10 @@ import React, {
 import { useCreateAnswer } from "../_api/mutations/useCreateAnswer";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/progress";
 
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+
 type Question = {
   id: string;
   question: string;
@@ -92,10 +91,8 @@ export default function AnswerForm({
         setAnswerText,
       }}
     >
-      <div className="max-w-5xl w-full mx-auto space-y-8">
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-100">
-          {children}
-        </div>
+      <div className="w-full mx-auto space-y-8">
+        <div className="bg-white rounded-2xl">{children}</div>
       </div>
     </AnswerFormContext.Provider>
   );
@@ -107,7 +104,7 @@ export const AnswerFormTitle = () => {
   const { question: title } = question;
 
   return (
-    <h1 className="text-3xl md:text-4xl font-bold text-[#300043] mb-4">
+    <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
       Q: {title}
     </h1>
   );
@@ -126,36 +123,50 @@ export const AnswerFormRadioGroup = ({
   const { question } = data;
   const { answer_options } = question;
 
+  const getLetter = (index: number) => String.fromCharCode(97 + index); // a, b, c...
+
   return (
     <RadioGroup
       value={option}
       onValueChange={(val) => {
         setOption(val);
       }}
-      className="mt-3 mb-6"
+      className="mt-3 mb-6 flex flex-col gap-3"
       {...props}
       // disabled={hasAnswered}
     >
       {answer_options?.length > 0 &&
-        answer_options.map((option) => {
+        answer_options.map((optionItem, idx) => {
+          const isSelected = option === optionItem._id;
           return (
-            <div
-              className="flex flex-col md:flex-row md:items-center md:justify-between gap-3"
-              key={option._id}
-            >
-              <div className="flex items-center gap-3 flex-1">
-                <RadioGroupItem
-                  value={option._id}
-                  id={option._id}
-                  className="size-5 cursor-pointer!"
-                />
-                <Label
-                  htmlFor={option._id}
-                  className="capitalize font-normal text-lg cursor-pointer text-left"
+            <div className="w-full" key={optionItem._id}>
+              <label
+                htmlFor={optionItem._id}
+                onClick={() => setOption(optionItem._id)}
+                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${
+                  isSelected
+                    ? "bg-primary text-white shadow-md"
+                    : "bg-[#F2EAFB] text-foreground hover:shadow-md"
+                }`}
+              >
+                <div
+                  className={`flex items-center justify-center h-10 w-10 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
                 >
-                  {option.content}
-                </Label>
-              </div>
+                  {getLetter(idx)}
+                </div>
+
+                <div
+                  className={`flex-1 text-left text-lg font-normal ${isSelected ? "text-white" : "text-foreground"}`}
+                >
+                  {optionItem.content}
+                </div>
+
+                <RadioGroupItem
+                  value={optionItem._id}
+                  id={optionItem._id}
+                  className="opacity-0 pointer-events-none absolute"
+                />
+              </label>
             </div>
           );
         })}
@@ -195,7 +206,7 @@ export const AnswerFormComment = () => {
 
   return (
     <>
-      <h3 className="text-xl font-bold text-[#300043] mb-4 flex items-center gap-2">
+      <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
         <Send className="h-5 w-5 text-soft" />
         Share Your Comment
       </h3>
@@ -217,10 +228,11 @@ export const AnswerFormSeeAnswersButton = () => {
 
   return (
     <Button
+      variant="outline"
       onClick={() => {
         router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
       }}
-      className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+      className="sm:px-10 md:px-12"
     >
       See answers and comments
     </Button>
@@ -267,7 +279,8 @@ export const AnswerFormSubmitButton = ({
       onClick={handleSubmit}
       isLoading={isPending}
       disabled={isPending}
-      className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+      variant="outline"
+      className="w-full max-w-lg md:w-auto px-8 py-3"
     >
       {isPending ? "Submitting..." : text}
     </Button>

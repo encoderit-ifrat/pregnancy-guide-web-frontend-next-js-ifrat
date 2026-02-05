@@ -11,18 +11,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-[linear-gradient(180deg,#9D81E1_0%,#BF6EFF_100%)] text-white shadow-md hover:opacity-90",
+        default: "bg-primary text-white shadow-md hover:opacity-90",
         outline:
-          "border border-[#2E1112] bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-[#2E1112] dark:hover:bg-input/50",
+          "border border-primary text-primary bg-white shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-dark dark:hover:bg-input/50",
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         link: "text-primary underline-offset-4 hover:underline",
-        purple: "bg-[#3D3177] text-white shadow-md hover:opacity-90",
-        darkPurple: "bg-[#300043] text-white shadow-md hover:opacity-90",
-        softPurple: "bg-[#A080E1] text-white shadow-md hover:opacity-90",
+        purple: "bg-secondary text-white shadow-md hover:opacity-90",
+        darkPurple: "bg-foreground text-white shadow-md hover:opacity-90",
+        softPurple: "bg-primary text-white shadow-md hover:opacity-90",
         tertiary:
-          "bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-[#2E1112] dark:hover:bg-input/50",
+          "bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-dark dark:hover:bg-input/50",
       },
 
       size: {

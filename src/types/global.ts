@@ -51,7 +51,7 @@ export type URLParamsType = {
 };
 export type ControlDropdownProps = {
   name: string;
-  control: Control<any>;
+  control: Control<Record<string, unknown>>;
   errors: FieldErrors;
   label?: string;
   placeholder?: string;

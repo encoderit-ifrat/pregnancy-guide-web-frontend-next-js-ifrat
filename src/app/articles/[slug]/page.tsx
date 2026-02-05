@@ -6,6 +6,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/utlis/authOptions";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
+import { HeroSection2 } from "@/components/home/HeroSection2";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -101,12 +103,16 @@ export default async function ArticlePage({
   }
 
   return (
-    <div className="bg-background min-h-svh pb-32  md:pb-96">
-      <div className="min-h-screen w-full max-w-6xl mx-auto  pt-24 py-8 px-4">
-        <div className="bg-soft-white rounded-lg p-7">
-          <h1 className="text-4xl md:text-5xl  font-bold text-[#300043] mb-6 text-wrap">
-            {article?.title}
-          </h1>
+    <div className="relative min-h-svh">
+      <section className="absolute bg-[#F6F0FF] top-0 left-0 w-full h-[60vh] z-10">
+        <div className="h-[60vh]"></div>
+        <WaveDivider
+          className="text-white transform translate-y-[1px]"
+          bgClassName="bg-[#F6F0FF]"
+        />
+      </section>
+      <div className="relative z-20 px-4 pt-6 md:pt-24 pb-10 md:pb-20">
+        <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-lg p-6">
           <ArticleWithTOC article={article} />
         </div>
       </div>

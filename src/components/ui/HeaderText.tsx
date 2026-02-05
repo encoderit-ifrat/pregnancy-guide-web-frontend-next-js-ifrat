@@ -36,7 +36,7 @@ export default function HeaderText({
       <p
         className={`${playfair.className} font-medium leading-snug   ${commonClass}`}
         style={{
-          color: color || "#F1E8FF",
+          color: color || "var(--color-text-light-purple)",
           textShadow: commonTextShadow || undefined,
         }}
       >
@@ -46,7 +46,7 @@ export default function HeaderText({
       <p
         className={`${poppins.className} leading-snug truncate  w-full max-w-full ${boldClass}`}
         style={{
-          color: color || "#FFFFFF",
+          color: color || "var(--color-text-light)",
           textShadow: boldTextShadow || undefined,
         }}
       >

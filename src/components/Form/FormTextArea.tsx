@@ -1,6 +1,12 @@
 import { Controller, Control, FieldErrors } from "react-hook-form";
+import {
+  Textarea,
+  TextareaVariant,
+  TextareaSize,
+} from "@/components/ui/Textarea";
 import { Label } from "@/components/ui/Label";
 import ErrorText from "../base/ErrorText";
+import { cn } from "@/lib/utils";
 
 type FormTextAreaProps = {
   name: string;
@@ -10,6 +16,9 @@ type FormTextAreaProps = {
   placeholder?: string;
   disabled?: boolean;
   rows?: number;
+  variant?: TextareaVariant;
+  size?: TextareaSize;
+  className?: string;
 };
 
 export function FormTextArea({
@@ -20,6 +29,9 @@ export function FormTextArea({
   placeholder = "",
   disabled,
   rows = 4,
+  variant = "rounded-full",
+  size = "md",
+  className,
 }: FormTextAreaProps) {
   return (
     <div className="space-y-1.5 w-full">
@@ -37,24 +49,25 @@ export function FormTextArea({
         control={control}
         defaultValue=""
         render={({ field }) => (
-          <textarea
+          <Textarea
             id={name}
             rows={rows}
             disabled={disabled}
             placeholder={placeholder}
-            className={`peer rounded-full px-8 py-2 w-full border resize-none 
-              text-left placeholder:text-left
-              ${errors[name] ? "border-destructive" : "border-input"} 
-              focus:outline-none focus:ring-2 focus:ring-ring`}
+            variant={variant}
+            size={size}
+            className={cn(
+              "w-full",
+              errors[name] && "border-destructive",
+              className
+            )}
             aria-invalid={errors[name] ? "true" : "false"}
             {...field}
           />
         )}
       />
 
-      {errors[name] && (
-        <ErrorText text={errors[name]?.message as string} />
-      )}
+      {errors[name] && <ErrorText text={errors[name]?.message as string} />}
     </div>
   );
 }

@@ -3,10 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { CircleIcon } from "@/components/ui/CircleIcon";
-import IconLock from "@/assets/IconLock";
-import IconTick from "@/assets/IconTick";
-
 import {
   Form,
   FormField,
@@ -15,22 +11,16 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
-import Header from "@/components/ui/SectionHeader";
-import { useState } from "react";
 import { toast } from "sonner";
-import * as z from "zod";
 import {
   ChangePasswordSchema,
   ChangePasswordSchemaType,
 } from "../_types/change_password_types";
 import { useChangePassword } from "../_api/mutations/useChangePassword";
+import { PasswordInput } from "@/components/base/PasswordInput";
+import * as React from "react";
 
 export default function UpdatePasswordForm() {
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const { mutate: changePassword, isPending } = useChangePassword();
 
   const form = useForm<ChangePasswordSchemaType>({
@@ -59,50 +49,15 @@ export default function UpdatePasswordForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="lg:space-y-2 w-full max-w-[647px] p-6 lg:p-10 pt-14 bg-soft-white rounded-2xl shadow-md"
-      >
-        {/* Top Icon */}
-        <CircleIcon className="mx-auto mb-4 w-28 h-28 lg:w-34 lg:h-34">
-          <IconTick className="w-10 h-10" />
-        </CircleIcon>
-
-        {/* Title */}
-        <Header
-          title="Change Password"
-          description="Enter your current password and choose a new secure password for your account."
-        />
-
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Old Password */}
         <FormField
           control={form.control}
           name="oldPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showOldPassword ? "text" : "password"}
-                    placeholder="Old Password"
-                    {...field}
-                    // className="rounded-full pl-14 pr-14 lg:text-xl text-base text-text-mid"
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div onClick={() => setShowOldPassword(!showOldPassword)}>
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showOldPassword ? "text-primary" : "text-gray"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <PasswordInput label="Old Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,29 +70,8 @@ export default function UpdatePasswordForm() {
           name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showNewPassword ? "text" : "password"}
-                    placeholder="New Password"
-                    {...field}
-                    // className="rounded-full pl-14 pr-14 lg:text-xl text-base text-text-mid"
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div onClick={() => setShowNewPassword(!showNewPassword)}>
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showNewPassword ? "text-primary" : "text-gray"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <PasswordInput label="New Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -150,33 +84,8 @@ export default function UpdatePasswordForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm New Password"
-                    {...field}
-                    // className="rounded-full pl-14 pr-14 lg:text-xl text-base text-text-mid"
-                    className="rounded-full pl-12 sm:pl-13 md:pl-14 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
-                  />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 px-6">
-                    <div
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      <IconLock
-                        className={`w-5 h-5 ${
-                          showConfirmPassword ? "text-primary" : "text-gray"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <PasswordInput label="Confirm New Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -37,9 +37,9 @@ export function calculatePregnancyProgress(lastPeriodDate: string) {
   const percentage = Math.min((diffDays / totalDays) * 100, 100);
 
   let trimester = "";
-  if (week < 13) trimester = "Trimester 1";
-  else if (week < 27) trimester = "Trimester 2";
-  else trimester = "Trimester 3";
+  if (week < 13) trimester = "1st Trimester";
+  else if (week < 27) trimester = "2nd Trimester";
+  else trimester = "3rd Trimester";
 
   const daysLeft = Math.max(
     0,

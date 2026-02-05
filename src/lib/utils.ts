@@ -4,10 +4,12 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-function isPlainObject(value: any): value is object {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   return Object.prototype.toString.call(value) === "[object Object]";
 }
-export function omitEmpty<T extends Record<string, any>>(obj: T): Partial<T> {
+export function omitEmpty<T extends Record<string, unknown>>(
+  obj: T
+): Partial<T> {
   const result: Partial<T> = {};
 
   for (const key in obj) {

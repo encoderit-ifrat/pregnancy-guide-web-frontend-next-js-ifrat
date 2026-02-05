@@ -12,8 +12,8 @@ interface PercentagePieChartProps {
 export default function PercentagePieChart({
   value,
   className,
-  fillColor = "#a080e1",
-  emptyColor = "#b8a8d2",
+  fillColor = "var(--color-primary)",
+  emptyColor = "var(--color-text-muted)",
 }: PercentagePieChartProps) {
   const data = [
     { name: "Filled", value },

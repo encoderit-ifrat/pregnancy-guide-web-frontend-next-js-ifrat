@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ArticleSection from "@/components/base/ArticleSection";
 import SpecialArticleSection from "@/components/base/SpecialArticleSection";
@@ -6,56 +8,97 @@ import PregnancyDetails from "./PregnancyDetails";
 import WeeklyDetails from "./WeeklyDetails";
 import QuestionOfTheWeek from "./QuestionOfTheWeek";
 import WeeklyArticle from "./WeeklyArticle";
-import ImageOverview from "./ImageOverview";
+import OurArticle from "./OurArticle";
 import CheckLists from "./CheckLists";
-import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
+import WeekSelector from "./WeekSelector";
+import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
+import CheckListSection from "@/app/pregnancy-overview/_components/CheckListSection";
+import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 
-export default function PregnancyOverview({ pregnancyData }: any) {
-  const { articles, questions, checklist, weeklyDetails, userProfile } =
-    pregnancyData ?? {};
-  const latest = articles?.latest || {};
-  const popularWeek = articles?.popularWeek || {};
-  const specialArticle = articles?.specialArticle || {};
-  const bannerArticle = articles?.bannerArticle || {};
-  const weeklyArticle = articles?.weeklyArticles || {};
+export default function PregnancyOverview({
+  pregnancyData,
+}: PregnancyOverviewProps) {
+  const articles = pregnancyData?.articles;
+  const questions = pregnancyData?.questions;
+  const checklist = pregnancyData?.checklist;
+  const weeklyDetails = pregnancyData?.weeklyDetails;
+  const userProfile = pregnancyData?.userProfile;
+
+  const latest = articles?.latest || [];
+  const popularWeeks = articles?.popularWeeks || [];
+  const specialArticle = articles?.specialArticle || [];
+  const bannerArticle = articles?.bannerArticle || [];
+  const weeklyArticle = articles?.weeklyArticles || [];
+
+  const currentWeek = userProfile?.details?.current_pregnancy_data?.week || 0;
+
+  const handleWeekChange = (week: number) => {
+    // Handle week change logic here (e.g., fetch new data for that week)
+    console.log("Week changed to:", week);
+  };
+
   return (
-    <div className="">
-      <ScrollToTop />
+    <div className="bg-[#F6F0FF]">
+      {/* <ScrollToTop /> */}
+      <WeekSelector
+        currentWeek={currentWeek}
+        onWeekChange={handleWeekChange}
+        minWeek={0}
+        maxWeek={45}
+      />
       <OverviewCategories />
       <PregnancyDetails
-        userData={userProfile || {}}
-        weeklyDetails={weeklyDetails || {}}
+        userData={userProfile as any}
+        weeklyDetails={weeklyDetails as any}
       />
-      {Boolean(weeklyArticle?.[0]?.title) && (
-        <WeeklyDetails data={weeklyArticle?.[0]} />
+      {/* divider */}
+      <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]" />
+      {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
+        <WeeklyDetails data={weeklyArticle[0]} />
       )}
       {Boolean(questions?.data?.[0]?._id) && (
-        <QuestionOfTheWeek question={questions?.data?.[0]} />
+        <QuestionOfTheWeek
+          currentWeek={currentWeek}
+          question={questions?.data?.[0] as any}
+        />
       )}
-      {Boolean(popularWeek?.[0]?.title) && (
-        <WeeklyArticle data={popularWeek?.[0]} />
+      {/*popular weekly articles section*/}
+      {popularWeeks && popularWeeks?.length > 0 && (
+        <>
+          <WeeklyArticle articles={popularWeeks} />
+        </>
       )}
-
-      <section className="-mt-1">
-        <div className="bg-sidebar-accent">
-          <CheckLists
-            checkLists={checklist?.data}
-            count={checklist?.pagination.total}
-          />
-        </div>
-      </section>
+      {/* Checklist Section */}
+      <CheckListSection>
+        <CheckLists
+          checkLists={checklist?.data as any}
+          count={checklist?.pagination.total}
+        />
+      </CheckListSection>
       {Boolean(latest?.length) && (
-        <section>
-          <ArticleSection data={latest ?? []} />
+        <section className="bg-primary-light">
+          <ArticleSection data={(latest as any) || []} />
         </section>
       )}
-      <ImageOverview data={bannerArticle ?? []} />
 
-      {
-        <section className="bg-[#B8A8D2] pb-32 md:pb-96">
-          <SpecialArticleSection data={specialArticle ?? []} />
-        </section>
-      }
+      {Boolean(latest.length) && (
+        <>
+          {/* divider */}
+          <ConcaveCurve
+            className="text-white h-10! sm:h-20! md:h-24! lg:h-42!"
+            bgClassName="bg-primary-light"
+          />
+          <OurArticle data={(latest as any) ?? []} />
+        </>
+      )}
+      {Boolean(specialArticle.length) && (
+        <>
+          {/* divider */}
+          <WaveDivider className="text-primary-light" bgClassName="bg-white" />
+          <SpecialArticleSection data={(specialArticle as any) ?? []} />
+        </>
+      )}
     </div>
   );
 }

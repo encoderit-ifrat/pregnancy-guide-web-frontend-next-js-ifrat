@@ -49,17 +49,17 @@ export default async function Page() {
   if (!session || !session.token) {
     return (
       <div className="p-4">
-        <p>Please log in to view your pregnancy overview.</p>
+        <p>Please login to view your pregnancy overview.</p>
       </div>
     );
   }
 
-  // Get token from session (adjust based on your session structure)
+  // Get token from the session (adjust based on your session structure)
   const token = session.token;
 
   // Fetch data with the token
   const { data: pregnancyData, error } = await getPregnancyData(token);
-    console.log({pregnancyData})
+  console.log({ pregnancyData });
 
   // Handle error state
   if (error) {

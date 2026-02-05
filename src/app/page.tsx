@@ -1,17 +1,16 @@
-import Image from "next/image";
 import React from "react";
-import TrackSection from "@/components/base/TrackSection";
-import StepsSection from "@/components/base/StepSection";
-import MessageSection from "@/components/base/MessageSection";
-import ClientSection from "@/components/base/ClientSection";
-import AboutSection from "@/components/base/AboutSection";
-import HeaderText from "@/components/ui/HeaderText";
-import ContentDetailsMiddle from "@/components/Home/ContentDetailsMiddle";
-import ContentDetailsLast from "@/components/Home/ContentDetailsLast";
-import BackgroundBannerHome from "@/components/Home/BackgroundBannerHome";
-import StatsSection from "@/components/base/StateSection";
 import { Metadata } from "next";
-import ScrollToTop from "@/app/pregnancy-overview/_components/ScrollToTop";
+import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { HeroSection } from "@/components/home/HeroSection";
+import { MissionSection } from "@/components/home/MissionSection";
+import { AppShowcaseSection } from "@/components/home/AppShowcaseSection";
+import { HowItWorksSection } from "@/components/home/HowItWorksSection";
+import { TrackYourWeekSection } from "@/components/home/TrackWeekSection";
+import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
+import { DownloadCtaSection } from "@/components/home/DownloadCtaSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import { StatsSection } from "@/components/home/StatsSection";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
@@ -42,34 +41,35 @@ export default async function Page() {
   console.log("👉 ~ Page ~ homePageData:", homePageData);
 
   return (
-    <div className="bg-background min-h-svh pb-32  md:pb-96">
-      <ScrollToTop />
-      <BackgroundBannerHome />
-      <ContentDetailsMiddle />
-      <StepsSection />
-      <TrackSection articles={homePageData?.data?.articles} />
-      <StatsSection />
-      <MessageSection />
-      <ClientSection testimonials={homePageData?.data?.testimonials?.data} />
-      <AboutSection />
-      <ContentDetailsLast />
-      {/* <Image
-        src="/assets/logo/vectorSecond.svg"
-        alt="Wave"
-        width={1920}
-        height={239}
-        className="w-full h-auto object-cover"
-        priority
-      /> */}
+    <div className="min-h-svh bg-white">
+      <main>
+        <HeroSection />
+        <MissionSection />
+        {/* divider */} <ConcaveCurve />
+        <AppShowcaseSection />
+        {/* divider */}{" "}
+        <WaveDivider
+          className="text-[#F6F0FF]"
+          bgClassName="bg-primary-light"
+        />
+        <div className="bg-[#F6F0FF]">
+          <HowItWorksSection />
+          <StatsSection />
+        </div>
+        {/* divider */}{" "}
+        <WaveDivider className="text-[#FDFBFF]" bgClassName="bg-[#F6F0FF]" />
+        <TrackYourWeekSection data={homePageData?.data?.articles || []} />
+        {/* divider */}{" "}
+        <WaveDivider
+          className="text-primary-light"
+          bgClassName="bg-[#FDFBFF]"
+        />
+        <WhyChooseUsSection />
+        <DownloadCtaSection />
+        <TestimonialsSection
+          data={homePageData?.data?.testimonials?.data || []}
+        />
+      </main>
     </div>
   );
 }
-
-// Optional: Generate static params for dynamic routes
-// export async function generateStaticParams() {
-//   return [];
-// }
-
-// Optional: Configure dynamic behavior
-// export const dynamic = 'force-static'; // or 'force-dynamic', 'auto'
-// export const revalidate = 3600; // ISR: revalidate every hour

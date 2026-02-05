@@ -39,8 +39,13 @@ export default function ResendEmailForm() {
       onSuccess(data) {
         toast.success(data?.data?.data?.message);
       },
-      onError(error: any) {
-        toast.error(error?.response?.data?.message);
+      onError(error: unknown) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        toast.error(
+          axiosError?.response?.data?.message ?? "Failed to resend email"
+        );
       },
     });
     form.reset();
@@ -69,7 +74,6 @@ export default function ResendEmailForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input

@@ -30,20 +30,15 @@ import { useMutationCreateChecklist } from "../_api/mutations/UseMutationCreateC
 import { Spinner } from "@/components/ui/Spinner";
 import { useEffect } from "react";
 import { useMutationUpdateChecklist } from "../_api/mutations/UseMutationUpdateChecklist";
-type TProps = {
-  formData?: {
-    type: "default" | "update" | "delete";
-    id: string;
-    data?: any;
-  };
-  onSubmitForDialogAndRefetch: () => void;
-};
+import { ChecklistFormProps } from "../_types/checklist_item_types";
+
+type TProps = ChecklistFormProps;
 
 export default function ChecklistForm({
   formData,
   onSubmitForDialogAndRefetch,
 }: TProps) {
-  useEffect(() => { }, [formData]);
+  useEffect(() => {}, [formData]);
   const { type, data } = formData ?? {};
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
 
@@ -60,13 +55,13 @@ export default function ChecklistForm({
       type == "update"
         ? data
         : {
-          _id: "",
-          title: "",
-          description: "",
-          category: "",
-          items: [],
-          is_active: true,
-        },
+            _id: "",
+            title: "",
+            description: "",
+            category: "",
+            items: [],
+            is_active: true,
+          },
   });
 
   const categoryOptions = [

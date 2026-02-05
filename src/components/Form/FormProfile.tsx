@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormField,
@@ -32,11 +33,14 @@ import {
 } from "@/utlis/calculateDate";
 import {
   BabyProfile,
-  FormData,
   FormProfileProps,
 } from "@/app/profile/_types.ts/profile_types";
 import { toast } from "sonner";
 import { useBabyUpdate } from "@/app/profile/_api/mutations/useBabyUpdate";
+import {
+  ProfileFormSchema,
+  ProfileFormSchemaType,
+} from "@/app/profile/_types.ts/profile_form_schema";
 
 export default function FormProfile({
   initialData,
@@ -44,15 +48,16 @@ export default function FormProfile({
 }: FormProfileProps) {
   const [profileType, setProfileType] = useState<"upcoming">("upcoming");
 
-  const form = useForm<FormData>({
+  const form = useForm<ProfileFormSchemaType>({
+    resolver: zodResolver(ProfileFormSchema),
     defaultValues: {
-      babyName: initialData?.name,
-      gender: initialData?.gender,
-      dueDate: initialData?.due_date,
-      dob: initialData?.dob,
-      lastPeriodDate: initialData?.last_period_date,
-      weight: initialData?.weight,
-      height: initialData?.height,
+      babyName: initialData?.name || "",
+      gender: (initialData?.gender as "male" | "female" | "other") || undefined,
+      dueDate: initialData?.dueDate || "",
+      dob: initialData?.dob || "",
+      lastPeriodDate: initialData?.lastPeriodDate || "",
+      weight: initialData?.weight || "",
+      height: initialData?.height || "",
     },
   });
 
@@ -67,15 +72,15 @@ export default function FormProfile({
 
   const { mutate: babyCreate, isPending: babyCreatePending } = useBabyCreate();
   const { mutate: babyUpdate, isPending: babyUpdatePending } = useBabyUpdate(
-    initialData?._id
+    initialData?._id || ""
   );
 
   const isPending = babyCreatePending || babyUpdatePending;
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: ProfileFormSchemaType) => {
     const values: babyRequestType = {
-      last_period_date: data.lastPeriodDate,
-      due_date: data.dueDate,
+      last_period_date: data.lastPeriodDate || undefined,
+      due_date: data.dueDate || undefined,
       upcoming: true,
     };
 
@@ -97,12 +102,14 @@ export default function FormProfile({
   // Watch the form values at component level
   const lastPeriodDate = form.watch("lastPeriodDate");
   const dueDate = form.watch("dueDate");
-  const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
+  const { weeks, days } = lastPeriodDate
+    ? calculateWeeksPregnant(lastPeriodDate)
+    : { weeks: 0, days: 0 };
 
   // Auto-calculate due date when last period date changes
   useEffect(() => {
     if (lastPeriodDate && lastChangedField === "lpd") {
-      const calculatedDueDate = calculateDueDateFromLPD(lastPeriodDate);
+      const calculatedDueDate = calculateDueDateFromLPD(lastPeriodDate || "");
       form.setValue("dueDate", calculatedDueDate, { shouldValidate: false });
       setPrimarySource("lpd");
       setLastChangedField(null);
@@ -112,7 +119,7 @@ export default function FormProfile({
   // Auto-calculate last period date when due date changes
   useEffect(() => {
     if (dueDate && lastChangedField === "dd") {
-      const calculatedLPD = calculateLPDFromDueDate(dueDate);
+      const calculatedLPD = calculateLPDFromDueDate(dueDate || "");
       form.setValue("lastPeriodDate", calculatedLPD, { shouldValidate: false });
       setPrimarySource("dd");
       setLastChangedField(null);

@@ -21,7 +21,7 @@ const SpecialArticleCard: React.FC<SpecialArticleCardProps> = ({
 }) => {
   return (
     //
-    <div className="bg-[#F5F0FF]  flex  flex-col lg:items-center gap-2 w-full min-w-xs flex-1 shrink-0">
+    <div className="bg-light-purple  flex  flex-col lg:items-center gap-2 w-full min-w-xs flex-1 shrink-0">
       {/* Image at the top */}
       <Link href={`/articles/${slug}`} className=" w-full">
         <div className="shrink-0 relative w-full h-64">

@@ -1,16 +1,36 @@
-import React from 'react'
+import React from "react";
 
 export default function IconUser() {
   return (
-   <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-<rect width="46" height="45" fill="url(#pattern0_165_748)"/>
-<defs>
-<pattern id="pattern0_165_748" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlinkHref="#image0_165_748" transform="scale(0.0217391 0.0222222)"/>
-</pattern>
-<image id="image0_165_748" width="46" height="45" preserveAspectRatio="none" xlinkHref="data:image/png;base64,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"/>
-</defs>
-</svg>
-
-  )
+    <svg
+      width="46"
+      height="45"
+      viewBox="0 0 46 45"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <rect width="46" height="45" fill="url(#pattern0_165_748)" />
+      <defs>
+        <pattern
+          id="pattern0_165_748"
+          patternContentUnits="objectBoundingBox"
+          width="1"
+          height="1"
+        >
+          <use
+            xlinkHref="#image0_165_748"
+            transform="scale(0.0217391 0.0222222)"
+          />
+        </pattern>
+        <image
+          id="image0_165_748"
+          width="46"
+          height="45"
+          preserveAspectRatio="none"
+          xlinkHref="data:image/png;base64,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"
+        />
+      </defs>
+    </svg>
+  );
 }

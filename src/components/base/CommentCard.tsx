@@ -140,8 +140,8 @@ export default function CommentCard({ data }: TCommentCardProps) {
                   {allComments.length === 0
                     ? "Add Comment"
                     : allComments.length === 1
-                    ? "Comment"
-                    : "Comments"}
+                      ? "Comment"
+                      : "Comments"}
                 </span>
               </div>
             </AccordionTrigger>
@@ -166,7 +166,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
                 </div>
               )}
               <div className="p-1">
-                <h3 className="text-xl font-bold text-[#300043] mb-4 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                   <Send className="h-5 w-5 text-soft" />
                   Share Your Comment
                 </h3>

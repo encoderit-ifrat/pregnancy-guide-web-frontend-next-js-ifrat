@@ -40,9 +40,7 @@ export function FormCheckbox({
         {label}
       </Label>
 
-      {errors[name] && (
-        <ErrorText text={errors[name]?.message as string} />
-      )}
+      {errors[name] && <ErrorText text={errors[name]?.message as string} />}
     </div>
   );
 }
