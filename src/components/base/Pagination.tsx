@@ -57,11 +57,11 @@ export default function Pagination({
       {getPageNumbers().map((page, index) => (
         <Button
           key={index}
-          variant={page === currentPage ? "default" : "outline"}
+          variant={page === currentPage ? "outline" : "link"}
           size="icon"
           onClick={() => typeof page === "number" && onPageChange(page)}
           disabled={typeof page === "string"}
-          className="rounded-full"
+          className="rounded"
         >
           {page}
         </Button>

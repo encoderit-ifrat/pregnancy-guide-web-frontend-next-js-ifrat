@@ -103,7 +103,7 @@ export default function CheckListItem({
           >
             <AccordionTrigger
               className={cn(
-                "flex items-center justify-between pr-4",
+                "flex items-center justify-between pr-4 pl-4 md:pl-0",
                 !hasItemDetails ? "opacity-50 cursor-not-allowed" : ""
               )}
               actionButtons={
