@@ -34,7 +34,7 @@ export default async function Page({
       <section className="absolute bg-[#F6F0FF] top-0 left-0 w-full h-[60vh] z-10">
         <div className="h-[50vh]"></div>
         <WaveDivider
-          className="text-white transform translate-y-[1px]"
+          className="text-white transform translate-y-px"
           bgClassName="bg-[#F6F0FF]"
         />
       </section>
@@ -50,9 +50,8 @@ export default async function Page({
           <p className="max-w-lg text-center">Answer the weekly pregnancy question, explore community responses, and express how you’re feeling.</p>
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-xl p-6 border-b-6
-        border-b-primary
-        ">
+        <div className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl border-b-6
+        border-b-primary">
           <WeeklyQuestionView id={id} timestamp={t} />
         </div>
       </div>
