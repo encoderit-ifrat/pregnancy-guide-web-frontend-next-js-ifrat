@@ -24,6 +24,7 @@ import {
   ChecklistItemWithItems,
 } from "../_types/checklist_item_types";
 import { cn } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function CheckListItem({
   checklistItems,
@@ -134,7 +135,7 @@ export default function CheckListItem({
             >
               <div className="size-full pl-0 p-4 flex items-center cursor-pointer">
                 {item?.all_checked && (
-                  <div>
+                  <div className="mr-4 md:mr-0 bg-green-600 rounded-full p-1">
                     <Check className="h-4 w-4 text-white shrink-0" />
                   </div>
                 )}
@@ -142,9 +143,12 @@ export default function CheckListItem({
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
                   </div> */}
-                  <h2 className="text-2xl md:text-2xl font-bold text-foreground w-full max-w-32 md:max-w-md truncate">
+                  <SectionHeading
+                    variant={"h4"}
+                    className="mb-0 font-medium w-full max-w-48 md:max-w-md truncate"
+                  >
                     {item.title}
-                  </h2>
+                  </SectionHeading>
                   {item.description && (
                     <p className="text-sm mt-1 line-clamp-2">
                       {item.description}
@@ -166,7 +170,7 @@ export default function CheckListItem({
                   <div
                     key={idx}
                     onClick={() => handleChecklistToggle(itm._id)}
-                    className={`flex items-center gap-4 p-4 m-2 cursor-pointer transition-all ${
+                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${
                       itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
                     }`}
                   >
