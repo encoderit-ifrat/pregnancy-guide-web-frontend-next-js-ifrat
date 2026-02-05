@@ -128,7 +128,10 @@ export default function CheckListItem({
                 </>
               }
             >
-              <div className="size-full pl-0 p-4">
+              <div className="size-full pl-0 p-4 flex items-center cursor-pointer">
+                {item?.all_checked && <div>
+                    <CheckCircle2 className="h-6 w-6 text-green-500"/>
+                </div>}
                 <div className="sm:pl-6 text-primary-dark">
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
@@ -152,7 +155,7 @@ export default function CheckListItem({
                   style={{ width: `${item?.progress?.percentage || 0}%` }}
                 ></div>
               </div>
-              <div className="px-4">
+              <div className="mt-2">
                 {item?.items?.map((itm: any, idx: number) => (
                   <div
                     key={idx}

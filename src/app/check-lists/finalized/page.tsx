@@ -51,6 +51,8 @@ import ChecklistForm from "../_component/CheckListForm";
 import Link from "next/link";
 import { ChecklistFormData } from "../_types/checklist_page_types";
 import { ChecklistItemWithItems } from "../_types/checklist_item_types";
+import {PageContainer} from "@/components/layout/PageContainer";
+import CheckListItem from "@/app/check-lists/_component/CheckListItem";
 
 export default function CheckLists() {
   const router = useRouter();
@@ -148,166 +150,86 @@ export default function CheckLists() {
   }
 
   return (
-    <div className="min-h-svh pb-96">
-      {/* CHECKLISTS Section */}
-      <div className="px-4 pt-40 lg:pt-40 lg:text-start max-w-[1200px] mx-auto pb-7 lg:pb-60 flex flex-col">
-        <div className="flex gap-4 mb-4">
-          <Button variant="outline" size="icon" asChild>
-            <Link href={"/check-lists"}>
-              <CornerDownLeft />
-            </Link>
-          </Button>
-          <p className="text-foreground font-semibold leading-20px text-2xl lg:text-4xl">
-            Finalized Checklists
-          </p>
-        </div>
-        <Accordion type="single" collapsible className="w-full space-y-3">
-          {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
-            const hasItemDetails =
-              item?.items?.length > 0 &&
-              item.items.some((itm) => itm.title && itm.description);
-
-            return (
-              <AccordionItem
-                key={item._id}
-                value={`item-${index}`}
-                className="bg-white rounded-2xl shadow-lg border border-purple-100 pr-2"
-              >
-                <AccordionTrigger
-                  className={`flex items-center justify-between pr-4${
-                    !hasItemDetails ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-3 size-full p-4">
-                    <div className="flex flex-1 items-center gap-3">
-                      <div className="bg-purple-100 p-3 rounded-full">
-                        <CheckCircle2 className="h-6 w-6 text-soft" />
-                      </div>
-                      <div className="flex-1">
-                        <h2 className="text-2xl md:text-2xl font-bold text-foreground w-full max-w-32 md:max-w-md truncate">
-                          {item.title}
-                        </h2>
-                        {item.description && (
-                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                            {item.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-4 rounded-lg space-y-2">
-                  {item?.items?.map((itm, idx: number) => (
-                    <div
-                      key={idx}
-                      className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all ${
-                        itm.is_completed
-                          ? "bg-green-50 border-2 border-green-300"
-                          : "bg-gray-50 border-2 border-gray-200 hover:border-purple-300"
-                      }`}
-                    >
-                      <div className="pt-0.5">
-                        {toggleLoading === itm._id && isPending ? (
-                          <Spinner variant="circle" />
-                        ) : itm.is_completed ? (
-                          <CheckCircle2 className="h-6 w-6 text-green-600 shrink-0" />
-                        ) : (
-                          <Circle className="h-6 w-6 text-gray-400 shrink-0" />
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <span
-                          className={`text-lg block ${
-                            itm.is_completed
-                              ? "text-green-800 line-through"
-                              : "text-gray-700"
-                          }`}
-                        >
-                          {itm.title}
-                        </span>
-                        {itm.description && (
-                          <p
-                            className={`text-sm mt-1 ${
-                              itm.is_completed
-                                ? "text-green-700 opacity-75"
-                                : "text-gray-600"
-                            }`}
-                          >
-                            {itm.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
-        {meta && meta.last_page > 1 && (
-          <div className="w-full max-w-3xl mx-auto mt-8">
-            <Pagination
-              currentPage={meta.current_page}
-              totalPages={meta.last_page} // ← Changed from meta.total to meta.last_page
-              onPageChange={handlePageChange}
-            />
+    <PageContainer>
+      <div className="min-h-svh">
+        {/* CHECKLISTS Section */}
+        <div className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+          <div className="flex gap-4 mb-4">
+            <p className="text-foreground font-semibold leading-20px text-2xl lg:text-4xl">
+              Finalized Checklists
+            </p>
           </div>
-        )}
-      </div>
-      <AlertDialog
-        open={formData.type == "delete"}
-        onOpenChange={() => setFormData({ type: "default", id: "" })}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button
-              onClick={() => {
-                deleteChecklist(
-                  { id: formData.id },
-                  {
-                    onSuccess: async (data) => {
-                      await refetch();
-                      toast.success("Check list deleted successfully");
-                      setFormData({ type: "default", id: "" });
-                    },
-                    onError(error) {
-                      setFormData({ type: "default", id: "" });
-                    },
-                  }
-                );
-              }}
-              disabled={isPendingDeleteChecklist}
-            >
-              {isPendingDeleteChecklist ? "Loading..." : "Confirm"}
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <Dialog
-        open={formData.type == "update"}
-        onOpenChange={() => setFormData({ type: "default", id: "" })}
-      >
-        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
-          <DialogHeader>
-            <DialogTitle className="text-left">Update Checklist</DialogTitle>
-          </DialogHeader>
-          <ChecklistForm
-            onSubmitForDialogAndRefetch={async () => {
-              await refetch();
-              setFormData({ type: "default", id: "" });
-            }}
-            formData={formData}
+
+          <CheckListItem
+              checklistItems={filteredLists}
+              overview={true}
           />
-        </DialogContent>
-      </Dialog>
-    </div>
+          {meta && meta.last_page > 1 && (
+              <div className="w-full max-w-3xl mx-auto mt-8">
+                <Pagination
+                    currentPage={meta.current_page}
+                    totalPages={meta.last_page} // ← Changed from meta.total to meta.last_page
+                    onPageChange={handlePageChange}
+                />
+              </div>
+          )}
+        </div>
+
+        <AlertDialog
+          open={formData.type == "delete"}
+          onOpenChange={() => setFormData({ type: "default", id: "" })}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <Button
+                onClick={() => {
+                  deleteChecklist(
+                    { id: formData.id },
+                    {
+                      onSuccess: async (data) => {
+                        await refetch();
+                        toast.success("Check list deleted successfully");
+                        setFormData({ type: "default", id: "" });
+                      },
+                      onError(error) {
+                        setFormData({ type: "default", id: "" });
+                      },
+                    }
+                  );
+                }}
+                disabled={isPendingDeleteChecklist}
+              >
+                {isPendingDeleteChecklist ? "Loading..." : "Confirm"}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <Dialog
+          open={formData.type == "update"}
+          onOpenChange={() => setFormData({ type: "default", id: "" })}
+        >
+          <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
+            <DialogHeader>
+              <DialogTitle className="text-left">Update Checklist</DialogTitle>
+            </DialogHeader>
+            <ChecklistForm
+              onSubmitForDialogAndRefetch={async () => {
+                await refetch();
+                setFormData({ type: "default", id: "" });
+              }}
+              formData={formData}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+    </PageContainer>
   );
 }
