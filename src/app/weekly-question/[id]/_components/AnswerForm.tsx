@@ -51,11 +51,11 @@ type TProps = {
 };
 const AnswerFormContext = createContext<
   | (TProps & {
-      option: string;
-      setOption: (val: string) => void;
-      answerText: string;
-      setAnswerText: (val: string) => void;
-    })
+    option: string;
+    setOption: (val: string) => void;
+    answerText: string;
+    setAnswerText: (val: string) => void;
+  })
   | null
 >(null);
 const useAnswerFormContext = () => {
@@ -105,7 +105,7 @@ export const AnswerFormTitle = () => {
 
   return (
     <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-      Q: {title}
+      {title}
     </h1>
   );
 };
@@ -133,7 +133,7 @@ export const AnswerFormRadioGroup = ({
       }}
       className="mt-3 mb-6 flex flex-col gap-3"
       {...props}
-      // disabled={hasAnswered}
+    // disabled={hasAnswered}
     >
       {answer_options?.length > 0 &&
         answer_options.map((optionItem, idx) => {
@@ -143,11 +143,10 @@ export const AnswerFormRadioGroup = ({
               <label
                 htmlFor={optionItem._id}
                 onClick={() => setOption(optionItem._id)}
-                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${
-                  isSelected
-                    ? "bg-primary text-white shadow-md"
-                    : "bg-[#F2EAFB] text-foreground hover:shadow-md"
-                }`}
+                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${isSelected
+                  ? "bg-primary text-white shadow-md"
+                  : "bg-[#F2EAFB] text-foreground hover:shadow-md"
+                  }`}
               >
                 <div
                   className={`flex items-center justify-center h-10 w-10 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
@@ -206,8 +205,7 @@ export const AnswerFormComment = () => {
 
   return (
     <>
-      <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-        <Send className="h-5 w-5 text-soft" />
+      <h3 className="text-xl font-bold text-foreground mb-8 gap-2">
         Share Your Comment
       </h3>
 
@@ -215,8 +213,8 @@ export const AnswerFormComment = () => {
         placeholder="Write your answer here..."
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
-        className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-        rows={3}
+        className="bg-white mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+        rows={4}
       />
     </>
   );
@@ -279,7 +277,6 @@ export const AnswerFormSubmitButton = ({
       onClick={handleSubmit}
       isLoading={isPending}
       disabled={isPending}
-      variant="outline"
       className="w-full max-w-lg md:w-auto px-8 py-3"
     >
       {isPending ? "Submitting..." : text}

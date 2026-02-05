@@ -319,9 +319,11 @@ export default function ProfilePage() {
           <h4 className="text-primary-dark text-3xl font-semibold">
             Edit profile
           </h4>
-          <p className="hidden lg:block">
-            <strong>Last Updated:</strong>
-          </p>
+          {user?.updatedAt && (
+            <p className="hidden lg:block">
+              Last Updated: {new Date(user?.updatedAt).toLocaleDateString()}
+            </p>
+          )}
         </div>
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-18">
           {/* Left Section */}
@@ -339,10 +341,10 @@ export default function ProfilePage() {
                         control={form.control}
                         name={
                           item.key as
-                            | "name"
-                            | "familyName"
-                            | "partnerName"
-                            | "email"
+                          | "name"
+                          | "familyName"
+                          | "partnerName"
+                          | "email"
                         } // Fix: use the actual field name
                         render={({ field }) => (
                           <FormItem className="mb-3 sm:mb-4 lg:mb-2">
@@ -419,11 +421,9 @@ export default function ProfilePage() {
                           </span>
                           :
                           {profile.upcoming
-                            ? `${
-                                user?.details?.current_pregnancy_data?.week || 0
-                              } week ${
-                                user?.details?.current_pregnancy_data?.day || 0
-                              } days`
+                            ? `${user?.details?.current_pregnancy_data?.week || 0
+                            } week ${user?.details?.current_pregnancy_data?.day || 0
+                            } days`
                             : "Newborn"}
                         </p>
 
@@ -462,10 +462,10 @@ export default function ProfilePage() {
                           </button>
                         </div>
                         <AlertDialog
-                            open={formData.type == "delete"}
-                            onOpenChange={() =>
-                                setFormData({ type: "default", id: "" })
-                            }
+                          open={formData.type == "delete"}
+                          onOpenChange={() =>
+                            setFormData({ type: "default", id: "" })
+                          }
                         >
                           {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
                           <AlertDialogContent>
@@ -481,32 +481,32 @@ export default function ProfilePage() {
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
                               <Button
-                                  onClick={() => {
-                                    babyDelete(
-                                        { id: formData.id },
-                                        {
-                                          onSuccess: async (data) => {
-                                            await refetch();
-                                            toast.success(
-                                                data?.data?.message ||
-                                                "Profile deleted successfully"
-                                            );
-                                            setFormData({
-                                              type: "default",
-                                              id: "",
-                                            });
-                                          },
+                                onClick={() => {
+                                  babyDelete(
+                                    { id: formData.id },
+                                    {
+                                      onSuccess: async (data) => {
+                                        await refetch();
+                                        toast.success(
+                                          data?.data?.message ||
+                                          "Profile deleted successfully"
+                                        );
+                                        setFormData({
+                                          type: "default",
+                                          id: "",
+                                        });
+                                      },
 
-                                          onError(error) {
-                                            setFormData({
-                                              type: "default",
-                                              id: "",
-                                            });
-                                          },
-                                        }
-                                    );
-                                  }}
-                                  disabled={babyDeletePending}
+                                      onError(error) {
+                                        setFormData({
+                                          type: "default",
+                                          id: "",
+                                        });
+                                      },
+                                    }
+                                  );
+                                }}
+                                disabled={babyDeletePending}
                               >
                                 {babyDeletePending ? "Loading..." : "Confirm"}
                               </Button>
