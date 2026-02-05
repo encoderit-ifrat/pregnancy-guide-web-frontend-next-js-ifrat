@@ -29,6 +29,7 @@ export type CheckListItemProps = {
   overview?: boolean;
   onDeleteAction?: (item: ChecklistItemWithItems) => void;
   onEditAction?: (item: ChecklistItemWithItems) => void;
+  className?: string;
 };
 
 export type ChecklistFormProps = {

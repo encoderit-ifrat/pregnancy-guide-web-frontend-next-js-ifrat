@@ -23,11 +23,13 @@ import {
   CheckListItemProps,
   ChecklistItemWithItems,
 } from "../_types/checklist_item_types";
+import { cn } from "@/lib/utils";
 
 export default function CheckListItem({
   checklistItems,
   overview = false,
   onDeleteAction,
+  className,
   onEditAction,
 }: CheckListItemProps) {
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
@@ -96,11 +98,13 @@ export default function CheckListItem({
           <AccordionItem
             key={item._id}
             value={`item-${index}`}
-            className="bg-white"
+            className={cn("bg-white", className)}
           >
             <AccordionTrigger
-              className={`flex items-center justify-between
-                ${!hasItemDetails ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={cn(
+                "flex items-center justify-between pr-4",
+                !hasItemDetails ? "opacity-50 cursor-not-allowed" : ""
+              )}
               actionButtons={
                 <>
                   {!overview && item.userId && (
@@ -131,7 +135,7 @@ export default function CheckListItem({
               <div className="size-full pl-0 p-4 flex items-center cursor-pointer">
                 {item?.all_checked && (
                   <div>
-                    <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 sm:mr-0" />
+                    <Check className="h-4 w-4 text-white shrink-0" />
                   </div>
                 )}
                 <div className="sm:pl-6 text-primary-dark">
@@ -157,12 +161,12 @@ export default function CheckListItem({
                   style={{ width: `${item?.progress?.percentage || 0}%` }}
                 ></div>
               </div>
-              <div className="mt-2">
+              <div>
                 {item?.items?.map((itm: any, idx: number) => (
                   <div
                     key={idx}
                     onClick={() => handleChecklistToggle(itm._id)}
-                    className={`flex items-center gap-4 p-4 cursor-pointer transition-all ${
+                    className={`flex items-center gap-4 p-4 m-2 cursor-pointer transition-all ${
                       itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
                     }`}
                   >
