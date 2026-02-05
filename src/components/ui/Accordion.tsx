@@ -3,11 +3,13 @@ import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 function Accordion({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
 }
+
 function AccordionItem({
   className,
   ...props
@@ -23,10 +25,12 @@ function AccordionItem({
 function AccordionTrigger({
   className,
   children,
+  actionButtons,
   showIcon = true,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
   showIcon?: boolean;
+  actionButtons?: React.ReactNode;
 }) {
   return (
     <AccordionPrimitive.Header className="flex">
@@ -40,7 +44,10 @@ function AccordionTrigger({
       >
         {children}
         {showIcon && (
-          <ChevronDownIcon className="bg-primary-light rounded-full p-[6px] text-muted-foreground pointer-events-none size-6 shrink-0 translate-y-0.5 transition-transform duration-200" />
+          <div className="flex items-center gap-3">
+            {actionButtons}
+            <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
+          </div>
         )}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

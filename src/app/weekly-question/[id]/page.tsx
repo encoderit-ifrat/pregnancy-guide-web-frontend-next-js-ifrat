@@ -1,6 +1,11 @@
 import React from "react";
 import WeeklyQuestionView from "./_components/WeeklyQuestionView";
 import { Metadata } from "next";
+import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { CircleQuestionMark, Heart } from "lucide-react";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 // Generate dynamic metadata
 export async function generateMetadata({
@@ -26,10 +31,27 @@ export default async function Page({
   const { t } = await searchParams; // Get the timestamp
 
   return (
-    <div className="bg-linear-to-b from-purple-50 to-white pb-56">
-      <div className="min-h-screen pb-20 p-4 pt-24">
+    <PageContainer>
+      <div className="flex flex-col items-center justify-center mb-10">
+        {/* Section Label */}
+        <IconHeading
+          text="Question"
+          icon={<CircleQuestionMark />}
+          className="text-primary justify-center md:justify-start"
+        />
+        <SectionHeading>Question of the week</SectionHeading>
+        <p className="max-w-lg text-center">
+          Answer the weekly pregnancy question, explore community responses, and
+          express how you’re feeling.
+        </p>
+      </div>
+
+      <div
+        className="max-w-5xl mx-auto p-4 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl border-b-6
+        border-b-primary"
+      >
         <WeeklyQuestionView id={id} timestamp={t} />
       </div>
-    </div>
+    </PageContainer>
   );
 }

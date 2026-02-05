@@ -64,7 +64,7 @@ export default function BabyPercentage({
           </svg>
 
           {/* Center Image */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-32 rounded-full overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-36 rounded-full overflow-hidden">
             {profile.upcoming ? (
               <Image
                 src="/images/3d_baby.png"

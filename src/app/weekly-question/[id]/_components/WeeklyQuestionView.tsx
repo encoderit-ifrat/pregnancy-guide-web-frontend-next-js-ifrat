@@ -18,6 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "@/app/loading";
 import CommentCard, { TCommentCard } from "@/components/base/CommentCard";
 import Pagination from "@/components/base/Pagination";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 type TProps = {
   id: string;
@@ -76,23 +77,22 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       >
         <AnswerFormTitle />
         <AnswerFormDescription />
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 mb-4">
           <AnswerFormRadioGroup disabled={hasAnswered} />
-          {hasAnswered && <AnswerFormPercentage />}
+          {/* {hasAnswered && <AnswerFormPercentage />} */}
         </div>
         {!Boolean(userAnswer?.comment) && (
-          <>
+          <div className="relative">
             <AnswerFormComment />
-            <AnswerFormSubmitButton text="Submit Comment" redirect={false} />
-          </>
+            <div className="absolute bottom-2 right-2">
+              <AnswerFormSubmitButton text="Submit Comment" redirect={false} />
+            </div>
+          </div>
         )}
       </AnswerForm>
 
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <MessageCircle className="h-6 w-6 text-soft" />
-          Submitted Answers
-        </h2>
+        <SectionHeading variant="h4">Submitted Comments</SectionHeading>
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {

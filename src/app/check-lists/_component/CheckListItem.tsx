@@ -1,6 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Check, CheckCircle2, Circle, SquarePen, Trash2 } from "lucide-react";
+import {
+  Check,
+  CheckCircle2,
+  Circle,
+  Pencil,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   Accordion,
@@ -64,11 +71,8 @@ export default function CheckListItem({
             // Filter out checklists where all items are checked
             return updated.filter((item: ChecklistItemWithItems) => {
               const allChecked = item.items.every((itm) => itm.is_completed);
-              if (allChecked) {
-                // toast.success(`"${item.title}" completed and removed! 🎉`);
-                return false; // Remove this checklist
-              }
-              return true; // Keep this checklist
+              return !allChecked;
+              // Keep this checklist
             });
           });
           setToggleLoading(null);
@@ -82,7 +86,7 @@ export default function CheckListItem({
   }
 
   return (
-    <Accordion type="single" collapsible className="w-full space-y-3">
+    <Accordion type="single" collapsible className="w-full">
       {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
         const hasItemDetails =
           item?.items?.length > 0 &&
@@ -92,14 +96,43 @@ export default function CheckListItem({
           <AccordionItem
             key={item._id}
             value={`item-${index}`}
-            className="bg-white rounded-2xl shadow-lg"
+            className="bg-white"
           >
             <AccordionTrigger
-              className={`flex items-center justify-between pr-4 
+              className={`flex items-center justify-between
                 ${!hasItemDetails ? "opacity-50 cursor-not-allowed" : ""}`}
+              actionButtons={
+                <>
+                  {!overview && item.userId && (
+                    <>
+                      <button
+                        className="bg-primary-light hover:bg-primary text-primary hover:text-white rounded-full p-2 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditAction?.(item);
+                        }}
+                      >
+                        <Pencil className="size-5" />
+                      </button>
+                      <button
+                        className="bg-primary-light hover:bg-primary text-primary hover:text-white rounded-full p-2 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteAction?.(item);
+                        }}
+                      >
+                        <Trash2 className="size-5" />
+                      </button>
+                    </>
+                  )}
+                </>
+              }
             >
-              <div className="size-full p-4">
-                <div className="sm:ml-6 text-primary-dark">
+              <div className="size-full pl-0 p-4 flex items-center cursor-pointer">
+                {item?.all_checked && <div>
+                    <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 sm:mr-0"/>
+                </div>}
+                <div className="sm:pl-6 text-primary-dark">
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
                   </div> */}
@@ -112,24 +145,6 @@ export default function CheckListItem({
                     </p>
                   )}
                 </div>
-                {!overview && item.userId && (
-                  <div className="flex items-center gap-3">
-                    <SquarePen
-                      className="size-5"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEditAction?.(item);
-                      }}
-                    />
-                    <Trash2
-                      className="size-5"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDeleteAction?.(item);
-                      }}
-                    />
-                  </div>
-                )}
               </div>
             </AccordionTrigger>
             <AccordionContent>
@@ -140,7 +155,7 @@ export default function CheckListItem({
                   style={{ width: `${item?.progress?.percentage || 0}%` }}
                 ></div>
               </div>
-              <div className="px-4">
+              <div className="mt-2">
                 {item?.items?.map((itm: any, idx: number) => (
                   <div
                     key={idx}
