@@ -82,7 +82,7 @@ export default function CheckListItem({
   }
 
   return (
-    <Accordion type="single" collapsible className="w-full space-y-3">
+    <Accordion type="single" collapsible className="w-full">
       {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
         const hasItemDetails =
           item?.items?.length > 0 &&
@@ -92,11 +92,33 @@ export default function CheckListItem({
           <AccordionItem
             key={item._id}
             value={`item-${index}`}
-            className="bg-white rounded-2xl shadow-lg"
+            className="bg-white"
           >
             <AccordionTrigger
-              className={`flex items-center justify-between pr-4 
+              className={`flex items-center justify-between pr-4
                 ${!hasItemDetails ? "opacity-50 cursor-not-allowed" : ""}`}
+              actionButtons={
+                <>
+                  {!overview && item.userId && (
+                    <div className="flex items-center gap-3">
+                      <SquarePen
+                        className="size-5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditAction?.(item);
+                        }}
+                      />
+                      <Trash2
+                        className="size-5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteAction?.(item);
+                        }}
+                      />
+                    </div>
+                  )}
+                </>
+              }
             >
               <div className="size-full p-4">
                 <div className="sm:ml-6 text-primary-dark">
@@ -112,24 +134,6 @@ export default function CheckListItem({
                     </p>
                   )}
                 </div>
-                {!overview && item.userId && (
-                  <div className="flex items-center gap-3">
-                    <SquarePen
-                      className="size-5"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEditAction?.(item);
-                      }}
-                    />
-                    <Trash2
-                      className="size-5"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDeleteAction?.(item);
-                      }}
-                    />
-                  </div>
-                )}
               </div>
             </AccordionTrigger>
             <AccordionContent>

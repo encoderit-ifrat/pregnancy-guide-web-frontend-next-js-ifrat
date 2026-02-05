@@ -120,13 +120,14 @@ export default function CheckLists() {
         <div className="flex flex-col items-center justify-center mb-10">
           {/* Section Label */}
           <IconHeading
-              text="Your Checklist"
-              icon={<CircleQuestionMark />}
-              className="text-primary justify-center md:justify-start"
+            text="Your Checklist"
+            icon={<CircleQuestionMark />}
+            className="text-primary justify-center md:justify-start"
           />
           <SectionHeading>CHECKLISTS</SectionHeading>
           <p className="max-w-lg text-center">
-            Expert advice, real stories, and helpful tips to support you and your family at every stage.
+            Expert advice, real stories, and helpful tips to support you and
+            your family at every stage.
           </p>
         </div>
 
