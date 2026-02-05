@@ -92,7 +92,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       </AnswerForm>
 
       <div className="space-y-4">
-        <SectionHeading variant="h3">
+        <SectionHeading variant="h4">
           Submitted Comments
         </SectionHeading>
 

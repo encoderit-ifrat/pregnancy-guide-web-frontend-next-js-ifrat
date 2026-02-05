@@ -21,10 +21,7 @@
   @apply border-none;
 }
 
-.view-editor-content
-  .tiptap.ProseMirror
-  .task-list-item
-  input[type="checkbox"] {
+.view-editor-content .tiptap.ProseMirror .task-list-item input[type="checkbox"] {
   all: revert;
 }
 
@@ -103,7 +100,8 @@ div.no-tailwind p span {
   /* === Extra Neutral Colors === */
   --color-light: #eeeeee;
   --color-soft-purple: #aea8ff;
-  --color-muted-gray: #808080; /* ✅ Added here */
+  --color-muted-gray: #808080;
+  /* ✅ Added here */
   /* === Gradients === */
   --color-primary-gradient: linear-gradient(180deg, #3b3272 0%, #9d81e1 100%);
   --color-secondary-gradient: linear-gradient(180deg, #9d81e1 0%, #bf6eff 100%);
@@ -241,6 +239,7 @@ h6 {
 .section {
   @apply px-4 max-w-7xl mx-auto w-full;
 }
+
 .swiper-slide img {
   display: block;
   width: 100%;
@@ -263,13 +262,11 @@ h6 {
   height: 100%;
   /*gradient white transparent white*/
   background: transparent;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0) 15%,
-    rgba(255, 255, 255, 0) 85%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 15%,
+      rgba(255, 255, 255, 0) 85%,
+      rgba(255, 255, 255, 1) 100%);
 }
 
 /*.swiper-button-prev {*/
@@ -303,20 +300,20 @@ h6 {
 
 /* Place both nav buttons on top-right; offset prev slightly left so they don't overlap */
 /* Target both direct children (>) and nested cases for robustness. Force left to auto to override Swiper defaults. */
-.topNavigation > .swiper-button-prev,
-.topNavigation > .swiper-button-next,
+.topNavigation>.swiper-button-prev,
+.topNavigation>.swiper-button-next,
 .topNavigation .swiper-button-prev,
 .topNavigation .swiper-button-next,
-.mySwiper.topNavigation > .swiper-button-prev,
-.mySwiper.topNavigation > .swiper-button-next {
+.mySwiper.topNavigation>.swiper-button-prev,
+.mySwiper.topNavigation>.swiper-button-next {
   z-index: 50;
   @apply left-auto -top-[56px] right-[10px] md:-top-[60px] md:right-[10px] lg:-top-[60px] lg:right-[120px];
 }
 
 /* Offset prev so they sit side-by-side on the right */
-.topNavigation > .swiper-button-prev,
+.topNavigation>.swiper-button-prev,
 .topNavigation .swiper-button-prev,
-.mySwiper.topNavigation > .swiper-button-prev {
+.mySwiper.topNavigation>.swiper-button-prev {
   /*right: 66px !important; !* offset prev to the left of next *!*/
   @apply right-[66px] md:right-[66px] lg:right-[180px];
 }
@@ -416,8 +413,10 @@ h6 {
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Custom styles for for articles pages */
@@ -575,7 +574,8 @@ h6 {
 .btn-theme-primary:focus-visible,
 .btn-dark:focus-visible,
 .btn-light:focus-visible {
-  outline: 2px solid rgba(157, 129, 225, 0.6); /* or custom focus color */
+  outline: 2px solid rgba(157, 129, 225, 0.6);
+  /* or custom focus color */
   outline-offset: 2px;
 }
 
@@ -593,11 +593,9 @@ h6 {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    var(--color-primary-muted),
-    var(--color-primary)
-  );
+  background: linear-gradient(180deg,
+      var(--color-primary-muted),
+      var(--color-primary));
   /*border-radius: 10px;*/
 }
 

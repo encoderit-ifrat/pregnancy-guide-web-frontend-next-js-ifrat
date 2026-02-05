@@ -3,12 +3,12 @@ import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { MessageCircle, Send, ThumbsDown, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/Accordion";
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+//   AccordionTrigger,
+// } from "../ui/Accordion";
 import { Textarea } from "../ui/Textarea";
 import { Button } from "../ui/Button";
 import { useCreateComment } from "@/app/weekly-question/[id]/_api/mutations/useCreateComment";
@@ -57,6 +57,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
   } = data;
   console.log("👉 ~ CommentCard ~ data:", data);
   const [allComments, setAllComments] = useState([...comments]);
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (comments) {
       setAllComments([...comments]);
@@ -89,10 +90,10 @@ export default function CommentCard({ data }: TCommentCardProps) {
   return (
     <div
       key={_id}
-      className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow"
+      className="bg-white rounded-xl shadow-xl p-4 border border-gray-100 hover:shadow-lg transition-shadow shadow-primary-light"
     >
       {/* User Info */}
-      <div className="flex items-center gap-3 mb-4 h-full">
+      <div className="flex items-center gap-3 h-full">
         <div className="relative w-[150px] h-[150px] bg-purple-100">
           {created_by.avatar ? (
             <Image
@@ -110,7 +111,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
 
         <div className="flex-1 h-full">
           <div className="flex items-center gap-4">
-            <SectionHeading variant="h3" className="mb-0 pb-0">
+            <SectionHeading variant="h4" className="mb-0 pb-0">
               {created_by.name}
             </SectionHeading>
             <p className="bg-primary-light text-primary-dark rounded-full px-4 py-1 text-sm">
@@ -123,6 +124,19 @@ export default function CommentCard({ data }: TCommentCardProps) {
             {/* {content || "No answer"} */}
             {comment || "No answer"}
           </p>
+          <div onClick={() => setIsOpen(!isOpen)} className="max-w-fit hover:no-underline hover:text-primary cursor-pointer">
+            <div className="flex items-center gap-2 mb-3 ">
+              <MessageCircle className="h-4 w-4 text-gray-400" />
+              <span className="text-sm font-medium text-gray-600 hover:text-primary">
+                {allComments.length > 0 ? allComments.length : ""}{" "}
+                {allComments.length === 0
+                  ? "Add Comment"
+                  : allComments.length === 1
+                    ? "Comment"
+                    : "Comments"}
+              </span>
+            </div>
+          </div>
         </div>
         <div>
           {/* like / dislike */}
@@ -146,74 +160,56 @@ export default function CommentCard({ data }: TCommentCardProps) {
       </div>
 
       {/* Comments Section */}
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full"
-      // defaultValue="item-1"
-      >
-        <AccordionItem value="item-1">
-          <AccordionTrigger
-            className="max-w-fit hover:no-underline hover:text-primary cursor-pointer"
-            showIcon={false}
-          >
-            <div className="flex items-center gap-2 mb-3 ">
-              <MessageCircle className="h-4 w-4 text-gray-400" />
-              <span className="text-sm font-medium text-gray-600 hover:text-primary">
-                {allComments.length > 0 ? allComments.length : ""}{" "}
-                {allComments.length === 0
-                  ? "Add Comment"
-                  : allComments.length === 1
-                    ? "Comment"
-                    : "Comments"}
-              </span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
+      <div className="w-full">
+        {isOpen && (
+          <div className="flex flex-col gap-4 text-balance">
             {allComments.length > 0 && (
-              <div className="space-y-3 pl-6 border-l-2 border-purple-100">
+              <div className="space-y-3 pl-6 pt-2">
                 {allComments.map((comment) => (
                   <div
                     key={comment._id}
                     className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
                   >
                     <p className="text-xs font-bold text-gray-700 leading-relaxed">
-                      {comment.user._id == currentUser.id
+                      {comment?.user?._id == currentUser.id
                         ? "You"
-                        : comment.user.name}
+                        : comment?.user?.name}
                     </p>
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      {comment.description}
+                      {comment?.description}
                     </p>
                   </div>
                 ))}
               </div>
             )}
             <div className="p-1">
-              <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                <Send className="h-5 w-5 text-soft" />
+              <SectionHeading variant="h4" className="mb-0 pb-0">
                 Share Your Comment
-              </h3>
-
-              <Textarea
-                placeholder="Write your comment here..."
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-                rows={3}
-              />
-              <Button
-                onClick={handleSubmit}
-                isLoading={isPending}
-                disabled={isPending}
-                className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
-              >
-                Submit
-              </Button>
+              </SectionHeading>
+              <div className="relative">
+                <Textarea
+                  placeholder="Write your comment here..."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+                  rows={3}
+                  size="sm"
+                />
+                <div className="absolute bottom-2 right-2">
+                  <Button
+                    onClick={handleSubmit}
+                    isLoading={isPending}
+                    disabled={isPending}
+                    className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </div>
             </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
