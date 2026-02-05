@@ -1,11 +1,10 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import {
   Check,
-  CheckCircle2,
   Circle,
   Pencil,
-  SquarePen,
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -18,7 +17,6 @@ import {
 import { useMutationToggleChecklist } from "../_api/mutations/UseMutationToggleChecklist";
 import { Spinner } from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
-
 import {
   CheckListItemProps,
   ChecklistItemWithItems,
