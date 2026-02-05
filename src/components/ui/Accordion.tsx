@@ -46,7 +46,7 @@ function AccordionTrigger({
         {showIcon && (
           <div className="flex items-center gap-3">
             {actionButtons}
-            <ChevronDownIcon className="bg-primary-light rounded-full p-2 ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
+            <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
           </div>
         )}
       </AccordionPrimitive.Trigger>

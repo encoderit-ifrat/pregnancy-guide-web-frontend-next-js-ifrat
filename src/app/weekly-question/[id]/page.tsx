@@ -47,7 +47,7 @@ export default async function Page({
       </div>
 
       <div
-        className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl border-b-6
+        className="max-w-5xl mx-auto p-4 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl border-b-6
         border-b-primary"
       >
         <WeeklyQuestionView id={id} timestamp={t} />

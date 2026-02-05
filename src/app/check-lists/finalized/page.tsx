@@ -153,7 +153,7 @@ export default function CheckLists() {
     <PageContainer>
       <div className="min-h-svh">
         {/* CHECKLISTS Section */}
-        <div className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+        <div className="max-w-5xl mx-auto p-4 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
           <div className="flex gap-4 mb-4">
             <p className="text-foreground font-semibold leading-20px text-2xl lg:text-4xl">
               Finalized Checklists

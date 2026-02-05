@@ -132,7 +132,7 @@ export default function CheckLists() {
         </div>
 
         {/* CHECKLISTS Section */}
-        <div className="max-w-5xl mx-auto p-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+        <div className="max-w-5xl mx-auto p-4 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 px-2 sm:px-0">
             <div className="flex gap-4 items-center">
               <SectionHeading variant="h3">Checklists</SectionHeading>
