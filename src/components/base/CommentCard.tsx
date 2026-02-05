@@ -140,7 +140,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
         </div>
         <div>
           {/* like / dislike */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:mr-4">
             <Button
               variant="outline"
               size="icon"
@@ -168,16 +168,32 @@ export default function CommentCard({ data }: TCommentCardProps) {
                 {allComments.map((comment) => (
                   <div
                     key={comment._id}
-                    className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
+                    className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors flex gap-4"
                   >
-                    <p className="text-xs font-bold text-gray-700 leading-relaxed">
-                      {comment?.user?._id == currentUser.id
-                        ? "You"
-                        : comment?.user?.name}
-                    </p>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {comment?.description}
-                    </p>
+                    <div className="relative w-[80px] h-[80px] bg-purple-100">
+                      {comment?.user?.avatar ? (
+                        <Image
+                          src={imageLinkGenerator(comment?.user?.avatar)}
+                          alt={comment?.user?.name}
+                          fill
+                          className="object-cover rounded"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-purple-600 font-semibold rounded">
+                          {comment?.user?.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-700 leading-relaxed">
+                        {comment?.user?._id == currentUser.id
+                          ? "You"
+                          : comment?.user?.name}
+                      </p>
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {comment?.description}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>

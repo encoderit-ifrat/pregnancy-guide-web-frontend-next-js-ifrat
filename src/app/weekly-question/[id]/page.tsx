@@ -50,7 +50,9 @@ export default async function Page({
           <p className="max-w-lg text-center">Answer the weekly pregnancy question, explore community responses, and express how you’re feeling.</p>
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-lg p-6">
+        <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-xl p-6 border-b-6
+        border-b-primary
+        ">
           <WeeklyQuestionView id={id} timestamp={t} />
         </div>
       </div>
