@@ -204,7 +204,6 @@ export default function CheckLists() {
                   AddChecklistTrigger
                 )}
               </div>
-              <div></div>
             </div>
           </div>
 

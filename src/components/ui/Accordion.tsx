@@ -44,10 +44,10 @@ function AccordionTrigger({
       >
         {children}
         {showIcon && (
-          <>
+          <div className="flex items-center gap-3">
             {actionButtons}
-            <ChevronDownIcon className="bg-primary-light rounded-full p-1.5 ml-6 text-muted-foreground pointer-events-none size-6 shrink-0 translate-y-0.5 transition-transform duration-200" />
-          </>
+            <ChevronDownIcon className="bg-primary-light rounded-full p-1.5 ml-4 text-muted-foreground pointer-events-none size-9 shrink-0 transition-transform duration-200" />
+          </div>
         )}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/Accordion";
 import { Spinner } from "@/components/ui/Spinner";
 import { Button } from "@/components/ui/Button";
-import { DeleteConfirmDialog } from "@/components/base/DeleteConfirmDialog";
 import {
   AlertDialog,
   AlertDialogCancel,

@@ -1,6 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Check, CheckCircle2, Circle, SquarePen, Trash2 } from "lucide-react";
+import {
+  Check,
+  CheckCircle2,
+  Circle,
+  Pencil,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   Accordion,
@@ -64,11 +71,8 @@ export default function CheckListItem({
             // Filter out checklists where all items are checked
             return updated.filter((item: ChecklistItemWithItems) => {
               const allChecked = item.items.every((itm) => itm.is_completed);
-              if (allChecked) {
-                // toast.success(`"${item.title}" completed and removed! 🎉`);
-                return false; // Remove this checklist
-              }
-              return true; // Keep this checklist
+              return !allChecked;
+              // Keep this checklist
             });
           });
           setToggleLoading(null);
@@ -95,33 +99,37 @@ export default function CheckListItem({
             className="bg-white"
           >
             <AccordionTrigger
-              className={`flex items-center justify-between pr-4
+              className={`flex items-center justify-between
                 ${!hasItemDetails ? "opacity-50 cursor-not-allowed" : ""}`}
               actionButtons={
                 <>
                   {!overview && item.userId && (
-                    <div className="flex items-center gap-3">
-                      <SquarePen
-                        className="size-5"
+                    <>
+                      <button
+                        className="bg-primary-light hover:bg-primary text-primary hover:text-white rounded-full p-2 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           onEditAction?.(item);
                         }}
-                      />
-                      <Trash2
-                        className="size-5"
+                      >
+                        <Pencil className="size-5" />
+                      </button>
+                      <button
+                        className="bg-primary-light hover:bg-primary text-primary hover:text-white rounded-full p-2 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           onDeleteAction?.(item);
                         }}
-                      />
-                    </div>
+                      >
+                        <Trash2 className="size-5" />
+                      </button>
+                    </>
                   )}
                 </>
               }
             >
-              <div className="size-full p-4">
-                <div className="sm:ml-6 text-primary-dark">
+              <div className="size-full pl-0 p-4">
+                <div className="sm:pl-6 text-primary-dark">
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
                   </div> */}
