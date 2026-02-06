@@ -180,10 +180,6 @@ export default function ChecklistForm({
                   <Input
                     placeholder="Enter title"
                     {...field}
-                    className="rounded-full 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
                   />
                 </FormControl>
                 <FormMessage />
@@ -200,7 +196,6 @@ export default function ChecklistForm({
                   <Textarea
                     placeholder="Enter description"
                     {...field}
-                    className="rounded-4xl lg:text-xl text-base text-text-mid"
                   />
                 </FormControl>
                 <FormMessage />
@@ -301,10 +296,6 @@ export default function ChecklistForm({
                             <Input
                               placeholder="Enter Item Title"
                               {...field}
-                              className="rounded-full
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
                             />
                           </FormControl>
                           <FormMessage />
@@ -323,10 +314,6 @@ export default function ChecklistForm({
                             <Input
                               placeholder="Enter Description"
                               {...field}
-                              className="rounded-full 
-                               h-11 sm:h-12 md:h-13 lg:h-14
-                               text-sm sm:text-base md:text-lg lg:text-xl 
-                               text-text-mid"
                             />
                           </FormControl>
                           <FormMessage />
@@ -382,7 +369,7 @@ export default function ChecklistForm({
                     <Button
                       type="button"
                       // size="sm"
-                      className="my-auto h-11 sm:h-12 md:h-13 lg:h-14 "
+                      className="my-auto h-11 sm:h-12"
                       onClick={() => remove(index)}
                     >
                       <Trash2 className="w-4 h-4 mr-1" />
