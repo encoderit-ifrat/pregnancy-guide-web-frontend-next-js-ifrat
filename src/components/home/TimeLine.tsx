@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Link from "next/link";
 
-export default function Timeline({ timelineItems }) {
+export default function Timeline({ timelineItems }: { timelineItems: any }) {
   console.log("👉 ~ Timeline ~ timelineItems:", timelineItems);
   return (
     <section className="relative mx-auto max-w-6xl px-4 py-16">
@@ -14,7 +14,7 @@ export default function Timeline({ timelineItems }) {
       <div className="space-y-16">
         {timelineItems &&
           timelineItems.length &&
-          timelineItems.map((item, index) => {
+          timelineItems.map((item: any, index: number) => {
             const isEven = index % 2 === 0;
 
             return (

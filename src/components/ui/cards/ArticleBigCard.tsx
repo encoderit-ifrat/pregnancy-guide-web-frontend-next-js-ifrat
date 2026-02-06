@@ -13,7 +13,7 @@ type BigSliderCardProps = {
     title?: string;
     excerpt?: string;
     cover_image?: string;
-    slug: string;
+    slug?: string;
     thumbnail_image?: string;
   };
 };

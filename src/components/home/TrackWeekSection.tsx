@@ -3,7 +3,7 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import Timeline from "@/components/home/TimeLine";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
-export function TrackYourWeekSection({ data }) {
+export function TrackYourWeekSection({ data }: { data: any }) {
   return (
     <section className="bg-[#FDFBFF] relative">
       <div className="section">

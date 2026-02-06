@@ -7,9 +7,9 @@ import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
-export function TestimonialsSection({ data }) {
+export function TestimonialsSection({ data }: { data: any }) {
   const pagination = {
-    renderBullet: function (index, className) {
+    renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
     },
   };
@@ -56,7 +56,7 @@ export function TestimonialsSection({ data }) {
           >
             {data &&
               data.length &&
-              data.map((testimonial) => (
+              data.map((testimonial: any) => (
                 <SwiperSlide key={testimonial.id} className="h-auto flex">
                   <Card className="min-h-55 bg-primary-light h-full flex flex-col border border-gray-100 p-6 transition-shadow hover:shadow-lg">
                     {/* Stars */}

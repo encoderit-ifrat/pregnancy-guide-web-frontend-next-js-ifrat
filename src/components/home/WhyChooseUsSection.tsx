@@ -45,7 +45,7 @@ const features = [
 
 export function WhyChooseUsSection() {
   const pagination = {
-    renderBullet: function (index, className) {
+    renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
     },
   };

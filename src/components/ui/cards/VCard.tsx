@@ -1,6 +1,13 @@
 import React from "react";
 
-export default function VCard({ step }) {
+interface Step {
+  number: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export default function VCard({ step }: { step: Step }) {
   return (
     <div className="group relative w-full max-w-[400px] rounded-3xl bg-white shadow-xl transition-all duration-300 hover:shadow-2xl">
       {/* Image Container with V-shape cutout */}
