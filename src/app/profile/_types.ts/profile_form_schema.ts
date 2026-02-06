@@ -15,8 +15,10 @@ export const ProfileFormSchema = z
       ),
     gender: z.enum(["male", "female", "other"]).optional(),
     dueDate: z.string().optional(),
+    due_date: z.string().optional(),
     dob: z.string().optional(),
     lastPeriodDate: z.string().optional(),
+    last_period_date: z.string().optional(),
     weight: z
       .string()
       .optional()

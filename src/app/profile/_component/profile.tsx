@@ -98,7 +98,7 @@ export default function ProfilePage() {
         },
         {
           key: "familyName",
-          label: "Female Name",
+          label: "Family Name",
           value: user?.details?.family_name || "",
         },
         {

@@ -17,7 +17,9 @@ export interface BabyProfile {
   gender?: string;
   dob?: string;
   dueDate?: string;
+  due_date?: string;
   lastPeriodDate?: string;
+  last_period_date?: string;
   current_pregnancy_week?: string;
   weight?: string;
   height?: string;

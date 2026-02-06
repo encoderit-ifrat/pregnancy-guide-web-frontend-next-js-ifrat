@@ -47,15 +47,16 @@ export default function FormProfile({
   onSubmitForDialogAndRefetch,
 }: FormProfileProps) {
   const [profileType, setProfileType] = useState<"upcoming">("upcoming");
+  console.log("👉 ~ FormProfile ~ initialData:", initialData);
 
   const form = useForm<ProfileFormSchemaType>({
     resolver: zodResolver(ProfileFormSchema),
     defaultValues: {
       babyName: initialData?.name || "",
       gender: (initialData?.gender as "male" | "female" | "other") || undefined,
-      dueDate: initialData?.dueDate || "",
+      dueDate: initialData?.due_date || "",
       dob: initialData?.dob || "",
-      lastPeriodDate: initialData?.lastPeriodDate || "",
+      lastPeriodDate: initialData?.last_period_date || "",
       weight: initialData?.weight || "",
       height: initialData?.height || "",
     },
