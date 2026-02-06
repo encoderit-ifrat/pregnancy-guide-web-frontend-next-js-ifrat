@@ -131,22 +131,3 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
     </div>
   );
 }
-{
-  /* Like Button */
-}
-{
-  /* <button
-                onClick={() => handleLike(answer.id)}
-                disabled={!isAuthenticated}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
-                  answer.isLiked
-                    ? "bg-pink-100 text-pink-600"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                <Heart
-                  className={`h-4 w-4 ${answer.isLiked ? "fill-pink-600" : ""}`}
-                />
-                <span className="text-sm font-medium">{answer.likesCount}</span>
-              </button> */
-}

@@ -142,7 +142,7 @@ export const AnswerFormRadioGroup = ({
             <div className="w-full" key={optionItem._id}>
               <label
                 htmlFor={optionItem._id}
-                onClick={() => setOption(optionItem._id)}
+                // onClick={() => setOption(optionItem._id)}
                 className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${
                   isSelected
                     ? "bg-primary text-white shadow-md"
