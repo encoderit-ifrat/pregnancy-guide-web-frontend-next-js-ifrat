@@ -111,18 +111,18 @@ export default function CheckLists() {
         </div>
 
         {/* CHECKLISTS Section */}
-        <div className="max-w-5xl mx-auto p-6 pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+        <div className="max-w-5xl mx-auto p-4 pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 mb-4 px-2 sm:px-0">
-            <SectionHeading variant="h3">Checklists</SectionHeading>
+            <SectionHeading variant="h3" className="order-2 sm:order-1 m-0!">Checklists</SectionHeading>
 
-            <div className="flex items-center justify-around gap-2 xs:gap-2.5 sm:gap-3 w-full sm:w-auto">
+            <div className="order-1 sm:order-2 flex items-center gap-2 xs:gap-2.5 sm:gap-3 sm:w-auto">
               {/* Finalized Tasks Button */}
               <Link
                 href="/check-lists/finalized"
                 className="inline-block flex-1 sm:flex-initial"
               >
                 <Button size="default">
-                  <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-2.5">
+                  <span className="flex items-center justify-center gap-2">
                     {/* Responsive text */}
                     <span className="tracking-wide drop-shadow-sm whitespace-nowrap">
                       Finalized Tasks
