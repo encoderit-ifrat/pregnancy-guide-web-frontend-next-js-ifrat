@@ -10,6 +10,7 @@ export function PageContainer({ children }: { children: React.ReactNode }) {
           <WaveDivider
             className="text-white transform translate-y-px"
             bgClassName="bg-[#F6F0FF]"
+            height="h-30 lg:h-auto"
           />
         </section>
         <div className="relative z-20 px-4 pt-10 md:pt-20 pb-10 md:pb-20">
