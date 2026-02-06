@@ -5,7 +5,7 @@ import IconHeading from "@/components/ui/text/IconHeading";
 
 export function DownloadCtaSection() {
   return (
-    <section className="bg-black relative overflow-hidden pb-10 pt-36 md:py-16">
+    <section className="bg-black relative overflow-hidden pb-10 pt-36 md:py-15">
       {/* Right-side Background Image (absolute) */}
       <div className="absolute inset-y-0 right-0 max-h-2/4 w-full md:max-h-full md:max-w-2/3">
         <Image
