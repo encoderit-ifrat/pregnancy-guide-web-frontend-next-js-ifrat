@@ -150,7 +150,7 @@ export const AnswerFormRadioGroup = ({
                 }`}
               >
                 <div
-                  className={`flex items-center justify-center h-10 w-10 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
+                  className={`flex items-center justify-center h-12 w-10 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
                 >
                   {getLetter(idx)}
                 </div>

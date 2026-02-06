@@ -24,7 +24,7 @@ interface SliderProps extends PropsWithChildren {
 }
 
 export function Slider({
-  className = "!px-6 !py-2 !pb-10",
+  className = "px-6! py-2! pb-10!",
   children,
   options,
   sideOverlayClassName = "bg-primary-light",
@@ -34,23 +34,25 @@ export function Slider({
       modules={[Grid, Navigation, Pagination, FreeMode, Autoplay]}
       {...options}
       className={cn("mySwiper items-stretch", className)}
-      style={{
-        "--swiper-navigation-color": "#000",
-        "--swiper-pagination-color": "#000",
-      }}
+      style={
+        {
+          // "--swiper-navigation-color": "#000",
+          // "--swiper-pagination-color": "#000",
+        }
+      }
     >
       {children}
 
       {/*overlay to hide slide under next button*/}
       <div
         className={cn(
-          "h-full w-[10px] absolute top-0 z-[1] right-0",
+          "h-full w-2.5 absolute top-0 z-1 right-0",
           sideOverlayClassName
         )}
       ></div>
       <div
         className={cn(
-          "h-full w-[10px] absolute top-0 z-[1] left-0",
+          "h-full w-2.5 absolute top-0 z-1 left-0",
           sideOverlayClassName
         )}
       ></div>

@@ -34,7 +34,7 @@ export default function CheckListSection({
                 className="text-white justify-center"
               />
               <SectionHeading className="text-white">Checklists</SectionHeading>
-              <p className="max-w-[420px] mx-auto">
+              <p className="max-w-105 mx-auto">
                 Expert advice, real stories, and helpful tips to support you and
                 your family at every stage.
               </p>

@@ -22,7 +22,7 @@ type TProps = {
 
 function WeeklyArticleSliderJs({ articles }: TProps) {
   const pagination = {
-    renderBullet: function (index, className) {
+    renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
     },
   };
@@ -73,4 +73,4 @@ function WeeklyArticleSliderJs({ articles }: TProps) {
   );
 }
 
-export default WeeklyArticle;
+export default WeeklyArticleSliderJs;
