@@ -3,6 +3,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Label } from "../ui/Label";
 
 export default function Pagination({
   currentPage,
@@ -43,38 +44,41 @@ export default function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center px-5 gap-3">
       <Button
-        variant="outline"
-        size="icon"
+        // variant="outline"
+        // size="icon"
+        variant="ghost"
+        // size="icon"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="rounded-full"
+        className="p-0"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="size-4" />
+        Previous
       </Button>
 
       {getPageNumbers().map((page, index) => (
         <Button
           key={index}
           variant={page === currentPage ? "outline" : "link"}
-          size="icon"
+          // size="icon"
           onClick={() => typeof page === "number" && onPageChange(page)}
           disabled={typeof page === "string"}
-          className="rounded"
+          className="size-7.5! p-0 rounded-sm"
         >
           {page}
         </Button>
       ))}
-
       <Button
-        variant="outline"
-        size="icon"
+        variant="ghost"
+        // size="icon"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="rounded-full"
+        className="p-0"
       >
-        <ChevronRight className="h-4 w-4" />
+        Next
+        <ChevronRight className="size-4" />
       </Button>
     </div>
   );
