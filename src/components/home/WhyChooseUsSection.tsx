@@ -35,24 +35,6 @@ const features = [
     icon: Zap,
     image: "/images/why-choose-us/3.png",
   },
-  {
-    title: "24/7 Support",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Headphones,
-    image: "/images/why-choose-us/4.png",
-  },
-  {
-    title: "Cloud Sync",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Cloud,
-    image: "/images/why-choose-us/2.png",
-  },
-  {
-    title: "Fast & Responsive",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Zap,
-    image: "/images/why-choose-us/3.png",
-  },
 ];
 
 export function WhyChooseUsSection() {

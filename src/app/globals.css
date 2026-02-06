@@ -94,7 +94,7 @@ div.no-tailwind p span {
   --color-foreground: #300043;
 
   /* === Brand Colors === */
-  --color-primary: #a080e1;
+  /* --color-primary: #a080e1; */
   --color-secondary: #3d3177;
   --color-soft: #a080e1;
   --color-soft-white: #ffffff;

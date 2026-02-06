@@ -22,7 +22,7 @@ type TProps = {
 
 function WeeklyArticle({ articles }: TProps) {
   const pagination = {
-    renderBullet: function (index, className) {
+    renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
     },
   };

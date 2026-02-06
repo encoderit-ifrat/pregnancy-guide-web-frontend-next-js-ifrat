@@ -47,7 +47,7 @@ export const ChecklistSchema = z.object({
   items: z
     .array(ChecklistItemSchema)
     .min(1, "At least one checklist item is required"),
-  is_active: z.boolean().default(true),
+  is_active: z.boolean(),
 });
 
 export type ChecklistSchemaType = z.infer<typeof ChecklistSchema>;

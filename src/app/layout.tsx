@@ -10,6 +10,7 @@ import { Header } from "@/components/layout/Header";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { Footer } from "@/components/layout/Footer";
 import FooterWaveDivider from "@/components/layout/svg/FooterWaveDivider";
+// import { usePathname } from "next/navigation";
 
 // Roboto font
 export const roboto = Roboto({
@@ -45,13 +46,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // /pregnancy-overview
+
   return (
     <html
       lang="en"
       className={`${roboto.variable} ${poppins.variable} ${playfair.variable}`}
     >
       <body
-        className={`${roboto.className} ${poppins.variable} antialiased w-full max-w-[2480px] mx-auto`}
+        className={`${roboto.className} ${poppins.variable} antialiased w-full max-w-620 mx-auto`}
       >
         <SessionWrapper>
           <ThemeProvider
@@ -66,7 +69,7 @@ export default function RootLayout({
                 {children}
                 <Toaster richColors position="top-right" />
               </UserProvider>
-              {/* divider */} <FooterWaveDivider className="text-primary" />
+              {/* divider */} <FooterWaveDivider />
               <Footer />
             </ReactQueryProvider>
           </ThemeProvider>

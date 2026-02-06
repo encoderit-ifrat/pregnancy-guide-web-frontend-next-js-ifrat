@@ -7,7 +7,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
 
   const updatedHtml = htmlString?.replace("$name", userData?.name);
   const pregnancyProgressInfo = calculatePregnancyProgress(
-    userData?.details?.last_period_date
+    userData?.details?.last_period_date || ""
   );
 
   return (

@@ -48,7 +48,7 @@ export default function LoginForm() {
     const loginRequestData: loginRequestType = {
       email: data?.email,
       password: data?.password,
-      remember: data?.acceptTerms,
+      remember: data?.acceptTerms || false,
     };
     loginMutation.mutate(loginRequestData, {
       onSuccess: async (data) => {

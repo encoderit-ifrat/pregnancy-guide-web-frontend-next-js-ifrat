@@ -1,16 +1,22 @@
+"use client";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
 type WaveDividerProps = {
   className?: string; // controls wave (fill) color
   height?: string; // controls svg height
-  bgClassName?: string; // controls wrapper background
+  // bgClassName?: string; // controls wrapper background
 };
 
 export default function FooterWaveDivider({
   className = "text-purple-50",
   height = "h-20 lg:h-auto",
-  bgClassName = "bg-transparent",
+  // bgClassName = "bg-transparent",
 }: WaveDividerProps) {
+  const pathname = usePathname();
+  console.log("👉 ~ FooterWaveDivider ~ pathname:", pathname);
+  const bgClassName =
+    pathname === "/pregnancy-overview" ? "bg-primary-light" : "bg-transparent";
   return (
     <div className={clsx("w-full", bgClassName)}>
       <svg

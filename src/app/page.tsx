@@ -43,6 +43,8 @@ export default async function Page() {
   return (
     <div className="min-h-svh bg-white">
       <main>
+        {/* <div className="bg-[url('/images/heart-bg.png')] bg-cover bg-center bg-no-repeat">
+        </div> */}
         <HeroSection />
         <MissionSection />
         {/* divider */} <ConcaveCurve />

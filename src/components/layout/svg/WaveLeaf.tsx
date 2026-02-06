@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 
 type WaveDividerProps = {
@@ -12,7 +13,7 @@ export default function WaveLeaf({
   bgClassName = "bg-transparent",
 }: WaveDividerProps) {
   return (
-    <div className={clsx("w-full bg-red-400", bgClassName)}>
+    <div className={cn("w-full", bgClassName)}>
       <svg
         className={clsx(
           "hidden md:block w-full fill-current max-w-none shrink-0 -mb-1",

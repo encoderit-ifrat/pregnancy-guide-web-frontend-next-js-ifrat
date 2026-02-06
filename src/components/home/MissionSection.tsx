@@ -3,10 +3,16 @@ import { Download, Heart } from "lucide-react";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import WaveLeaf from "../layout/svg/WaveLeaf";
 
 export function MissionSection() {
   return (
     <section className="relative pt-6 pb-16 md:py-24">
+      {/* <WaveLeaf
+        className="text-[#FFFFFF] absolute top-0 left-0 right-0 z-[1]"
+        bgClassName="bg-primary!"
+      /> */}
+
       <div className="section">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
           {/* Image */}
