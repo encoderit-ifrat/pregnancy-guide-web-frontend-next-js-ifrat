@@ -53,7 +53,7 @@ import { ChecklistFormData } from "../_types/checklist_page_types";
 import { ChecklistItemWithItems } from "../_types/checklist_item_types";
 import { PageContainer } from "@/components/layout/PageContainer";
 import CheckListItem from "@/app/check-lists/_component/CheckListItem";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function CheckLists() {
   const router = useRouter();
@@ -154,15 +154,10 @@ export default function CheckLists() {
     <PageContainer>
       <div className="min-h-svh">
         {/* CHECKLISTS Section */}
-        <div className="max-w-5xl mx-auto p-6 pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 mb-4 px-2 sm:px-0">
-            <SectionHeading variant="h3">Finalized Checklists</SectionHeading>
-          </div>
-          {/*<div className="flex gap-4 mb-4">*/}
-          {/*  <p className="text-foreground font-semibold leading-20px text-2xl lg:text-4xl">*/}
-          {/*    Finalized Checklists*/}
-          {/*  </p>*/}
-          {/*</div>*/}
+        <div className="max-w-5xl mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+          <SectionHeading variant="h3" className="text-center  lg:text-left">
+            Finalized Checklists
+          </SectionHeading>
 
           <CheckListItem checklistItems={filteredLists} overview={true} />
           {meta && meta.last_page > 1 && (

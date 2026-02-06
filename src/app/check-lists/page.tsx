@@ -111,11 +111,13 @@ export default function CheckLists() {
         </div>
 
         {/* CHECKLISTS Section */}
-        <div className="max-w-5xl mx-auto p-6 pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 mb-4 px-2 sm:px-0">
-            <SectionHeading variant="h3">Checklists</SectionHeading>
+        <div className="max-w-5xl mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-4 mb-4 px-3">
+            <SectionHeading variant="h3" className="m-0!">
+              Checklists
+            </SectionHeading>
 
-            <div className="flex items-center justify-around gap-2 xs:gap-2.5 sm:gap-3 w-full sm:w-auto">
+            <div className="flex items-center justify-center gap-2 xs:gap-2.5 sm:gap-3 ">
               {/* Finalized Tasks Button */}
               <Link
                 href="/check-lists/finalized"

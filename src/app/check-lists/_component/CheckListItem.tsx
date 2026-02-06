@@ -1,12 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Check,
-  Circle,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import { Check, Circle, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   Accordion,
@@ -101,7 +96,7 @@ export default function CheckListItem({
           >
             <AccordionTrigger
               className={cn(
-                "flex items-center justify-between pr-4 pl-4 md:pl-0",
+                "flex items-center justify-between  px-4 ",
                 !hasItemDetails ? "opacity-50 cursor-not-allowed" : ""
               )}
               actionButtons={
