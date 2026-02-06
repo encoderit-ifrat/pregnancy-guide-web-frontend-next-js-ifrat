@@ -58,7 +58,7 @@ export function TestimonialsSection({ data }) {
               data.length &&
               data.map((testimonial) => (
                 <SwiperSlide key={testimonial.id} className="h-auto flex">
-                  <Card className="min-h-[220px] h-full flex flex-col border border-gray-100 p-6 transition-shadow hover:shadow-lg">
+                  <Card className="min-h-55 bg-primary-light h-full flex flex-col border border-gray-100 p-6 transition-shadow hover:shadow-lg">
                     {/* Stars */}
                     <div className="mb-4 flex gap-1">
                       {Array.from({ length: testimonial?.rating }).map(

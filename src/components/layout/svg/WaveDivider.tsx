@@ -8,7 +8,7 @@ type WaveDividerProps = {
 
 export default function WaveDivider({
   className = "text-purple-50",
-  height = "h-40 lg:h-auto",
+  height = "h-20 lg:h-auto",
   bgClassName = "bg-transparent",
 }: WaveDividerProps) {
   return (

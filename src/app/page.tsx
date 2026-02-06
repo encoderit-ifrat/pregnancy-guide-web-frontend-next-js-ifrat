@@ -47,7 +47,8 @@ export default async function Page() {
         </div> */}
         <HeroSection />
         <MissionSection />
-        {/* divider */} <ConcaveCurve />
+        {/* divider */}
+        <ConcaveCurve />
         <AppShowcaseSection />
         {/* divider */}{" "}
         <WaveDivider

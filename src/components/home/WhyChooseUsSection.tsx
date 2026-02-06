@@ -35,6 +35,12 @@ const features = [
     icon: Zap,
     image: "/images/why-choose-us/3.png",
   },
+  {
+    title: "24/7 Support",
+    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+    icon: Headphones,
+    image: "/images/why-choose-us/4.png",
+  },
 ];
 
 export function WhyChooseUsSection() {

@@ -8,7 +8,7 @@ type WaveDividerProps = {
 
 export default function ConcaveCurve({
   className = "text-primary-light",
-  height = "h-40 lg:h-auto",
+  height = "h-20 lg:h-auto",
   bgClassName = "bg-transparent",
 }: WaveDividerProps) {
   return (
