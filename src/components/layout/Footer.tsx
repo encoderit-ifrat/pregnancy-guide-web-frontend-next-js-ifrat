@@ -4,18 +4,20 @@ import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 const footerLinks = {
   company: [
-    { href: "/about", label: "Om oss" },
-    { href: "/contact", label: "Kontakt" },
-    { href: "/careers", label: "Karriär" },
+    { href: "/about", label: "Förlossning" },
+    { href: "/contact", label: "Gravidhälsa" },
+    { href: "/careers", label: "Mat och kostråd" },
+    { href: "/careers", label: "Graviditet" },
   ],
   resources: [
-    { href: "/blog", label: "Blogg" },
-    { href: "/articles", label: "Artiklar" },
-    { href: "/faq", label: "FAQ" },
+    { href: "/blog", label: "Home" },
+    { href: "/articles", label: "Articles" },
+    { href: "/faq", label: "Feedback" },
+    { href: "/faq", label: "Settings" },
   ],
   legal: [
-    { href: "/privacy", label: "Integritetspolicy" },
-    { href: "/terms", label: "Villkor" },
+    { href: "/privacy", label: "Terms & Conditions" },
+    { href: "/terms", label: "Privacy Policy" },
   ],
 };
 
@@ -29,22 +31,10 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="bg-primary relative overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="/images/footer/footer-bg.png"
-          alt=""
-          fill
-          className="object-cover"
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
-      </div>
-
-      <div className="sections">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="section">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 pb-10">
           {/* Logo and Description */}
-          <div className="lg:col-span-1">
+          <div className="col-span-4 lg:col-span-1">
             <Link href="/" className="mb-4 inline-block">
               <Image
                 src="/images/logo/logo-light.png"
@@ -54,16 +44,12 @@ export function Footer() {
                 className="h-12 w-auto brightness-0 invert"
               />
             </Link>
-            <p className="mb-6 max-w-xs text-sm leading-relaxed text-white/80">
-              Din trygga följeslagare genom graviditeten med personliga insikter
-              och expertråd.
-            </p>
           </div>
 
           {/* Links Columns */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
-              Företag
+          <div className="col-span-2 lg:col-span-1">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-white">
+              Quick Links
             </h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
@@ -79,9 +65,9 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
-              Resurser
+          <div className="col-span-2 lg:col-span-1">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-white">
+              Additional Link
             </h4>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
@@ -97,7 +83,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-4 lg:col-span-1">
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
               Social Link
             </h4>
@@ -119,10 +105,10 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t border-white/10 pt-8">
+        <div className="py-4 border-t border-white/10">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm text-white/60">
-              © {new Date().getFullYear()} Familj. Alla rättigheter förbehållna.
+              Copyright © {new Date().getFullYear()} Familj.se. All Right Reserved.
             </p>
             <div className="flex gap-6">
               {footerLinks.legal.map((link) => (

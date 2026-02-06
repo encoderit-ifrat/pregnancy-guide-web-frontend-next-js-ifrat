@@ -39,7 +39,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
         <div className="relative z-10">
           {/* divider */}
           <ConcaveCurve
-            className="text-[#F5EEFF] h-10! sm:h-20! md:h-24! lg:h-30!"
+            className="text-[#F5EEFF] h-10! sm:h-20! md:h-24! lg:h-30! xl:h-40! translate-y-px"
             bgClassName="bg-white"
           />
 
