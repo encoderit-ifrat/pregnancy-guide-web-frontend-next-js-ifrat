@@ -245,13 +245,15 @@ export function Header() {
                   isExpanded={isSearchExpanded}
                   onExpandChange={setIsSearchExpanded}
                 />
-                <div className="h-6 w-[2px] bg-primary" />
+                <div className="h-6 w-0.5 bg-primary" />
               </div>
               {isAuthenticated ? (
                 <ProfileDropDown />
               ) : (
                 <Link href="/login" className="hidden lg:block">
-                  <Button>Logga In</Button>
+                  <Button className="font-poppins font-semibold text-lg text-white py-2.5 px-8.75">
+                    Logga In
+                  </Button>
                 </Link>
               )}
             </div>
