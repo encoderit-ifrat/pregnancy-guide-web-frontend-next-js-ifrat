@@ -6,12 +6,12 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 export function TrackYourWeekSection({ data }: { data: any }) {
   return (
     <section className="bg-[#FDFBFF] relative">
-      <div className="section">
+      <div className="container-xl">
         {/* Dotted Border Container */}
         {/*<div className="rounded-3xl border-2 border-dashed border-primary-muted p-6 md:p-12">*/}
-        <div className="rounded-3xl  p-6 md:p-12">
+        <div className="rounded-3xl">
           {/* Section Header */}
-          <div className="mb-12 text-center">
+          <div className="mb-6 md:mb-12 text-center">
             <IconHeading
               text="Vestibulum"
               icon={<FileText />}

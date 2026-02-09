@@ -78,9 +78,9 @@ export function TestimonialsSection({ data }: { data: any }) {
                     </p>
 
                     {/* Author */}
-                    <p className="mt-auto font-semibold text-primary">
+                    <span className="mt-auto text-lg capitalize text-primary-dark font-libre_baskerville">
                       {testimonial?.user?.name}
-                    </p>
+                    </span>
                   </Card>
                 </SwiperSlide>
               ))}

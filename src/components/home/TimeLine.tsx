@@ -38,18 +38,16 @@ export default function Timeline({ timelineItems }: { timelineItems: any }) {
                   }`}
                 >
                   <div className="group relative rounded-2xl bg-white p-6 overflow-hidden shadow-lg transition-shadow hover:shadow-xl">
-                    <div className="mb-3 flex items-center gap-2">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600">
-                        ✿
-                      </span>
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {item.title}
-                      </h3>
-                    </div>
+                    {/* <div className="mb-3 flex items-center gap-2">
+                    </div> */}
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600">
+                      ✿
+                    </span>
+                    <h4 className="text-lg font-semibold text-left mt-3 mb-1.5">
+                      {item.title}
+                    </h4>
 
-                    <p className="text-sm text-gray-600 text-left pb-6">
-                      {item.excerpt}
-                    </p>
+                    <p className="pb-6 text-left">{item.excerpt}</p>
 
                     <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
                       <Link

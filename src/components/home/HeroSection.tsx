@@ -12,7 +12,9 @@ export function HeroSection() {
             <h1 className="mb-4 text-4xl font-bold leading-tight text-text-primary md:text-5xl">
               <span className="font-light text-primary">Companion</span>
               <br />
-              <span className="font-bold md:font-black">During Pregnancy</span>
+              <span className="font-bold md:font-black text-primary-dark">
+                During Pregnancy
+              </span>
             </h1>
             <p className="mt-3.75 lg:mt-6.25 mx-auto mb-8 font-outfit text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
               Discover Familj, your trusted companion throughout every stage of
@@ -67,7 +69,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <WaveLeaf className="text-[#FFFFFF] absolute bottom-0 left-0 right-0 z-[1]" />
+      <WaveLeaf className="text-[#FFFFFF] absolute bottom-0 left-0 right-0 z-1" />
     </section>
   );
 }

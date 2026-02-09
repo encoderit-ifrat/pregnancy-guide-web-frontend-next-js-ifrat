@@ -92,7 +92,7 @@ export function WhyChooseUsSection() {
                 className="group relative overflow-hidden rounded-2xl shadow-lg"
               >
                 {/* Image */}
-                <div className="relative h-[310px]">
+                <div className="relative h-77.5">
                   <Image
                     src={feature.image}
                     alt={feature.title}
@@ -100,25 +100,25 @@ export function WhyChooseUsSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#240443]/100 via-[#240443]/20 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-[#240443]/100 via-[#240443]/20 to-transparent" />
                 </div>
 
                 {/* Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="mb-1 text-lg font-bold">
+                      <h3 className="mb-1 text-lg font-bold text-white!">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-white/80">
+                      <p className="text-sm text-white!">
                         {feature.description}
                       </p>
                     </div>
-                    <div>
+                    {/* <div>
                       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
                         <feature.icon className="h-8 w-8 text-white" />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

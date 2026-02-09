@@ -32,14 +32,12 @@ pointer-events-none
           <IconHeading
             text="Consectetu"
             icon={<Download />}
-            className="text-white/80"
+            className="text-white"
           />
 
-          <h2 className="mb-6 text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
-            Etiam phar etr...
-          </h2>
+          <h2 className="mb-4 mt-1 md:mb-6  text-white!">Etiam phar etr...</h2>
 
-          <p className="mb-8 max-w-xl text-base leading-relaxed text-white/80 md:text-md">
+          <p className="mb-8 max-w-xl text-white!">
             Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi
             ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus
             molestie sed. Vivamus dignissim ultrices porta. Quisque vel

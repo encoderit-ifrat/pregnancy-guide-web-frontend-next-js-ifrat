@@ -85,6 +85,7 @@ div.no-tailwind p span {
   --font-roboto: var(--font-roboto);
   --font-poppins: var(--font-poppins);
   --font-playfair: var(--font-playfair);
+  --font-libre_baskerville: var(--font-libre_baskerville);
 }
 
 @theme {
@@ -232,10 +233,13 @@ h6 {
   font-family: var(--font-heading);
 }
 h2 {
-  @apply text-3xl md:text-3xl lg:text-4xl  font-semibold text-primary-dark;
+  @apply text-3xl md:text-3xl lg:text-4xl font-poppins  font-semibold text-primary-dark;
 }
 h3 {
-  @apply text-2xl font-semibold text-primary-dark;
+  @apply text-2xl font-semibold font-poppins text-primary-dark;
+}
+h4 {
+  @apply text-xl lg:text-2xl  font-semibold font-poppins text-primary-dark;
 }
 p {
   @apply font-outfit text-base text-primary-text;

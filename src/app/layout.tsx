@@ -1,7 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/providers/QueryProvider";
-import { Roboto, Poppins, Playfair_Display, Outfit } from "next/font/google";
+import {
+  Roboto,
+  Poppins,
+  Playfair_Display,
+  Outfit,
+  Libre_Baskerville,
+} from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
@@ -42,6 +48,14 @@ export const playfair = Playfair_Display({
   display: "swap",
 });
 
+// Libre Baskerville font
+export const libre_baskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-libre_baskerville",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Familj",
   description: "Familj project setup",
@@ -57,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} antialiased text-primary-dark`}
+        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} antialiased text-primary-dark`}
       >
         <SessionWrapper>
           <ThemeProvider

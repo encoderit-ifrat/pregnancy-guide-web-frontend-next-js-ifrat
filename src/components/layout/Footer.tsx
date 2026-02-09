@@ -31,7 +31,7 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="bg-primary relative overflow-hidden">
-      <div className="section">
+      <div className="container-xl">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 pb-10">
           {/* Logo and Description */}
           <div className="col-span-4 lg:col-span-1">
@@ -48,7 +48,7 @@ export function Footer() {
 
           {/* Links Columns */}
           <div className="col-span-2 lg:col-span-1">
-            <h4 className="mb-4 text-sm font-semibold tracking-wider text-white">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-white!">
               Quick Links
             </h4>
             <ul className="space-y-3">
@@ -66,7 +66,7 @@ export function Footer() {
           </div>
 
           <div className="col-span-2 lg:col-span-1">
-            <h4 className="mb-4 text-sm font-semibold tracking-wider text-white">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-white!">
               Additional Link
             </h4>
             <ul className="space-y-3">
@@ -84,7 +84,7 @@ export function Footer() {
           </div>
 
           <div className="col-span-4 lg:col-span-1">
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white!">
               Social Link
             </h4>
             <div className="flex gap-4">
@@ -107,15 +107,16 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="py-4 border-t border-white/10">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <p className="text-sm text-white/60">
-              Copyright © {new Date().getFullYear()} Familj.se. All Right Reserved.
+            <p className="text-sm text-white/60!">
+              Copyright © {new Date().getFullYear()} Familj.se. All Right
+              Reserved.
             </p>
             <div className="flex gap-6">
               {footerLinks.legal.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-white/60 transition-colors hover:text-white"
+                  className="text-sm text-white/60! transition-colors hover:text-white"
                 >
                   {link.label}
                 </Link>
