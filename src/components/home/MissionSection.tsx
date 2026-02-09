@@ -13,7 +13,7 @@ export function MissionSection() {
         bgClassName="bg-primary!"
       /> */}
 
-      <div className="section">
+      <div className="container-xl">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
           {/* Image */}
           <div className="order-2 md:order-1 flex justify-center lg:justify-end">

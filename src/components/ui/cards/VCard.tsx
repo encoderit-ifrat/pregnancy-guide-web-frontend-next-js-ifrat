@@ -9,13 +9,15 @@ interface Step {
 
 export default function VCard({ step }: { step: Step }) {
   return (
-    <div className="group relative w-full max-w-[400px] rounded-3xl bg-white shadow-xl transition-all duration-300 hover:shadow-2xl">
+    <div className="group relative w-full  rounded-3xl bg-white shadow-xl transition-all duration-300 hover:shadow-2xl">
       {/* Image Container with V-shape cutout */}
-      <div className="relative aspect-[4/3] overflow-hidden rounded-t-3xl">
+      <div className="relative overflow-hidden rounded-t-3xl">
         <img
           src={step.image}
           alt={step.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover aspect-[4/3] transition-transform duration-500 group-hover:scale-110
+          
+          "
         />
 
         {/* Decorative gradient overlay */}
@@ -23,7 +25,7 @@ export default function VCard({ step }: { step: Step }) {
 
         {/* V-Shape SVG Overlay */}
         <svg
-          className="absolute left-0 right-0 bottom-0 w-full -mb-[1px] !-m4-[4px] block"
+          className="absolute left-0 right-0 bottom-0 w-full -mb-[1px] block"
           height="95"
           viewBox="0 0 400 95"
           fill="none"
@@ -44,10 +46,8 @@ export default function VCard({ step }: { step: Step }) {
 
       {/* Content */}
       <div className="px-6 pb-12 pt-2 text-center">
-        <h3 className="mb-3 text-2xl font-bold text-gray-800">{step.title}</h3>
-        <p className="text-sm leading-relaxed text-gray-600">
-          {step.description}
-        </p>
+        <h3>{step.title}</h3>
+        <p>{step.description}</p>
       </div>
     </div>
   );

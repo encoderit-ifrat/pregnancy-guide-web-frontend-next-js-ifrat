@@ -30,9 +30,9 @@ const steps = [
 export function HowItWorksSection() {
   return (
     <section className="relative py-10 md:pb-10">
-      <div className="section">
+      <div className="container-xl">
         {/* Section Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-16 text-center">
           <IconHeading
             text="Step-by-Step"
             icon={<Zap />}
@@ -42,7 +42,7 @@ export function HowItWorksSection() {
         </div>
 
         {/* Steps Grid */}
-        <div className="grid gap-6 justify-center sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-5 justify-center sm:grid-cols-2 md:grid-cols-3">
           {steps.map((step, index) => (
             <VCard key={index} step={step} />
           ))}

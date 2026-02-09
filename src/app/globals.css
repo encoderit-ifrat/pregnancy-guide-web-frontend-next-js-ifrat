@@ -232,7 +232,10 @@ h6 {
   font-family: var(--font-heading);
 }
 h2 {
-  @apply text-3xl md:text-3xl lg:text-4xl font-semibold text-primary-dark;
+  @apply text-3xl md:text-3xl lg:text-4xl  font-semibold text-primary-dark;
+}
+h3 {
+  @apply text-2xl font-semibold text-primary-dark;
 }
 p {
   @apply font-outfit text-base text-primary-text;
