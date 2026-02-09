@@ -81,6 +81,10 @@ div.no-tailwind p span {
   --font-heading: var(--font-heading);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
+  --font-outfit: var(--font-outfit);
+  --font-roboto: var(--font-roboto);
+  --font-poppins: var(--font-poppins);
+  --font-playfair: var(--font-playfair);
 }
 
 @theme {
@@ -92,6 +96,7 @@ div.no-tailwind p span {
   }; */
   --color-background: #f0e8ff;
   --color-foreground: #300043;
+  --color-purple-soft: #f6f0ff;
 
   /* === Brand Colors === */
   /* --color-primary: #a080e1; */
@@ -205,7 +210,9 @@ body {
 html {
   scroll-behavior: smooth;
 }
-
+.container-xl {
+  @apply max-w-364 px-4 mx-auto w-full;
+}
 /* Custom utilities for curved backgrounds */
 .curved-top {
   border-radius: 0 0 50% 50% / 0 0 100px 100px;

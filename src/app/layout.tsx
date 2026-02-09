@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/providers/QueryProvider";
-import { Roboto, Poppins, Playfair_Display } from "next/font/google";
+import { Roboto, Poppins, Playfair_Display, Outfit } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
@@ -10,8 +10,14 @@ import { Header } from "@/components/layout/Header";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { Footer } from "@/components/layout/Footer";
 import FooterWaveDivider from "@/components/layout/svg/FooterWaveDivider";
-// import { usePathname } from "next/navigation";
 
+// Outfit font
+export const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "700", "800", "900"], // add any weights you need
+  variable: "--font-outfit",
+  display: "swap",
+});
 // Roboto font
 export const roboto = Roboto({
   subsets: ["latin"],
@@ -49,12 +55,9 @@ export default function RootLayout({
   // /pregnancy-overview
 
   return (
-    <html
-      lang="en"
-      className={`${roboto.variable} ${poppins.variable} ${playfair.variable}`}
-    >
+    <html lang="en">
       <body
-        className={`${roboto.className} ${poppins.variable} antialiased w-full max-w-620 mx-auto`}
+        className={`${roboto.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} antialiased`}
       >
         <SessionWrapper>
           <ThemeProvider

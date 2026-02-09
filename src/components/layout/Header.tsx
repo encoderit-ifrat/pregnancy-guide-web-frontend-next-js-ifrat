@@ -171,13 +171,13 @@ export function Header() {
     : isSticky
       ? "/images/logo/logo-dark.png"
       : "/images/logo/logo-light.png";
-
+  // [#F6F0FF]
   return (
     <>
       <header
         ref={headerRef}
         className={cn(
-          "w-full z-50 transition-transform duration-300 ease-in-out bg-[#F6F0FF]",
+          "w-full z-50 transition-transform duration-300 ease-in-out bg-purple-soft",
           isSticky
             ? "fixed top-0 left-0 right-0 backdrop-blur-md shadow-2xl shadow-primary/50"
             : "relative",
@@ -186,16 +186,16 @@ export function Header() {
       >
         <div
           className={cn(
-            "section flex items-center justify-between md:px-6",
+            "container-xl flex items-center justify-between",
             isSticky ? "h-20" : "h-28 lg:h-20"
           )}
         >
-          <div className="flex items-center gap-4 md:gap-16">
+          <div className="flex items-center gap-4 md:gap-14">
             {/* Logo */}
             <div className={logoClassName}>
               <Link
                 href={isAuthenticated ? "/pregnancy-overview" : "/"}
-                className="flex-shrink-0"
+                className="shrink-0"
               >
                 <Image
                   src={logoSrc}
@@ -211,7 +211,7 @@ export function Header() {
             {/* Desktop Navigation */}
             <nav
               className={cn(
-                "hidden items-center gap-6 lg:flex transition-opacity duration-300",
+                "hidden items-center gap-7 lg:flex transition-opacity duration-300",
                 isSearchExpanded
                   ? "opacity-0 pointer-events-none"
                   : "opacity-100"
@@ -223,11 +223,12 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-sm font-medium transition-colors hover:text-primary-dark ${
-                      isActive
-                        ? "text-primary font-semibold"
-                        : "text-text-secondary"
-                    }`}
+                    className={cn(
+                      `text-lg font-medium transition-colors text-primary-dark font-outfit`,
+                      {
+                        "text-primary font-semibold": isActive,
+                      }
+                    )}
                   >
                     {link.label}
                   </Link>
