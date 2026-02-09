@@ -251,7 +251,7 @@ export function Header() {
                 <ProfileDropDown />
               ) : (
                 <Link href="/login" className="hidden lg:block">
-                  <Button className="font-poppins font-semibold text-lg text-white py-2.5 px-8.75">
+                  <Button className="font-poppins h-11.75 max-w-36.5 font-semibold text-lg text-white py-2.5 px-8.75">
                     Logga In
                   </Button>
                 </Link>
