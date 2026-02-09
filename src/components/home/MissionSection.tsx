@@ -36,9 +36,9 @@ export function MissionSection() {
               icon={<Heart />}
               className="text-primary justify-center md:justify-start"
             />
-            <SectionHeading>Our Mission</SectionHeading>
+            <h2 className="mb-4">Our Mission</h2>
 
-            <p className="mx-auto max-w-lg text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
+            <p className="mx-auto max-w-lg lg:mx-0">
               Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse
               vitae risus et nulla blandit condimentum. Nunc pellentesque, felis
               ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet

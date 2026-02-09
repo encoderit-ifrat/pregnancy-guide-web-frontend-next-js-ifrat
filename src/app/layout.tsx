@@ -57,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} antialiased`}
+        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} antialiased text-primary-dark`}
       >
         <SessionWrapper>
           <ThemeProvider

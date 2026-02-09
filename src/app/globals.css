@@ -97,6 +97,7 @@ div.no-tailwind p span {
   --color-background: #f0e8ff;
   --color-foreground: #300043;
   --color-purple-soft: #f6f0ff;
+  --color-primary-text: #1b1343;
 
   /* === Brand Colors === */
   /* --color-primary: #a080e1; */
@@ -230,7 +231,12 @@ h5,
 h6 {
   font-family: var(--font-heading);
 }
-
+h2 {
+  @apply text-3xl md:text-3xl lg:text-4xl font-semibold text-primary-dark;
+}
+p {
+  @apply font-outfit text-base text-primary-text;
+}
 /*.swiper {*/
 /*  width: 100%;*/
 /*  height: 100%;*/

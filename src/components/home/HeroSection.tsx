@@ -5,18 +5,16 @@ import WaveLeaf from "@/components/layout/svg/WaveLeaf";
 export function HeroSection() {
   return (
     <section className="relative bg-[#F6F0FF] pt-2 pb-0 md:pb-16 lg:pb-0">
-      <div className="section px-4 md:mb-4">
+      <div className="container-xl md:mb-4">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
           {/* Content */}
           <div className="order-1 text-center lg:order-1 lg:text-left">
-            <h1 className="mb-4 text-4xl font-bold leading-tight text-text-primary md:text-5xl lg:text-6xl">
+            <h1 className="mb-4 text-4xl font-bold leading-tight text-text-primary md:text-5xl">
               <span className="font-light text-primary">Companion</span>
               <br />
-              <span className="font-bold md:font-black text-primary-dark">
-                During Pregnancy
-              </span>
+              <span className="font-bold md:font-black">During Pregnancy</span>
             </h1>
-            <p className="mx-auto mb-8 text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
+            <p className="mt-3.75 lg:mt-6.25 mx-auto mb-8 font-outfit text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
               Discover Familj, your trusted companion throughout every stage of
               pregnancy, offering personalized weekly insights, expert articles,
               and gentle guidance to make your journey feel safe and supported.

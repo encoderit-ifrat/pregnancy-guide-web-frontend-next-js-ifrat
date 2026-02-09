@@ -23,7 +23,7 @@ function BackgroundBannerHome() {
       <div className="absolute inset-0 bg-[url('/assets/logo/layoutFirst.svg')] size-full z-10" />
 
       {/* Content Container */}
-      <div className="relative  z-10 w-full h-full px-4 max-w-5xl mx-auto  pt-12 sm:pt-16 lg:pt-20 pb-[180px] sm:pb-[200px] ">
+      <div className="relative  z-10 w-full h-full px-4 max-w-5xl mx-auto  pt-12 sm:pt-16 lg:pt-20 pb-45 sm:pb-50">
         <div className="h-full flex flex-col justify-center sm:justify-end">
           {/* Text Content Wrapper - Positioned well above the wave */}
           <div className="text-center mt-10 sm:text-left w-full  max-w-5xl mx-auto mb-8 sm:mb-12 lg:mb-16">
