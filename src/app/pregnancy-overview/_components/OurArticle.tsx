@@ -49,7 +49,7 @@ function OurArticle({ data }: TProps) {
   return (
     <section className="relative w-full bg-white">
       <div className="section pb-6">
-        <div className="py-6 md:py-0 md:flex md:justify-between items-center">
+        <div className="py-6 md:py-0 md:flex md:justify-between items-center mb-14">
           <div className="text-center md:text-left">
             <IconHeading
               text="Articles"
