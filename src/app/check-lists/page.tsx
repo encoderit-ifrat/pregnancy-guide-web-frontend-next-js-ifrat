@@ -96,14 +96,14 @@ export default function CheckLists() {
   return (
     <PageContainer>
       <div className="">
-        <div className="flex flex-col items-center justify-center mb-10">
+        <div className="flex flex-col items-center justify-center mb-14">
           {/* Section Label */}
           <IconHeading
             text="Your Checklist"
             icon={<CircleQuestionMark />}
             className="text-primary justify-center md:justify-start"
           />
-          <SectionHeading>Checklists</SectionHeading>
+          <SectionHeading className="my-6">Checklists</SectionHeading>
           <p className="max-w-lg text-center">
             Expert advice, real stories, and helpful tips to support you and
             your family at every stage.
@@ -113,9 +113,7 @@ export default function CheckLists() {
         {/* CHECKLISTS Section */}
         <div className="max-w-5xl mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
           <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-4 mb-4 px-3">
-            <SectionHeading variant="h3" className="m-0!">
-              Checklists
-            </SectionHeading>
+            <h3 className="text-3xl">Checklists</h3>
 
             <div className="flex items-center justify-center gap-2 xs:gap-2.5 sm:gap-3 ">
               {/* Finalized Tasks Button */}
@@ -126,7 +124,7 @@ export default function CheckLists() {
                 <Button size="default">
                   <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-2.5">
                     {/* Responsive text */}
-                    <span className="tracking-wide drop-shadow-sm whitespace-nowrap">
+                    <span className="tracking-wide text-lg drop-shadow-sm whitespace-nowrap">
                       Finalized Tasks
                     </span>
                     <ChevronRight size="3" />

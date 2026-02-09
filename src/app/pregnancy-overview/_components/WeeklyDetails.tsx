@@ -54,16 +54,15 @@ function WeeklyDetails({ data = initialData }: TProps) {
           </div>
           <div className="px-4 py-4 w-full lg:w-1/2 space-y-4 text-center lg:text-left popover-foreground order-1 lg:order-2">
             <Link href={`/articles/${slug || "article-not-found"}`}>
-              <p className="text-lg sm:text-xl lg:text-2xl text-text-dark">
-                {title}
-              </p>
+              <h3 className="text-3xl!">{title}</h3>
             </Link>
-            <p className="text-sm sm:text-base leading-6 text-text-mid">
-              {excerpt}
-            </p>
+            <p className="mt-3 mb-6">{excerpt}</p>
             <div className="pt-2">
               <Link href={`/articles/${slug || "article-not-found"}`}>
-                <Button variant="outline" className="px-12">
+                <Button
+                  variant="outline"
+                  className="px-12 font-poppins font-semibold text-lg"
+                >
                   Read More
                 </Button>
               </Link>

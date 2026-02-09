@@ -88,14 +88,14 @@ export default function WeekSelector({
             key={week}
             onClick={() => handleWeekClick(week)}
             className={cn(
-              "flex flex-col items-center justify-center rounded-full text-base font-medium",
+              "flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit",
               selectedWeek === week
                 ? "bg-primary text-white shadow-md"
-                : "bg-primary-light text-gray-600 hover:text-primary",
+                : "bg-primary-light text-primary-dark font-bold",
               selectedWeek == week ? "w-15 h-20" : "w-15 h-18"
             )}
           >
-            {week < 10 ? `0${week}` : week}
+            <span className="font-bold">{week < 10 ? `0${week}` : week}</span>
             {selectedWeek == week ? <span>Week</span> : null}
           </button>
         ))}

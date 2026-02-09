@@ -11,10 +11,10 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   );
 
   return (
-    <section className="w-full max-w-7xl p-2 mx-auto my-10">
+    <section className="w-full container-xl my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         {/*card*/}
-        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4">
+        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4 font-poppins">
           <h3 className="text-primary-dark text-xl font-semibold mb-2">
             {pregnancyProgressInfo?.trimester}
           </h3>
@@ -22,7 +22,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
             <span className="text-primary-dark font-semibold">
               Been pregnant:
             </span>
-            <span>
+            <span className="font-normal">
               {pregnancyProgressInfo?.week} weeks {pregnancyProgressInfo?.day}{" "}
               days
             </span>

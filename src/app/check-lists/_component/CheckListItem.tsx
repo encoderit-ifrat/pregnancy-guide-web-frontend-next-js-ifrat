@@ -136,14 +136,11 @@ export default function CheckListItem({
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
                   </div> */}
-                  <SectionHeading
-                    variant={"h4"}
-                    className="mb-0 font-medium w-full max-w-48 md:max-w-md truncate"
-                  >
+                  <h4 className="mb-0 font-medium w-full max-w-48 md:max-w-md truncate">
                     {item.title}
-                  </SectionHeading>
+                  </h4>
                   {item.description && (
-                    <p className="text-sm mt-1 line-clamp-2">
+                    <p className="mt-1 font-normal line-clamp-2">
                       {item.description}
                     </p>
                   )}

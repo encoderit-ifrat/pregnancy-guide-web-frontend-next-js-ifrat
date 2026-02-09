@@ -156,7 +156,7 @@ export const AnswerFormRadioGroup = ({
                 </div>
 
                 <div
-                  className={`flex-1 text-left text-lg font-normal ${isSelected ? "text-white" : "text-foreground"}`}
+                  className={`flex-1 text-left text-lg font-normal capitalize ${isSelected ? "text-white" : "text-foreground"}`}
                 >
                   {optionItem.content}
                 </div>
