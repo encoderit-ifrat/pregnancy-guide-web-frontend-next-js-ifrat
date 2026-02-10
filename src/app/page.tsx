@@ -11,6 +11,7 @@ import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { DownloadCtaSection } from "@/components/home/DownloadCtaSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { StatsSection } from "@/components/home/StatsSection";
+import {API_V1} from "@/consts";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 // Fetch articles data at build time
 async function getHomePageData() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/home`, {
+    const res = await fetch(`${API_V1}/home`, {
       // Enable ISR with revalidation (optional)
       next: { revalidate: 10 }, // Revalidate every hour
     });

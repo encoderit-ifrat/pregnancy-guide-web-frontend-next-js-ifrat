@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { HeroSection } from "@/components/home/HeroSection";
 import { HeroSection2 } from "@/components/home/HeroSection2";
+import {API_V1} from "@/consts";
 
 // Force SSR for dynamic search queries
 export const dynamic = "force-dynamic";
@@ -91,7 +92,7 @@ async function getArticles(searchParams: SearchParams) {
     });
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/articles?${params}`,
+      `${API_V1}/articles?${params}`,
       {
         cache: "no-store", // Always fetch fresh data
         headers: {

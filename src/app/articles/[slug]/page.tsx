@@ -13,6 +13,7 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import { CircleQuestionMark } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WeeklyQuestionView from "@/app/weekly-question/[id]/_components/WeeklyQuestionView";
+import {API_V1} from "@/consts";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -30,7 +31,7 @@ type Article = {
 async function getArticle(slug: string, token: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/articles/${slug}`,
+      `${API_V1}/articles/${slug}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

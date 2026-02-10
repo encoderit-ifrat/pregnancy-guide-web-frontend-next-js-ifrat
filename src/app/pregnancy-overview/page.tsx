@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/utlis/authOptions";
 import NoPregnancyInfo from "@/components/base/NoPregnancyInfo";
 import PregnancyError from "@/components/base/PregnancyError";
+import {API_V1} from "@/consts";
 
 // Metadata for the page title
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export const dynamic = "force-dynamic";
 async function getPregnancyData(token: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/pregnancy`,
+      `${API_V1}/pregnancy`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

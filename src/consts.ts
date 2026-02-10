@@ -1,4 +1,6 @@
 export const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_URL || "";
+export const API_V1: string = `${API_BASE_URL}/api/v1`;
+
 // export const PUSHER_APP_KEY: string = process.env.NEXT_PUBLIC_PUSHER_APP_KEY || '';
 // export const PUSHER_APP_CLUSTER: string = process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER || '';
 

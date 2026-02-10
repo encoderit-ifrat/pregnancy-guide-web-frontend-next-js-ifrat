@@ -4,6 +4,7 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleWithTOC from "@/app/articles/[slug]/_component/ArticleWithTOC";
+import {API_V1} from "@/consts";
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export const dynamic = "force-dynamic";
 async function getArticle(slug: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/articles/public/${slug}`,
+      `${API_V1}/articles/public/${slug}`,
       {
         headers: {
           "Content-Type": "application/json",
