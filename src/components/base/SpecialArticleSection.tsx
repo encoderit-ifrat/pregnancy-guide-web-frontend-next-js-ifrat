@@ -136,7 +136,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
               )}
             </Slider>
             <div className="justify-center hidden md:flex md:mt-8">
-              <Link href="/articles">
+              <Link href="/search-article?page=1&tag=special&week=">
                 <Button variant="default" className="px-8">
                   View All <ChevronRight className="ml-2" />
                 </Button>
