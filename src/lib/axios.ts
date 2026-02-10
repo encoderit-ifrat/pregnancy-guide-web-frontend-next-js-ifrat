@@ -2,12 +2,13 @@ import axios from "axios";
 import { getSession, signOut } from "next-auth/react";
 import https from "https";
 import { toast } from "sonner";
+import {API_V1} from "@/consts";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const allowInsecureSSL = process.env.ALLOW_INSECURE_SSL === "true";
 
 const api = axios.create({
-  baseURL: `${baseURL}/api`,
+  baseURL: `${API_V1}/`,
   withCredentials: false,
   httpsAgent: allowInsecureSSL
     ? new https.Agent({ rejectUnauthorized: false })
