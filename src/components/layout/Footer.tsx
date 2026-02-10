@@ -52,8 +52,8 @@ export function Footer() {
               Quick Links
             </h4>
             <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
+              {footerLinks.company.map((link, index) => (
+                <li key={link.href + index}>
                   <Link
                     href={link.href}
                     className="text-sm text-white/70 transition-colors hover:text-white"
@@ -70,8 +70,8 @@ export function Footer() {
               Additional Link
             </h4>
             <ul className="space-y-3">
-              {footerLinks.resources.map((link) => (
-                <li key={link.href}>
+              {footerLinks.resources.map((link, index) => (
+                <li key={link.href + index}>
                   <Link
                     href={link.href}
                     className="text-sm text-white/70 transition-colors hover:text-white"
@@ -88,9 +88,9 @@ export function Footer() {
               Social Link
             </h4>
             <div className="flex gap-4">
-              {socialLinks.map((social) => (
+              {socialLinks.map((social, index) => (
                 <Link
-                  key={social.href}
+                  key={social.href + index}
                   href={social.href}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
                   aria-label={social.label}
@@ -112,9 +112,9 @@ export function Footer() {
               Reserved.
             </p>
             <div className="flex gap-6">
-              {footerLinks.legal.map((link) => (
+              {footerLinks.legal.map((link, index) => (
                 <Link
-                  key={link.href}
+                  key={link.href + index}
                   href={link.href}
                   className="text-sm text-white/60! transition-colors hover:text-white"
                 >
