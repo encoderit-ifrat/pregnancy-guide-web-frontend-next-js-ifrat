@@ -29,9 +29,9 @@ export default function AuthCard({
       </div>
       <div className="z-[2] -translate-y-10 md:-translate-y-0 w-full rounded-3xl bg-white sm:w-full mx-auto flex items-center justify-center">
         <div className="w-full max-w-[500px] min-h-[500px] px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:p-10 lg:pt-14">
-          <div className="my-5">
+          <div className="my-5 !mb-6">
             {title && (
-              <h3 className="text-4xl sm:text-3xl md:text-4xl font-medium text-popover-foreground mb-2">
+              <h3 className="text-4xl! sm:text-3xl! md:text-4xl! font-medium text-popover-foreground mb-2">
                 {title}
               </h3>
             )}

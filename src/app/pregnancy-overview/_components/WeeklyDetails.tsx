@@ -29,7 +29,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
   return (
     <section className="bg-white">
       <div className="section py-10 lg:py-16 -mt-1">
-        <div className="text-center">
+        <div className="text-center mb-7 lg:mb-14">
           <IconHeading
             text="Articles"
             icon={<Heart />}
@@ -61,7 +61,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
               <Link href={`/articles/${slug || "article-not-found"}`}>
                 <Button
                   variant="outline"
-                  className="px-12 font-poppins font-semibold text-lg"
+                  className="px-12 font-poppins font-semibold text-lg w-full"
                 >
                   Read More
                 </Button>
