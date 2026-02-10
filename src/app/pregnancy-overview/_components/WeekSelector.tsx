@@ -91,12 +91,12 @@ export default function WeekSelector({
               "flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit",
               selectedWeek === week
                 ? "bg-primary text-white shadow-md"
-                : "bg-primary-light text-primary-dark font-bold",
-              selectedWeek == week ? "w-15 h-20" : "w-15 h-18"
+                : "bg-primary-light text-primary-dark",
+              selectedWeek == week ? "w-[45px] h-[65px] md:w-[55px] md:h-[72px]" : "w-[41px] h-[59px] md:w-[46px] md:h-[60px]"
             )}
           >
-            <span className="font-bold">{week < 10 ? `0${week}` : week}</span>
-            {selectedWeek == week ? <span>Week</span> : null}
+            <span className="font-bold text-[12px] md:text-[18px]">{week < 10 ? `0${week}` : week}</span>
+            {selectedWeek == week ? <span className="text-[12px] md:text-[15px]">Week</span> : null}
           </button>
         ))}
 

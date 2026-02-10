@@ -56,7 +56,7 @@ function Input({
       {label && (
         <div className="mb-1">
           <label
-            className="text-lg font-medium text-text-purple"
+            className="text-base font-medium text-text-purple"
             htmlFor="input"
           >
             {label}

@@ -11,21 +11,21 @@ const overviewCategories = [
   {
     id: 2,
     // icon: <IconBaby className="w-16 h-12 xl:w-26 xl:h-15" />,
-    icon: <IconMother className="md:size-48 lg:size-68 xl:size-68" />,
+    icon: <IconMother className="size-[108px] md:size-[180px] lg:size-[286px]" />,
     name: "Mother",
     // href: `/search-article?page=1&tag=mother`,
   },
   {
     id: 1,
     // icon: <IconBaby className="w-16 h-12 lg:w-26 lg:h-15" />,
-    icon: <IconBaby className="md:size-48 lg:size-78 xl:size-92" />,
+    icon: <IconBaby className="size-[128px] md:size-[256px] lg:size-[380px]" />,
     name: "Baby",
     // href: `/search-article?page=1&tag=baby`,
   },
   {
     id: 3,
     // icon: <IconBaby className="w-16 h-12 xl:w-26 xl:h-15" />,
-    icon: <IconPartner className="md:size-48 lg:size-68 xl:size-68" />,
+    icon: <IconPartner className="size-[108px] md:size-[180px] lg:size-[286px]" />,
     name: "Partner",
     // href: `/search-article?page=1&tag=partner`,
   },
@@ -50,7 +50,7 @@ function OverviewCategories() {
             >
               <div className="flex flex-col cursor-pointer">
                 {icon}
-                <p className="mt-4 text-center text-xl md:text-2xl xl:text-3xl text-primary-dark font-semibold">
+                <p className="mt-4 text-center text-[18px]! md:text-[30px]! text-primary-dark font-semibold">
                   {name}
                 </p>
               </div>

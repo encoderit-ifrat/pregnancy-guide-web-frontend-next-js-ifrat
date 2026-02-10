@@ -15,7 +15,7 @@ export default function IconHeading({
   return (
     <div className={cn(`flex items-center gap-4`, className)}>
       <span className="h-6 w-6">{icon}</span>
-      <span className="text-2xl">{text}</span>
+      <span className="text-[20px] md:text-[25px]">{text}</span>
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default function AuthCard({
                 {title}
               </h3>
             )}
-            {description && <p>{description}</p>}
+            {description && <p className="text-[18px]">{description}</p>}
           </div>
           {children}
         </div>

@@ -5,7 +5,7 @@ export default function LoginPage() {
   return (
     <div className="max-w-5xl mx-auto">
       <AuthCard
-        title="Welcome Back!"
+        title="Login"
         description="Login into your existing Familj Account."
         image="/images/auth/login.png"
       >
