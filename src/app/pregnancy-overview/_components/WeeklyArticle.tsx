@@ -29,8 +29,8 @@ function WeeklyArticle({ articles }: TProps) {
 
   return (
     <section className="bg-white pb-6">
-      <div className="section">
-        <div className="max-w-3xl text-center mx-auto">
+      <div className="section px-0! md:px-4">
+        <div className="px-4! md:px-0 max-w-3xl text-center mx-auto">
           <IconHeading
             text="Articles"
             icon={<FileQuestion />}
@@ -49,8 +49,8 @@ function WeeklyArticle({ articles }: TProps) {
           <Slider
             options={{
               spaceBetween: 30,
-              // slidesPerView: 1,
-              slidesPerView: "auto",
+              slidesPerView: (articles && articles.lenght > 1) ? 1.1 : 1,
+              // slidesPerView: "auto",
               pagination: pagination,
               navigation: true,
               // autoplay: {
@@ -58,6 +58,16 @@ function WeeklyArticle({ articles }: TProps) {
               //   pauseOnMouseEnter: true,
               // },
               loop: true,
+              breakpoints: {
+                320: {
+                  slidesPerView: (articles && articles.lenght > 1) ? 1.1 : 1,
+                  spaceBetween: 6,
+                },
+                768: {
+                  slidesPerView: 1,
+                  spaceBetween: 6,
+                },
+              },
             }}
             sideOverlayClassName="bg-white w-4"
             className="px-7! py-10! lg:pb-14! h-full"

@@ -4,6 +4,7 @@ import WaveDivider from "@/components/layout/svg/WaveDivider";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WaveLeaf from "../layout/svg/WaveLeaf";
+import React from "react";
 
 export function MissionSection() {
   return (
@@ -13,7 +14,7 @@ export function MissionSection() {
         bgClassName="bg-primary!"
       /> */}
 
-      <div className="container-xl">
+      <div className="container-xl max-w-6xl">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
           {/* Image */}
           <div className="order-2 md:order-1 flex justify-center lg:justify-end">
@@ -21,9 +22,9 @@ export function MissionSection() {
               <Image
                 src="/images/track-week/1.png"
                 alt="Baby feet"
-                width={400}
-                height={500}
-                className="h-auto w-full max-w-sm object-cover"
+                width={420}
+                height={420}
+                className="h-[361px] w-[365.02px] md:h-[420px] md:w-[420px] object-cover"
               />
             </div>
           </div>
@@ -36,9 +37,9 @@ export function MissionSection() {
               icon={<Heart />}
               className="text-primary justify-center md:justify-start"
             />
-            <h2 className="mb-4">Our Mission</h2>
+            <SectionHeading>Our Mission</SectionHeading>
 
-            <p className="mx-auto max-w-lg lg:mx-0">
+            <p className="mx-auto max-w-xl lg:mx-0">
               Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse
               vitae risus et nulla blandit condimentum. Nunc pellentesque, felis
               ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet

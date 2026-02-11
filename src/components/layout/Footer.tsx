@@ -105,8 +105,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-4 border-t text-[15px] border-white/10">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <div className="py-4 border-t text-[15px] border-white/10 mb-8 md:mb-0">
+          <div className="flex flex-col md:items-center justify-between gap-4 md:flex-row">
             <p className="text-white/60!">
               Copyright © {new Date().getFullYear()} Familj.se. All Right
               Reserved.

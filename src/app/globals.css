@@ -213,7 +213,7 @@ html {
   scroll-behavior: smooth;
 }
 .container-xl {
-  @apply max-w-364 px-4 mx-auto w-full;
+  @apply px-4 mx-auto w-full max-w-303.25;
 }
 /* Custom utilities for curved backgrounds */
 .curved-top {

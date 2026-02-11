@@ -46,7 +46,6 @@ export default async function Page() {
       <main>
         {/* <div className="bg-[url('/images/heart-bg.png')] bg-cover bg-center bg-no-repeat">
         </div> */}
-        <div className="container"></div>
         <HeroSection />
         <MissionSection />
         {/* divider */}
