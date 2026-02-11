@@ -49,7 +49,7 @@ function WeeklyArticle({ articles }: TProps) {
           <Slider
             options={{
               spaceBetween: 30,
-              slidesPerView: (articles && articles.lenght > 1) ? 1.1 : 1,
+              slidesPerView: (articles && articles?.lenght > 1) ? 1.1 : 1,
               // slidesPerView: "auto",
               pagination: pagination,
               navigation: true,
@@ -60,7 +60,7 @@ function WeeklyArticle({ articles }: TProps) {
               loop: true,
               breakpoints: {
                 320: {
-                  slidesPerView: (articles && articles.lenght > 1) ? 1.1 : 1,
+                  slidesPerView: (articles && articles?.lenght > 1) ? 1.1 : 1,
                   spaceBetween: 6,
                 },
                 768: {
