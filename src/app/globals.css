@@ -232,18 +232,18 @@ h5,
 h6 {
   font-family: var(--font-heading);
 }
-h2 {
-  @apply text-3xl md:text-3xl lg:text-4xl font-poppins  font-semibold text-primary-dark;
-}
-h3 {
-  @apply text-2xl font-semibold font-poppins text-primary-dark;
-}
-h4 {
-  @apply text-xl lg:text-2xl  font-semibold font-poppins text-primary-dark;
-}
-p {
-  @apply font-outfit text-base text-primary-text;
-}
+/*h2 {*/
+/*  @apply text-3xl md:text-3xl lg:text-4xl font-poppins  font-semibold text-primary-dark;*/
+/*}*/
+/*h3 {*/
+/*  @apply text-2xl font-semibold font-poppins text-primary-dark;*/
+/*}*/
+/*h4 {*/
+/*  @apply text-xl lg:text-2xl  font-semibold font-poppins text-primary-dark;*/
+/*}*/
+/*p {*/
+/*  @apply font-outfit text-base text-primary-text;*/
+/*}*/
 /*.swiper {*/
 /*  width: 100%;*/
 /*  height: 100%;*/

@@ -81,9 +81,9 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                       }}
                     >
                       {/* Move the question title inside the AnswerForm so it sits within the white card. */}
-                      <p className="font-roboto text-lg md:text-2xl lg:text-3xl font-medium text-text-dark mb-6">
+                      <h4 className="font-roboto text-lg md:text-2xl lg:text-3xl font-medium text-text-dark mb-6">
                         {question?.title}
-                      </p>
+                      </h4>
 
                       <div className="grid grid-cols-1 gap-2">
                         <AnswerFormRadioGroup disabled={hasAnswered} />
