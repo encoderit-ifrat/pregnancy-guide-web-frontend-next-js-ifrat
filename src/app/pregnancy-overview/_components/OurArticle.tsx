@@ -72,7 +72,7 @@ function OurArticle({ data }: TProps) {
             <Link
               href={`/articles/${firstArticle?.slug || "article-not-found"}`}
             >
-              <div className="border rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg">
+              <div className="border border-gray-100 rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg">
                 <Image
                   src={imageLinkGenerator(
                     firstArticle?.thumbnail || firstArticle?.cover_image
@@ -84,7 +84,7 @@ function OurArticle({ data }: TProps) {
                   priority
                 />
                 <div className="p-4">
-                  <h4 className="text-primary-dark text-xl font-semibold">
+                  <h4 className="text-primary-dark text-xl font-semibold line-clamp-2">
                     {firstArticle.title}
                   </h4>
                   <p>{firstArticle.excerpt}</p>
@@ -99,7 +99,7 @@ function OurArticle({ data }: TProps) {
                 href={`/articles/${article?.slug || "article-not-found"}`}
               >
                 <div
-                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg"
+                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border border-gray-100 rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg"
                   key={article._id}
                 >
                   <div className="hidden md:block flex-shrink-0">
@@ -114,7 +114,7 @@ function OurArticle({ data }: TProps) {
                     />
                   </div>
                   <div className="p-4">
-                    <h4 className="text-primary-dark text-xl font-semibold">
+                    <h4 className="text-primary-dark text-xl font-semibold line-clamp-2">
                       {article.title}
                     </h4>
                     <p className="line-clamp-4">{article.excerpt}</p>
