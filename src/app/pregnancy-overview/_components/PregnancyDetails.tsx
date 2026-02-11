@@ -13,22 +13,20 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   return (
     <section className="w-full container-xl my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
-        {/*card*/}
-        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4 font-poppins">
-          <h3 className="text-primary-dark text-xl font-semibold mb-2">
+        <Cards>
+          <h3 className="text-primary-dark text-[18px] md:text-[22px] font-semibold mb-2">
             {pregnancyProgressInfo?.trimester}
           </h3>
-          <h3 className="text-xl mb-4">
-            <span className="text-primary-dark font-semibold">
+          <h3 className="text-[18px] md:text-[22px] mb-4">
+            <span className="text-primary-dark font-medium md:font-semibold">
               Been pregnant:
             </span>
-            <span className="font-normal">
-              {pregnancyProgressInfo?.week} weeks {pregnancyProgressInfo?.day}{" "}
-              days
+            <span className="font-normal ml-1">
+              {pregnancyProgressInfo?.week} weeks {pregnancyProgressInfo?.day}{" "} days
             </span>
           </h3>
-          <div className="text-xl">
-            <span className="text-primary">
+          <div className="text-[18px] md:text-[22px] mb-2">
+            <span className="text-primary mr-2">
               {pregnancyProgressInfo?.percentage || 0}%
             </span>
             Completed
@@ -44,10 +42,9 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               </div>
             </div>
           </div>
-        </div>
-        {/*card*/}
-        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4">
-          <h3 className="text-primary-dark  text-xl font-semibold">
+        </Cards>
+        <Cards>
+          <h3 className="text-primary-dark text-[18px] md:text-[22px] font-medium md:font-semibold">
             Week-{pregnancyProgressInfo?.week} {userData.name}
           </h3>
           {weeklyDetails?.description && (
@@ -56,23 +53,31 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               dangerouslySetInnerHTML={{ __html: updatedHtml }}
             />
           )}
-        </div>
-        {/*card*/}
-        <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-4 text-xl">
-          <h3 className="mb-2">
-            <span className="text-primary-dark font-semibold">Due Date:</span>{" "}
+        </Cards>
+        <Cards>
+          <div className="mb-2">
+            <span className="text-primary-dark text-[18px] md:text-[22px] font-medium md:font-semibold">Due Date:</span>{" "}
             {pregnancyProgressInfo?.dueDate}
-          </h3>
-          <h3>
-            <span className="text-primary-dark font-semibold">
+          </div>
+          <div>
+            <span className="text-primary-dark text-[18px] md:text-[22px] font-medium md:font-semibold">
               Days remaining to birth:
             </span>{" "}
             {pregnancyProgressInfo?.daysLeft} days
-          </h3>
-        </div>
+          </div>
+        </Cards>
       </div>
     </section>
   );
 }
 
 export default PregnancyDetails;
+
+
+function Cards({ children }: { children: React.ReactNode }) {
+  return (
+      <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl">
+        {children}
+      </div>
+  );
+}

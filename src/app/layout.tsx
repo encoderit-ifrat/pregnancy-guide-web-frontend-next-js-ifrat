@@ -51,7 +51,7 @@ export const playfair = Playfair_Display({
 // Libre Baskerville font
 export const libre_baskerville = Libre_Baskerville({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
   variable: "--font-libre_baskerville",
   display: "swap",
 });
