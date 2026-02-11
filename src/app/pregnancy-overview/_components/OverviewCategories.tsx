@@ -50,7 +50,7 @@ function OverviewCategories() {
             >
               <div className="flex flex-col cursor-pointer">
                 {icon}
-                <p className="mt-4 text-center text-[18px]! md:text-[30px]! text-primary-dark font-semibold">
+                <p className="mt-4 text-center text-lg! md:text-3xl! text-primary-dark font-semibold">
                   {name}
                 </p>
               </div>

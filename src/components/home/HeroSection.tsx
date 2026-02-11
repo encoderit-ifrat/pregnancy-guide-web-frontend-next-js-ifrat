@@ -16,7 +16,7 @@ export function HeroSection() {
                 During Pregnancy
               </span>
             </h1>
-            <p className="mt-3.75 lg:mt-6.25 mx-auto mb-8 font-outfit text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-[16px] text-center md:text-left">
+            <p className="mt-3.75 lg:mt-6.25 mx-auto mb-8 font-outfit text-base leading-relaxed text-text-secondary lg:mx-0 lg:text-base text-center md:text-left">
               Discover Familj, your trusted companion throughout every stage of
               pregnancy, offering personalized weekly insights, expert articles,
               and gentle guidance to make your journey feel safe and supported.

@@ -35,8 +35,8 @@ function BackgroundBannerHome() {
                   COMPANION <br /> DURING PREGNANCY
                 </>
               }
-              commonClass="text-[28px] xs:text-[32px] sm:text-[40px] lg:text-[48px] lg:text-[55px] xl:text-[60px] leading-tight"
-              boldClass="text-[32px] xs:text-[36px] sm:text-[36px] lg:text-[55px] lg:text-[65px] xl:text-[70px] leading-tight whitespace-nowrap"
+              commonClass="text-[28px] xs:text-[32px] sm:text-[40px] lg:text-5xl lg:text-[55px] xl:text-[60px] leading-tight"
+              boldClass="text-[32px] xs:text-4xl sm:text-4xl lg:text-[55px] lg:text-[65px] xl:text-[70px] leading-tight whitespace-nowrap"
               commonTextShadow="0px 2px 3px var(--color-shadow-text)"
               boldTextShadow="0px 3px 5px var(--color-shadow-text)"
             />

@@ -75,7 +75,7 @@ const ClientSection = ({ testimonials }: ReviewsResponse) => {
         commonText={"Vestibulum"}
         boldText={"HEAR FROM OUR HAPPY CLIENTS"}
         commonClass="text-3xl md:text-5xl text-center"
-        boldClass="text-[22px] md:text-[36px] lg:text-[45px] text-center"
+        boldClass="text-[22px] md:text-4xl lg:text-[45px] text-center"
       />
       <div className="max-w-5xl mx-auto px-4 m">
         <div className="relative">

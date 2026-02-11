@@ -11,8 +11,8 @@ const TrackSection = ({ articles = [] }: TrackSectionProps) => {
       <HeaderText
         commonText="Vestibulum"
         boldText="TRACK YOUR WEEK"
-        commonClass="text-[30px] md:text-[40px] text-center"
-        boldClass="text-[36px] md:text-[45px] text-center"
+        commonClass="text-3xl md:text-[40px] text-center"
+        boldClass="text-4xl md:text-[45px] text-center"
       />
       <div className="px-4">
         <div className="relative py-10 ">

@@ -135,7 +135,7 @@ export default function LoginForm() {
           />
           <Link
             href="/forgot-password"
-            className="text-red-500 hover:underline text-[14px] md:text-[15px] whitespace-nowrap leading-tight"
+            className="text-red-500 hover:underline text-sm md:text-[15px] whitespace-nowrap leading-tight"
           >
             Forgot Password?
           </Link>

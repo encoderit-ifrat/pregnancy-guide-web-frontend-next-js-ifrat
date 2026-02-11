@@ -14,10 +14,10 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
     <section className="w-full container-xl my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         <Cards>
-          <h3 className="text-primary-dark text-[18px] md:text-[22px] font-semibold mb-2">
+          <h3 className="text-primary-dark text-lg md:text-[22px] font-semibold mb-2">
             {pregnancyProgressInfo?.trimester}
           </h3>
-          <h3 className="text-[18px] md:text-[22px] mb-4">
+          <h3 className="text-lg md:text-[22px] mb-4">
             <span className="text-primary-dark font-medium md:font-semibold">
               Been pregnant:
             </span>
@@ -25,7 +25,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               {pregnancyProgressInfo?.week} weeks {pregnancyProgressInfo?.day}{" "} days
             </span>
           </h3>
-          <div className="text-[18px] md:text-[22px] mb-2">
+          <div className="text-lg md:text-[22px] mb-2">
             <span className="text-primary mr-2">
               {pregnancyProgressInfo?.percentage || 0}%
             </span>
@@ -44,7 +44,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </div>
         </Cards>
         <Cards>
-          <h3 className="text-primary-dark text-[18px] md:text-[22px] font-medium md:font-semibold">
+          <h3 className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
             Week-{pregnancyProgressInfo?.week} {userData.name}
           </h3>
           {weeklyDetails?.description && (
@@ -56,11 +56,11 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
         </Cards>
         <Cards>
           <div className="mb-2">
-            <span className="text-primary-dark text-[18px] md:text-[22px] font-medium md:font-semibold">Due Date:</span>{" "}
+            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">Due Date:</span>{" "}
             {pregnancyProgressInfo?.dueDate}
           </div>
           <div>
-            <span className="text-primary-dark text-[18px] md:text-[22px] font-medium md:font-semibold">
+            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
               Days remaining to birth:
             </span>{" "}
             {pregnancyProgressInfo?.daysLeft} days

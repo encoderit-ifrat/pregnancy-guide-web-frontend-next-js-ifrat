@@ -39,8 +39,9 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
         <div className="relative z-10">
           {/* divider */}
           <ConcaveCurve
-            className="text-[#F5EEFF] h-10! sm:h-20! md:h-24! lg:h-30! xl:h-40! translate-y-px"
+            className="text-[#F5EEFF] translate-y-px"
             bgClassName="bg-white"
+            height=" h-10! sm:h-20! md:h-24! lg:h-30! xl:h-32!"
           />
 
           <div className="pb-10 md:pb-16">
@@ -53,7 +54,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
               <SectionHeading>Question of the Week</SectionHeading>
               {/* Week badge */}
               {typeof currentWeek !== "undefined" && (
-                <div className="inline-block bg-white/90 text-primary font-bold text-sm px-4 py-1 rounded-full mb-6">
+                <div className="inline-block bg-white/90 text-primary font-semibold text-base md:text-lg px-4 py-1 rounded-full mb-6">
                   Week {currentWeek} question
                 </div>
               )}

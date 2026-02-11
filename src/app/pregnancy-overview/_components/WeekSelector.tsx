@@ -95,8 +95,8 @@ export default function WeekSelector({
               selectedWeek == week ? "w-[45px] h-[65px] md:w-[55px] md:h-[72px]" : "w-[41px] h-[59px] md:w-[46px] md:h-[60px]"
             )}
           >
-            <span className="font-bold text-[12px] md:text-[18px]">{week < 10 ? `0${week}` : week}</span>
-            {selectedWeek == week ? <span className="text-[12px] md:text-[15px]">Week</span> : null}
+            <span className="font-bold text-xs md:text-lg">{week < 10 ? `0${week}` : week}</span>
+            {selectedWeek == week ? <span className="text-xs md:text-[15px]">Week</span> : null}
           </button>
         ))}
 
