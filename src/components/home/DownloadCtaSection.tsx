@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Download } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
 
 export function DownloadCtaSection() {
   return (
@@ -34,8 +35,7 @@ pointer-events-none
             icon={<Download />}
             className="text-white"
           />
-
-          <h2 className="mb-4 mt-1 md:mb-6  text-white!">Etiam phar etr...</h2>
+          <SectionHeading className="text-white">Etiam phar etr...</SectionHeading>
 
           <p className="mb-8 max-w-xl text-white!">
             Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi

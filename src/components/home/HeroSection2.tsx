@@ -6,12 +6,12 @@ import WaveDivider from "@/components/layout/svg/WaveDivider";
 export function HeroSection2() {
   return (
     <section className="relative bg-[#F6F0FF] pt-2 pb-0 lg:pb-0">
-      <div className="section px-4">
-        <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
-          {/* Content */}
+      <div className="px-4 max-w-325 mx-auto w-full">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(540px,1.3fr)_1fr] lg:gap-12">
+        {/* Content */}
           <div className="order-1 text-center lg:order-1 lg:text-left">
-            <p className="text-primary text-2xl">Förlossning</p>
-            <h1 className="mb-4 text-3xl font-bold leading-tight md:text-5xl text-primary-dark">
+            <p className="text-primary text-[20px] md:text-[25px] mb-4">Förlossning</p>
+            <h1 className="mb-4 text-[35px] font-bold leading-tight md:text-[55px] text-primary-dark">
               Helpful Articles for Every Step of Your Pregnancy
             </h1>
             <p className="mx-auto mb-8 text-sm leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
@@ -28,7 +28,7 @@ export function HeroSection2() {
                 alt="Tree of life illustration"
                 width={500}
                 height={600}
-                className="h-auto w-full transform md:translate-y-[20px]"
+                className="h-auto w-full transform md:translate-y-5"
                 priority
               />
             </div>
@@ -37,7 +37,7 @@ export function HeroSection2() {
       </div>
 
       <WaveDivider
-        className="text-white transform translate-y-[1px]"
+        className="text-white transform translate-y-px"
         bgClassName="bg-[#F6F0FF]"
       />
     </section>

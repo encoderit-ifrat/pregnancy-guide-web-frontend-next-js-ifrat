@@ -72,7 +72,7 @@ function OurArticle({ data }: TProps) {
             <Link
               href={`/articles/${firstArticle?.slug || "article-not-found"}`}
             >
-              <div className="border border-gray-100 rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg">
+              <div className="border border-gray-100 rounded-xl transition duration-300 hover:shadow-lg">
                 <Image
                   src={imageLinkGenerator(
                     firstArticle?.thumbnail || firstArticle?.cover_image
@@ -99,10 +99,10 @@ function OurArticle({ data }: TProps) {
                 href={`/articles/${article?.slug || "article-not-found"}`}
               >
                 <div
-                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border border-gray-100 rounded-xl transition duration-300 hover:bg-gray-50 hover:shadow-lg"
+                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border border-gray-100 rounded-xl transition duration-300 hover:shadow-lg"
                   key={article._id}
                 >
-                  <div className="hidden md:block flex-shrink-0">
+                  <div className="hidden md:block shrink-0">
                     <Image
                       src={imageLinkGenerator(
                         article?.thumbnail || article?.cover_image

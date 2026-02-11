@@ -25,7 +25,7 @@ export default function VCard({ step }: { step: Step }) {
 
         {/* V-Shape SVG Overlay */}
         <svg
-          className="absolute left-0 right-0 bottom-0 w-full -mb-[1px] block"
+          className="absolute left-0 right-0 bottom-0 w-full -mb-px block"
           height="95"
           viewBox="0 0 400 95"
           fill="none"
@@ -46,7 +46,7 @@ export default function VCard({ step }: { step: Step }) {
 
       {/* Content */}
       <div className="px-6 pb-12 pt-2 text-center">
-        <h3>{step.title}</h3>
+        <h3 className="text-xl md:text-[22px] mb-2 font-semibold font-poppins text-primary-dark">{step.title}</h3>
         <p>{step.description}</p>
       </div>
     </div>

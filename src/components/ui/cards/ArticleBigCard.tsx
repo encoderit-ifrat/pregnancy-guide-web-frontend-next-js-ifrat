@@ -23,8 +23,8 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
     <Card className="h-full flex flex-col grow! bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-3 sm:p-6">
       <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         {/* Left: text content */}
-        <div className="h-full md:h-auto order-2 md:order-1 md:px-10 lg:px-16  flex flex-col justify-between">
-          <h3 className="text-3xl! font-semibold mb-4">{data?.title}</h3>
+        <div className="h-full md:h-auto order-2 md:order-1 md:px-10 lg:px-16  flex flex-col justify-between md:max-w-lg">
+          <h3 className="text-3xl! font-semibold mb-4 line-clamp-2" title={data?.title}>{data?.title}</h3>
           <p className="flex-1 mb-6 max-w-xl line-clamp-5">{data?.excerpt}</p>
 
           <Link
