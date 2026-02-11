@@ -1,9 +1,33 @@
-import { FileText } from "lucide-react";
+import {FileText} from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import Timeline from "@/components/home/TimeLine";
-import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
 
-export function TrackYourWeekSection({ data }: { data: any }) {
+
+export function TrackYourWeekSection() {
+  const data = [
+    {
+      title: "Förlossning article 1",
+      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
+      thumbnail_image: "/images/track-week/5.png",
+    },
+    {
+      title: "Förlossning article 2",
+      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
+      thumbnail_image: "/images/track-week/2.png",
+    },
+    {
+      title: "Förlossning article 3",
+      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
+      thumbnail_image: "/images/track-week/4.png",
+    },
+    {
+      title: "Förlossning article 4",
+      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
+      thumbnail_image: "/images/track-week/1.png",
+    },
+  ];
+
   return (
     <section className="bg-[#FDFBFF] relative">
       <div className="container-xl">
@@ -14,13 +38,13 @@ export function TrackYourWeekSection({ data }: { data: any }) {
           <div className="mb-6 md:mb-12 text-center">
             <IconHeading
               text="Vestibulum"
-              icon={<FileText />}
+              icon={<FileText/>}
               className="text-primary justify-center"
             />
             <SectionHeading>Track your Week</SectionHeading>
           </div>
 
-          <Timeline timelineItems={data} />
+          <Timeline timelineItems={data}/>
         </div>
       </div>
     </section>

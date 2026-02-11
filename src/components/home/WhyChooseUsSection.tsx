@@ -1,49 +1,42 @@
 "use client";
 
 import Image from "next/image";
-import {
-  Tag,
-  Shield,
-  Cloud,
-  Zap,
-  Headphones,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-} from "lucide-react";
+import {Tag,} from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
-import { Slider } from "@/components/ui/Slider";
-import { SwiperSlide } from "swiper/react";
-import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import {Slider} from "@/components/ui/Slider";
+import {SwiperSlide} from "swiper/react";
+import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import {imageLinkGenerator} from "@/helpers/imageLinkGenerator";
+import Link from "next/link";
 
-const features = [
-  {
-    title: "Secure & Private",
-    description: "Verified & professional.",
-    icon: Shield,
-    image: "/images/why-choose-us/1.png",
-  },
-  {
-    title: "Cloud Sync",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Cloud,
-    image: "/images/why-choose-us/2.png",
-  },
-  {
-    title: "Fast & Responsive",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Zap,
-    image: "/images/why-choose-us/3.png",
-  },
-  {
-    title: "24/7 Support",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Headphones,
-    image: "/images/why-choose-us/4.png",
-  },
-];
+// const features = [
+//   {
+//     title: "Secure & Private",
+//     description: "Verified & professional.",
+//     icon: Shield,
+//     image: "/images/why-choose-us/1.png",
+//   },
+//   {
+//     title: "Cloud Sync",
+//     description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+//     icon: Cloud,
+//     image: "/images/why-choose-us/2.png",
+//   },
+//   {
+//     title: "Fast & Responsive",
+//     description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+//     icon: Zap,
+//     image: "/images/why-choose-us/3.png",
+//   },
+//   {
+//     title: "24/7 Support",
+//     description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+//     icon: Headphones,
+//     image: "/images/why-choose-us/4.png",
+//   },
+// ];
 
-export function WhyChooseUsSection() {
+export function WhyChooseUsSection({data}: { data: any }) {
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -57,7 +50,7 @@ export function WhyChooseUsSection() {
         <div className="mb-12 text-center">
           <IconHeading
             text="Choose Us"
-            icon={<Tag />}
+            icon={<Tag/>}
             className="text-primary justify-center"
           />
           <SectionHeading>Why choose Us</SectionHeading>
@@ -85,61 +78,53 @@ export function WhyChooseUsSection() {
             },
           }}
         >
-          {features.map((feature, index) => (
+          {data.map((d: any, index: number) => (
             <SwiperSlide key={index} className="h-auto flex">
               <div
-                key={index}
                 className="group relative overflow-hidden rounded-2xl shadow-lg"
               >
-                {/* Image */}
-                <div className="relative h-77.5">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-linear-to-t from-[#240443]/100 via-[#240443]/20 to-transparent" />
-                </div>
+                <Link
+                  href={`/articles/${d?.slug || "article-not-found"}`}
+                >
+                  {/* Image */}
+                  <div className="relative h-77.5">
+                    <Image
+                      src={imageLinkGenerator(d.thumbnail_image || d.cover_image)}
+                      alt={d.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-linear-to-t from-[#240443]/100 via-[#240443]/20 to-transparent"/>
+                  </div>
 
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="mb-1 text-lg font-bold text-white!">
-                        {feature.title}
-                      </h3>
-                      <p className="text-sm text-white!">
-                        {feature.description}
-                      </p>
-                    </div>
-                    {/* <div>
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="mb-1 text-lg font-bold text-white! line-clamp-1"
+                            title={d.title}
+                        >
+                          {d.title}
+                        </h3>
+                        <p className="text-sm text-white! line-clamp-2"
+                           title={d.excerpt}
+                        >
+                          {d.excerpt}
+                        </p>
+                      </div>
+                      {/* <div>
                       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
                         <feature.icon className="h-8 w-8 text-white" />
                       </div>
                     </div> */}
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </SwiperSlide>
           ))}
         </Slider>
-        {/* Navigation Arrows - Desktop */}
-        {/*<button*/}
-        {/*  onClick={prevSlide}*/}
-        {/*  className="absolute left-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-primary shadow-lg transition-transform hover:scale-110 md:flex"*/}
-        {/*  aria-label="Previous slide"*/}
-        {/*>*/}
-        {/*  <ChevronLeft className="h-6 w-6" />*/}
-        {/*</button>*/}
-        {/*<button*/}
-        {/*  onClick={nextSlide}*/}
-        {/*  className="absolute right-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-primary shadow-lg transition-transform hover:scale-110 md:flex"*/}
-        {/*  aria-label="Next slide"*/}
-        {/*>*/}
-        {/*  <ChevronRight className="h-6 w-6" />*/}
-        {/*</button>*/}
       </div>
     </section>
   );

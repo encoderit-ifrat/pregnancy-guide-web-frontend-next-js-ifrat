@@ -1,15 +1,14 @@
 // components/Timeline.tsx
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
-import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import Link from "next/link";
+import {ChevronRight} from "lucide-react";
+import {imageLinkGenerator} from "@/helpers/imageLinkGenerator";
 
-export default function Timeline({ timelineItems }: { timelineItems: any }) {
-  console.log("👉 ~ Timeline ~ timelineItems:", timelineItems);
+export default function Timeline({timelineItems}: { timelineItems: any }) {
+  // console.log("👉 ~ Timeline ~ timelineItems:", timelineItems);
   return (
     <section className="relative mx-auto max-w-6xl px-4 py-16">
       {/* Center line (desktop only) */}
-      <div className="absolute md:left-1/2 top-0 hidden h-full w-px translate-x-0 md:-translate-x-1/2 bg-purple-200 md:block" />
+      <div className="absolute md:left-1/2 top-0 hidden h-full w-px translate-x-0 md:-translate-x-1/2 bg-purple-200 md:block"/>
 
       <div className="space-y-16">
         {timelineItems &&
@@ -24,9 +23,9 @@ export default function Timeline({ timelineItems }: { timelineItems: any }) {
               >
                 {/* Timeline dot */}
                 {item.fill ? (
-                  <span className="absolute -left-[10px] md:left-1/2 top-1/2 z-10 hidden h-3 w-3 md:-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary md:block" />
+                  <span className="absolute -left-[10px] md:left-1/2 top-1/2 z-10 hidden h-3 w-3 md:-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary md:block"/>
                 ) : (
-                  <span className="absolute -left-[10px] md:left-1/2 top-1/2 z-10 hidden h-3 w-3 md:-translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-white md:block" />
+                  <span className="absolute -left-[10px] md:left-1/2 top-1/2 z-10 hidden h-3 w-3 md:-translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-white md:block"/>
                 )}
 
                 {/* Content Card */}
@@ -37,26 +36,22 @@ export default function Timeline({ timelineItems }: { timelineItems: any }) {
                       : "order-2 md:pl-5 lg:pl-10"
                   }`}
                 >
-                  <div className="group relative rounded-2xl bg-white p-6 overflow-hidden shadow-lg transition-shadow hover:shadow-xl">
+                  <div className="relative rounded-2xl bg-white p-6 overflow-hidden shadow-lg transition-shadow hover:shadow-xl">
                     {/* <div className="mb-3 flex items-center gap-2">
                     </div> */}
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600">
-                      ✿
-                    </span>
+                    {/*<span className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600">*/}
+                    {/*  ✿*/}
+                    {/*</span>*/}
                     <h4 className="text-lg font-semibold text-left mt-3 mb-1.5">
                       {item.title}
                     </h4>
 
-                    <p className="pb-6 text-left">{item.excerpt}</p>
+                    <p className="pb-6 text-left">{item.description}</p>
 
-                    <div className="absolute -bottom-10 -right-10 transition-transform duration-300 group-hover:scale-130">
-                      <Link
-                        href={`/articles/${item?.slug || "article-not-found"}`}
-                      >
-                        <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
-                          <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]" />
-                        </button>
-                      </Link>
+                    <div className="absolute -bottom-10 -right-10 transition-transform duration-300">
+                      <button className="h-20 w-20 bg-primary text-white transition rounded-full relative cursor-pointer">
+                        <ChevronRight className="h-6 w-6 text-white absolute top-[16px] left-[10px]"/>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -71,7 +66,8 @@ export default function Timeline({ timelineItems }: { timelineItems: any }) {
                 >
                   <div className="relative h-48 w-full overflow-hidden rounded-2xl">
                     <Image
-                      src={imageLinkGenerator(item?.thumbnail_image)}
+                      // src={imageLinkGenerator(item?.thumbnail_image)}
+                      src={item?.thumbnail_image}
                       alt={item.title}
                       fill
                       className="object-cover"

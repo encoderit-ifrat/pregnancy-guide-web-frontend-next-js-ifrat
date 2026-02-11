@@ -10,7 +10,7 @@ export function HeroSection() {
           {/* Content */}
           <div className="order-1 text-center lg:order-1 lg:text-left">
             <h1 className="mb-4 text-[40px] font-bold leading-tight text-text-primary md:text-[55px]">
-              <span className="font-medium text-primary">Companion</span>
+              <span className="font-normal text-primary">Companion</span>
               <br />
               <span className="font-bold md:font-black text-primary-dark">
                 During Pregnancy

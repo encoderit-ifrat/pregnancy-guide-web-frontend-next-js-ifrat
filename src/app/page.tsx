@@ -51,7 +51,7 @@ export default async function Page() {
         {/* divider */}
         <ConcaveCurve />
         <AppShowcaseSection />
-        {/* divider */}{" "}
+        {/* divider */}
         <WaveDivider
           className="text-[#F6F0FF]"
           bgClassName="bg-primary-light"
@@ -62,13 +62,13 @@ export default async function Page() {
         </div>
         {/* divider */}{" "}
         <WaveDivider className="text-[#FDFBFF]" bgClassName="bg-[#F6F0FF]" />
-        <TrackYourWeekSection data={homePageData?.data?.articles || []} />
+        <TrackYourWeekSection />
         {/* divider */}{" "}
         <WaveDivider
           className="text-primary-light"
           bgClassName="bg-[#FDFBFF]"
         />
-        <WhyChooseUsSection />
+        <WhyChooseUsSection data={homePageData?.data?.articles || []}/>
         <DownloadCtaSection />
         <TestimonialsSection
           data={homePageData?.data?.testimonials?.data || []}
