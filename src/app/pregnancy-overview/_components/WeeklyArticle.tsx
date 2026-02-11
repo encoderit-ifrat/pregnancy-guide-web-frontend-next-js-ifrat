@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/Button";
 import { Slider } from "@/components/ui/Slider";
 import IconHeading from "@/components/ui/text/IconHeading";
@@ -11,7 +9,6 @@ import Link from "next/link";
 import React from "react";
 import { SwiperSlide } from "swiper/react";
 import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
-import { useTranslation } from "@/providers/I18nProvider";
 
 type TProps = {
   articles: {
@@ -24,7 +21,6 @@ type TProps = {
 };
 
 function WeeklyArticle({ articles }: TProps) {
-  const { t } = useTranslation();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -36,15 +32,16 @@ function WeeklyArticle({ articles }: TProps) {
       <div className="section px-0! md:px-4">
         <div className="px-4! md:px-0 max-w-3xl text-center mx-auto">
           <IconHeading
-            text={t("pregnancy.articles")}
+            text="Articles"
             icon={<FileQuestion />}
             className="text-primary justify-center"
           />
           <SectionHeading>
-            {t("pregnancy.articlesTitle")}
+            Articles & Insights for Your Pregnancy Journey
           </SectionHeading>
           <p>
-            {t("pregnancy.articlesSubtitle")}
+            Expert advice, real stories, and helpful tips to support you and
+            your family at every stage.
           </p>
         </div>
 
@@ -52,7 +49,7 @@ function WeeklyArticle({ articles }: TProps) {
           <Slider
             options={{
               spaceBetween: 30,
-              slidesPerView: (articles && articles.length > 1) ? 1.1 : 1,
+              slidesPerView: (articles && articles?.lenght > 1) ? 1.1 : 1,
               // slidesPerView: "auto",
               pagination: pagination,
               navigation: true,
@@ -63,7 +60,7 @@ function WeeklyArticle({ articles }: TProps) {
               loop: true,
               breakpoints: {
                 320: {
-                  slidesPerView: (articles && articles.length > 1) ? 1.1 : 1,
+                  slidesPerView: (articles && articles?.lenght > 1) ? 1.1 : 1,
                   spaceBetween: 6,
                 },
                 768: {
