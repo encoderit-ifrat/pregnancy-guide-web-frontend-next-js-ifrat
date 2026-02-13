@@ -126,9 +126,9 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
         )}
         {/*  hasToC={headings.length > 0} */}
         <div className="w-full lg:flex-1 min-w-0">
-          <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
+          <h3 className="text-[30px] md:text-[45px] leading-[1.2] font-bold text-primary-dark mb-6 text-wrap">
             {article?.title}
-          </h1>
+          </h3>
           <ArticleContent content={contentWithIds} />
         </div>
       </div>
