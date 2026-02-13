@@ -1,6 +1,8 @@
-export default function IconPaper() {
+export default function IconPaper({ className }: { className?: string }) {
     return (
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink">
+        <svg
+            className={className}
+            width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink">
             <circle cx="35" cy="35" r="33" fill="white" stroke="#F6F0FF" stroke-width="4" />
             <mask id="mask0_1985_443"
                 style={{ maskType: "alpha" }}
