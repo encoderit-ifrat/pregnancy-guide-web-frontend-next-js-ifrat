@@ -103,7 +103,7 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
   return (
     <>
       {article?.cover_image && (
-        <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[600px] mb-6 rounded-xl overflow-hidden">
+        <div className="relative w-full h-[210px] sm:h-[320px] lg:h-[580px] mb-6 rounded-xl overflow-hidden">
           <Image
             src={imageLinkGenerator(article?.cover_image)}
             alt={article.title}

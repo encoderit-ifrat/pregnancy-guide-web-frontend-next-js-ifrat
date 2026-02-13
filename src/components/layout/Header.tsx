@@ -161,9 +161,8 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${
-    isSticky ? "" : "lg:bg-primary"
-  }`;
+  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"
+    }`;
 
   // Choose logo source: on small screens always use dark logo; otherwise dark when sticky, light when not.
   const logoSrc = isSmallScreen
@@ -251,7 +250,7 @@ export function Header() {
                 <ProfileDropDown />
               ) : (
                 <Link href="/login" className="hidden lg:block">
-                  <Button className="font-poppins h-9 max-w-28 font-semibold text-base text-white py-1.5 px-6">
+                  <Button className="font-poppins h-9 font-semibold text-base text-white py-1.5 px-6">
                     Logga In
                   </Button>
                 </Link>
@@ -298,11 +297,10 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
-                      isActive
-                        ? "text-primary bg-primary-light"
-                        : "text-text-primary"
-                    }`}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${isActive
+                      ? "text-primary bg-primary-light"
+                      : "text-text-primary"
+                      }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
