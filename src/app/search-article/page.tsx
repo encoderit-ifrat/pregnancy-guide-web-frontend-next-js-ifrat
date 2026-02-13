@@ -6,7 +6,8 @@ import { Metadata } from "next";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { HeroSection } from "@/components/home/HeroSection";
 import { HeroSection2 } from "@/components/home/HeroSection2";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
+import { tr } from "date-fns/locale";
 
 // Force SSR for dynamic search queries
 export const dynamic = "force-dynamic";
@@ -86,6 +87,7 @@ async function getArticles(searchParams: SearchParams) {
     const params = new URLSearchParams({
       search: query,
       page: page,
+      withCategory: category ? "true" : "false",
       ...(category && { category }),
       ...(tag && { tag }),
       ...(week && { week }),
@@ -120,11 +122,17 @@ export default async function Page({
   // Await searchParams before using it
   const params = await searchParams;
   const articlesData = await getArticles(params);
+  const category = articlesData?.data?.categories[0] || null
 
   return (
     <div className="min-h-svh mb-6 md:pb-10">
       <main>
-        <HeroSection2 />
+        <HeroSection2
+          name={category.name}
+          title={category?.title}
+          description={category?.description}
+          image={category?.image}
+        />
 
         <SearchArticle
           initialQuery={params.search || ""}
