@@ -14,13 +14,13 @@ type AppDialogProps = {
   triggerText?: string;
   triggerClassName?: string;
   triggerVariant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link"
-    | "tertiary";
+  | "default"
+  | "destructive"
+  | "outline"
+  | "secondary"
+  | "ghost"
+  | "link"
+  | "tertiary";
   title?: string;
   description?: string;
   customTrigger?: ReactNode;

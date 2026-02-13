@@ -31,7 +31,6 @@ import { Spinner } from "@/components/ui/Spinner";
 import { useEffect } from "react";
 import { useMutationUpdateChecklist } from "../_api/mutations/UseMutationUpdateChecklist";
 import { ChecklistFormProps } from "../_types/checklist_item_types";
-import { useTranslation } from "@/providers/I18nProvider";
 
 type TProps = ChecklistFormProps;
 
@@ -42,7 +41,6 @@ export default function ChecklistForm({
   useEffect(() => { }, [formData]);
   const { type, data } = formData ?? {};
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
-  const { t } = useTranslation();
 
   const last_period_date = user?.details?.last_period_date;
   const current_pregnancy_week = user?.details?.current_pregnancy_week;
@@ -60,7 +58,7 @@ export default function ChecklistForm({
           _id: "",
           title: "",
           description: "",
-          category: "",
+          category: "general",
           items: [],
           is_active: true,
         },
@@ -68,31 +66,31 @@ export default function ChecklistForm({
 
   const categoryOptions = [
     {
-      label: t("checklists.form.categories.general"),
+      label: "General",
       value: "general",
       emoji: "📋",
       color: "from-blue-400 to-blue-600",
     },
     {
-      label: t("checklists.form.categories.medical"),
+      label: "Medical",
       value: "medical",
       emoji: "🏥",
       color: "from-red-400 to-red-600",
     },
     {
-      label: t("checklists.form.categories.nutrition"),
-      value: "medical", // Wait, verify this value
+      label: "Nutrition",
+      value: "nutrition",
       emoji: "🥗",
       color: "from-green-400 to-green-600",
     },
     {
-      label: t("checklists.form.categories.exercise"),
+      label: "Exercise",
       value: "exercise",
       emoji: "💪",
       color: "from-purple-400 to-purple-600",
     },
     {
-      label: t("checklists.form.categories.preparation"),
+      label: "Preparation",
       value: "preparation",
       emoji: "🎒",
       color: "from-amber-400 to-amber-600",
@@ -123,7 +121,7 @@ export default function ChecklistForm({
 
   const onSubmit = (values: ChecklistSchemaType) => {
     if (values.items.length === 0) {
-      toast.error(t("checklists.form.atLeastOneItem"));
+      toast.error("Please add at least one checklist item.");
       return;
     }
     if (type === "update") {
@@ -135,7 +133,7 @@ export default function ChecklistForm({
             onSubmitForDialogAndRefetch();
             refetch();
             toast.success(
-              data?.data?.message || t("checklists.form.updateSuccess")
+              data?.data?.message || "Checklist updated successfully!"
             );
             reset();
           },
@@ -153,7 +151,7 @@ export default function ChecklistForm({
             onSubmitForDialogAndRefetch();
             refetch();
             toast.success(
-              data?.data?.message || t("checklists.form.saveSuccess")
+              data?.data?.message || "Checklist saved successfully!"
             );
             reset();
           },
@@ -177,10 +175,10 @@ export default function ChecklistForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("checklists.form.title")}</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={t("checklists.form.titlePlaceholder")}
+                    placeholder="Enter title"
                     {...field}
                   />
                 </FormControl>
@@ -193,10 +191,10 @@ export default function ChecklistForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("checklists.form.description")}</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder={t("checklists.form.descriptionPlaceholder")}
+                    placeholder="Enter description"
                     {...field}
                   />
                 </FormControl>
@@ -260,7 +258,7 @@ export default function ChecklistForm({
           <div className="space-y-2">
             {/* Header */}
             <div className="flex justify-between items-center">
-              <h3 className="font-medium">{t("checklists.form.items")}</h3>
+              <h3 className="font-medium">Checklist Items</h3>
               <Button
                 type="button"
                 onClick={() =>
@@ -275,28 +273,28 @@ export default function ChecklistForm({
                 size="sm"
                 className="hover:text-text-light dark:hover:bg-primary transition-all duration-200"
               >
-                <Plus className="w-4 h-4 mr-1" /> {t("checklists.form.addItem")}
+                <Plus className="w-4 h-4 mr-1" /> Add Item
               </Button>
             </div>
 
             {/* Checklist Fields */}
-            <div className="max-h-48 overflow-y-auto space-y-3">
+            <div className="h-full overflow-y-auto space-y-3">
               {fields.map((item, index) => (
                 <div
                   key={item.id}
-                  className="border px-4 py-4 rounded bg-muted/30 "
+                  className="px-2 py-2 rounded bg-muted/30 "
                 >
-                  <div className="flex flex-col lg:flex-row md:items-start md:gap-4 space-y-4 md:space-y-4 ">
+                  <div className="flex flex-col lg:flex-row md:items-start md:gap-4 space-y-2 md:space-y-2 ">
                     {/* Title */}
                     <FormField
                       control={control}
                       name={`items.${index}.title`}
                       render={({ field }) => (
                         <FormItem className="flex-1 w-full">
-                          <FormLabel>{t("checklists.form.itemTitle")} {index + 1}</FormLabel>
+                          <FormLabel>Item {index + 1} Title</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder={t("checklists.form.itemTitlePlaceholder")}
+                              placeholder="Enter Item Title"
                               {...field}
                             />
                           </FormControl>
@@ -311,10 +309,10 @@ export default function ChecklistForm({
                       name={`items.${index}.description`}
                       render={({ field }) => (
                         <FormItem className="flex-1  w-full">
-                          <FormLabel>{t("checklists.form.itemDescription")}</FormLabel>
+                          <FormLabel>Description</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder={t("checklists.form.itemDescriptionPlaceholder")}
+                              placeholder="Enter Description"
                               {...field}
                             />
                           </FormControl>
@@ -375,7 +373,7 @@ export default function ChecklistForm({
                       onClick={() => remove(index)}
                     >
                       <Trash2 className="w-4 h-4 mr-1" />
-                      {t("checklists.form.remove")}
+                      Remove
                     </Button>
                   </div>
                 </div>
@@ -390,7 +388,7 @@ export default function ChecklistForm({
             {checklistMutation.isPending || isPendingUpdateChecklist ? (
               <Spinner variant="circle" />
             ) : (
-              type === "update" ? t("checklists.form.update") : t("checklists.form.save")
+              "Save Checklist"
             )}
           </Button>
         </form>
