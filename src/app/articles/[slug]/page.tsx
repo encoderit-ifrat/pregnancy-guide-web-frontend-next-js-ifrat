@@ -118,10 +118,13 @@ export default async function ArticlePage({
   }
 
   return (
-    <PageContainer>
-      <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-lg p-6">
-        <ArticleWithTOC article={article} />
-      </div>
-    </PageContainer>
+    <div className="relative">
+      <PageContainer className="z-20">
+        <div className="max-w-5xl mx-auto px-4 bg-soft-white shadow-2xl rounded-lg p-6">
+          <ArticleWithTOC article={article} />
+        </div>
+      </PageContainer>
+      <div className="absolute inset-0 z-10 bg-[url('/images/heart-bg.png')] bg-repeat-x bg-repeat-y opacity-10" />
+    </div>
   );
 }

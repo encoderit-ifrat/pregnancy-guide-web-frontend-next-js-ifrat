@@ -1,10 +1,11 @@
 import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { cn } from "@/lib/utils";
 import React from "react";
 
-export function PageContainer({ children }: { children: React.ReactNode }) {
+export function PageContainer({ className, children }: { className?: string, children: React.ReactNode }) {
   return (
     <>
-      <div className="relative min-h-svh">
+      <div className={cn("relative min-h-svh", className)}>
         <section className="absolute bg-[#F6F0FF] top-0 left-0 w-full h-[60vh] z-10">
           <div className="h-[50vh]"></div>
           <WaveDivider

@@ -14,7 +14,6 @@ import { Toaster } from "sonner";
 import { UserProvider } from "@/providers/UserProvider";
 import { I18nProvider } from "@/providers/I18nProvider";
 import { Header } from "@/components/layout/Header";
-import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { Footer } from "@/components/layout/Footer";
 import FooterWaveDivider from "@/components/layout/svg/FooterWaveDivider";
 
