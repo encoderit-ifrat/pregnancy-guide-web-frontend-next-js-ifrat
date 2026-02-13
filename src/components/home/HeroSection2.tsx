@@ -29,7 +29,7 @@ export function HeroSection2({
           </div>
 
           {/* Tree Illustration */}
-          <div className="order-2 flex justify-center lg:order-2 lg:justify-end">
+          <div className="order-2 flex min-h-[200px] justify-center lg:order-2 lg:justify-end">
             {image && <div className="relative w-full max-w-md lg:max-w-lg">
               <Image
                 src={imageLinkGenerator(image)}
