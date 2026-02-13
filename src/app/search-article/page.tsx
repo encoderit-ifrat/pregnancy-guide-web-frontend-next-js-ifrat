@@ -122,17 +122,17 @@ export default async function Page({
   // Await searchParams before using it
   const params = await searchParams;
   const articlesData = await getArticles(params);
-  const category = articlesData?.data?.categories[0] || null
+  const category = articlesData?.data?.categories?.[0] || null
 
   return (
     <div className="min-h-svh mb-6 md:pb-10">
       <main>
-        <HeroSection2
+        {category && <HeroSection2
           name={category.name}
           title={category?.title}
           description={category?.description}
           image={category?.image}
-        />
+        />}
 
         <SearchArticle
           initialQuery={params.search || ""}
