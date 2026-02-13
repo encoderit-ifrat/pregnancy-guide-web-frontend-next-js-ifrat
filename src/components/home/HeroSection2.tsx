@@ -1,7 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
-import WaveLeaf from "@/components/layout/svg/WaveLeaf";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 export function HeroSection2({
   name,
@@ -33,7 +32,7 @@ export function HeroSection2({
           <div className="order-2 flex justify-center lg:order-2 lg:justify-end">
             {image && <div className="relative w-full max-w-md lg:max-w-lg">
               <Image
-                src={image}
+                src={imageLinkGenerator(image)}
                 alt={''}
                 width={500}
                 height={600}
