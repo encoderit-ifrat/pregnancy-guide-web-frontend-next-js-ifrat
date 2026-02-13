@@ -38,7 +38,7 @@ export default function ChecklistForm({
   formData,
   onSubmitForDialogAndRefetch,
 }: TProps) {
-  useEffect(() => {}, [formData]);
+  useEffect(() => { }, [formData]);
   const { type, data } = formData ?? {};
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
 
@@ -55,13 +55,13 @@ export default function ChecklistForm({
       type == "update"
         ? data
         : {
-            _id: "",
-            title: "",
-            description: "",
-            category: "",
-            items: [],
-            is_active: true,
-          },
+          _id: "",
+          title: "",
+          description: "",
+          category: "general",
+          items: [],
+          is_active: true,
+        },
   });
 
   const categoryOptions = [
@@ -278,13 +278,13 @@ export default function ChecklistForm({
             </div>
 
             {/* Checklist Fields */}
-            <div className="max-h-48 overflow-y-auto space-y-3">
+            <div className="h-full overflow-y-auto space-y-3">
               {fields.map((item, index) => (
                 <div
                   key={item.id}
-                  className="border px-4 py-4 rounded bg-muted/30 "
+                  className="px-2 py-2 rounded bg-muted/30 "
                 >
-                  <div className="flex flex-col lg:flex-row md:items-start md:gap-4 space-y-4 md:space-y-4 ">
+                  <div className="flex flex-col lg:flex-row md:items-start md:gap-4 space-y-2 md:space-y-2 ">
                     {/* Title */}
                     <FormField
                       control={control}

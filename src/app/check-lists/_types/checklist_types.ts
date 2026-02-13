@@ -10,9 +10,8 @@ export const ChecklistItemSchema = z.object({
     .max(200, "Item title must be less than 200 characters"),
   description: z
     .string()
-    .min(1, "Item description is required")
-    .min(5, "Item description must be at least 5 characters")
-    .max(500, "Item description must be less than 500 characters"),
+    .max(500, "Item description must be less than 500 characters")
+    .optional(),
   week: z
     .number()
     .int("Week must be a whole number")
@@ -35,14 +34,6 @@ export const ChecklistSchema = z.object({
     .optional(),
   category: z
     .string()
-    .min(1, "Category is required")
-    .refine(
-      (val) =>
-        ["general", "medical", "nutrition", "exercise", "preparation"].includes(
-          val
-        ),
-      "Please select a valid category"
-    )
     .optional(),
   items: z
     .array(ChecklistItemSchema)

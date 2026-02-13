@@ -73,11 +73,10 @@ export default function CheckLists() {
           toast.warning("Please log in to add a checklist");
         }
       }}
-      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${
-        isAuthenticated
-          ? "cursor-pointer hover:bg-purple-50"
-          : "opacity-50 cursor-not-allowed"
-      }`}
+      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${isAuthenticated
+        ? "cursor-pointer hover:bg-purple-50"
+        : "opacity-50 cursor-not-allowed"
+        }`}
     >
       <span className="pr-2 text-primary text-base lg:text-lg font-medium">
         Add New
@@ -137,7 +136,7 @@ export default function CheckLists() {
                 {isAuthenticated ? (
                   <AppDialog
                     dialogContentProps={{
-                      className: "max-w-[95vw] sm:max-w-2xl lg:max-w-4xl",
+                      className: "max-h-[80vh] overflow-y-auto max-w-[95vw] sm:max-w-2xl lg:max-w-4xl",
                     }}
                     title="Add Checklist"
                     customTrigger={AddChecklistTrigger}
