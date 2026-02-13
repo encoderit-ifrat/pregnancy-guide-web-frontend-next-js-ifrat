@@ -73,7 +73,7 @@ export default function ExpandableSearchBar({
           onClick={handleExpand}
         >
           <div
-            className="bg-primary-light text-secondary transition-colors hover:text-primary p-2 rounded-full"
+            className="bg-primary-light text-secondary transition-colors hover:text-primary p-4 rounded-full"
             aria-label="Search"
           >
             <Search className="h-8 w-8 text-primary-dark" />
