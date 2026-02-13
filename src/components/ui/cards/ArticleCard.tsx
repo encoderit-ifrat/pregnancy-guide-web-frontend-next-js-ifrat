@@ -27,7 +27,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   const { t } = useTranslation();
   return (
     <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow h-full flex flex-col">
-      <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
+      <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-[138px] sm:min-h-[196px] md:min-w-2/6">
         <Link href={`/articles/${slug}`}>
           <Image
             src={imageLinkGenerator(image)}

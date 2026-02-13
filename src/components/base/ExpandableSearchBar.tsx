@@ -73,7 +73,7 @@ export default function ExpandableSearchBar({
           onClick={handleExpand}
         >
           <div
-            className="bg-primary-light text-secondary transition-colors hover:text-primary p-4 rounded-full"
+            className="bg-primary-light text-secondary transition-colors hover:text-primary p-2 rounded-full"
             aria-label="Search"
           >
             <Search className="h-8 w-8 text-primary-dark" />
@@ -88,9 +88,8 @@ export default function ExpandableSearchBar({
           if (!expanded || !searchTerm) return;
           handleSearch();
         }}
-        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
-          expanded ? "w-96 opacity-100" : "w-0 opacity-0"
-        }`}
+        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${expanded ? "w-96 opacity-100" : "w-0 opacity-0"
+          }`}
       >
         <Input
           placeholder={placeholder}
