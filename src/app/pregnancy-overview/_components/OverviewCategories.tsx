@@ -1,6 +1,7 @@
 "use client";
 import IconBaby from "@/assets/IconBaby";
 import IconMother from "@/assets/IconMother";
+import IconPaper from "@/assets/IconPaper";
 import IconPartner from "@/assets/IconPartner";
 import { CircleIcon } from "@/components/ui/CircleIcon";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -12,7 +13,7 @@ const overviewCategories = [
   {
     id: 2,
     // icon: <IconBaby className="w-16 h-12 xl:w-26 xl:h-15" />,
-    icon: <IconMother className="md:size-48 lg:size-68 xl:size-68" />,
+    icon: <IconMother className="md:size-48 lg:size-78 xl:size-92 transform scale-[0.8]" />,
     // icon: <IconMother className="size-[108px] md:size-[180px] lg:size-[286px]" />,
     name: "Mother",
     // href: `/search-article?page=1&tag=mother`,
@@ -28,7 +29,7 @@ const overviewCategories = [
   {
     id: 3,
     // icon: <IconBaby className="w-16 h-12 xl:w-26 xl:h-15" />,
-    icon: <IconMother className="md:size-48 lg:size-68 xl:size-68" />,
+    icon: <IconMother className="md:size-48 lg:size-78 xl:size-92  transform scale-[0.8]" />,
     // icon: <IconPartner className="size-[108px] md:size-[180px] lg:size-[286px]" />,
     name: "Partner",
     // href: `/search-article?page=1&tag=partner`,
@@ -54,7 +55,12 @@ function OverviewCategories() {
               href={`/search-article?page=1&tag=${category.name}&week=${currentWeek}`}
             >
               <div className="flex flex-col cursor-pointer">
-                {icon}
+                <div className="relative">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <IconPaper />
+                  </div>
+                  {icon}
+                </div>
                 <p className="mt-4 text-center text-lg! md:text-3xl! text-primary-dark font-semibold">
                   {t(`pregnancy.categories.${name.toLowerCase()}`)}
                 </p>
