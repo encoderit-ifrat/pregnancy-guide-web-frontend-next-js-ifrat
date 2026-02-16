@@ -24,7 +24,7 @@ export default function IconHeading({
           alt=""
           width={60}
           height={60}
-          className="w-8 h-8"
+          className="w-6 h-6 md:w-8 md:h-8"
         />
       </span>}
       <span className="text-[20px] md:text-[25px]">{text}</span>

@@ -56,7 +56,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
   return (
     <section className="bg-primary-light">
       <div className="relative section px-4 sm:pb-7 lg:pb-15 lg:text-start pb-10">
-        <div className="w-full text-center pb-6 md:pt-6 mb-7 lg:mb-14">
+        <div className="w-full text-center pb-6 md:pt-6 mb-7">
           <div>
             <IconHeading
               text="Atricles"

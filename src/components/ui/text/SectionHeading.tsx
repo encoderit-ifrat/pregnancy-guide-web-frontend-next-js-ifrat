@@ -11,7 +11,7 @@ export const SectionHeading = ({
   variant?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }) => {
   const variantClasses = {
-    h1: "mb-4 text-[35px] md:text-[45px] font-semibold font-poppins text-primary-dark leading-[1.4]",
+    h1: "mb-4 text-[33px] md:text-[45px] font-semibold font-poppins text-primary-dark leading-[1.4]",
     h2: "mb-4 text-3xl md:text-3xl lg:text-4xl font-semibold font-poppins  text-primary-dark leading-[1.4]",
     h3: "mb-4 text-3xl md:text-3xl lg:text-3xl font-semibold font-poppins text-primary-dark leading-[1.4]",
     h4: "mb-4 text-2xl md:text-2xl lg:text-2xl font-semibold font-poppins text-primary-dark leading-[1.4]",

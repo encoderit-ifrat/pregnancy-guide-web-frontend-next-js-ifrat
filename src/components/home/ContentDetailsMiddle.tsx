@@ -30,8 +30,8 @@ function ContentDetailsMiddle() {
             <HeaderText
               commonText="Pellentesque"
               boldText="IMPERSAPIENRHONCUS ETIAMPHARETRA"
-              commonClass="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-tight"
-              boldClass="text-[22px] sm:text-2xl md:text-4xl lg:text-[45px] leading-tight text-wrap"
+              commonClass="text-[35px]! sm:text-[28px] md:text-[34px] lg:text-[40px] leading-tight"
+              boldClass="text-[20px] sm:text-2xl md:text-4xl lg:text-[45px] leading-tight text-wrap"
             />
             <Paragraph className="text-sm sm:text-base md:text-base lg:text-lg text-soft-white leading-relaxed">
               Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi
