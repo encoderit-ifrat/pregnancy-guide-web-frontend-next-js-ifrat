@@ -14,10 +14,8 @@ import { FileQuestion } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
-import { useTranslation } from "@/providers/I18nProvider";
 
 function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
-  const { t } = useTranslation();
   //   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
 
   const { data, isLoading } = useQueryGetAllAnswers({
@@ -46,18 +44,18 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
             height=" h-10! sm:h-20! md:h-24! lg:h-30! xl:h-32!"
           />
 
-          <div className="pb-10 md:pb-16">
+          <div className="pt-2 pb-10 md:pb-16">
             <div className="text-center">
               <IconHeading
-                text={t("pregnancy.question")}
-                icon={<FileQuestion />}
-                className="text-primary justify-center"
+                text="Question"
+                image="/images/icons/question.png"
+                className="text-primary justify-center md:mb-4"
               />
-              <SectionHeading>{t("pregnancy.questionOfTheWeek")}</SectionHeading>
+              <SectionHeading>Question of the Week</SectionHeading>
               {/* Week badge */}
               {typeof currentWeek !== "undefined" && (
                 <div className="inline-block bg-white/90 text-primary font-semibold text-base md:text-lg px-4 py-1 rounded-full mb-6">
-                  {t("pregnancy.weekQuestion", { week: currentWeek })}
+                  Week {currentWeek} question
                 </div>
               )}
             </div>
