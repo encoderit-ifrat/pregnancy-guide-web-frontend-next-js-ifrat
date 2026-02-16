@@ -136,11 +136,11 @@ export default function CheckListItem({
                   {/* <div className="bg-purple-100 p-3 rounded-full">
                     <CheckCircle2 className="h-6 w-6 text-soft" />
                   </div> */}
-                  <h4 className="mb-0 font-medium w-full max-w-48 md:max-w-md truncate">
+                  <h4 className="text-[22px] mb-0 font-semibold w-full max-w-48 md:max-w-md truncate">
                     {item.title}
                   </h4>
                   {item.description && (
-                    <p className="mt-1 font-normal line-clamp-2">
+                    <p className="text-[16px] mt-1 font-normal line-clamp-2">
                       {item.description}
                     </p>
                   )}
@@ -160,9 +160,8 @@ export default function CheckListItem({
                   <div
                     key={idx}
                     onClick={() => handleChecklistToggle(itm._id)}
-                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${
-                      itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
-                    }`}
+                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
+                      }`}
                   >
                     <div className="pt-0.5">
                       {toggleLoading == itm._id && isPending ? (
@@ -177,19 +176,17 @@ export default function CheckListItem({
                     </div>
                     <div className="flex-1">
                       <h4
-                        className={`text-xl text-primary-dark font-bold block ${
-                          itm.checked ? "text-green-800" : "text-gray-700"
-                        }`}
+                        className={`text-xl text-primary-dark font-bold block ${itm.checked ? "text-green-800" : "text-gray-700"
+                          }`}
                       >
                         {itm.title}
                       </h4>
                       {itm.description && (
                         <p
-                          className={`text-sm text-primary-dark font-medium mt-1 ${
-                            itm.checked
-                              ? "text-green-700 opacity-75"
-                              : "text-gray-600"
-                          }`}
+                          className={`text-sm text-primary-dark font-medium mt-1 ${itm.checked
+                            ? "text-green-700 opacity-75"
+                            : "text-gray-600"
+                            }`}
                         >
                           {itm.description}
                         </p>

@@ -29,7 +29,7 @@ export default function CheckListSection({
           <div className="">
             <div className="text-center text-white">
               <IconHeading
-                text="Our CHECKLISTS"
+                text="Our Checklist"
                 image="/images/icons/baby-gift.png"
                 className="text-white justify-center"
               />
