@@ -60,7 +60,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
           <div>
             <IconHeading
               text="Atricles"
-              icon={<Heart />}
+              image="/images/icons/pregnant.png"
               className="text-primary justify-center"
             />
             <SectionHeading>Special Articles</SectionHeading>

@@ -1,8 +1,7 @@
 import React from "react";
 import WeeklyQuestionView from "./_components/WeeklyQuestionView";
 import { Metadata } from "next";
-import WaveDivider from "@/components/layout/svg/WaveDivider";
-import { CircleQuestionMark, Heart } from "lucide-react";
+import { CircleQuestionMark } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { PageContainer } from "@/components/layout/PageContainer";

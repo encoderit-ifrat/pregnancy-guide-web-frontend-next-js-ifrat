@@ -33,7 +33,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
           <IconHeading
             text="Articles"
             image="/images/icons/heart-baby.png"
-            className="text-primary justify-center md:mb-4"
+            className="text-primary justify-center"
           />
           <SectionHeading>Weekly Details</SectionHeading>
         </div>
