@@ -44,12 +44,12 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
             height=" h-10! sm:h-20! md:h-24! lg:h-30! xl:h-32!"
           />
 
-          <div className="pb-10 md:pb-16">
+          <div className="pt-2 pb-10 md:pb-16">
             <div className="text-center">
               <IconHeading
                 text="Question"
-                icon={<FileQuestion />}
-                className="text-primary justify-center"
+                image="/images/icons/question.png"
+                className="text-primary justify-center md:mb-4"
               />
               <SectionHeading>Question of the Week</SectionHeading>
               {/* Week badge */}

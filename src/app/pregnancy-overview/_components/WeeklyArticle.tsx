@@ -33,7 +33,7 @@ function WeeklyArticle({ articles }: TProps) {
         <div className="px-4! md:px-0 max-w-3xl text-center mx-auto">
           <IconHeading
             text="Articles"
-            icon={<FileQuestion />}
+            image="/images/icons/heart-baby.png"
             className="text-primary justify-center"
           />
           <SectionHeading>

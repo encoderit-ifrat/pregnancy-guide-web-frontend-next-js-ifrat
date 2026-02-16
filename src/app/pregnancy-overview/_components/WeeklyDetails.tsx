@@ -32,8 +32,8 @@ function WeeklyDetails({ data = initialData }: TProps) {
         <div className="text-center mb-7 lg:mb-14">
           <IconHeading
             text="Articles"
-            icon={<Heart />}
-            className="text-primary justify-center"
+            image="/images/icons/heart-baby.png"
+            className="text-primary justify-center md:mb-4"
           />
           <SectionHeading>Weekly Details</SectionHeading>
         </div>
@@ -61,7 +61,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
               <Link href={`/articles/${slug || "article-not-found"}`}>
                 <Button
                   variant="outline"
-                  className="px-12 font-poppins font-semibold text-lg w-full"
+                  className="px-12 md:px-20 font-poppins font-semibold text-lg"
                 >
                   Read More
                 </Button>
