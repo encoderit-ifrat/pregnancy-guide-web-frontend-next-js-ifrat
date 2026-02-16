@@ -53,7 +53,7 @@ function OurArticle({ data }: TProps) {
           <div className="text-center md:text-left">
             <IconHeading
               text="Articles"
-              image="/images/icons/baby-inside.png"
+              image="/images/icons/baby-hands.png"
               className="text-primary justify-center md:justify-start"
             />
             <SectionHeading>Banner article</SectionHeading>

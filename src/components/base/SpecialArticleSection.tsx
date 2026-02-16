@@ -16,7 +16,6 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { useTranslation } from "@/providers/I18nProvider";
 
 export type Category = {
   _id: string;
@@ -48,7 +47,6 @@ type TProps = {
 };
 
 const SpecialArticleSection = ({ data }: TProps) => {
-  const { t } = useTranslation();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -61,11 +59,11 @@ const SpecialArticleSection = ({ data }: TProps) => {
         <div className="w-full text-center pb-6 md:pt-6 mb-7 lg:mb-14">
           <div>
             <IconHeading
-              text={t("pregnancy.articles")}
-              icon={<Heart />}
+              text="Atricles"
+              image="/images/icons/pregnant.png"
               className="text-primary justify-center"
             />
-            <SectionHeading>{t("pregnancy.specialArticles")}</SectionHeading>
+            <SectionHeading>Special Articles</SectionHeading>
           </div>
         </div>
         {Boolean(data?.length) && (
@@ -144,7 +142,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
             <div className="justify-center hidden md:flex md:mt-8">
               <Link href="/search-article?page=1&tag=special&week=">
                 <Button variant="default" className="px-8">
-                  {t("pregnancy.viewAll")} <ChevronRight className="ml-2" />
+                  View All <ChevronRight className="ml-2" />
                 </Button>
               </Link>
             </div>

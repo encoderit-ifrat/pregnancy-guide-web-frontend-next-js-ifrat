@@ -16,7 +16,7 @@ export default function IconHeading({
   image,
 }: IconHeadingProps) {
   return (
-    <div className={cn(`flex items-center gap-4`, className)}>
+    <div className={cn(`flex items-center gap-4 mb-2 md:mb-4`, className)}>
       {icon && <span className="h-6 w-6">{icon}</span>}
       {image && <span>
         <Image
@@ -24,7 +24,7 @@ export default function IconHeading({
           alt=""
           width={60}
           height={60}
-          className="w-9 h-9"
+          className="w-8 h-8"
         />
       </span>}
       <span className="text-[20px] md:text-[25px]">{text}</span>
