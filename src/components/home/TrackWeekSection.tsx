@@ -1,8 +1,7 @@
-import {FileText} from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import Timeline from "@/components/home/TimeLine";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
-
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import Image from "next/image";
 
 export function TrackYourWeekSection() {
   const data = [
@@ -38,13 +37,13 @@ export function TrackYourWeekSection() {
           <div className="mb-6 md:mb-12 text-center">
             <IconHeading
               text="Vestibulum"
-              icon={<FileText/>}
+              image="/images/icons/pregnant.png"
               className="text-primary justify-center"
             />
             <SectionHeading>Track your Week</SectionHeading>
           </div>
 
-          <Timeline timelineItems={data}/>
+          <Timeline timelineItems={data} />
         </div>
       </div>
     </section>

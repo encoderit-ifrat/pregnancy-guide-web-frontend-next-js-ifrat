@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Download } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export function DownloadCtaSection() {
   return (
@@ -32,7 +32,7 @@ pointer-events-none
           {/* Section Label */}
           <IconHeading
             text="Consectetu"
-            icon={<Download />}
+            image="/images/icons/mothers-love2.png"
             className="text-white"
           />
           <SectionHeading className="text-white">Etiam phar etr...</SectionHeading>
