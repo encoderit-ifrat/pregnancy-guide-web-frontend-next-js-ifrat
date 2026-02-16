@@ -1,25 +1,25 @@
-import { Users, Heart, Baby, Gift } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 import StatsCard from "@/components/ui/cards/StatusCard";
 
 const stats = [
   {
-    icon: Users,
+    icon: "/images/icons/heart.png",
     value: "530+",
     label: "Our Volunteer",
   },
   {
-    icon: Heart,
+    icon: "/images/icons/mothers-love.png",
     value: "22+",
     label: "Happy Children",
   },
   {
-    icon: Baby,
+    icon: "/images/icons/donation.png",
     value: "22+",
     label: "Our Volunteer",
   },
   {
-    icon: Gift,
+    icon: "/images/icons/gift.png",
     value: "22+",
     label: "Our Volunteer",
   },
@@ -35,7 +35,14 @@ const StatsSection: React.FC = () => {
               key={index}
               number={stat.value}
               label={stat.label}
-              icon={<stat.icon className="min-md:size-10 text-text-primary" />}
+              // icon={<stat.icon className="min-md:size-10 text-text-primary" />}
+              icon={<Image
+                src={stat.icon}
+                alt=""
+                width={60}
+                height={60}
+                className="w-12 h-12"
+              />}
             />
           ))}
         </div>

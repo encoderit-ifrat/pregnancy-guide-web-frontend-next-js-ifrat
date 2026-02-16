@@ -35,7 +35,7 @@ export function HowItWorksSection() {
         <div className="mb-16 text-center">
           <IconHeading
             text="Step-by-Step"
-            icon={<Zap />}
+            image="/images/icons/baby-face.png"
             className="text-primary justify-center"
           />
           <SectionHeading>How it Works</SectionHeading>

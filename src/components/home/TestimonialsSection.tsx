@@ -21,7 +21,7 @@ export function TestimonialsSection({ data }: { data: any }) {
         <div className="mb-12 text-center">
           <IconHeading
             text="Vestibulum"
-            icon={<Quote />}
+            image="/images/icons/hands.png"
             className="text-primary justify-center"
           />
           <SectionHeading>Hear from our happy Clients</SectionHeading>

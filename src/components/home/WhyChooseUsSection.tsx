@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import {Tag,} from "lucide-react";
+import { Tag, } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
-import {Slider} from "@/components/ui/Slider";
-import {SwiperSlide} from "swiper/react";
-import {SectionHeading} from "@/components/ui/text/SectionHeading";
-import {imageLinkGenerator} from "@/helpers/imageLinkGenerator";
+import { Slider } from "@/components/ui/Slider";
+import { SwiperSlide } from "swiper/react";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Link from "next/link";
 
 // const features = [
@@ -36,7 +36,7 @@ import Link from "next/link";
 //   },
 // ];
 
-export function WhyChooseUsSection({data}: { data: any }) {
+export function WhyChooseUsSection({ data }: { data: any }) {
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -50,7 +50,7 @@ export function WhyChooseUsSection({data}: { data: any }) {
         <div className="mb-12 text-center">
           <IconHeading
             text="Choose Us"
-            icon={<Tag/>}
+            image="/images/icons/baby.png"
             className="text-primary justify-center"
           />
           <SectionHeading>Why choose Us</SectionHeading>
@@ -95,7 +95,7 @@ export function WhyChooseUsSection({data}: { data: any }) {
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     {/* Overlay */}
-                    <div className="absolute inset-0 bg-linear-to-t from-[#240443]/100 via-[#240443]/20 to-transparent"/>
+                    <div className="absolute inset-0 bg-linear-to-t from-[#240443]/100 via-[#240443]/20 to-transparent" />
                   </div>
 
                   {/* Content */}
@@ -103,12 +103,12 @@ export function WhyChooseUsSection({data}: { data: any }) {
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="mb-1 text-lg font-bold text-white! line-clamp-1"
-                            title={d.title}
+                          title={d.title}
                         >
                           {d.title}
                         </h3>
                         <p className="text-sm text-white! line-clamp-2"
-                           title={d.excerpt}
+                          title={d.excerpt}
                         >
                           {d.excerpt}
                         </p>

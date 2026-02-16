@@ -37,7 +37,7 @@ export function MissionSection() {
               {/* Section Label */}
               <IconHeading
                 text="Mission"
-                icon={<Heart />}
+                image="/images/icons/mother1.png"
                 className="text-primary justify-center md:justify-start"
               />
               <SectionHeading>Our Mission</SectionHeading>
