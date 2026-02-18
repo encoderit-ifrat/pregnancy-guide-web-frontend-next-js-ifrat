@@ -49,6 +49,11 @@ export function MissionSection() {
                 felis justo sed quam. Cras consequat lobortis dui, ut auctor elit
                 porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e
               </p>
+
+              <div className="mt-4 text-[24px] pl-4 m-0 font-bold border-l-6 border-primary">
+                Supporting every beginning with care.
+                Guiding parents with trust.
+              </div>
             </div>
           </div>
         </div>
