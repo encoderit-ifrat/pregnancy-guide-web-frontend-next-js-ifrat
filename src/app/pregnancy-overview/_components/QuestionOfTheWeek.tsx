@@ -62,7 +62,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
 
             {/* Outer decorative card to match the target layout (large rounded container with subtle bottom shadow/highlight) */}
             <div className="md:max-w-4xl mx-auto rounded-2xl bg-white/40 p-3 pb-5 mt-8">
-              <div className="bg-white rounded-3xl shadow-[0_8px_0_rgba(100,16,242,0.5)] md:shadow-[0_10px_0_rgba(100,16,242,0.5)]">
+              <div className="bg-white rounded-xl shadow-[0_4px_0_rgba(100,16,242,0.5)] md:shadow-[0_6px_0_rgba(100,16,242,0.5)]">
                 {/* Place the AnswerForm inside this outer card. The AnswerForm itself renders an inner white card where the options live. */}
                 <div className="flex flex-col items-center text-center p-3 pt-6 md:p-6">
                   {!isLoading && (
@@ -86,8 +86,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                       </h4>
 
                       <div className="grid grid-cols-1 gap-2">
-                        <AnswerFormRadioGroup disabled={hasAnswered} />
-                        {/* {hasAnswered && (<AnswerFormPercentage />)} */}
+                         {hasAnswered ? (<AnswerFormPercentage />) : <AnswerFormRadioGroup disabled={hasAnswered} />}
                       </div>
 
                       <div className="my-6 md:mb-0 md:mt-6">
