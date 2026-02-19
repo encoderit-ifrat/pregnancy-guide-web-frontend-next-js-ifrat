@@ -192,7 +192,7 @@ export const AnswerFormPercentage = ({
 
         return (
           <div key={option._id} className="flex items-center gap-2 flex-1 relative rounded-sm bg-[#F6F0FF]">
-            <div className="z-10 text-primary-text px-5 py-4 flex items-center gap-4"><strong className="text-[30px] font-medium">{percentage}%</strong> <span className="text-[22px]">{option.content}</span></div>
+            <div className="z-10 text-primary-text px-5 py-4 flex items-center gap-5"><strong className="text-2xl md:text-3xl font-medium">{percentage}%</strong> <span className="text-xl md:text-[22px]">{option.content}</span></div>
             <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{width: percentage + '%'}}></div>
             {/*<Progress value={percentage} />*/}
           </div>
