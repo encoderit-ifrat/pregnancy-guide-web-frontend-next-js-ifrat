@@ -191,9 +191,10 @@ export const AnswerFormPercentage = ({
           statistics.find((s) => s.option_id === option._id)?.percentage ?? 0;
 
         return (
-          <div key={option._id} className="flex items-center gap-2 flex-1">
-            <span>{percentage}%</span>
-            <Progress value={percentage} />
+          <div key={option._id} className="flex items-center gap-2 flex-1 relative rounded-sm bg-[#F6F0FF]">
+            <div className="z-10 text-primary-text px-5 py-4 flex items-center gap-4"><strong className="text-[30px] font-medium">{percentage}%</strong> <span className="text-[22px]">{option.content}</span></div>
+            <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{width: percentage + '%'}}></div>
+            {/*<Progress value={percentage} />*/}
           </div>
         );
       })}
