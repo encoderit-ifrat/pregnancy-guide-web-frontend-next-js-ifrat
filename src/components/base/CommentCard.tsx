@@ -195,7 +195,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
               </div>
             )}
             <div className="p-1">
-              <SectionHeading variant="h4" className="mb-0 pb-0">
+              <SectionHeading variant="h3" className="mb-0 pb-0">
                 Share Your Comment
               </SectionHeading>
               <div className="relative">

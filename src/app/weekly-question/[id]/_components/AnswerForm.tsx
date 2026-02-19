@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 
 import { cn } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 type Question = {
   id: string;
@@ -51,11 +52,11 @@ type TProps = {
 };
 const AnswerFormContext = createContext<
   | (TProps & {
-      option: string;
-      setOption: (val: string) => void;
-      answerText: string;
-      setAnswerText: (val: string) => void;
-    })
+    option: string;
+    setOption: (val: string) => void;
+    answerText: string;
+    setAnswerText: (val: string) => void;
+  })
   | null
 >(null);
 const useAnswerFormContext = () => {
@@ -133,7 +134,7 @@ export const AnswerFormRadioGroup = ({
       }}
       className="mt-3 mb-6 flex flex-col gap-3"
       {...props}
-      // disabled={hasAnswered}
+    // disabled={hasAnswered}
     >
       {answer_options?.length > 0 &&
         answer_options.map((optionItem, idx) => {
@@ -143,11 +144,10 @@ export const AnswerFormRadioGroup = ({
               <label
                 htmlFor={optionItem._id}
                 // onClick={() => setOption(optionItem._id)}
-                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${
-                  isSelected
-                    ? "bg-primary text-white shadow-md"
-                    : "bg-[#F2EAFB] text-foreground hover:shadow-md"
-                }`}
+                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${isSelected
+                  ? "bg-primary text-white shadow-md"
+                  : "bg-[#F2EAFB] text-foreground hover:shadow-md"
+                  }`}
               >
                 <div
                   className={`flex items-center justify-center h-12 w-10 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
@@ -193,7 +193,7 @@ export const AnswerFormPercentage = ({
         return (
           <div key={option._id} className="flex items-center gap-2 flex-1 relative rounded-sm bg-[#F6F0FF]">
             <div className="z-10 text-primary-text px-5 py-4 flex items-center gap-5"><strong className="text-2xl md:text-3xl font-medium">{percentage}%</strong> <span className="text-xl md:text-[22px]">{option.content}</span></div>
-            <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{width: percentage + '%'}}></div>
+            <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{ width: percentage + '%' }}></div>
             {/*<Progress value={percentage} />*/}
           </div>
         );
@@ -207,16 +207,14 @@ export const AnswerFormComment = () => {
 
   return (
     <>
-      <h3 className="text-xl font-bold text-foreground mb-8 gap-2">
-        Share Your Comment
-      </h3>
+      <SectionHeading variant="h3">Share Your Comment</SectionHeading>
 
       <Textarea
         placeholder="Write your answer here..."
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
         className="bg-white mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-        rows={4}
+        rows={5}
       />
     </>
   );

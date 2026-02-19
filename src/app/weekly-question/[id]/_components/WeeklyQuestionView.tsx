@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { MessageCircle, Calendar } from "lucide-react";
-import Image from "next/image";
+import { MessageCircle } from "lucide-react";
 import AnswerForm, {
   AnswerFormComment,
   // AnswerFormComment,
@@ -12,8 +11,6 @@ import AnswerForm, {
   AnswerFormTitle,
 } from "./AnswerForm";
 import { useQueryGetAllAnswers } from "../_api/queries/useQueryGetAllAnswers";
-import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import { ro } from "date-fns/locale";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "@/app/loading";
 import CommentCard, { TCommentCard } from "@/components/base/CommentCard";
@@ -77,9 +74,12 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       >
         <AnswerFormTitle />
         <AnswerFormDescription />
-        <div className="grid grid-cols-1 mb-4">
-          <AnswerFormRadioGroup disabled={hasAnswered} />
-          {/* {hasAnswered && <AnswerFormPercentage />} */}
+        <div className="grid grid-cols-1 mt-2 mb-10">
+          {hasAnswered ? (
+            <AnswerFormPercentage />
+          ) : (
+            <AnswerFormRadioGroup disabled={hasAnswered} />
+          )}
         </div>
         {!Boolean(userAnswer?.comment) && (
           <div className="relative">
@@ -92,7 +92,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       </AnswerForm>
 
       <div className="space-y-4">
-        <SectionHeading variant="h4">Submitted Comments</SectionHeading>
+        <SectionHeading variant="h3">Submitted Comments</SectionHeading>
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {
