@@ -17,7 +17,7 @@ export default function Timeline({ timelineItems }: { timelineItems: any }) {
 
             return (
               <div
-                key={item._id}
+                key={item._id ?? item.id ?? `timeline-${index}`}
                 className="relative grid grid-cols-1 items-center gap-8 md:grid-cols-2"
               >
                 {/* Timeline dot */}
