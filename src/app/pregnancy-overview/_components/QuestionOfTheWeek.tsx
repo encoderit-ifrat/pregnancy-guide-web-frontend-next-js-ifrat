@@ -10,7 +10,6 @@ import React from "react";
 
 import { QuestionOfTheWeekProps } from "@/app/weekly-question/[id]/_types/weekly_question_types";
 import IconHeading from "@/components/ui/text/IconHeading";
-import { FileQuestion } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
@@ -86,7 +85,7 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                       </h4>
 
                       <div className="grid grid-cols-1 gap-2">
-                         {hasAnswered ? (<AnswerFormPercentage />) : <AnswerFormRadioGroup disabled={hasAnswered} />}
+                        {hasAnswered ? (<AnswerFormPercentage />) : <AnswerFormRadioGroup disabled={hasAnswered} />}
                       </div>
 
                       <div className="my-6 md:mb-0 md:mt-6">

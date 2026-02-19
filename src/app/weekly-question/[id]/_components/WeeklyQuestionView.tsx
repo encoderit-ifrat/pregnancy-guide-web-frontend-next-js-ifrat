@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { MessageCircle, Calendar } from "lucide-react";
-import Image from "next/image";
+import { MessageCircle } from "lucide-react";
 import AnswerForm, {
   AnswerFormComment,
   // AnswerFormComment,
@@ -12,14 +11,11 @@ import AnswerForm, {
   AnswerFormTitle,
 } from "./AnswerForm";
 import { useQueryGetAllAnswers } from "../_api/queries/useQueryGetAllAnswers";
-import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import { ro } from "date-fns/locale";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "@/app/loading";
 import CommentCard, { TCommentCard } from "@/components/base/CommentCard";
 import Pagination from "@/components/base/Pagination";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { useTranslation } from "@/providers/I18nProvider";
 
 type TProps = {
   id: string;
@@ -27,7 +23,6 @@ type TProps = {
 };
 
 export default function WeeklyQuestionView({ id, timestamp }: TProps) {
-  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "1";
@@ -79,22 +74,25 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       >
         <AnswerFormTitle />
         <AnswerFormDescription />
-        <div className="grid grid-cols-1 mb-4">
-          <AnswerFormRadioGroup disabled={hasAnswered} />
-          {/* {hasAnswered && <AnswerFormPercentage />} */}
+        <div className="grid grid-cols-1 mt-2 mb-10">
+          {hasAnswered ? (
+            <AnswerFormPercentage />
+          ) : (
+            <AnswerFormRadioGroup disabled={hasAnswered} />
+          )}
         </div>
         {!Boolean(userAnswer?.comment) && (
           <div className="relative">
             <AnswerFormComment />
             <div className="absolute bottom-2 right-2">
-              <AnswerFormSubmitButton text={t("weeklyQuestion.submitComment")} redirect={false} />
+              <AnswerFormSubmitButton text="Submit Comment" redirect={false} />
             </div>
           </div>
         )}
       </AnswerForm>
 
       <div className="space-y-4">
-        <SectionHeading variant="h4">{t("weeklyQuestion.submittedComments")}</SectionHeading>
+        <SectionHeading variant="h3">Submitted Comments</SectionHeading>
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {
@@ -116,7 +114,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
           <div className="bg-white rounded-xl shadow-md p-12 text-center border border-gray-100">
             <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500">
-              {t("weeklyQuestion.noAnswersYet")}
+              No answers yet. Be the first to share!
             </p>
           </div>
         )}

@@ -14,9 +14,9 @@ import { useCreateAnswer } from "../_api/mutations/useCreateAnswer";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
-import { useTranslation } from "@/providers/I18nProvider";
 
 import { cn } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 type Question = {
   id: string;
@@ -193,7 +193,7 @@ export const AnswerFormPercentage = ({
         return (
           <div key={option._id} className="flex items-center gap-2 flex-1 relative rounded-sm bg-[#F6F0FF]">
             <div className="z-10 text-primary-text px-5 py-4 flex items-center gap-5"><strong className="text-2xl md:text-3xl font-medium">{percentage}%</strong> <span className="text-xl md:text-[22px]">{option.content}</span></div>
-            <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{width: percentage + '%'}}></div>
+            <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{ width: percentage + '%' }}></div>
             {/*<Progress value={percentage} />*/}
           </div>
         );
@@ -203,27 +203,23 @@ export const AnswerFormPercentage = ({
 };
 
 export const AnswerFormComment = () => {
-  const { t } = useTranslation();
   const { answerText, setAnswerText } = useAnswerFormContext();
 
   return (
     <>
-      <h3 className="text-xl font-bold text-foreground mb-8 gap-2">
-        {t("weeklyQuestion.shareComment")}
-      </h3>
+      <SectionHeading variant="h3">Share Your Comment</SectionHeading>
 
       <Textarea
-        placeholder={t("weeklyQuestion.commentPlaceholder")}
+        placeholder="Write your answer here..."
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
         className="bg-white mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-        rows={4}
+        rows={5}
       />
     </>
   );
 };
 export const AnswerFormSeeAnswersButton = () => {
-  const { t } = useTranslation();
   const router = useRouter();
   const { data } = useAnswerFormContext();
   const { question } = data;
@@ -236,7 +232,7 @@ export const AnswerFormSeeAnswersButton = () => {
       }}
       className="sm:px-10 md:px-12"
     >
-      {t("weeklyQuestion.seeAnswersComments")}
+      See answers and comments
     </Button>
   );
 };
@@ -247,7 +243,6 @@ export const AnswerFormSubmitButton = ({
   text?: string;
   redirect?: boolean;
 }) => {
-  const { t } = useTranslation();
   const router = useRouter();
 
   const { data, option, answerText, setAnswerText, onAnswerSubmitted } =
@@ -256,7 +251,7 @@ export const AnswerFormSubmitButton = ({
   const { mutate: mutateCreateAnswer, isPending } = useCreateAnswer();
   const handleSubmit = () => {
     if (!Boolean(option)) {
-      return toast.error(t("weeklyQuestion.selectOption"));
+      return toast.error("Please select an answer option");
     }
 
     mutateCreateAnswer(
@@ -271,7 +266,7 @@ export const AnswerFormSubmitButton = ({
           if (redirect) {
             router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
           }
-          toast.success(t("weeklyQuestion.answerSubmitted"));
+          toast.success("Answer submitted");
           setAnswerText("");
         },
       }
@@ -284,7 +279,7 @@ export const AnswerFormSubmitButton = ({
       disabled={isPending}
       className="w-full max-w-lg md:w-auto px-8 py-3"
     >
-      {isPending ? t("weeklyQuestion.submitting") : (text === "Submit Answer" ? t("weeklyQuestion.submitAnswer") : text)}
+      {isPending ? "Submitting..." : text}
     </Button>
   );
 };

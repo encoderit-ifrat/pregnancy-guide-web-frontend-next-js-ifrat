@@ -15,7 +15,6 @@ import { useCreateComment } from "@/app/weekly-question/[id]/_api/mutations/useC
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { SectionHeading } from "../ui/text/SectionHeading";
-import { useTranslation } from "@/providers/I18nProvider";
 
 export type TCommentCard = {
   _id: string;
@@ -67,10 +66,9 @@ export default function CommentCard({ data }: TCommentCardProps) {
   }, [comments]);
   const [text, setText] = useState("");
   const { mutate: mutateCreateComment, isPending } = useCreateComment();
-  const { t } = useTranslation();
   const handleSubmit = () => {
     if (!Boolean(text)) {
-      return toast.error(t("weeklyQuestion.writeCommentError"));
+      return toast.error("Please write your comment");
     }
 
     mutateCreateComment(
@@ -84,7 +82,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
           const message = res.data.data;
           setAllComments((old) => [...old, { ...message, user: currentUser }]);
           console.log("👉 ~ handleSubmit ~ res::::", res);
-          toast.success(t("weeklyQuestion.commentSubmitted"));
+          toast.success("Comment submitted");
           setText("");
         },
       }
@@ -125,7 +123,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
           {/* Comment Content */}
           <p className="h-full text-gray-800 leading-relaxed mb-4">
             {/* {content || "No answer"} */}
-            {comment || t("weeklyQuestion.noAnswer")}
+            {comment || "No answer"}
           </p>
           <div
             onClick={() => setIsOpen(!isOpen)}
@@ -136,10 +134,10 @@ export default function CommentCard({ data }: TCommentCardProps) {
               <span className="text-sm font-medium text-gray-600 hover:text-primary">
                 {allComments.length > 0 ? allComments.length : ""}{" "}
                 {allComments.length === 0
-                  ? t("weeklyQuestion.addComment")
+                  ? "Add Comment"
                   : allComments.length === 1
-                    ? t("weeklyQuestion.comment")
-                    : t("weeklyQuestion.comments")}
+                    ? "Comment"
+                    : "Comments"}
               </span>
             </div>
           </div>
@@ -185,7 +183,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
                     <div>
                       <p className="text-xs font-bold text-gray-700 leading-relaxed">
                         {comment?.user?._id == currentUser.id
-                          ? t("weeklyQuestion.you")
+                          ? "You"
                           : comment?.user?.name}
                       </p>
                       <p className="text-sm text-gray-700 leading-relaxed">
@@ -197,16 +195,17 @@ export default function CommentCard({ data }: TCommentCardProps) {
               </div>
             )}
             <div className="p-1">
-              <SectionHeading variant="h4" className="mb-0 pb-0">
-                {t("weeklyQuestion.shareComment")}
+              <SectionHeading variant="h3" className="mb-0 pb-0">
+                Share Your Comment
               </SectionHeading>
               <div className="relative">
                 <Textarea
-                  placeholder={t("weeklyQuestion.commentPlaceholder")}
+                  placeholder="Write your comment here..."
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-                  rows={4}
+                  rows={3}
+                  size="sm"
                 />
                 <div className="absolute bottom-2 right-2">
                   <Button
@@ -215,7 +214,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
                     disabled={isPending}
                     className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
                   >
-                    {t("weeklyQuestion.submit")}
+                    Submit
                   </Button>
                 </div>
               </div>
