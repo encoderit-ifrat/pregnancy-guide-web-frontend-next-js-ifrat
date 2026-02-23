@@ -21,10 +21,7 @@
   @apply border-none;
 }
 
-.view-editor-content
-  .tiptap.ProseMirror
-  .task-list-item
-  input[type="checkbox"] {
+.view-editor-content .tiptap.ProseMirror .task-list-item input[type="checkbox"] {
   all: revert;
 }
 
@@ -48,7 +45,7 @@ div.no-tailwind p span {
   --primary-light: #ede9fe;
   --primary-muted: #c4b5fd;
   /*--primary-dark: #5B21B6;*/
-  --primary-dark: #3d3177;
+  --primary-dark: #3D3177;
 
   /* Text Colors */
   --text-primary: #1f2937;
@@ -212,9 +209,11 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
 .container-xl {
   @apply px-4 mx-auto w-full max-w-303.25;
 }
+
 /* Custom utilities for curved backgrounds */
 .curved-top {
   border-radius: 0 0 50% 50% / 0 0 100px 100px;
@@ -232,6 +231,7 @@ h5,
 h6 {
   font-family: var(--font-heading);
 }
+
 /*h2 {*/
 /*  @apply text-3xl md:text-3xl lg:text-4xl font-poppins  font-semibold text-primary-dark;*/
 /*}*/
@@ -263,6 +263,10 @@ h6 {
   @apply px-4 max-w-7xl mx-auto w-full;
 }
 
+.thread-header {
+  @apply w-185 h-74  flex flex-col items-center gap-6;
+}
+
 .swiper-slide img {
   display: block;
   width: 100%;
@@ -285,13 +289,11 @@ h6 {
   height: 100%;
   /*gradient white transparent white*/
   background: transparent;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0) 15%,
-    rgba(255, 255, 255, 0) 85%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 15%,
+      rgba(255, 255, 255, 0) 85%,
+      rgba(255, 255, 255, 1) 100%);
 }
 
 /*.swiper-button-prev {*/
@@ -325,20 +327,20 @@ h6 {
 
 /* Place both nav buttons on top-right; offset prev slightly left so they don't overlap */
 /* Target both direct children (>) and nested cases for robustness. Force left to auto to override Swiper defaults. */
-.topNavigation > .swiper-button-prev,
-.topNavigation > .swiper-button-next,
+.topNavigation>.swiper-button-prev,
+.topNavigation>.swiper-button-next,
 .topNavigation .swiper-button-prev,
 .topNavigation .swiper-button-next,
-.mySwiper.topNavigation > .swiper-button-prev,
-.mySwiper.topNavigation > .swiper-button-next {
+.mySwiper.topNavigation>.swiper-button-prev,
+.mySwiper.topNavigation>.swiper-button-next {
   z-index: 50;
   @apply left-auto -top-[56px] right-[10px] md:-top-[60px] md:right-[10px] lg:-top-[60px] lg:right-[120px];
 }
 
 /* Offset prev so they sit side-by-side on the right */
-.topNavigation > .swiper-button-prev,
+.topNavigation>.swiper-button-prev,
 .topNavigation .swiper-button-prev,
-.mySwiper.topNavigation > .swiper-button-prev {
+.mySwiper.topNavigation>.swiper-button-prev {
   /*right: 66px !important; !* offset prev to the left of next *!*/
   @apply right-[66px] md:right-[66px] lg:right-[180px];
 }
@@ -372,6 +374,12 @@ h6 {
 }
 
 /* === Text Utilities === */
+
+
+.text-primary-color {
+  color: var(--primary-dark);
+}
+
 .text-muted-gray {
   color: var(--color-text-muted-gray);
 }
@@ -618,11 +626,9 @@ h6 {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    var(--color-primary-muted),
-    var(--color-primary)
-  );
+  background: linear-gradient(180deg,
+      var(--color-primary-muted),
+      var(--color-primary));
   /*border-radius: 10px;*/
 }
 
