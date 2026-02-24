@@ -25,8 +25,10 @@ import { useForgotPassword } from "../_api/useForgotPassword";
 import { toast } from "sonner";
 import { ChevronRight } from "lucide-react";
 import * as React from "react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export default function ForgotPasswordForm() {
+  const { t } = useTranslation();
   const form = useForm<ForgotPasswordSchemaType>({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
@@ -57,9 +59,9 @@ export default function ForgotPasswordForm() {
               <FormControl>
                 <div className="relative">
                   <Input
-                    label="Email"
+                    label={t("forgotPassword.email")}
                     type="email"
-                    placeholder="User Email"
+                    placeholder={t("forgotPassword.emailPlaceholder")}
                     variant="default"
                     {...field}
                   />
@@ -82,7 +84,7 @@ export default function ForgotPasswordForm() {
           isLoading={forgotPasswordMutation?.isPending}
           disabled={forgotPasswordMutation?.isPending}
         >
-          <span>Continue</span>
+          <span>{t("forgotPassword.continueButton")}</span>
           <ChevronRight className="w-8 h-8 ml-1" />
         </Button>
       </form>

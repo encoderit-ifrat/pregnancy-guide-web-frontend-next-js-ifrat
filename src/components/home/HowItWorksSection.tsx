@@ -1,44 +1,46 @@
-import Image from "next/image";
-import { Heart, Zap } from "lucide-react";
-import { Card } from "@/components/ui/Card";
-import WaveDivider from "@/components/layout/svg/WaveDivider";
+"use client";
+
+import { Zap } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import VCard from "@/components/ui/cards/VCard";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-
-const steps = [
-  {
-    number: "01",
-    title: "Track Your Week",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent.",
-    image: "/images/articles/2.png",
-  },
-  {
-    number: "02",
-    title: "Access Expert Content",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent.",
-    image: "/images/articles/3.png",
-  },
-  {
-    number: "03",
-    title: "Use Smart Checklists",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent.",
-    image: "/images/articles/1.png",
-  },
-];
+import { useTranslation } from "@/providers/I18nProvider";
 
 export function HowItWorksSection() {
+  const { t } = useTranslation();
+
+  const steps = [
+    {
+      number: "01",
+      title: t("howItWorks.step1Title"),
+      description: t("howItWorks.step1Desc"),
+      image: "/images/articles/2.png",
+    },
+    {
+      number: "02",
+      title: t("howItWorks.step2Title"),
+      description: t("howItWorks.step2Desc"),
+      image: "/images/articles/3.png",
+    },
+    {
+      number: "03",
+      title: t("howItWorks.step3Title"),
+      description: t("howItWorks.step3Desc"),
+      image: "/images/articles/1.png",
+    },
+  ];
+
   return (
     <section className="relative py-10 md:pb-10">
       <div className="container-xl">
         {/* Section Header */}
         <div className="mb-16 text-center">
           <IconHeading
-            text="Step-by-Step"
+            text={t("howItWorks.label")}
             icon={<Zap />}
             className="text-primary justify-center"
           />
-          <SectionHeading>How it Works</SectionHeading>
+          <SectionHeading>{t("howItWorks.title")}</SectionHeading>
         </div>
 
         {/* Steps Grid */}

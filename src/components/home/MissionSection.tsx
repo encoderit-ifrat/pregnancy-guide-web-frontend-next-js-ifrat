@@ -1,19 +1,17 @@
+"use client";
+
 import Image from "next/image";
-import { Download, Heart } from "lucide-react";
-import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { Heart } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import WaveLeaf from "../layout/svg/WaveLeaf";
 import React from "react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export function MissionSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative pt-6 pb-16 md:py-24">
-      {/* <WaveLeaf
-        className="text-[#FFFFFF] absolute top-0 left-0 right-0 z-[1]"
-        bgClassName="bg-primary!"
-      /> */}
-
       <div className="container-xl max-w-6xl">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
           {/* Image */}
@@ -33,18 +31,14 @@ export function MissionSection() {
           <div className="order-1 md:order-2 text-center md:text-left">
             {/* Section Label */}
             <IconHeading
-              text="Mission"
+              text={t("mission.label")}
               icon={<Heart />}
               className="text-primary justify-center md:justify-start"
             />
-            <SectionHeading>Our Mission</SectionHeading>
+            <SectionHeading>{t("mission.title")}</SectionHeading>
 
             <p className="mx-auto max-w-xl lg:mx-0">
-              Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse
-              vitae risus et nulla blandit condimentum. Nunc pellentesque, felis
-              ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet
-              felis justo sed quam. Cras consequat lobortis dui, ut auctor elit
-              porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e
+              {t("mission.description")}
             </p>
           </div>
         </div>

@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 import React from "react";
@@ -7,6 +8,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ChevronRight, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/providers/I18nProvider";
 
 type BigSliderCardProps = {
   data?: {
@@ -19,6 +21,7 @@ type BigSliderCardProps = {
 };
 
 export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
+  const { t } = useTranslation();
   return (
     <Card className="h-full flex flex-col grow! bg-white rounded-lg shadow-[0_10px_30px_rgba(60,64,67,0.2)] p-3 sm:p-6">
       <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -36,7 +39,7 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
               variant="outline"
               className="w-full h-11 sm:h-12 md:h-13 lg:h-14 "
             >
-              Read More
+              {t("articles.readMore")}
               <ChevronRight className="h-5 w-5 text-purple-600" />
             </Button>
             {/*<button*/}

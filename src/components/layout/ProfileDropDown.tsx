@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +12,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { signOut } from "next-auth/react";
 import { User, LogOut } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export function ProfileDropDown() {
+  const { t } = useTranslation();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="cursor-pointer">
@@ -22,18 +27,18 @@ export function ProfileDropDown() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/profile">
           <DropdownMenuItem className="hover:bg-black/5">
             <User className="mr-2 size-4" />
-            Profile
+            {t("header.profile")}
           </DropdownMenuItem>
         </Link>
         <Link href="/change-password">
           <DropdownMenuItem className="hover:bg-black/5">
             <User className="mr-2 size-4" />
-            Change Password
+            {t("header.changePassword")}
           </DropdownMenuItem>
         </Link>
         <DropdownMenuItem
@@ -41,7 +46,7 @@ export function ProfileDropDown() {
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           <LogOut className="mr-2 size-4" />
-          Log Out
+          {t("header.logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

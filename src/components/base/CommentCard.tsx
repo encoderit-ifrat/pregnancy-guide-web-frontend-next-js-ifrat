@@ -15,6 +15,7 @@ import { useCreateComment } from "@/app/weekly-question/[id]/_api/mutations/useC
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { SectionHeading } from "../ui/text/SectionHeading";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export type TCommentCard = {
   _id: string;
@@ -66,9 +67,10 @@ export default function CommentCard({ data }: TCommentCardProps) {
   }, [comments]);
   const [text, setText] = useState("");
   const { mutate: mutateCreateComment, isPending } = useCreateComment();
+  const { t } = useTranslation();
   const handleSubmit = () => {
     if (!Boolean(text)) {
-      return toast.error("Please write your comment");
+      return toast.error(t("weeklyQuestion.writeCommentError"));
     }
 
     mutateCreateComment(
@@ -82,7 +84,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
           const message = res.data.data;
           setAllComments((old) => [...old, { ...message, user: currentUser }]);
           console.log("👉 ~ handleSubmit ~ res::::", res);
-          toast.success("Comment submitted");
+          toast.success(t("weeklyQuestion.commentSubmitted"));
           setText("");
         },
       }
@@ -123,7 +125,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
           {/* Comment Content */}
           <p className="h-full text-gray-800 leading-relaxed mb-4">
             {/* {content || "No answer"} */}
-            {comment || "No answer"}
+            {comment || t("weeklyQuestion.noAnswer")}
           </p>
           <div
             onClick={() => setIsOpen(!isOpen)}
@@ -134,10 +136,10 @@ export default function CommentCard({ data }: TCommentCardProps) {
               <span className="text-sm font-medium text-gray-600 hover:text-primary">
                 {allComments.length > 0 ? allComments.length : ""}{" "}
                 {allComments.length === 0
-                  ? "Add Comment"
+                  ? t("weeklyQuestion.addComment")
                   : allComments.length === 1
-                    ? "Comment"
-                    : "Comments"}
+                    ? t("weeklyQuestion.comment")
+                    : t("weeklyQuestion.comments")}
               </span>
             </div>
           </div>
@@ -183,7 +185,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
                     <div>
                       <p className="text-xs font-bold text-gray-700 leading-relaxed">
                         {comment?.user?._id == currentUser.id
-                          ? "You"
+                          ? t("weeklyQuestion.you")
                           : comment?.user?.name}
                       </p>
                       <p className="text-sm text-gray-700 leading-relaxed">
@@ -196,16 +198,15 @@ export default function CommentCard({ data }: TCommentCardProps) {
             )}
             <div className="p-1">
               <SectionHeading variant="h4" className="mb-0 pb-0">
-                Share Your Comment
+                {t("weeklyQuestion.shareComment")}
               </SectionHeading>
               <div className="relative">
                 <Textarea
-                  placeholder="Write your comment here..."
+                  placeholder={t("weeklyQuestion.commentPlaceholder")}
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-                  rows={3}
-                  size="sm"
+                  rows={4}
                 />
                 <div className="absolute bottom-2 right-2">
                   <Button
@@ -214,7 +215,7 @@ export default function CommentCard({ data }: TCommentCardProps) {
                     disabled={isPending}
                     className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
                   >
-                    Submit
+                    {t("weeklyQuestion.submit")}
                   </Button>
                 </div>
               </div>

@@ -109,11 +109,10 @@ export default function Navbar() {
 
         {/* Navigation — hidden when search expands */}
         <div
-          className={`flex-1 flex justify-center overflow-hidden transition-all duration-300 ${
-            isSearchExpanded
+          className={`flex-1 flex justify-center overflow-hidden transition-all duration-300 ${isSearchExpanded
               ? "opacity-0 pointer-events-none scale-95"
               : "opacity-100 scale-100"
-          }`}
+            }`}
         >
           <div className="relative hidden md:block">
             {/* Left Scroll Button */}
@@ -131,7 +130,6 @@ export default function Navbar() {
                 onClick={() => handleScroll("right")}
               />
             )}
-
             {/* Scrollable Navigation Menu */}
             <NavigationMenu>
               <div

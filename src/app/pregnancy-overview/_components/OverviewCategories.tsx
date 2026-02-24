@@ -6,6 +6,7 @@ import { CircleIcon } from "@/components/ui/CircleIcon";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 const overviewCategories = [
   {
@@ -32,6 +33,7 @@ const overviewCategories = [
 ];
 
 function OverviewCategories() {
+  const { t } = useTranslation();
   const { user } = useCurrentUser();
   const currentPregnancyData = user?.details?.current_pregnancy_data;
   const week = currentPregnancyData?.week ?? 0;
@@ -51,7 +53,7 @@ function OverviewCategories() {
               <div className="flex flex-col cursor-pointer">
                 {icon}
                 <p className="mt-4 text-center text-lg! md:text-3xl! text-primary-dark font-semibold">
-                  {name}
+                  {t(`pregnancy.categories.${name.toLowerCase()}`)}
                 </p>
               </div>
             </Link>

@@ -9,6 +9,7 @@ import IconHeading from '@/components/ui/text/IconHeading';
 import IconQuestion from '@/components/svg-icon/icon-question';
 import { SectionHeading } from '@/components/ui/text/SectionHeading';
 import { PageContainer } from '@/components/layout/PageContainer';
+import { useTranslation } from '@/providers/I18nProvider';
 
 
 const SAMPLE_MY_THREADS = [
@@ -83,6 +84,7 @@ const SAMPLE_MY_THREADS = [
 ];
 
 export default function PublishedThreadsPage() {
+    const { t } = useTranslation();
     const router = useRouter();
 
     return (
@@ -91,17 +93,15 @@ export default function PublishedThreadsPage() {
                 <div className="thread-header mb-6">
                     {/* Section Label */}
                     <IconHeading
-                        text="Threads"
+                        text={t("threads.label")}
                         icon={<IconQuestion />}
                         className="text-primary justify-center"
                     />
 
-                    <SectionHeading className="m-0 text-center">My Published Thread</SectionHeading>
+                    <SectionHeading className="m-0 text-center">{t("threads.myPublished")}</SectionHeading>
 
                     <p className="text-base text-primary-color max-w-3xl text-center">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        {t("threads.subtitle")}
                     </p>
 
 
@@ -110,14 +110,14 @@ export default function PublishedThreadsPage() {
                 <div className="w-full max-w-6xl bg-white rounded-4xl shadow-sm overflow-hidden px-9 pt-10 pb-6">
                     {/* Header Area */}
                     <div className="flex items-center justify-between mb-12">
-                        <h1 className="text-5xl font-semibold text-[#3D3177]">My Threads</h1>
+                        <h1 className="text-5xl font-semibold text-[#3D3177]">{t("threads.myPublished")}</h1>
                         <Button
                             variant="outline"
                             className="rounded-full border-[#DED7F1] text-primary-color hover:bg-[#F6F0FF] px-7 h-11 border-2"
                             onClick={() => router.back()}
                         >
                             <ChevronLeft className="size-5 mr-1 text-[#DED7F1]" />
-                            <span className="font-semibold text-base">Back</span>
+                            <span className="font-semibold text-base">{t("common.back")}</span>
                         </Button>
                     </div>
 

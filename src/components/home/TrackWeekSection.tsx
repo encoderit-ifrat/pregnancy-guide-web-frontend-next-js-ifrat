@@ -1,9 +1,14 @@
+"use client";
+
 import { FileText } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import Timeline from "@/components/home/TimeLine";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export function TrackYourWeekSection({ data }: { data: any }) {
+  const { t } = useTranslation();
+
   return (
     <section className="bg-[#FDFBFF] relative">
       <div className="container-xl">
@@ -13,11 +18,11 @@ export function TrackYourWeekSection({ data }: { data: any }) {
           {/* Section Header */}
           <div className="mb-6 md:mb-12 text-center">
             <IconHeading
-              text="Vestibulum"
+              text={t("trackWeek.label")}
               icon={<FileText />}
               className="text-primary justify-center"
             />
-            <SectionHeading>Track your Week</SectionHeading>
+            <SectionHeading>{t("trackWeek.title")}</SectionHeading>
           </div>
 
           <Timeline timelineItems={data} />

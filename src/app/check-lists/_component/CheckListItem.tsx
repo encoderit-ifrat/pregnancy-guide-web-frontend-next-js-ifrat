@@ -18,6 +18,7 @@ import {
 } from "../_types/checklist_item_types";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export default function CheckListItem({
   checklistItems,
@@ -33,6 +34,7 @@ export default function CheckListItem({
   );
 
   const router = useRouter();
+  const { t } = useTranslation();
 
   // FIX: Only update when checklistItems prop changes
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function CheckListItem({
       { id },
       {
         onSuccess(res) {
-          toast.success("Checklist updated successfully.");
+          toast.success(t("checklists.toggleSuccess"));
           setFilterLists((old: ChecklistItemWithItems[]) => {
             // Update the checked status
             const updated = old.map((item: ChecklistItemWithItems) => {
@@ -160,9 +162,8 @@ export default function CheckListItem({
                   <div
                     key={idx}
                     onClick={() => handleChecklistToggle(itm._id)}
-                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${
-                      itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
-                    }`}
+                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
+                      }`}
                   >
                     <div className="pt-0.5">
                       {toggleLoading == itm._id && isPending ? (
@@ -177,19 +178,17 @@ export default function CheckListItem({
                     </div>
                     <div className="flex-1">
                       <h4
-                        className={`text-xl text-primary-dark font-bold block ${
-                          itm.checked ? "text-green-800" : "text-gray-700"
-                        }`}
+                        className={`text-xl text-primary-dark font-bold block ${itm.checked ? "text-green-800" : "text-gray-700"
+                          }`}
                       >
                         {itm.title}
                       </h4>
                       {itm.description && (
                         <p
-                          className={`text-sm text-primary-dark font-medium mt-1 ${
-                            itm.checked
-                              ? "text-green-700 opacity-75"
-                              : "text-gray-600"
-                          }`}
+                          className={`text-sm text-primary-dark font-medium mt-1 ${itm.checked
+                            ? "text-green-700 opacity-75"
+                            : "text-gray-600"
+                            }`}
                         >
                           {itm.description}
                         </p>

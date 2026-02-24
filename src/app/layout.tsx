@@ -12,6 +12,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
 import { UserProvider } from "@/providers/UserProvider";
+import { I18nProvider } from "@/providers/I18nProvider";
 import { Header } from "@/components/layout/Header";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { Footer } from "@/components/layout/Footer";
@@ -61,35 +62,39 @@ export const metadata: Metadata = {
   description: "Familj project setup",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // /pregnancy-overview
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} antialiased text-primary-dark`}
       >
         <SessionWrapper>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ReactQueryProvider>
-              <Header />
-              <UserProvider>
-                {children}
-                <Toaster richColors position="top-right" />
-              </UserProvider>
-              {/* divider */} <FooterWaveDivider />
-              <Footer />
-            </ReactQueryProvider>
-          </ThemeProvider>
+          <I18nProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ReactQueryProvider>
+                <Header />
+                <UserProvider>
+                  {children}
+                  <Toaster richColors position="top-right" />
+                </UserProvider>
+                {/* divider */} <FooterWaveDivider />
+                <Footer />
+              </ReactQueryProvider>
+            </ThemeProvider>
+          </I18nProvider>
         </SessionWrapper>
       </body>
     </html>

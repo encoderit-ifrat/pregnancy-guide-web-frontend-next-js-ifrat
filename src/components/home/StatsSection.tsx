@@ -1,31 +1,36 @@
+"use client";
+
 import { Users, Heart, Baby, Gift } from "lucide-react";
 import React from "react";
 import StatsCard from "@/components/ui/cards/StatusCard";
-
-const stats = [
-  {
-    icon: Users,
-    value: "530+",
-    label: "Our Volunteer",
-  },
-  {
-    icon: Heart,
-    value: "22+",
-    label: "Happy Children",
-  },
-  {
-    icon: Baby,
-    value: "22+",
-    label: "Our Volunteer",
-  },
-  {
-    icon: Gift,
-    value: "22+",
-    label: "Our Volunteer",
-  },
-];
+import { useTranslation } from "@/providers/I18nProvider";
 
 const StatsSection: React.FC = () => {
+  const { t } = useTranslation();
+
+  const stats = [
+    {
+      icon: Users,
+      value: "530+",
+      label: t("stats.ourVolunteer"),
+    },
+    {
+      icon: Heart,
+      value: "22+",
+      label: t("stats.happyChildren"),
+    },
+    {
+      icon: Baby,
+      value: "22+",
+      label: t("stats.ourVolunteer"),
+    },
+    {
+      icon: Gift,
+      value: "22+",
+      label: t("stats.ourVolunteer"),
+    },
+  ];
+
   return (
     <section className="pt-8 pb-20">
       <div className="section">

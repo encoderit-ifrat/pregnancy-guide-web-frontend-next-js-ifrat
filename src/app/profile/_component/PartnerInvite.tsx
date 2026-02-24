@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import IconDelete from "@/components/svg-icon/icon-delete";
+import { useTranslation } from "@/providers/I18nProvider";
 
 
 interface InvitedPartner {
@@ -21,6 +22,7 @@ interface InvitedPartner {
 }
 
 export default function PartnerInvite() {
+    const { t } = useTranslation();
     const [partners, setPartners] = useState<InvitedPartner[]>([
         { email: "john@email.com", status: "invited" },
         { email: "alice@email.com", status: "Accepted" },
@@ -29,7 +31,7 @@ export default function PartnerInvite() {
     ]);
 
     const [email, setEmail] = useState("");
-    const [role, setRole] = useState("Partner");
+    const [role, setRole] = useState(t("partner.rolePartner"));
 
     const handleDelete = (index: number) => {
         setPartners(partners.filter((_, i) => i !== index));
@@ -40,13 +42,13 @@ export default function PartnerInvite() {
             {/* Upper Section: Invite Form */}
             <div className="p-6 bg-[#FBF8FF] border-b border-[#F3EAFF]">
                 <h3 className="text-[#4D2C82] text-xl font-semibold mb-3 flex items-center gap-2">
-                    Partner Invite
+                    {t("partner.inviteTitle")}
                 </h3>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center max-w-2xl relative ">
                     <div className="flex flex-1 items-stretch h-11  border-[#A97AEC] rounded-lg border bg-white overflow-hidden">
                         <input
                             type="email"
-                            placeholder="Enter Partner Email....."
+                            placeholder={t("partner.emailPlaceholder")}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="flex-1 px-4 py-2 text-[#A179F2] placeholder:text-[#A179F2]/60 outline-none text-sm md:text-base border-r border-[#A97AEC]"
@@ -59,8 +61,8 @@ export default function PartnerInvite() {
                                 </button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                <DropdownMenuItem onClick={() => setRole("Partner")} className="text-[#A179F2]">Partner</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setRole("Other")} className="text-[#A179F2]">Other</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setRole(t("partner.rolePartner"))} className="text-[#A179F2]">{t("partner.rolePartner")}</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setRole(t("partner.roleOther"))} className="text-[#A179F2]">{t("partner.roleOther")}</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         <button
@@ -72,7 +74,7 @@ export default function PartnerInvite() {
                                 }
                             }}
                         >
-                            Send Invitation
+                            {t("partner.sendInvite")}
                         </button>
                     </div>
                 </div>
@@ -80,7 +82,7 @@ export default function PartnerInvite() {
 
             {/* Lower Section: Email List */}
             <div className="p-6 bg-white">
-                <h4 className="text-[#4D2C82] text-xl font-semibold mb-2 text-left">Email Address</h4>
+                <h4 className="text-[#4D2C82] text-xl font-semibold mb-2 text-left">{t("partner.emailAddress")}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 bg-soft-white">
                     {partners.map((partner, index) => (
                         <div
@@ -99,7 +101,7 @@ export default function PartnerInvite() {
                                             : "bg-[#4ADE80] text-white"
                                     )}
                                 >
-                                    {partner.status}
+                                    {partner.status === "invited" ? t("partner.statusInvited") : t("partner.statusAccepted")}
                                 </Badge>
                                 <button
 

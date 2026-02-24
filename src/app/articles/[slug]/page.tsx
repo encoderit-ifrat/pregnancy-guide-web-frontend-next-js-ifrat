@@ -6,14 +6,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/utlis/authOptions";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
-import { HeroSection2 } from "@/components/home/HeroSection2";
+import HeroSection2 from "@/components/home/HeroSection2";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { PageContainer } from "@/components/layout/PageContainer";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { CircleQuestionMark } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WeeklyQuestionView from "@/app/weekly-question/[id]/_components/WeeklyQuestionView";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -27,15 +27,18 @@ type Article = {
   slug: string;
 };
 
+import { getI18n } from "@/lib/i18n-server";
+
 // Fetch article data with authentication
-async function getArticle(slug: string, token: string) {
+async function getArticle(slug: string, token: string, locale: string = "sv") {
   try {
     const res = await fetch(
-      `${API_V1}/articles/${slug}`,
+      `${API_V1}/articles/${slug}?lang=${locale}`, // Added lang query param
       {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          "Accept-Language": locale, // Also include header
         },
         cache: "no-store",
       }
@@ -60,18 +63,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const session = await getServerSession(authOptions);
+  const { t, locale } = await getI18n();
 
   if (!session?.token) {
     return {
-      title: "Login Required | Familij",
+      title: `${t("header.login")} | Familij`,
     };
   }
 
-  const article = await getArticle(slug, session.token);
+  const article = await getArticle(slug, session.token, locale);
 
   if (!article) {
     return {
-      title: "Article Not Found | Familij",
+      title: `${t("common.notFound")} | Familij`,
     };
   }
 
@@ -102,7 +106,12 @@ export default async function ArticlePage({
     redirect("/login");
   }
 
-  const article = await getArticle(slug, session.token);
+  // Get locale from cookie
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
+
+  const article = await getArticle(slug, session.token, locale);
 
   if (!article) {
     notFound();

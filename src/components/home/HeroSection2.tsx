@@ -1,22 +1,24 @@
-import Image from "next/image";
-import Link from "next/link";
-import WaveLeaf from "@/components/layout/svg/WaveLeaf";
-import WaveDivider from "@/components/layout/svg/WaveDivider";
+"use client";
 
-export function HeroSection2() {
+import Image from "next/image";
+
+import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { useTranslation } from "@/providers/I18nProvider";
+
+export default function HeroSection2() {
+  const { t } = useTranslation();
   return (
     <section className="relative bg-[#F6F0FF] pt-2 pb-0 lg:pb-0">
       <div className="section px-4">
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
           {/* Content */}
           <div className="order-1 text-center lg:order-1 lg:text-left">
-            <p className="text-primary text-2xl">Förlossning</p>
+            <p className="text-primary text-2xl">{t("hero2.label")}</p>
             <h1 className="mb-4 text-3xl font-bold leading-tight md:text-5xl text-primary-dark">
-              Helpful Articles for Every Step of Your Pregnancy
+              {t("hero2.title")}
             </h1>
             <p className="mx-auto mb-8 text-sm leading-relaxed text-text-secondary lg:mx-0 lg:text-lg">
-              Expert-written guides, tips, and insights to support you from
-              pregnancy to parenthood.
+              {t("hero2.subtitle")}
             </p>
           </div>
 

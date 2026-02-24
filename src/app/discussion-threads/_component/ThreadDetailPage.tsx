@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useTranslation } from "@/providers/I18nProvider";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
     Dialog,
@@ -86,6 +87,7 @@ const SAMPLE_REPLIES: Reply[] = [
 ];
 
 function ReplyCard({ reply }: { reply: Reply }) {
+    const { t } = useTranslation();
     return (
         <div className="w-281 h-31 bg-white rounded-lg overflow-hidden shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] mx-auto">
             <div className="px-7 h-full flex items-center justify-between gap-4">
@@ -103,15 +105,15 @@ function ReplyCard({ reply }: { reply: Reply }) {
                 <div className="flex items-center gap-10 shrink-0">
                     <div className="flex items-center gap-1.5 text-primary-color cursor-pointer hover:opacity-80 transition-opacity">
                         <IconReplyWhite className="size-5" />
-                        <span className="text-sm font-bold">Reply</span>
+                        <span className="text-sm font-bold">{t("threads.reply")}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-primary-color cursor-pointer hover:opacity-80 transition-opacity">
                         <IconLove className="size-5" />
-                        <span className="text-sm font-bold">{reply.likes} Like</span>
+                        <span className="text-sm font-bold">{reply.likes} {t("threads.like")}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-primary-color cursor-pointer hover:opacity-80 transition-opacity">
                         <IconFlag className="size-5 " />
-                        <span className="text-sm font-bold">Flag</span>
+                        <span className="text-sm font-bold">{t("threads.flag")}</span>
                     </div>
                 </div>
             </div>
@@ -127,6 +129,7 @@ export default function ThreadDetailPage({
     lastReply,
     children,
 }: ThreadDetailPageProps) {
+    const { t } = useTranslation();
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -154,13 +157,13 @@ export default function ThreadDetailPage({
                                         {title}
                                     </h2>
                                     <Badge variant="outline" className="bg-[#EEE4FD] text-primary-color px-3 py-1 rounded-full text-[11px] font-medium border-none">
-                                        Created by {createdBy.name} · {createdBy.time}
+                                        {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
                                     </Badge>
                                 </div>
 
                                 <div className="mb-6">
                                     <p className="text-primary-color text-base leading-relaxed">
-                                        {excerpt} <span className="text-[#9679E1] text-base cursor-pointer hover:underline">Read More</span>
+                                        {excerpt} <span className="text-[#9679E1] text-base cursor-pointer hover:underline">{t("articles.readMore")}</span>
                                     </p>
                                 </div>
                             </div>
@@ -169,23 +172,23 @@ export default function ThreadDetailPage({
                             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6]">
                                 <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
                                     <IconLove className="size-5 fill-[#3D3177]" />
-                                    <span className="text-base font-medium">{stats.likes} Like</span>
+                                    <span className="text-base font-medium">{stats.likes} {t("threads.like")}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
                                     <IconReply className="size-5 fill-[#3D3177]" />
-                                    <span className="text-base font-medium">{stats.replies} Replies</span>
+                                    <span className="text-base font-medium">{stats.replies} {t("threads.replies")}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
                                     <IconEye className="size-5" />
-                                    <span className="text-base font-medium">{stats.views} Views</span>
+                                    <span className="text-base font-medium">{stats.views} {t("threads.views")}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
                                     <IconShare className="size-5 fill-[#3D3177]" />
-                                    <span className="text-base font-medium">{stats.shares} Share</span>
+                                    <span className="text-base font-medium">{stats.shares} {t("threads.share")}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
                                     <IconFlag className="size-5" />
-                                    <span className="text-base font-medium">Flag</span>
+                                    <span className="text-base font-medium">{t("threads.flag")}</span>
                                 </div>
                             </div>
                         </div>
@@ -194,12 +197,12 @@ export default function ThreadDetailPage({
                         <div className="w-48 h-42 rounded-lg p-5 flex flex-col items-center justify-center gap-6">
                             {lastReply && (
                                 <div className="text-center">
-                                    <p className="text-primary-color text-sm font-medium">Last reply:</p>
-                                    <p className="text-primary-color text-sm font-medium opacity-80">{lastReply.time} ago by {lastReply.user}</p>
+                                    <p className="text-primary-color text-sm font-medium">{t("threads.lastReply")}</p>
+                                    <p className="text-primary-color text-sm font-medium opacity-80">{t("threads.agoBy", { time: lastReply.time, user: lastReply.user })}</p>
                                 </div>
                             )}
                             <button className="bg-[#9A79F1] hover:bg-[#8B6AE0] text-white px-8 py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors w-full shadow-sm">
-                                <span className="font-semibold text-sm">Reply</span>
+                                <span className="font-semibold text-sm">{t("threads.reply")}</span>
                                 <ChevronRight className="size-4" />
                             </button>
                         </div>

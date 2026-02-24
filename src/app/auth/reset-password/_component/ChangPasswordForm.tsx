@@ -28,8 +28,10 @@ import {
 import { PasswordInput } from "@/components/base/PasswordInput";
 import * as React from "react";
 import Link from "next/link";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export default function ChangePasswordForm() {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [token, setToken] = useState<string | null>(null);
@@ -48,16 +50,16 @@ export default function ChangePasswordForm() {
   useEffect(() => {
     const urlToken = new URLSearchParams(window.location.search).get("token");
     if (!urlToken) {
-      toast.error("Invalid reset link");
+      toast.error(t("auth.resetPassword.invalidLink"));
       router.push("/forgot-password");
     } else {
       setToken(urlToken);
     }
-  }, [router]);
+  }, [router, t]);
 
   const onSubmit = (values: ResetPasswordSchemaType) => {
     if (!token) {
-      toast.error("Reset token is missing");
+      toast.error(t("auth.resetPassword.tokenMissing"));
       return;
     }
     resetPassword(
@@ -68,7 +70,7 @@ export default function ChangePasswordForm() {
       },
       {
         onSuccess: () => {
-          toast.success("Password reset successfully!");
+          toast.success(t("auth.resetPassword.success"));
           form.reset();
           router.push("/login");
         },
@@ -90,7 +92,7 @@ export default function ChangePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="Password" {...field} />
+                <PasswordInput label={t("auth.resetPassword.passwordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -104,7 +106,7 @@ export default function ChangePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="Confirm Password" {...field} />
+                <PasswordInput label={t("auth.resetPassword.confirmPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,22 +125,22 @@ export default function ChangePasswordForm() {
             disabled={isPending}
             isLoading={isPending}
           >
-            Change Password
+            {t("auth.changePassword.submit")}
           </Button>
         </div>
 
         <div className="my-6 flex items-center justify-center text-gray-200">
           <div className="w-full h-px bg-gray-200"></div>
-          <div className="mx-2">OR</div>
+          <div className="mx-2">{t("common.or")}</div>
           <div className="w-full h-px bg-gray-200"></div>
         </div>
 
         {/* Login Link */}
         <div className="text-xs sm:text-sm md:text-base lg:text-xl leading-tight">
           <p className="text-center text-text-dark">
-            Already have an account?{" "}
+            {t("auth.resetPassword.alreadyHaveAccount")}{" "}
             <Link href="/login" className="text-circle-border hover:underline">
-              Sign In
+              {t("auth.resetPassword.signIn")}
             </Link>
           </p>
         </div>

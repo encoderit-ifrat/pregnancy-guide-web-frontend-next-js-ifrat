@@ -1,30 +1,23 @@
-import React from "react";
-import { Metadata } from "next";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import PregnancyOverview from "./_components/PregnancyOverview";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utlis/authOptions";
+import { useSession } from "next-auth/react";
 import NoPregnancyInfo from "@/components/base/NoPregnancyInfo";
 import PregnancyError from "@/components/base/PregnancyError";
-import {API_V1} from "@/consts";
-
-// Metadata for the page title
-export const metadata: Metadata = {
-  title: "Pregnancy Overview | Familij",
-  description: "Track and monitor your pregnancy journey",
-};
-
-// Force dynamic rendering (SSR)
-export const dynamic = "force-dynamic";
+import { API_V1 } from "@/consts";
+import { useTranslation } from "@/providers/I18nProvider";
 
 // Fetch user-specific data using session
-async function getPregnancyData(token: string) {
+async function getPregnancyData(token: string, locale: string = "sv") {
   try {
     const res = await fetch(
-      `${API_V1}/pregnancy`,
+      `${API_V1}/pregnancy?lang=${locale}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          "Accept-Language": locale,
         },
         cache: "no-store", // Changed from next.revalidate to cache: 'no-store' for SSR
       }
@@ -42,29 +35,40 @@ async function getPregnancyData(token: string) {
 }
 
 // Async server component
-export default async function Page() {
-  // Get session from NextAuth or your auth provider
-  const session = await getServerSession(authOptions);
+export default function Page() {
+  const { data: session } = useSession();
+  const { locale, t } = useTranslation();
+  const [pregnancyData, setPregnancyData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (session?.token) {
+      getPregnancyData(session.token as string, locale)
+        .then((res) => {
+          if (res.error) {
+            setError(res.error);
+          } else {
+            setPregnancyData(res);
+          }
+        })
+        .finally(() => setLoading(false));
+    } else if (session === null) {
+      setLoading(false);
+    }
+  }, [session, locale]);
+
+  if (loading) {
+    return <div className="p-4 text-center">{t("common.loading")}</div>;
+  }
 
   // Check if user is authenticated
   if (!session || !session.token) {
     return (
       <div className="p-4">
-        <p>Please login to view your pregnancy overview.</p>
+        <p>{t("pregnancy.loginRequired")}</p>
       </div>
     );
-  }
-
-  // Get token from the session (adjust based on your session structure)
-  const token = session.token;
-
-  // Fetch data with the token
-  const { data: pregnancyData, error } = await getPregnancyData(token);
-  console.log({ pregnancyData });
-
-  // Handle error state
-  if (error) {
-    return <PregnancyError error={error} />;
   }
 
   // Handle no data state

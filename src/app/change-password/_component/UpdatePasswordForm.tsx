@@ -18,9 +18,10 @@ import {
 } from "../_types/change_password_types";
 import { useChangePassword } from "../_api/mutations/useChangePassword";
 import { PasswordInput } from "@/components/base/PasswordInput";
-import * as React from "react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export default function UpdatePasswordForm() {
+  const { t } = useTranslation();
   const { mutate: changePassword, isPending } = useChangePassword();
 
   const form = useForm<ChangePasswordSchemaType>({
@@ -40,7 +41,7 @@ export default function UpdatePasswordForm() {
       },
       {
         onSuccess: () => {
-          toast.success("Password changed successfully!");
+          toast.success(t("auth.changePassword.success"));
           form.reset();
         },
       }
@@ -57,7 +58,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="Old Password" {...field} />
+                <PasswordInput label={t("auth.changePassword.oldPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,7 +72,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="New Password" {...field} />
+                <PasswordInput label={t("auth.changePassword.newPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,7 +86,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="Confirm New Password" {...field} />
+                <PasswordInput label={t("auth.changePassword.confirmNewPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +106,7 @@ export default function UpdatePasswordForm() {
             disabled={isPending}
             isLoading={isPending}
           >
-            Change Password
+            {t("auth.changePassword.submit")}
           </Button>
         </div>
       </form>

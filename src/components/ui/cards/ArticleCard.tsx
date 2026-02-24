@@ -5,6 +5,7 @@ import { BASE_URL } from "@/data/global_data";
 import Link from "next/link";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { ChevronRight } from "lucide-react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 type ArticleCardProps = {
   image: string;
@@ -23,6 +24,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   showButton = true,
   onClick,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow h-full flex flex-col">
       <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-50 md:min-h-64 md:min-w-2/6">
@@ -44,7 +46,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           href={`/articles/${slug}`}
           className="text-primary font-semibold font-poppins text-sm"
         >
-          Read more
+          {t("articles.readMore")}
           {/*<Button
             variant="softPurple"
             onClick={onClick}

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { LogOut, Search, X } from "lucide-react";
+import { Check, ChevronDown, Globe, LogOut, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { NavigationLink } from "@/components/Navbar/_types/navbar_types";
@@ -14,11 +14,24 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import ExpandableSearchBar from "@/components/base/ExpandableSearchBar";
 import { ProfileDropDown } from "./ProfileDropDown";
 import { signOut } from "next-auth/react";
+import { useTranslation, Locale } from "@/providers/I18nProvider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Header() {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const router = useRouter();
   const { data: categories } = useQueryGetAllCategories();
+  const { locale, setLocale, t } = useTranslation();
 
   useEffect(() => {
     if (
@@ -161,9 +174,8 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${
-    isSticky ? "" : "lg:bg-primary"
-  }`;
+  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"
+    }`;
 
   // Choose logo source: on small screens always use dark logo; otherwise dark when sticky, light when not.
   const logoSrc = isSmallScreen
@@ -171,6 +183,13 @@ export function Header() {
     : isSticky
       ? "/images/logo/logo-dark.png"
       : "/images/logo/logo-light.png";
+
+  // Language options for the dropdown
+  const languages: { value: Locale; label: string; flag: string }[] = [
+    { value: "en", label: t("header.english"), flag: "🇬🇧" },
+    { value: "sv", label: t("header.swedish"), flag: "🇸🇪" },
+  ];
+
   // [#F6F0FF]
   return (
     <>
@@ -234,6 +253,40 @@ export function Header() {
                   </Link>
                 );
               })}
+
+              {/* ── Functions Menu ── */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="flex items-center gap-1 text-lg font-medium text-primary-dark font-outfit transition-colors hover:text-primary cursor-pointer outline-none"
+                  >
+                    {t("header.functions")}
+                    <ChevronDown className="size-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="min-w-[180px]">
+                  <DropdownMenuLabel className="flex items-center gap-2">
+                    <Globe className="size-4" />
+                    {t("header.language")}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {languages.map((lang) => (
+                    <DropdownMenuItem
+                      key={lang.value}
+                      className="flex items-center justify-between cursor-pointer hover:bg-black/5"
+                      onClick={() => setLocale(lang.value)}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>{lang.flag}</span>
+                        {lang.label}
+                      </span>
+                      {locale === lang.value && (
+                        <Check className="size-4 text-primary" />
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </nav>
           </div>
 
@@ -252,7 +305,7 @@ export function Header() {
               ) : (
                 <Link href="/login" className="hidden lg:block">
                   <Button className="font-poppins h-11.75 max-w-36.5 font-semibold text-lg text-white py-2.5 px-8.75">
-                    Logga In
+                    {t("header.login")}
                   </Button>
                 </Link>
               )}
@@ -298,17 +351,43 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
-                      isActive
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${isActive
                         ? "text-primary bg-primary-light"
                         : "text-text-primary"
-                    }`}
+                      }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
                   </Link>
                 );
               })}
+
+              {/* ── Mobile Language Selector ── */}
+              <div className="mt-2 border-t border-gray-100 pt-3">
+                <p className="flex items-center gap-2 px-4 text-sm font-semibold text-primary-dark mb-2">
+                  <Globe className="size-4" />
+                  {t("header.language")}
+                </p>
+                <div className="flex gap-2 px-4">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.value}
+                      type="button"
+                      onClick={() => setLocale(lang.value)}
+                      className={cn(
+                        "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors cursor-pointer",
+                        locale === lang.value
+                          ? "bg-primary text-white"
+                          : "bg-[#FBF8FF] text-primary-dark border border-[#F3EAFF] hover:bg-primary-light"
+                      )}
+                    >
+                      <span>{lang.flag}</span>
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">
                   <label htmlFor="mobile-search">
@@ -317,7 +396,7 @@ export function Header() {
                   <input
                     id="mobile-search"
                     type="text"
-                    placeholder="Search ..."
+                    placeholder={t("header.search")}
                     className="block w-full px-2 py-2 focus:outline-none bg-transparent"
                   />
                 </div>
@@ -329,11 +408,11 @@ export function Header() {
                     onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     <LogOut className="mr-2 size-4" />
-                    Log Out
+                    {t("header.logout")}
                   </Button>
                 ) : (
                   <Link href="/login">
-                    <Button className="w-full">Logga In</Button>
+                    <Button className="w-full">{t("header.login")}</Button>
                   </Link>
                 )}
               </div>

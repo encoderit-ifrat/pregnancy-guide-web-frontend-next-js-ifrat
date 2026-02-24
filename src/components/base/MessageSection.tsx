@@ -87,43 +87,45 @@ import IconSupport from "@/assets/IconSupport";
 import HeaderText from "../ui/HeaderText";
 import MessageCard from "./MessageCard";
 import EllipseSVG from "../svg/EllipseSVG";
+import { useTranslation } from "@/providers/I18nProvider";
 
 const MessageSection = () => {
+  const { t } = useTranslation();
   const steps = [
     {
       step: "01",
-      title: "Secure & Private",
-      description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+      title: t("features.secure.title"),
+      description: t("features.secure.description"),
       icon: <IconSecure />,
     },
     {
       step: "02",
-      title: "Fast & Responsive",
-      description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+      title: t("features.fast.title"),
+      description: t("features.fast.description"),
       icon: <IconFast />,
     },
     {
       step: "03",
-      title: "User-Friendly Interface",
-      description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+      title: t("features.userFriendly.title"),
+      description: t("features.userFriendly.description"),
       icon: <IconUser />,
     },
     {
       step: "04",
-      title: "Real-Time Notifications",
-      description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+      title: t("features.notifications.title"),
+      description: t("features.notifications.description"),
       icon: <IconNotification />,
     },
     {
       step: "05",
-      title: "Cloud Sync",
-      description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+      title: t("features.cloudSync.title"),
+      description: t("features.cloudSync.description"),
       icon: <IconCloud />,
     },
     {
       step: "06",
-      title: "24/7 Support",
-      description: "Suspendisse vitae risus Cras nulla blandit Praesent",
+      title: t("features.support.title"),
+      description: t("features.support.description"),
       icon: <IconSupport />,
     },
   ];

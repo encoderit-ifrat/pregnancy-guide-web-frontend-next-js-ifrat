@@ -7,43 +7,43 @@ import {
   Cloud,
   Zap,
   Headphones,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
 } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-
-const features = [
-  {
-    title: "Secure & Private",
-    description: "Verified & professional.",
-    icon: Shield,
-    image: "/images/why-choose-us/1.png",
-  },
-  {
-    title: "Cloud Sync",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Cloud,
-    image: "/images/why-choose-us/2.png",
-  },
-  {
-    title: "Fast & Responsive",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Zap,
-    image: "/images/why-choose-us/3.png",
-  },
-  {
-    title: "24/7 Support",
-    description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-    icon: Headphones,
-    image: "/images/why-choose-us/4.png",
-  },
-];
+import { useTranslation } from "@/providers/I18nProvider";
 
 export function WhyChooseUsSection() {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      title: t("whyChooseUs.securePrivate"),
+      description: t("whyChooseUs.securePrivateDesc"),
+      icon: Shield,
+      image: "/images/why-choose-us/1.png",
+    },
+    {
+      title: t("whyChooseUs.cloudSync"),
+      description: t("whyChooseUs.cloudSyncDesc"),
+      icon: Cloud,
+      image: "/images/why-choose-us/2.png",
+    },
+    {
+      title: t("whyChooseUs.fastResponsive"),
+      description: t("whyChooseUs.fastResponsiveDesc"),
+      icon: Zap,
+      image: "/images/why-choose-us/3.png",
+    },
+    {
+      title: t("whyChooseUs.support247"),
+      description: t("whyChooseUs.support247Desc"),
+      icon: Headphones,
+      image: "/images/why-choose-us/4.png",
+    },
+  ];
+
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -56,11 +56,11 @@ export function WhyChooseUsSection() {
         {/* Section Header */}
         <div className="mb-12 text-center">
           <IconHeading
-            text="Choose Us"
+            text={t("whyChooseUs.label")}
             icon={<Tag />}
             className="text-primary justify-center"
           />
-          <SectionHeading>Why choose Us</SectionHeading>
+          <SectionHeading>{t("whyChooseUs.title")}</SectionHeading>
         </div>
 
         <Slider
@@ -114,32 +114,12 @@ export function WhyChooseUsSection() {
                         {feature.description}
                       </p>
                     </div>
-                    {/* <div>
-                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                        <feature.icon className="h-8 w-8 text-white" />
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </div>
             </SwiperSlide>
           ))}
         </Slider>
-        {/* Navigation Arrows - Desktop */}
-        {/*<button*/}
-        {/*  onClick={prevSlide}*/}
-        {/*  className="absolute left-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-primary shadow-lg transition-transform hover:scale-110 md:flex"*/}
-        {/*  aria-label="Previous slide"*/}
-        {/*>*/}
-        {/*  <ChevronLeft className="h-6 w-6" />*/}
-        {/*</button>*/}
-        {/*<button*/}
-        {/*  onClick={nextSlide}*/}
-        {/*  className="absolute right-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-primary shadow-lg transition-transform hover:scale-110 md:flex"*/}
-        {/*  aria-label="Next slide"*/}
-        {/*>*/}
-        {/*  <ChevronRight className="h-6 w-6" />*/}
-        {/*</button>*/}
       </div>
     </section>
   );

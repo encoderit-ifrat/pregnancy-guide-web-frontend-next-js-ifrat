@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "../ui/Button";
 import Link from "next/link";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { useTranslation } from "@/providers/I18nProvider";
 
 type Article = {
   _id: string;
@@ -14,6 +15,7 @@ type Article = {
 };
 
 function ContentCard({ article }: { article?: Article }) {
+  const { t } = useTranslation();
   // Fallback for demo purposes
   const defaultArticle = {
     _id: "1",
@@ -51,7 +53,7 @@ function ContentCard({ article }: { article?: Article }) {
               size="default"
               className="px-6 py-2 rounded-full"
             >
-              Read More
+              {t("articles.readMore")}
             </Button>
           </Link>
         </div>

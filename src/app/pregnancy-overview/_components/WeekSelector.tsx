@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/providers/I18nProvider";
 
 interface WeekSelectorProps {
   currentWeek?: number;
@@ -17,6 +18,7 @@ export default function WeekSelector({
   minWeek = 0,
   maxWeek = 45,
 }: WeekSelectorProps) {
+  const { t } = useTranslation();
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [visibleWeekCount, setVisibleWeekCount] = useState(7);
 
@@ -96,7 +98,7 @@ export default function WeekSelector({
             )}
           >
             <span className="font-bold text-xs md:text-lg">{week < 10 ? `0${week}` : week}</span>
-            {selectedWeek == week ? <span className="text-xs md:text-[15px]">Week</span> : null}
+            {selectedWeek == week ? <span className="text-xs md:text-[15px]">{t("pregnancy.weekSelector")}</span> : null}
           </button>
         ))}
 

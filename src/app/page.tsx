@@ -11,7 +11,7 @@ import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { DownloadCtaSection } from "@/components/home/DownloadCtaSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { StatsSection } from "@/components/home/StatsSection";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
@@ -19,11 +19,14 @@ export const metadata: Metadata = {
 };
 
 // Fetch articles data at build time
-async function getHomePageData() {
+async function getHomePageData(locale: string = "sv") {
   try {
-    const res = await fetch(`${API_V1}/home`, {
+    const res = await fetch(`${API_V1}/home?lang=${locale}`, {
       // Enable ISR with revalidation (optional)
       next: { revalidate: 10 }, // Revalidate every hour
+      headers: {
+        "Accept-Language": locale,
+      }
     });
 
     if (!res.ok) {
@@ -37,8 +40,13 @@ async function getHomePageData() {
 }
 
 export default async function Page() {
+  // Get locale from cookie for SSR
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
+
   // Fetch data at build time
-  const homePageData = await getHomePageData();
+  const homePageData = await getHomePageData(locale);
   console.log("👉 ~ Page ~ homePageData:", homePageData);
 
   return (

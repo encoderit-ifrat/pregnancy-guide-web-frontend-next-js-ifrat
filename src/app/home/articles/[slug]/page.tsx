@@ -4,18 +4,21 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleWithTOC from "@/app/articles/[slug]/_component/ArticleWithTOC";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
 
+import { getI18n } from "@/lib/i18n-server";
+
 // Fetch article data with authentication
-async function getArticle(slug: string) {
+async function getArticle(slug: string, locale: string = "sv") {
   try {
     const res = await fetch(
-      `${API_V1}/articles/public/${slug}`,
+      `${API_V1}/articles/public/${slug}?lang=${locale}`,
       {
         headers: {
           "Content-Type": "application/json",
+          "Accept-Language": locale,
         },
         cache: "no-store",
       }
@@ -39,12 +42,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const { t, locale } = await getI18n();
 
-  const article = await getArticle(slug);
+  const article = await getArticle(slug, locale);
 
   if (!article) {
     return {
-      title: "Article Not Found | Familij",
+      title: `${t("common.notFound")} | Familij`,
     };
   }
 
@@ -69,8 +73,15 @@ export default async function PublicArticlePage({
 }) {
   const { slug } = await params;
 
-  const article = await getArticle(slug);
-  console.log("👉 ~ ArticlePage ~ article:", article);
+  // Get locale from cookie for SSR
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
+
+  const article = await getArticle(slug, locale);
+  console.log("👉 ~ PublicArticlePage ~ slug:", slug);
+  console.log("👉 ~ PublicArticlePage ~ locale:", locale);
+  console.log("👉 ~ PublicArticlePage ~ article title:", article?.title);
 
   if (!Boolean(article)) {
     notFound();
@@ -80,9 +91,6 @@ export default async function PublicArticlePage({
     <div className="bg-background min-h-svh pb-32  md:pb-96">
       <div className="min-h-screen w-full max-w-6xl mx-auto  pt-24 py-8 px-4">
         <div className="bg-soft-white rounded-lg p-7">
-          <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
-            {article?.title}
-          </h1>
           <ArticleWithTOC article={article} />
         </div>
       </div>

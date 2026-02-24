@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 type Heading = {
   id: string;
@@ -9,6 +10,7 @@ type Heading = {
 };
 
 export default function TableOfContents({ headings }: { headings: Heading[] }) {
+  const { t } = useTranslation();
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
@@ -42,17 +44,16 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
   return (
     <aside className="w-full lg:w-1/4 lg:mr-6 p-4 rounded-lg lg:sticky lg:top-20 h-fit self-start bg-purple-50 border border-purple-200 shrink-0">
       <h3 className="font-bold mb-3 pb-2 border-b-2 border-purple-300 text-foreground">
-        Article Tabs
+        {t("articles.tabs")}
       </h3>
       <ul className="space-y-2">
         {headings.map((h) => (
           <li
             key={h.id}
-            className={`cursor-pointer font-medium transition-colors ${
-              activeId === h.id
+            className={`cursor-pointer font-medium transition-colors ${activeId === h.id
                 ? "text-soft font-semibold"
                 : "text-gray-700 hover:text-soft"
-            }`}
+              }`}
             style={{ marginLeft: `${(h.level - 1) * 1}rem` }}
             onClick={() => scrollToHeading(h.id)}
           >

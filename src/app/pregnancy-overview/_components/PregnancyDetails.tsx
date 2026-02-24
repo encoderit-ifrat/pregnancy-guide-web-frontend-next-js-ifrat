@@ -1,8 +1,12 @@
+"use client";
+
 import React from "react";
 import { calculatePregnancyProgress } from "@/utlis/calculateDate";
 import { PregnancyDetailsProps } from "../_types/pregnancy_details_types";
+import { useTranslation } from "@/providers/I18nProvider";
 
 function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
+  const { t } = useTranslation();
   const htmlString = weeklyDetails?.description;
 
   const updatedHtml = htmlString?.replace("$name", userData?.name);
@@ -15,21 +19,23 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         <Cards>
           <h3 className="text-primary-dark text-lg md:text-[22px] font-semibold mb-2">
-            {pregnancyProgressInfo?.trimester}
+            {pregnancyProgressInfo?.trimester === "1st Trimester" ? t("pregnancy.trimesters.1") :
+              pregnancyProgressInfo?.trimester === "2nd Trimester" ? t("pregnancy.trimesters.2") :
+                t("pregnancy.trimesters.3")}
           </h3>
           <h3 className="text-lg md:text-[22px] mb-4">
             <span className="text-primary-dark font-medium md:font-semibold">
-              Been pregnant:
+              {t("pregnancy.beenPregnant")}
             </span>
             <span className="font-normal ml-1">
-              {pregnancyProgressInfo?.week} weeks {pregnancyProgressInfo?.day}{" "} days
+              {pregnancyProgressInfo?.week} {t("pregnancy.weeks")} {pregnancyProgressInfo?.day} {t("pregnancy.days")}
             </span>
           </h3>
           <div className="text-lg md:text-[22px] mb-2">
             <span className="text-primary mr-2">
               {pregnancyProgressInfo?.percentage || 0}%
             </span>
-            Completed
+            {t("pregnancy.completed")}
           </div>
           {/*slider*/}
           <div>
@@ -56,14 +62,14 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
         </Cards>
         <Cards>
           <div className="mb-2">
-            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">Due Date:</span>{" "}
+            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">{t("pregnancy.dueDate")}</span>{" "}
             {pregnancyProgressInfo?.dueDate}
           </div>
           <div>
             <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
-              Days remaining to birth:
+              {t("pregnancy.daysRemaining")}
             </span>{" "}
-            {pregnancyProgressInfo?.daysLeft} days
+            {pregnancyProgressInfo?.daysLeft} {t("pregnancy.days")}
           </div>
         </Cards>
       </div>
@@ -76,8 +82,8 @@ export default PregnancyDetails;
 
 function Cards({ children }: { children: React.ReactNode }) {
   return (
-      <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl">
-        {children}
-      </div>
+    <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl">
+      {children}
+    </div>
   );
 }

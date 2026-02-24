@@ -2,7 +2,7 @@ import axios from "axios";
 import { getSession, signOut } from "next-auth/react";
 import https from "https";
 import { toast } from "sonner";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const allowInsecureSSL = process.env.ALLOW_INSECURE_SSL === "true";
@@ -23,6 +23,17 @@ api.interceptors.request.use(
     if (session?.token) {
       config.headers.Authorization = `Bearer ${session.token}`;
     }
+
+    // Add locale to headers and params
+    if (typeof window !== "undefined") {
+      const locale = localStorage.getItem("familj-locale") || "sv";
+      config.headers["Accept-Language"] = locale;
+      config.params = {
+        ...config.params,
+        lang: locale,
+      };
+    }
+
     return config;
   },
   (error) => {

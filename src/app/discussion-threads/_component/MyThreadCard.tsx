@@ -9,6 +9,7 @@ import IconReply from "@/components/svg-icon/icon-reply";
 import { MoreHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ThreadDetailPage from './ThreadDetailPage';
+import { useTranslation } from "@/providers/I18nProvider";
 
 
 interface MyThreadCardProps {
@@ -39,6 +40,7 @@ export default function MyThreadCard({
     lastReply,
     className
 }: MyThreadCardProps) {
+    const { t } = useTranslation();
     return (
         <ThreadDetailPage
             title={title}
@@ -58,7 +60,7 @@ export default function MyThreadCard({
                                 {title}
                             </h3>
                             <Badge variant="outline" className="bg-[#EEE4FD] text-primary-color px-3 py-0.5 rounded-full text-sm font-medium border-none whitespace-nowrap">
-                                Created by {createdBy.name} · {createdBy.time}
+                                {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
                             </Badge>
                         </div>
                         <button className="text-primary-color hover:bg-[#F6F0FF] p-2 rounded-full transition-colors">
@@ -66,26 +68,26 @@ export default function MyThreadCard({
                         </button>
                     </div>
 
-                     <div className="mb-6 ">
-                                <p className="text-primary-color text-base">
-                                    {excerpt} <span className="text-[#9679E1] text-base cursor-pointer hover:underline">Read More</span>
-                                </p>
-                            </div>
+                    <div className="mb-6 ">
+                        <p className="text-primary-color text-base">
+                            {excerpt} <span className="text-[#9679E1] text-base cursor-pointer hover:underline">{t("articles.readMore")}</span>
+                        </p>
+                    </div>
 
                     <div className="flex flex-wrap items-center gap-7">
                         <div className="flex items-center gap-2 text-primary-color">
                             <IconLove className="size-5 fill-[#3D3177]" />
-                            <span className="text-base font-medium">{stats.likes} Like</span>
+                            <span className="text-base font-medium">{stats.likes} {t("threads.like")}</span>
                         </div>
                         <div className="flex items-center gap-2 text-primary-color">
                             <IconReply className="size-5 fill-[#3D3177]" />
-                            <span className="text-base font-medium">{stats.replies} Replies</span>
+                            <span className="text-base font-medium">{stats.replies} {t("threads.replies")}</span>
                         </div>
                         <div className="flex items-center gap-2 text-primary-color">
                             <IconEye className="size-5 " />
-                            <span className="text-base font-medium">{stats.views} Views</span>
+                            <span className="text-base font-medium">{stats.views} {t("threads.views")}</span>
                         </div>
-                        
+
                     </div>
                 </CardContent>
             </Card>

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "@/providers/I18nProvider";
 
 function NoPregnancyInfo() {
+  const { t } = useTranslation();
   return (
     <div>
       <div className="flex items-center justify-center min-h-screen p-4">
@@ -28,11 +30,10 @@ function NoPregnancyInfo() {
           {/* Content Card */}
           <div className="bg-white rounded-3xl shadow-xl p-8 border border-purple-100">
             <h2 className="text-2xl font-bold mb-3 bg-primary bg-clip-text text-transparent">
-              Start Your Journey
+              {t("pregnancy.startJourney")}
             </h2>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Begin tracking your beautiful pregnancy journey. Add your
-              pregnancy details to unlock personalized insights and milestones.
+              {t("pregnancy.noInfoDesc")}
             </p>
 
             <Link
@@ -52,7 +53,7 @@ function NoPregnancyInfo() {
                   d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                 />
               </svg>
-              Add Pregnancy Data
+              {t("pregnancy.addData")}
             </Link>
 
             {/* Decorative dots */}
@@ -65,7 +66,7 @@ function NoPregnancyInfo() {
 
           {/* Helper text */}
           <p className="mt-6 text-sm text-gray-500">
-            Your pregnancy data is private and secure 🔒
+            {t("pregnancy.privacySecure")}
           </p>
         </div>
       </div>

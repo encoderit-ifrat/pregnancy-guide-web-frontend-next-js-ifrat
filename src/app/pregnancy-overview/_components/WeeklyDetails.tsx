@@ -6,6 +6,7 @@ import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "@/providers/I18nProvider";
 
 const initialData = {
   title: "",
@@ -25,17 +26,18 @@ type TProps = {
 };
 
 function WeeklyDetails({ data = initialData }: TProps) {
+  const { t } = useTranslation();
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
     <section className="bg-white">
       <div className="section py-10 lg:py-16 -mt-1">
         <div className="text-center mb-7 lg:mb-14">
           <IconHeading
-            text="Articles"
+            text={t("pregnancy.articles")}
             icon={<Heart />}
             className="text-primary justify-center"
           />
-          <SectionHeading>Weekly Details</SectionHeading>
+          <SectionHeading>{t("pregnancy.weeklyDetails")}</SectionHeading>
         </div>
 
         <div className="bg-white shadow-lg p-5 rounded-2xl">
@@ -63,7 +65,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
                   variant="outline"
                   className="px-12 font-poppins font-semibold text-lg w-full"
                 >
-                  Read More
+                  {t("articles.readMore")}
                 </Button>
               </Link>
             </div>

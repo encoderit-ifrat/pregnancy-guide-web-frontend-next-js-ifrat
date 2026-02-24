@@ -1,15 +1,18 @@
+"use client";
+
 import React from "react";
 import ForgotPassword from "./_component/ForgotPasswordForm";
-import Image from "next/image";
 import AuthCard from "@/components/ui/cards/AuthCard";
-import LoginForm from "@/app/login/_component/LoginForm";
+import { useTranslation } from "@/providers/I18nProvider";
 
-export default function page() {
+export default function ForgotPasswordPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-5xl mx-auto">
       <AuthCard
-        title="Forgot Password"
-        description="Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus."
+        title={t("forgotPassword.title")}
+        description={t("forgotPassword.description")}
         image="/images/auth/forget-password.png"
       >
         <ForgotPassword />

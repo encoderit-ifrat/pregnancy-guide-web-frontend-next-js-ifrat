@@ -4,6 +4,8 @@ import Link from "next/link";
 import { BASE_URL } from "@/data/global_data";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
+import { useTranslation } from "@/providers/I18nProvider";
+
 type SpecialArticleCardProps = {
   image: string;
   title: string;
@@ -19,6 +21,7 @@ const SpecialArticleCard: React.FC<SpecialArticleCardProps> = ({
   slug,
   onClick,
 }) => {
+  const { t } = useTranslation();
   return (
     //
     <div className="bg-light-purple  flex  flex-col lg:items-center gap-2 w-full min-w-xs flex-1 shrink-0">
@@ -50,7 +53,7 @@ const SpecialArticleCard: React.FC<SpecialArticleCardProps> = ({
           href={`/articles/${slug}`}
           className="inline-flex text-lg leading-20px   text-text-accent-purple gap-1"
         >
-          More Details
+          {t("articles.moreDetails")}
         </Link>
       </div>
     </div>

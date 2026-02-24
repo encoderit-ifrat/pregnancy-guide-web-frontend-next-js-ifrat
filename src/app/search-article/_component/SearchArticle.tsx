@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/base/Pagination";
 import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { useTranslation } from "@/providers/I18nProvider";
 
 type Meta = {
   total: number;
@@ -36,6 +37,7 @@ export default function SearchArticle({
   initialData: Article[];
   meta: Meta | null;
 }) {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -65,7 +67,7 @@ export default function SearchArticle({
       <div className="section flex flex-col gap-6 mb-4">
         {/* <ArticleStats /> */}
         {initialQuery && (
-          <SearchResultHeader query={initialQuery} category="Articles" />
+          <SearchResultHeader query={initialQuery} category={t("pregnancy.articles")} />
         )}
       </div>
 
@@ -77,7 +79,7 @@ export default function SearchArticle({
           ))
         ) : (
           <p className="text-center text-gray-500 py-10">
-            No articles found. Try a different search term.
+            {t("pregnancy.noResults")}
           </p>
         )}
       </div>

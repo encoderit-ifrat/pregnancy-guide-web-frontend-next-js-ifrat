@@ -5,10 +5,12 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import CheckListItem from "@/app/check-lists/_component/CheckListItem";
+import { useTranslation } from "@/providers/I18nProvider";
 
 import { CheckListsProps } from "../_types/checklists_component_types";
 
 export default function CheckLists({ checkLists, count }: CheckListsProps) {
+  const { t } = useTranslation();
   return (
     <div className="px-4 sm:pt-12 lg:pt-15  space-y-2  lg:text-start max-w-4xl mx-auto pb-7 lg:pb-15">
       <div className="flex flex-col text-left text-text-mid  items-stretch gap-2 w-full">
@@ -23,7 +25,7 @@ export default function CheckLists({ checkLists, count }: CheckListsProps) {
       <div className="flex justify-center my-14">
         <Link href="/check-lists" className="w-full max-w-3xl">
           <Button className="w-full">
-            See All
+            {t("pregnancy.seeAll")}
             <ChevronRight className="size-4" />
             {/* <span className="px-2 py-0.5 text-[10px] lg:text-xs font-medium rounded-full bg-purple-100 text-purple-700"> */}
             {/* {count || 0} */}

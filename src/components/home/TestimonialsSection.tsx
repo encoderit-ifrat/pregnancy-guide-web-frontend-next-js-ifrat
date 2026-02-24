@@ -6,8 +6,11 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export function TestimonialsSection({ data }: { data: any }) {
+  const { t } = useTranslation();
+
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -20,11 +23,11 @@ export function TestimonialsSection({ data }: { data: any }) {
         {/* Section Header */}
         <div className="mb-12 text-center">
           <IconHeading
-            text="Vestibulum"
+            text={t("testimonials.label")}
             icon={<Quote />}
             className="text-primary justify-center"
           />
-          <SectionHeading>Hear from our happy Clients</SectionHeading>
+          <SectionHeading>{t("testimonials.title")}</SectionHeading>
         </div>
 
         <div className="relative">
@@ -73,7 +76,6 @@ export function TestimonialsSection({ data }: { data: any }) {
 
                     {/* Text */}
                     <p className="mb-4 line-clamp-4 transition-all text-sm leading-relaxed text-text-secondary">
-                      {/*<p className="mb-4 line-clamp-4 hover:line-clamp-none transition-all text-sm leading-relaxed text-text-secondary">*/}
                       {testimonial?.content}
                     </p>
 

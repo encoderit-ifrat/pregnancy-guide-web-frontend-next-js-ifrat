@@ -9,6 +9,7 @@ import IconFlag from "@/components/svg-icon/icon-flag";
 import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ThreadDetailPage from './ThreadDetailPage';
+import { useTranslation } from "@/providers/I18nProvider";
 
 interface ThreadCardProps {
     title: string;
@@ -38,6 +39,7 @@ export default function ThreadCard({
     lastReply,
     className
 }: ThreadCardProps) {
+    const { t } = useTranslation();
     return (
         <ThreadDetailPage
             title={title}
@@ -59,12 +61,12 @@ export default function ThreadCard({
                                     {title}
                                 </h3>
                                 <Badge variant="outline" className="bg-[#EEE4FD] text-primary-color border-primary-light">
-                                    Created by {createdBy.name} · {createdBy.time}
+                                    {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
                                 </Badge>
                             </div>
 
                             <p className="text-primary-color text-base ">
-                                {excerpt} <span className="text-[#9679E1] text-base font-medium cursor-pointer hover:underline">Read More</span>
+                                {excerpt} <span className="text-[#9679E1] text-base font-medium cursor-pointer hover:underline">{t("articles.readMore")}</span>
                             </p>
                         </div>
 
@@ -72,23 +74,23 @@ export default function ThreadCard({
                         <div className="flex flex-wrap items-center gap-10">
                             <div className="flex items-center gap-2 text-primary-color">
                                 <IconLove className="size-5 fill-[#3D3177]" />
-                                <span className="text-base font-medium">{stats.likes} Like</span>
+                                <span className="text-base font-medium">{stats.likes} {t("threads.like")}</span>
                             </div>
                             <div className="flex items-center gap-2 text-primary-color">
                                 <IconReply className="size-5 fill-[#3D3177]" />
-                                <span className="text-base font-medium">{stats.replies} Replies</span>
+                                <span className="text-base font-medium">{stats.replies} {t("threads.replies")}</span>
                             </div>
                             <div className="flex items-center gap-2 text-primary-color">
                                 <IconEye className="size-5 " />
-                                <span className="text-base font-medium">{stats.views} Views</span>
+                                <span className="text-base font-medium">{stats.views} {t("threads.views")}</span>
                             </div>
                             <div className="flex items-center gap-2 text-primary-color">
                                 <IconShare className="size-5 fill-[#3D3177]" />
-                                <span className="text-base font-medium">{stats.shares} Share</span>
+                                <span className="text-base font-medium">{stats.shares} {t("threads.share")}</span>
                             </div>
                             <div className="flex items-center gap-2 text-primary-color">
                                 <IconFlag className="size-5" />
-                                <span className="text-base font-medium">Flag</span>
+                                <span className="text-base font-medium">{t("threads.flag")}</span>
                             </div>
                         </div>
                     </div>
@@ -97,12 +99,12 @@ export default function ThreadCard({
                     <div className="w-48 h-42 pl-9 flex flex-col items-center justify-center gap-6">
                         {lastReply && (
                             <div className="text-center">
-                                <p className="text-primary-color text-base font-medium">Last reply:</p>
-                                <p className="text-primary-color text-base">{lastReply.time} by {lastReply.user}</p>
+                                <p className="text-primary-color text-base font-medium">{t("threads.lastReply")}</p>
+                                <p className="text-primary-color text-base">{lastReply.time} {t("threads.by")} {lastReply.user}</p>
                             </div>
                         )}
                         <div className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full flex items-center justify-center gap-2 transition-colors w-full">
-                            <span className="font-semibold text-sm">Reply</span>
+                            <span className="font-semibold text-sm">{t("threads.reply")}</span>
                             <ChevronRight className="size-5" />
                         </div>
                     </div>

@@ -22,8 +22,10 @@ import { toast } from "sonner";
 import * as React from "react";
 import { ChevronRight } from "lucide-react";
 import { PasswordInput } from "@/components/base/PasswordInput";
+import { useTranslation } from "@/providers/I18nProvider";
 
 export default function RegisterForm() {
+  const { t } = useTranslation();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -46,14 +48,14 @@ export default function RegisterForm() {
     signUpMutation.mutate(formData, {
       onSuccess(data) {
         const successMessage = data?.data?.data?.message;
-        toast.success(successMessage || "Registration Successful");
+        toast.success(successMessage || t("signUp.registrationSuccess"));
       },
       onError(error: unknown) {
         const axiosError = error as {
           response?: { data?: { message?: string } };
         };
         const errorMessage =
-          axiosError.response?.data?.message ?? "Registration failed";
+          axiosError.response?.data?.message ?? t("signUp.registrationFailed");
         toast.error(errorMessage);
       },
     });
@@ -73,8 +75,8 @@ export default function RegisterForm() {
                 <FormControl>
                   <div className="relative">
                     <Input
-                      label="User Name"
-                      placeholder="User Name"
+                      label={t("signUp.userName")}
+                      placeholder={t("signUp.userName")}
                       {...field}
                     />
                   </div>
@@ -93,8 +95,8 @@ export default function RegisterForm() {
                 <FormControl>
                   <div className="relative">
                     <Input
-                      label="User Email"
-                      placeholder="User Email"
+                      label={t("signUp.userEmail")}
+                      placeholder={t("signUp.userEmail")}
                       {...field}
                     />
                   </div>
@@ -112,8 +114,8 @@ export default function RegisterForm() {
               <FormItem className="mb-3 sm:mb-4 lg:mb-2">
                 <FormControl>
                   <PasswordInput
-                    label="Password"
-                    placeholder="Password"
+                    label={t("signUp.password")}
+                    placeholder={t("signUp.password")}
                     {...field}
                   />
                 </FormControl>
@@ -130,8 +132,8 @@ export default function RegisterForm() {
               <FormItem className="mb-3 sm:mb-4 lg:mb-2">
                 <FormControl>
                   <PasswordInput
-                    label="Confirm Password"
-                    placeholder="Confirm Password"
+                    label={t("signUp.confirmPassword")}
+                    placeholder={t("signUp.confirmPassword")}
                     {...field}
                   />
                 </FormControl>
@@ -156,12 +158,12 @@ export default function RegisterForm() {
                   />
                 </FormControl>
                 <FormLabel className="text-xs sm:text-sm md:text-base lg:text-lg text-text-dark font-normal leading-tight m-0">
-                  I understood the{" "}
+                  {t("signUp.termsText")}{" "}
                   <Link
                     href="/terms"
                     className="text-circle-border hover:underline"
                   >
-                    terms & policy
+                    {t("signUp.termsLink")}
                   </Link>
                 </FormLabel>
               </FormItem>
@@ -180,22 +182,22 @@ export default function RegisterForm() {
                      h-11 sm:h-12 md:h-13 lg:h-14
                      leading-none"
         >
-          <span>Sign Up</span>
+          <span>{t("signUp.signUpButton")}</span>
           <ChevronRight className="w-8 h-8 ml-1" />
         </Button>
 
         <div className="my-6 flex items-center justify-center text-gray-200">
           <div className="w-full h-px bg-gray-200"></div>
-          <div className="mx-2">OR</div>
+          <div className="mx-2">{t("common.or")}</div>
           <div className="w-full h-px bg-gray-200"></div>
         </div>
 
         {/* Login Link */}
         <div className="leading-tight">
           <p className="text-center text-text-dark">
-            Already have an account?{" "}
+            {t("signUp.hasAccount")}{" "}
             <Link href="/login" className="text-circle-border hover:underline">
-              Sign In
+              {t("signUp.signIn")}
             </Link>
           </p>
         </div>

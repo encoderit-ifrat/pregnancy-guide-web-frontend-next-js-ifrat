@@ -91,36 +91,37 @@ const SAMPLE_THREADS = [
 
 import Link from 'next/link'
 import { PageContainer } from '@/components/layout/PageContainer'
+import { useTranslation } from '@/providers/I18nProvider'
 
 export default function Page() {
+  const { t } = useTranslation();
+
   return (
     <PageContainer>
       <div className="flex flex-col items-center  min-h-screen">
         <div className="thread-header mb-16">
           {/* Section Label */}
           <IconHeading
-            text="Discussions"
+            text={t("threads.label")}
             icon={<IconQuestion />}
             className="text-primary justify-center"
           />
 
-          <SectionHeading className="m-0 text-center">Start a New Thread</SectionHeading>
+          <SectionHeading className="m-0 text-center">{t("threads.title")}</SectionHeading>
 
           <p className="text-base text-primary-color  text-center mb-6">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            {t("threads.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-2xl px-6">
             <CreateThreadModal>
               <Button className="flex-1 font-semibold h-12 rounded-full">
-                Start a New Thread
+                {t("threads.startThread")}
                 <ChevronRight className="size-4" />
               </Button>
             </CreateThreadModal>
             <Link href="/published-threads" className="flex-1">
               <Button className="w-full font-semibold h-12 rounded-full" variant="outline">
-                My Published Threads
+                {t("threads.myPublished")}
                 <ChevronRight className="size-4" />
               </Button>
             </Link>
@@ -129,22 +130,22 @@ export default function Page() {
 
         <div className="w-full max-w-327  pb-20 mx-auto">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
-           
+
             <Tabs defaultValue="newest" className="w-full">
               <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
                 <h2 className="text-[32px] md:text-[42px] font-bold text-primary-color tracking-tight">
-                  Community Threads
+                  {t("threads.communityThreads")}
                 </h2>
 
                 <TabsList variant="pill" className="bg-white shadow-sm border border-white text-primary-color">
                   <TabsTrigger value="liked" variant="pill">
-                    Most Liked
+                    {t("threads.mostLiked")}
                   </TabsTrigger>
                   <TabsTrigger value="viewed" variant="pill">
-                    Most Viewed
+                    {t("threads.mostViewed")}
                   </TabsTrigger>
                   <TabsTrigger value="newest" variant="pill">
-                    Newest
+                    {t("threads.newest")}
                   </TabsTrigger>
                 </TabsList>
               </div>
