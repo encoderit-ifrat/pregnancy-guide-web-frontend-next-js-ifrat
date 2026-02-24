@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/Button";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useMutationCreateChecklist } from "../_api/mutations/UseMutationCreateChecklist";
 import { Spinner } from "@/components/ui/Spinner";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMutationUpdateChecklist } from "../_api/mutations/UseMutationUpdateChecklist";
 import { ChecklistFormProps } from "../_types/checklist_item_types";
 
@@ -31,6 +31,7 @@ export default function ChecklistForm({
   formData,
   onSubmitForDialogAndRefetch,
 }: TProps) {
+  const hasAddedInitialItem = useRef(false);
   useEffect(() => { }, [formData]);
   const { type, data } = formData ?? {};
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
@@ -107,6 +108,17 @@ export default function ChecklistForm({
     control,
     name: "items",
   });
+
+  // Automatically add an empty checklist item when modal opens for new checklists
+  useEffect(() => {
+    if (type !== "update" && fields.length === 0 && !hasAddedInitialItem.current) {
+      hasAddedInitialItem.current = true;
+      append({
+        title: "",
+        description: "",
+      });
+    }
+  }, [type, fields.length, append]);
 
   const checklistMutation = useMutationCreateChecklist();
   const { mutate: updateChecklist, isPending: isPendingUpdateChecklist } =

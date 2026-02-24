@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import {FormLabel} from "@/components/ui/Form";
 
 export type InputVariant = "default" | "rounded-full" | "square";
 export type InputSize = "sm" | "md" | "lg";
@@ -24,6 +25,7 @@ function Input({
   variant = "default",
   size = "md",
   hasIcon = false,
+  required = false,
   prepend,
   append,
   ...props
@@ -55,12 +57,10 @@ function Input({
     <div className="mb-2">
       {label && (
         <div className="mb-1">
-          <label
+          <FormLabel
             className="text-base font-medium text-text-purple"
             htmlFor="input"
-          >
-            {label}
-          </label>
+          > {label} {required && <span className="text-destructive">*</span>}</FormLabel>
         </div>
       )}
       <div className="relative">
