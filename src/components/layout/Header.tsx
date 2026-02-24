@@ -14,8 +14,11 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import ExpandableSearchBar from "@/components/base/ExpandableSearchBar";
 import { ProfileDropDown } from "./ProfileDropDown";
 import { signOut } from "next-auth/react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { ChevronDown, Globe, Menu } from "lucide-react";
 
 export function Header() {
+  const { t, locale, setLocale } = useTranslation();
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const router = useRouter();
   const { data: categories } = useQueryGetAllCategories();
@@ -40,6 +43,7 @@ export function Header() {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFunctionsOpen, setIsFunctionsOpen] = useState(false);
   const pathname = usePathname();
 
   // Sticky + visibility (slide) state
@@ -216,6 +220,17 @@ export function Header() {
                   : "opacity-100"
               )}
             >
+              <Link
+                href="/"
+                className={cn(
+                  `text-lg font-medium transition-colors text-primary-dark font-outfit`,
+                  {
+                    "text-primary font-semibold": pathname === "/",
+                  }
+                )}
+              >
+                {t("footer.home")}
+              </Link>
               {navigationLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -233,6 +248,53 @@ export function Header() {
                   </Link>
                 );
               })}
+
+              {/* Functions Menu Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setIsFunctionsOpen(true)}
+                onMouseLeave={() => setIsFunctionsOpen(false)}
+              >
+                <div
+                  className="flex items-center gap-1 text-lg font-medium transition-colors text-primary-dark font-outfit hover:text-primary cursor-pointer py-2"
+                >
+                  {t("header.functions")}
+                  <ChevronDown className={cn("w-4 h-4 transition-transform", isFunctionsOpen && "rotate-180")} />
+                </div>
+                {isFunctionsOpen && (
+                  <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-3 ring-1 ring-black/5 z-50">
+                    <div className="px-4 pb-2 border-b border-gray-100 mb-2">
+                      <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("header.language")}</span>
+                    </div>
+                    <div className="flex flex-col gap-1 px-2">
+                      <button
+                        onClick={() => {
+                          setLocale("en");
+                          setIsFunctionsOpen(false);
+                        }}
+                        className={cn(
+                          "w-full text-left px-3 py-2 rounded-md transition-colors text-sm",
+                          locale === "en" ? "bg-primary-light text-primary font-semibold" : "hover:bg-gray-50 text-primary-dark"
+                        )}
+                      >
+                        {t("header.english")}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setLocale("sv");
+                          setIsFunctionsOpen(false);
+                        }}
+                        className={cn(
+                          "w-full text-left px-3 py-2 rounded-md transition-colors text-sm",
+                          locale === "sv" ? "bg-primary-light text-primary font-semibold" : "hover:bg-gray-50 text-primary-dark"
+                        )}
+                      >
+                        {t("header.swedish")}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
 
@@ -251,7 +313,7 @@ export function Header() {
               ) : (
                 <Link href="/login" className="hidden lg:block">
                   <Button className="font-poppins h-9 font-semibold text-base text-white py-1.5 px-6">
-                    Logga In
+                    {t("header.login")}
                   </Button>
                 </Link>
               )}
@@ -279,7 +341,6 @@ export function Header() {
         </div>
 
         {/* Mobile Navigation */}
-        {/* Mobile menu: always present but translated off-screen when closed so it can animate */}
         <div
           className={cn(
             "fixed z-50 left-0 w-full lg:hidden transition-transform duration-300 ease-in-out",
@@ -287,10 +348,20 @@ export function Header() {
               ? "translate-y-0 opacity-100"
               : "-translate-y-full opacity-0 pointer-events-none"
           )}
-          style={{ top: headerHeight }}
+          style={{ top: headerHeight, maxHeight: `calc(100vh - ${headerHeight}px)` }}
         >
-          <div className="border-t border-gray-100 bg-white w-full">
+          <div className="border-t border-gray-100 bg-white w-full overflow-y-auto max-h-full">
             <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
+              <Link
+                href="/"
+                className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${pathname === "/"
+                  ? "text-primary bg-primary-light"
+                  : "text-text-primary"
+                  }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("footer.home")}
+              </Link>
               {navigationLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -307,6 +378,49 @@ export function Header() {
                   </Link>
                 );
               })}
+
+              {/* Mobile Functions Section */}
+              <div className="border-t border-gray-100 mt-2 pt-2">
+                <button
+                  onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    {t("header.functions")}
+                  </span>
+                  <ChevronDown className={cn("w-4 h-4 transition-transform", isFunctionsOpen && "rotate-180")} />
+                </button>
+
+                {isFunctionsOpen && (
+                  <div className="ml-4 mt-1 border-l-2 border-primary-light pl-4 flex flex-col gap-2 py-2">
+                    <button
+                      onClick={() => {
+                        setLocale("en");
+                        setIsMenuOpen(false);
+                      }}
+                      className={cn(
+                        "text-left px-3 py-2 rounded-md text-sm",
+                        locale === "en" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark"
+                      )}
+                    >
+                      {t("header.english")}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLocale("sv");
+                        setIsMenuOpen(false);
+                      }}
+                      className={cn(
+                        "text-left px-3 py-2 rounded-md text-sm",
+                        locale === "sv" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark"
+                      )}
+                    >
+                      {t("header.swedish")}
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div>
                 <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">
                   <label htmlFor="mobile-search">
@@ -315,23 +429,23 @@ export function Header() {
                   <input
                     id="mobile-search"
                     type="text"
-                    placeholder="Search ..."
+                    placeholder={t("header.search")}
                     className="block w-full px-2 py-2 focus:outline-none bg-transparent"
                   />
                 </div>
               </div>
-              <div className="mt-4 flex flex-col gap-3">
+              <div className="mt-4 flex flex-col gap-3 pb-6">
                 {isAuthenticated ? (
                   <Button
                     className="w-full"
                     onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     <LogOut className="mr-2 size-4" />
-                    Log Out
+                    {t("header.logout")}
                   </Button>
                 ) : (
                   <Link href="/login">
-                    <Button className="w-full">Logga In</Button>
+                    <Button className="w-full">{t("header.login")}</Button>
                   </Link>
                 )}
               </div>

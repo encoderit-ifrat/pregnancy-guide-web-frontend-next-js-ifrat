@@ -19,8 +19,10 @@ import {
 import { useChangePassword } from "../_api/mutations/useChangePassword";
 import { PasswordInput } from "@/components/base/PasswordInput";
 import * as React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function UpdatePasswordForm() {
+  const { t } = useTranslation();
   const { mutate: changePassword, isPending } = useChangePassword();
 
   const form = useForm<ChangePasswordSchemaType>({
@@ -40,7 +42,7 @@ export default function UpdatePasswordForm() {
       },
       {
         onSuccess: () => {
-          toast.success("Password changed successfully!");
+          toast.success(t("auth.changePassword.success"));
           form.reset();
         },
       }
@@ -57,7 +59,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="Old Password" {...field} />
+                <PasswordInput label={t("auth.changePassword.oldPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,7 +73,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="New Password" {...field} />
+                <PasswordInput label={t("auth.changePassword.newPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,7 +87,7 @@ export default function UpdatePasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <PasswordInput label="Confirm New Password" {...field} />
+                <PasswordInput label={t("auth.changePassword.confirmNewPasswordLabel")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,7 +99,6 @@ export default function UpdatePasswordForm() {
           <Button
             type="submit"
             size="lg"
-            // className="w-full uppercase text-xl leading-[100%]"
             className="w-full uppercase 
                      text-sm sm:text-base md:text-lg lg:text-xl 
                      h-11 sm:h-12 md:h-13 lg:h-14
@@ -105,7 +106,7 @@ export default function UpdatePasswordForm() {
             disabled={isPending}
             isLoading={isPending}
           >
-            Change Password
+            {t("auth.changePassword.submit")}
           </Button>
         </div>
       </form>

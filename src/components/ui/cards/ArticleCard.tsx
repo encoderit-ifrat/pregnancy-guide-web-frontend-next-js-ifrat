@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 import React from "react";
 import { Button } from "../Button";
 import { BASE_URL } from "@/data/global_data";
@@ -23,6 +26,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   showButton = true,
   onClick,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow h-full flex flex-col">
       <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-[138px] sm:min-h-[196px] md:min-w-2/6">
@@ -44,7 +48,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           href={`/articles/${slug}`}
           className="text-primary font-semibold font-poppins text-sm"
         >
-          Read more
+          {t("articles.readMore")}
           {/*<Button
             variant="softPurple"
             onClick={onClick}

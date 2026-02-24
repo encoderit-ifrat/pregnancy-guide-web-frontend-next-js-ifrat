@@ -23,8 +23,11 @@ import { loginRequestType, useLogin } from "../_api/mutations/useLogin";
 import { toast } from "sonner";
 import { ChevronRight } from "lucide-react";
 import { PasswordInput } from "@/components/base/PasswordInput";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function LoginForm() {
+  const { t } = useTranslation();
+
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -64,7 +67,7 @@ export default function LoginForm() {
             setLoading(false);
             await update();
             await currentUser.refetch();
-            toast.success("Logged in Successfully");
+            toast.success(t("login.loggedInSuccess"));
             window.location.href = "/pregnancy-overview";
           }
         }
@@ -86,7 +89,7 @@ export default function LoginForm() {
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
               <FormControl>
                 <div className="relative">
-                  <Input label="Email" placeholder="User Email" {...field} />
+                  <Input label={t("login.email")} placeholder={t("login.emailPlaceholder")} {...field} />
                 </div>
               </FormControl>
               <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
@@ -101,7 +104,7 @@ export default function LoginForm() {
           render={({ field }) => (
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
               <FormControl>
-                <PasswordInput label="Password" {...field} />
+                <PasswordInput label={t("login.password")} {...field} />
               </FormControl>
               <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
             </FormItem>
@@ -124,11 +127,10 @@ export default function LoginForm() {
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     ref={field.ref}
-                    // className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5"
                   />
                 </FormControl>
                 <FormLabel className="text-xs text-text-dark font-normal whitespace-nowrap leading-tight m-0">
-                  Remember for 30 Days
+                  {t("login.rememberMe")}
                 </FormLabel>
               </FormItem>
             )}
@@ -137,7 +139,7 @@ export default function LoginForm() {
             href="/forgot-password"
             className="text-red-500 hover:underline text-sm md:text-[15px] whitespace-nowrap leading-tight"
           >
-            Forgot Password?
+            {t("login.forgotPassword")}
           </Link>
         </div>
 
@@ -149,25 +151,25 @@ export default function LoginForm() {
           isLoading={loading}
           disabled={loading}
         >
-          <span>Login</span>
+          <span>{t("login.loginButton")}</span>
           <ChevronRight className="w-8 h-8 ml-1" />
         </Button>
 
         <div className="my-6 flex items-center justify-center text-gray-200">
           <div className="w-full h-px bg-gray-200"></div>
-          <div className="mx-2">OR</div>
+          <div className="mx-2">{t("login.or")}</div>
           <div className="w-full h-px bg-gray-200"></div>
         </div>
 
         {/* Sign Up Link */}
         <div className="whitespace-nowrap leading-tight">
           <p className="text-center text-text-dark">
-            Don&apos;t have an account?{" "}
+            {t("login.noAccount")}{" "}
             <Link
               href="/sign-up"
               className="text-circle-border hover:underline"
             >
-              Create account
+              {t("login.createAccount")}
             </Link>
           </p>
         </div>

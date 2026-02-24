@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 import ArticleCard from "../ui/cards/ArticleCard";
 import IconHeading from "../ui/text/IconHeading";
 import { SectionHeading } from "../ui/text/SectionHeading";
@@ -47,6 +48,7 @@ type TProps = {
 };
 
 const SpecialArticleSection = ({ data }: TProps) => {
+  const { t } = useTranslation();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -59,11 +61,11 @@ const SpecialArticleSection = ({ data }: TProps) => {
         <div className="w-full text-center pb-6 md:pt-6 mb-7">
           <div>
             <IconHeading
-              text="Atricles"
+              text={t("pregnancyOverview.articles")}
               image="/images/icons/pregnant.png"
               className="text-primary justify-center"
             />
-            <SectionHeading>Special Articles</SectionHeading>
+            <SectionHeading>{t("pregnancyOverview.specialArticles")}</SectionHeading>
           </div>
         </div>
         {Boolean(data?.length) && (
@@ -142,7 +144,7 @@ const SpecialArticleSection = ({ data }: TProps) => {
             <div className="justify-center hidden md:flex md:mt-8">
               <Link href="/search-article?page=1&tag=special&week=">
                 <Button variant="default" className="px-8">
-                  View All <ChevronRight className="ml-2" />
+                  {t("pregnancyOverview.viewAll")} <ChevronRight className="ml-2" />
                 </Button>
               </Link>
             </div>

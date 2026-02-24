@@ -1,9 +1,14 @@
+"use client";
+
 import IconHeading from "@/components/ui/text/IconHeading";
 import Timeline from "@/components/home/TimeLine";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function TrackYourWeekSection() {
+  const { t } = useTranslation();
+
   const data = [
     {
       title: "Förlossning article 1",
@@ -30,17 +35,15 @@ export function TrackYourWeekSection() {
   return (
     <section className="bg-[#FDFBFF] relative">
       <div className="container-xl">
-        {/* Dotted Border Container */}
-        {/*<div className="rounded-3xl border-2 border-dashed border-primary-muted p-6 md:p-12">*/}
         <div className="rounded-3xl">
           {/* Section Header */}
           <div className="mb-6 md:mb-12 text-center">
             <IconHeading
-              text="Vestibulum"
+              text={t("trackWeek.label")}
               image="/images/icons/pregnant.png"
               className="text-primary justify-center"
             />
-            <SectionHeading>Track your Week</SectionHeading>
+            <SectionHeading>{t("trackWeek.title")}</SectionHeading>
           </div>
 
           <Timeline timelineItems={data} />

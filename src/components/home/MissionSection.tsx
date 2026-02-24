@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Download, Heart } from "lucide-react";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
@@ -6,15 +8,14 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WaveLeaf from "../layout/svg/WaveLeaf";
 import React from "react";
 import ConcaveCurve from "../layout/svg/ConcaveCurve";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function MissionSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative">
       <div className="absolute inset-0 z-10 bg-[url('/images/heart-bg.png')] bg-repeat-x bg-repeat-y opacity-10" />
-      {/* <WaveLeaf
-        className="text-[#FFFFFF] absolute top-0 left-0 right-0 z-[1]"
-        bgClassName="bg-primary!"
-      /> */}
 
       <div className="relative z-20">
         <div className="container-xl max-w-6xl  pt-6 pb-16 md:py-24">
@@ -36,18 +37,14 @@ export function MissionSection() {
             <div className="order-1 md:order-2 text-center md:text-left">
               {/* Section Label */}
               <IconHeading
-                text="Mission"
+                text={t("mission.label")}
                 image="/images/icons/mother1.png"
                 className="text-primary justify-center md:justify-start"
               />
-              <SectionHeading>Our Mission</SectionHeading>
+              <SectionHeading>{t("mission.title")}</SectionHeading>
 
               <p className="mx-auto max-w-xl lg:mx-0">
-                Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse
-                vitae risus et nulla blandit condimentum. Nunc pellentesque, felis
-                ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet
-                felis justo sed quam. Cras consequat lobortis dui, ut auctor elit
-                porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e
+                {t("mission.description")}
               </p>
 
               <div className="mt-4 text-[20px] sm:text-[24px] pl-2 md:pl-4 m-0 font-bold border-l-7 border-primary italic">

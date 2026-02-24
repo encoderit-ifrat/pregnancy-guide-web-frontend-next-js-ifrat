@@ -1,0 +1,386 @@
+{
+    "auth": {
+        "resetPassword": {
+            "invalidLink": "Ogiltig återställningslänk",
+            "tokenMissing": "Återställningsnyckel saknas",
+            "success": "Lösenordet har återställts!",
+            "passwordLabel": "Lösenord",
+            "confirmPasswordLabel": "Bekräfta lösenord",
+            "alreadyHaveAccount": "Har du redan ett konto?",
+            "signIn": "Logga in"
+        },
+        "changePassword": {
+            "success": "Lösenordet har ändrats!",
+            "oldPasswordLabel": "Gammalt lösenord",
+            "newPasswordLabel": "Nytt lösenord",
+            "confirmNewPasswordLabel": "Bekräfta nytt lösenord",
+            "submit": "Ändra lösenord"
+        }
+    },
+    "header": {
+        "login": "Logga In",
+        "logout": "Logga Ut",
+        "download": "Ladda Ner",
+        "myAccount": "Mitt Konto",
+        "profile": "Profil",
+        "changePassword": "Byt Lösenord",
+        "search": "Sök ...",
+        "functions": "Funktioner",
+        "language": "Språk",
+        "english": "Engelska",
+        "swedish": "Svenska"
+    },
+    "footer": {
+        "quickLinks": "Snabblänkar",
+        "additionalLink": "Ytterligare Länk",
+        "socialLink": "Sociala Länkar",
+        "copyright": "Copyright © {year} Familj.se. Alla rättigheter förbehållna.",
+        "termsConditions": "Villkor",
+        "privacyPolicy": "Integritetspolicy",
+        "home": "Hem",
+        "articles": "Artiklar",
+        "feedback": "Feedback",
+        "settings": "Inställningar",
+        "delivery": "Förlossning",
+        "pregnancyHealth": "Gravidhälsa",
+        "foodAndDiet": "Mat och kostråd",
+        "pregnancy": "Graviditet",
+        "about": "Om oss",
+        "services": "Tjänster",
+        "contact": "Kontakt"
+    },
+    "hero": {
+        "companion": "Kompanjon",
+        "duringPregnancy": "Under Graviditeten",
+        "description": "Upptäck Familj, din pålitliga kompanjon genom varje steg av graviditeten, med personliga veckovisa insikter, expertartiklar och varsam vägledning för att göra din resa trygg och stöttande.",
+        "appStoreAlt": "Ladda ner på App Store",
+        "googlePlayAlt": "Hämta på Google Play"
+    },
+    "mission": {
+        "label": "Uppdrag",
+        "title": "Vårt Uppdrag",
+        "description": "Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e"
+    },
+    "appShowcase": {
+        "label": "Pellentesque",
+        "title1": "Impersapienrhoncus",
+        "title2": "Etiampharetra",
+        "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendisse semper."
+    },
+    "howItWorks": {
+        "label": "Steg-för-Steg",
+        "title": "Så Fungerar Det",
+        "step1Title": "Följ Din Vecka",
+        "step1Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
+        "step2Title": "Tillgång till Expertinnehåll",
+        "step2Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
+        "step3Title": "Använd Smarta Checklistor",
+        "step3Desc": "Suspendisse vitae risus Cras nulla blandit Praesent."
+    },
+    "stats": {
+        "ourVolunteer": "Våra Volontärer",
+        "happyChildren": "Glada Barn"
+    },
+    "trackWeek": {
+        "label": "Vestibulum",
+        "title": "Följ Din Vecka"
+    },
+    "whyChooseUs": {
+        "label": "Välj Oss",
+        "title": "Varför Välja Oss",
+        "securePrivate": "Säker & Privat",
+        "securePrivateDesc": "Verifierad & professionell.",
+        "cloudSync": "Molnsynkronisering",
+        "cloudSyncDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
+        "fastResponsive": "Snabb & Responsiv",
+        "fastResponsiveDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
+        "support247": "Support dygnet runt",
+        "support247Desc": "Suspendisse vitae risus Cras nulla blandit Praesent"
+    },
+    "downloadCta": {
+        "label": "Consectetu",
+        "title": "Etiam phar etr...",
+        "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendissesemper."
+    },
+    "testimonials": {
+        "label": "Vestibulum",
+        "title": "Hör från våra nöjda kunder"
+    },
+    "login": {
+        "title": "Logga In",
+        "description": "Logga in på ditt befintliga Familj-konto.",
+        "email": "E-post",
+        "emailPlaceholder": "Användarens e-post",
+        "password": "Lösenord",
+        "rememberMe": "Kom ihåg i 30 dagar",
+        "forgotPassword": "Glömt lösenord?",
+        "loginButton": "Logga In",
+        "or": "ELLER",
+        "noAccount": "Har du inget konto?",
+        "createAccount": "Skapa konto",
+        "loggedInSuccess": "Inloggning lyckades"
+    },
+    "signUp": {
+        "title": "Registrera dig",
+        "description": "Skapa ett konto för att få tillgång till expertvägledning, resurser och stöd i varje steg av föräldraskapet.",
+        "userName": "Användarnamn",
+        "userEmail": "Användarens e-post",
+        "password": "Lösenord",
+        "confirmPassword": "Bekräfta lösenord",
+        "termsText": "Jag har förstått",
+        "termsLink": "villkor och policy",
+        "signUpButton": "Registrera dig",
+        "or": "ELLER",
+        "hasAccount": "Har du redan ett konto?",
+        "signIn": "Logga In",
+        "registrationSuccess": "Registrering lyckades",
+        "registrationFailed": "Registrering misslyckades"
+    },
+    "forgotPassword": {
+        "title": "Glömt Lösenord",
+        "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+        "email": "E-post",
+        "emailPlaceholder": "Användarens e-post",
+        "continueButton": "Fortsätt"
+    },
+    "changePassword": {
+        "title": "Byt Lösenord",
+        "description": "Ange ditt nuvarande lösenord och välj ett nytt säkert lösenord för ditt konto."
+    },
+    "contact": {
+        "contactDetails": "Kontaktuppgifter",
+        "feedbackTitle": "Lämna din feedback",
+        "feedbackDesc": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+        "rateExperience": "Betygsätt din upplevelse",
+        "firstName": "Förnamn",
+        "email": "E-post",
+        "phone": "Telefon",
+        "location": "Plats",
+        "yourMessage": "Ditt Meddelande",
+        "confirm": "Bekräfta",
+        "feedbackSuccess": "Feedback har skapats"
+    },
+    "checklists": {
+        "label": "Din Checklista",
+        "title": "Checklistor",
+        "subtitle": "Expertråd, verkliga berättelser och hjälpsamma tips för att stödja dig och din familj i varje steg.",
+        "addNew": "Lägg till ny",
+        "finalizedTasks": "Slutförda Uppgifter",
+        "addChecklist": "Lägg till checklista",
+        "updateChecklist": "Uppdatera checklista",
+        "deleteTitle": "Är du helt säker?",
+        "deleteDescription": "Denna åtgärd kan inte ångras. Detta kommer permanent att radera din checklista.",
+        "cancel": "Avbryt",
+        "loading": "Laddar...",
+        "deleteSuccess": "Checklistan har raderats",
+        "loginToAdd": "Logga in för att lägga till en checklista",
+        "toggleSuccess": "Checklistan uppdaterades.",
+        "form": {
+            "title": "Titel",
+            "titlePlaceholder": "Ange titel",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Ange beskrivning",
+            "category": "Kategori",
+            "selectCategory": "Välj kategori",
+            "items": "Checklistepunkter",
+            "addItem": "Lägg till punkt",
+            "itemTitle": "Titel på punkt",
+            "itemDescription": "Beskrivning",
+            "itemDescriptionPlaceholder": "Ange beskrivning",
+            "remove": "Ta bort",
+            "save": "Spara checklista",
+            "update": "Uppdatera checklista",
+            "atLeastOneItem": "Vänligen lägg till minst en checklistepunkt.",
+            "updateSuccess": "Checklistan har uppdaterats!",
+            "saveSuccess": "Checklistan har sparats!",
+            "categories": {
+                "general": "Allmänt",
+                "medical": "Medicinskt",
+                "nutrition": "Näring",
+                "exercise": "Träning",
+                "preparation": "Förberedelse"
+            }
+        }
+    },
+    "threads": {
+        "label": "Diskussioner",
+        "title": "Starta en Ny Tråd",
+        "subtitle": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        "startThread": "Starta en Ny Tråd",
+        "myPublished": "Mina Publicerade Trådar",
+        "communityThreads": "Gemenskapstrådar",
+        "mostLiked": "Mest Gillade",
+        "mostViewed": "Mest Visade",
+        "newest": "Nyaste",
+        "reply": "Svara",
+        "like": "Gilla",
+        "likes": "Gilla-markeringar",
+        "replies": "Svar",
+        "views": "Visningar",
+        "shares": "Delningar",
+        "share": "Dela",
+        "flag": "Flagga",
+        "createdBy": "Skapad av",
+        "lastReply": "Senaste svar:",
+        "agoBy": "{time} sedan av {user}",
+        "by": "av",
+        "startThreadTitle": "Starta en ny tråd",
+        "inputTitleLabel": "Titel",
+        "inputTitlePlaceholder": "Skapa din trådtitel",
+        "inputDescriptionLabel": "Beskrivning",
+        "inputDescriptionPlaceholder": "Skriv din trådbeskrivning...",
+        "publishButton": "Publicera tråd"
+    },
+    "pregnancy": {
+        "loginRequired": "Logga in för att se din graviditetsöversikt.",
+        "beenPregnant": "Varit gravid i:",
+        "weeks": "veckor",
+        "days": "dagar",
+        "completed": "Klart",
+        "dueDate": "BF-datum:",
+        "daysRemaining": "Dagar kvar till födsel:",
+        "trimesters": {
+            "1": "1:a trimestern",
+            "2": "2:a trimestern",
+            "3": "3:e trimestern"
+        },
+        "categories": {
+            "mother": "Mamma",
+            "baby": "Bebis",
+            "partner": "Partner"
+        },
+        "weekSelector": "Vecka",
+        "question": "Fråga",
+        "questionOfTheWeek": "Veckans Fråga",
+        "weekQuestion": "Fråga vecka {week}",
+        "seeAll": "Visa Alla",
+        "noInfo": "Ingen graviditetsinformation hittades.",
+        "error": "Ett fel uppstod vid hämtning av graviditetsdata.",
+        "startJourney": "Börja din resa",
+        "noInfoDesc": "Börja spåra din vackra graviditetsresa. Lägg till dina graviditetsdetaljer för att låsa upp personliga insikter och milstolpar.",
+        "addData": "Lägg till graviditetsdata",
+        "privacySecure": "Din graviditetsdata är privat och säker 🔒",
+        "articles": "Artiklar",
+        "articlesTitle": "Artiklar & insikter för din graviditetsresa",
+        "articlesSubtitle": "Expertråd, verkliga berättelser och användbara tips för att stödja dig och din familj i varje skede.",
+        "weeklyDetails": "Veckovisa detaljer",
+        "bannerArticle": "Bannerartikel",
+        "ourArticles": "Våra artiklar",
+        "specialArticles": "Specialartiklar",
+        "viewAll": "Visa Alla",
+        "searchResultFound": "Här är vad vi hittade för",
+        "searchResultIn": "i",
+        "noResults": "Inga artiklar hittades. Prova ett annat sökord.",
+        "babyNames": "Barnnamn"
+    },
+    "articles": {
+        "readMore": "Läs mer",
+        "moreDetails": "Fler detaljer",
+        "tabs": "Innehållsförteckning"
+    },
+    "hero2": {
+        "label": "Förlossning",
+        "title": "Användbara artiklar för varje steg i din graviditet",
+        "subtitle": "Expert-skrivna guider, tips och insikter för att stödja dig från graviditet till föräldraskap."
+    },
+    "weeklyQuestion": {
+        "title": "Veckans Fråga",
+        "description": "Delta i diskussionen och dela dina tankar om den här veckans fråga.",
+        "pageTitle": "Fråga",
+        "pageHeading": "Veckans fråga",
+        "pageDescription": "Svara på den veckovisa graviditetsfrågan, utforska gemenskapens svar och uttryck hur du känner dig.",
+        "submit": "Skicka",
+        "submitting": "Skickar...",
+        "submitAnswer": "Skicka svar",
+        "seeAnswers": "Visa Svar",
+        "seeAnswersComments": "Visa svar och kommentarer",
+        "percentage": "av personerna valde detta",
+        "shareComment": "Dela din kommentar",
+        "commentPlaceholder": "Skriv ditt svar här...",
+        "selectOption": "Vänligen välj ett svarsalternativ",
+        "answerSubmitted": "Svaret har skickats",
+        "submitComment": "Skicka kommentar",
+        "submittedComments": "Inskickade kommentarer",
+        "noAnswersYet": "Inga svar än. Bli den första att dela!",
+        "writeCommentError": "Vänligen skriv din kommentar",
+        "commentSubmitted": "Kommentaren har skickats",
+        "noAnswer": "Inget svar",
+        "addComment": "Lägg till kommentar",
+        "comment": "Kommentar",
+        "comments": "Kommentarer",
+        "you": "Du"
+    },
+    "common": {
+        "notFound": "Hittades inte",
+        "confirm": "Bekräfta",
+        "cancel": "Avbryt",
+        "loading": "Laddar...",
+        "or": "ELLER",
+        "back": "Tillbaka",
+        "page": "Sida"
+    },
+    "profile": {
+        "name": "Namn",
+        "familyName": "Efternamn",
+        "partnerName": "Partnernamn",
+        "email": "E-post",
+        "loading": "Laddar profil...",
+        "loginRequired": "Vänligen logga in för att se din profil",
+        "guestUser": "Gästanvändare",
+        "accountReady": "Ditt konto är klart, du kan nu ansöka om råd.",
+        "editProfile": "Redigera profil",
+        "lastUpdated": "Senast uppdaterad: {date}",
+        "saveChanges": "Spara alla ändringar",
+        "cancelAll": "Avbryt alla",
+        "myProfiles": "Mina profiler",
+        "pregnant": "Gravid",
+        "beenPregnant": "Har varit gravid",
+        "newborn": "Nyfödd",
+        "editBabyProfile": "Redigera babyprofil",
+        "edit": "Redigera",
+        "delete": "Radera",
+        "deleteConfirmTitle": "Radera babyprofil",
+        "deleteConfirmDesc": "Är du säker på att du vill radera. Denna åtgärd kan inte ångras.",
+        "deleteSuccess": "Profilen raderades framgångsrikt",
+        "addBabyProfile": "Lägg till babyprofil",
+        "noProfiles": "Inga babyprofiler än",
+        "updateSuccess": "Profilen uppdaterades framgångsrikt",
+        "updateFailed": "Misslyckades med att uppdatera profilen"
+    },
+    "partner": {
+        "inviteTitle": "Partnerinbjudan",
+        "emailPlaceholder": "Ange partners e-post.....",
+        "rolePartner": "Partner",
+        "roleOther": "Annat",
+        "sendInvite": "Skicka inbjudan",
+        "emailAddress": "E-postadress",
+        "statusInvited": "inbjuden",
+        "statusAccepted": "Accepterad"
+    },
+    "features": {
+        "secure": {
+            "title": "Säker & Privat",
+            "description": "Din graviditetsresa är privat och säker hos oss."
+        },
+        "fast": {
+            "title": "Snabb & Responsiv",
+            "description": "Upplev ett snabb och smidigt gränssnitt på alla enheter."
+        },
+        "userFriendly": {
+            "title": "Användarvänligt gränssnitt",
+            "description": "Lätt att navigera och hitta exakt vad du behöver."
+        },
+        "notifications": {
+            "title": "Realtidsaviseringar",
+            "description": "Håll dig uppdaterad med viktiga graviditetsmilstolpar."
+        },
+        "cloudSync": {
+            "title": "Molnsynkronisering",
+            "description": "Kom åt dina data när som helst, var som helst på valfri enhet."
+        },
+        "support": {
+            "title": "Support dygnet runt",
+            "description": "Vårt team är här för att hjälpa dig hela vägen."
+        }
+    }
+}

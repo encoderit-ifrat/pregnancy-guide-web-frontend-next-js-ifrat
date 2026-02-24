@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/hooks/useTranslation";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
@@ -25,17 +28,18 @@ type TProps = {
 };
 
 function WeeklyDetails({ data = initialData }: TProps) {
+  const { t } = useTranslation();
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
     <section className="bg-white">
       <div className="section py-10 lg:py-16 -mt-1">
         <div className="text-center mb-7 lg:mb-14">
           <IconHeading
-            text="Articles"
+            text={t("pregnancyOverview.articles")}
             image="/images/icons/heart-baby.png"
             className="text-primary justify-center"
           />
-          <SectionHeading>Weekly Details</SectionHeading>
+          <SectionHeading>{t("pregnancyOverview.weeklyDetails")}</SectionHeading>
         </div>
 
         <div className="bg-white shadow-lg p-5 rounded-2xl">
@@ -63,7 +67,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
                   variant="outline"
                   className="px-12 md:px-20 font-poppins font-semibold text-lg"
                 >
-                  Read More
+                  {t("articles.readMore")}
                 </Button>
               </Link>
             </div>

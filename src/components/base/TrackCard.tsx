@@ -5,6 +5,7 @@ import { MoveRight } from "lucide-react";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/useTranslation";
 import React, { useState } from "react";
 
 const poppins = Poppins({
@@ -26,6 +27,7 @@ const TrackCard: React.FC<TrackCardProps> = ({
   description,
   photoUrl,
 }) => {
+  const { t } = useTranslation();
   // Set fallback image state
   const [imgSrc, setImgSrc] = useState(
     // photoUrl ? API_BASE_URL + photoUrl : "/assets/logo/article1.svg"
@@ -67,7 +69,7 @@ const TrackCard: React.FC<TrackCardProps> = ({
           href={`/home/articles/${slug}`}
           className="text-text-accent-purple flex items-center uppercase text-base leading-4"
         >
-          Read more <MoveRight />
+          {t("articles.readMore")} <MoveRight />
         </Link>
       </div>
     </div>

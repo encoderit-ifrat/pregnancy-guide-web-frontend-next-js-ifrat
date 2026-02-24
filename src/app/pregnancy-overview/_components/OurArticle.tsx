@@ -1,7 +1,10 @@
+"use client";
+
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { ChevronRight, CornerDownLeft, Heart } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
@@ -37,6 +40,7 @@ type TProps = {
 };
 
 function OurArticle({ data }: TProps) {
+  const { t } = useTranslation();
   const shuffled = [...data].sort(() => Math.random() - 0.5);
 
   const [firstArticle, ...rest] = shuffled;
@@ -52,16 +56,16 @@ function OurArticle({ data }: TProps) {
         <div className="py-6 md:py-0 md:flex md:justify-between items-center mb-14">
           <div className="text-center md:text-left">
             <IconHeading
-              text="Articles"
+              text={t("pregnancyOverview.articles")}
               image="/images/icons/baby-hands.png"
               className="text-primary justify-center md:justify-start"
             />
-            <SectionHeading>Banner article</SectionHeading>
+            <SectionHeading>{t("pregnancyOverview.bannerArticle")}</SectionHeading>
           </div>
           <div className="hidden md:block">
             <Link href="/search-article?page=1&tag=our-articles&week=">
               <Button variant="default" className="px-6">
-                View All <ChevronRight className="ml-2" />
+                {t("pregnancyOverview.viewAll")} <ChevronRight className="ml-2" />
               </Button>
             </Link>
           </div>

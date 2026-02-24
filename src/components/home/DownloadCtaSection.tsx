@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Download } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function DownloadCtaSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="bg-black relative overflow-hidden pb-10 pt-36 md:py-15">
       {/* Right-side Background Image (absolute) */}
@@ -31,19 +36,14 @@ pointer-events-none
         <div>
           {/* Section Label */}
           <IconHeading
-            text="Consectetu"
+            text={t("downloadCta.label")}
             image="/images/icons/mothers-love2.png"
             className="text-white"
           />
-          <SectionHeading className="text-white">Etiam phar etr...</SectionHeading>
+          <SectionHeading className="text-white">{t("downloadCta.title")}</SectionHeading>
 
           <p className="mb-8 max-w-xl text-white!">
-            Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi
-            ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus
-            molestie sed. Vivamus dignissim ultrices porta. Quisque vel
-            pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec
-            eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis
-            dictum lectus. Suspendissesemper.
+            {t("downloadCta.description")}
           </p>
 
           {/* App Store Badges */}
@@ -51,7 +51,7 @@ pointer-events-none
             <Link href="#" className="transition-transform hover:scale-105">
               <Image
                 src="/images/hero/app-store2.png"
-                alt="Download on App Store"
+                alt={t("hero.appStoreAlt")}
                 width={140}
                 height={46}
                 className="h-11 w-auto"
@@ -60,7 +60,7 @@ pointer-events-none
             <Link href="#" className="transition-transform hover:scale-105">
               <Image
                 src="/images/hero/google-play2.png"
-                alt="Get it on Google Play"
+                alt={t("hero.googlePlayAlt")}
                 width={140}
                 height={46}
                 className="h-11 w-auto"

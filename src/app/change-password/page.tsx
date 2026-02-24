@@ -1,13 +1,18 @@
+"use client";
+
 import React from "react";
 import UpdatePasswordForm from "./_component/UpdatePasswordForm";
 import AuthCard from "@/components/ui/cards/AuthCard";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function page() {
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-5xl mx-auto">
       <AuthCard
-        title="Change Password"
-        description="Enter your current password and choose a new secure password for your account."
+        title={t("changePassword.title")}
+        description={t("changePassword.description")}
         image="/images/auth/change-password.png"
       >
         <UpdatePasswordForm />

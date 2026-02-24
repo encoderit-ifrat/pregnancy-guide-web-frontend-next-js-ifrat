@@ -1,31 +1,36 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import StatsCard from "@/components/ui/cards/StatusCard";
-
-const stats = [
-  {
-    icon: "/images/icons/heart.png",
-    value: "530+",
-    label: "Our Volunteer",
-  },
-  {
-    icon: "/images/icons/mothers-love.png",
-    value: "22+",
-    label: "Happy Children",
-  },
-  {
-    icon: "/images/icons/donation.png",
-    value: "22+",
-    label: "Our Volunteer",
-  },
-  {
-    icon: "/images/icons/gift.png",
-    value: "22+",
-    label: "Our Volunteer",
-  },
-];
+import { useTranslation } from "@/hooks/useTranslation";
 
 const StatsSection: React.FC = () => {
+  const { t } = useTranslation();
+
+  const stats = [
+    {
+      icon: "/images/icons/heart.png",
+      value: "530+",
+      label: t("stats.ourVolunteer"),
+    },
+    {
+      icon: "/images/icons/mothers-love.png",
+      value: "22+",
+      label: t("stats.happyChildren"),
+    },
+    {
+      icon: "/images/icons/donation.png",
+      value: "22+",
+      label: t("stats.ourVolunteer"),
+    },
+    {
+      icon: "/images/icons/gift.png",
+      value: "22+",
+      label: t("stats.ourVolunteer"),
+    },
+  ];
+
   return (
     <section className="pt-8 pb-20">
       <div className="section">
@@ -35,7 +40,6 @@ const StatsSection: React.FC = () => {
               key={index}
               number={stat.value}
               label={stat.label}
-              // icon={<stat.icon className="min-md:size-10 text-text-primary" />}
               icon={<Image
                 src={stat.icon}
                 alt=""

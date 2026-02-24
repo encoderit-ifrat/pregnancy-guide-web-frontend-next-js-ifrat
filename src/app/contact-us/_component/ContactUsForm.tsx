@@ -23,8 +23,10 @@ import { Star } from "lucide-react";
 import { useState } from "react";
 import { useFeedback } from "../_api/mutation/useFeedback";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ContactUsForm() {
+  const { t } = useTranslation();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -40,13 +42,12 @@ export default function ContactUsForm() {
       name: values?.firstName,
       email: values?.email,
       location: values?.location,
-      // phone: values?.phone,
       content: values?.message,
       rating: rating,
     };
     leaveFeedback(body, {
       onSuccess(data) {
-        toast.success(data?.data?.message || "Feedback successfully created");
+        toast.success(data?.data?.message || t("contact.feedbackSuccess"));
       },
     });
     form.reset();
@@ -78,7 +79,7 @@ export default function ContactUsForm() {
         {/* Title */}
         <div className="flex  lg:justify-start">
           <p className="text-3xl lg:text-4xl popover-foreground  lg:text-start  py-4 font-medium uppercase whitespace-nowrap">
-            Contact Details
+            {t("contact.contactDetails")}
           </p>
         </div>
 
@@ -104,17 +105,17 @@ export default function ContactUsForm() {
             className="lg:space-y-6 p-6 lg:p-10  pt-14 bg-soft-white rounded-2xl shadow-md"
           >
             <Header
-              title="Leave us your feedback"
+              title={t("contact.feedbackTitle")}
               titleClassName="lg:text-start"
               mainClassName="!px-0"
-              description="Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus."
+              description={t("contact.feedbackDesc")}
               descriptionClassName="lg:text-start mt-6 !pb-0"
             />
 
             {/* Star Rating */}
             <div className="flex flex-col gap-2 py-4">
               <label className="text-sm font-medium">
-                Rate your experience
+                {t("contact.rateExperience")}
               </label>
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -127,11 +128,10 @@ export default function ContactUsForm() {
                     className="transition-transform hover:scale-110"
                   >
                     <Star
-                      className={`w-8 h-8 transition-colors ${
-                        star <= (hoverRating || rating)
+                      className={`w-8 h-8 transition-colors ${star <= (hoverRating || rating)
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-gray-300"
-                      }`}
+                        }`}
                     />
                   </button>
                 ))}
@@ -148,7 +148,7 @@ export default function ContactUsForm() {
                     <FormItem className="w-full">
                       <FormControl>
                         <Input
-                          placeholder="First Name"
+                          placeholder={t("contact.firstName")}
                           {...field}
                           className="w-full h-12 rounded-full lg:text-xl text-base text-text-mid"
                         />
@@ -168,7 +168,7 @@ export default function ContactUsForm() {
                     <FormItem className="w-full">
                       <FormControl>
                         <Input
-                          placeholder="Email"
+                          placeholder={t("contact.email")}
                           {...field}
                           className="w-full h-12 rounded-full lg:text-xl text-base text-text-mid"
                         />
@@ -188,7 +188,7 @@ export default function ContactUsForm() {
                     <FormItem className="w-full">
                       <FormControl>
                         <Input
-                          placeholder="Phone"
+                          placeholder={t("contact.phone")}
                           {...field}
                           className="w-full h-12 rounded-full lg:text-xl text-base text-text-mid"
                         />
@@ -208,7 +208,7 @@ export default function ContactUsForm() {
                     <FormItem className="w-full">
                       <FormControl>
                         <Input
-                          placeholder="Location"
+                          placeholder={t("contact.location")}
                           {...field}
                           className="w-full h-12 rounded-full lg:text-xl text-base text-text-mid"
                         />
@@ -229,7 +229,7 @@ export default function ContactUsForm() {
                       <FormControl>
                         <Textarea
                           rows={6}
-                          placeholder="Your Message"
+                          placeholder={t("contact.yourMessage")}
                           {...field}
                           className="w-full rounded-4xl lg:text-xl text-base text-text-mid"
                         />
@@ -248,7 +248,7 @@ export default function ContactUsForm() {
               disabled={isPending}
               isLoading={isPending}
             >
-              Confirm
+              {t("contact.confirm")}
             </Button>
           </form>
         </Form>

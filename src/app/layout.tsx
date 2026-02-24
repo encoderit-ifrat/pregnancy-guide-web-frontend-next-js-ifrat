@@ -16,6 +16,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import FooterWaveDivider from "@/components/layout/svg/FooterWaveDivider";
 
+import { I18nProvider } from "@/providers/I18nProvider";
+
 // Outfit font
 export const outfit = Outfit({
   subsets: ["latin"],
@@ -73,22 +75,24 @@ export default function RootLayout({
         className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} antialiased text-primary-dark`}
       >
         <SessionWrapper>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ReactQueryProvider>
-              <Header />
-              <UserProvider>
-                {children}
-                <Toaster richColors position="top-right" />
-              </UserProvider>
-              {/* divider */} <FooterWaveDivider />
-              <Footer />
-            </ReactQueryProvider>
-          </ThemeProvider>
+          <I18nProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ReactQueryProvider>
+                <Header />
+                <UserProvider>
+                  {children}
+                  <Toaster richColors position="top-right" />
+                </UserProvider>
+                {/* divider */} <FooterWaveDivider />
+                <Footer />
+              </ReactQueryProvider>
+            </ThemeProvider>
+          </I18nProvider>
         </SessionWrapper>
       </body>
     </html>

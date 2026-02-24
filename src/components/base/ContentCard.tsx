@@ -1,5 +1,8 @@
 // components/base/ContentCard.tsx (Updated)
+"use client";
+
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 import React from "react";
 import { Button } from "../ui/Button";
 import Link from "next/link";
@@ -14,6 +17,7 @@ type Article = {
 };
 
 function ContentCard({ article }: { article?: Article }) {
+  const { t } = useTranslation();
   // Fallback for demo purposes
   const defaultArticle = {
     _id: "1",
@@ -51,7 +55,7 @@ function ContentCard({ article }: { article?: Article }) {
               size="default"
               className="px-6 py-2 rounded-full"
             >
-              Read More
+              {t("articles.readMore")}
             </Button>
           </Link>
         </div>

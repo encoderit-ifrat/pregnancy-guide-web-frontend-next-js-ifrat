@@ -8,35 +8,11 @@ import { SwiperSlide } from "swiper/react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Link from "next/link";
-
-// const features = [
-//   {
-//     title: "Secure & Private",
-//     description: "Verified & professional.",
-//     icon: Shield,
-//     image: "/images/why-choose-us/1.png",
-//   },
-//   {
-//     title: "Cloud Sync",
-//     description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-//     icon: Cloud,
-//     image: "/images/why-choose-us/2.png",
-//   },
-//   {
-//     title: "Fast & Responsive",
-//     description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-//     icon: Zap,
-//     image: "/images/why-choose-us/3.png",
-//   },
-//   {
-//     title: "24/7 Support",
-//     description: "Suspendisse vitae risus Cras nulla blandit Praesent",
-//     icon: Headphones,
-//     image: "/images/why-choose-us/4.png",
-//   },
-// ];
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function WhyChooseUsSection({ data }: { data: any }) {
+  const { t } = useTranslation();
+
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -49,11 +25,11 @@ export function WhyChooseUsSection({ data }: { data: any }) {
         {/* Section Header */}
         <div className="mb-12 text-center">
           <IconHeading
-            text="Choose Us"
+            text={t("whyChooseUs.label")}
             image="/images/icons/baby.png"
             className="text-primary justify-center"
           />
-          <SectionHeading>Why choose Us</SectionHeading>
+          <SectionHeading>{t("whyChooseUs.title")}</SectionHeading>
         </div>
 
         <Slider
@@ -113,11 +89,6 @@ export function WhyChooseUsSection({ data }: { data: any }) {
                           {d.excerpt}
                         </p>
                       </div>
-                      {/* <div>
-                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                        <feature.icon className="h-8 w-8 text-white" />
-                      </div>
-                    </div> */}
                     </div>
                   </div>
                 </Link>
