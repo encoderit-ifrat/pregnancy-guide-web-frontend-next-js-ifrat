@@ -6,16 +6,18 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Search, X } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function BaseSearchBar({
   onSearch,
-  placeholder = "Search ...",
+  placeholder,
   defaultValue = "",
 }: {
   onSearch?: (term: string) => void;
   placeholder?: string;
   defaultValue?: string;
 }) {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState(defaultValue);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -46,7 +48,7 @@ export default function BaseSearchBar({
       <Search className="absolute left-4 text-gray-400 h-5 w-5 pointer-events-none" />
 
       <Input
-        placeholder={placeholder}
+        placeholder={placeholder || t("header.search")}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyPress={handleKeyPress}
@@ -70,7 +72,7 @@ export default function BaseSearchBar({
         onClick={handleSearch}
         className="absolute right-2 h-9 rounded-full text-sm px-4 bg-primary text-white hover:bg-primary/90"
       >
-        Go
+        {t("common.go")}
       </Button>
     </div>
   );

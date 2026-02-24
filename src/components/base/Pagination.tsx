@@ -4,6 +4,7 @@
 import { Button } from "@/components/ui/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Label } from "../ui/Label";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function Pagination({
   currentPage,
@@ -14,6 +15,7 @@ export default function Pagination({
   totalPages: number;
   onPageChange: (page: number) => void;
 }) {
+  const { t } = useTranslation();
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const showEllipsis = totalPages > 7;
@@ -55,7 +57,7 @@ export default function Pagination({
         className="p-0"
       >
         <ChevronLeft className="size-4" />
-        Previous
+        {t("common.previous")}
       </Button>
 
       {getPageNumbers().map((page, index) => (
@@ -77,7 +79,7 @@ export default function Pagination({
         disabled={currentPage === totalPages}
         className="p-0"
       >
-        Next
+        {t("common.next")}
         <ChevronRight className="size-4" />
       </Button>
     </div>

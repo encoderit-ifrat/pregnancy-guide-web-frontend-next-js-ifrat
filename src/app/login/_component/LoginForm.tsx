@@ -104,7 +104,7 @@ export default function LoginForm() {
           render={({ field }) => (
             <FormItem className="mb-3 sm:mb-4 lg:mb-2">
               <FormControl>
-                <PasswordInput label={t("login.password")} {...field} />
+                <PasswordInput label={t("login.password")} placeholder={t("login.passwordPlaceholder")} {...field} />
               </FormControl>
               <FormMessage className="pl-8 sm:pl-9 md:pl-10 text-xs sm:text-sm" />
             </FormItem>

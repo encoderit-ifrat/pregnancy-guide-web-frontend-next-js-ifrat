@@ -1,4 +1,16 @@
 {
+    "common": {
+        "back": "Tillbaka",
+        "go": "Gå",
+        "next": "Nästa",
+        "previous": "Föregående",
+        "confirm": "Bekräfta",
+        "notFound": "Hittades inte",
+        "cancel": "Avbryt",
+        "loading": "Laddar...",
+        "or": "ELLER",
+        "page": "Sida"
+    },
     "auth": {
         "resetPassword": {
             "invalidLink": "Ogiltig återställningslänk",
@@ -112,6 +124,7 @@
         "email": "E-post",
         "emailPlaceholder": "Användarens e-post",
         "password": "Lösenord",
+        "passwordPlaceholder": "Ange lösenord",
         "rememberMe": "Kom ihåg i 30 dagar",
         "forgotPassword": "Glömt lösenord?",
         "loginButton": "Logga In",
@@ -309,15 +322,6 @@
         "comment": "Kommentar",
         "comments": "Kommentarer",
         "you": "Du"
-    },
-    "common": {
-        "notFound": "Hittades inte",
-        "confirm": "Bekräfta",
-        "cancel": "Avbryt",
-        "loading": "Laddar...",
-        "or": "ELLER",
-        "back": "Tillbaka",
-        "page": "Sida"
     },
     "profile": {
         "name": "Namn",

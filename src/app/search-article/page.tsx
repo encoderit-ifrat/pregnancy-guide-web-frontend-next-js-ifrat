@@ -137,6 +137,7 @@ export default async function Page({
         <SearchArticle
           initialQuery={params.search || ""}
           initialData={articlesData?.data?.data || []}
+          categoryName={category?.name || ""}
           meta={articlesData?.data?.pagination || null}
         />
       </main>

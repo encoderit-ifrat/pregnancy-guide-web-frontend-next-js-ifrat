@@ -1,4 +1,16 @@
 {
+    "common": {
+        "back": "Back",
+        "go": "Go",
+        "next": "Next",
+        "previous": "Previous",
+        "confirm": "Confirm",
+        "notFound": "Not Found",
+        "cancel": "Cancel",
+        "loading": "Loading...",
+        "or": "OR",
+        "page": "Page"
+    },
     "auth": {
         "resetPassword": {
             "invalidLink": "Invalid reset link",
@@ -112,6 +124,7 @@
         "email": "Email",
         "emailPlaceholder": "User Email",
         "password": "Password",
+        "passwordPlaceholder": "Enter Password",
         "rememberMe": "Remember for 30 Days",
         "forgotPassword": "Forgot Password?",
         "loginButton": "Login",
@@ -335,15 +348,6 @@
             "title": "24/7 Support",
             "description": "Our team is here to help you every step of the way."
         }
-    },
-    "common": {
-        "notFound": "Not Found",
-        "confirm": "Confirm",
-        "cancel": "Cancel",
-        "loading": "Loading...",
-        "or": "OR",
-        "back": "Back",
-        "page": "Page"
     },
     "profile": {
         "name": "Name",
