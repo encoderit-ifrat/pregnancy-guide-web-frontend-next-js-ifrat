@@ -86,7 +86,7 @@ export default function CheckListItem({
       {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
         const hasItemDetails =
           item?.items?.length > 0 &&
-          item.items.some((itm) => itm.title && itm.description);
+          item.items.some((itm) => itm.title);
 
         return (
           <AccordionItem
@@ -160,8 +160,7 @@ export default function CheckListItem({
                   <div
                     key={idx}
                     onClick={() => handleChecklistToggle(itm._id)}
-                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${itm.checked ? "bg-green-50" : "hover:bg-gray-50 border-b"
-                      }`}
+                    className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${itm.checked ? "bg-green-50" : "hover:bg-gray-50"} border-b last:border-b-0`}
                   >
                     <div className="pt-0.5">
                       {toggleLoading == itm._id && isPending ? (
