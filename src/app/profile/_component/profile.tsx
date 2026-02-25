@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import BabyPercentage from "@/app/profile/_component/babyPercentage";
+import PartnerInvite from "./PartnerInvite";
 
 export const getInitial = (name?: string): string => {
   return name ? name.charAt(0).toUpperCase() : "U";
@@ -68,7 +69,7 @@ export default function ProfilePage() {
         name: z.string().min(2).max(60),
         familyName: z.string().min(2).max(60),
         partnerName: z.string().min(2).max(60),
-        email: z.string().email(),
+        email: z.email(),
       })
     ),
     defaultValues: {
@@ -106,7 +107,10 @@ export default function ProfilePage() {
           label: "Partner Name",
           value: user?.details?.partner_name || "",
         },
-        { key: "email", label: "Email", value: user.email || "" },
+        { 
+          key: "email",
+          label: "Email",
+          value: user.email || "" },
       ]);
       setPendingAvatar(user?.avatar);
       setBabyProfiles(user?.details?.babies || []);
@@ -315,6 +319,9 @@ export default function ProfilePage() {
       </div>
 
       <div className="max-w-7xl w-full mx-auto px-4 mt-20">
+        <div className="mb-8 md:mb-12">
+          <PartnerInvite />
+        </div>
         <div className="flex items-center justify-between mb-6 md:mb-20">
           <h4 className="text-primary-dark text-3xl font-semibold">
             Edit profile
