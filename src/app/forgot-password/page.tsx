@@ -2,11 +2,10 @@
 
 import React from "react";
 import ForgotPassword from "./_component/ForgotPasswordForm";
-import Image from "next/image";
 import AuthCard from "@/components/ui/cards/AuthCard";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function page() {
+export default function ForgotPasswordPage() {
   const { t } = useTranslation();
 
   return (

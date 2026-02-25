@@ -5,7 +5,7 @@ import UpdatePasswordForm from "./_component/UpdatePasswordForm";
 import AuthCard from "@/components/ui/cards/AuthCard";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function page() {
+export default function ChangePasswordPage() {
   const { t } = useTranslation();
 
   return (

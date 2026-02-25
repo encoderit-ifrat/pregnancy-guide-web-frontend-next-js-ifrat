@@ -2,11 +2,10 @@
 
 import React from "react";
 import ChangePasswordForm from "./_component/ChangPasswordForm";
-import Image from "next/image";
 import AuthCard from "@/components/ui/cards/AuthCard";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function page() {
+export default function ResetPasswordPage() {
   const { t } = useTranslation();
 
   return (

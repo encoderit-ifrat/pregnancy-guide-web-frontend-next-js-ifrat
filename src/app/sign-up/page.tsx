@@ -2,11 +2,10 @@
 
 import React from "react";
 import RegisterForm from "./_component/SignUpForm";
-import Image from "next/image";
 import AuthCard from "@/components/ui/cards/AuthCard";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function page() {
+export default function SignUpPage() {
   const { t } = useTranslation();
 
   return (
