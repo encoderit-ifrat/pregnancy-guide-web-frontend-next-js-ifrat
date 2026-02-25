@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useDebounce } from "@/hooks/useDebounce";
 import ArticleSection from "@/components/base/ArticleSection";
 import SpecialArticleSection from "@/components/base/SpecialArticleSection";
 import OverviewCategories from "./OverviewCategories";
@@ -18,7 +20,11 @@ import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 
 export default function PregnancyOverview({
   pregnancyData,
+  selectedWeek,
 }: PregnancyOverviewProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const articles = pregnancyData?.articles;
   const questions = pregnancyData?.questions;
   const checklist = pregnancyData?.checklist;
@@ -36,16 +42,29 @@ export default function PregnancyOverview({
   // 18 week 1 day → 19; 18 week 0 day → 18
   const currentWeek = day > 0 ? week + 1 : week;
 
+  // Use URL query param if present, otherwise fall back to user's current week
+  const initialWeek = selectedWeek !== undefined ? selectedWeek : currentWeek;
+
+  // Local state for instant UI feedback, debounced for URL/API update
+  const [pendingWeek, setPendingWeek] = useState(initialWeek);
+  const debouncedWeek = useDebounce(pendingWeek, 600);
+
   const handleWeekChange = (week: number) => {
-    // Handle week change logic here (e.g., fetch new data for that week)
-    console.log("Week changed to:", week);
+    setPendingWeek(week);
   };
+
+  // Push URL update only after debounce settles
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("selected-week", String(debouncedWeek));
+    router.push(`${pathname}?${params.toString()}`);
+  }, [debouncedWeek]);
 
   return (
     <div className="bg-[#F6F0FF]">
       {/* <ScrollToTop /> */}
       <WeekSelector
-        currentWeek={currentWeek}
+        currentWeek={initialWeek}
         onWeekChange={handleWeekChange}
         minWeek={0}
         maxWeek={45}

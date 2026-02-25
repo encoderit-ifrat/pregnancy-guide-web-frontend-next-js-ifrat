@@ -34,6 +34,11 @@ export default function WeekSelector({
     return () => window.removeEventListener("resize", updateVisibleWeekCount);
   }, []);
 
+  // Sync internal state when the prop changes (e.g. URL query param updated)
+  useEffect(() => {
+    setSelectedWeek(currentWeek);
+  }, [currentWeek]);
+
   // Ensure minWeek and maxWeek are defined numbers
   const min = minWeek ?? 0;
   const max = maxWeek ?? 45;
@@ -50,6 +55,7 @@ export default function WeekSelector({
   );
 
   const handleWeekClick = (week: number) => {
+    if (currentWeek === week) return;
     setSelectedWeek(week);
     onWeekChange?.(week);
   };
@@ -72,7 +78,7 @@ export default function WeekSelector({
           onClick={handlePrevious}
           disabled={selectedWeek === min}
           className={cn(
-            "flex items-center justify-center rounded-full w-10 h-10 transition-colors mr-2 md:mr-3",
+            "flex items-center justify-center rounded-full w-10 h-10 transition-colors mr-2 md:mr-3 cursor-pointer",
             selectedWeek === min
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
               : "border border-primary text-primary hover:bg-primary hover:text-white"
@@ -88,7 +94,7 @@ export default function WeekSelector({
             key={week}
             onClick={() => handleWeekClick(week)}
             className={cn(
-              "flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit",
+              "flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit cursor-pointer",
               selectedWeek === week
                 ? "bg-primary text-white shadow-md"
                 : "bg-primary-light text-primary-dark",
@@ -108,7 +114,7 @@ export default function WeekSelector({
             "flex items-center justify-center rounded-full w-10 h-10 transition-colors ml-2 md:ml-3",
             selectedWeek === max
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "border border-primary text-primary hover:bg-primary hover:text-white"
+              : "border border-primary text-primary hover:bg-primary hover:text-white cursor-pointer"
           )}
           aria-label="Next week"
         >

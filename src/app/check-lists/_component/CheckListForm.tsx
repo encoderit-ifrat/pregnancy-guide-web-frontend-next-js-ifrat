@@ -18,17 +18,10 @@ import {
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
-// import { Switch } from "@/components/ui/Switch"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useMutationCreateChecklist } from "../_api/mutations/UseMutationCreateChecklist";
 import { Spinner } from "@/components/ui/Spinner";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMutationUpdateChecklist } from "../_api/mutations/UseMutationUpdateChecklist";
 import { ChecklistFormProps } from "../_types/checklist_item_types";
 
@@ -38,6 +31,7 @@ export default function ChecklistForm({
   formData,
   onSubmitForDialogAndRefetch,
 }: TProps) {
+  const hasAddedInitialItem = useRef(false);
   useEffect(() => { }, [formData]);
   const { type, data } = formData ?? {};
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
@@ -115,6 +109,17 @@ export default function ChecklistForm({
     name: "items",
   });
 
+  // Automatically add an empty checklist item when modal opens for new checklists
+  useEffect(() => {
+    if (type !== "update" && fields.length === 0 && !hasAddedInitialItem.current) {
+      hasAddedInitialItem.current = true;
+      append({
+        title: "",
+        description: "",
+      });
+    }
+  }, [type, fields.length, append]);
+
   const checklistMutation = useMutationCreateChecklist();
   const { mutate: updateChecklist, isPending: isPendingUpdateChecklist } =
     useMutationUpdateChecklist();
@@ -175,10 +180,11 @@ export default function ChecklistForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input
+                    label="Title"
                     placeholder="Enter title"
+                    required={true}
                     {...field}
                   />
                 </FormControl>
@@ -191,11 +197,12 @@ export default function ChecklistForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
+                    label="Description"
                     placeholder="Enter description"
                     {...field}
+                    rows={3}
                   />
                 </FormControl>
                 <FormMessage />
@@ -213,10 +220,10 @@ export default function ChecklistForm({
                   <div className="relative">
                     <DropdownMenu>
                       <DropdownMenuTrigger
-                        className="w-full bg-light px-4 
+                        className="w-full bg-light px-4
                                     flex items-center justify-between
                                     disabled:cursor-not-allowed disabled:opacity-50
-                                    rounded-full 
+                                    rounded-full
                                     h-11 sm:h-12 md:h-13 lg:h-14
                                     text-sm sm:text-base md:text-lg lg:text-xl 
                                    text-text-mid"
@@ -295,6 +302,7 @@ export default function ChecklistForm({
                           <FormControl>
                             <Input
                               placeholder="Enter Item Title"
+                              required={true}
                               {...field}
                             />
                           </FormControl>

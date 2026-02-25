@@ -1,11 +1,12 @@
 import React from "react";
 import { Metadata } from "next";
 import PregnancyOverview from "./_components/PregnancyOverview";
+import { PregnancyOverviewPageProps } from "./_types/pregnancy_overview_types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utlis/authOptions";
 import NoPregnancyInfo from "@/components/base/NoPregnancyInfo";
 import PregnancyError from "@/components/base/PregnancyError";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
 
 // Metadata for the page title
 export const metadata: Metadata = {
@@ -17,18 +18,20 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 // Fetch user-specific data using session
-async function getPregnancyData(token: string) {
+async function getPregnancyData(token: string, week?: number) {
   try {
-    const res = await fetch(
-      `${API_V1}/pregnancy`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        cache: "no-store", // Changed from next.revalidate to cache: 'no-store' for SSR
-      }
-    );
+    const url = new URL(`${API_V1}/pregnancy`);
+    if (week !== undefined) {
+      url.searchParams.set("week", String(week));
+    }
+
+    const res = await fetch(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       const errorText = await res.text();
@@ -42,7 +45,7 @@ async function getPregnancyData(token: string) {
 }
 
 // Async server component
-export default async function Page() {
+export default async function Page({ searchParams }: PregnancyOverviewPageProps) {
   // Get session from NextAuth or your auth provider
   const session = await getServerSession(authOptions);
 
@@ -58,8 +61,14 @@ export default async function Page() {
   // Get token from the session (adjust based on your session structure)
   const token = session.token;
 
-  // Fetch data with the token
-  const { data: pregnancyData, error } = await getPregnancyData(token);
+  // Parse selected-week from URL query params
+  const resolvedSearchParams = await searchParams;
+  const selectedWeekParam = resolvedSearchParams?.["selected-week"];
+  const rawWeek = Array.isArray(selectedWeekParam) ? selectedWeekParam[0] : selectedWeekParam;
+  const selectedWeek = rawWeek ? parseInt(rawWeek, 10) : undefined;
+
+  // Fetch data with the token (pass week to API if selected)
+  const { data: pregnancyData, error } = await getPregnancyData(token, selectedWeek);
   console.log({ pregnancyData });
 
   // Handle error state
@@ -81,7 +90,7 @@ export default async function Page() {
 
   return (
     <div>
-      <PregnancyOverview pregnancyData={pregnancyData} />
+      <PregnancyOverview pregnancyData={pregnancyData} selectedWeek={selectedWeek} />
     </div>
   );
 }

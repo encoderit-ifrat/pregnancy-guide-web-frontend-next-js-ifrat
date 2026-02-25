@@ -98,4 +98,9 @@ export type PregnancyOverviewData = {
 
 export type PregnancyOverviewProps = {
   pregnancyData: PregnancyOverviewData;
+  selectedWeek?: number;
+};
+
+export type PregnancyOverviewPageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };

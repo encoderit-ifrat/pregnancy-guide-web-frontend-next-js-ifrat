@@ -1,5 +1,6 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import {cn} from "@/lib/utils";
+import {FormLabel} from "@/components/ui/Form";
 
 export type TextareaVariant = "default" | "rounded-full" | "square";
 export type TextareaSize = "sm" | "md" | "lg";
@@ -9,15 +10,19 @@ export interface TextareaProps extends Omit<
   "size"
 > {
   variant?: TextareaVariant;
+  label?: string;
+  required?: boolean;
   size?: TextareaSize;
 }
 
 function Textarea({
-  className,
-  variant = "default",
-  size = "md",
-  ...props
-}: TextareaProps) {
+                    label,
+                    className,
+                    variant = "default",
+                    required = false,
+                    size = "md",
+                    ...props
+                  }: TextareaProps) {
   const baseStyles =
     "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground border-input flex w-full min-w-0 border text-base shadow-xs transition-[color,box-shadow] outline-none resize-none text-left placeholder:text-left disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50";
 
@@ -34,19 +39,29 @@ function Textarea({
   };
 
   return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        baseStyles,
-        variantStyles[variant],
-        sizeStyles[size],
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        className
+    <>
+      {label && (
+        <div className="mb-1">
+          <FormLabel
+            className="text-base font-medium text-text-purple"
+            htmlFor="input"
+          > {label} {required && <span className="text-destructive">*</span>}</FormLabel>
+        </div>
       )}
-      {...props}
-    />
+      <textarea
+        data-slot="textarea"
+        className={cn(
+          baseStyles,
+          variantStyles[variant],
+          sizeStyles[size],
+          "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+          "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+          className
+        )}
+        {...props}
+      />
+    </>
   );
 }
 
-export { Textarea };
+export {Textarea};
