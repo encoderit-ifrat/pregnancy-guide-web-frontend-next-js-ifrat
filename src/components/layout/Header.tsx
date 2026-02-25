@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { LogOut, Search, X } from "lucide-react";
+import { Languages, LogOut, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { NavigationLink } from "@/components/Navbar/_types/navbar_types";
@@ -16,11 +16,13 @@ import { ProfileDropDown } from "./ProfileDropDown";
 import { signOut } from "next-auth/react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { ChevronDown, Globe, Menu } from "lucide-react";
+import Logo from "../ui/Logo";
+import Navbar from "./NavBar";
+import LanguageDropDown from "./LanguageDropDown";
 
 export function Header() {
   const { t, locale, setLocale } = useTranslation();
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
-  const router = useRouter();
   const { data: categories } = useQueryGetAllCategories();
 
   useEffect(() => {
@@ -165,16 +167,7 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"
-    }`;
-
-  // Choose logo source: on small screens always use dark logo; otherwise dark when sticky, light when not.
-  const logoSrc = isSmallScreen
-    ? "/images/logo/logo-dark.png"
-    : isSticky
-      ? "/images/logo/logo-dark.png"
-      : "/images/logo/logo-light.png";
-  // [#F6F0FF]
+  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"}`;
   return (
     <>
       <header
@@ -193,61 +186,19 @@ export function Header() {
             isSticky ? "h-20" : "h-28 lg:h-20"
           )}
         >
-          <div className="flex items-center gap-4 md:gap-14">
+          <div className="flex items-center gap-4 md:gap-10">
             {/* Logo */}
             <div className={logoClassName}>
               <Link
                 href={isAuthenticated ? "/pregnancy-overview" : "/"}
                 className="shrink-0"
               >
-                <Image
-                  src={logoSrc}
-                  alt="Familj"
-                  width={60}
-                  height={30}
-                  className="h-10 w-auto md:h-10"
-                  priority
-                />
+                <Logo dark={isSmallScreen || isSticky} />
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav
-              className={cn(
-                "hidden items-center gap-7 lg:flex transition-opacity duration-300",
-                isSearchExpanded
-                  ? "opacity-0 pointer-events-none"
-                  : "opacity-100"
-              )}
-            >
-              <Link
-                href="/"
-                className={cn(
-                  `text-lg font-medium transition-colors text-primary-dark font-outfit`,
-                  {
-                    "text-primary font-semibold": pathname === "/",
-                  }
-                )}
-              >
-                {t("footer.home")}
-              </Link>
-              {navigationLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      `text-lg font-medium transition-colors text-primary-dark font-outfit`,
-                      {
-                        "text-primary font-semibold": isActive,
-                      }
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
+            {!isSearchExpanded && <div className="flex items-center gap-4">
+              <Navbar isSearchExpanded={isSearchExpanded} />
 
               {/* Functions Menu Dropdown */}
               <div
@@ -263,44 +214,36 @@ export function Header() {
                 </div>
                 {isFunctionsOpen && (
                   <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-3 ring-1 ring-black/5 z-50">
-                    <div className="px-4 pb-2 border-b border-gray-100 mb-2">
-                      <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("header.language")}</span>
-                    </div>
                     <div className="flex flex-col gap-1 px-2">
-                      <button
-                        onClick={() => {
-                          setLocale("en");
-                          setIsFunctionsOpen(false);
-                        }}
+                      <Link
+                        href="/discussions"
                         className={cn(
                           "w-full text-left px-3 py-2 rounded-md transition-colors text-sm",
                           locale === "en" ? "bg-primary-light text-primary font-semibold" : "hover:bg-gray-50 text-primary-dark"
                         )}
                       >
-                        {t("header.english")}
-                      </button>
-                      <button
-                        onClick={() => {
-                          setLocale("sv");
-                          setIsFunctionsOpen(false);
-                        }}
+                        {t("header.discussions")}
+                      </Link>
+                      <Link
+                        href="/for-name-tinder"
                         className={cn(
                           "w-full text-left px-3 py-2 rounded-md transition-colors text-sm",
                           locale === "sv" ? "bg-primary-light text-primary font-semibold" : "hover:bg-gray-50 text-primary-dark"
                         )}
                       >
-                        {t("header.swedish")}
-                      </button>
+                        {t("header.forNameTinder")}
+                      </Link>
                     </div>
                   </div>
                 )}
               </div>
-            </nav>
+            </div>}
           </div>
 
           <div className="flex items-center gap-4">
             {/* Desktop Actions */}
             <div className="flex items-center gap-4">
+              <LanguageDropDown />
               <div className="hidden lg:flex items-center gap-4">
                 <ExpandableSearchBar
                   isExpanded={isSearchExpanded}
@@ -352,7 +295,7 @@ export function Header() {
         >
           <div className="border-t border-gray-100 bg-white w-full overflow-y-auto max-h-full">
             <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
-              <Link
+              {/* <Link
                 href="/"
                 className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${pathname === "/"
                   ? "text-primary bg-primary-light"
@@ -361,7 +304,7 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t("footer.home")}
-              </Link>
+              </Link> */}
               {navigationLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -420,6 +363,90 @@ export function Header() {
                   </div>
                 )}
               </div>
+
+              {/* language Menu Dropdown */}
+              {/* <div
+                className="relative"
+              >
+                <button
+                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    {locale === "en" ? (
+                      <>
+                        <Image
+                          src="/images/icons/en.png"
+                          alt="English"
+                          width={20}
+                          height={20}
+                          className="rounded-full"
+                        />
+                        English
+                      </>
+                    ) : (
+                      <>
+                        <Image
+                          src="/images/icons/sv.png"
+                          alt="Swedish"
+                          width={20}
+                          height={20}
+                          className="rounded-full"
+                        />
+                        Svenska
+                      </>
+                    )}
+                  </span>
+                  <ChevronDown className={cn("w-4 h-4 transition-transform", isLanguageOpen && "rotate-180")} />
+                </button>
+
+                {isLanguageOpen && (
+                  <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                    <button
+                      onClick={() => {
+                        setLocale("en");
+                        setIsLanguageOpen(false);
+                        setIsMenuOpen(false);
+                      }}
+                      className={cn(
+                        "flex items-center gap-2 w-full px-4 py-2 text-sm text-left",
+                        locale === "en" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark hover:bg-gray-100"
+                      )}
+                    >
+                      <Image
+                        src="/images/icons/en.png"
+                        alt="English"
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                      />
+                      English
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLocale("sv");
+                        setIsLanguageOpen(false);
+                        setIsMenuOpen(false);
+                      }}
+                      className={cn(
+                        "flex items-center gap-2 w-full px-4 py-2 text-sm text-left",
+                        locale === "sv" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark hover:bg-gray-100"
+                      )}
+                    >
+                      <Image
+                        src="/images/icons/sv.png"
+                        alt="Swedish"
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                      />
+                      Svenska
+                    </button>
+                  </div>
+                )}
+              </div> */}
+
+              <LanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" />
 
               <div>
                 <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">

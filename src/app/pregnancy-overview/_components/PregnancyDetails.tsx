@@ -44,9 +44,9 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </div>
         </Cards>
         <Cards>
-          <h3 className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
+          {/* <h3 className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
             Week-{pregnancyProgressInfo?.week} {userData.name}
-          </h3>
+          </h3> */}
           {weeklyDetails?.description && (
             <div
               className="no-tailwind"
@@ -76,8 +76,8 @@ export default PregnancyDetails;
 
 function Cards({ children }: { children: React.ReactNode }) {
   return (
-      <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl">
-        {children}
-      </div>
+    <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl">
+      {children}
+    </div>
   );
 }
