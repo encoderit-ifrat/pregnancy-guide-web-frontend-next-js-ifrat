@@ -213,24 +213,34 @@ export function Header() {
                   <ChevronDown className={cn("w-4 h-4 transition-transform", isFunctionsOpen && "rotate-180")} />
                 </div>
                 {isFunctionsOpen && (
-                  <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-3 ring-1 ring-black/5 z-50">
-                    <div className="flex flex-col gap-1 px-2">
+                  <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden">
+                    <div className="flex flex-col gap-1">
                       <Link
-                        href="/discussions"
+                        href="/published-threads"
                         className={cn(
-                          "w-full text-left px-3 py-2 rounded-md transition-colors text-sm",
-                          locale === "en" ? "bg-primary-light text-primary font-semibold" : "hover:bg-gray-50 text-primary-dark"
+                          "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                          pathname === "/published-threads"
+                            ? "bg-[#F6F0FF] text-primary font-semibold"
+                            : "hover:bg-gray-50 text-primary-dark"
                         )}
                       >
+                        {pathname === "/published-threads" && (
+                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                        )}
                         {t("header.discussions")}
                       </Link>
                       <Link
                         href="/for-name-tinder"
                         className={cn(
-                          "w-full text-left px-3 py-2 rounded-md transition-colors text-sm",
-                          locale === "sv" ? "bg-primary-light text-primary font-semibold" : "hover:bg-gray-50 text-primary-dark"
+                          "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                          pathname === "/for-name-tinder"
+                            ? "bg-[#F6F0FF] text-primary font-semibold"
+                            : "hover:bg-gray-50 text-primary-dark"
                         )}
                       >
+                        {pathname === "/for-name-tinder" && (
+                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                        )}
                         {t("header.forNameTinder")}
                       </Link>
                     </div>

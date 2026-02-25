@@ -73,7 +73,7 @@ export default function Navbar({ isSearchExpanded }: { isSearchExpanded: boolean
         }, 100);
         return () => clearTimeout(timer);
     }, [navigationLinks, checkScroll]);
-
+     console.log("🚀 ~ Navbar ~ canScrollLeft :", canScrollLeft );
 
     if (isLoadingCategories) {
         return (
@@ -82,6 +82,7 @@ export default function Navbar({ isSearchExpanded }: { isSearchExpanded: boolean
             </div>
         );
     }
+                  
     return (
         <nav
             className={`flex-1 flex justify-center overflow-hidden transition-all duration-300 ${isSearchExpanded
