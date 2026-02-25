@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { Languages, LogOut, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -18,7 +17,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { ChevronDown, Globe, Menu } from "lucide-react";
 import Logo from "../ui/Logo";
 import Navbar from "./NavBar";
-import LanguageDropdown from "./LanguageDropdown";
+import MultiLanguageDropDown from "./MultiLanguageDropDown";
+
 
 
 export function Header() {
@@ -270,7 +270,7 @@ export function Header() {
           <div className="flex items-center gap-4">
             {/* Desktop Actions */}
             <div className="flex items-center gap-4">
-              <LanguageDropdown />
+              <MultiLanguageDropDown/>
               <div className="hidden lg:flex items-center gap-4">
                 <ExpandableSearchBar
                   isExpanded={isSearchExpanded}
