@@ -1,6 +1,11 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
-import { Languages, ChevronDown } from "lucide-react";
+import { ChevronDown, Languages } from "lucide-react";
+
+const FLAG: Record<string, string> = {
+    en: "🇺🇸",
+    sv: "🇸🇪",
+};
 import { useState } from "react";
 
 export default function LanguageDropDown({ className }: { className?: string }) {
@@ -18,7 +23,7 @@ export default function LanguageDropDown({ className }: { className?: string }) 
                 <div
                     className="flex items-center justify-between gap-1 text-lg font-medium transition-colors text-primary-dark font-outfit hover:text-primary cursor-pointer py-2"
                 >
-                    <Languages />
+                    <span className="text-xl leading-none">{FLAG[locale] ?? "🌐"}</span>
                     <ChevronDown className={cn("w-4 h-4 transition-transform", isLanguageOpen && "rotate-180")} />
                 </div>
                 {isLanguageOpen && (
