@@ -12,7 +12,7 @@ export default function ArticleStats() {
             <BookOpen className="h-6 w-6 sm:h-5 sm:w-5 text-white" />
           </div>
           <h3 className="text-lg sm:text-base font-semibold tracking-wide mt-1 sm:mt-0">
-            {t("pregnancyOverview.articles")}
+            {t("pregnancy.articles")}
           </h3>
         </div>
         <p className="text-4xl sm:text-3xl font-extrabold group-hover:scale-105 transition-transform duration-300">
@@ -27,7 +27,7 @@ export default function ArticleStats() {
             <Baby className="h-6 w-6 sm:h-5 sm:w-5 text-white" />
           </div>
           <h3 className="text-lg sm:text-base font-semibold tracking-wide mt-1 sm:mt-0">
-            {t("pregnancyOverview.babyNames")}
+            {t("pregnancy.babyNames")}
           </h3>
         </div>
         <p className="text-4xl sm:text-3xl font-extrabold group-hover:scale-105 transition-transform duration-300">

@@ -35,11 +35,11 @@ function WeeklyDetails({ data = initialData }: TProps) {
       <div className="section py-10 lg:py-16 -mt-1">
         <div className="text-center mb-7 lg:mb-14">
           <IconHeading
-            text={t("pregnancyOverview.articles")}
+            text={t("pregnancy.articles")}
             image="/images/icons/heart-baby.png"
             className="text-primary justify-center"
           />
-          <SectionHeading>{t("pregnancyOverview.weeklyDetails")}</SectionHeading>
+          <SectionHeading>{t("pregnancy.weeklyDetails")}</SectionHeading>
         </div>
 
         <div className="bg-white shadow-lg p-5 rounded-2xl">

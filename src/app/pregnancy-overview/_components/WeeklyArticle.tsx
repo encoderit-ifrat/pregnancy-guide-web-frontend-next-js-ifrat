@@ -9,6 +9,7 @@ import Link from "next/link";
 import React from "react";
 import { SwiperSlide } from "swiper/react";
 import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type TProps = {
   articles: {
@@ -21,6 +22,7 @@ type TProps = {
 };
 
 function WeeklyArticle({ articles }: TProps) {
+  const { t } = useTranslation();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -32,16 +34,15 @@ function WeeklyArticle({ articles }: TProps) {
       <div className="section px-0! md:px-4">
         <div className="px-4! md:px-0 max-w-3xl text-center mx-auto">
           <IconHeading
-            text="Articles"
+            text={t("pregnancy.articles")}
             image="/images/icons/heart-baby.png"
             className="text-primary justify-center"
           />
           <SectionHeading>
-            Articles & Insights for Your Pregnancy Journey
+            {t("pregnancy.articlesTitle")}
           </SectionHeading>
           <p>
-            Expert advice, real stories, and helpful tips to support you and
-            your family at every stage.
+            {t("pregnancy.articlesSubtitle")}
           </p>
         </div>
 

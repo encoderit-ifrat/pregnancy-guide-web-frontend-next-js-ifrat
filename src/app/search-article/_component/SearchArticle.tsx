@@ -69,7 +69,7 @@ export default function SearchArticle({
       <div className="section flex flex-col gap-6 mb-4">
         {/* <ArticleStats /> */}
         {initialQuery && (
-          <SearchResultHeader query={initialQuery} category={categoryName || t("pregnancyOverview.articles")} />
+          <SearchResultHeader query={initialQuery} category={categoryName || t("pregnancy.articles")} />
         )}
       </div>
 
@@ -81,7 +81,7 @@ export default function SearchArticle({
           ))
         ) : (
           <p className="text-center text-gray-500 py-10">
-            {t("pregnancyOverview.noResults")}
+            {t("pregnancy.noResults")}
           </p>
         )}
       </div>

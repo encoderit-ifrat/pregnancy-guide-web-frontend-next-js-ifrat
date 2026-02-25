@@ -5,12 +5,14 @@ import { Heart } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import WaveDivider3 from "@/components/layout/svg/WaveDivider3";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function CheckListSection({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <section className="relative w-full mx-auto">
       <div>
@@ -29,16 +31,15 @@ export default function CheckListSection({
           <div className="">
             <div className="text-center text-white">
               <IconHeading
-                text="Our Checklist"
+                text={t("checklists.label")}
                 image="/images/icons/baby-gift.png"
                 className="text-white justify-center"
               />
               <SectionHeading className="text-white!">
-                Checklists
+                {t("checklists.title")}
               </SectionHeading>
               <p className="max-w-105 mx-auto max-md:mb-6 text-white!">
-                Expert advice, real stories, and helpful tips to support you and
-                your family at every stage.
+                {t("checklists.subtitle")}
               </p>
             </div>
             {children}

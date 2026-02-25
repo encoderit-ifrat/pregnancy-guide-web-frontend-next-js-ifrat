@@ -40,7 +40,9 @@
         "functions": "Funktioner",
         "language": "Språk",
         "english": "Engelska",
-        "swedish": "Svenska"
+        "swedish": "Svenska",
+        "discussions": "Diskussioner",
+        "forNameTinder": "Namn Tinder"
     },
     "footer": {
         "quickLinks": "Snabblänkar",
@@ -174,7 +176,7 @@
         "feedbackSuccess": "Feedback har skapats"
     },
     "checklists": {
-        "label": "Din Checklista",
+        "label": "Vår Checklista",
         "title": "Checklistor",
         "subtitle": "Expertråd, verkliga berättelser och hjälpsamma tips för att stödja dig och din familj i varje steg.",
         "addNew": "Lägg till ny",
@@ -281,10 +283,16 @@
         "ourArticles": "Våra artiklar",
         "specialArticles": "Specialartiklar",
         "viewAll": "Visa Alla",
+        "previousWeek": "Föregående vecka",
+        "nextWeek": "Nästa vecka",
         "searchResultFound": "Här är vad vi hittade för",
         "searchResultIn": "i",
         "noResults": "Inga artiklar hittades. Prova ett annat sökord.",
-        "babyNames": "Barnnamn"
+        "babyNames": "Barnnamn",
+        "mother": "Mamma",
+        "baby": "Bebis",
+        "partner": "Partner",
+        "readArticle": "Läs artikel"
     },
     "articles": {
         "readMore": "Läs mer",

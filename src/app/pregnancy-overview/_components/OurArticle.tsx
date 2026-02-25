@@ -56,16 +56,16 @@ function OurArticle({ data }: TProps) {
         <div className="py-6 md:py-0 md:flex md:justify-between items-center mb-14">
           <div className="text-center md:text-left">
             <IconHeading
-              text={t("pregnancyOverview.articles")}
+              text={t("pregnancy.articles")}
               image="/images/icons/baby-hands.png"
               className="text-primary justify-center md:justify-start"
             />
-            <SectionHeading>{t("pregnancyOverview.bannerArticle")}</SectionHeading>
+            <SectionHeading>{t("pregnancy.bannerArticle")}</SectionHeading>
           </div>
           <div className="hidden md:block">
             <Link href="/search-article?page=1&tag=our-articles&week=">
               <Button variant="default" className="px-6">
-                {t("pregnancyOverview.viewAll")} <ChevronRight className="ml-2" />
+                {t("pregnancy.viewAll")} <ChevronRight className="ml-2" />
               </Button>
             </Link>
           </div>

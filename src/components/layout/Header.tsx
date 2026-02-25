@@ -18,7 +18,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { ChevronDown, Globe, Menu } from "lucide-react";
 import Logo from "../ui/Logo";
 import Navbar from "./NavBar";
-import LanguageDropDown from "./LanguageDropDown";
+import LanguageDropdown from "./LanguageDropdown";
+
 
 export function Header() {
   const { t, locale, setLocale } = useTranslation();
@@ -253,7 +254,7 @@ export function Header() {
           <div className="flex items-center gap-4">
             {/* Desktop Actions */}
             <div className="flex items-center gap-4">
-              <LanguageDropDown />
+              <LanguageDropdown />
               <div className="hidden lg:flex items-center gap-4">
                 <ExpandableSearchBar
                   isExpanded={isSearchExpanded}
@@ -456,7 +457,7 @@ export function Header() {
                 )}
               </div> */}
 
-              <LanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" />
+              <LanguageDropdown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" />
 
               <div>
                 <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">

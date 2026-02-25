@@ -33,8 +33,10 @@ import { ChecklistFormData } from "./_types/checklist_page_types";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function CheckLists() {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryID = searchParams.get("id");
@@ -70,7 +72,7 @@ export default function CheckLists() {
       onClick={(e) => {
         if (!isAuthenticated) {
           e.preventDefault();
-          toast.warning("Please log in to add a checklist");
+          toast.warning(t("checklists.loginToAdd"));
         }
       }}
       className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${isAuthenticated
@@ -79,7 +81,7 @@ export default function CheckLists() {
         }`}
     >
       <span className="pr-2 text-primary text-base lg:text-lg font-medium">
-        Add New
+        {t("checklists.addNew")}
       </span>
 
       <div className="flex items-center justify-center text-white bg-primary rounded-full w-6 h-6 hover:bg-primary-dark transition-all">
@@ -98,21 +100,20 @@ export default function CheckLists() {
         <div className="flex flex-col items-center justify-center mb-14">
           {/* Section Label */}
           <IconHeading
-            text="Our Checklist"
+            text={t("checklists.label")}
             image="/images/icons/baby-gift2.png"
             className="text-primary justify-center"
           />
-          <SectionHeading className="my-2 mb-6">Checklists</SectionHeading>
+          <SectionHeading className="my-2 mb-6">{t("checklists.title")}</SectionHeading>
           <p className="max-w-lg text-center">
-            Expert advice, real stories, and helpful tips to support you and
-            your family at every stage.
+            {t("checklists.subtitle")}
           </p>
         </div>
 
         {/* CHECKLISTS Section */}
         <div className="max-w-5xl mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
           <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-4 mb-4 px-3">
-            <h3 className="text-3xl font-semibold">Checklists</h3>
+            <h3 className="text-3xl font-semibold">{t("checklists.title")}</h3>
 
             <div className="flex items-center justify-center gap-2 xs:gap-2.5 sm:gap-3 ">
               {/* Finalized Tasks Button */}
@@ -124,7 +125,7 @@ export default function CheckLists() {
                   <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-2.5">
                     {/* Responsive text */}
                     <span className="tracking-wide text-lg drop-shadow-sm whitespace-nowrap">
-                      Finalized Tasks
+                      {t("checklists.finalizedTasks")}
                     </span>
                     <ChevronRight size="3" />
                   </span>
@@ -138,7 +139,7 @@ export default function CheckLists() {
                     dialogContentProps={{
                       className: "max-h-[80vh] overflow-y-auto max-w-[95vw] sm:max-w-2xl lg:max-w-4xl",
                     }}
-                    title="Add Checklist"
+                    title={t("checklists.addChecklist")}
                     customTrigger={AddChecklistTrigger}
                   >
                     {(close) => (
@@ -186,14 +187,13 @@ export default function CheckLists() {
         >
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>{t("checklists.deleteTitle")}</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                checklist.
+                {t("checklists.deleteDescription")}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>{t("checklists.cancel")}</AlertDialogCancel>
               <Button
                 onClick={() => {
                   deleteChecklist(
@@ -201,7 +201,7 @@ export default function CheckLists() {
                     {
                       onSuccess: async (data) => {
                         await refetch();
-                        toast.success("Check list deleted successfully");
+                        toast.success(t("checklists.deleteSuccess"));
                         setFormData({ type: "default", id: "" });
                       },
                       onError(error) {
@@ -212,7 +212,7 @@ export default function CheckLists() {
                 }}
                 disabled={isPendingDeleteChecklist}
               >
-                {isPendingDeleteChecklist ? "Loading..." : "Confirm"}
+                {isPendingDeleteChecklist ? t("checklists.loading") : t("common.confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -223,7 +223,7 @@ export default function CheckLists() {
         >
           <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
             <DialogHeader>
-              <DialogTitle className="text-left">Update Checklist</DialogTitle>
+              <DialogTitle className="text-left">{t("checklists.updateChecklist")}</DialogTitle>
             </DialogHeader>
             <ChecklistForm
               onSubmitForDialogAndRefetch={async () => {

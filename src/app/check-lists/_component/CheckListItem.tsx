@@ -18,6 +18,7 @@ import {
 } from "../_types/checklist_item_types";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function CheckListItem({
   checklistItems,
@@ -26,6 +27,7 @@ export default function CheckListItem({
   className,
   onEditAction,
 }: CheckListItemProps) {
+  const { t } = useTranslation();
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
@@ -45,7 +47,7 @@ export default function CheckListItem({
       { id },
       {
         onSuccess(res) {
-          toast.success("Checklist updated successfully.");
+          toast.success(t("checklists.toggleSuccess"));
           setFilterLists((old: ChecklistItemWithItems[]) => {
             // Update the checked status
             const updated = old.map((item: ChecklistItemWithItems) => {

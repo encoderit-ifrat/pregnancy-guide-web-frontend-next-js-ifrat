@@ -25,7 +25,7 @@ export default function CheckLists({ checkLists, count }: CheckListsProps) {
       <div className="flex justify-center my-14">
         <Link href="/check-lists" className="w-full max-w-3xl">
           <Button className="w-full">
-            {t("pregnancyOverview.seeAll")}
+            {t("pregnancy.seeAll")}
             <ChevronRight className="size-4" />
             {/* <span className="px-2 py-0.5 text-[10px] lg:text-xs font-medium rounded-full bg-purple-100 text-purple-700"> */}
             {/* {count || 0} */}

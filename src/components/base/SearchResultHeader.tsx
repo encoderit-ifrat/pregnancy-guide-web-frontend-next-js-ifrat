@@ -19,8 +19,8 @@ export default function SearchResultHeader({
         <Search className="h-5 w-5 text-soft" />
       </div>
       <p className="text-gray-800 text-base sm:text-lg">
-        {t("pregnancyOverview.searchResultFound")}{" "}
-        <span className="font-semibold text-soft">&quot;{query}&quot;</span> {t("pregnancyOverview.searchResultIn")}{" "}
+        {t("pregnancy.searchResultFound")}{" "}
+        <span className="font-semibold text-soft">&quot;{query}&quot;</span> {t("pregnancy.searchResultIn")}{" "}
         <span className="font-medium">{category}</span>.
       </p>
     </div>

@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { SwiperSlide } from "swiper/react";
 import { Slider } from "@/components/ui/Slider";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export type Category = {
   _id: string;
@@ -38,6 +39,7 @@ type TProps = {
 };
 
 const ArticleSection = ({ data }: TProps) => {
+  const { t } = useTranslation();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -54,11 +56,11 @@ const ArticleSection = ({ data }: TProps) => {
       <div className="section flex items-center justify-between">
         <div>
           <IconHeading
-            text="Atricles"
+            text={t("pregnancy.articles")}
             image="/images/icons/baby-inside.png"
             className="text-primary"
           />
-          <SectionHeading>Our Articles</SectionHeading>
+          <SectionHeading>{t("pregnancy.ourArticles")}</SectionHeading>
         </div>
       </div>
 

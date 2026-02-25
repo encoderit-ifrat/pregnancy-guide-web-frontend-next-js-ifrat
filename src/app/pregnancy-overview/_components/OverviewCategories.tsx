@@ -82,6 +82,7 @@ import IconPaper from "@/assets/IconPaper";
 import IconPartner from "@/assets/IconPartner";
 import { CircleIcon } from "@/components/ui/CircleIcon";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import React from "react";
 
@@ -90,20 +91,24 @@ const overviewCategories = [
     id: 2,
     icon: <IconMother className="w-full h-full" />,
     name: "Mother",
+    label: "pregnancy.mother",
   },
   {
     id: 1,
     icon: <IconBaby className="w-full h-full" />,
     name: "Baby",
+    label: "pregnancy.baby",
   },
   {
     id: 3,
     icon: <IconPartner className="w-full h-full" />,
     name: "Partner",
+    label: "pregnancy.partner",
   },
 ];
 
 function OverviewCategories() {
+  const { t } = useTranslation();
   const { user } = useCurrentUser();
   const currentPregnancyData = user?.details?.current_pregnancy_data;
   const week = currentPregnancyData?.week ?? 0;
@@ -114,7 +119,7 @@ function OverviewCategories() {
     <section className="w-full pt-10 max-w-6xl mx-auto">
       <div className="flex items-center justify-center gap-2 sm:gap-8 md:gap-12 lg:gap-16 text-foreground px-4 md:px-6">
         {overviewCategories.map((category) => {
-          const { id, icon, name } = category;
+          const { id, icon, name, label } = category;
           const isBaby = name === "Baby";
 
           return (
@@ -160,7 +165,7 @@ function OverviewCategories() {
     group-hover:size-full
     ">
                         <IconPaper className="w-12 h-12 md:group-hover:w-12 md:group-hover:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
-                        <p className="hidden group-hover:block text-white! text-center text-xs pt-1 text-wrap">Read Article</p>
+                        <p className="hidden group-hover:block text-white! text-center text-xs pt-1 text-wrap">{t("pregnancy.readArticle")}</p>
                       </div>
                     </div>
 
@@ -177,7 +182,7 @@ function OverviewCategories() {
 
                 {/* Label */}
                 <p className="mt-4 text-center text-lg! md:text-3xl! text-primary-dark font-semibold">
-                  {name}
+                  {t(label)}
                 </p>
               </div>
             </Link>

@@ -13,8 +13,10 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
+import { useTranslation } from "@/hooks/useTranslation";
 
 function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
+  const { t } = useTranslation();
   //   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
 
   const { data, isLoading } = useQueryGetAllAnswers({
@@ -46,15 +48,15 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
           <div className="pt-2 pb-10 md:pb-16">
             <div className="text-center">
               <IconHeading
-                text="Question"
+                text={t("pregnancy.question")}
                 image="/images/icons/question.png"
                 className="text-primary justify-center"
               />
-              <SectionHeading>Question of the Week</SectionHeading>
+              <SectionHeading>{t("pregnancy.questionOfTheWeek")}</SectionHeading>
               {/* Week badge */}
               {typeof currentWeek !== "undefined" && (
                 <div className="inline-block bg-white/90 text-primary font-semibold text-base md:text-lg px-4 py-1 rounded-full mb-6">
-                  Week {currentWeek} question
+                  {t("pregnancy.weekQuestion", { week: currentWeek })}
                 </div>
               )}
             </div>

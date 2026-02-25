@@ -10,7 +10,7 @@ const FLAG: Record<string, string> = {
     sv: "🇸🇪",
 };
 
-export default function LanguageDropDown({ className }: { className?: string }) {
+export default function LanguageDropdown({ className }: { className?: string }) {
     const { t, locale, setLocale } = useTranslation();
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);

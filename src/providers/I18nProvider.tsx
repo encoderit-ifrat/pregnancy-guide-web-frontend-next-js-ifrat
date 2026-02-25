@@ -7,7 +7,7 @@ type Locale = "en" | "sv";
 interface I18nContextType {
     locale: Locale;
     setLocale: (locale: Locale) => void;
-    t: (key: string) => string;
+    t: (key: string, variables?: Record<string, any>) => string;
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
@@ -36,7 +36,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.setItem("familj-locale", newLocale);
     };
 
-    const t = (path: string) => {
+    const t = (path: string, variables?: Record<string, any>) => {
         const keys = path.split(".");
         let current: any = translations[locale];
 
@@ -48,7 +48,16 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
             }
         }
 
-        return typeof current === "string" ? current : path;
+        if (typeof current !== "string") return path;
+
+        let translated = current;
+        if (variables) {
+            Object.entries(variables).forEach(([key, value]) => {
+                translated = translated.replace(`{${key}}`, String(value));
+            });
+        }
+
+        return translated;
     };
 
     if (!mounted) {

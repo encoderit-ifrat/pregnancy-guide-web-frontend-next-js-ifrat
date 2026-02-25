@@ -40,7 +40,9 @@
         "functions": "Functions",
         "language": "Language",
         "english": "English",
-        "swedish": "Swedish"
+        "swedish": "Swedish",
+        "discussions": "Discussions",
+        "forNameTinder": "Name Tinder"
     },
     "footer": {
         "quickLinks": "Quick Links",
@@ -174,7 +176,7 @@
         "feedbackSuccess": "Feedback successfully created"
     },
     "checklists": {
-        "label": "Your Checklist",
+        "label": "Our Checklist",
         "title": "Checklists",
         "subtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
         "addNew": "Add New",
@@ -281,10 +283,16 @@
         "ourArticles": "Our Articles",
         "specialArticles": "Special Articles",
         "viewAll": "View All",
+        "previousWeek": "Previous week",
+        "nextWeek": "Next week",
         "searchResultFound": "Here's what we found for",
         "searchResultIn": "in",
         "noResults": "No articles found. Try a different search term.",
-        "babyNames": "Baby Names"
+        "babyNames": "Baby Names",
+        "mother": "Mother",
+        "baby": "Baby",
+        "partner": "Partner",
+        "readArticle": "Read Article"
     },
     "articles": {
         "readMore": "Read More",
