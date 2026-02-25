@@ -47,7 +47,21 @@ export function Header() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFunctionsOpen, setIsFunctionsOpen] = useState(false);
+  const functionsDropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        functionsDropdownRef.current &&
+        !functionsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsFunctionsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Sticky + visibility (slide) state
   const headerRef = useRef<HTMLElement | null>(null);
@@ -204,11 +218,11 @@ export function Header() {
               {/* Functions Menu Dropdown */}
               <div
                 className="relative"
-                onMouseEnter={() => setIsFunctionsOpen(true)}
-                onMouseLeave={() => setIsFunctionsOpen(false)}
+                ref={functionsDropdownRef}
               >
                 <div
                   className="flex items-center gap-1 text-lg font-medium transition-colors text-primary-dark font-outfit hover:text-primary cursor-pointer py-2"
+                  onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
                 >
                   {t("header.functions")}
                   <ChevronDown className={cn("w-4 h-4 transition-transform", isFunctionsOpen && "rotate-180")} />
@@ -217,21 +231,23 @@ export function Header() {
                   <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden">
                     <div className="flex flex-col gap-1">
                       <Link
-                        href="/published-threads"
+                        href="/discussion-threads"
+                        onClick={() => setIsFunctionsOpen(false)}
                         className={cn(
                           "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                          pathname === "/published-threads"
+                          pathname === "/discussion-threads" || pathname === "/published-threads"
                             ? "bg-[#F6F0FF] text-primary font-semibold"
                             : "hover:bg-gray-50 text-primary-dark"
                         )}
                       >
-                        {pathname === "/published-threads" && (
+                        {(pathname === "/discussion-threads" || pathname === "/published-threads") && (
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
                         )}
                         {t("header.discussions")}
                       </Link>
                       <Link
                         href="/for-name-tinder"
+                        onClick={() => setIsFunctionsOpen(false)}
                         className={cn(
                           "relative w-full text-left px-4 py-2 transition-colors text-sm",
                           pathname === "/for-name-tinder"

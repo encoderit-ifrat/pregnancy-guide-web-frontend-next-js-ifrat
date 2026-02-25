@@ -39,7 +39,6 @@ export default function LanguageDropdown({ className }: { className?: string }) 
                     className
                 )}
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                onMouseEnter={() => setIsLanguageOpen(true)}
             >
                 <span className="text-xl leading-none">{FLAG[locale] ?? "🌐"}</span>
                 <ChevronDown className={cn("w-4 h-4 transition-transform", isLanguageOpen && "rotate-180")} />
@@ -49,7 +48,6 @@ export default function LanguageDropdown({ className }: { className?: string }) 
             {isLanguageOpen && (
                 <div
                     className="absolute right-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden"
-                    onMouseLeave={() => setIsLanguageOpen(false)}
                 >
                     <div className="flex flex-col gap-1">
                         {languages.map((lang) => {

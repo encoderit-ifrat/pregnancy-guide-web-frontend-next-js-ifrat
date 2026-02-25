@@ -2,7 +2,7 @@ import axios from "axios";
 import { getSession, signOut } from "next-auth/react";
 import https from "https";
 import { toast } from "sonner";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const allowInsecureSSL = process.env.ALLOW_INSECURE_SSL === "true";
@@ -23,6 +23,16 @@ api.interceptors.request.use(
     if (session?.token) {
       config.headers.Authorization = `Bearer ${session.token}`;
     }
+
+    // Add language parameter to GET requests
+    if (config.method?.toLowerCase() === "get") {
+      const locale = typeof window !== "undefined" ? localStorage.getItem("familj-locale") : "en";
+      config.params = {
+        ...config.params,
+        lang: locale || "en",
+      };
+    }
+
     return config;
   },
   (error) => {
@@ -75,8 +85,7 @@ api.interceptors.response.use(
         return Promise.reject({
           message: "Your session has expired. Please login again.",
           status: 401,
-          data,
-        });
+          data, });
 
       case 403:
         // Forbidden - user doesn't have permission
