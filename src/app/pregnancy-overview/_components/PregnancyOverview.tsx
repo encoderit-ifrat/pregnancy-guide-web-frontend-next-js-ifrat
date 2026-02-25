@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useDebounce } from "@/hooks/useDebounce";
 import ArticleSection from "@/components/base/ArticleSection";
 import SpecialArticleSection from "@/components/base/SpecialArticleSection";
 import OverviewCategories from "./OverviewCategories";
@@ -23,6 +24,7 @@ export default function PregnancyOverview({
 }: PregnancyOverviewProps) {
   const router = useRouter();
   const pathname = usePathname();
+
   const articles = pregnancyData?.articles;
   const questions = pregnancyData?.questions;
   const checklist = pregnancyData?.checklist;
@@ -43,11 +45,20 @@ export default function PregnancyOverview({
   // Use URL query param if present, otherwise fall back to user's current week
   const initialWeek = selectedWeek !== undefined ? selectedWeek : currentWeek;
 
+  // Local state for instant UI feedback, debounced for URL/API update
+  const [pendingWeek, setPendingWeek] = useState(initialWeek);
+  const debouncedWeek = useDebounce(pendingWeek, 600);
+
   const handleWeekChange = (week: number) => {
-    const params = new URLSearchParams();
-    params.set("selected-week", String(week));
-    router.push(`${pathname}?${params.toString()}`);
+    setPendingWeek(week);
   };
+
+  // Push URL update only after debounce settles
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("selected-week", String(debouncedWeek));
+    router.push(`${pathname}?${params.toString()}`);
+  }, [debouncedWeek]);
 
   return (
     <div className="bg-[#F6F0FF]">
