@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export default function Logo({
-  className = "w-16 h-16",
+  className = "",
   dark = false,
 }: {
   className?: string;
