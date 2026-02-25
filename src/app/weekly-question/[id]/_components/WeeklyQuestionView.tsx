@@ -17,12 +17,15 @@ import CommentCard, { TCommentCard } from "@/components/base/CommentCard";
 import Pagination from "@/components/base/Pagination";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
+import { useTranslation } from "@/hooks/useTranslation";
+
 type TProps = {
   id: string;
   timestamp: string | null | undefined;
 };
 
 export default function WeeklyQuestionView({ id, timestamp }: TProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "1";
@@ -85,14 +88,14 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
           <div className="relative">
             <AnswerFormComment />
             <div className="absolute bottom-2 right-2">
-              <AnswerFormSubmitButton text="Submit Comment" redirect={false} />
+              <AnswerFormSubmitButton text={t("weeklyQuestion.submitComment")} redirect={false} />
             </div>
           </div>
         )}
       </AnswerForm>
 
       <div className="space-y-4">
-        <SectionHeading variant="h3">Submitted Comments</SectionHeading>
+        <SectionHeading variant="h3">{t("weeklyQuestion.submittedComments")}</SectionHeading>
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {
@@ -114,7 +117,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
           <div className="bg-white rounded-xl shadow-md p-12 text-center border border-gray-100">
             <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500">
-              No answers yet. Be the first to share!
+              {t("weeklyQuestion.noAnswersYet")}
             </p>
           </div>
         )}

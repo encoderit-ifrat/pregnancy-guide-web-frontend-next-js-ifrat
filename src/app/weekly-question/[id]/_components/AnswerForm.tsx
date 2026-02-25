@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Question = {
   id: string;
@@ -203,14 +204,15 @@ export const AnswerFormPercentage = ({
 };
 
 export const AnswerFormComment = () => {
+  const { t } = useTranslation();
   const { answerText, setAnswerText } = useAnswerFormContext();
 
   return (
     <>
-      <SectionHeading variant="h3">Share Your Comment</SectionHeading>
+      <SectionHeading variant="h3">{t("weeklyQuestion.shareComment")}</SectionHeading>
 
       <Textarea
-        placeholder="Write your answer here..."
+        placeholder={t("weeklyQuestion.commentPlaceholder")}
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
         className="bg-white mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
@@ -220,6 +222,7 @@ export const AnswerFormComment = () => {
   );
 };
 export const AnswerFormSeeAnswersButton = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { data } = useAnswerFormContext();
   const { question } = data;
@@ -232,17 +235,18 @@ export const AnswerFormSeeAnswersButton = () => {
       }}
       className="sm:px-10 md:px-12"
     >
-      See answers and comments
+      {t("weeklyQuestion.seeAnswersComments")}
     </Button>
   );
 };
 export const AnswerFormSubmitButton = ({
-  text = "Submit Answer",
+  text,
   redirect = true,
 }: {
   text?: string;
   redirect?: boolean;
 }) => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const { data, option, answerText, setAnswerText, onAnswerSubmitted } =
@@ -251,7 +255,7 @@ export const AnswerFormSubmitButton = ({
   const { mutate: mutateCreateAnswer, isPending } = useCreateAnswer();
   const handleSubmit = () => {
     if (!Boolean(option)) {
-      return toast.error("Please select an answer option");
+      return toast.error(t("weeklyQuestion.selectOption"));
     }
 
     mutateCreateAnswer(
@@ -266,12 +270,15 @@ export const AnswerFormSubmitButton = ({
           if (redirect) {
             router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
           }
-          toast.success("Answer submitted");
+          toast.success(t("weeklyQuestion.answerSubmitted"));
           setAnswerText("");
         },
       }
     );
   };
+
+  const buttonText = text || t("weeklyQuestion.submitAnswer");
+
   return (
     <Button
       onClick={handleSubmit}
@@ -279,7 +286,7 @@ export const AnswerFormSubmitButton = ({
       disabled={isPending}
       className="w-full max-w-lg md:w-auto px-8 py-3"
     >
-      {isPending ? "Submitting..." : text}
+      {isPending ? t("weeklyQuestion.submitting") : buttonText}
     </Button>
   );
 };
