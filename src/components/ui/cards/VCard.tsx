@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface Step {
   number: string;
@@ -12,12 +13,12 @@ export default function VCard({ step }: { step: Step }) {
     <div className="group relative w-full  rounded-3xl bg-white shadow-xl transition-all duration-300 hover:shadow-2xl">
       {/* Image Container with V-shape cutout */}
       <div className="relative overflow-hidden rounded-t-3xl">
-        <img
+        <Image
           src={step.image}
           alt={step.title}
-          className="h-full w-full object-cover aspect-[4/3] transition-transform duration-500 group-hover:scale-110
-          
-          "
+          height={500}
+          width={500}
+          className="h-full w-full object-cover aspect-[4/3] transition-transform duration-500 group-hover:scale-110"
         />
 
         {/* Decorative gradient overlay */}
