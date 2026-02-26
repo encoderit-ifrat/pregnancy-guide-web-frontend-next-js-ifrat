@@ -3,23 +3,28 @@ import React from "react";
 // import ArticleWithTOC from "./_component/ArticleWithTOC";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import ArticleWithTOC from "@/app/articles/[slug]/_component/ArticleWithTOC";
-import {API_V1} from "@/consts";
+import { API_V1 } from "@/consts";
+
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
 
 // Fetch article data with authentication
-async function getArticle(slug: string) {
+async function getArticle(slug: string, lang: string = "en") {
   try {
     const res = await fetch(
-      `${API_V1}/articles/public/${slug}`,
+      `${API_V1}/articles/public/${slug}?lang=${lang}`,
       {
         headers: {
           "Content-Type": "application/json",
+          "Accept-Language": lang,
+          "x-lang": lang,
         },
         cache: "no-store",
       }
     );
+
 
     if (!res.ok) {
       return null; // Return null instead of throwing
@@ -40,7 +45,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const article = await getArticle(slug);
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "en";
+
+  const article = await getArticle(slug, locale);
 
   if (!article) {
     return {
@@ -69,7 +77,10 @@ export default async function PublicArticlePage({
 }) {
   const { slug } = await params;
 
-  const article = await getArticle(slug);
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "en";
+
+  const article = await getArticle(slug, locale);
   console.log("👉 ~ ArticlePage ~ article:", article);
 
   if (!Boolean(article)) {

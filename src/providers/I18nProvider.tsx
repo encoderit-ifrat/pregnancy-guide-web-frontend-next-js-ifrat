@@ -34,6 +34,8 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
     const setLocale = (newLocale: Locale) => {
         setLocaleState(newLocale);
         localStorage.setItem("familj-locale", newLocale);
+        // Set cookie for SSR accessibility
+        document.cookie = `familj-locale=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     };
 
     const t = (path: string, variables?: Record<string, any>) => {

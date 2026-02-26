@@ -24,12 +24,25 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${session.token}`;
     }
 
-    // Add language parameter to GET requests
+    // Get locale from cookies or localStorage
+    let locale = "en";
+    if (typeof window !== "undefined") {
+      const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("familj-locale="))
+        ?.split("=")[1];
+      locale = cookieValue || localStorage.getItem("familj-locale") || "en";
+    }
+
+    // Add language to headers for ALL requests
+    config.headers["Accept-Language"] = locale;
+    config.headers["x-lang"] = locale;
+
+    // Add language parameter to GET requests for backward compatibility
     if (config.method?.toLowerCase() === "get") {
-      const locale = typeof window !== "undefined" ? localStorage.getItem("familj-locale") : "en";
       config.params = {
         ...config.params,
-        lang: locale || "en",
+        lang: locale,
       };
     }
 
@@ -85,7 +98,8 @@ api.interceptors.response.use(
         return Promise.reject({
           message: "Your session has expired. Please login again.",
           status: 401,
-          data, });
+          data,
+        });
 
       case 403:
         // Forbidden - user doesn't have permission

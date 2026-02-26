@@ -3,6 +3,7 @@ import React from "react";
 import ArticleWithTOC from "./_component/ArticleWithTOC";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
 import { authOptions } from "@/utlis/authOptions";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
@@ -28,14 +29,16 @@ type Article = {
 };
 
 // Fetch article data with authentication
-async function getArticle(slug: string, token: string) {
+async function getArticle(slug: string, token: string, lang: string = "en") {
   try {
     const res = await fetch(
-      `${API_V1}/articles/${slug}`,
+      `${API_V1}/articles/${slug}?lang=${lang}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          "Accept-Language": lang,
+          "x-lang": lang,
         },
         cache: "no-store",
       }
@@ -67,7 +70,10 @@ export async function generateMetadata({
     };
   }
 
-  const article = await getArticle(slug, session.token);
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "en";
+
+  const article = await getArticle(slug, session.token, locale);
 
   if (!article) {
     return {
@@ -102,7 +108,10 @@ export default async function ArticlePage({
     redirect("/login");
   }
 
-  const article = await getArticle(slug, session.token);
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "en";
+
+  const article = await getArticle(slug, session.token, locale);
 
   if (!article) {
     notFound();

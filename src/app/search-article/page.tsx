@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { HeroSection } from "@/components/home/HeroSection";
 import { HeroSection2 } from "@/components/home/HeroSection2";
+import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
 import { tr } from "date-fns/locale";
 
@@ -76,7 +77,7 @@ export async function generateMetadata({
   };
 }
 
-async function getArticles(searchParams: SearchParams) {
+async function getArticles(searchParams: SearchParams, lang: string = "en") {
   try {
     const query = searchParams.search || "";
     const page = searchParams.page || "1";
@@ -87,6 +88,7 @@ async function getArticles(searchParams: SearchParams) {
     const params = new URLSearchParams({
       search: query,
       page: page,
+      lang: lang,
       withCategory: category ? "true" : "false",
       ...(category && { category }),
       ...(tag && { tag }),
@@ -99,6 +101,8 @@ async function getArticles(searchParams: SearchParams) {
         cache: "no-store", // Always fetch fresh data
         headers: {
           "Content-Type": "application/json",
+          "Accept-Language": lang,
+          "x-lang": lang,
         },
       }
     );
@@ -121,7 +125,12 @@ export default async function Page({
 }) {
   // Await searchParams before using it
   const params = await searchParams;
-  const articlesData = await getArticles(params);
+
+  // Get locale from cookies
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "en";
+
+  const articlesData = await getArticles(params, locale);
   const category = articlesData?.data?.categories?.[0] || null
 
   return (

@@ -11,7 +11,8 @@ import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { DownloadCtaSection } from "@/components/home/DownloadCtaSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { StatsSection } from "@/components/home/StatsSection";
-import {API_V1} from "@/consts";
+import { cookies } from "next/headers";
+import { API_V1 } from "@/consts";
 
 export const metadata: Metadata = {
   title: "Home | Familij",
@@ -19,12 +20,19 @@ export const metadata: Metadata = {
 };
 
 // Fetch articles data at build time
-async function getHomePageData() {
+async function getHomePageData(lang: string = "en") {
+  console.log("api url", `${API_V1}/home?lang=${lang}`);
   try {
-    const res = await fetch(`${API_V1}/home`, {
+    const res = await fetch(`${API_V1}/home?lang=${lang}`, {
       // Enable ISR with revalidation (optional)
       next: { revalidate: 10 }, // Revalidate every hour
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": lang,
+        "x-lang": lang,
+      },
     });
+
 
     if (!res.ok) {
       throw new Error("Failed to fetch articles");
@@ -37,8 +45,12 @@ async function getHomePageData() {
 }
 
 export default async function Page() {
+  // Get locale from cookies
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("familj-locale")?.value || "en";
+
   // Fetch data at build time
-  const homePageData = await getHomePageData();
+  const homePageData = await getHomePageData(locale);
   console.log("👉 ~ Page ~ homePageData:", homePageData);
 
   return (
@@ -66,7 +78,7 @@ export default async function Page() {
           className="text-primary-light"
           bgClassName="bg-[#FDFBFF]"
         />
-        <WhyChooseUsSection data={homePageData?.data?.articles || []}/>
+        <WhyChooseUsSection data={homePageData?.data?.articles || []} />
         <DownloadCtaSection />
         <TestimonialsSection
           data={homePageData?.data?.testimonials?.data || []}
