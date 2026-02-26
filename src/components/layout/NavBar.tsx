@@ -102,7 +102,7 @@ export default function Navbar({ isSearchExpanded }: { isSearchExpanded: boolean
                     <NavigationMenu>
                         <div
                             ref={scrollRef}
-                            className="overflow-x-auto overflow-y-hidden max-w-lg scrollbar-hide scroll-smooth "
+                            className="overflow-x-auto overflow-y-hidden max-w-sm lg:max-w-lg scrollbar-hide scroll-smooth "
                         >
                             <NavigationMenuList className="gap-2 xl:gap-6">
                                 {navigationLinks.map((link, index) => (
