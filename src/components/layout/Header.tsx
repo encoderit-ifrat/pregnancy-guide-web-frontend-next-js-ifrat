@@ -18,10 +18,11 @@ import { ChevronDown, Globe, Menu } from "lucide-react";
 import Logo from "../ui/Logo";
 import Navbar from "./NavBar";
 import MultiLanguageDropDown from "./MultiLanguageDropDown";
-
-
+import { Input } from "../ui/Input";
 
 export function Header() {
+  const router = useRouter();
+
   const { t, locale, setLocale } = useTranslation();
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
   const { data: categories } = useQueryGetAllCategories();
@@ -117,7 +118,17 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearch = () => {
+    // if (onSearch) onSearch(searchTerm);
+    router.replace(`/search-article?page=1&search=${searchTerm}`);
+  };
+  const handleClear = () => {
+    setSearchTerm("");
+    router.replace(`/search-article`);
 
+    // if (onSearch) onSearch("");
+  };
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Tailwind md breakpoint is 768px -> use max-width: 767px to represent < md
@@ -182,7 +193,7 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const logoClassName = `h-32 p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"}`;
+  const logoClassName = `h-32 min-w-[92px] p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"}`;
   return (
     <>
       <header
@@ -212,65 +223,74 @@ export function Header() {
               </Link>
             </div>
 
-            {!isSearchExpanded && <div className="flex items-center gap-4">
-              <Navbar isSearchExpanded={isSearchExpanded} />
+            {!isSearchExpanded && (
+              <div className="flex items-center gap-4">
+                <Navbar isSearchExpanded={isSearchExpanded} />
 
-              {/* Functions Menu Dropdown */}
-              <div
-                className="relative"
-                ref={functionsDropdownRef}
-              >
+                {/* Functions Menu Dropdown */}
                 <div
-                  className="flex items-center gap-1 text-lg font-medium transition-colors text-primary-dark font-outfit hover:text-primary cursor-pointer py-2"
-                  onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
+                  className="relative max-lg:hidden"
+                  ref={functionsDropdownRef}
                 >
-                  {t("header.functions")}
-                  <ChevronDown className={cn("w-4 h-4 transition-transform", isFunctionsOpen && "rotate-180")} />
-                </div>
-                {isFunctionsOpen && (
-                  <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden">
-                    <div className="flex flex-col gap-1">
-                      <Link
-                        href="/discussion-threads"
-                        onClick={() => setIsFunctionsOpen(false)}
-                        className={cn(
-                          "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                          pathname === "/discussion-threads" || pathname === "/published-threads"
-                            ? "bg-[#F6F0FF] text-primary font-semibold"
-                            : "hover:bg-gray-50 text-primary-dark"
-                        )}
-                      >
-                        {(pathname === "/discussion-threads" || pathname === "/published-threads") && (
-                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
-                        )}
-                        {t("header.discussions")}
-                      </Link>
-                      <Link
-                        href="/for-name-tinder"
-                        onClick={() => setIsFunctionsOpen(false)}
-                        className={cn(
-                          "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                          pathname === "/for-name-tinder"
-                            ? "bg-[#F6F0FF] text-primary font-semibold"
-                            : "hover:bg-gray-50 text-primary-dark"
-                        )}
-                      >
-                        {pathname === "/for-name-tinder" && (
-                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
-                        )}
-                        {t("header.forNameTinder")}
-                      </Link>
-                    </div>
+                  <div
+                    className="flex items-center gap-1 text-lg font-medium transition-colors text-primary-dark font-outfit hover:text-primary cursor-pointer py-2"
+                    onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
+                  >
+                    {t("header.functions")}
+                    <ChevronDown
+                      className={cn(
+                        "w-4 h-4 transition-transform",
+                        isFunctionsOpen && "rotate-180"
+                      )}
+                    />
                   </div>
-                )}
+                  {isFunctionsOpen && (
+                    <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden">
+                      <div className="flex flex-col gap-1">
+                        <Link
+                          href="/discussion-threads"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/discussion-threads" ||
+                              pathname === "/published-threads"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {(pathname === "/discussion-threads" ||
+                            pathname === "/published-threads") && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.discussions")}
+                        </Link>
+                        <Link
+                          href="/for-name-tinder"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/for-name-tinder"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/for-name-tinder" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.forNameTinder")}
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>}
+            )}
           </div>
 
           <div className="flex items-center gap-4">
             {/* Desktop Actions */}
             <div className="flex items-center gap-4">
-              <MultiLanguageDropDown />
+              <MultiLanguageDropDown className="max-lg:hidden" />
               <div className="hidden lg:flex items-center gap-4">
                 <ExpandableSearchBar
                   isExpanded={isSearchExpanded}
@@ -318,9 +338,12 @@ export function Header() {
               ? "translate-y-0 opacity-100"
               : "-translate-y-full opacity-0 pointer-events-none"
           )}
-          style={{ top: headerHeight, maxHeight: `calc(100vh - ${headerHeight}px)` }}
+          style={{
+            top: headerHeight,
+            maxHeight: `calc(100vh - ${headerHeight}px)`,
+          }}
         >
-          <div className="border-t border-gray-100 bg-white w-full overflow-y-auto max-h-full">
+          <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto max-h-full">
             <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
               {/* <Link
                 href="/"
@@ -338,10 +361,11 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${isActive
-                      ? "text-primary bg-primary-light"
-                      : "text-text-primary"
-                      }`}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
+                      isActive
+                        ? "text-primary bg-primary-light"
+                        : "text-text-primary"
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
@@ -358,7 +382,12 @@ export function Header() {
                   <span className="flex items-center gap-2">
                     {t("header.functions")}
                   </span>
-                  <ChevronDown className={cn("w-4 h-4 transition-transform", isFunctionsOpen && "rotate-180")} />
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 transition-transform",
+                      isFunctionsOpen && "rotate-180"
+                    )}
+                  />
                 </button>
 
                 {isFunctionsOpen && (
@@ -370,7 +399,9 @@ export function Header() {
                       }}
                       className={cn(
                         "text-left px-3 py-2 rounded-md text-sm",
-                        locale === "en" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark"
+                        locale === "en"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "text-primary-dark"
                       )}
                     >
                       {t("header.english")}
@@ -382,7 +413,9 @@ export function Header() {
                       }}
                       className={cn(
                         "text-left px-3 py-2 rounded-md text-sm",
-                        locale === "sv" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark"
+                        locale === "sv"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "text-primary-dark"
                       )}
                     >
                       {t("header.swedish")}
@@ -475,7 +508,7 @@ export function Header() {
 
               <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" />
 
-              <div>
+              {/* <div>
                 <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">
                   <label htmlFor="mobile-search">
                     <Search className="h-6 w-6" />
@@ -487,7 +520,41 @@ export function Header() {
                     className="block w-full px-2 py-2 focus:outline-none bg-transparent"
                   />
                 </div>
-              </div>
+              </div> */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!searchTerm) return;
+                  handleSearch();
+                }}
+                // className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
+                //   expanded ? "w-96 opacity-100" : "w-0 opacity-0"
+                // }`}
+              >
+                <Input
+                  placeholder={"Search"}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  // autoFocus={expanded}
+                  prepend={<Search className="size-4 md:size-5" />}
+                  append={
+                    <div className="flex items-center gap-2">
+                      {searchTerm && (
+                        <X
+                          onClick={handleClear}
+                          className="h-5 w-5 cursor-pointer"
+                        />
+                      )}
+                      <Button
+                        type="submit"
+                        className="-mr-3 h-11 rounded-md text-sm px-4 bg-primary text-white hover:bg-primary/90 flex items-center justify-center cursor-pointer"
+                      >
+                        Go
+                      </Button>
+                    </div>
+                  }
+                />
+              </form>
               <div className="mt-4 flex flex-col gap-3 pb-6">
                 {isAuthenticated ? (
                   <Button

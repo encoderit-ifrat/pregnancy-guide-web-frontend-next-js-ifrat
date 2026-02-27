@@ -72,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} antialiased text-primary-dark`}
+        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} antialiased text-primary-dark overflow-x-hidden`}
       >
         <SessionWrapper>
           <I18nProvider>

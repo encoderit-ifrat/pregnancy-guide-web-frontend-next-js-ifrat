@@ -85,7 +85,7 @@ export default function Navbar({
 
   if (isLoadingCategories) {
     return (
-      <div className="flex items-center justify-center gap-2 xl:gap-6">
+      <div className="hidden lg:flex items-center justify-center gap-2 xl:gap-6">
         {/* <LoaderCircle className="animate-spin" /> */}
         {Array.from({ length: 5 }).map((_, index) => (
           <div
@@ -105,7 +105,7 @@ export default function Navbar({
           : "opacity-100 scale-100"
       }`}
     >
-      <div className="hidden md:flex items-center gap-2">
+      <div className="hidden lg:flex items-center gap-2">
         {/* Left Scroll Button */}
         <ChevronLeft
           className={`size-6 shrink-0 transition-opacity duration-300 text-primary-dark cursor-pointer ${
