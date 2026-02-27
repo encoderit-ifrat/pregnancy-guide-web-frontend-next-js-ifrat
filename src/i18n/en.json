@@ -1,398 +1,401 @@
 {
-    "common": {
-        "back": "Back",
-        "go": "Go",
-        "next": "Next",
-        "previous": "Previous",
-        "confirm": "Confirm",
-        "notFound": "Not Found",
-        "cancel": "Cancel",
-        "loading": "Loading...",
-        "or": "OR",
-        "page": "Page"
-    },
-    "auth": {
-        "resetPassword": {
-            "invalidLink": "Invalid reset link",
-            "tokenMissing": "Reset token is missing",
-            "success": "Password reset successfully!",
-            "passwordLabel": "Password",
-            "confirmPasswordLabel": "Confirm Password",
-            "alreadyHaveAccount": "Already have an account?",
-            "signIn": "Sign In"
-        },
-        "changePassword": {
-            "success": "Password changed successfully!",
-            "oldPasswordLabel": "Old Password",
-            "newPasswordLabel": "New Password",
-            "confirmNewPasswordLabel": "Confirm New Password",
-            "submit": "Change Password"
-        }
-    },
-    "header": {
-        "login": "Log In",
-        "logout": "Log Out",
-        "download": "Download",
-        "myAccount": "My Account",
-        "profile": "Profile",
-        "changePassword": "Change Password",
-        "search": "Search ...",
-        "functions": "Functions",
-        "language": "Language",
-        "english": "English",
-        "swedish": "Swedish",
-        "discussions": "Discussions",
-        "forNameTinder": "Name Tinder"
-    },
-    "footer": {
-        "quickLinks": "Quick Links",
-        "additionalLink": "Additional Link",
-        "socialLink": "Social Link",
-        "copyright": "Copyright © {year} Familj.se. All Rights Reserved.",
-        "termsConditions": "Terms & Conditions",
-        "privacyPolicy": "Privacy Policy",
-        "home": "Home",
-        "articles": "Articles",
-        "feedback": "Feedback",
-        "settings": "Settings",
-        "delivery": "Delivery",
-        "pregnancyHealth": "Pregnancy Health",
-        "foodAndDiet": "Food and Diet Tips",
-        "pregnancy": "Pregnancy",
-        "about": "About Us",
-        "services": "Services",
-        "contact": "Contact"
-    },
-    "hero": {
-        "companion": "Companion",
-        "duringPregnancy": "During Pregnancy",
-        "description": "Discover Familj, your trusted companion throughout every stage of pregnancy, offering personalized weekly insights, expert articles, and gentle guidance to make your journey feel safe and supported.",
-        "appStoreAlt": "Download on App Store",
-        "googlePlayAlt": "Get it on Google Play"
-    },
-    "mission": {
-        "label": "Mission",
-        "title": "Our Mission",
-        "description": "Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e"
-    },
-    "appShowcase": {
-        "label": "Pellentesque",
-        "title1": "Impersapienrhoncus",
-        "title2": "Etiampharetra",
-        "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendisse semper."
-    },
-    "howItWorks": {
-        "label": "Step-by-Step",
-        "title": "How it Works",
-        "step1Title": "Track Your Week",
-        "step1Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
-        "step2Title": "Access Expert Content",
-        "step2Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
-        "step3Title": "Use Smart Checklists",
-        "step3Desc": "Suspendisse vitae risus Cras nulla blandit Praesent."
-    },
-    "stats": {
-        "ourVolunteer": "Our Volunteer",
-        "happyChildren": "Happy Children"
-    },
-    "trackWeek": {
-        "label": "Vestibulum",
-        "title": "Track your Week"
-    },
-    "whyChooseUs": {
-        "label": "Choose Us",
-        "title": "Why choose Us",
-        "securePrivate": "Secure & Private",
-        "securePrivateDesc": "Verified & professional.",
-        "cloudSync": "Cloud Sync",
-        "cloudSyncDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
-        "fastResponsive": "Fast & Responsive",
-        "fastResponsiveDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
-        "support247": "24/7 Support",
-        "support247Desc": "Suspendisse vitae risus Cras nulla blandit Praesent"
-    },
-    "downloadCta": {
-        "label": "Consectetu",
-        "title": "Etiam phar etr...",
-        "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendissesemper."
-    },
-    "testimonials": {
-        "label": "Vestibulum",
-        "title": "Hear from our happy Clients"
-    },
-    "login": {
-        "title": "Login",
-        "description": "Login into your existing Familj Account.",
-        "email": "Email",
-        "emailPlaceholder": "User Email",
-        "password": "Password",
-        "passwordPlaceholder": "Enter Password",
-        "rememberMe": "Remember for 30 Days",
-        "forgotPassword": "Forgot Password?",
-        "loginButton": "Login",
-        "or": "OR",
-        "noAccount": "Don't have an account?",
-        "createAccount": "Create account",
-        "loggedInSuccess": "Logged in Successfully"
-    },
-    "signUp": {
-        "title": "Sign Up",
-        "description": "Create an account to access expert guidance, resources, and support for every stage of parenthood.",
-        "userName": "User Name",
-        "userEmail": "User Email",
-        "password": "Password",
-        "confirmPassword": "Confirm Password",
-        "termsText": "I understood the",
-        "termsLink": "terms & policy",
-        "signUpButton": "Sign Up",
-        "or": "OR",
-        "hasAccount": "Already have an account?",
-        "signIn": "Sign In",
-        "registrationSuccess": "Registration Successful",
-        "registrationFailed": "Registration failed"
-    },
-    "forgotPassword": {
-        "title": "Forgot Password",
-        "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
-        "email": "Email",
-        "emailPlaceholder": "User Email",
-        "continueButton": "Continue"
+  "common": {
+    "back": "Back",
+    "go": "Go",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "notFound": "Not Found",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "or": "OR",
+    "page": "Page",
+    "error": "An error occurred"
+  },
+  "auth": {
+    "resetPassword": {
+      "invalidLink": "Invalid reset link",
+      "tokenMissing": "Reset token is missing",
+      "success": "Password reset successfully!",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign In"
     },
     "changePassword": {
-        "title": "Change Password",
-        "description": "Enter your current password and choose a new secure password for your account."
-    },
-    "contact": {
-        "contactDetails": "Contact Details",
-        "feedbackTitle": "Leave us your feedback",
-        "feedbackDesc": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
-        "rateExperience": "Rate your experience",
-        "firstName": "First Name",
-        "email": "Email",
-        "phone": "Phone",
-        "location": "Location",
-        "yourMessage": "Your Message",
-        "confirm": "Confirm",
-        "feedbackSuccess": "Feedback successfully created"
-    },
-    "checklists": {
-        "label": "Our Checklist",
-        "title": "Checklists",
-        "subtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
-        "addNew": "Add New",
-        "finalizedTasks": "Finalized Tasks",
-        "addChecklist": "Add Checklist",
-        "updateChecklist": "Update Checklist",
-        "deleteTitle": "Are you absolutely sure?",
-        "deleteDescription": "This action cannot be undone. This will permanently delete your checklist.",
-        "cancel": "Cancel",
-        "loading": "Loading...",
-        "deleteSuccess": "Check list deleted successfully",
-        "loginToAdd": "Please log in to add a checklist",
-        "toggleSuccess": "Checklist updated successfully.",
-        "form": {
-            "title": "Title",
-            "titlePlaceholder": "Enter title",
-            "description": "Description",
-            "descriptionPlaceholder": "Enter description",
-            "category": "Category",
-            "selectCategory": "Select Category",
-            "items": "Checklist Items",
-            "addItem": "Add Item",
-            "itemTitle": "Item Title",
-            "itemDescription": "Description",
-            "itemDescriptionPlaceholder": "Enter Description",
-            "remove": "Remove",
-            "save": "Save Checklist",
-            "update": "Update Checklist",
-            "atLeastOneItem": "Please add at least one checklist item.",
-            "updateSuccess": "Checklist updated successfully!",
-            "saveSuccess": "Checklist saved successfully!",
-            "categories": {
-                "general": "General",
-                "medical": "Medical",
-                "nutrition": "Nutrition",
-                "exercise": "Exercise",
-                "preparation": "Preparation"
-            }
-        }
-    },
-    "threads": {
-        "label": "Discussions",
-        "title": "Start a New Thread",
-        "subtitle": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        "startThread": "Start a New Thread",
-        "myPublished": "My Published Threads",
-        "communityThreads": "Community Threads",
-        "mostLiked": "Most Liked",
-        "mostViewed": "Most Viewed",
-        "newest": "Newest",
-        "reply": "Reply",
-        "like": "Like",
-        "likes": "Likes",
-        "replies": "Replies",
-        "views": "Views",
-        "shares": "Shares",
-        "share": "Share",
-        "flag": "Flag",
-        "createdBy": "Created by",
-        "lastReply": "Last reply:",
-        "agoBy": "{time} ago by {user}",
-        "by": "by",
-        "startThreadTitle": "Start a New Thread",
-        "inputTitleLabel": "Title",
-        "inputTitlePlaceholder": "Create your thread title",
-        "inputDescriptionLabel": "Description",
-        "inputDescriptionPlaceholder": "Write your thread description...",
-        "publishButton": "Publish Thread"
-    },
-    "pregnancy": {
-        "loginRequired": "Please login to view your pregnancy overview.",
-        "beenPregnant": "Been pregnant:",
-        "weeks": "weeks",
-        "days": "days",
-        "completed": "Completed",
-        "dueDate": "Due Date:",
-        "daysRemaining": "Days remaining to birth:",
-        "trimesters": {
-            "1": "1st Trimester",
-            "2": "2nd Trimester",
-            "3": "3rd Trimester"
-        },
-        "categories": {
-            "mother": "Mother",
-            "baby": "Baby",
-            "partner": "Partner"
-        },
-        "weekSelector": "Week",
-        "question": "Question",
-        "questionOfTheWeek": "Question of the Week",
-        "weekQuestion": "Week {week} question",
-        "seeAll": "See All",
-        "noInfo": "No pregnancy information found.",
-        "error": "An error occurred while fetching pregnancy data.",
-        "startJourney": "Start Your Journey",
-        "noInfoDesc": "Begin tracking your beautiful pregnancy journey. Add your pregnancy details to unlock personalized insights and milestones.",
-        "addData": "Add Pregnancy Data",
-        "privacySecure": "Your pregnancy data is private and secure 🔒",
-        "articles": "Articles",
-        "articlesTitle": "Articles & Insights for Your Pregnancy Journey",
-        "articlesSubtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
-        "weeklyDetails": "Weekly Details",
-        "bannerArticle": "Banner article",
-        "ourArticles": "Our Articles",
-        "specialArticles": "Special Articles",
-        "viewAll": "View All",
-        "previousWeek": "Previous week",
-        "nextWeek": "Next week",
-        "searchResultFound": "Here's what we found for",
-        "searchResultIn": "in",
-        "noResults": "No articles found. Try a different search term.",
-        "babyNames": "Baby Names",
-        "mother": "Mother",
-        "baby": "Baby",
-        "partner": "Partner",
-        "readArticle": "Read Article"
-    },
-    "articles": {
-        "readMore": "Read More",
-        "moreDetails": "More Details",
-        "tabs": "Table of Contents"
-    },
-    "hero2": {
-        "label": "Childbirth",
-        "title": "Helpful Articles for Every Step of Your Pregnancy",
-        "subtitle": "Expert-written guides, tips, and insights to support you from pregnancy to parenthood."
-    },
-    "weeklyQuestion": {
-        "title": "Weekly Question",
-        "description": "Join the discussion and share your thoughts on this week's question.",
-        "pageTitle": "Question",
-        "pageHeading": "Question of the week",
-        "pageDescription": "Answer the weekly pregnancy question, explore community responses, and express how you’re feeling.",
-        "submit": "Submit",
-        "submitting": "Submitting...",
-        "submitAnswer": "Submit Answer",
-        "seeAnswers": "See Answers",
-        "seeAnswersComments": "See answers and comments",
-        "percentage": "of people chose this",
-        "shareComment": "Share Your Comment",
-        "commentPlaceholder": "Write your answer here...",
-        "selectOption": "Please select an answer option",
-        "answerSubmitted": "Answer submitted",
-        "submitComment": "Submit Comment",
-        "submittedComments": "Submitted Comments",
-        "noAnswersYet": "No answers yet. Be the first to share!",
-        "writeCommentError": "Please write your comment",
-        "commentSubmitted": "Comment submitted",
-        "noAnswer": "No answer",
-        "addComment": "Add Comment",
-        "comment": "Comment",
-        "comments": "Comments",
-        "you": "You"
-    },
-    "features": {
-        "secure": {
-            "title": "Secure & Private",
-            "description": "Your pregnancy journey is private and secure with us."
-        },
-        "fast": {
-            "title": "Fast & Responsive",
-            "description": "Experience a quick and smooth interface on all devices."
-        },
-        "userFriendly": {
-            "title": "User-Friendly Interface",
-            "description": "Easy to navigate and find exactly what you need."
-        },
-        "notifications": {
-            "title": "Real-Time Notifications",
-            "description": "Stay updated with important pregnancy milestones."
-        },
-        "cloudSync": {
-            "title": "Cloud Sync",
-            "description": "Access your data anytime, anywhere on any device."
-        },
-        "support": {
-            "title": "24/7 Support",
-            "description": "Our team is here to help you every step of the way."
-        }
-    },
-    "profile": {
-        "name": "Name",
-        "familyName": "Family Name",
-        "partnerName": "Partner Name",
-        "email": "Email",
-        "loading": "Loading profile...",
-        "loginRequired": "Please login to view your profile",
-        "guestUser": "Guest User",
-        "accountReady": "Your account is ready, you can now apply for advice.",
-        "editProfile": "Edit profile",
-        "lastUpdated": "Last Updated: {date}",
-        "saveChanges": "Save All Changes",
-        "cancelAll": "Cancel All",
-        "myProfiles": "My Profiles",
-        "pregnant": "Pregnant",
-        "beenPregnant": "Been Pregnant",
-        "newborn": "Newborn",
-        "editBabyProfile": "Edit Baby Profile",
-        "edit": "Edit",
-        "delete": "Delete",
-        "deleteConfirmTitle": "Delete Baby Profile",
-        "deleteConfirmDesc": "Are you sure you want to delete. This action cannot be undone.",
-        "deleteSuccess": "Profile deleted successfully",
-        "addBabyProfile": "Add Baby Profile",
-        "noProfiles": "No baby profiles yet",
-        "updateSuccess": "Profile updated successfully",
-        "updateFailed": "Failed to update profile"
-    },
-    "partner": {
-        "inviteTitle": "Partner Invite",
-        "emailPlaceholder": "Enter Partner Email.....",
-        "rolePartner": "Partner",
-        "roleOther": "Other",
-        "sendInvite": "Send Invitation",
-        "emailAddress": "Email Address",
-        "statusInvited": "invited",
-        "statusAccepted": "Accepted"
+      "success": "Password changed successfully!",
+      "oldPasswordLabel": "Old Password",
+      "newPasswordLabel": "New Password",
+      "confirmNewPasswordLabel": "Confirm New Password",
+      "submit": "Change Password"
     }
+  },
+  "header": {
+    "login": "Log In",
+    "logout": "Log Out",
+    "download": "Download",
+    "myAccount": "My Account",
+    "profile": "Profile",
+    "changePassword": "Change Password",
+    "search": "Search ...",
+    "functions": "Functions",
+    "language": "Language",
+    "english": "English",
+    "swedish": "Swedish",
+    "discussions": "Discussions",
+    "forNameTinder": "Name Tinder"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "additionalLink": "Additional Link",
+    "socialLink": "Social Link",
+    "copyright": "Copyright © {year} Familj.se. All Rights Reserved.",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "home": "Home",
+    "articles": "Articles",
+    "feedback": "Feedback",
+    "settings": "Settings",
+    "delivery": "Delivery",
+    "pregnancyHealth": "Pregnancy Health",
+    "foodAndDiet": "Food and Diet Tips",
+    "pregnancy": "Pregnancy",
+    "about": "About Us",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "companion": "Companion",
+    "duringPregnancy": "During Pregnancy",
+    "description": "Discover Familj, your trusted companion throughout every stage of pregnancy, offering personalized weekly insights, expert articles, and gentle guidance to make your journey feel safe and supported.",
+    "appStoreAlt": "Download on App Store",
+    "googlePlayAlt": "Get it on Google Play"
+  },
+  "mission": {
+    "label": "Mission",
+    "title": "Our Mission",
+    "description": "Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e"
+  },
+  "appShowcase": {
+    "label": "Pellentesque",
+    "title1": "Impersapienrhoncus",
+    "title2": "Etiampharetra",
+    "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendisse semper."
+  },
+  "howItWorks": {
+    "label": "Step-by-Step",
+    "title": "How it Works",
+    "step1Title": "Track Your Week",
+    "step1Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
+    "step2Title": "Access Expert Content",
+    "step2Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
+    "step3Title": "Use Smart Checklists",
+    "step3Desc": "Suspendisse vitae risus Cras nulla blandit Praesent."
+  },
+  "stats": {
+    "ourVolunteer": "Our Volunteer",
+    "happyChildren": "Happy Children"
+  },
+  "trackWeek": {
+    "label": "Vestibulum",
+    "title": "Track your Week"
+  },
+  "whyChooseUs": {
+    "label": "Choose Us",
+    "title": "Why choose Us",
+    "securePrivate": "Secure & Private",
+    "securePrivateDesc": "Verified & professional.",
+    "cloudSync": "Cloud Sync",
+    "cloudSyncDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
+    "fastResponsive": "Fast & Responsive",
+    "fastResponsiveDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
+    "support247": "24/7 Support",
+    "support247Desc": "Suspendisse vitae risus Cras nulla blandit Praesent"
+  },
+  "downloadCta": {
+    "label": "Consectetu",
+    "title": "Etiam phar etr...",
+    "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendissesemper."
+  },
+  "testimonials": {
+    "label": "Vestibulum",
+    "title": "Hear from our happy Clients"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Login into your existing Familj Account.",
+    "email": "Email",
+    "emailPlaceholder": "User Email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter Password",
+    "rememberMe": "Remember for 30 Days",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Login",
+    "or": "OR",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create account",
+    "loggedInSuccess": "Logged in Successfully"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "description": "Create an account to access expert guidance, resources, and support for every stage of parenthood.",
+    "userName": "User Name",
+    "userEmail": "User Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "termsText": "I understood the",
+    "termsLink": "terms & policy",
+    "signUpButton": "Sign Up",
+    "or": "OR",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "registrationSuccess": "Registration Successful",
+    "registrationFailed": "Registration failed"
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+    "email": "Email",
+    "emailPlaceholder": "User Email",
+    "continueButton": "Continue"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "description": "Enter your current password and choose a new secure password for your account."
+  },
+  "contact": {
+    "contactDetails": "Contact Details",
+    "feedbackTitle": "Leave us your feedback",
+    "feedbackDesc": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+    "rateExperience": "Rate your experience",
+    "firstName": "First Name",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "yourMessage": "Your Message",
+    "confirm": "Confirm",
+    "feedbackSuccess": "Feedback successfully created"
+  },
+  "checklists": {
+    "label": "Our Checklist",
+    "title": "Checklists",
+    "subtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
+    "addNew": "Add New",
+    "finalizedTasks": "Finalized Tasks",
+    "addChecklist": "Add Checklist",
+    "updateChecklist": "Update Checklist",
+    "deleteTitle": "Are you absolutely sure?",
+    "deleteDescription": "This action cannot be undone. This will permanently delete your checklist.",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "deleteSuccess": "Check list deleted successfully",
+    "loginToAdd": "Please log in to add a checklist",
+    "toggleSuccess": "Checklist updated successfully.",
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter title",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter description",
+      "category": "Category",
+      "selectCategory": "Select Category",
+      "items": "Checklist Items",
+      "addItem": "Add Item",
+      "itemTitle": "Item Title",
+      "itemDescription": "Description",
+      "itemDescriptionPlaceholder": "Enter Description",
+      "remove": "Remove",
+      "save": "Save Checklist",
+      "update": "Update Checklist",
+      "atLeastOneItem": "Please add at least one checklist item.",
+      "updateSuccess": "Checklist updated successfully!",
+      "saveSuccess": "Checklist saved successfully!",
+      "categories": {
+        "general": "General",
+        "medical": "Medical",
+        "nutrition": "Nutrition",
+        "exercise": "Exercise",
+        "preparation": "Preparation"
+      }
+    }
+  },
+  "threads": {
+    "label": "Discussions",
+    "title": "Start a New Thread",
+    "subtitle": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "startThread": "Start a New Thread",
+    "myPublished": "My Published Threads",
+    "communityThreads": "Community Threads",
+    "mostLiked": "Most Liked",
+    "mostViewed": "Most Viewed",
+    "newest": "Newest",
+    "reply": "Reply",
+    "like": "Like",
+    "likes": "Likes",
+    "replies": "Replies",
+    "views": "Views",
+    "shares": "Shares",
+    "share": "Share",
+    "flag": "Flag",
+    "createdBy": "Created by",
+    "lastReply": "Last reply:",
+    "agoBy": "{time} ago by {user}",
+    "by": "by",
+    "startThreadTitle": "Start a New Thread",
+    "inputTitleLabel": "Title",
+    "inputTitlePlaceholder": "Create your thread title",
+    "inputDescriptionLabel": "Description",
+    "inputDescriptionPlaceholder": "Write your thread description...",
+    "publishButton": "Publish Thread"
+  },
+  "pregnancy": {
+    "loginRequired": "Please login to view your pregnancy overview.",
+    "beenPregnant": "Been pregnant:",
+    "weeks": "weeks",
+    "days": "days",
+    "completed": "Completed",
+    "dueDate": "Due Date:",
+    "daysRemaining": "Days remaining to birth:",
+    "trimesters": {
+      "1": "1st Trimester",
+      "2": "2nd Trimester",
+      "3": "3rd Trimester"
+    },
+    "categories": {
+      "mother": "Mother",
+      "baby": "Baby",
+      "partner": "Partner"
+    },
+    "weekSelector": "Week",
+    "question": "Question",
+    "questionOfTheWeek": "Question of the Week",
+    "weekQuestion": "Week {week} question",
+    "seeAll": "See All",
+    "noInfo": "No pregnancy information found.",
+    "error": "An error occurred while fetching pregnancy data.",
+    "startJourney": "Start Your Journey",
+    "noInfoDesc": "Begin tracking your beautiful pregnancy journey. Add your pregnancy details to unlock personalized insights and milestones.",
+    "addData": "Add Pregnancy Data",
+    "privacySecure": "Your pregnancy data is private and secure 🔒",
+    "articles": "Articles",
+    "articlesTitle": "Articles & Insights for Your Pregnancy Journey",
+    "articlesSubtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
+    "weeklyDetails": "Weekly Details",
+    "bannerArticle": "Banner article",
+    "ourArticles": "Our Articles",
+    "specialArticles": "Special Articles",
+    "viewAll": "View All",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
+    "searchResultFound": "Here's what we found for",
+    "searchResultIn": "in",
+    "noResults": "No articles found. Try a different search term.",
+    "babyNames": "Baby Names",
+    "mother": "Mother",
+    "baby": "Baby",
+    "partner": "Partner",
+    "readArticle": "Read Article"
+  },
+  "articles": {
+    "readMore": "Read More",
+    "moreDetails": "More Details",
+    "tabs": "Table of Contents"
+  },
+  "hero2": {
+    "label": "Childbirth",
+    "title": "Helpful Articles for Every Step of Your Pregnancy",
+    "subtitle": "Expert-written guides, tips, and insights to support you from pregnancy to parenthood."
+  },
+  "weeklyQuestion": {
+    "title": "Weekly Question",
+    "description": "Join the discussion and share your thoughts on this week's question.",
+    "pageTitle": "Question",
+    "pageHeading": "Question of the week",
+    "pageDescription": "Answer the weekly pregnancy question, explore community responses, and express how you’re feeling.",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "submitAnswer": "Submit Answer",
+    "seeAnswers": "See Answers",
+    "seeAnswersComments": "See answers and comments",
+    "percentage": "of people chose this",
+    "shareComment": "Share Your Comment",
+    "commentPlaceholder": "Write your answer here...",
+    "selectOption": "Please select an answer option",
+    "answerSubmitted": "Answer submitted",
+    "submitComment": "Submit Comment",
+    "submittedComments": "Submitted Comments",
+    "noAnswersYet": "No answers yet. Be the first to share!",
+    "writeCommentError": "Please write your comment",
+    "commentSubmitted": "Comment submitted",
+    "noAnswer": "No answer",
+    "addComment": "Add Comment",
+    "comment": "Comment",
+    "comments": "Comments",
+    "you": "You"
+  },
+  "features": {
+    "secure": {
+      "title": "Secure & Private",
+      "description": "Your pregnancy journey is private and secure with us."
+    },
+    "fast": {
+      "title": "Fast & Responsive",
+      "description": "Experience a quick and smooth interface on all devices."
+    },
+    "userFriendly": {
+      "title": "User-Friendly Interface",
+      "description": "Easy to navigate and find exactly what you need."
+    },
+    "notifications": {
+      "title": "Real-Time Notifications",
+      "description": "Stay updated with important pregnancy milestones."
+    },
+    "cloudSync": {
+      "title": "Cloud Sync",
+      "description": "Access your data anytime, anywhere on any device."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Our team is here to help you every step of the way."
+    }
+  },
+  "profile": {
+    "name": "Name",
+    "familyName": "Family Name",
+    "partnerName": "Partner Name",
+    "email": "Email",
+    "loading": "Loading profile...",
+    "loginRequired": "Please login to view your profile",
+    "guestUser": "Guest User",
+    "accountReady": "Your account is ready, you can now apply for advice.",
+    "editProfile": "Edit profile",
+    "lastUpdated": "Last Updated: {date}",
+    "saveChanges": "Save All Changes",
+    "cancelAll": "Cancel All",
+    "myProfiles": "My Profiles",
+    "pregnant": "Pregnant",
+    "beenPregnant": "Been Pregnant",
+    "newborn": "Newborn",
+    "editBabyProfile": "Edit Baby Profile",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Delete Baby Profile",
+    "deleteConfirmDesc": "Are you sure you want to delete. This action cannot be undone.",
+    "deleteSuccess": "Profile deleted successfully",
+    "addBabyProfile": "Add Baby Profile",
+    "noProfiles": "No baby profiles yet",
+    "updateSuccess": "Profile updated successfully",
+    "updateFailed": "Failed to update profile",
+    "uploadErrorImage": "Please upload an image file",
+    "uploadErrorSize": "Image size should be less than 5MB"
+  },
+  "partner": {
+    "inviteTitle": "Partner Invite",
+    "emailPlaceholder": "Enter Partner Email.....",
+    "rolePartner": "Partner",
+    "roleOther": "Other",
+    "sendInvite": "Send Invitation",
+    "emailAddress": "Email Address",
+    "statusInvited": "invited",
+    "statusAccepted": "Accepted"
+  }
 }
