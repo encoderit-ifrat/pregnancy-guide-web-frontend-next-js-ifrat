@@ -81,8 +81,14 @@ export default function Navbar({
 
   if (isLoadingCategories) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <LoaderCircle className="animate-spin" />
+      <div className="flex items-center justify-center gap-2 xl:gap-6">
+        {/* <LoaderCircle className="animate-spin" /> */}
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div
+            key={index}
+            className="w-20 h-5 bg-primary-dark/20 rounded-full animate-pulse"
+          ></div>
+        ))}
       </div>
     );
   }
