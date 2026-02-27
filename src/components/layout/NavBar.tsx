@@ -53,18 +53,22 @@ export default function Navbar({
   const checkScroll = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+
+    // Use a small epsilon or Math.ceil for more robust detection of the end of the scroll
+    const isAtStart = el.scrollLeft <= 0;
+    const isAtEnd = Math.ceil(el.scrollLeft + el.clientWidth) >= el.scrollWidth;
+
+    setCanScrollLeft(!isAtStart);
+    setCanScrollRight(!isAtEnd);
   }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
     checkScroll();
-    el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
     return () => {
-      el.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
     };
   }, [checkScroll]);
@@ -115,6 +119,7 @@ export default function Navbar({
           <NavigationMenu>
             <div
               ref={scrollRef}
+              onScroll={checkScroll}
               className="overflow-x-auto overflow-y-hidden max-w-sm lg:max-w-lg scrollbar-hide scroll-smooth "
             >
               <NavigationMenuList className="gap-2 xl:gap-6">
