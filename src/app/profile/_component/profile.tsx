@@ -107,10 +107,11 @@ export default function ProfilePage() {
           label: "Partner Name",
           value: user?.details?.partner_name || "",
         },
-        { 
+        {
           key: "email",
           label: "Email",
-          value: user.email || "" },
+          value: user.email || ""
+        },
       ]);
       setPendingAvatar(user?.avatar);
       setBabyProfiles(user?.details?.babies || []);
@@ -348,10 +349,10 @@ export default function ProfilePage() {
                         control={form.control}
                         name={
                           item.key as
-                            | "name"
-                            | "familyName"
-                            | "partnerName"
-                            | "email"
+                          | "name"
+                          | "familyName"
+                          | "partnerName"
+                          | "email"
                         } // Fix: use the actual field name
                         render={({ field }) => (
                           <FormItem className="mb-3 sm:mb-4 lg:mb-2">
@@ -406,126 +407,123 @@ export default function ProfilePage() {
             </h4>
 
             <div className="flex flex-col gap-4">
-              {babyProfiles.length > 0 ? (
-                babyProfiles.map((profile, index) => (
-                  <div
-                    key={index}
-                    className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
-                  >
-                    <div className="flex flex-wrap items-center justify-center gap-2 py-6">
-                      <BabyPercentage
-                        percentage={
-                          user?.details?.current_pregnancy_data?.percentage || 0
-                        }
-                        profile={profile}
-                      />
+              {babyProfiles.length > 0 ? (babyProfiles.map((profile, index) => (
+                <div
+                  key={index}
+                  className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
+                >
+                  <div className="flex flex-wrap items-center justify-center gap-2 py-6">
+                    <BabyPercentage
+                      percentage={
+                        user?.details?.current_pregnancy_data?.percentage || 0
+                      }
+                      profile={profile}
+                    />
 
-                      <div className="mx-auto text-center lg:text-left">
-                        <p className="text-lg lg:text-2xl">Pregnant</p>
-                        <p className="text-lg lg:text-2xl mb-4">
-                          <span className="text-primary">
-                            {profile.upcoming ? "Been Pregnant" : profile.name}
-                          </span>
-                          :
-                          {profile.upcoming
-                            ? `${
-                                user?.details?.current_pregnancy_data?.week || 0
-                              } week ${
-                                user?.details?.current_pregnancy_data?.day || 0
-                              } days`
-                            : "Newborn"}
-                        </p>
+                    <div className="mx-auto text-center lg:text-left">
+                      <p className="text-lg lg:text-2xl">Pregnant</p>
+                      <p className="text-lg lg:text-2xl mb-4">
+                        <span className="text-primary">
+                          {profile.upcoming ? "Been Pregnant" : profile.name}
+                        </span>
+                        :
+                        {profile.upcoming
+                          ? `${user?.details?.current_pregnancy_data?.week || 0
+                          } week ${user?.details?.current_pregnancy_data?.day || 0
+                          } days`
+                          : "Newborn"}
+                      </p>
 
-                        {/* Actions */}
-                        <div className="flex items-center justify-center lg:justify-start gap-2">
-                          {/* Edit Baby Profile */}
-                          <AppDialog
-                            title="Edit Baby Profile"
-                            customTrigger={
-                              <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
-                                <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
-                                <span className="text-sm">Edit</span>
-                              </button>
-                            }
-                          >
-                            {(close) => (
-                              <FormProfile
-                                initialData={profile}
-                                onSubmitForDialogAndRefetch={async () => {
-                                  await refetch();
-                                  close();
-                                }}
-                              />
-                            )}
-                          </AppDialog>
-
-                          {/* Delete Baby Profile */}
-                          <button
-                            className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
-                            onClick={() => {
-                              setFormData({ type: "delete", id: profile._id });
-                            }}
-                          >
-                            <Trash2 className="size-4 cursor-pointer mr-2" />
-                            <span className="text-sm">Delete</span>
-                          </button>
-                        </div>
-                        <AlertDialog
-                          open={formData.type == "delete"}
-                          onOpenChange={() =>
-                            setFormData({ type: "default", id: "" })
+                      {/* Actions */}
+                      <div className="flex items-center justify-center lg:justify-start gap-2">
+                        {/* Edit Baby Profile */}
+                        <AppDialog
+                          title="Edit Baby Profile"
+                          customTrigger={
+                            <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
+                              <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
+                              <span className="text-sm">Edit</span>
+                            </button>
                           }
                         >
-                          {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Delete Baby Profile
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Are you sure you want to delete. This action
-                                cannot be undone.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <Button
-                                onClick={() => {
-                                  babyDelete(
-                                    { id: formData.id },
-                                    {
-                                      onSuccess: async (data) => {
-                                        await refetch();
-                                        toast.success(
-                                          data?.data?.message ||
-                                            "Profile deleted successfully"
-                                        );
-                                        setFormData({
-                                          type: "default",
-                                          id: "",
-                                        });
-                                      },
+                          {(close) => (
+                            <FormProfile
+                              initialData={profile}
+                              onSubmitForDialogAndRefetch={async () => {
+                                await refetch();
+                                close();
+                              }}
+                            />
+                          )}
+                        </AppDialog>
 
-                                      onError(error) {
-                                        setFormData({
-                                          type: "default",
-                                          id: "",
-                                        });
-                                      },
-                                    }
-                                  );
-                                }}
-                                disabled={babyDeletePending}
-                              >
-                                {babyDeletePending ? "Loading..." : "Confirm"}
-                              </Button>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                        {/* Delete Baby Profile */}
+                        <button
+                          className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
+                          onClick={() => {
+                            setFormData({ type: "delete", id: profile._id });
+                          }}
+                        >
+                          <Trash2 className="size-4 cursor-pointer mr-2" />
+                          <span className="text-sm">Delete</span>
+                        </button>
                       </div>
+                      <AlertDialog
+                        open={formData.type == "delete"}
+                        onOpenChange={() =>
+                          setFormData({ type: "default", id: "" })
+                        }
+                      >
+                        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Delete Baby Profile
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete. This action
+                              cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <Button
+                              onClick={() => {
+                                babyDelete(
+                                  { id: formData.id },
+                                  {
+                                    onSuccess: async (data) => {
+                                      await refetch();
+                                      toast.success(
+                                        data?.data?.message ||
+                                        "Profile deleted successfully"
+                                      );
+                                      setFormData({
+                                        type: "default",
+                                        id: "",
+                                      });
+                                    },
+
+                                    onError(error) {
+                                      setFormData({
+                                        type: "default",
+                                        id: "",
+                                      });
+                                    },
+                                  }
+                                );
+                              }}
+                              disabled={babyDeletePending}
+                            >
+                              {babyDeletePending ? "Loading..." : "Confirm"}
+                            </Button>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
-                ))
+                </div>
+              ))
               ) : (
                 <p className="text-center text-gray-500">
                   No baby profiles yet
