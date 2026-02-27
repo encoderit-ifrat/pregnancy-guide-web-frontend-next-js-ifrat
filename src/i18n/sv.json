@@ -373,12 +373,12 @@
     "statusAccepted": "Accepterad"
   },
   "formProfile": {
-    "createTitle": "Skapa {{type}} profil",
+    "createTitle": "Skapa {type} profil",
     "upcoming": "Väntat barn",
     "newborn": "Nyfödd",
     "congratulations": "Grattis!",
-    "pregnantMessage": "Du är gravid i {{weeks}} vecka{{weeks_plural}} {{daysText}}! 💕",
-    "andDays": "och {{count}} dag{{count_plural}}",
+    "pregnantMessage": "Du är gravid i {weeks} vecka{weeks_plural} {daysText}! 💕",
+    "andDays": "och {count} dag{count_plural}",
     "lastPeriodSource": "Baserat på din senaste mens",
     "dueDateSource": "Beräknat från ditt BF-datum",
     "lastPeriodPlaceholder": "Senaste mens",

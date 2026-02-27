@@ -399,12 +399,12 @@
     "statusAccepted": "Accepted"
   },
   "formProfile": {
-    "createTitle": "Create {{type}} Profile",
+    "createTitle": "Create {type} Profile",
     "upcoming": "Upcoming Baby",
     "newborn": "Newborn",
     "congratulations": "Congratulations!",
-    "pregnantMessage": "You are {{weeks}} week{{weeks_plural}} {{daysText}} pregnant! 💕",
-    "andDays": "and {{count}} day{{count_plural}}",
+    "pregnantMessage": "You are {weeks} week{weeks_plural} {daysText} pregnant! 💕",
+    "andDays": "and {count} day{count_plural}",
     "lastPeriodSource": "Based on your last period date",
     "dueDateSource": "Estimated from your due date",
     "lastPeriodPlaceholder": "Last Period Date",
