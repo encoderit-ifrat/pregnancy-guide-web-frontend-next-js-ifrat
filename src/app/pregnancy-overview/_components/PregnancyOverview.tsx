@@ -104,14 +104,14 @@ export default function PregnancyOverview({
         </section>
       )}
 
-      {Boolean(latest.length) && (
+      {Boolean(bannerArticle.length) && (
         <>
           {/* divider */}
           <ConcaveCurve
             className="text-white h-10! sm:h-20! md:h-24! lg:h-42!"
             bgClassName="bg-primary-light"
           />
-          <OurArticle data={(latest as any) ?? []} />
+          <OurArticle data={(bannerArticle as any) ?? []} />
         </>
       )}
       {Boolean(specialArticle.length) && (
