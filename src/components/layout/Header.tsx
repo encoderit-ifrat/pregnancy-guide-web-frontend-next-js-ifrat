@@ -312,18 +312,18 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               type="button"
-              className="lg:hidden bg-[#EEE4FD] p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
+              className="lg:hidden bg-[#EEE4FD] size-12 flex items-center justify-center  rounded-full focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? (
-                <X className="h-8 w-8 text-primary-dark" />
+                <X className="size-6 text-primary-dark" />
               ) : (
                 // <Menu className="h-8 w-8 text-primary-dark"/>
-                <div>
-                  <div className="w-6 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
-                  <div className="w-4 h-1 bg-primary-dark mb-1.5 rounded-lg"></div>
-                  <div className="w-2 h-1 bg-primary-dark rounded-lg"></div>
+                <div className="size-6 flex flex-col justify-between">
+                  <div className="h-1 bg-primary-dark  rounded-lg"></div>
+                  <div className="w-[70%] h-1 bg-primary-dark rounded-lg"></div>
+                  <div className="w-[40%] h-1 bg-primary-dark rounded-lg"></div>
                 </div>
               )}
             </button>
