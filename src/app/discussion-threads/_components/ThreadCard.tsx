@@ -10,7 +10,12 @@ import IconReply from "@/components/svg-icon/icon-reply";
 import IconEye from "@/components/svg-icon/icon-eye";
 import IconShare from "@/components/svg-icon/icon-share";
 import IconFlag from "@/components/svg-icon/icon-flag";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 // import { Dialog, DialogContent } from "@/components/ui/Dialog";
@@ -46,6 +51,7 @@ export default function ThreadCard({
 }: ThreadCardProps) {
   const { t } = useTranslation();
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
+  const [openReadMoreDialog, setOpenReadMoreDialog] = useState(false);
   return (
     // <ThreadDetailPage
     //   title={title}
@@ -75,7 +81,10 @@ export default function ThreadCard({
               </Badge>
             </div>
 
-            <p className="text-primary-color text-base ">
+            <p
+              className="text-primary-color text-base"
+              onClick={() => setOpenReadMoreDialog(true)}
+            >
               {excerpt}{" "}
               <span className="text-[#9679E1] text-base font-medium cursor-pointer hover:underline">
                 {t("articles.readMore")}
@@ -160,6 +169,17 @@ export default function ThreadCard({
               <ChevronRight className="size-5" />
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openReadMoreDialog} onOpenChange={setOpenReadMoreDialog}>
+        <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
+          <ThreadDetailPage
+            title={title}
+            excerpt={excerpt}
+            createdBy={createdBy}
+            stats={stats}
+            lastReply={lastReply}
+          />
         </DialogContent>
       </Dialog>
     </Card>
