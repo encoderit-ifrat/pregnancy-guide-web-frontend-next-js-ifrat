@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 import Image from "next/image";
 import IconPlus from "@/assets/IconPlus";
 import { AppDialog } from "@/components/base/AppDialog";
@@ -47,14 +48,15 @@ export const getInitial = (name?: string): string => {
 };
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
   const [babyProfiles, setBabyProfiles] = useState<BabyProfile[]>([]);
 
   const [profileDetails, setProfileDetails] = useState<ProfileDetail[]>([
-    { key: "name", label: "Name", value: "" },
-    { key: "familyName", label: "Family Name", value: "" },
-    { key: "partnerName", label: "Partner Name", value: "" },
-    { key: "email", label: "Email", value: "" },
+    { key: "name", label: t("profile.name"), value: "" },
+    { key: "familyName", label: t("profile.familyName"), value: "" },
+    { key: "partnerName", label: t("profile.partnerName"), value: "" },
+    { key: "email", label: t("profile.email"), value: "" },
   ]);
   const [formData, setFormData] = useState<ProfileFormData>({
     type: "default",
@@ -94,23 +96,23 @@ export default function ProfilePage() {
       setProfileDetails([
         {
           key: "name",
-          label: "Name",
+          label: t("profile.name"),
           value: user.name || "",
         },
         {
           key: "familyName",
-          label: "Family Name",
+          label: t("profile.familyName"),
           value: user?.details?.family_name || "",
         },
         {
           key: "partnerName",
-          label: "Partner Name",
+          label: t("profile.partnerName"),
           value: user?.details?.partner_name || "",
         },
         {
           key: "email",
-          label: "Email",
-          value: user.email || ""
+          label: t("profile.email"),
+          value: user.email || "",
         },
       ]);
       setPendingAvatar(user?.avatar);
@@ -128,12 +130,12 @@ export default function ProfilePage() {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      alert("Please upload an image file");
+      alert(t("profile.uploadErrorImage"));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert("Image size should be less than 5MB");
+      alert(t("profile.uploadErrorSize"));
       return;
     }
     fileUploadTempFolder(
@@ -190,14 +192,14 @@ export default function ProfilePage() {
           setHasChanges(false);
           setPendingAvatar(null);
           refetch();
-          toast.success("Profile updated successfully");
+          toast.success(t("profile.updateSuccess"));
         },
         onError: (error) => {
-          toast.error("Failed to update profile");
+          toast.error(t("profile.updateFailed"));
         },
       });
     } catch (error) {
-      toast.error("An error occurred");
+      toast.error(t("common.error"));
     }
   };
 
@@ -206,21 +208,21 @@ export default function ProfilePage() {
       setProfileDetails([
         {
           key: "name",
-          label: "Name",
+          label: t("profile.name"),
           value: user.name || "",
         },
         {
           key: "familyName",
-          label: "Family Name",
+          label: t("profile.familyName"),
           value: user?.details?.family_name || "",
         },
         {
           key: "partnerName",
-          label: "Partner Name",
+          label: t("profile.partnerName"),
           value: user?.details?.partner_name || "",
         },
 
-        { key: "email", label: "Email", value: user.email || "" },
+        { key: "email", label: t("profile.email"), value: user.email || "" },
       ]);
     }
     setAvatarPreview(null);
@@ -234,7 +236,9 @@ export default function ProfilePage() {
     return (
       <section className="w-full px-4 pt-10 lg:py-20">
         <div className="flex max-w-300 w-full mx-auto bg-soft-white rounded-2xl p-6 lg:p-8 justify-center items-center min-h-[400px]">
-          <p className="text-xl text-popover-foreground">Loading profile...</p>
+          <p className="text-xl text-popover-foreground">
+            {t("profile.loading")}
+          </p>
         </div>
       </section>
     );
@@ -245,7 +249,7 @@ export default function ProfilePage() {
       <section className="w-full px-4 pt-10 lg:py-20">
         <div className="flex section bg-soft-white rounded-2xl p-6 lg:p-8 justify-center items-center min-h-[400px]">
           <p className="text-xl text-popover-foreground">
-            Please login to view your profile
+            {t("profile.loginRequired")}
           </p>
         </div>
       </section>
@@ -306,9 +310,9 @@ export default function ProfilePage() {
             </div>
             <div className="block lg:hidden text-center">
               <p className="text-3xl text-wrap max-w-full font-medium lg:text-left mb-2">
-                {user.name || "Guest User"}
+                {user.name || t("profile.guestUser")}
               </p>
-              <p>Your account is ready, you can now apply for advice.</p>
+              <p>{t("profile.accountReady")}</p>
             </div>
           </div>
         </div>
@@ -325,11 +329,13 @@ export default function ProfilePage() {
         </div>
         <div className="flex items-center justify-between mb-6 md:mb-20">
           <h4 className="text-primary-dark text-3xl font-semibold">
-            Edit profile
+            {t("profile.editProfile")}
           </h4>
           {user?.updatedAt && (
             <p className="hidden lg:block">
-              Last Updated: {new Date(user?.updatedAt).toLocaleDateString()}
+              {t("profile.lastUpdated", {
+                date: new Date(user?.updatedAt).toLocaleDateString(),
+              })}
             </p>
           )}
         </div>
@@ -338,7 +344,7 @@ export default function ProfilePage() {
           <div className="flex-1 w-full lg:max-w-1/2 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <p className="hidden lg:block text-3xl text-wrap max-w-full font-medium text-center lg:text-left">
-                {user.name || "Guest User"}
+                {user.name || t("profile.guestUser")}
               </p>
 
               <Form {...form}>
@@ -349,10 +355,10 @@ export default function ProfilePage() {
                         control={form.control}
                         name={
                           item.key as
-                          | "name"
-                          | "familyName"
-                          | "partnerName"
-                          | "email"
+                            | "name"
+                            | "familyName"
+                            | "partnerName"
+                            | "email"
                         } // Fix: use the actual field name
                         render={({ field }) => (
                           <FormItem className="mb-3 sm:mb-4 lg:mb-2">
@@ -387,14 +393,14 @@ export default function ProfilePage() {
                   isLoading={profileUpdatePending}
                   className="flex-1 bg-primary text-white py-3 rounded-full hover:bg-primary/90 transition"
                 >
-                  Save All Changes
+                  {t("profile.saveChanges")}
                 </Button>
                 <Button
                   onClick={handleCancel}
                   variant={"purple"}
                   className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-full hover:bg-gray-400 transition"
                 >
-                  Cancel All
+                  {t("profile.cancelAll")}
                 </Button>
               </div>
             )}
@@ -403,137 +409,151 @@ export default function ProfilePage() {
           {/* Right Section */}
           <div className="flex-1 w-full lg:max-w-1/2 flex flex-col gap-6 text-popover-foreground">
             <h4 className="text-3xl text-wrap max-w-full font-medium text-left">
-              My Profiles
+              {t("profile.myProfiles")}
             </h4>
 
             <div className="flex flex-col gap-4">
-              {babyProfiles.length > 0 ? (babyProfiles.map((profile, index) => (
-                <div
-                  key={index}
-                  className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
-                >
-                  <div className="flex flex-wrap items-center justify-center gap-2 py-6">
-                    <BabyPercentage
-                      percentage={
-                        user?.details?.current_pregnancy_data?.percentage || 0
-                      }
-                      profile={profile}
-                    />
+              {babyProfiles.length > 0 ? (
+                babyProfiles.map((profile, index) => (
+                  <div
+                    key={index}
+                    className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
+                  >
+                    <div className="flex flex-wrap items-center justify-center gap-2 py-6">
+                      <BabyPercentage
+                        percentage={
+                          user?.details?.current_pregnancy_data?.percentage || 0
+                        }
+                        profile={profile}
+                      />
 
-                    <div className="mx-auto text-center lg:text-left">
-                      <p className="text-lg lg:text-2xl">Pregnant</p>
-                      <p className="text-lg lg:text-2xl mb-4">
-                        <span className="text-primary">
-                          {profile.upcoming ? "Been Pregnant" : profile.name}
-                        </span>
-                        :
-                        {profile.upcoming
-                          ? `${user?.details?.current_pregnancy_data?.week || 0
-                          } week ${user?.details?.current_pregnancy_data?.day || 0
-                          } days`
-                          : "Newborn"}
-                      </p>
+                      <div className="mx-auto text-center lg:text-left">
+                        <p className="text-lg lg:text-2xl">
+                          {t("profile.pregnant")}
+                        </p>
+                        <p className="text-lg lg:text-2xl mb-4">
+                          <span className="text-primary">
+                            {profile.upcoming
+                              ? t("profile.beenPregnant")
+                              : profile.name}
+                          </span>
+                          :
+                          {profile.upcoming
+                            ? `${
+                                user?.details?.current_pregnancy_data?.week || 0
+                              } ${t("pregnancy.weeks")} ${
+                                user?.details?.current_pregnancy_data?.day || 0
+                              } ${t("pregnancy.days")}`
+                            : t("profile.newborn")}
+                        </p>
 
-                      {/* Actions */}
-                      <div className="flex items-center justify-center lg:justify-start gap-2">
-                        {/* Edit Baby Profile */}
-                        <AppDialog
-                          title="Edit Baby Profile"
-                          customTrigger={
-                            <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
-                              <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
-                              <span className="text-sm">Edit</span>
-                            </button>
+                        {/* Actions */}
+                        <div className="flex items-center justify-center lg:justify-start gap-2">
+                          {/* Edit Baby Profile */}
+                          <AppDialog
+                            title={t("profile.editBabyProfile")}
+                            customTrigger={
+                              <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
+                                <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
+                                <span className="text-sm">
+                                  {t("profile.edit")}
+                                </span>
+                              </button>
+                            }
+                          >
+                            {(close) => (
+                              <FormProfile
+                                initialData={profile}
+                                onSubmitForDialogAndRefetch={async () => {
+                                  await refetch();
+                                  close();
+                                }}
+                              />
+                            )}
+                          </AppDialog>
+
+                          {/* Delete Baby Profile */}
+                          <button
+                            className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
+                            onClick={() => {
+                              setFormData({ type: "delete", id: profile._id });
+                            }}
+                          >
+                            <Trash2 className="size-4 cursor-pointer mr-2" />
+                            <span className="text-sm">
+                              {t("profile.delete")}
+                            </span>
+                          </button>
+                        </div>
+                        <AlertDialog
+                          open={formData.type == "delete"}
+                          onOpenChange={() =>
+                            setFormData({ type: "default", id: "" })
                           }
                         >
-                          {(close) => (
-                            <FormProfile
-                              initialData={profile}
-                              onSubmitForDialogAndRefetch={async () => {
-                                await refetch();
-                                close();
-                              }}
-                            />
-                          )}
-                        </AppDialog>
+                          {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                {t("profile.deleteConfirmTitle")}
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                {t("profile.deleteConfirmDesc")}
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>
+                                {t("common.cancel")}
+                              </AlertDialogCancel>
+                              <Button
+                                onClick={() => {
+                                  babyDelete(
+                                    { id: formData.id },
+                                    {
+                                      onSuccess: async (data) => {
+                                        await refetch();
+                                        toast.success(
+                                          data?.data?.message ||
+                                            t("profile.deleteSuccess")
+                                        );
+                                        setFormData({
+                                          type: "default",
+                                          id: "",
+                                        });
+                                      },
 
-                        {/* Delete Baby Profile */}
-                        <button
-                          className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
-                          onClick={() => {
-                            setFormData({ type: "delete", id: profile._id });
-                          }}
-                        >
-                          <Trash2 className="size-4 cursor-pointer mr-2" />
-                          <span className="text-sm">Delete</span>
-                        </button>
+                                      onError(error) {
+                                        setFormData({
+                                          type: "default",
+                                          id: "",
+                                        });
+                                      },
+                                    }
+                                  );
+                                }}
+                                disabled={babyDeletePending}
+                              >
+                                {babyDeletePending
+                                  ? t("common.loading")
+                                  : t("common.confirm")}
+                              </Button>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
-                      <AlertDialog
-                        open={formData.type == "delete"}
-                        onOpenChange={() =>
-                          setFormData({ type: "default", id: "" })
-                        }
-                      >
-                        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Delete Baby Profile
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete. This action
-                              cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <Button
-                              onClick={() => {
-                                babyDelete(
-                                  { id: formData.id },
-                                  {
-                                    onSuccess: async (data) => {
-                                      await refetch();
-                                      toast.success(
-                                        data?.data?.message ||
-                                        "Profile deleted successfully"
-                                      );
-                                      setFormData({
-                                        type: "default",
-                                        id: "",
-                                      });
-                                    },
-
-                                    onError(error) {
-                                      setFormData({
-                                        type: "default",
-                                        id: "",
-                                      });
-                                    },
-                                  }
-                                );
-                              }}
-                              disabled={babyDeletePending}
-                            >
-                              {babyDeletePending ? "Loading..." : "Confirm"}
-                            </Button>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
                     </div>
                   </div>
-                </div>
-              ))
+                ))
               ) : (
                 <p className="text-center text-gray-500">
-                  No baby profiles yet
+                  {t("profile.noProfiles")}
                 </p>
               )}
 
               {/* Add Baby Profile (Hidden if last_period_date exists) */}
               {!user?.details?.last_period_date && (
                 <AppDialog
-                  title="Add Baby Profile"
+                  title={t("profile.addBabyProfile")}
                   customTrigger={
                     <div className="flex items-center border bg-light border-gray rounded-full px-4 py-2 cursor-pointer hover:bg-purple-50 transition w-full">
                       <div className="flex-1 flex justify-center lg:justify-start">
@@ -543,7 +563,7 @@ export default function ProfilePage() {
                       </div>
                       <div className="justify-center lg:justify-start w-full xs:w-auto">
                         <span className="lg:text-xl sm:text-xs text-text-dark pl-5">
-                          Add Baby Profile
+                          {t("profile.addBabyProfile")}
                         </span>
                       </div>
                     </div>

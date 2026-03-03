@@ -63,7 +63,7 @@ function OurArticle({ data }: TProps) {
             <SectionHeading>{t("pregnancy.bannerArticle")}</SectionHeading>
           </div>
           <div className="hidden md:block">
-            <Link href="/search-article?page=1&tag=our-articles&week=">
+            <Link href="/search-article?page=1&tag=banner-article&week=">
               <Button variant="default" className="px-6">
                 {t("pregnancy.viewAll")} <ChevronRight className="ml-2" />
               </Button>

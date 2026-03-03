@@ -12,6 +12,7 @@ export default function ExpandableSearchBar({
   placeholder = "Search",
   defaultValue = "",
   isExpanded = false,
+  // isExpanded,
 }: {
   // onSearch?: (term: string) => void;
   onExpandChange?: (expanded: boolean) => void; // 👈 new prop
@@ -21,6 +22,7 @@ export default function ExpandableSearchBar({
 }) {
   const router = useRouter();
   const [expanded, setExpanded] = useState(isExpanded);
+  console.log("👉 ~ ExpandableSearchBar ~ expanded:", expanded);
   const [searchTerm, setSearchTerm] = useState(defaultValue);
   // const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const ref = useRef<HTMLDivElement>(null);
@@ -88,8 +90,9 @@ export default function ExpandableSearchBar({
           if (!expanded || !searchTerm) return;
           handleSearch();
         }}
-        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${expanded ? "w-96 opacity-100" : "w-0 opacity-0"
-          }`}
+        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
+          expanded ? "w-96 opacity-100" : "w-0 opacity-0"
+        }`}
       >
         <Input
           placeholder={placeholder}

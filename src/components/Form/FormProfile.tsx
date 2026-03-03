@@ -13,6 +13,7 @@ import {
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { ChevronDown, Baby, Calendar, User, Weight, Ruler } from "lucide-react";
+// import { useTranslation } from "react-i18next";
 import { DatePicker } from "../ui/DatePicker";
 import {
   DropdownMenu,
@@ -41,11 +42,13 @@ import {
   ProfileFormSchema,
   ProfileFormSchemaType,
 } from "@/app/profile/_types.ts/profile_form_schema";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FormProfile({
   initialData,
   onSubmitForDialogAndRefetch,
 }: FormProfileProps) {
+  const { t } = useTranslation();
   const [profileType, setProfileType] = useState<"upcoming">("upcoming");
   console.log("👉 ~ FormProfile ~ initialData:", initialData);
 
@@ -132,54 +135,90 @@ export default function FormProfile({
     // If primarySource is set, use that to determine the display
     if (primarySource === "lpd" && lastPeriodDate) {
       const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
+      const daysText =
+        days > 0
+          ? t("formProfile.andDays", {
+              count: days,
+              count_plural: days !== 1 ? "s" : "",
+            })
+          : "";
+
       return {
         weeks,
         days,
         source: "lastPeriod",
-        message: `You are ${weeks} week${weeks !== 1 ? "s" : ""} ${
-          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-        } pregnant! 💕`,
+        message: t("formProfile.pregnantMessage", {
+          weeks,
+          weeks_plural: weeks !== 1 ? "s" : "",
+          daysText,
+        }),
       };
     } else if (primarySource === "dd" && dueDate) {
       const { weeks, days } = calculateWeeksFromDueDate(dueDate);
+      const daysText =
+        days > 0
+          ? t("formProfile.andDays", {
+              count: days,
+              count_plural: days !== 1 ? "s" : "",
+            })
+          : "";
+
       return {
         weeks,
         days,
         source: "dueDate",
-        message: `You are approximately ${weeks} week${
-          weeks !== 1 ? "s" : ""
-        } ${
-          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-        } pregnant! 💕`,
+        message: t("formProfile.pregnantMessage", {
+          weeks,
+          weeks_plural: weeks !== 1 ? "s" : "",
+          daysText,
+        }),
       };
     }
 
     // Fallback to default logic if primarySource not set
     if (lastPeriodDate) {
       const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
+      const daysText =
+        days > 0
+          ? t("formProfile.andDays", {
+              count: days,
+              count_plural: days !== 1 ? "s" : "",
+            })
+          : "";
+
       return {
         weeks,
         days,
         source: "lastPeriod",
-        message: `You are ${weeks} week${weeks !== 1 ? "s" : ""} ${
-          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-        } pregnant! 💕`,
+        message: t("formProfile.pregnantMessage", {
+          weeks,
+          weeks_plural: weeks !== 1 ? "s" : "",
+          daysText,
+        }),
       };
     } else if (dueDate) {
       const { weeks, days } = calculateWeeksFromDueDate(dueDate);
+      const daysText =
+        days > 0
+          ? t("formProfile.andDays", {
+              count: days,
+              count_plural: days !== 1 ? "s" : "",
+            })
+          : "";
+
       return {
         weeks,
         days,
         source: "dueDate",
-        message: `You are approximately ${weeks} week${
-          weeks !== 1 ? "s" : ""
-        } ${
-          days > 0 ? `and ${days} day${days !== 1 ? "s" : ""}` : ""
-        } pregnant! 💕`,
+        message: t("formProfile.pregnantMessage", {
+          weeks,
+          weeks_plural: weeks !== 1 ? "s" : "",
+          daysText,
+        }),
       };
     }
     return null;
-  }, [lastPeriodDate, dueDate, primarySource]);
+  }, [lastPeriodDate, dueDate, primarySource, t]);
   console.log(`👉 ~ FormProfile ~ pregnancyInfo:`, pregnancyInfo?.weeks);
 
   useEffect(() => {
@@ -189,8 +228,9 @@ export default function FormProfile({
   return (
     <div className="w-full  md:max-w-md mx-auto bg-soft-white p-4 sm:p-6 rounded-lg shadow-md">
       <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center text-popover-foreground">
-        Create {profileType === "upcoming" ? "Upcoming Baby" : "Newborn"}{" "}
-        Profile
+        {t("formProfile.createTitle", {
+          type: t(`formProfile.${profileType}`),
+        })}
       </h2>
 
       {/* Toggle Profile Type */}
@@ -202,7 +242,7 @@ export default function FormProfile({
           className="flex-1 text-base sm:text-lg"
           onClick={() => setProfileType("upcoming")}
         >
-          Upcoming Baby
+          {t("formProfile.upcoming")}
         </Button>
         {/* <Button
           type="button"
@@ -227,15 +267,15 @@ export default function FormProfile({
                     <div className="text-3xl sm:text-4xl">🎉</div>
                     <div className="flex-1">
                       <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-pink-600 mb-2">
-                        Congratulations!
+                        {t("formProfile.congratulations")}
                       </h3>
                       <p className="text-sm sm:text-base md:text-lg text-gray-700">
                         {pregnancyInfo.message}
                       </p>
                       <p className="text-xs sm:text-sm text-gray-500 mt-1">
                         {pregnancyInfo.source === "lastPeriod"
-                          ? "Based on your last period date"
-                          : "Estimated from your due date"}
+                          ? t("formProfile.lastPeriodSource")
+                          : t("formProfile.dueDateSource")}
                       </p>
                     </div>
                   </div>
@@ -245,7 +285,9 @@ export default function FormProfile({
               <FormField
                 control={form.control}
                 name="lastPeriodDate"
-                rules={{ required: "Due date is required" }}
+                rules={{
+                  required: t("formProfile.validation.dueDateRequired"),
+                }}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -271,7 +313,7 @@ export default function FormProfile({
                               field.onChange(date?.toISOString());
                               setLastChangedField("lpd");
                             }}
-                            placeholder="Last Period Date"
+                            placeholder={t("formProfile.lastPeriodPlaceholder")}
                           />
                         </div>
                       </div>
@@ -283,7 +325,9 @@ export default function FormProfile({
               <FormField
                 control={form.control}
                 name="dueDate"
-                rules={{ required: "Due date is required" }}
+                rules={{
+                  required: t("formProfile.validation.dueDateRequired"),
+                }}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -309,7 +353,7 @@ export default function FormProfile({
                               field.onChange(date?.toISOString());
                               setLastChangedField("dd");
                             }}
-                            placeholder="Due Date"
+                            placeholder={t("formProfile.dueDatePlaceholder")}
                           />
                         </div>
                       </div>
@@ -329,7 +373,7 @@ export default function FormProfile({
             className="w-full text-base sm:text-lg md:text-xl 
                      h-11 sm:h-12 md:h-13 lg:h-14 mt-6"
           >
-            Save Profile
+            {t("formProfile.saveProfile")}
           </Button>
         </form>
       </Form>
