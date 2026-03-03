@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Locale = "en" | "sv";
 
@@ -20,6 +21,7 @@ const translations: Record<Locale, any> = { en, sv };
 export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const router = useRouter();
   const [locale, setLocaleState] = useState<Locale>("en");
   const [mounted, setMounted] = useState(false);
 
@@ -36,8 +38,8 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("familj-locale", newLocale);
     // Set cookie for SSR accessibility
     document.cookie = `familj-locale=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
-    // Force a page reload to refresh both client and server components with the new locale
-    window.location.reload();
+    // Soft refresh to re-render any server components with the new locale
+    router.refresh();
   };
 
   const t = (path: string, variables?: Record<string, any>) => {
