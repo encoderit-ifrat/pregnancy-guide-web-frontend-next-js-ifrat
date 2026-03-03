@@ -1,15 +1,17 @@
-"use client";
+
 
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Spinner } from "@/components/ui/Spinner";
 
 interface WeekSelectorProps {
   currentWeek?: number;
   onWeekChange?: (week: number) => void;
   minWeek?: number;
   maxWeek?: number;
+  isLoading?: boolean;
 }
 
 export default function WeekSelector({
@@ -17,6 +19,7 @@ export default function WeekSelector({
   onWeekChange,
   minWeek = 0,
   maxWeek = 45,
+  isLoading = false,
 }: WeekSelectorProps) {
   const { t } = useTranslation();
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
@@ -73,8 +76,13 @@ export default function WeekSelector({
   };
 
   return (
-    <div className="flex items-center justify-center gap-3 py-6 px-4 md:px-6 md:pt-12">
-      <div className="flex items-center gap-2 sm:gap-3 bg-white rounded-full px-6 md:px-8 py-3 shadow-2xl shadow-primary/40 border border-gray-100">
+    <div className="flex flex-col items-center justify-center gap-3 py-6 px-4 md:px-6 md:pt-12">
+      <div
+        className={cn(
+          "flex items-center gap-2 sm:gap-3 bg-white rounded-full px-6 md:px-8 py-3 shadow-2xl shadow-primary/40 border border-gray-100 transition-all duration-300 ease-out",
+          isLoading && "scale-[1.02] ring-2 ring-primary/30 shadow-primary/70"
+        )}
+      >
         {/* Previous Button */}
         <button
           onClick={handlePrevious}
@@ -100,7 +108,9 @@ export default function WeekSelector({
               selectedWeek === week
                 ? "bg-primary text-white shadow-md"
                 : "bg-primary-light text-primary-dark",
-              selectedWeek == week ? "w-[45px] h-[65px] md:w-[55px] md:h-[72px]" : "w-[41px] h-[59px] md:w-[46px] md:h-[60px]"
+              selectedWeek == week
+                ? "w-[45px] h-[65px] md:w-[55px] md:h-[72px]"
+                : "w-[41px] h-[59px] md:w-[46px] md:h-[60px]"
             )}
           >
             <span className="font-bold text-xs md:text-lg">{week < 10 ? `0${week}` : week}</span>
@@ -123,6 +133,17 @@ export default function WeekSelector({
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
+      {isLoading && (
+        <div className="flex items-center justify-center gap-1.5 mt-1">
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className="h-2 w-2 rounded-full bg-primary animate-bounce"
+              style={{ animationDelay: `${i * 120}ms` }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
