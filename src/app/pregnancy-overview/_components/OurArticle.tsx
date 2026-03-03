@@ -41,9 +41,9 @@ type TProps = {
 
 function OurArticle({ data }: TProps) {
   const { t } = useTranslation();
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
+  // const shuffled = [...data].sort(() => Math.random() - 0.5);
 
-  const [firstArticle, ...rest] = shuffled;
+  const [firstArticle, ...rest] = data;
   const otherArticles = rest.slice(0, 3);
 
   if (!data || data.length === 0) {
