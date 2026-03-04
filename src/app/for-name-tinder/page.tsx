@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, Link2 } from "lucide-react";
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -12,8 +12,8 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { useTranslation } from "@/hooks/useTranslation";
 import IconQuestion from "@/components/svg-icon/icon-question";
 import CreateThreadModal from "./_components/CreateThreadModal";
-import ThreadCard from "./_components/CommunityCard";
-import CommunityCard from "./_components/CommunityCard";
+import ThreadCard from "./_components/MostLiked";
+import MostLiked from "./_components/MostLiked";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import IconMuslim from "@/components/svg-icon/icon-muslim";
 import IconJewish from "@/components/svg-icon/icon-jewish";
@@ -24,6 +24,9 @@ import IconHinduism from "@/components/svg-icon/icon-hinduism";
 import IconBuddhism from "@/components/svg-icon/icon-buddhism";
 import IconLike from "@/components/svg-icon/icon-like";
 import IconLove from "@/components/svg-icon/icon-love";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Image from "next/image";
+import MostViewed from "./_components/MostViewed";
 
 const SAMPLE_THREADS = [
   {
@@ -150,8 +153,10 @@ const items = [
 ];
 export default function Page() {
   const { t } = useTranslation();
+  const [isNext, setIsNext] = useState(true);
   const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("South America");
   return (
     <PageContainer>
       <div className="flex flex-col items-center  min-h-screen">
@@ -202,19 +207,119 @@ export default function Page() {
 
         <div className="w-full max-w-327  pb-20 mx-auto">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
-            <Tabs defaultValue="newest" className="w-full">
-              <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
-                <h2 className="text-[32px] md:text-[42px] font-bold text-primary-color tracking-tight">
-                  {/* {t("threads.communityThreads")} */}
-                  Start Swiping
-                </h2>
-              </div>
-
+            <Tabs defaultValue="liked" className="w-full">
+              {isNext ? (
+                <div className=" space-y-3">
+                  <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+                    {/* {t("threads.communityThreads")} */}
+                    Start Swiping
+                  </h2>
+                  <RadioGroup className="grid-cols-3 text-lg" defaultValue="1">
+                    {/* Credit card */}
+                    <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                      <RadioGroupItem className="sr-only" id={`1`} value="1" />
+                      {/* <RiBankCardLine
+                    aria-hidden="true"
+                    className="opacity-60"
+                    size={20}
+                  /> */}
+                      <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
+                        <Image
+                          src="/boy.png"
+                          alt="boy"
+                          width={50}
+                          height={50}
+                          className="object-cover object-center size-full"
+                        />
+                      </div>
+                      <label
+                        className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
+                        htmlFor={`1`}
+                      >
+                        Boy
+                      </label>
+                    </div>
+                    {/* PayPal */}
+                    <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                      <RadioGroupItem className="sr-only" id={`2`} value="2" />
+                      {/* <RiPaypalLine
+                    aria-hidden="true"
+                    className="opacity-60"
+                    size={20}
+                  /> */}
+                      <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
+                        <Image
+                          src="/girl.png"
+                          alt="girl"
+                          width={50}
+                          height={50}
+                          className="object-cover object-center size-full"
+                        />
+                      </div>
+                      <label
+                        className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
+                        htmlFor={`2`}
+                      >
+                        Girl
+                      </label>
+                    </div>
+                    {/* Apple Pay */}
+                    <div className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                      <RadioGroupItem className="sr-only" id={`3`} value="3" />
+                      {/* <RiAppleLine
+                    aria-hidden="true"
+                    className="opacity-60"
+                    size={20}
+                  /> */}
+                      <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
+                        <Image
+                          src="/genderless.png"
+                          alt="genderless"
+                          width={50}
+                          height={50}
+                          className="object-cover object-center size-full"
+                        />
+                      </div>
+                      <label
+                        className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
+                        htmlFor={`3`}
+                      >
+                        Genderless
+                      </label>
+                    </div>
+                  </RadioGroup>
+                  <Button className="w-fit " onClick={() => setIsNext(false)}>
+                    Next
+                    <ChevronRight className="size-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className=" mb-10">
+                  <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
+                    <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+                      Matched Names
+                    </h2>
+                    <Button
+                      variant="outline"
+                      className="w-fit"
+                      onClick={() => setIsNext(true)}
+                    >
+                      <ChevronLeft className="size-4" />
+                      Back
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
+                    <Link2 />
+                    https://www.familj.se/matched-names/5a6789
+                    <Copy className="ml-auto" />
+                  </div>
+                </div>
+              )}
               {/* {SAMPLE_THREADS.map((thread) => (
                 <ThreadCard key={thread.id} {...thread} />
               ))} */}
-              <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
-                <h2 className="text-[32px] md:text-[42px] font-bold text-primary-color tracking-tight">
+              <div className="flex flex-col md:flex-row justify-between items-center  gap-4  pb-6">
+                <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
                   Community Names
                 </h2>
 
@@ -233,12 +338,12 @@ export default function Page() {
               </div>
               <TabsContent value="liked" className="m-0 flex flex-col gap-6">
                 {SAMPLE_THREADS.map((thread) => (
-                  <CommunityCard key={thread.id} {...thread} />
+                  <MostLiked key={thread.id} {...thread} />
                 ))}
               </TabsContent>
               <TabsContent value="viewed" className="m-0 flex flex-col gap-6">
                 {[...SAMPLE_THREADS].reverse().map((thread) => (
-                  <CommunityCard key={thread.id} {...thread} />
+                  <MostViewed key={thread.id} {...thread} />
                 ))}
               </TabsContent>
             </Tabs>
@@ -248,19 +353,37 @@ export default function Page() {
       <Dialog open={openSwipeDialog} onOpenChange={setOpenSwipeDialog}>
         <DialogContent className="sm:max-w-xl bg-white">
           <SectionHeading className="m-0">Start Swiping</SectionHeading>
-          <div className="grid grid-cols-2 gap-4">
+          <RadioGroup
+            defaultValue={selectedCategory}
+            onValueChange={setSelectedCategory}
+            className="grid grid-cols-2 gap-4"
+          >
             {categories.map((category) => (
               <div
                 key={category.label}
-                className="flex items-center gap-2 border border-primary rounded-md p-2"
+                className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
               >
-                <div className="flex size-15 bg-primary/10 items-center justify-center rounded-md p-2">
+                <RadioGroupItem
+                  className="sr-only"
+                  id={category.label}
+                  value={category.label}
+                />
+                <div className="flex size-12 items-center justify-center rounded-md bg-primary/10 p-2">
                   {category.icon}
                 </div>
-                <p className="text-primary-color text-base">{category.label}</p>
+                <label
+                  className="grow cursor-pointer text-base font-medium text-primary-color after:absolute after:inset-0"
+                  htmlFor={category.label}
+                >
+                  {category.label}
+                </label>
               </div>
             ))}
-          </div>
+          </RadioGroup>
+          <Button className="w-full mt-6">
+            Next
+            <ChevronRight className="size-4" />
+          </Button>
         </DialogContent>
       </Dialog>
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>

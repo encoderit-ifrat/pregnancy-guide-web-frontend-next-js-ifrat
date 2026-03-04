@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight, InfoIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 import ThreadDetailPage from "./ThreadDetailPage";
@@ -21,6 +21,7 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 // import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import IconLike from "@/components/svg-icon/icon-like";
+import IconDelete from "@/components/svg-icon/icon-delete";
 
 interface ThreadCardProps {
   title: string;
@@ -42,7 +43,7 @@ interface ThreadCardProps {
   className?: string;
 }
 
-export default function CommunityCard({
+export default function MostLiked({
   title,
   excerpt,
   createdBy,
