@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
 import ArticleSection from "@/components/base/ArticleSection";
@@ -24,6 +24,7 @@ export default function PregnancyOverview({
 }: PregnancyOverviewProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   const articles = pregnancyData?.articles;
   const questions = pregnancyData?.questions;
@@ -53,12 +54,16 @@ export default function PregnancyOverview({
     setPendingWeek(week);
   };
 
-  // Push URL update only after debounce settles
+  // Push URL update only after debounce settles, and track pending state
   useEffect(() => {
     const params = new URLSearchParams();
     params.set("selected-week", String(debouncedWeek));
-    router.push(`${pathname}?${params.toString()}`);
-  }, [debouncedWeek]);
+    const url = `${pathname}?${params.toString()}`;
+
+    startTransition(() => {
+      router.push(url);
+    });
+  }, [debouncedWeek, pathname, router]);
 
   return (
     <div className="bg-[#F6F0FF]">
@@ -68,6 +73,7 @@ export default function PregnancyOverview({
         onWeekChange={handleWeekChange}
         minWeek={0}
         maxWeek={45}
+        isLoading={isPending}
       />
       <OverviewCategories />
       <PregnancyDetails
