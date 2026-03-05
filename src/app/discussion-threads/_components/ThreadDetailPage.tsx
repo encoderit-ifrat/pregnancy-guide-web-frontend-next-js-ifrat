@@ -2,13 +2,6 @@
 
 import React, {useEffect, useState} from "react";
 
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, X } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -35,6 +28,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import {cn} from "@/lib/utils";
 
 interface Reply {
   id: number;
@@ -64,6 +58,7 @@ interface ThreadDetailPageProps {
   thread?: Thread;
   //children: React.ReactNode;
   onShare?: () => void;
+  isOpen?: boolean;
 }
 
 function ReplyCard({
@@ -150,13 +145,14 @@ export default function ThreadDetailPage({
   lastReply,
   thread,
   onShare,
+                                           isOpen=true
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
   const [replies, setReplies] = useState<ThreadReply[]>([]);
   const [currentStats, setCurrentStats] = useState(stats);
   const [replyContent, setReplyContent] = useState("");
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   const fullDescription = thread?.description || description || "";
 
@@ -169,7 +165,7 @@ export default function ThreadDetailPage({
     useQueryGetThreadReplies({
       threadId,
       params: { sort: "newest" },
-      enabled: isOpen,
+      enabled: true,
     });
 
   useEffect(() => {
@@ -197,7 +193,6 @@ export default function ThreadDetailPage({
     }
   }, [threadDetail, thread]);
 
-  console.log(threadDetail);
   const toggleLike = useMutationToggleThreadLike();
   const createReply = useMutationCreateReply();
   const toggleReplyLike = useMutationToggleReplyLike();
@@ -229,8 +224,10 @@ export default function ThreadDetailPage({
 
   useEffect(() => {
     if (repliesData?.data) {
-      setReplies(repliesData.data);
+      setReplies(repliesData?.data);
     }
+      console.log('repliesData', repliesData)
+      console.log('replies', replies)
   }, [repliesData]);
 
   useEffect(() => {
@@ -480,7 +477,11 @@ export default function ThreadDetailPage({
                   {currentStats.shares} {t("threads.share")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
+              <div className={
+                cn("flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70"
+                , thread?.is_flagged)
+              }
+              >
                 <IconFlag className="size-5" />
                 <span className="text-base font-medium">
                   {t("threads.flag")}
@@ -504,12 +505,12 @@ export default function ThreadDetailPage({
                 </p>
               </div>
             )}
-            <button className="bg-[#9A79F1] hover:bg-[#8B6AE0] text-white px-8 py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors w-full shadow-sm">
-              <span className="font-semibold text-sm">
-                {t("threads.reply")}
-              </span>
-              <ChevronRight className="size-4" />
-            </button>
+            {/*<button className="bg-[#9A79F1] hover:bg-[#8B6AE0] text-white px-8 py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors w-full shadow-sm">*/}
+            {/*  <span className="font-semibold text-sm">*/}
+            {/*    {t("threads.reply")}*/}
+            {/*  </span>*/}
+            {/*  <ChevronRight className="size-4" />*/}
+            {/*</button>*/}
           </div>
         </div>
       </div>
@@ -556,7 +557,6 @@ export default function ThreadDetailPage({
             )}
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+    </div>
   );
 }

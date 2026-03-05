@@ -84,7 +84,7 @@ export const useQueryGetThreadReplies = ({
           params: omitEmpty((params ?? {}) as Record<string, unknown>),
         }
       );
-      return res.data;
+      return res.data.data;
     },
     refetchOnWindowFocus: false,
     enabled: !!threadId && enabled,

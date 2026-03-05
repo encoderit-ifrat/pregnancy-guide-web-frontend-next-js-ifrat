@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight } from "lucide-react";
@@ -159,12 +159,12 @@ export default function ThreadCard({
               </span>
             </div>
             <div
-              className="flex items-center gap-2 text-primary-color"
+              className={cn("flex items-center gap-2 text-primary-color", thread?.is_flagged && 'text-primary')}
               onClick={() => setOpenFlagDialog(true)}
             >
               <IconFlag className="size-4 sm:size-5" />
               <span className="text-sm sm:text-base font-medium">
-                {t("threads.flag")}
+                {thread?.is_flagged ? t("threads.flagged") : t("threads.flag")}
               </span>
             </div>
           </div>
@@ -173,7 +173,8 @@ export default function ThreadCard({
         {/* Right Side Action Area */}
         <div className="w-full sm:w-auto flex flex-col items-center justify-center gap-4 sm:gap-6 sm:pl-9 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
           {lastReply && (
-            <div className="text-center sm:text-left w-full">
+            <div className="text-center sm:text-left w-full"
+            >
               <p className="text-primary-color text-sm sm:text-base font-medium">
                 {t("threads.lastReply")}
               </p>
@@ -182,7 +183,10 @@ export default function ThreadCard({
               </p>
             </div>
           )}
-          <div className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-fit">
+          <div
+            className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-fit"
+            onClick={() => setOpenReadMoreDialog(true)}
+          >
             <span className="font-semibold text-sm">{t("threads.reply")}</span>
             <ChevronRight className="size-4 sm:size-5" />
           </div>
@@ -210,6 +214,7 @@ export default function ThreadCard({
                     onClick={(e) => {
                       e.stopPropagation();
                       onFlag?.();
+                      setOpenFlagDialog(false);
                     }}
             >
               Confirm Flag
@@ -226,9 +231,8 @@ export default function ThreadCard({
             createdBy={createdBy}
             stats={stats}
             lastReply={lastReply}
-          >
-            <div></div>
-          </ThreadDetailPage>
+            thread={thread}
+          />
         </DialogContent>
       </Dialog>
     </Card>

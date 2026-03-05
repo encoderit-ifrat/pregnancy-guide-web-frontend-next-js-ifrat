@@ -57,8 +57,8 @@ export default function PublishedThreadsPage() {
   });
 
   useEffect(() => {
-    if (data?.data) {
-      setThreads(data.data);
+    if (data?.data?.data) {
+      setThreads(data.data.data);
     }
   }, [data]);
 
