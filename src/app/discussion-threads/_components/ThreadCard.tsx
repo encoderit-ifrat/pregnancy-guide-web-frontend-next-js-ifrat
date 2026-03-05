@@ -72,6 +72,7 @@ export default function ThreadCard({
       stats={stats}
       lastReply={lastReply}
       thread={thread}
+      onShare={onShare}
     >
       <Card
         className={cn(
@@ -121,8 +122,8 @@ export default function ThreadCard({
               <div
                 className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity"
                 onClick={(e) => {
-                  e.stopPropagation();
-                  onReply?.();
+                  // e.stopPropagation();
+                  // onReply?.();
                 }}
               >
                 <IconReply className="size-5 fill-[#3D3177]" />

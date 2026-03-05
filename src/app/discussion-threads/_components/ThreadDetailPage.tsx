@@ -63,6 +63,7 @@ interface ThreadDetailPageProps {
   };
   thread?: Thread;
   children: React.ReactNode;
+  onShare?: () => void;
 }
 
 function ReplyCard({
@@ -149,6 +150,7 @@ export default function ThreadDetailPage({
   lastReply,
   thread,
   children,
+  onShare,
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
   const [replies, setReplies] = useState<ThreadReply[]>([]);
@@ -371,7 +373,10 @@ export default function ThreadDetailPage({
                     {currentStats.views} {t("threads.views")}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
+                <div
+                  className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70"
+                  onClick={onShare}
+                >
                   <IconShare className="size-5 fill-[#3D3177]" />
                   <span className="text-base font-medium">
                     {currentStats.shares} {t("threads.share")}
@@ -437,8 +442,7 @@ export default function ThreadDetailPage({
         {/* Scrollable Replies List */}
         <div className="flex-1 overflow-y-auto px-8 pb-10 min-h-0">
           <div className="flex flex-col gap-5 pt-4">
-            {replies.length &&
-              replies.map((reply) => (
+            {replies.length > 0 && replies.map((reply) => (
                 <ReplyCard
                   key={reply._id}
                   reply={reply}
