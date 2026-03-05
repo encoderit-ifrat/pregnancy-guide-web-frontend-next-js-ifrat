@@ -11,6 +11,7 @@ import IconEye from "@/components/svg-icon/icon-eye";
 import IconShare from "@/components/svg-icon/icon-share";
 import IconFlag from "@/components/svg-icon/icon-flag";
 import { Thread } from "../_types/thread_types";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface ThreadCardProps {
   id: string;
@@ -34,6 +35,8 @@ interface ThreadCardProps {
   className?: string;
   onLike?: () => void;
   onReply?: () => void;
+  onFlag?: () => void;
+  onShare?: () => void;
 }
 
 export default function ThreadCard({
@@ -47,8 +50,14 @@ export default function ThreadCard({
   className,
   onLike,
   onReply,
+  onFlag,
+  onShare,
 }: ThreadCardProps) {
   const { t } = useTranslation();
+  const { user } = useCurrentUser();
+
+  const isFlagged = thread?.flags?.includes(user?._id) || false;
+  const isLiked = thread?.likes?.includes(user?._id || "") || false;
 
   const excerpt =
     description && description.length > 200
@@ -95,13 +104,16 @@ export default function ThreadCard({
 
             <div className="flex flex-wrap items-center gap-10">
               <div
-                className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity"
+                className={cn(
+                  "flex items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity",
+                  isLiked ? "text-primary" : "text-primary-color"
+                )}
                 onClick={(e) => {
                   e.stopPropagation();
                   onLike?.();
                 }}
               >
-                <IconLove className="size-5 fill-[#3D3177]" />
+                <IconLove className={cn("size-5", isLiked && "fill-current")} />
                 <span className="text-base font-medium">
                   {stats.likes} {t("threads.like")}
                 </span>
@@ -124,16 +136,34 @@ export default function ThreadCard({
                   {stats.views} {t("threads.views")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity">
+              <div
+                className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onShare?.();
+                }}
+              >
                 <IconShare className="size-5 fill-[#3D3177]" />
                 <span className="text-base font-medium">
                   {t("threads.share")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity">
-                <IconFlag className="size-5" />
+              <div
+                className={cn(
+                  "flex items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity",
+                  isFlagged ? "text-primary" : "text-primary-color"
+                )}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onFlag?.();
+                }}
+              >
+                <IconFlag
+                  fill={isFlagged ? "#FF0000" : "#3D3177"}
+                  className={cn("size-5", isFlagged && "fill-current")}
+                />
                 <span className="text-base font-medium">
-                  {t("threads.flag")}
+                  {isFlagged ? t("threads.flagged") : t("threads.flag")}
                 </span>
               </div>
             </div>

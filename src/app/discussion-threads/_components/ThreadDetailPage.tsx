@@ -19,7 +19,10 @@ import IconReply from "@/components/svg-icon/icon-reply";
 import IconEye from "@/components/svg-icon/icon-eye";
 import IconShare from "@/components/svg-icon/icon-share";
 import { Thread, ThreadReply } from "../_types/thread_types";
-import { useQueryGetThreadReplies } from "../_api/queries/useQueryGetThreads";
+import {
+  useQueryGetThreadDetail,
+  useQueryGetThreadReplies,
+} from "../_api/queries/useQueryGetThreads";
 import {
   useMutationToggleThreadLike,
   useMutationCreateReply,
@@ -140,12 +143,32 @@ export default function ThreadDetailPage({
 
   const threadId = thread?._id || "";
 
+  const { data: threadDetail, refetch: refetchThreadDetail } =
+    useQueryGetThreadDetail(threadId, isOpen);
+
   const { data: repliesData, refetch: refetchReplies } =
     useQueryGetThreadReplies({
       threadId,
       params: { sort: "newest" },
       enabled: isOpen,
     });
+
+  useEffect(() => {
+    if (isOpen && threadId) {
+      refetchThreadDetail();
+    }
+  }, [isOpen, threadId, refetchThreadDetail]);
+
+  useEffect(() => {
+    if (threadDetail) {
+      setCurrentStats({
+        likes: threadDetail.likes_count,
+        replies: threadDetail.replies_count,
+        views: threadDetail.views_count,
+        shares: 0,
+      });
+    }
+  }, [threadDetail]);
 
   const toggleLike = useMutationToggleThreadLike();
   const createReply = useMutationCreateReply();

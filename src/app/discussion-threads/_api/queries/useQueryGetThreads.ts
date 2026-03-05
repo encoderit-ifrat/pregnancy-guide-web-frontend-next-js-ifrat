@@ -47,7 +47,10 @@ export const useQueryGetMyThreads = ({
   });
 };
 
-export const useQueryGetThreadDetail = (id: string) => {
+export const useQueryGetThreadDetail = (
+  id: string,
+  enabled: boolean = true
+) => {
   return useQuery({
     queryKey: ["get-thread-detail", id],
     refetchOnMount: true,
@@ -57,7 +60,7 @@ export const useQueryGetThreadDetail = (id: string) => {
       return res.data;
     },
     refetchOnWindowFocus: false,
-    enabled: !!id,
+    enabled: !!id && enabled,
   });
 };
 

@@ -21,6 +21,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import IconQuestion from "@/components/svg-icon/icon-question";
 import CreateThreadModal from "./_components/CreateThreadModal";
 import ThreadCard from "./_components/ThreadCard";
+import ShareModal from "./_components/ShareModal";
 import { usePusherThreadsSubscription } from "./_hooks/usePusherSubscription";
 import { ThreadSortOption } from "./_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
@@ -54,7 +55,16 @@ export default function Page() {
   const currentSort =
     (searchParams.get("sort") as ThreadSortOption) || "newest";
   const [activeTab, setActiveTab] = useState<ThreadSortOption>(currentSort);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [shareThreadId, setShareThreadId] = useState("");
+  const [shareThreadTitle, setShareThreadTitle] = useState("");
   const queryClient = useQueryClient();
+
+  const handleShare = (threadId: string, title: string) => {
+    setShareThreadId(threadId);
+    setShareThreadTitle(title);
+    setShareModalOpen(true);
+  };
 
   const {
     data,
@@ -106,8 +116,22 @@ export default function Page() {
     },
   });
 
+  const flagMutation = useMutation({
+    mutationFn: (threadId: string) => api.post(`/threads/${threadId}/flag`),
+    onSuccess: () => {
+      toast.success(t("threads.flagSuccess"));
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
+    },
+  });
+
   const handleLike = (threadId: string) => {
     likeMutation.mutate(threadId);
+  };
+
+  const handleFlag = (threadId: string) => {
+    flagMutation.mutate(threadId);
   };
 
   const allThreads =
@@ -230,6 +254,8 @@ export default function Page() {
                       lastReply={thread.lastReply}
                       thread={thread.thread}
                       onLike={() => handleLike(thread.id)}
+                      onFlag={() => handleFlag(thread.id)}
+                      onShare={() => handleShare(thread.id, thread.title)}
                     />
                   ))
                 )}
@@ -254,6 +280,13 @@ export default function Page() {
             </Tabs>
           </div>
         </div>
+
+        <ShareModal
+          open={shareModalOpen}
+          onOpenChange={setShareModalOpen}
+          title={shareThreadTitle}
+          threadId={shareThreadId}
+        />
       </div>
     </PageContainer>
   );

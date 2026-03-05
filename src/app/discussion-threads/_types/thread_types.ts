@@ -9,9 +9,11 @@ export interface Thread {
   title: string;
   description: string;
   author: ThreadAuthor;
+  likes: string[];
   likes_count: number;
   views_count: number;
   replies_count: number;
+  flags: string[];
   flags_count?: number;
   is_flagged?: boolean;
   createdAt: string;

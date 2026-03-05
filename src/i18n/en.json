@@ -260,7 +260,15 @@
     "noMoreThreads": "You've reached the end",
     "errorLiking": "Failed to like thread",
     "errorReplying": "Failed to post reply",
-    "replyAdded": "Reply added successfully!"
+    "replyAdded": "Reply added successfully!",
+    "flagSuccess": "Thread flagged successfully!",
+    "flagged": "Flagged",
+    "errorFlagging": "Failed to flag thread",
+    "shareThread": "Share Thread",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "linkCopied": "Link copied to clipboard!",
+    "copyFailed": "Failed to copy link"
   },
   "pregnancy": {
     "loginRequired": "Please login to view your pregnancy overview.",

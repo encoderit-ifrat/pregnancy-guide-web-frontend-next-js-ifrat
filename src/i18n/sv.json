@@ -260,7 +260,15 @@
     "noMoreThreads": "Du har nått slutet",
     "errorLiking": "Misslyckades med att gilla tråd",
     "errorReplying": "Misslyckades med att posta svar",
-    "replyAdded": "Svar tillagt!"
+    "replyAdded": "Svar tillagt!",
+    "flagSuccess": "Tråden har flaggats!",
+    "flagged": "Flaggad",
+    "errorFlagging": "Misslyckades med att flagga tråd",
+    "shareThread": "Dela tråd",
+    "copyLink": "Kopiera länk",
+    "copied": "Kopierad!",
+    "linkCopied": "Länk kopierad till urklipp!",
+    "copyFailed": "Misslyckades med att kopiera länk"
   },
   "pregnancy": {
     "loginRequired": "Logga in för att se din graviditetsöversikt.",
