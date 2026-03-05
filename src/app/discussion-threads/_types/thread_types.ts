@@ -26,7 +26,9 @@ export interface ThreadReply {
   thread: string;
   content: string;
   author: ThreadAuthor;
+  likes: string[];
   likes_count: number;
+  flags: string[];
   flags_count?: number;
   is_flagged?: boolean;
   createdAt: string;

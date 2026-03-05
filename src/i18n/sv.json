@@ -261,6 +261,7 @@
     "errorLiking": "Misslyckades med att gilla tråd",
     "errorReplying": "Misslyckades med att posta svar",
     "replyAdded": "Svar tillagt!",
+    "replyFlagSuccess": "Svar har flaggats!",
     "flagSuccess": "Tråden har flaggats!",
     "flagged": "Flaggad",
     "errorFlagging": "Misslyckades med att flagga tråd",

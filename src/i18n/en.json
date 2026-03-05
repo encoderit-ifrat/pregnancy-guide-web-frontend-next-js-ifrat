@@ -261,6 +261,7 @@
     "errorLiking": "Failed to like thread",
     "errorReplying": "Failed to post reply",
     "replyAdded": "Reply added successfully!",
+    "replyFlagSuccess": "Reply flagged successfully!",
     "flagSuccess": "Thread flagged successfully!",
     "flagged": "Flagged",
     "errorFlagging": "Failed to flag thread",

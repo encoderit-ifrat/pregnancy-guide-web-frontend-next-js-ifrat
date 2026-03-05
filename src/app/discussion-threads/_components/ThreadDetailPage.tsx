@@ -27,12 +27,14 @@ import {
   useMutationToggleThreadLike,
   useMutationCreateReply,
   useMutationToggleReplyLike,
+  useMutationFlagReply,
 } from "../_api/mutations/useThreadMutations";
 import { usePusherThreadDetailSubscription } from "../_hooks/usePusherSubscription";
 import { formatDistanceToNow, isValid } from "date-fns";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface Reply {
   id: number;
@@ -67,12 +69,16 @@ function ReplyCard({
   reply,
   threadId,
   onReplyLike,
+  onReplyFlag,
 }: {
   reply: ThreadReply;
   threadId: string;
   onReplyLike?: (replyId: string) => void;
+  onReplyFlag?: (replyId: string) => void;
 }) {
   const { t } = useTranslation();
+  const { user } = useCurrentUser();
+
   const createdAtDate = reply.createdAt
     ? new Date(reply.createdAt)
     : new Date();
@@ -80,8 +86,11 @@ function ReplyCard({
     ? formatDistanceToNow(createdAtDate, { addSuffix: true })
     : "";
 
+  const isLiked = reply.likes?.includes(user?._id || "") || false;
+  const isFlagged = reply.flags?.includes(user?._id || "") || false;
+
   return (
-    <div className="w-281 h-31 bg-white rounded-lg overflow-hidden shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] mx-auto">
+    <div className="w-full h-31 bg-white rounded-lg overflow-hidden shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] mx-auto">
       <div className="px-7 h-full flex items-center justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
@@ -105,17 +114,26 @@ function ReplyCard({
             <span className="text-sm font-bold">{t("threads.reply")}</span>
           </div>
           <div
-            className="flex items-center gap-1.5 text-primary-color cursor-pointer hover:opacity-80 transition-opacity"
+            className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
+              isLiked ? "text-red-500" : "text-primary-color"
+            }`}
             onClick={() => onReplyLike?.(reply._id)}
           >
-            <IconLove className="size-5" />
+            <IconLove className={`size-5 ${isLiked ? "fill-current" : ""}`} />
             <span className="text-sm font-bold">
               {reply.likes_count} {t("threads.like")}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 text-primary-color cursor-pointer hover:opacity-80 transition-opacity">
-            <IconFlag className="size-5 " />
-            <span className="text-sm font-bold">{t("threads.flag")}</span>
+          <div
+            className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
+              isFlagged ? "text-red-500" : "text-primary-color"
+            }`}
+            onClick={() => onReplyFlag?.(reply._id)}
+          >
+            <IconFlag className={`size-5 ${isFlagged ? "fill-current" : ""}`} />
+            <span className="text-sm font-bold">
+              {isFlagged ? t("threads.flagged") : t("threads.flag")}
+            </span>
           </div>
         </div>
       </div>
@@ -167,18 +185,26 @@ export default function ThreadDetailPage({
         views: threadDetail.views_count,
         shares: 0,
       });
+    } else if (thread) {
+      setCurrentStats({
+        likes: thread.likes_count,
+        replies: thread.replies_count,
+        views: thread.views_count,
+        shares: 0,
+      });
     }
-  }, [threadDetail]);
+  }, [threadDetail, thread]);
 
   const toggleLike = useMutationToggleThreadLike();
   const createReply = useMutationCreateReply();
   const toggleReplyLike = useMutationToggleReplyLike();
+  const flagReplyMutation = useMutationFlagReply();
 
   const handleReplyLike = async (replyId: string) => {
     if (!threadId) return;
     try {
       const result = await toggleReplyLike.mutateAsync({ threadId, replyId });
-      setReplies((prev) =>
+      setReplies((prev = []) =>
         prev.map((r) =>
           r._id === replyId ? { ...r, likes_count: result.data.likes_count } : r
         )
@@ -188,9 +214,19 @@ export default function ThreadDetailPage({
     }
   };
 
+  const handleReplyFlag = async (replyId: string) => {
+    if (!threadId) return;
+    try {
+      await flagReplyMutation.mutateAsync({ threadId, replyId });
+      toast.success(t("threads.replyFlagSuccess"));
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
+    }
+  };
+
   useEffect(() => {
-    if (repliesData?.data) {
-      setReplies(repliesData.data);
+    if (repliesData?.data?.data) {
+      setReplies(repliesData.data.data);
     }
   }, [repliesData]);
 
@@ -217,7 +253,7 @@ export default function ThreadDetailPage({
     },
     onNewReply: (event) => {
       if (event.reply && (!thread || event.reply.thread === thread._id)) {
-        setReplies((prev) => [event.reply, ...prev]);
+        setReplies((prev = []) => [event.reply, ...prev]);
         setCurrentStats((prev) => ({
           ...prev,
           replies: event.replies_count,
@@ -225,7 +261,7 @@ export default function ThreadDetailPage({
       }
     },
     onReplyLiked: (event) => {
-      setReplies((prev) =>
+      setReplies((prev = []) =>
         prev.map((r) =>
           r._id === event.reply_id
             ? { ...r, likes_count: event.likes_count }
@@ -234,7 +270,7 @@ export default function ThreadDetailPage({
       );
     },
     onReplyDeleted: (event) => {
-      setReplies((prev) => prev.filter((r) => r._id !== event.reply_id));
+      setReplies((prev = []) => prev.filter((r) => r._id !== event.reply_id));
     },
   });
 
@@ -406,6 +442,7 @@ export default function ThreadDetailPage({
                   reply={reply}
                   threadId={threadId}
                   onReplyLike={handleReplyLike}
+                  onReplyFlag={handleReplyFlag}
                 />
               ))}
             {replies.length === 0 && (
