@@ -1,0 +1,87 @@
+import api from "@/lib/axios";
+import { omitEmpty } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import {
+  PaginatedResponse,
+  Thread,
+  ThreadDetailResponse,
+  ThreadRepliesResponse,
+  ThreadQueryParams,
+} from "../_types/thread_types";
+
+export const useQueryGetThreads = ({
+  params,
+}: {
+  params?: ThreadQueryParams;
+}) => {
+  return useQuery({
+    queryKey: ["get-threads", params],
+    refetchOnMount: true,
+    staleTime: 0,
+    queryFn: async () => {
+      const res = await api.get<PaginatedResponse<Thread>>("/threads", {
+        params: omitEmpty(params ?? {}),
+      });
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useQueryGetMyThreads = ({
+  params,
+}: {
+  params?: ThreadQueryParams;
+}) => {
+  return useQuery({
+    queryKey: ["get-my-threads", params],
+    refetchOnMount: true,
+    staleTime: 0,
+    queryFn: async () => {
+      const res = await api.get<PaginatedResponse<Thread>>("/threads/my", {
+        params: omitEmpty(params ?? {}),
+      });
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useQueryGetThreadDetail = (id: string) => {
+  return useQuery({
+    queryKey: ["get-thread-detail", id],
+    refetchOnMount: true,
+    staleTime: 0,
+    queryFn: async () => {
+      const res = await api.get<ThreadDetailResponse>(`/threads/${id}`);
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!id,
+  });
+};
+
+export const useQueryGetThreadReplies = ({
+  threadId,
+  params,
+}: {
+  threadId: string;
+  params?: ThreadQueryParams;
+}) => {
+  return useQuery({
+    queryKey: ["get-thread-replies", threadId, params],
+    refetchOnMount: true,
+    staleTime: 0,
+    queryFn: async () => {
+      const res = await api.get<ThreadRepliesResponse>(
+        `/threads/${threadId}/replies`,
+        {
+          params: omitEmpty(params ?? {}),
+        }
+      );
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!threadId,
+  });
+};

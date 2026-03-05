@@ -8,6 +8,7 @@
     "notFound": "Not Found",
     "cancel": "Cancel",
     "loading": "Loading...",
+    "sending": "Sending...",
     "or": "OR",
     "page": "Page",
     "error": "An error occurred"
@@ -245,7 +246,21 @@
     "inputTitlePlaceholder": "Create your thread title",
     "inputDescriptionLabel": "Description",
     "inputDescriptionPlaceholder": "Write your thread description...",
-    "publishButton": "Publish Thread"
+    "publishButton": "Publish Thread",
+    "fillAllFields": "Please fill in all fields",
+    "titleMinLength": "Title must be at least 3 characters",
+    "descriptionMinLength": "Description must be at least 10 characters",
+    "threadCreated": "Thread created successfully!",
+    "errorCreating": "Failed to create thread",
+    "writeReply": "Write a reply...",
+    "submitReply": "Submit Reply",
+    "noReplies": "No replies yet. Be the first to reply!",
+    "noThreads": "You haven't created any threads yet.",
+    "noThreadsYet": "No threads yet. Be the first to start a discussion!",
+    "noMoreThreads": "You've reached the end",
+    "errorLiking": "Failed to like thread",
+    "errorReplying": "Failed to post reply",
+    "replyAdded": "Reply added successfully!"
   },
   "pregnancy": {
     "loginRequired": "Please login to view your pregnancy overview.",

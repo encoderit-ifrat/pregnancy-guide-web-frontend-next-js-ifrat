@@ -8,6 +8,7 @@
     "notFound": "Hittades inte",
     "cancel": "Avbryt",
     "loading": "Laddar...",
+    "sending": "Skickar...",
     "or": "ELLER",
     "page": "Sida",
     "error": "Ett fel uppstod"
@@ -245,7 +246,21 @@
     "inputTitlePlaceholder": "Skapa din trådtitel",
     "inputDescriptionLabel": "Beskrivning",
     "inputDescriptionPlaceholder": "Skriv din trådbeskrivning...",
-    "publishButton": "Publicera tråd"
+    "publishButton": "Publicera tråd",
+    "fillAllFields": "Fyll i alla fält",
+    "titleMinLength": "Titeln måste vara minst 3 tecken",
+    "descriptionMinLength": "Beskrivningen måste vara minst 10 tecken",
+    "threadCreated": "Tråden skapad!",
+    "errorCreating": "Misslyckades med att skapa tråd",
+    "writeReply": "Skriv ett svar...",
+    "submitReply": "Skicka svar",
+    "noReplies": "Inga svar ännu. Var den första att svara!",
+    "noThreads": "Du har inte skapat några trådar ännu.",
+    "noThreadsYet": "Inga trådar ännu. Var den första att starta en diskussion!",
+    "noMoreThreads": "Du har nått slutet",
+    "errorLiking": "Misslyckades med att gilla tråd",
+    "errorReplying": "Misslyckades med att posta svar",
+    "replyAdded": "Svar tillagt!"
   },
   "pregnancy": {
     "loginRequired": "Logga in för att se din graviditetsöversikt.",
