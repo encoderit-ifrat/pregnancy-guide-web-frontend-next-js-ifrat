@@ -58,69 +58,68 @@ export default function MostViewed({
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
       <Card
         className={cn(
-          "  border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all pt-8 pr-13 pb-10 pl-12",
+          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12",
           className
         )}
       >
-        <div className="flex items-start gap-9">
-          <div className="w-full flex flex-col justify-between space-y-2">
-            <h3 className="text-3xl font-semibold -color">{title}</h3>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+          <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
+              {title}
+            </h3>
 
             {/* Footer Stats Area */}
-            <div className="flex flex-wrap items-center gap-10">
-              <div className="flex items-center gap-2 -color">
-                <IconLove className="size-5 fill-[#3D3177]" />
-                <span className="text-base font-medium">
-                  {stats.likes} {t("threads.like")}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 -color">
-                <IconLike className="size-5 fill-[#3D3177]" />
-                <span className="text-base font-medium">
+            <div className="flex flex-wrap items-center gap-6 sm:gap-10">
+              <div className="flex items-center gap-2 text-primary-color">
+                <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+                <span className="text-sm sm:text-base font-medium">
                   {stats.likes} {t("threads.like")}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
-            <DialogTrigger asChild>
-              <InfoIcon className="size-5 cursor-pointer hover: transition-colors" />
-            </DialogTrigger>
-            <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+          <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-6 pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+            <div className="flex items-center gap-4">
               <DialogTrigger asChild>
-                <IconDelete className="size-5 cursor-pointer hover:text-red-500 transition-colors" />
+                <InfoIcon className="size-5 cursor-pointer text-primary-color hover:text-primary transition-colors" />
               </DialogTrigger>
-              <DialogContent className="sm:max-w-xl text-center bg-white p-8">
-                <SectionHeading className="m-0 text-center text-2xl!">
-                  Remove This Name
-                </SectionHeading>
-                <p className="text-primary-color text-base text-center my-4">
-                  It Will Be deleted forever.
-                </p>
-                <div className="flex items-center justify-center gap-4 mt-6">
-                  <Button
-                    variant="outline"
-                    onClick={() => setOpenDeleteDialog(false)}
-                    className="w-41.25"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="w-41.25"
-                    onClick={() => {
-                      // Handle delete logic here
-                      setOpenDeleteDialog(false);
-                    }}
-                  >
-                    Remove
-                    <ChevronRight className="size-5" />
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-            <IconLove className="size-5" />
-            <IconLike className="size-5" />
+              <Dialog
+                open={openDeleteDialog}
+                onOpenChange={setOpenDeleteDialog}
+              >
+                <DialogTrigger asChild>
+                  <IconDelete className="size-5 cursor-pointer text-gray-500 hover:text-red-500 transition-colors" />
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-xl text-center bg-white p-8">
+                  <SectionHeading className="m-0 text-center text-2xl!">
+                    Remove This Name
+                  </SectionHeading>
+                  <p className="text-primary-color text-base text-center my-4">
+                    It Will Be deleted forever.
+                  </p>
+                  <div className="flex items-center justify-center gap-4 mt-6">
+                    <Button
+                      variant="outline"
+                      onClick={() => setOpenDeleteDialog(false)}
+                      className="w-41.25"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className="w-41.25"
+                      onClick={() => {
+                        // Handle delete logic here
+                        setOpenDeleteDialog(false);
+                      }}
+                    >
+                      Remove
+                      <ChevronRight className="size-5" />
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
         </div>
       </Card>

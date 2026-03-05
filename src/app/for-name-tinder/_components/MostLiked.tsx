@@ -64,36 +64,34 @@ export default function MostLiked({
     // >
     <Card
       className={cn(
-        "  border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all pt-8 pr-13 pb-10 pl-12",
+        "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12",
         className
       )}
     >
-      <div className="flex items-start gap-9">
-        <div className="w-full flex flex-col justify-between space-y-2">
-          <h3 className="text-3xl font-semibold text-primary-color">{title}</h3>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+        <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
+            {title}
+          </h3>
 
           {/* Footer Stats Area */}
-          <div className="flex flex-wrap items-center gap-10">
+          <div className="flex flex-wrap items-center gap-6 sm:gap-10">
             <div className="flex items-center gap-2 text-primary-color">
-              <IconLove className="size-5 fill-[#3D3177]" />
-              <span className="text-base font-medium">
-                {stats.likes} {t("threads.like")}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-primary-color">
-              <IconLike className="size-5 fill-[#3D3177]" />
-              <span className="text-base font-medium">
+              <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+              <span className="text-sm sm:text-base font-medium">
                 {stats.likes} {t("threads.like")}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Right Side Action Area (192x169) */}
-        <Button variant={"outline"}>
-          <span className="font-semibold text-sm">View</span>
-          <ChevronRight className="size-5" />
-        </Button>
+        {/* Right Side Action Area */}
+        <div className="w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+          <Button variant={"outline"} className="w-full sm:w-auto px-8">
+            <span className="font-semibold text-sm">View</span>
+            <ChevronRight className="size-4 sm:size-5" />
+          </Button>
+        </div>
       </div>
     </Card>
     // </ThreadDetailPage>

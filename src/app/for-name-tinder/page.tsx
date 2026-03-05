@@ -160,61 +160,53 @@ export default function Page() {
   return (
     <PageContainer>
       <div className="flex flex-col items-center  min-h-screen">
-        <div className="thread-header mb-16 flex flex-col items-center text-center">
-          {/* Section Label */}
-          <IconHeading
-            // text={t("threads.label")}
-            text={"For Name Tinder"}
-            icon={<IconQuestion />}
-            className="text-primary justify-center"
-          />
+        <SectionHeading className="m-0 text-center text-3xl md:text-4xl lg:text-5xl">
+          For Name Tinder
+        </SectionHeading>
 
-          <SectionHeading className="m-0 text-center">
-            {/* {t("threads.title")} */}
-            For Name Tinder
-          </SectionHeading>
+        <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
+          {/* {t("threads.subtitle")} */}
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book.
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full max-w-2xl mx-auto px-6">
+          <Button
+            onClick={() => setOpenSwipeDialog(true)}
+            // className="flex-1 font-semibold h-12 rounded-full"
+            className="w-61.25"
+          >
+            {/* {t("threads.startThread")} */}
+            Start Swiping
+            <ChevronRight className="size-4" />
+          </Button>
 
-          <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
-            {/* {t("threads.subtitle")} */}
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-2xl mx-auto px-6">
-            <Button
-              onClick={() => setOpenSwipeDialog(true)}
-              // className="flex-1 font-semibold h-12 rounded-full"
-              className="w-61.25"
-            >
-              {/* {t("threads.startThread")} */}
-              Start Swiping
-              <ChevronRight className="size-4" />
-            </Button>
-
-            <Button
-              // className="w-full font-semibold h-12 rounded-full"
-              variant="outline"
-              className="w-61.25"
-              onClick={() => setOpenMatchDialog(true)}
-            >
-              {/* {t("threads.myPublished")} */}
-              View My Matched Name
-              <ChevronRight className="size-4" />
-            </Button>
-          </div>
+          <Button
+            // className="w-full font-semibold h-12 rounded-full"
+            variant="outline"
+            className="w-61.25"
+            onClick={() => setOpenMatchDialog(true)}
+          >
+            {/* {t("threads.myPublished")} */}
+            View My Matched Name
+            <ChevronRight className="size-4" />
+          </Button>
         </div>
 
-        <div className="w-full max-w-327  pb-20 mx-auto">
+        <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
             <Tabs defaultValue="liked" className="w-full">
               {isNext ? (
                 <div className=" space-y-3">
-                  <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+                  <h2 className="text-[24px] sm:text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
                     {/* {t("threads.communityThreads")} */}
                     Start Swiping
                   </h2>
-                  <RadioGroup className="grid-cols-3 text-lg" defaultValue="1">
+                  <RadioGroup
+                    className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg"
+                    defaultValue="1"
+                  >
                     {/* Credit card */}
                     <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                       <RadioGroupItem className="sr-only" id={`1`} value="1" />
@@ -318,8 +310,8 @@ export default function Page() {
               {/* {SAMPLE_THREADS.map((thread) => (
                 <ThreadCard key={thread.id} {...thread} />
               ))} */}
-              <div className="flex flex-col md:flex-row justify-between items-center  gap-4  pb-6">
-                <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+              <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
+                <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-semibold text-primary-color tracking-tight">
                   Community Names
                 </h2>
 

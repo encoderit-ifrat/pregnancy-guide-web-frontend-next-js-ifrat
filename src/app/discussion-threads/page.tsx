@@ -118,18 +118,15 @@ export default function Page() {
           <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
             {t("threads.subtitle")}
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-2xl mx-auto px-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full max-w-2xl mx-auto px-6">
             <CreateThreadModal>
-              <Button className="flex-1 font-semibold h-12 rounded-full">
+              <Button className="w-61.25 font-semibold ">
                 {t("threads.startThread")}
                 <ChevronRight className="size-4" />
               </Button>
             </CreateThreadModal>
-            <Link href="/published-threads" className="flex-1">
-              <Button
-                className="w-full font-semibold h-12 rounded-full"
-                variant="outline"
-              >
+            <Link href="/published-threads">
+              <Button className="w-61.25 font-semibold " variant="outline">
                 {t("threads.myPublished")}
                 <ChevronRight className="size-4" />
               </Button>
@@ -140,8 +137,8 @@ export default function Page() {
         <div className="w-full max-w-327  pb-20 mx-auto">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
             <Tabs defaultValue="newest" className="w-full">
-              <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
-                <h2 className="text-[32px] md:text-[42px] font-bold text-primary-color tracking-tight">
+              <div className="flex flex-col lg:flex-row justify-between items-center mb-6 md:mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
+                <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-bold text-primary-color tracking-tight text-center lg:text-left">
                   {t("threads.communityThreads")}
                 </h2>
 
