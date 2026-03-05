@@ -20,7 +20,7 @@ export const useQueryGetThreads = ({
     staleTime: 0,
     queryFn: async () => {
       const res = await api.get<PaginatedResponse<Thread>>("/threads", {
-        params: omitEmpty(params ?? {}),
+        params: omitEmpty((params ?? {}) as Record<string, unknown>),
       });
       return res.data;
     },
@@ -39,7 +39,7 @@ export const useQueryGetMyThreads = ({
     staleTime: 0,
     queryFn: async () => {
       const res = await api.get<PaginatedResponse<Thread>>("/threads/my", {
-        params: omitEmpty(params ?? {}),
+        params: omitEmpty((params ?? {}) as Record<string, unknown>),
       });
       return res.data;
     },
@@ -81,7 +81,7 @@ export const useQueryGetThreadReplies = ({
       const res = await api.get<ThreadRepliesResponse>(
         `/threads/${threadId}/replies`,
         {
-          params: omitEmpty(params ?? {}),
+          params: omitEmpty((params ?? {}) as Record<string, unknown>),
         }
       );
       return res.data;
