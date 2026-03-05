@@ -178,11 +178,12 @@ export default function ThreadDetailPage({
   }, [isOpen, threadId, refetchThreadDetail]);
 
   useEffect(() => {
-    if (threadDetail) {
+    const detail = threadDetail?.data;
+    if (detail) {
       setCurrentStats({
-        likes: threadDetail.likes_count,
-        replies: threadDetail.replies_count,
-        views: threadDetail.views_count,
+        likes: detail.likes_count,
+        replies: detail.replies_count,
+        views: detail.views_count,
         shares: 0,
       });
     } else if (thread) {
@@ -195,6 +196,7 @@ export default function ThreadDetailPage({
     }
   }, [threadDetail, thread]);
 
+  console.log(threadDetail);
   const toggleLike = useMutationToggleThreadLike();
   const createReply = useMutationCreateReply();
   const toggleReplyLike = useMutationToggleReplyLike();
