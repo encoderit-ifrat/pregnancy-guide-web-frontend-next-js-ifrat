@@ -71,8 +71,8 @@ export default function MyThreadCard({
               {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
             </Badge>
           </div>
-          <button className="text-primary-color hover:bg-[#F6F0FF] p-2 rounded-full transition-colors">
-            <MoreHorizontal className="size-6" />
+          <button className="text-primary-color h-fit w-fit bg-[#F6F0FF] px-2 rounded-full transition-colors">
+            <MoreHorizontal className="h-fit w-fit" />
           </button>
         </div>
 
