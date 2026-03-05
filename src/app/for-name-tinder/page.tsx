@@ -343,28 +343,35 @@ export default function Page() {
         </div>
       </div>
       <Dialog open={openSwipeDialog} onOpenChange={setOpenSwipeDialog}>
-        <DialogContent className="sm:max-w-xl bg-white">
-          <SectionHeading className="m-0">Start Swiping</SectionHeading>
+        <DialogContent className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-6 pt-12">
+          <SectionHeading className="m-0 text-2xl sm:text-3xl">
+            Start Swiping
+          </SectionHeading>
           <RadioGroup
             defaultValue={selectedCategory}
             onValueChange={setSelectedCategory}
-            className="grid grid-cols-2 gap-4"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"
           >
             {categories.map((category) => (
               <div
                 key={category.label}
-                className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
+                className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-3 py-2 sm:py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
               >
                 <RadioGroupItem
                   className="sr-only"
                   id={category.label}
                   value={category.label}
                 />
-                <div className="flex size-12 items-center justify-center rounded-md bg-primary/10 p-2">
-                  {category.icon}
+                <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 p-2 shrink-0">
+                  {React.cloneElement(
+                    category.icon as React.ReactElement,
+                    {
+                      className: "size-6 sm:size-7",
+                    } as any
+                  )}
                 </div>
                 <label
-                  className="grow cursor-pointer text-base font-medium text-primary-color after:absolute after:inset-0"
+                  className="grow cursor-pointer text-sm sm:text-base font-medium text-primary-color after:absolute after:inset-0"
                   htmlFor={category.label}
                 >
                   {category.label}
@@ -372,7 +379,7 @@ export default function Page() {
               </div>
             ))}
           </RadioGroup>
-          <Button className="w-full mt-6">
+          <Button className="w-full mt-8">
             Next
             <ChevronRight className="size-4" />
           </Button>
