@@ -64,9 +64,11 @@ export const useQueryGetThreadDetail = (id: string) => {
 export const useQueryGetThreadReplies = ({
   threadId,
   params,
+  enabled = true,
 }: {
   threadId: string;
   params?: ThreadQueryParams;
+  enabled?: boolean;
 }) => {
   return useQuery({
     queryKey: ["get-thread-replies", threadId, params],
@@ -82,6 +84,6 @@ export const useQueryGetThreadReplies = ({
       return res.data;
     },
     refetchOnWindowFocus: false,
-    enabled: !!threadId,
+    enabled: !!threadId && enabled,
   });
 };

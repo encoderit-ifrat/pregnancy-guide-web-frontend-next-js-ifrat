@@ -15,7 +15,7 @@ import { Thread } from "../_types/thread_types";
 interface ThreadCardProps {
   id: string;
   title: string;
-  excerpt: string;
+  description?: string;
   createdBy: {
     name: string;
     time: string;
@@ -32,23 +32,33 @@ interface ThreadCardProps {
   };
   thread?: Thread;
   className?: string;
+  onLike?: () => void;
+  onReply?: () => void;
 }
 
 export default function ThreadCard({
   id,
   title,
-  excerpt,
+  description,
   createdBy,
   stats,
   lastReply,
   thread,
   className,
+  onLike,
+  onReply,
 }: ThreadCardProps) {
   const { t } = useTranslation();
+
+  const excerpt =
+    description && description.length > 200
+      ? description.substring(0, 200) + "..."
+      : description || "";
+
   return (
     <ThreadDetailPage
       title={title}
-      excerpt={excerpt}
+      description={description}
       createdBy={createdBy}
       stats={stats}
       lastReply={lastReply}
@@ -61,7 +71,6 @@ export default function ThreadCard({
         )}
       >
         <div className="flex items-start gap-9">
-          {/* Left Side Content Area (930x164) */}
           <div className="w-232 h-41 flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-2">
@@ -84,15 +93,26 @@ export default function ThreadCard({
               </p>
             </div>
 
-            {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-10">
-              <div className="flex items-center gap-2 text-primary-color">
+              <div
+                className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLike?.();
+                }}
+              >
                 <IconLove className="size-5 fill-[#3D3177]" />
                 <span className="text-base font-medium">
                   {stats.likes} {t("threads.like")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color">
+              <div
+                className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onReply?.();
+                }}
+              >
                 <IconReply className="size-5 fill-[#3D3177]" />
                 <span className="text-base font-medium">
                   {stats.replies} {t("threads.replies")}
@@ -104,13 +124,13 @@ export default function ThreadCard({
                   {stats.views} {t("threads.views")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color">
+              <div className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity">
                 <IconShare className="size-5 fill-[#3D3177]" />
                 <span className="text-base font-medium">
-                  {stats.shares} {t("threads.share")}
+                  {t("threads.share")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color">
+              <div className="flex items-center gap-2 text-primary-color cursor-pointer hover:opacity-70 transition-opacity">
                 <IconFlag className="size-5" />
                 <span className="text-base font-medium">
                   {t("threads.flag")}
@@ -119,7 +139,6 @@ export default function ThreadCard({
             </div>
           </div>
 
-          {/* Right Side Action Area (192x169) */}
           <div className="w-48 h-42 pl-9 flex flex-col items-center justify-center gap-6">
             {lastReply && (
               <div className="text-center">

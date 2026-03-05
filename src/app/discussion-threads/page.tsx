@@ -1,8 +1,12 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 
 import { Button } from "@/components/ui/Button";
@@ -18,11 +22,12 @@ import IconQuestion from "@/components/svg-icon/icon-question";
 import CreateThreadModal from "./_components/CreateThreadModal";
 import ThreadCard from "./_components/ThreadCard";
 import { usePusherThreadsSubscription } from "./_hooks/usePusherSubscription";
-import { Thread, ThreadSortOption } from "./_types/thread_types";
+import { ThreadSortOption } from "./_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
 import Loading from "../loading";
 import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
+import { toast } from "sonner";
 
 const PAGE_LIMIT = 4;
 
@@ -43,20 +48,32 @@ const fetchThreads = async ({
   return res.data;
 };
 
-function ThreadList({ sort }: { sort: ThreadSortOption }) {
+export default function Page() {
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const currentSort =
+    (searchParams.get("sort") as ThreadSortOption) || "newest";
+  const [activeTab, setActiveTab] = useState<ThreadSortOption>(currentSort);
+  const queryClient = useQueryClient();
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["get-threads", sort],
-      queryFn: ({ pageParam = 1 }) => fetchThreads({ pageParam, sort }),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        if (!lastPage?.pagination) return undefined;
-        const { current_page, last_page } = lastPage.pagination;
-        return current_page < last_page ? current_page + 1 : undefined;
-      },
-    });
+  const {
+    data,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["get-threads", activeTab],
+    queryFn: ({ pageParam = 1 }) =>
+      fetchThreads({ pageParam, sort: activeTab }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage: any) => {
+      if (!lastPage?.pagination) return undefined;
+      const { current_page, last_page } = lastPage.pagination;
+      return current_page < last_page ? current_page + 1 : undefined;
+    },
+  });
 
   const { ref: loadMoreRef, inView } = useInView();
 
@@ -66,24 +83,49 @@ function ThreadList({ sort }: { sort: ThreadSortOption }) {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const allThreads = data?.pages.flatMap((page) => page.data || []) || [];
+  const handleNewThread = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
-  const formattedThreads = allThreads.map((thread: Thread) => {
+  const handleThreadDeleted = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  usePusherThreadsSubscription({
+    onNewThread: handleNewThread,
+    onThreadDeleted: handleThreadDeleted,
+  });
+
+  const likeMutation = useMutation({
+    mutationFn: (threadId: string) => api.post(`/threads/${threadId}/like`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || t("threads.errorLiking"));
+    },
+  });
+
+  const handleLike = (threadId: string) => {
+    likeMutation.mutate(threadId);
+  };
+
+  const allThreads =
+    data?.pages?.flatMap((page: any) => page?.data?.data || page?.data || []) ||
+    [];
+
+  const formattedThreads = allThreads.map((thread: any) => {
     const createdAtDate = thread.createdAt
       ? new Date(thread.createdAt)
       : new Date();
     const timeAgo = isValid(createdAtDate)
       ? formatDistanceToNow(createdAtDate, { addSuffix: true })
       : "";
-    const description = thread.description || "";
 
     return {
       id: thread._id,
       title: thread.title || "",
-      excerpt:
-        description.length > 200
-          ? description.substring(0, 200) + "..."
-          : description,
+      description: thread.description || "",
       createdBy: {
         name: thread.author?.name || "Anonymous",
         time: timeAgo,
@@ -99,80 +141,13 @@ function ThreadList({ sort }: { sort: ThreadSortOption }) {
     };
   });
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value as ThreadSortOption);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
-
-  return (
-    <>
-      <div className="m-0 flex flex-col gap-6">
-        {formattedThreads.length === 0 ? (
-          <p className="text-center text-primary-color opacity-60 py-8">
-            {t("threads.noThreadsYet")}
-          </p>
-        ) : (
-          formattedThreads.map((thread: any) => (
-            <ThreadCard
-              key={thread.id}
-              id={thread.id}
-              title={thread.title}
-              excerpt={thread.excerpt}
-              createdBy={thread.createdBy}
-              stats={thread.stats}
-              lastReply={thread.lastReply}
-              thread={thread.thread}
-            />
-          ))
-        )}
-      </div>
-
-      <div ref={loadMoreRef} className="w-full flex justify-center py-4">
-        {isFetchingNextPage && (
-          <div className="flex items-center gap-2 text-primary-color">
-            <Loading />
-            <span>{t("common.loading")}</span>
-          </div>
-        )}
-        {!hasNextPage && formattedThreads.length > 0 && (
-          <p className="text-primary-color opacity-60">
-            {t("threads.noMoreThreads")}
-          </p>
-        )}
-      </div>
-    </>
-  );
-}
-
-export default function Page() {
-  const { t } = useTranslation();
-  const searchParams = useSearchParams();
-  const currentSort =
-    (searchParams.get("sort") as ThreadSortOption) || "newest";
-
-  const { refetch } = useInfiniteQuery({
-    queryKey: ["get-threads", currentSort],
-    queryFn: ({ pageParam = 1 }) =>
-      fetchThreads({ pageParam, sort: currentSort }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      if (!lastPage?.pagination) return undefined;
-      const { current_page, last_page } = lastPage.pagination;
-      return current_page < last_page ? current_page + 1 : undefined;
-    },
-  });
-
-  const handleNewThread = useCallback(() => {
-    refetch();
-  }, [refetch]);
-
-  const handleThreadDeleted = useCallback(() => {
-    refetch();
-  }, [refetch]);
-
-  usePusherThreadsSubscription({
-    onNewThread: handleNewThread,
-    onThreadDeleted: handleThreadDeleted,
-  });
 
   return (
     <PageContainer>
@@ -212,7 +187,11 @@ export default function Page() {
 
         <div className="w-full max-w-327 pb-20 mx-auto">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
-            <Tabs defaultValue={currentSort} className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={handleTabChange}
+              className="w-full"
+            >
               <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
                 <h2 className="text-[32px] md:text-[42px] font-bold text-primary-color tracking-tight">
                   {t("threads.communityThreads")}
@@ -234,15 +213,44 @@ export default function Page() {
                 </TabsList>
               </div>
 
-              <TabsContent value="most_liked">
-                <ThreadList sort="most_liked" />
-              </TabsContent>
-              <TabsContent value="most_viewed">
-                <ThreadList sort="most_viewed" />
-              </TabsContent>
-              <TabsContent value="newest">
-                <ThreadList sort="newest" />
-              </TabsContent>
+              <div className="m-0 flex flex-col gap-6">
+                {formattedThreads.length === 0 ? (
+                  <p className="text-center text-primary-color opacity-60 py-8">
+                    {t("threads.noThreadsYet")}
+                  </p>
+                ) : (
+                  formattedThreads.map((thread: any) => (
+                    <ThreadCard
+                      key={thread.id}
+                      id={thread.id}
+                      title={thread.title}
+                      description={thread.description}
+                      createdBy={thread.createdBy}
+                      stats={thread.stats}
+                      lastReply={thread.lastReply}
+                      thread={thread.thread}
+                      onLike={() => handleLike(thread.id)}
+                    />
+                  ))
+                )}
+              </div>
+
+              <div
+                ref={loadMoreRef}
+                className="w-full flex justify-center py-4"
+              >
+                {isFetchingNextPage && (
+                  <div className="flex items-center gap-2 text-primary-color">
+                    <Loading />
+                    <span>{t("common.loading")}</span>
+                  </div>
+                )}
+                {!hasNextPage && formattedThreads.length > 0 && (
+                  <p className="text-primary-color opacity-60">
+                    {t("threads.noMoreThreads")}
+                  </p>
+                )}
+              </div>
             </Tabs>
           </div>
         </div>

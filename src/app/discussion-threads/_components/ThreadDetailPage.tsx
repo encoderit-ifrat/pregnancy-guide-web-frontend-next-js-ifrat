@@ -41,7 +41,7 @@ interface Reply {
 
 interface ThreadDetailPageProps {
   title: string;
-  excerpt: string;
+  description?: string;
   createdBy: {
     name: string;
     time: string;
@@ -122,7 +122,7 @@ function ReplyCard({
 
 export default function ThreadDetailPage({
   title,
-  excerpt,
+  description,
   createdBy,
   stats,
   lastReply,
@@ -136,12 +136,15 @@ export default function ThreadDetailPage({
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const fullDescription = thread?.description || description || "";
+
   const threadId = thread?._id || "";
 
   const { data: repliesData, refetch: refetchReplies } =
     useQueryGetThreadReplies({
       threadId,
       params: { sort: "newest" },
+      enabled: isOpen,
     });
 
   const toggleLike = useMutationToggleThreadLike();
@@ -279,10 +282,7 @@ export default function ThreadDetailPage({
 
                 <div className="mb-6">
                   <p className="text-primary-color text-base leading-relaxed">
-                    {excerpt}{" "}
-                    <span className="text-[#9679E1] text-base cursor-pointer hover:underline">
-                      {t("articles.readMore")}
-                    </span>
+                    {fullDescription}
                   </p>
                 </div>
               </div>
@@ -376,14 +376,15 @@ export default function ThreadDetailPage({
         {/* Scrollable Replies List */}
         <div className="flex-1 overflow-y-auto px-8 pb-10 min-h-0">
           <div className="flex flex-col gap-5 pt-4">
-            {replies.map((reply) => (
-              <ReplyCard
-                key={reply._id}
-                reply={reply}
-                threadId={threadId}
-                onReplyLike={handleReplyLike}
-              />
-            ))}
+            {replies.length &&
+              replies.map((reply) => (
+                <ReplyCard
+                  key={reply._id}
+                  reply={reply}
+                  threadId={threadId}
+                  onReplyLike={handleReplyLike}
+                />
+              ))}
             {replies.length === 0 && (
               <p className="text-center text-primary-color opacity-60 py-8">
                 {t("threads.noReplies")}

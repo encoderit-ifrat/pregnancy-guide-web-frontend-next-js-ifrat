@@ -22,7 +22,6 @@ export default function ExpandableSearchBar({
 }) {
   const router = useRouter();
   const [expanded, setExpanded] = useState(isExpanded);
-  console.log("👉 ~ ExpandableSearchBar ~ expanded:", expanded);
   const [searchTerm, setSearchTerm] = useState(defaultValue);
   // const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const ref = useRef<HTMLDivElement>(null);

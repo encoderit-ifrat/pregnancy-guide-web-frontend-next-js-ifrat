@@ -15,7 +15,7 @@ import { Thread } from "../_types/thread_types";
 
 interface MyThreadCardProps {
   title: string;
-  excerpt: string;
+  description?: string;
   createdBy: {
     name: string;
     time: string;
@@ -36,7 +36,7 @@ interface MyThreadCardProps {
 
 export default function MyThreadCard({
   title,
-  excerpt,
+  description,
   createdBy,
   stats,
   lastReply,
@@ -44,10 +44,16 @@ export default function MyThreadCard({
   className,
 }: MyThreadCardProps) {
   const { t } = useTranslation();
+
+  const excerpt =
+    description && description.length > 200
+      ? description.substring(0, 200) + "..."
+      : description || "";
+
   return (
     <ThreadDetailPage
       title={title}
-      excerpt={excerpt}
+      description={description}
       createdBy={createdBy}
       stats={stats}
       lastReply={lastReply}

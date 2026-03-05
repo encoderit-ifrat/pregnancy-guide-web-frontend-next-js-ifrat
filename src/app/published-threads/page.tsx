@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -12,10 +12,7 @@ import IconQuestion from "@/components/svg-icon/icon-question";
 import MyThreadCard from "../discussion-threads/_components/MyThreadCard";
 import { useQueryGetMyThreads } from "../discussion-threads/_api/queries/useQueryGetThreads";
 import { usePusherThreadsSubscription } from "../discussion-threads/_hooks/usePusherSubscription";
-import {
-  Thread,
-  ThreadSortOption,
-} from "../discussion-threads/_types/thread_types";
+import { Thread } from "../discussion-threads/_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
 import Loading from "../loading";
 
@@ -26,23 +23,19 @@ const formatThreadForCard = (thread: Thread) => {
   const timeAgo = isValid(createdAtDate)
     ? formatDistanceToNow(createdAtDate, { addSuffix: true })
     : "";
-  const description = thread.description || "";
 
   return {
     id: thread._id,
     title: thread.title || "",
-    excerpt:
-      description.length > 200
-        ? description.substring(0, 200) + "..."
-        : description,
+    description: thread.description || "",
     createdBy: {
       name: thread.author?.name || "Anonymous",
       time: timeAgo,
     },
     stats: {
-      likes: thread.likes_count,
-      replies: thread.replies_count,
-      views: thread.views_count,
+      likes: thread.likes_count || 0,
+      replies: thread.replies_count || 0,
+      views: thread.views_count || 0,
       shares: 0,
     },
     lastReply: undefined,
@@ -94,13 +87,11 @@ export default function PublishedThreadsPage() {
   }
 
   const formattedThreads = threads.map(formatThreadForCard);
-  const pagination = data?.pagination;
 
   return (
     <PageContainer>
       <div className="flex flex-col items-center min-h-screen">
         <div className="thread-header mb-6 flex flex-col items-center text-center">
-          {/* Section Label */}
           <IconHeading
             text={t("threads.label")}
             icon={<IconQuestion />}
@@ -117,7 +108,6 @@ export default function PublishedThreadsPage() {
         </div>
 
         <div className="w-full max-w-6xl bg-white rounded-4xl shadow-sm overflow-hidden px-9 pt-10 pb-6">
-          {/* Header Area */}
           <div className="flex items-center justify-between mb-12">
             <h1 className="text-5xl font-semibold text-[#3D3177]">
               {t("threads.myPublished")}
@@ -134,16 +124,16 @@ export default function PublishedThreadsPage() {
             </Button>
           </div>
 
-          {/* Threads List */}
           <div className="flex flex-col">
             {formattedThreads.map((thread) => (
               <MyThreadCard
                 key={thread.id}
                 title={thread.title}
-                excerpt={thread.excerpt}
+                description={thread.description}
                 createdBy={thread.createdBy}
                 stats={thread.stats}
                 lastReply={thread.lastReply}
+                thread={thread.thread}
               />
             ))}
             {formattedThreads.length === 0 && (
