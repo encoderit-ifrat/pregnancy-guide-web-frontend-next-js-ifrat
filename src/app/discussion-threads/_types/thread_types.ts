@@ -52,9 +52,9 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export type ThreadDetailResponse = Thread;
+export type ThreadDetailResponse = ApiResponse<Thread>;
 
-export type ThreadRepliesResponse = PaginatedResponse<ThreadReply>;
+export type ThreadRepliesResponse = ApiResponse<PaginatedResponse<ThreadReply>>;
 
 export interface CreateThreadDto {
   title: string;

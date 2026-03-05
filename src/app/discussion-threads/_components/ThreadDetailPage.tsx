@@ -190,12 +190,11 @@ export default function ThreadDetailPage({
   }, [isOpen, threadId, refetchThreadDetail]);
 
   useEffect(() => {
-    const detail = threadDetail;
-    if (detail) {
+    if (threadDetail?.data) {
       setCurrentStats({
-        likes: detail.likes_count,
-        replies: detail.replies_count,
-        views: detail.views_count,
+        likes: threadDetail.data.likes_count,
+        replies: threadDetail.data.replies_count,
+        views: threadDetail.data.views_count,
         shares: 0,
       });
     } else if (thread) {
@@ -244,17 +243,6 @@ export default function ThreadDetailPage({
       ) || [];
     setReplies(allReplies);
   }, [repliesInfiniteData]);
-
-  useEffect(() => {
-    if (thread) {
-      setCurrentStats({
-        likes: thread.likes_count,
-        replies: thread.replies_count,
-        views: thread.views_count,
-        shares: 0,
-      });
-    }
-  }, [thread]);
 
   usePusherThreadDetailSubscription({
     threadId,
