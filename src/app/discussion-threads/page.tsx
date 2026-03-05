@@ -30,7 +30,7 @@ import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
 import { toast } from "sonner";
 
-const PAGE_LIMIT = 4;
+const PAGE_LIMIT = 1;
 
 const fetchThreads = async ({
   pageParam = 1,
@@ -79,8 +79,8 @@ export default function Page() {
       fetchThreads({ pageParam, sort: activeTab }),
     initialPageParam: 1,
     getNextPageParam: (lastPage: any) => {
-      if (!lastPage?.pagination) return undefined;
-      const { current_page, last_page } = lastPage.pagination;
+      if (!lastPage?.data?.pagination) return undefined;
+      const { current_page, last_page } = lastPage.data.pagination;
       return current_page < last_page ? current_page + 1 : undefined;
     },
   });
@@ -192,7 +192,7 @@ export default function Page() {
             {t("threads.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full max-w-2xl mx-auto px-6">
-            <CreateThreadModal  onSuccess={() => refetch()}>
+            <CreateThreadModal onSuccess={() => refetch()}>
               <Button className="w-61.25 font-semibold ">
                 {t("threads.startThread")}
                 <ChevronRight className="size-4" />
@@ -209,9 +209,11 @@ export default function Page() {
 
         <div className="w-full max-w-327  pb-20 mx-auto">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
-            <Tabs defaultValue="newest" className="w-full"
-                  value={activeTab}
-                  onValueChange={handleTabChange}
+            <Tabs
+              defaultValue="newest"
+              className="w-full"
+              value={activeTab}
+              onValueChange={handleTabChange}
             >
               <div className="flex flex-col lg:flex-row justify-between items-center mb-6 md:mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
                 <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-bold text-primary-color tracking-tight text-center lg:text-left">
@@ -223,14 +225,14 @@ export default function Page() {
                   className="bg-white shadow-sm border border-white text-primary-color w-full sm:w-fit grid grid-cols-3 sm:flex h-auto sm:h-11 p-1"
                 >
                   <TabsTrigger
-                    value="liked"
+                    value="most_liked"
                     variant="pill"
                     className="px-2 sm:px-6 text-xs sm:text-sm"
                   >
                     {t("threads.mostLiked")}
                   </TabsTrigger>
                   <TabsTrigger
-                    value="viewed"
+                    value="most_viewed"
                     variant="pill"
                     className="px-2 sm:px-6 text-xs sm:text-sm"
                   >
@@ -246,21 +248,6 @@ export default function Page() {
                 </TabsList>
               </div>
 
-              {/*<TabsContent value="liked" className="m-0 flex flex-col gap-6">*/}
-              {/*  {SAMPLE_THREADS.map((thread) => (*/}
-              {/*    <ThreadCard key={thread.id} {...thread} />*/}
-              {/*  ))}*/}
-              {/*</TabsContent>*/}
-              {/*<TabsContent value="viewed" className="m-0 flex flex-col gap-6">*/}
-              {/*  {[...SAMPLE_THREADS].reverse().map((thread) => (*/}
-              {/*    <ThreadCard key={thread.id} {...thread} />*/}
-              {/*  ))}*/}
-              {/*</TabsContent>*/}
-              {/*<TabsContent value="newest" className="m-0 flex flex-col gap-6">*/}
-              {/*  {SAMPLE_THREADS.map((thread) => (*/}
-              {/*    <ThreadCard key={thread.id} {...thread} />*/}
-              {/*  ))}*/}
-              {/*</TabsContent>*/}
               <div className="m-0 flex flex-col gap-6">
                 {formattedThreads.length === 0 ? (
                   <p className="text-center text-primary-color opacity-60 py-8">
@@ -292,7 +279,7 @@ export default function Page() {
                 {isFetchingNextPage && (
                   <div className="flex items-center gap-2 text-primary-color">
                     <Loading />
-                    <span>{t("common.loading")}</span>
+                    {/* <span>{t("common.loading")}</span> */}
                   </div>
                 )}
                 {!hasNextPage && formattedThreads.length > 0 && (
