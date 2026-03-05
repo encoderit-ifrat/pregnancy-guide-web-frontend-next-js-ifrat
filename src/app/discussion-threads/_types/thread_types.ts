@@ -46,6 +46,12 @@ export interface PaginatedResponse<T> {
   };
 }
 
+export interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
 export type ThreadDetailResponse = Thread;
 
 export type ThreadRepliesResponse = PaginatedResponse<ThreadReply>;
