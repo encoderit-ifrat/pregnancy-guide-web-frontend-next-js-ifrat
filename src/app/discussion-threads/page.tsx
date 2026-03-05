@@ -144,15 +144,27 @@ export default function Page() {
 
                 <TabsList
                   variant="pill"
-                  className="bg-white shadow-sm border border-white text-primary-color"
+                  className="bg-white shadow-sm border border-white text-primary-color w-full sm:w-fit grid grid-cols-3 sm:flex h-auto sm:h-11 p-1"
                 >
-                  <TabsTrigger value="liked" variant="pill">
+                  <TabsTrigger
+                    value="liked"
+                    variant="pill"
+                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                  >
                     {t("threads.mostLiked")}
                   </TabsTrigger>
-                  <TabsTrigger value="viewed" variant="pill">
+                  <TabsTrigger
+                    value="viewed"
+                    variant="pill"
+                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                  >
                     {t("threads.mostViewed")}
                   </TabsTrigger>
-                  <TabsTrigger value="newest" variant="pill">
+                  <TabsTrigger
+                    value="newest"
+                    variant="pill"
+                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                  >
                     {t("threads.newest")}
                   </TabsTrigger>
                 </TabsList>
