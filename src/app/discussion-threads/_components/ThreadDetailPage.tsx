@@ -115,7 +115,7 @@ function ReplyCard({
           </div>
           <div
             className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
-              isLiked ? "text-red-500" : "text-primary-color"
+              isLiked ? "text-primary" : "text-primary-color"
             }`}
             onClick={() => onReplyLike?.(reply._id)}
           >
@@ -126,7 +126,7 @@ function ReplyCard({
           </div>
           <div
             className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
-              isFlagged ? "text-red-500" : "text-primary-color"
+              isFlagged ? "text-primary" : "text-primary-color"
             }`}
             onClick={() => onReplyFlag?.(reply._id)}
           >
