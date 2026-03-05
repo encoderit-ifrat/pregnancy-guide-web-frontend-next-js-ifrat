@@ -30,7 +30,7 @@ import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
 import { toast } from "sonner";
 
-const PAGE_LIMIT = 1;
+const PAGE_LIMIT = 4;
 
 const fetchThreads = async ({
   pageParam = 1,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, X } from "lucide-react";
@@ -14,8 +14,9 @@ import IconShare from "@/components/svg-icon/icon-share";
 import { Thread, ThreadReply } from "../_types/thread_types";
 import {
   useQueryGetThreadDetail,
-  useQueryGetThreadReplies,
+  useInfiniteQueryGetThreadReplies,
 } from "../_api/queries/useQueryGetThreads";
+import { useInView } from "react-intersection-observer";
 import {
   useMutationToggleThreadLike,
   useMutationCreateReply,
@@ -28,7 +29,8 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import Loading from "../../loading";
 
 interface Reply {
   id: number;
@@ -76,8 +78,8 @@ function ReplyCard({
   const { user } = useCurrentUser();
 
   const createdAtDate = reply.createdAt
-  ? new Date(reply.createdAt)
-  : new Date();
+    ? new Date(reply.createdAt)
+    : new Date();
   const timeAgo = isValid(createdAtDate)
     ? formatDistanceToNow(createdAtDate, { addSuffix: true })
     : "";
@@ -145,7 +147,7 @@ export default function ThreadDetailPage({
   lastReply,
   thread,
   onShare,
-                                           isOpen=true
+  isOpen = true,
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
   const [replies, setReplies] = useState<ThreadReply[]>([]);
@@ -161,12 +163,25 @@ export default function ThreadDetailPage({
   const { data: threadDetail, refetch: refetchThreadDetail } =
     useQueryGetThreadDetail(threadId, isOpen);
 
-  const { data: repliesData, refetch: refetchReplies } =
-    useQueryGetThreadReplies({
-      threadId,
-      params: { sort: "newest" },
-      enabled: true,
-    });
+  const {
+    data: repliesInfiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch: refetchReplies,
+  } = useInfiniteQueryGetThreadReplies({
+    threadId,
+    params: { sort: "newest" },
+    enabled: true,
+  });
+
+  const { ref: loadMoreRef, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   useEffect(() => {
     if (isOpen && threadId) {
@@ -223,12 +238,12 @@ export default function ThreadDetailPage({
   };
 
   useEffect(() => {
-    if (repliesData?.data) {
-      setReplies(repliesData?.data);
-    }
-      console.log('repliesData', repliesData)
-      console.log('replies', replies)
-  }, [repliesData]);
+    const allReplies =
+      repliesInfiniteData?.pages?.flatMap(
+        (page: any) => page?.data?.data || page?.data || []
+      ) || [];
+    setReplies(allReplies);
+  }, [repliesInfiniteData]);
 
   useEffect(() => {
     if (thread) {
@@ -308,138 +323,27 @@ export default function ThreadDetailPage({
   };
 
   return (
-    //<Dialog open={isOpen} onOpenChange={setIsOpen}>
-    //  <DialogTrigger asChild>{children}</DialogTrigger>
-    //  <DialogContent
-       // className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white"
-    //    showCloseButton={false}
-    //  >
-    //    <DialogTitle className="sr-only">{title}</DialogTitle>
-
-
-       // <DialogPrimitive.Close className="absolute top-6 right-6 size-10 bg-white rounded-full border-4 border-[#3D3177] flex items-center justify-center text-primary-color hover:bg-[#F6F0FF] transition-colors z-15 shadow-sm">
-       //   <X strokeWidth={3} />
-    // </DialogPrimitive.Close>
-
-    //     <div className="shrink-0 px-8 pt-20 pb-6 flex justify-center">
-    //       {/* Thread Header (1146x257) */}
-    //       <div className="w-287 h-64 flex items-start gap-6">
-    //         {/* Left Side (930x257) */}
-    //         <div className="w-232 h-full  rounded-lg p-7 flex flex-col justify-between">
-    //           <div>
-    //             <div className="flex flex-wrap items-center gap-3 mb-4">
-    //               <h2 className="text-3xl font-semibold text-primary-color tracking-tight">
-    //                 {title}
-    //               </h2>
-    //               <Badge
-    //                 variant="outline"
-    //                 className="bg-[#EEE4FD] text-primary-color px-3 py-1 rounded-full text-[11px] font-medium border-none"
-    //               >
-    //                 {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
-    //               </Badge>
-    //             </div>
-
-    //             <div className="mb-6">
-    //               <p className="text-primary-color text-base leading-relaxed">
-    //                 {excerpt}{" "}
-    //                 <span className="text-[#9679E1] text-base cursor-pointer hover:underline">
-    //                   {t("articles.readMore")}
-    //                 </span>
-    //               </p>
-    //             </div>
-    //           </div>
-
-    //           {/* Integrated Stats Area */}
-    //           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6]">
-    //             <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-    //               <IconLove className="size-5 fill-[#3D3177]" />
-    //               <span className="text-base font-medium">
-    //                 {stats.likes} {t("threads.like")}
-    //               </span>
-    //             </div>
-    //             <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-    //               <IconReply className="size-5 fill-[#3D3177]" />
-    //               <span className="text-base font-medium">
-    //                 {stats.replies} {t("threads.replies")}
-    //               </span>
-    //             </div>
-    //             <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-    //               <IconEye className="size-5" />
-    //               <span className="text-base font-medium">
-    //                 {stats.views} {t("threads.views")}
-    //               </span>
-    //             </div>
-    //             <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-    //               <IconShare className="size-5 fill-[#3D3177]" />
-    //               <span className="text-base font-medium">
-    //                 {stats.shares} {t("threads.share")}
-    //               </span>
-    //             </div>
-    //             <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-    //               <IconFlag className="size-5" />
-    //               <span className="text-base font-medium">
-    //                 {t("threads.flag")}
-    //               </span>
-    //             </div>
-    //           </div>
-    //         </div>
-
-    //         {/* Right Side (192x169) */}
-    //         <div className="w-48 h-42 rounded-lg p-5 flex flex-col items-center justify-center gap-6">
-    //           {lastReply && (
-    //             <div className="text-center">
-    //               <p className="text-primary-color text-sm font-medium">
-    //                 {t("threads.lastReply")}
-    //               </p>
-    //               <p className="text-primary-color text-sm font-medium opacity-80">
-    //                 {t("threads.agoBy", {
-    //                   time: lastReply.time,
-    //                   user: lastReply.user,
-    //                 })}
-    //               </p>
-    //             </div>
-    //           )}
-    //           <button className="bg-[#9A79F1] hover:bg-[#8B6AE0] text-white px-8 py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors w-full shadow-sm">
-    //             <span className="font-semibold text-sm">
-    //               {t("threads.reply")}
-    //             </span>
-    //             <ChevronRight className="size-4" />
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </div>
-
-    //     <div className="flex-1 overflow-y-auto px-8 pb-10 min-h-0">
-    //       <div className="flex flex-col gap-5 pt-4">
-    //         {SAMPLE_REPLIES.map((reply) => (
-    //           <ReplyCard key={reply.id} reply={reply} />
-    //         ))}
-    //       </div>
-    //     </div>
-    //   </DialogContent>
-    // </Dialog>
-
     <div
       className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white"
       // showCloseButton={false}
     >
-        <div className="shrink-0 px-8 pt-20 pb-6 flex justify-center">
-          {/* Thread Header (1146x257) */}
-          <div className="w-287 h-64 flex items-start gap-6">
-            {/* Left Side (930x257) */}
-            <div className="w-232 h-full  rounded-lg p-7 flex flex-col justify-between">
-              <div>
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <h2 className="text-3xl font-semibold text-primary-color tracking-tight">
-                    {title}
-                  </h2>
-                  <Badge
-                    variant="outline"
-                    className="bg-[#EEE4FD] text-primary-color px-3 py-1 rounded-full text-[11px] font-medium border-none"
-                  >
-                    {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
-                  </Badge>
-                </div>
+      <div className="shrink-0 px-8 pt-20 pb-6 flex justify-center">
+        {/* Thread Header (1146x257) */}
+        <div className="w-287 h-64 flex items-start gap-6">
+          {/* Left Side (930x257) */}
+          <div className="w-232 h-full  rounded-lg p-7 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-3 mb-4">
+                <h2 className="text-3xl font-semibold text-primary-color tracking-tight">
+                  {title}
+                </h2>
+                <Badge
+                  variant="outline"
+                  className="bg-[#EEE4FD] text-primary-color px-3 py-1 rounded-full text-[11px] font-medium border-none"
+                >
+                  {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
+                </Badge>
+              </div>
 
               <div className="mb-6">
                 <p className="text-primary-color text-base leading-relaxed">
@@ -477,10 +381,11 @@ export default function ThreadDetailPage({
                   {currentStats.shares} {t("threads.share")}
                 </span>
               </div>
-              <div className={
-                cn("flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70"
-                , thread?.is_flagged)
-              }
+              <div
+                className={cn(
+                  "flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70",
+                  thread?.is_flagged
+                )}
               >
                 <IconFlag className="size-5" />
                 <span className="text-base font-medium">
@@ -505,58 +410,65 @@ export default function ThreadDetailPage({
                 </p>
               </div>
             )}
-            {/*<button className="bg-[#9A79F1] hover:bg-[#8B6AE0] text-white px-8 py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors w-full shadow-sm">*/}
-            {/*  <span className="font-semibold text-sm">*/}
-            {/*    {t("threads.reply")}*/}
-            {/*  </span>*/}
-            {/*  <ChevronRight className="size-4" />*/}
-            {/*</button>*/}
           </div>
         </div>
       </div>
-        {/* Reply Form */}
-        {thread && (
-          <div className="px-8 py-4 border-t border-[#F0F0F0]">
-            <form onSubmit={handleReplySubmit} className="flex gap-4">
-              <Textarea
-                value={replyContent}
-                onChange={(e) => setReplyContent(e.target.value)}
-                placeholder={t("threads.writeReply")}
-                className="flex-1 min-h-[80px]"
-              />
-              <Button
-                type="submit"
-                disabled={isSubmittingReply || !replyContent.trim()}
-                className="shrink-0"
-              >
-                {isSubmittingReply
-                  ? t("common.sending")
-                  : t("threads.submitReply")}
-              </Button>
-            </form>
-          </div>
-        )}
+      {/* Reply Form */}
+      {thread && (
+        <div className="px-8 py-4 border-t border-[#F0F0F0]">
+          <form onSubmit={handleReplySubmit} className="flex gap-4">
+            <Textarea
+              value={replyContent}
+              onChange={(e) => setReplyContent(e.target.value)}
+              placeholder={t("threads.writeReply")}
+              className="flex-1 min-h-[80px]"
+            />
+            <Button
+              type="submit"
+              disabled={isSubmittingReply || !replyContent.trim()}
+              className="shrink-0"
+            >
+              {isSubmittingReply
+                ? t("common.sending")
+                : t("threads.submitReply")}
+            </Button>
+          </form>
+        </div>
+      )}
 
-        {/* Scrollable Replies List */}
-        <div className="flex-1 overflow-y-auto px-8 pb-10 min-h-0">
-          <div className="flex flex-col gap-5 pt-4">
-            {replies.length > 0 &&
-              replies.map((reply) => (
-                <ReplyCard
-                  key={reply._id}
-                  reply={reply}
-                  threadId={threadId}
-                  onReplyLike={handleReplyLike}
-                  onReplyFlag={handleReplyFlag}
-                />
-              ))}
-            {replies.length === 0 && (
-              <p className="text-center text-primary-color opacity-60 py-8">
-                {t("threads.noReplies")}
+      {/* Scrollable Replies List */}
+      <div className="flex-1 overflow-y-auto px-8 pb-10 min-h-0">
+        <div className="flex flex-col gap-5 pt-4">
+          {replies.length > 0 &&
+            replies.map((reply) => (
+              <ReplyCard
+                key={reply._id}
+                reply={reply}
+                threadId={threadId}
+                onReplyLike={handleReplyLike}
+                onReplyFlag={handleReplyFlag}
+              />
+            ))}
+          {replies.length === 0 && (
+            <p className="text-center text-primary-color opacity-60 py-8">
+              {t("threads.noReplies")}
+            </p>
+          )}
+
+          <div ref={loadMoreRef} className="w-full flex justify-center py-4">
+            {isFetchingNextPage && (
+              <div className="flex items-center gap-2 text-primary-color">
+                <Loading />
+              </div>
+            )}
+            {!hasNextPage && replies.length > 0 && (
+              <p className="text-primary-color opacity-60 text-center">
+                {t("threads.noMoreThreads")}
               </p>
             )}
           </div>
         </div>
+      </div>
     </div>
   );
 }

@@ -10,8 +10,9 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { useTranslation } from "@/hooks/useTranslation";
 import IconQuestion from "@/components/svg-icon/icon-question";
 import MyThreadCard from "../discussion-threads/_components/MyThreadCard";
-import { useQueryGetMyThreads } from "../discussion-threads/_api/queries/useQueryGetThreads";
+import { useInfiniteQueryGetMyThreads } from "../discussion-threads/_api/queries/useQueryGetThreads";
 import { usePusherThreadsSubscription } from "../discussion-threads/_hooks/usePusherSubscription";
+import { useInView } from "react-intersection-observer";
 import { Thread } from "../discussion-threads/_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
 import Loading from "../loading";
@@ -46,28 +47,44 @@ const formatThreadForCard = (thread: Thread) => {
 export default function PublishedThreadsPage() {
   const { t } = useTranslation();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") || "1";
-
   const [threads, setThreads] = useState<Thread[]>([]);
-  const [currentPage, setCurrentPage] = useState(Number(page));
-
-  const { data, isLoading, isFetching, refetch } = useQueryGetMyThreads({
-    params: { page: currentPage.toString() },
+  const {
+    data: infiniteData,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQueryGetMyThreads({
+    params: {
+      limit: 1,
+    },
   });
 
+  const { ref: loadMoreRef, inView } = useInView();
+
   useEffect(() => {
-    if (data?.data?.data) {
-      setThreads(data.data.data);
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-  }, [data]);
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  useEffect(() => {
+    const allThreads =
+      infiniteData?.pages?.flatMap(
+        (page: any) => page?.data?.data || page?.data || []
+      ) || [];
+    setThreads(allThreads);
+  }, [infiniteData]);
 
   const handleNewThread = useCallback((event: { thread: Thread }) => {
-    setThreads((prev) => [event.thread, ...prev]);
+    setThreads((prev: Thread[]) => [event.thread, ...prev]);
   }, []);
 
   const handleThreadDeleted = useCallback((event: { thread_id: string }) => {
-    setThreads((prev) => prev.filter((t) => t._id !== event.thread_id));
+    setThreads((prev: Thread[]) =>
+      prev.filter((t: Thread) => t._id !== event.thread_id)
+    );
   }, []);
 
   usePusherThreadsSubscription({
@@ -75,14 +92,7 @@ export default function PublishedThreadsPage() {
     onThreadDeleted: handleThreadDeleted,
   });
 
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", newPage.toString());
-    router.push(`/published-threads?${params.toString()}`);
-  };
-
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -143,6 +153,19 @@ export default function PublishedThreadsPage() {
                 </p>
               </div>
             )}
+
+            <div ref={loadMoreRef} className="w-full flex justify-center py-8">
+              {isFetchingNextPage && (
+                <div className="flex items-center gap-2 text-primary-color">
+                  <Loading />
+                </div>
+              )}
+              {!hasNextPage && formattedThreads.length > 0 && (
+                <p className="text-primary-color opacity-60">
+                  {t("threads.noMoreThreads")}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
