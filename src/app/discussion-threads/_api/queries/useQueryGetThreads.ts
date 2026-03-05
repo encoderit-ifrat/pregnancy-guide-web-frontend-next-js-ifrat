@@ -7,7 +7,7 @@ import {
   ThreadDetailResponse,
   ThreadRepliesResponse,
   ThreadQueryParams,
-} from "../_types/thread_types";
+} from "../../_types/thread_types";
 
 export const useQueryGetThreads = ({
   params,

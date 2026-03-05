@@ -46,9 +46,9 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export interface ThreadDetailResponse extends Thread {}
+export type ThreadDetailResponse = Thread;
 
-export interface ThreadRepliesResponse extends PaginatedResponse<ThreadReply> {}
+export type ThreadRepliesResponse = PaginatedResponse<ThreadReply>;
 
 export interface CreateThreadDto {
   title: string;

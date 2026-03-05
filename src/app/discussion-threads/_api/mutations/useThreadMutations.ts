@@ -10,7 +10,7 @@ import {
   ThreadReply,
   ToggleLikeResponse,
   UpdateThreadDto,
-} from "../_types/thread_types";
+} from "../../_types/thread_types";
 
 export const useMutationCreateThread = () => {
   return useMutation({
