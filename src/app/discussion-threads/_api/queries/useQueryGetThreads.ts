@@ -2,6 +2,7 @@ import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import {
+  ApiResponse,
   PaginatedResponse,
   Thread,
   ThreadDetailResponse,
@@ -19,9 +20,12 @@ export const useQueryGetThreads = ({
     refetchOnMount: true,
     staleTime: 0,
     queryFn: async () => {
-      const res = await api.get<PaginatedResponse<Thread>>("/threads", {
-        params: omitEmpty((params ?? {}) as Record<string, unknown>),
-      });
+      const res = await api.get<ApiResponse<PaginatedResponse<Thread>>>(
+        "/threads",
+        {
+          params: omitEmpty((params ?? {}) as Record<string, unknown>),
+        }
+      );
       return res.data;
     },
     refetchOnWindowFocus: false,
@@ -38,9 +42,12 @@ export const useQueryGetMyThreads = ({
     refetchOnMount: true,
     staleTime: 0,
     queryFn: async () => {
-      const res = await api.get<PaginatedResponse<Thread>>("/threads/my", {
-        params: omitEmpty((params ?? {}) as Record<string, unknown>),
-      });
+      const res = await api.get<ApiResponse<PaginatedResponse<Thread>>>(
+        "/threads/my",
+        {
+          params: omitEmpty((params ?? {}) as Record<string, unknown>),
+        }
+      );
       return res.data;
     },
     refetchOnWindowFocus: false,
