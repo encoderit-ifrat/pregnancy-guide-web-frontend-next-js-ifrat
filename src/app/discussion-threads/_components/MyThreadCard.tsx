@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 import ThreadDetailPage from "./ThreadDetailPage";
@@ -11,7 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import IconLove from "@/components/svg-icon/icon-love";
 import IconReply from "@/components/svg-icon/icon-reply";
 import IconEye from "@/components/svg-icon/icon-eye";
+import IconShare from "@/components/svg-icon/icon-share";
+import IconFlag from "@/components/svg-icon/icon-flag";
 import { Thread } from "../_types/thread_types";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Button } from "@/components/ui/Button";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 interface MyThreadCardProps {
   title: string;
@@ -32,6 +38,9 @@ interface MyThreadCardProps {
   };
   thread?: Thread;
   className?: string;
+  onLike?: () => void;
+  onFlag?: () => void;
+  onShare?: () => void;
 }
 
 export default function MyThreadCard({
@@ -42,8 +51,21 @@ export default function MyThreadCard({
   lastReply,
   thread,
   className,
+  onLike,
+  onFlag,
+  onShare,
 }: MyThreadCardProps) {
   const { t } = useTranslation();
+  const { user } = useCurrentUser();
+  const [openFlagDialog, setOpenFlagDialog] = React.useState(false);
+  const [openReadMoreDialog, setOpenReadMoreDialog] = React.useState(false);
+
+  const isLiked = thread?.likes?.includes(user?._id || "") || false;
+  const isFlagged = thread?.flags?.includes(user?._id || "") || false;
+
+  const handleLike = () => {
+    onLike?.();
+  };
   return (
     // <ThreadDetailPage
     //     title={title}
@@ -85,27 +107,114 @@ export default function MyThreadCard({
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-7">
-          <div className="flex items-center gap-2 text-primary-color">
-            <IconLove className="size-5 fill-[#3D3177]" />
-            <span className="text-base font-medium">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6] sm:gap-10">
+          <div
+            className={cn(
+              "flex items-center gap-2 text-secondary",
+              isLiked ? "text-primary" : "text-secondary"
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleLike();
+            }}
+          >
+            <IconLove
+              className={cn(
+                "size-4 sm:size-5",
+                isLiked ? "text-primary" : "text-secondary"
+              )}
+            />
+            <span className="text-sm sm:text-base font-medium">
               {stats.likes} {t("threads.like")}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-primary-color">
-            <IconReply className="size-5 fill-[#3D3177]" />
-            <span className="text-base font-medium">
+          <div className={cn("flex items-center gap-2 text-secondary")}>
+            <IconReply className="size-4 sm:size-5" />
+            <span className="text-sm sm:text-base font-medium">
               {stats.replies} {t("threads.replies")}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-primary-color">
-            <IconEye className="size-5 " />
-            <span className="text-base font-medium">
+          <div className="flex items-center gap-2 text-secondary">
+            <IconEye className="size-4 sm:size-5" />
+            <span className="text-sm sm:text-base font-medium">
               {stats.views} {t("threads.views")}
+            </span>
+          </div>
+          <div
+            className="flex items-center gap-2 text-secondary cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              onShare?.();
+            }}
+          >
+            <IconShare className="size-4 sm:size-5" />
+            <span className="text-sm sm:text-base font-medium">
+              {stats.shares} {t("threads.share")}
+            </span>
+          </div>
+          <div
+            className={cn(
+              "flex items-center gap-2 text-secondary cursor-pointer",
+              isFlagged && "text-primary"
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenFlagDialog(true);
+            }}
+          >
+            <IconFlag
+              className={cn("size-4 sm:size-5", isFlagged && "text-secondary")}
+            />
+            <span className="text-sm sm:text-base font-medium">
+              {isFlagged ? t("threads.flagged") : t("threads.flag")}
             </span>
           </div>
         </div>
       </CardContent>
+
+      <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
+        <DialogContent className="sm:max-w-xl text-center bg-white">
+          <SectionHeading className="m-0 text-center">
+            {t("threads.flagTitle") || "Flag This Content"}
+          </SectionHeading>
+          <p className="text-primary-color text-base text-center">
+            {t("threads.flagModeratorNotify") || "This Will Notify Moderators"}
+          </p>
+          <div className="flex items-center justify-center gap-2 pt-4">
+            <Button
+              variant="outline"
+              onClick={() => setOpenFlagDialog(false)}
+              className="w-40"
+            >
+              {t("common.cancel") || "Cancel"}
+            </Button>
+            <Button
+              className="w-40"
+              onClick={(e) => {
+                e.stopPropagation();
+                onFlag?.();
+                setOpenFlagDialog(false);
+              }}
+            >
+              {t("threads.confirmFlag") || "Confirm Flag"}
+              <ChevronRight className="size-5" />
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={openReadMoreDialog} onOpenChange={setOpenReadMoreDialog}>
+        <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
+          <ThreadDetailPage
+            title={title}
+            description={description}
+            createdBy={createdBy}
+            stats={stats}
+            lastReply={lastReply}
+            thread={thread}
+          />
+        </DialogContent>
+      </Dialog>
     </Card>
     // </ThreadDetailPage>
   );

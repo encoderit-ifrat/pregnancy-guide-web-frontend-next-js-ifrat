@@ -28,7 +28,7 @@ export default function IconLike(props: TProps) {
           width="25"
           height="25"
           transform="rotate(180 25 25)"
-          fill="#3D3177"
+          fill="currentColor"
         />
       </g>
       <defs>

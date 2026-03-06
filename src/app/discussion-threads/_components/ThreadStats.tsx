@@ -71,53 +71,60 @@ export default function ThreadStats({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-10">
       <div
         className={cn(
           "flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-70",
-          isLiked ? "text-primary" : "text-primary-color"
+          isLiked ? "text-primary" : "text-secondary"
         )}
         onClick={handleLike}
       >
         <IconLove
-          className={cn("size-5", isLiked ? "fill-current" : "fill-[#3D3177]")}
+          className={cn(
+            "size-4 sm:size-5",
+            isLiked ? "text-secondary" : "text-transparent"
+          )}
         />
-        <span className="text-base font-medium">
+        <span className="text-sm sm:text-base font-medium">
           {likes} {t("threads.like")}
         </span>
       </div>
 
-      <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-        <IconReply className="size-5 fill-[#3D3177]" />
-        <span className="text-base font-medium">
+      <div className="flex items-center gap-2 text-secondary">
+        <IconReply className="size-4 sm:size-5" />
+        <span className="text-sm sm:text-base font-medium">
           {replies} {t("threads.replies")}
         </span>
       </div>
 
-      <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-        <IconEye className="size-5" />
-        <span className="text-base font-medium">
+      <div className="flex items-center gap-2 text-secondary">
+        <IconEye className="size-4 sm:size-5" />
+        <span className="text-sm sm:text-base font-medium">
           {views} {t("threads.views")}
         </span>
       </div>
 
       <div
-        className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70"
+        className="flex items-center gap-2 text-secondary cursor-pointer transition-opacity hover:opacity-70"
         onClick={onShare}
       >
-        <IconShare className="size-5 fill-[#3D3177]" />
-        <span className="text-base font-medium">{t("threads.share")}</span>
+        <IconShare className="size-4 sm:size-5" />
+        <span className="text-sm sm:text-base font-medium">
+          {shares} {t("threads.share")}
+        </span>
       </div>
 
       <div
         className={cn(
           "flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-70",
-          isFlagged ? "text-primary" : "text-primary-color"
+          isFlagged ? "text-primary" : "text-secondary"
         )}
         onClick={handleFlag}
       >
-        <IconFlag className={cn("size-5", isFlagged && "fill-current")} />
-        <span className="text-base font-medium">
+        <IconFlag
+          className={cn("size-4 sm:size-5", isFlagged && "text-secondary")}
+        />
+        <span className="text-sm sm:text-base font-medium">
           {isFlagged ? t("threads.flagged") : t("threads.flag")}
         </span>
       </div>

@@ -16,6 +16,10 @@ import { useInView } from "react-intersection-observer";
 import { Thread } from "../discussion-threads/_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
 import Loading from "../loading";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/lib/axios";
+import { toast } from "sonner";
+import ShareModal from "../discussion-threads/_components/ShareModal";
 
 const formatThreadForCard = (thread: Thread) => {
   const createdAtDate = thread.createdAt
@@ -47,7 +51,17 @@ const formatThreadForCard = (thread: Thread) => {
 export default function PublishedThreadsPage() {
   const { t } = useTranslation();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [threads, setThreads] = useState<Thread[]>([]);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [shareThreadId, setShareThreadId] = useState("");
+  const [shareThreadTitle, setShareThreadTitle] = useState("");
+
+  const handleShare = (threadId: string, title: string) => {
+    setShareThreadId(threadId);
+    setShareThreadTitle(title);
+    setShareModalOpen(true);
+  };
   const {
     data: infiniteData,
     isLoading,
@@ -91,6 +105,34 @@ export default function PublishedThreadsPage() {
     onNewThread: handleNewThread,
     onThreadDeleted: handleThreadDeleted,
   });
+
+  const likeMutation = useMutation({
+    mutationFn: (threadId: string) => api.post(`/threads/${threadId}/like`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-my-threads"] });
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || t("threads.errorLiking"));
+    },
+  });
+
+  const flagMutation = useMutation({
+    mutationFn: (threadId: string) => api.post(`/threads/${threadId}/flag`),
+    onSuccess: () => {
+      toast.success(t("threads.flagSuccess"));
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
+    },
+  });
+
+  const handleLike = (threadId: string) => {
+    likeMutation.mutate(threadId);
+  };
+
+  const handleFlag = (threadId: string) => {
+    flagMutation.mutate(threadId);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -144,6 +186,9 @@ export default function PublishedThreadsPage() {
                 stats={thread.stats}
                 lastReply={thread.lastReply}
                 thread={thread.thread}
+                onLike={() => handleLike(thread.id)}
+                onFlag={() => handleFlag(thread.id)}
+                onShare={() => handleShare(thread.id, thread.title)}
               />
             ))}
             {formattedThreads.length === 0 && (
@@ -168,6 +213,12 @@ export default function PublishedThreadsPage() {
             </div>
           </div>
         </div>
+        <ShareModal
+          open={shareModalOpen}
+          onOpenChange={setShareModalOpen}
+          title={shareThreadTitle}
+          threadId={shareThreadId}
+        />
       </div>
     </PageContainer>
   );

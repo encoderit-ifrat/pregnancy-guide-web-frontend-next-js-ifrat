@@ -362,49 +362,51 @@ export default function ThreadDetailPage({
               </div>
             </div>
 
-            {/* Integrated Stats Area */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6] sm:gap-10">
               <div
                 className={cn(
-                  "flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70",
-                  isLiked ? "text-primary" : "text-primary-color"
+                  "flex items-center gap-2 text-secondary",
+                  isLiked ? "text-primary" : "text-secondary"
                 )}
-                onClick={handleLike}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLike();
+                }}
               >
                 <IconLove
                   className={cn(
-                    "size-4 sm:size-5",
-                    isLiked ? "fill-[#3D3177]" : "fill-transparent"
+                    "size-4 sm:size-5"
+                    // isLiked ? "text-primary" : "text-secondary"
                   )}
                 />
                 <span className="text-sm sm:text-base font-medium">
                   {currentStats.likes} {t("threads.like")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color">
-                <IconReply className="size-4 sm:size-5 fill-[#3D3177]" />
+              <div className={cn("flex items-center gap-2 text-secondary")}>
+                <IconReply className="size-4 sm:size-5" />
                 <span className="text-sm sm:text-base font-medium">
                   {currentStats.replies} {t("threads.replies")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color">
+              <div className="flex items-center gap-2 text-secondary">
                 <IconEye className="size-4 sm:size-5" />
                 <span className="text-sm sm:text-base font-medium">
                   {currentStats.views} {t("threads.views")}
                 </span>
               </div>
               <div
-                className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70"
+                className="flex items-center gap-2 text-secondary cursor-pointer"
                 onClick={onShare}
               >
-                <IconShare className="size-4 sm:size-5 fill-[#3D3177]" />
+                <IconShare className="size-4 sm:size-5" />
                 <span className="text-sm sm:text-base font-medium">
                   {currentStats.shares} {t("threads.share")}
                 </span>
               </div>
               <div
                 className={cn(
-                  "flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70",
+                  "flex items-center gap-2 text-secondary cursor-pointer",
                   isFlagged && "text-primary"
                 )}
                 onClick={() => setOpenFlagDialog(true)}
@@ -412,7 +414,7 @@ export default function ThreadDetailPage({
                 <IconFlag
                   className={cn(
                     "size-4 sm:size-5",
-                    isFlagged && "fill-[#3D3177]"
+                    isFlagged && "text-secondary"
                   )}
                 />
                 <span className="text-sm sm:text-base font-medium">

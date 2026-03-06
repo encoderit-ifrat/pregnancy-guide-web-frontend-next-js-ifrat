@@ -113,8 +113,8 @@ export default function ThreadCard({
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-10">
             <div
               className={cn(
-                "flex items-center gap-2 text-primary-color",
-                isLiked ? "text-primary" : "text-primary-color"
+                "flex items-center gap-2 text-secondary",
+                isLiked ? "text-primary" : "text-secondary"
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -123,47 +123,41 @@ export default function ThreadCard({
             >
               <IconLove
                 className={cn(
-                  "size-4 sm:size-5 ",
-                  isLiked ? "fill-[#3D3177]" : "fill-transparent"
+                  "size-4 sm:size-5"
+                  // isLiked ? "text-secondary" : "text-transparent"
                 )}
               />
               <span className="text-sm sm:text-base font-medium">
                 {stats.likes} {t("threads.like")}
               </span>
             </div>
-            <div
-              className={cn("flex items-center gap-2 text-primary-color")}
-              onClick={(e) => {
-                e.stopPropagation();
-                onLike?.();
-              }}
-            >
-              <IconReply className="size-4 sm:size-5 fill-[#3D3177]" />
+            <div className={cn("flex items-center gap-2 text-secondary")}>
+              <IconReply className="size-4 sm:size-5" />
               <span className="text-sm sm:text-base font-medium">
                 {stats.replies} {t("threads.replies")}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-primary-color">
-              <IconEye className="size-4 sm:size-5 " />
+            <div className="flex items-center gap-2 text-secondary">
+              <IconEye className="size-4 sm:size-5" />
               <span className="text-sm sm:text-base font-medium">
                 {stats.views} {t("threads.views")}
               </span>
             </div>
             <div
-              className="flex items-center gap-2 text-primary-color"
+              className="flex items-center gap-2 text-secondary"
               onClick={(e) => {
                 e.stopPropagation();
                 onShare?.();
               }}
             >
-              <IconShare className="size-4 sm:size-5 fill-[#3D3177]" />
+              <IconShare className="size-4 sm:size-5" />
               <span className="text-sm sm:text-base font-medium">
                 {stats.shares} {t("threads.share")}
               </span>
             </div>
             <div
               className={cn(
-                "flex items-center gap-2 text-primary-color",
+                "flex items-center gap-2 text-secondary",
                 isFlagged && "text-primary"
               )}
               onClick={() => setOpenFlagDialog(true)}
@@ -171,7 +165,7 @@ export default function ThreadCard({
               <IconFlag
                 className={cn(
                   "size-4 sm:size-5",
-                  isFlagged && "fill-[#3D3177]"
+                  isFlagged && "text-secondary"
                 )}
               />
               <span className="text-sm sm:text-base font-medium">
@@ -205,30 +199,28 @@ export default function ThreadCard({
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white">
           <SectionHeading className="m-0 text-center">
-            {/* {t("threads.title")} */}
-            Flag This Content
+            {t("threads.flagTitle") || "Flag This Content"}
           </SectionHeading>
-          {/* <p className="text-primary-color text-base text-center">
-           This Will Notify Moderotors
-          </p> */}
-          This Will Notify Moderotors
-          <div className="flex items-center justify-center gap-2">
+          <p className="text-primary-color text-base text-center">
+            {t("threads.flagModeratorNotify") || "This Will Notify Moderators"}
+          </p>
+          <div className="flex items-center justify-center gap-2 pt-4">
             <Button
               variant="outline"
               onClick={() => setOpenFlagDialog(false)}
-              className="w-41.25"
+              className="w-40"
             >
-              Cancel
+              {t("common.cancel") || "Cancel"}
             </Button>
             <Button
-              className="w-41.25"
+              className="w-40"
               onClick={(e) => {
                 e.stopPropagation();
                 onFlag?.();
                 setOpenFlagDialog(false);
               }}
             >
-              Confirm Flag
+              {t("threads.confirmFlag") || "Confirm Flag"}
               <ChevronRight className="size-5" />
             </Button>
           </div>
