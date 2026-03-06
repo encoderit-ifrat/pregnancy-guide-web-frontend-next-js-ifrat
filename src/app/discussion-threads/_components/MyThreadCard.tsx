@@ -15,9 +15,10 @@ import IconShare from "@/components/svg-icon/icon-share";
 import IconFlag from "@/components/svg-icon/icon-flag";
 import { Thread } from "../_types/thread_types";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useRouter } from "next/navigation";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
 
 interface MyThreadCardProps {
   title: string;
@@ -57,11 +58,20 @@ export default function MyThreadCard({
 }: MyThreadCardProps) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
+  const router = useRouter();
   const [openFlagDialog, setOpenFlagDialog] = React.useState(false);
   const [openReadMoreDialog, setOpenReadMoreDialog] = React.useState(false);
 
   const isLiked = thread?.likes?.includes(user?._id || "") || false;
   const isFlagged = thread?.flags?.includes(user?._id || "") || false;
+
+  const handleAuthAction = (action?: () => void) => {
+    if (!user) {
+      router.push("/login?callbackUrl=/discussion-threads");
+      return;
+    }
+    action?.();
+  };
 
   const handleLike = () => {
     onLike?.();
@@ -110,12 +120,12 @@ export default function MyThreadCard({
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6] sm:gap-10">
           <div
             className={cn(
-              "flex items-center gap-2 text-secondary",
+              "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
               isLiked ? "text-primary" : "text-secondary"
             )}
             onClick={(e) => {
               e.stopPropagation();
-              handleLike();
+              handleAuthAction(handleLike);
             }}
           >
             <IconLove

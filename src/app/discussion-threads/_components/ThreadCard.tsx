@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-// import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
 
 interface ThreadCardProps {
   id: string;
@@ -65,11 +65,20 @@ export default function ThreadCard({
 }: ThreadCardProps) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
+  const router = useRouter();
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
   const [openReadMoreDialog, setOpenReadMoreDialog] = useState(false);
 
   const isFlagged = thread?.flags?.includes(user?._id) || false;
   const isLiked = thread?.likes?.includes(user?._id || "") || false;
+
+  const handleAuthAction = (action?: () => void) => {
+    if (!user) {
+      router.push("/login?callbackUrl=/discussion-threads");
+      return;
+    }
+    action?.();
+  };
 
   const excerpt =
     description && description.length > 200
@@ -113,12 +122,12 @@ export default function ThreadCard({
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-10">
             <div
               className={cn(
-                "flex items-center gap-2 text-secondary",
+                "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
                 isLiked ? "text-primary" : "text-secondary"
               )}
               onClick={(e) => {
                 e.stopPropagation();
-                onLike?.();
+                handleAuthAction(onLike);
               }}
             >
               <IconLove
@@ -144,7 +153,7 @@ export default function ThreadCard({
               </span>
             </div>
             <div
-              className="flex items-center gap-2 text-secondary"
+              className="flex items-center gap-2 cursor-pointer transition-colors hover:text-primary text-secondary"
               onClick={(e) => {
                 e.stopPropagation();
                 onShare?.();
@@ -157,10 +166,13 @@ export default function ThreadCard({
             </div>
             <div
               className={cn(
-                "flex items-center gap-2 text-secondary",
-                isFlagged && "text-primary"
+                "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
+                isFlagged ? "text-primary" : "text-secondary"
               )}
-              onClick={() => setOpenFlagDialog(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAuthAction(() => setOpenFlagDialog(true));
+              }}
             >
               <IconFlag
                 className={cn(

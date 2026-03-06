@@ -14,6 +14,8 @@ import { Textarea } from "@/components/ui/Textarea";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useMutationCreateThread } from "../_api/mutations/useThreadMutations";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface CreateThreadModalProps {
   children: React.ReactNode;
@@ -25,6 +27,8 @@ export default function CreateThreadModal({
   onSuccess,
 }: CreateThreadModalProps) {
   const { t } = useTranslation();
+  const { data: session } = useSession();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -66,8 +70,16 @@ export default function CreateThreadModal({
     }
   };
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen && !session) {
+      router.push("/login?callbackUrl=/discussion-threads");
+      return;
+    }
+    setOpen(newOpen);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className="w-full lg:max-w-4xl flex flex-col p-0 rounded-[40px] border-none overflow-hidden bg-white"

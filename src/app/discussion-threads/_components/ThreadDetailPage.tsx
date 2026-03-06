@@ -34,6 +34,7 @@ import { cn } from "@/lib/utils";
 import Loading from "../../loading";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { useRouter } from "next/navigation";
 
 interface Reply {
   id: number;
@@ -79,6 +80,15 @@ function ReplyCard({
 }) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
+  const router = useRouter();
+
+  const handleAuthAction = (action?: () => void) => {
+    if (!user) {
+      router.push("/login?callbackUrl=/discussion-threads");
+      return;
+    }
+    action?.();
+  };
 
   const createdAtDate = reply.createdAt
     ? new Date(reply.createdAt)
@@ -118,7 +128,7 @@ function ReplyCard({
             className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
               isLiked ? "text-primary" : "text-primary-color"
             }`}
-            onClick={() => onReplyLike?.(reply._id)}
+            onClick={() => handleAuthAction(() => onReplyLike?.(reply._id))}
           >
             <IconLove className={`size-5 ${isLiked ? "fill-current" : ""}`} />
             <span className="text-sm font-bold">
@@ -129,7 +139,7 @@ function ReplyCard({
             className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
               isFlagged ? "text-primary" : "text-primary-color"
             }`}
-            onClick={() => onReplyFlag?.(reply._id)}
+            onClick={() => handleAuthAction(() => onReplyFlag?.(reply._id))}
           >
             <IconFlag className={`size-5 ${isFlagged ? "fill-current" : ""}`} />
             <span className="text-sm font-bold">
@@ -160,8 +170,18 @@ export default function ThreadDetailPage({
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
 
   const { user } = useCurrentUser();
+  const router = useRouter();
+
+  const handleAuthAction = (action?: () => void) => {
+    if (!user) {
+      router.push("/login?callbackUrl=/discussion-threads");
+      return;
+    }
+    action?.();
+  };
+
   const isLiked = thread?.likes?.includes(user?._id || "") || false;
-  const isFlagged = thread?.flags?.includes(user?._id || "") || false;
+  const isFlagged = thread?.flags?.includes(user?._id) || false;
 
   const fullDescription = thread?.description || description || "";
 
@@ -311,22 +331,24 @@ export default function ThreadDetailPage({
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!thread || !replyContent.trim()) return;
+    handleAuthAction(async () => {
+      if (!replyContent.trim() || !thread) return;
 
-    setIsSubmittingReply(true);
-    try {
-      await createReply.mutateAsync({
-        threadId: thread._id,
-        content: replyContent,
-      });
-      setReplyContent("");
-      await refetchReplies();
-      toast.success(t("threads.replyAdded"));
-    } catch (error: any) {
-      toast.error(error?.message || t("threads.errorReplying"));
-    } finally {
-      setIsSubmittingReply(false);
-    }
+      setIsSubmittingReply(true);
+      try {
+        await createReply.mutateAsync({
+          threadId: thread._id,
+          content: replyContent,
+        });
+        setReplyContent("");
+        await refetchReplies();
+        toast.success(t("threads.replyAdded"));
+      } catch (error: any) {
+        toast.error(error?.message || t("threads.errorReplying"));
+      } finally {
+        setIsSubmittingReply(false);
+      }
+    });
   };
 
   return (
@@ -365,12 +387,12 @@ export default function ThreadDetailPage({
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6] sm:gap-10">
               <div
                 className={cn(
-                  "flex items-center gap-2 text-secondary",
+                  "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
                   isLiked ? "text-primary" : "text-secondary"
                 )}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleLike();
+                  handleAuthAction(handleLike);
                 }}
               >
                 <IconLove
@@ -406,10 +428,10 @@ export default function ThreadDetailPage({
               </div>
               <div
                 className={cn(
-                  "flex items-center gap-2 text-secondary cursor-pointer",
-                  isFlagged && "text-primary"
+                  "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
+                  isFlagged ? "text-primary" : "text-secondary"
                 )}
-                onClick={() => setOpenFlagDialog(true)}
+                onClick={() => handleAuthAction(() => setOpenFlagDialog(true))}
               >
                 <IconFlag
                   className={cn(
