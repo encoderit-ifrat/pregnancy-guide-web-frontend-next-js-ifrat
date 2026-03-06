@@ -4,21 +4,19 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 // import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { ChevronLeft, ChevronRight, Copy, Link2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { useTranslation } from "@/hooks/useTranslation";
 import CommunityCard from "./_components/CommunityCard";
+import {
+  useQueryGetRandomTinderName,
+  TinderNameGender,
+} from "./_api/queries/useQueryGetRandomTinderName";
+import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinderNameCategories";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
-import IconMuslim from "@/components/svg-icon/icon-muslim";
-import IconJewish from "@/components/svg-icon/icon-jewish";
-import IconWorld from "@/components/svg-icon/icon-world";
-import IconSwedish from "@/components/svg-icon/icon-swedish";
-import IconChristian from "@/components/svg-icon/icon-christian";
-import IconHinduism from "@/components/svg-icon/icon-hinduism";
-import IconBuddhism from "@/components/svg-icon/icon-buddhism";
 import IconLike from "@/components/svg-icon/icon-like";
 import IconLove from "@/components/svg-icon/icon-love";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -107,53 +105,51 @@ const SAMPLE_THREADS = [
     },
   },
 ];
-const categories = [
-  {
-    icon: <IconWorld className="size-7" />,
-    label: "South America",
-  },
-  {
-    icon: <IconChristian className="size-7" />,
-    label: "Christian",
-  },
-  {
-    icon: <IconMuslim className="size-7" />,
-    label: "Muslim",
-  },
-  {
-    icon: <IconWorld className="size-7" />,
-    label: "International",
-  },
-  {
-    icon: <IconSwedish className="size-7" />,
-    label: "Swedish",
-  },
-  {
-    icon: <IconJewish className="size-7" />,
-    label: "Jewish",
-  },
-  {
-    icon: <IconHinduism className="size-7" />,
-    label: "Hinduism",
-  },
-  {
-    icon: <IconBuddhism className="size-7" />,
-    label: "Buddhism",
-  },
-];
-const items = [
-  "Kristin Watson",
-  "Marvin McKinney",
-  "Leslie Alexander",
-  "Kathryn Murphy",
-  "Annette Black",
-];
+
 export default function Page() {
   const { t } = useTranslation();
   const [isNext, setIsNext] = useState(true);
   const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("South America");
+  // stores the real _id of the selected category
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const { data: categoriesData, isLoading: categoriesLoading } =
+    useQueryGetTinderNameCategories();
+
+  const apiCategories = categoriesData?.data?.data ?? [];
+
+  // initialise selectedCategory once categories are loaded
+  useEffect(() => {
+    if (apiCategories.length > 0 && !selectedCategory) {
+      setSelectedCategory(apiCategories[0]._id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiCategories]);
+  // gender radio: "male" | "female" | "unisex"
+  const [selectedGender, setSelectedGender] =
+    useState<TinderNameGender>("male");
+  // flip to true when user clicks Next in the gender section to fire the query
+  const [fetchEnabled, setFetchEnabled] = useState(false);
+
+  const {
+    data: tinderData,
+    isLoading: tinderLoading,
+    isError: tinderError,
+    refetch: refetchTinderNames,
+  } = useQueryGetRandomTinderName({
+    gender: selectedGender,
+    category_id: selectedCategory,
+    enabled: fetchEnabled,
+  });
+
+  // When data arrives open the match dialog
+  useEffect(() => {
+    if (fetchEnabled && tinderData) {
+      setOpenMatchDialog(true);
+      setFetchEnabled(false);
+    }
+  }, [tinderData, fetchEnabled]);
   return (
     <PageContainer>
       <div className="flex flex-col items-center  min-h-screen">
@@ -207,11 +203,18 @@ export default function Page() {
                 </h2>
                 <RadioGroup
                   className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg"
-                  defaultValue="1"
+                  defaultValue="male"
+                  onValueChange={(val) =>
+                    setSelectedGender(val as TinderNameGender)
+                  }
                 >
-                  {/* Credit card */}
+                  {/* Boy → male */}
                   <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
-                    <RadioGroupItem className="sr-only" id={`1`} value="1" />
+                    <RadioGroupItem
+                      className="sr-only"
+                      id="gender-male"
+                      value="male"
+                    />
 
                     <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
                       <Image
@@ -224,14 +227,18 @@ export default function Page() {
                     </div>
                     <label
                       className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
-                      htmlFor={`1`}
+                      htmlFor="gender-male"
                     >
                       Boy
                     </label>
                   </div>
-                  {/* PayPal */}
+                  {/* Girl → female */}
                   <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
-                    <RadioGroupItem className="sr-only" id={`2`} value="2" />
+                    <RadioGroupItem
+                      className="sr-only"
+                      id="gender-female"
+                      value="female"
+                    />
 
                     <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
                       <Image
@@ -244,14 +251,18 @@ export default function Page() {
                     </div>
                     <label
                       className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
-                      htmlFor={`2`}
+                      htmlFor="gender-female"
                     >
                       Girl
                     </label>
                   </div>
-                  {/* Apple Pay */}
+                  {/* Genderless → unisex */}
                   <div className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
-                    <RadioGroupItem className="sr-only" id={`3`} value="3" />
+                    <RadioGroupItem
+                      className="sr-only"
+                      id="gender-unisex"
+                      value="unisex"
+                    />
 
                     <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
                       <Image
@@ -264,14 +275,22 @@ export default function Page() {
                     </div>
                     <label
                       className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
-                      htmlFor={`3`}
+                      htmlFor="gender-unisex"
                     >
                       Genderless
                     </label>
                   </div>
                 </RadioGroup>
-                <Button className="w-fit " onClick={() => setIsNext(false)}>
-                  Next
+                <Button
+                  className="w-fit"
+                  disabled={tinderLoading}
+                  onClick={() => {
+                    setFetchEnabled(true);
+                    refetchTinderNames();
+                    setIsNext(false);
+                  }}
+                >
+                  {tinderLoading ? "Loading..." : "Next"}
                   <ChevronRight className="size-4" />
                 </Button>
               </div>
@@ -312,39 +331,55 @@ export default function Page() {
           <SectionHeading className="m-0 text-2xl sm:text-3xl">
             Start Swiping
           </SectionHeading>
-          <RadioGroup
-            defaultValue={selectedCategory}
-            onValueChange={setSelectedCategory}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"
-          >
-            {categories.map((category) => (
-              <div
-                key={category.label}
-                className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-3 py-2 sm:py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
-              >
-                <RadioGroupItem
-                  className="sr-only"
-                  id={category.label}
-                  value={category.label}
-                />
-                <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 p-2 shrink-0">
-                  {React.cloneElement(
-                    category.icon as React.ReactElement,
-                    {
-                      className: "size-6 sm:size-7",
-                    } as any
-                  )}
-                </div>
-                <label
-                  className="grow cursor-pointer text-sm sm:text-base font-medium text-primary-color after:absolute after:inset-0"
-                  htmlFor={category.label}
+          {categoriesLoading ? (
+            <p className="text-center text-primary-color py-4">
+              Loading categories…
+            </p>
+          ) : (
+            <RadioGroup
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"
+            >
+              {apiCategories.map((category) => (
+                <div
+                  key={category._id}
+                  className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-3 py-2 sm:py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
                 >
-                  {category.label}
-                </label>
-              </div>
-            ))}
-          </RadioGroup>
-          <Button className="w-full mt-8">
+                  <RadioGroupItem
+                    className="sr-only"
+                    id={category._id}
+                    value={category._id}
+                  />
+                  {category.image ? (
+                    <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
+                      <img
+                        src={category.image}
+                        alt={category.name}
+                        className="size-full object-cover rounded"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 shrink-0 text-primary font-bold text-lg">
+                      {category.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <label
+                    className="grow cursor-pointer text-sm sm:text-base font-medium text-primary-color after:absolute after:inset-0"
+                    htmlFor={category._id}
+                  >
+                    {category.name}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+          <Button
+            className="w-full mt-8"
+            onClick={() => {
+              setOpenSwipeDialog(false);
+            }}
+          >
             Next
             <ChevronRight className="size-4" />
           </Button>
@@ -356,24 +391,43 @@ export default function Page() {
             This Name Is Matched
           </SectionHeading>
 
-          {items.map((item) => (
-            <div key={item} className="flex items-center gap-4">
-              <div className="flex size-12 border  border-primary rounded-md items-center justify-center">
-                {/* {item} */}
-                <IconLike />
-              </div>
-              <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
-                {item}
-              </p>
-              <div className="flex size-12 border  border-primary rounded-md items-center justify-center">
-                <IconLove />
-              </div>
-            </div>
-          ))}
-          <Button className="w-99.5 mx-auto">
-            Dislike All Names
-            <ChevronRight />
-          </Button>
+          {tinderLoading && (
+            <p className="text-center text-primary-color py-4">
+              Loading names…
+            </p>
+          )}
+          {tinderError && (
+            <p className="text-center text-red-500 py-4">
+              Failed to load names. Please try again.
+            </p>
+          )}
+          {!tinderLoading && !tinderError && (
+            <>
+              {(tinderData?.data ?? []).length === 0 ? (
+                <p className="text-center text-primary-color py-4">
+                  No names found for the selected filters.
+                </p>
+              ) : (
+                (tinderData?.data ?? []).map((nameItem) => (
+                  <div key={nameItem.id} className="flex items-center gap-4">
+                    <div className="flex size-12 border border-primary rounded-md items-center justify-center">
+                      <IconLike />
+                    </div>
+                    <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
+                      {nameItem.name}
+                    </p>
+                    <div className="flex size-12 border border-primary rounded-md items-center justify-center">
+                      <IconLove />
+                    </div>
+                  </div>
+                ))
+              )}
+              <Button className="w-99.5 mx-auto">
+                Dislike All Names
+                <ChevronRight />
+              </Button>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </PageContainer>
