@@ -77,8 +77,13 @@ export default function ShareModal({
                 />
               </svg>
             </div>
-            <span className="text-primary-color font-medium">
-              {copied ? t("threads.copied") : t("threads.copyLink")}
+            <span className="flex flex-col items-start min-w-0">
+              <span className="text-primary-color font-medium">
+                {copied ? t("threads.copied") : t("threads.copyLink")}
+              </span>
+              <span className="text-xs text-gray-400 truncate max-w-55">
+                {shareUrl}
+              </span>
             </span>
           </button>
 
