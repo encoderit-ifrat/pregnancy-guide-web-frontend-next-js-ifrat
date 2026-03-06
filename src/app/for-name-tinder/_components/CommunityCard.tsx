@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronRight, InfoIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import ThreadDetailPage from "./ThreadDetailPage";
+// import ThreadDetailPage from "./ThreadDetailPage";
 import IconLove from "@/components/svg-icon/icon-love";
 import IconReply from "@/components/svg-icon/icon-reply";
 import IconEye from "@/components/svg-icon/icon-eye";
@@ -43,7 +43,7 @@ interface ThreadCardProps {
   className?: string;
 }
 
-export default function MostLiked({
+export default function CommunityCard({
   title,
   excerpt,
   createdBy,

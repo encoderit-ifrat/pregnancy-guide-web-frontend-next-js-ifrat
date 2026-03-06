@@ -1,56 +1,17 @@
+"use client";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/badge";
-import { ChevronRight, InfoIcon, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, InfoIcon, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import ThreadDetailPage from "./ThreadDetailPage";
 import IconLove from "@/components/svg-icon/icon-love";
-import IconReply from "@/components/svg-icon/icon-reply";
-import IconEye from "@/components/svg-icon/icon-eye";
-import IconShare from "@/components/svg-icon/icon-share";
-import IconFlag from "@/components/svg-icon/icon-flag";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
-import { Button } from "@/components/ui/Button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-// import { Dialog, DialogContent } from "@/components/ui/Dialog";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import IconLike from "@/components/svg-icon/icon-like";
 import IconDelete from "@/components/svg-icon/icon-delete";
+import Link from "next/link";
 
-interface ThreadCardProps {
-  title: string;
-  excerpt: string;
-  createdBy: {
-    name: string;
-    time: string;
-  };
-  stats: {
-    likes: number | string;
-    replies: number | string;
-    views: number | string;
-    shares: number | string;
-  };
-  lastReply?: {
-    time: string;
-    user: string;
-  };
-  className?: string;
-}
-
-export default function MostViewed({
-  title,
-  excerpt,
-  createdBy,
-  stats,
-  lastReply,
-  className,
-}: ThreadCardProps) {
+export default function MatchedName() {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -58,14 +19,40 @@ export default function MostViewed({
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
       <Card
         className={cn(
-          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12",
-          className
+          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12"
+          //   className
         )}
       >
+        <div className="mb-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
+            <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+              Matched Names
+            </h2>
+            <Link
+              href={"/for-name-tinder"}
+              className={cn(
+                "w-fit",
+                buttonVariants({
+                  variant: "outline",
+                })
+              )}
+              //   onClick={() => setIsNext(true)}
+            >
+              <ChevronLeft className="size-4" />
+              Back
+            </Link>
+          </div>
+          <div className="flex items-center gap-2 rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
+            <Link2 />
+            https://www.familj.se/matched-names/5a6789
+            <Copy className="ml-auto" />
+          </div>
+        </div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
-              {title}
+              {/* {title} */}
+              Name
             </h3>
 
             {/* Footer Stats Area */}
@@ -73,7 +60,7 @@ export default function MostViewed({
               <div className="flex items-center gap-2 text-primary-color">
                 <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
                 <span className="text-sm sm:text-base font-medium">
-                  {stats.likes} {t("threads.like")}
+                  1M {t("threads.like")}
                 </span>
               </div>
             </div>
