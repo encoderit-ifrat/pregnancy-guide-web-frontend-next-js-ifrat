@@ -22,6 +22,7 @@ import {
   useMutationCreateReply,
   useMutationToggleReplyLike,
   useMutationFlagReply,
+  useMutationFlagThread,
 } from "../_api/mutations/useThreadMutations";
 import { usePusherThreadDetailSubscription } from "../_hooks/usePusherSubscription";
 import { formatDistanceToNow, isValid } from "date-fns";
@@ -31,6 +32,8 @@ import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { cn } from "@/lib/utils";
 import Loading from "../../loading";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 interface Reply {
   id: number;
@@ -154,7 +157,11 @@ export default function ThreadDetailPage({
   const [currentStats, setCurrentStats] = useState(stats);
   const [replyContent, setReplyContent] = useState("");
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
-  // const [isOpen, setIsOpen] = useState(false);
+  const [openFlagDialog, setOpenFlagDialog] = useState(false);
+
+  const { user } = useCurrentUser();
+  const isLiked = thread?.likes?.includes(user?._id || "") || false;
+  const isFlagged = thread?.flags?.includes(user?._id || "") || false;
 
   const fullDescription = thread?.description || description || "";
 
@@ -211,6 +218,7 @@ export default function ThreadDetailPage({
   const createReply = useMutationCreateReply();
   const toggleReplyLike = useMutationToggleReplyLike();
   const flagReplyMutation = useMutationFlagReply();
+  const flagThreadMutation = useMutationFlagThread();
 
   const handleReplyLike = async (replyId: string) => {
     if (!threadId) return;
@@ -231,6 +239,17 @@ export default function ThreadDetailPage({
     try {
       await flagReplyMutation.mutateAsync({ threadId, replyId });
       toast.success(t("threads.replyFlagSuccess"));
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
+    }
+  };
+
+  const handleThreadFlag = async () => {
+    if (!threadId) return;
+    try {
+      await flagThreadMutation.mutateAsync(threadId);
+      toast.success(t("threads.flagSuccess"));
+      setOpenFlagDialog(false);
     } catch (error: any) {
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
     }
@@ -344,40 +363,60 @@ export default function ThreadDetailPage({
             </div>
 
             {/* Integrated Stats Area */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6]">
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-                <IconLove className="size-5 fill-[#3D3177]" />
-                <span className="text-base font-medium">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6] sm:gap-10">
+              <div
+                className={cn(
+                  "flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70",
+                  isLiked ? "text-primary" : "text-primary-color"
+                )}
+                onClick={handleLike}
+              >
+                <IconLove
+                  className={cn(
+                    "size-4 sm:size-5",
+                    isLiked ? "fill-[#3D3177]" : "fill-transparent"
+                  )}
+                />
+                <span className="text-sm sm:text-base font-medium">
                   {currentStats.likes} {t("threads.like")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-                <IconReply className="size-5 fill-[#3D3177]" />
-                <span className="text-base font-medium">
+              <div className="flex items-center gap-2 text-primary-color">
+                <IconReply className="size-4 sm:size-5 fill-[#3D3177]" />
+                <span className="text-sm sm:text-base font-medium">
                   {currentStats.replies} {t("threads.replies")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-                <IconEye className="size-5" />
-                <span className="text-base font-medium">
+              <div className="flex items-center gap-2 text-primary-color">
+                <IconEye className="size-4 sm:size-5" />
+                <span className="text-sm sm:text-base font-medium">
                   {currentStats.views} {t("threads.views")}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70">
-                <IconShare className="size-5 fill-[#3D3177]" />
-                <span className="text-base font-medium">
+              <div
+                className="flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70"
+                onClick={onShare}
+              >
+                <IconShare className="size-4 sm:size-5 fill-[#3D3177]" />
+                <span className="text-sm sm:text-base font-medium">
                   {currentStats.shares} {t("threads.share")}
                 </span>
               </div>
               <div
                 className={cn(
                   "flex items-center gap-2 text-primary-color cursor-pointer transition-opacity hover:opacity-70",
-                  thread?.is_flagged
+                  isFlagged && "text-primary"
                 )}
+                onClick={() => setOpenFlagDialog(true)}
               >
-                <IconFlag className="size-5" />
-                <span className="text-base font-medium">
-                  {t("threads.flag")}
+                <IconFlag
+                  className={cn(
+                    "size-4 sm:size-5",
+                    isFlagged && "fill-[#3D3177]"
+                  )}
+                />
+                <span className="text-sm sm:text-base font-medium">
+                  {isFlagged ? t("threads.flagged") : t("threads.flag")}
                 </span>
               </div>
             </div>
@@ -457,6 +496,35 @@ export default function ThreadDetailPage({
           </div>
         </div>
       </div>
+      <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
+        <DialogContent className="sm:max-w-xl text-center bg-white border-none">
+          <SectionHeading className="m-0 text-center">
+            {t("threads.flagTitle") || "Flag This Content"}
+          </SectionHeading>
+          <p className="text-primary-color text-base text-center">
+            {t("threads.flagModeratorNotify") || "This Will Notify Moderators"}
+          </p>
+          <div className="flex items-center justify-center gap-2 pt-4">
+            <Button
+              variant="outline"
+              onClick={() => setOpenFlagDialog(false)}
+              className="w-40"
+            >
+              {t("common.cancel")}
+            </Button>
+            <Button
+              className="w-40"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleThreadFlag();
+              }}
+            >
+              {t("threads.confirmFlag")}
+              <ChevronRight className="size-5" />
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

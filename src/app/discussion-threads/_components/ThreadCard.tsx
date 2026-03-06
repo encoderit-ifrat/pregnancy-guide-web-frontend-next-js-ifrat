@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight } from "lucide-react";
@@ -22,7 +22,6 @@ import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 // import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-
 
 interface ThreadCardProps {
   id: string;
@@ -112,24 +111,28 @@ export default function ThreadCard({
 
           {/* Footer Stats Area */}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-10">
-            <div className={cn("flex items-center gap-2 text-primary-color",
-              isLiked ? "text-primary" : "text-primary-color"
-            )}
-                 onClick={(e) => {
-                   e.stopPropagation();
-                   onLike?.();
-                 }}
-            >
-              <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
-              <span className="text-sm sm:text-base font-medium">
-                {stats.likes} {t("threads.like")}
-              </span>
-            </div>
             <div
               className={cn(
                 "flex items-center gap-2 text-primary-color",
                 isLiked ? "text-primary" : "text-primary-color"
               )}
+              onClick={(e) => {
+                e.stopPropagation();
+                onLike?.();
+              }}
+            >
+              <IconLove
+                className={cn(
+                  "size-4 sm:size-5 ",
+                  isLiked ? "fill-[#3D3177]" : "fill-transparent"
+                )}
+              />
+              <span className="text-sm sm:text-base font-medium">
+                {stats.likes} {t("threads.like")}
+              </span>
+            </div>
+            <div
+              className={cn("flex items-center gap-2 text-primary-color")}
               onClick={(e) => {
                 e.stopPropagation();
                 onLike?.();
@@ -159,12 +162,20 @@ export default function ThreadCard({
               </span>
             </div>
             <div
-              className={cn("flex items-center gap-2 text-primary-color", thread?.is_flagged && 'text-primary')}
+              className={cn(
+                "flex items-center gap-2 text-primary-color",
+                isFlagged && "text-primary"
+              )}
               onClick={() => setOpenFlagDialog(true)}
             >
-              <IconFlag className="size-4 sm:size-5" />
+              <IconFlag
+                className={cn(
+                  "size-4 sm:size-5",
+                  isFlagged && "fill-[#3D3177]"
+                )}
+              />
               <span className="text-sm sm:text-base font-medium">
-                {thread?.is_flagged ? t("threads.flagged") : t("threads.flag")}
+                {isFlagged ? t("threads.flagged") : t("threads.flag")}
               </span>
             </div>
           </div>
@@ -173,8 +184,7 @@ export default function ThreadCard({
         {/* Right Side Action Area */}
         <div className="w-full sm:w-auto flex flex-col items-center justify-center gap-4 sm:gap-6 sm:pl-9 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
           {lastReply && (
-            <div className="text-center sm:text-left w-full"
-            >
+            <div className="text-center sm:text-left w-full">
               <p className="text-primary-color text-sm sm:text-base font-medium">
                 {t("threads.lastReply")}
               </p>
@@ -210,12 +220,13 @@ export default function ThreadCard({
             >
               Cancel
             </Button>
-            <Button className="w-41.25"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onFlag?.();
-                      setOpenFlagDialog(false);
-                    }}
+            <Button
+              className="w-41.25"
+              onClick={(e) => {
+                e.stopPropagation();
+                onFlag?.();
+                setOpenFlagDialog(false);
+              }}
             >
               Confirm Flag
               <ChevronRight className="size-5" />
@@ -237,5 +248,5 @@ export default function ThreadCard({
       </Dialog>
     </Card>
     // </ThreadDetailPage>
-    );
+  );
 }

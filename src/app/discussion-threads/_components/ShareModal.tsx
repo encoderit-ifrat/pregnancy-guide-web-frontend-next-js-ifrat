@@ -177,9 +177,9 @@ export default function ShareModal({
           </div>
         </div>
 
-        <DialogPrimitive.Close className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        {/* <DialogPrimitive.Close className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
           <span className="text-2xl">&times;</span>
-        </DialogPrimitive.Close>
+        </DialogPrimitive.Close> */}
       </DialogContent>
     </Dialog>
   );
