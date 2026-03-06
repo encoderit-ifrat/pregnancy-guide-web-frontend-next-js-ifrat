@@ -16,6 +16,7 @@ import {
   TinderNameGender,
 } from "./_api/queries/useQueryGetRandomTinderName";
 import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinderNameCategories";
+import { useQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import IconLike from "@/components/svg-icon/icon-like";
 import IconLove from "@/components/svg-icon/icon-love";
@@ -23,92 +24,22 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-const SAMPLE_THREADS = [
-  {
-    id: 1,
-    title: "How is Lorem Ipsum?",
-    excerpt:
-      "Share your thoughts and join the conversation below Share your thoughts and join the conversation below Share your thoughts and join the conversation below Share your thoughts and join the conversation below...",
-    createdBy: {
-      name: "Anna",
-      time: "2 days ago",
-    },
-    stats: {
-      likes: 25,
-      replies: 5,
-      views: 320,
-      shares: 10,
-    },
-    lastReply: {
-      time: "2h ago",
-      user: "Maria",
-    },
-  },
-  {
-    id: 2,
-    title: "What is Lorem Ipsum?",
-    excerpt:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book...",
-    createdBy: {
-      name: "Ifrat Jahan",
-      time: "1 day ago",
-    },
-    stats: {
-      likes: 45,
-      replies: 12,
-      views: "1.2k",
-      shares: 5,
-    },
-    lastReply: {
-      time: "1h ago",
-      user: "Sathi",
-    },
-  },
-  {
-    id: 3,
-    title: "Tips for managers sickness",
-    excerpt:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book...",
-    createdBy: {
-      name: "Amena Begum",
-      time: "3 days ago",
-    },
-    stats: {
-      likes: 98,
-      replies: 56,
-      views: "2.5k",
-      shares: 20,
-    },
-    lastReply: {
-      time: "5h ago",
-      user: "Fatema",
-    },
-  },
-  {
-    id: 4,
-    title: "What is Lorem Ipsum?",
-    excerpt:
-      "Share your thoughts and join the conversation below Share your thoughts and join the conversation below Share your thoughts and join the conversation below Share your thoughts and join the conversation below...",
-    createdBy: {
-      name: "Anna",
-      time: "2 days ago",
-    },
-    stats: {
-      likes: 25,
-      replies: 5,
-      views: 320,
-      shares: 10,
-    },
-    lastReply: {
-      time: "5h ago",
-      user: "Maria",
-    },
-  },
-];
-
 export default function Page() {
   const { t } = useTranslation();
-  const [isNext, setIsNext] = useState(true);
+  const [activeTab, setActiveTab] = useState("liked");
+
+  const tabSortMap: Record<string, string> = {
+    liked: "most_liked",
+    viewed: "most_viewed",
+  };
+
+  const {
+    data: namesData,
+    isLoading: namesLoading,
+    isError: namesError,
+  } = useQueryGetTinderNames({ sort: tabSortMap[activeTab] });
+
+  const communityNames = namesData?.data?.data ?? [];
   const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
   // stores the real _id of the selected category
@@ -195,7 +126,11 @@ export default function Page() {
 
         <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
-            <Tabs defaultValue="liked" className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
+            >
               <div className=" space-y-3">
                 <h2 className="text-[24px] sm:text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
                   {/* {t("threads.communityThreads")} */}
@@ -287,7 +222,7 @@ export default function Page() {
                   onClick={() => {
                     setFetchEnabled(true);
                     refetchTinderNames();
-                    setIsNext(false);
+                    // setIsNext(false);
                   }}
                 >
                   {tinderLoading ? "Loading..." : "Next"}
@@ -302,7 +237,6 @@ export default function Page() {
                 <TabsList
                   variant="pill"
                   className="bg-white shadow-sm border border-white text-primary-color"
-                  defaultValue="liked"
                 >
                   <TabsTrigger value="liked" variant="pill">
                     {t("threads.mostLiked")}
@@ -313,13 +247,47 @@ export default function Page() {
                 </TabsList>
               </div>
               <TabsContent value="liked" className="m-0 flex flex-col gap-6">
-                {SAMPLE_THREADS.map((thread) => (
-                  <CommunityCard key={thread.id} {...thread} />
+                {namesLoading && (
+                  <p className="text-center text-primary-color py-4">
+                    Loading…
+                  </p>
+                )}
+                {namesError && (
+                  <p className="text-center text-red-500 py-4">
+                    Failed to load names.
+                  </p>
+                )}
+                {!namesLoading &&
+                  !namesError &&
+                  communityNames.length === 0 && (
+                    <p className="text-center text-primary-color py-4">
+                      No names found.
+                    </p>
+                  )}
+                {communityNames.map((item) => (
+                  <CommunityCard key={item._id} name={item} />
                 ))}
               </TabsContent>
               <TabsContent value="viewed" className="m-0 flex flex-col gap-6">
-                {SAMPLE_THREADS.map((thread) => (
-                  <CommunityCard key={thread.id} {...thread} />
+                {namesLoading && (
+                  <p className="text-center text-primary-color py-4">
+                    Loading…
+                  </p>
+                )}
+                {namesError && (
+                  <p className="text-center text-red-500 py-4">
+                    Failed to load names.
+                  </p>
+                )}
+                {!namesLoading &&
+                  !namesError &&
+                  communityNames.length === 0 && (
+                    <p className="text-center text-primary-color py-4">
+                      No names found.
+                    </p>
+                  )}
+                {communityNames.map((item) => (
+                  <CommunityCard key={item._id} name={item} />
                 ))}
               </TabsContent>
             </Tabs>

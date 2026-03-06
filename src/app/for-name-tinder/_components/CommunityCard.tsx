@@ -1,87 +1,125 @@
+"use client";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/badge";
-import { ChevronRight, InfoIcon, X } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-// import ThreadDetailPage from "./ThreadDetailPage";
 import IconLove from "@/components/svg-icon/icon-love";
-import IconReply from "@/components/svg-icon/icon-reply";
-import IconEye from "@/components/svg-icon/icon-eye";
-import IconShare from "@/components/svg-icon/icon-share";
-import IconFlag from "@/components/svg-icon/icon-flag";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
-import { Button } from "@/components/ui/Button";
-import { SectionHeading } from "@/components/ui/text/SectionHeading";
-// import { Dialog, DialogContent } from "@/components/ui/Dialog";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import IconLike from "@/components/svg-icon/icon-like";
-import IconDelete from "@/components/svg-icon/icon-delete";
+import { Button } from "@/components/ui/Button";
+import { TinderNameItem } from "../_api/queries/useQueryGetTinderNames";
+import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTinderName";
+import { toast } from "sonner";
 
-interface ThreadCardProps {
-  title: string;
-  excerpt: string;
-  createdBy: {
-    name: string;
-    time: string;
-  };
-  stats: {
-    likes: number | string;
-    replies: number | string;
-    views: number | string;
-    shares: number | string;
-  };
-  lastReply?: {
-    time: string;
-    user: string;
-  };
+interface CommunityCardProps {
+  name: TinderNameItem;
   className?: string;
 }
 
-export default function CommunityCard({
-  title,
-  excerpt,
-  createdBy,
-  stats,
-  lastReply,
-  className,
-}: ThreadCardProps) {
+export default function CommunityCard({ name, className }: CommunityCardProps) {
   const { t } = useTranslation();
-  // const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
-  // const [openMatchDialog, setOpenMatchDialog] = useState(false);
+  const { mutate: swipe, isPending } = useMutationSwipeTinderName();
+
+  // Optimistic local counts
+  const [likedCount, setLikedCount] = useState(name.liked_count);
+  const [lovedCount, setLovedCount] = useState(name.loved_count);
+  const [userAction, setUserAction] = useState<"like" | "love" | null>(null);
+
+  const handleSwipe = (action: "like" | "love") => {
+    // Toggle off if clicking the same action again
+    if (userAction === action) return;
+
+    // Optimistic update
+    if (action === "like") {
+      setLikedCount((c) => c + 1);
+      if (userAction === "love") setLovedCount((c) => Math.max(0, c - 1));
+    } else {
+      setLovedCount((c) => c + 1);
+      if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
+    }
+    setUserAction(action);
+
+    swipe(
+      { id: name._id, action },
+      {
+        onSuccess: (res) => {
+          // Sync with real server counts
+          setLikedCount(res.data.liked_count);
+          setLovedCount(res.data.loved_count);
+        },
+        onError: () => {
+          // Rollback optimistic update
+          setLikedCount(name.liked_count);
+          setLovedCount(name.loved_count);
+          setUserAction(null);
+          toast.error("Failed to save your action. Please try again.");
+        },
+      }
+    );
+  };
+
   return (
-    // <ThreadDetailPage
-    //   title={title}
-    //   excerpt={excerpt}
-    //   createdBy={createdBy}
-    //   stats={stats}
-    //   lastReply={lastReply}
-    // >
     <Card
       className={cn(
-        "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12",
+        "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12",
         className
       )}
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
         <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
           <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
-            {title}
+            {name.name}
           </h3>
 
           {/* Footer Stats Area */}
           <div className="flex flex-wrap items-center gap-6 sm:gap-10">
-            <div className="flex items-center gap-2 text-primary-color">
-              <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+            {/* Like button */}
+            <button
+              disabled={isPending}
+              onClick={() => handleSwipe("like")}
+              className={cn(
+                "flex items-center gap-2 transition-colors",
+                userAction === "like"
+                  ? "text-primary"
+                  : "text-primary-color hover:text-primary",
+                isPending && "opacity-60 cursor-not-allowed"
+              )}
+            >
+              <IconLike
+                className={cn(
+                  "size-4 sm:size-5 transition-transform",
+                  userAction === "like" && "scale-110"
+                )}
+              />
               <span className="text-sm sm:text-base font-medium">
-                {stats.likes} {t("threads.like")}
+                {likedCount} {t("threads.like")}
               </span>
-            </div>
+            </button>
+
+            {/* Love button */}
+            <button
+              disabled={isPending}
+              onClick={() => handleSwipe("love")}
+              className={cn(
+                "flex items-center gap-2 transition-colors",
+                userAction === "love"
+                  ? "text-pink-500"
+                  : "text-primary-color hover:text-pink-500",
+                isPending && "opacity-60 cursor-not-allowed"
+              )}
+            >
+              <IconLove
+                className={cn(
+                  "size-4 sm:size-5 transition-transform",
+                  userAction === "love"
+                    ? "fill-pink-500 scale-110"
+                    : "fill-[#3D3177]"
+                )}
+              />
+              <span className="text-sm sm:text-base font-medium">
+                {lovedCount} {t("threads.like")}
+              </span>
+            </button>
           </div>
         </div>
 
@@ -94,6 +132,5 @@ export default function CommunityCard({
         </div>
       </div>
     </Card>
-    // </ThreadDetailPage>
   );
 }
