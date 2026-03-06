@@ -409,7 +409,7 @@ export default function ThreadDetailPage({
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
               placeholder={t("threads.writeReply")}
-              className="flex-1 min-h-[80px]"
+              className="flex-1 min-h-20"
             />
             <Button
               type="submit"
