@@ -17,6 +17,8 @@ import {
 } from "./_api/queries/useQueryGetRandomTinderName";
 import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinderNameCategories";
 import { useQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
+import { useMutationSwipeTinderName } from "./_api/mutations/useMutationSwipeTinderName";
+import { useMutationDislikeAllTinderNames } from "./_api/mutations/useMutationDislikeAllTinderNames";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import IconLike from "@/components/svg-icon/icon-like";
 import IconLove from "@/components/svg-icon/icon-love";
@@ -73,6 +75,11 @@ export default function Page() {
     category_id: selectedCategory,
     enabled: fetchEnabled,
   });
+
+  const { mutate: swipeName, isPending: swipePending } =
+    useMutationSwipeTinderName();
+  const { mutate: dislikeAll, isPending: dislikeAllPending } =
+    useMutationDislikeAllTinderNames();
 
   // When data arrives open the match dialog
   useEffect(() => {
@@ -355,7 +362,8 @@ export default function Page() {
       </Dialog>
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>
         <DialogContent className="sm:max-w-xl bg-white">
-          <SectionHeading className="m-0 text-center text-lg!">
+          <SectionHeading className="m-0 text-center text-lg! flex items-center justify-center gap-2">
+            <Image src="/check.png" alt="check" width={20} height={20} />
             This Name Is Matched
           </SectionHeading>
 
@@ -378,20 +386,41 @@ export default function Page() {
               ) : (
                 (tinderData?.data ?? []).map((nameItem) => (
                   <div key={nameItem.id} className="flex items-center gap-4">
-                    <div className="flex size-12 border border-primary rounded-md items-center justify-center">
+                    <button
+                      title="Dislike"
+                      disabled={swipePending}
+                      onClick={() =>
+                        swipeName({ id: String(nameItem.id), action: "pass" })
+                      }
+                      className="flex size-12 border border-primary rotate-180 rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
+                    >
                       <IconLike />
-                    </div>
+                    </button>
                     <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
                       {nameItem.name}
                     </p>
-                    <div className="flex size-12 border border-primary rounded-md items-center justify-center">
+                    <button
+                      title="Love"
+                      disabled={swipePending}
+                      onClick={() =>
+                        swipeName({ id: String(nameItem.id), action: "love" })
+                      }
+                      className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
+                    >
                       <IconLove />
-                    </div>
+                    </button>
                   </div>
                 ))
               )}
-              <Button className="w-99.5 mx-auto">
-                Dislike All Names
+              <Button
+                className="w-99.5 mx-auto"
+                disabled={dislikeAllPending}
+                onClick={() => {
+                  const ids = (tinderData?.data ?? []).map((n) => String(n.id));
+                  dislikeAll(ids);
+                }}
+              >
+                {dislikeAllPending ? "Disliking..." : "Dislike All Names"}
                 <ChevronRight />
               </Button>
             </>
