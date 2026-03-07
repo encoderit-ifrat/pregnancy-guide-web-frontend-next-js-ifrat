@@ -10,10 +10,32 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import IconDelete from "@/components/svg-icon/icon-delete";
 import Link from "next/link";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useQueryGetMatchingNames,
   MatchingNameItem,
 } from "./_api/useQueryGetMatchingNames";
+
+function SkeletonCard() {
+  return (
+    <div className="w-full border border-border rounded-lg p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12 animate-pulse">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+        <div className="flex-1 space-y-3">
+          <div className="h-7 w-40 rounded bg-primary/10" />
+          <div className="flex gap-3">
+            <div className="h-5 w-16 rounded-full bg-primary/10" />
+            <div className="h-5 w-24 rounded bg-primary/10" />
+            <div className="h-5 w-20 rounded bg-primary/10" />
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="size-5 rounded bg-primary/10" />
+          <div className="size-5 rounded bg-primary/10" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function NameCard({ item }: { item: MatchingNameItem }) {
   const { t } = useTranslation();
@@ -131,7 +153,16 @@ function NameCard({ item }: { item: MatchingNameItem }) {
 }
 
 export default function MatchedName() {
-  const { data, isLoading, isError } = useQueryGetMatchingNames("all");
+  const [activeTab, setActiveTab] = useState("liked");
+
+  const tabFilterMap: Record<string, "liked" | "loved" | "all"> = {
+    liked: "liked",
+    viewed: "loved",
+  };
+
+  const { data, isLoading, isError } = useQueryGetMatchingNames(
+    tabFilterMap[activeTab] ?? "all"
+  );
   const items = data?.items ?? [];
 
   return (
@@ -159,29 +190,51 @@ export default function MatchedName() {
           </div>
         </div>
 
-        {/* States */}
-        {isLoading && (
-          <p className="text-center text-primary-color py-4">
-            Loading matched names…
-          </p>
-        )}
-        {isError && (
-          <p className="text-center text-red-500 py-4">
-            Failed to load matched names. Please try again.
-          </p>
-        )}
-        {!isLoading && !isError && items.length === 0 && (
-          <p className="text-center text-primary-color py-4">
-            No matched names yet. Start swiping!
-          </p>
-        )}
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
+            <TabsList
+              variant="pill"
+              className="bg-white shadow-sm border border-white text-primary-color"
+            >
+              <TabsTrigger value="liked" variant="pill">
+                Most Liked
+              </TabsTrigger>
+              <TabsTrigger value="viewed" variant="pill">
+                Most Loved
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-        {/* Name cards */}
-        <div className="flex flex-col gap-6">
-          {items.map((item) => (
-            <NameCard key={item._id} item={item} />
+          {["liked", "viewed"].map((tab) => (
+            <TabsContent
+              key={tab}
+              value={tab}
+              className="m-0 flex flex-col gap-6"
+            >
+              {isLoading && (
+                <>
+                  <SkeletonCard />
+                  <SkeletonCard />
+                  <SkeletonCard />
+                </>
+              )}
+              {isError && (
+                <p className="text-center text-red-500 py-4">
+                  Failed to load matched names. Please try again.
+                </p>
+              )}
+              {!isLoading && !isError && items.length === 0 && (
+                <p className="text-center text-primary-color py-4">
+                  No matched names yet. Start swiping!
+                </p>
+              )}
+              {items.map((item) => (
+                <NameCard key={item._id} item={item} />
+              ))}
+            </TabsContent>
           ))}
-        </div>
+        </Tabs>
       </div>
     </div>
   );
