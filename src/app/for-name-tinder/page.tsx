@@ -26,6 +26,23 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+function SkeletonCommunityCard() {
+  return (
+    <div className="w-full border border-border rounded-lg p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12 animate-pulse">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+        <div className="flex-1 space-y-3">
+          <div className="h-7 w-48 rounded bg-primary/10" />
+          <div className="flex gap-4">
+            <div className="h-5 w-20 rounded bg-primary/10" />
+            <div className="h-5 w-20 rounded bg-primary/10" />
+          </div>
+        </div>
+        <div className="h-9 w-24 rounded-md bg-primary/10" />
+      </div>
+    </div>
+  );
+}
+
 export default function Page() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("liked");
@@ -255,9 +272,11 @@ export default function Page() {
               </div>
               <TabsContent value="liked" className="m-0 flex flex-col gap-6">
                 {namesLoading && (
-                  <p className="text-center text-primary-color py-4">
-                    Loading…
-                  </p>
+                  <>
+                    <SkeletonCommunityCard />
+                    <SkeletonCommunityCard />
+                    <SkeletonCommunityCard />
+                  </>
                 )}
                 {namesError && (
                   <p className="text-center text-red-500 py-4">
@@ -277,9 +296,11 @@ export default function Page() {
               </TabsContent>
               <TabsContent value="viewed" className="m-0 flex flex-col gap-6">
                 {namesLoading && (
-                  <p className="text-center text-primary-color py-4">
-                    Loading…
-                  </p>
+                  <>
+                    <SkeletonCommunityCard />
+                    <SkeletonCommunityCard />
+                    <SkeletonCommunityCard />
+                  </>
                 )}
                 {namesError && (
                   <p className="text-center text-red-500 py-4">
