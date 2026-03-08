@@ -74,7 +74,6 @@ export default function Page() {
     if (apiCategories.length > 0 && !selectedCategory) {
       setSelectedCategory(apiCategories[0]._id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiCategories]);
   // gender radio: "male" | "female" | "unisex"
   const [selectedGender, setSelectedGender] =
@@ -115,9 +114,9 @@ export default function Page() {
         <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
           {/* {t("threads.subtitle")} */}
           Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
+          industry. Lorem Ipsum has been the industry&apos;s standard dummy text
+          ever since the 1500s, when an unknown printer took a galley of type
+          and scrambled it to make a type specimen book.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full max-w-2xl mx-auto px-6">
           <Button
@@ -349,9 +348,11 @@ export default function Page() {
                   />
                   {category.image ? (
                     <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
-                      <img
+                      <Image
                         src={category.image}
                         alt={category.name}
+                        width={48}
+                        height={48}
                         className="size-full object-cover rounded"
                       />
                     </div>
