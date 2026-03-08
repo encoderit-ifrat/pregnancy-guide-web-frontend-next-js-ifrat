@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
-import Pusher from "pusher-js";
+import { useEffect, useRef } from "react";
 import { getPusherClient, PUSHER_CHANNELS, PUSHER_EVENTS } from "@/lib/pusher";
 import {
   PusherNewThreadEvent,
@@ -31,23 +30,37 @@ export function usePusherThreadsSubscription({
   onNewThread,
   onThreadDeleted,
 }: UsePusherThreadsSubscriptionOptions) {
+  const onNewThreadRef = useRef(onNewThread);
+  const onThreadDeletedRef = useRef(onThreadDeleted);
+
+  useEffect(() => {
+    onNewThreadRef.current = onNewThread;
+  }, [onNewThread]);
+
+  useEffect(() => {
+    onThreadDeletedRef.current = onThreadDeleted;
+  }, [onThreadDeleted]);
+
   useEffect(() => {
     const pusher = getPusherClient();
     const channel = pusher.subscribe(PUSHER_CHANNELS.THREADS);
 
-    if (onNewThread) {
-      channel.bind(PUSHER_EVENTS.NEW_THREAD, onNewThread);
-    }
+    channel.bind(PUSHER_EVENTS.NEW_THREAD, (data: PusherNewThreadEvent) => {
+      onNewThreadRef.current?.(data);
+    });
 
-    if (onThreadDeleted) {
-      channel.bind(PUSHER_EVENTS.THREAD_DELETED, onThreadDeleted);
-    }
+    channel.bind(
+      PUSHER_EVENTS.THREAD_DELETED,
+      (data: PusherThreadDeletedEvent) => {
+        onThreadDeletedRef.current?.(data);
+      }
+    );
 
     return () => {
       channel.unbind_all();
       pusher.unsubscribe(PUSHER_CHANNELS.THREADS);
     };
-  }, [onNewThread, onThreadDeleted]);
+  }, []);
 }
 
 export function usePusherThreadDetailSubscription({
@@ -59,38 +72,55 @@ export function usePusherThreadDetailSubscription({
 }: UsePusherThreadDetailSubscriptionOptions) {
   const channelName = `${PUSHER_CHANNELS.THREAD_PREFIX}${threadId}`;
 
+  const onThreadLikedRef = useRef(onThreadLiked);
+  const onNewReplyRef = useRef(onNewReply);
+  const onReplyLikedRef = useRef(onReplyLiked);
+  const onReplyDeletedRef = useRef(onReplyDeleted);
+
+  useEffect(() => {
+    onThreadLikedRef.current = onThreadLiked;
+  }, [onThreadLiked]);
+
+  useEffect(() => {
+    onNewReplyRef.current = onNewReply;
+  }, [onNewReply]);
+
+  useEffect(() => {
+    onReplyLikedRef.current = onReplyLiked;
+  }, [onReplyLiked]);
+
+  useEffect(() => {
+    onReplyDeletedRef.current = onReplyDeleted;
+  }, [onReplyDeleted]);
+
   useEffect(() => {
     if (!threadId) return;
 
     const pusher = getPusherClient();
     const channel = pusher.subscribe(channelName);
 
-    if (onThreadLiked) {
-      channel.bind(PUSHER_EVENTS.THREAD_LIKED, onThreadLiked);
-    }
+    channel.bind(PUSHER_EVENTS.THREAD_LIKED, (data: PusherThreadLikedEvent) => {
+      onThreadLikedRef.current?.(data);
+    });
 
-    if (onNewReply) {
-      channel.bind(PUSHER_EVENTS.NEW_REPLY, onNewReply);
-    }
+    channel.bind(PUSHER_EVENTS.NEW_REPLY, (data: PusherNewReplyEvent) => {
+      onNewReplyRef.current?.(data);
+    });
 
-    if (onReplyLiked) {
-      channel.bind(PUSHER_EVENTS.REPLY_LIKED, onReplyLiked);
-    }
+    channel.bind(PUSHER_EVENTS.REPLY_LIKED, (data: PusherReplyLikedEvent) => {
+      onReplyLikedRef.current?.(data);
+    });
 
-    if (onReplyDeleted) {
-      channel.bind(PUSHER_EVENTS.REPLY_DELETED, onReplyDeleted);
-    }
+    channel.bind(
+      PUSHER_EVENTS.REPLY_DELETED,
+      (data: PusherReplyDeletedEvent) => {
+        onReplyDeletedRef.current?.(data);
+      }
+    );
 
     return () => {
       channel.unbind_all();
       pusher.unsubscribe(channelName);
     };
-  }, [
-    threadId,
-    channelName,
-    onThreadLiked,
-    onNewReply,
-    onReplyLiked,
-    onReplyDeleted,
-  ]);
+  }, [threadId, channelName]);
 }
