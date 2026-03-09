@@ -161,6 +161,7 @@ export default function Page() {
         shares: 0,
       },
       lastReply: undefined,
+      last_reply_user: thread.last_reply_user,
       thread: thread,
     };
   });
@@ -263,6 +264,7 @@ export default function Page() {
                       createdBy={thread.createdBy}
                       stats={thread.stats}
                       lastReply={thread.lastReply}
+                      lastReplyUser={thread.last_reply_user}
                       thread={thread.thread}
                       onLike={() => handleLike(thread.id)}
                       onFlag={() => handleFlag(thread.id)}

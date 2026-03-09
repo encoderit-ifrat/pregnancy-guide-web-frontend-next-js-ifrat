@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useRouter } from "next/navigation";
+import { formatDistanceToNow, isValid } from "date-fns";
 
 interface ThreadCardProps {
   id: string;
@@ -40,6 +41,10 @@ interface ThreadCardProps {
     time: string;
     user: string;
   };
+  lastReplyUser?: {
+    replied_at: string;
+    name: string;
+  };
   thread?: Thread;
   className?: string;
   onLike?: () => void;
@@ -55,6 +60,7 @@ export default function ThreadCard({
   createdBy,
   stats,
   lastReply,
+  lastReplyUser,
   thread,
   className,
   onLike,
@@ -62,6 +68,7 @@ export default function ThreadCard({
   onFlag,
   onShare,
 }: ThreadCardProps) {
+  console.log("👉 ~ ThreadCard ~ lastReplyUser:", lastReplyUser);
   const { t } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
@@ -188,16 +195,20 @@ export default function ThreadCard({
 
         {/* Right Side Action Area */}
         <div className="w-full sm:w-auto flex flex-col items-center justify-center gap-4 sm:gap-6 sm:pl-9 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
-          {lastReply && (
+          {lastReplyUser?.name && (
             <div className="text-center sm:text-left w-full">
-              <p className="text-primary-color text-sm sm:text-base font-medium">
+              <p className="text-primary-color text-center text-sm sm:text-base font-medium">
                 {t("threads.lastReply")}
               </p>
-              <p className="text-primary-color text-xs sm:text-sm">
-                {lastReply.time} {t("threads.by")} {lastReply.user}
+              <p className="text-primary-color text-center text-xs sm:text-sm">
+                {`${formatDistanceToNow(lastReplyUser?.replied_at, {
+                  addSuffix: true,
+                })} ${t("threads.by")} `}
+                {lastReplyUser.name}
               </p>
             </div>
           )}
+
           <div
             className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-fit"
             onClick={() => setOpenReadMoreDialog(true)}
