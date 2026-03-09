@@ -127,7 +127,8 @@ function SharedMatchedNamesContent() {
   const { data, isLoading, isError } = useQueryGetMatchingNames(
     tabFilterMap[activeTab] ?? "all",
     user_id,
-    partner_id
+    partner_id,
+    true
   );
 
   const items = data?.items ?? [];
