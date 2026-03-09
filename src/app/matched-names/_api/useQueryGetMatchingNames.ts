@@ -34,15 +34,19 @@ interface MatchingNamesResponse {
   data: MatchingNameItem | MatchingNameItem[];
 }
 
-export const useQueryGetMatchingNames = (filter: MatchingFilter = "all") => {
+export const useQueryGetMatchingNames = (
+  filter: MatchingFilter = "all",
+  user_id?: string,
+  partner_id?: string
+) => {
   return useQuery({
-    queryKey: ["tinder-names-matching", filter],
+    queryKey: ["tinder-names-matching", filter, user_id, partner_id],
     staleTime: 0,
     refetchOnWindowFocus: false,
     queryFn: async () => {
       const res = await api.get<MatchingNamesResponse>(
         "/tinder-names/matching",
-        { params: { filter } }
+        { params: { filter, user_id, partner_id } }
       );
       // Normalise: API may return a single object or an array
       const raw = res.data.data;
