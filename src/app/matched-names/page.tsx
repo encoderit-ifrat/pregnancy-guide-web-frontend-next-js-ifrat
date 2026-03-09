@@ -14,7 +14,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useQueryGetMatchingNames,
   MatchingNameItem,
+  MatchingType,
 } from "./_api/useQueryGetMatchingNames";
+import { toast } from "sonner";
 
 function SkeletonCard() {
   return (
@@ -37,7 +39,7 @@ function SkeletonCard() {
   );
 }
 
-function NameCard({ item }: { item: MatchingNameItem }) {
+function NameCard({ item }: { item: MatchingType }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -157,13 +159,35 @@ export default function MatchedName() {
 
   const tabFilterMap: Record<string, "liked" | "loved" | "all"> = {
     liked: "liked",
-    viewed: "loved",
+    loved: "loved",
   };
 
   const { data, isLoading, isError } = useQueryGetMatchingNames(
     tabFilterMap[activeTab] ?? "all"
   );
   const items = data?.items ?? [];
+  const firstItem = items[0];
+  const listToRender =
+    activeTab === "liked" ? firstItem?.liked : firstItem?.loved;
+
+  console.log("👉 ~ MatchedName ~ items:", items);
+
+  const [shareLink, setShareLink] = useState("");
+
+  React.useEffect(() => {
+    if (firstItem) {
+      const link = `${window.location.origin}/share-matched-names?user_id=${firstItem.user_id}&partner_id=${firstItem.partner_id}&filter=love`;
+      setShareLink(link);
+    } else {
+      setShareLink("");
+    }
+  }, [firstItem]);
+
+  const handleCopy = () => {
+    if (!shareLink) return;
+    navigator.clipboard.writeText(shareLink);
+    toast.success("Link copied to clipboard!");
+  };
 
   return (
     <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
@@ -183,11 +207,16 @@ export default function MatchedName() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
-            <Link2 />
-            https://www.familj.se/matched-names
-            <Copy className="ml-auto cursor-pointer hover:opacity-70 transition-opacity" />
-          </div>
+          {shareLink && (
+            <div className="flex items-center gap-2 line-clamp-1 whitespace-normal rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
+              <Link2 />
+              <span className="truncate flex-1">{shareLink}</span>
+              <Copy
+                onClick={handleCopy}
+                className="ml-auto cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0"
+              />
+            </div>
+          )}
         </div>
 
         {/* Tabs */}
@@ -200,13 +229,13 @@ export default function MatchedName() {
               <TabsTrigger value="liked" variant="pill">
                 Most Liked
               </TabsTrigger>
-              <TabsTrigger value="viewed" variant="pill">
+              <TabsTrigger value="loved" variant="pill">
                 Most Loved
               </TabsTrigger>
             </TabsList>
           </div>
 
-          {["liked", "viewed"].map((tab) => (
+          {["liked", "loved"].map((tab) => (
             <TabsContent
               key={tab}
               value={tab}
@@ -224,13 +253,15 @@ export default function MatchedName() {
                   Failed to load matched names. Please try again.
                 </p>
               )}
-              {!isLoading && !isError && items.length === 0 && (
-                <p className="text-center text-primary-color py-4">
-                  No matched names yet. Start swiping!
-                </p>
-              )}
-              {items.map((item) => (
-                <NameCard key={item._id} item={item} />
+              {!isLoading &&
+                !isError &&
+                (!listToRender || listToRender.length === 0) && (
+                  <p className="text-center text-primary-color py-4">
+                    No matched names yet. Start swiping!
+                  </p>
+                )}
+              {listToRender?.map((nameItem, idx) => (
+                <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} />
               ))}
             </TabsContent>
           ))}

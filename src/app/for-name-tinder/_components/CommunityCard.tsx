@@ -120,7 +120,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                   )}
                 />
                 <span className="text-sm sm:text-base font-medium">
-                  {lovedCount} {t("threads.like")}
+                  {lovedCount} {t("Love")}
                 </span>
               </button>
             </div>

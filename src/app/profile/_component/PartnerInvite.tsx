@@ -21,7 +21,8 @@ export default function PartnerInvite() {
   const { t } = useTranslation();
   const { data: invitationsData, isLoading: isFetching } =
     useQueryGetInvitations();
-  console.log("👉 ~ PartnerInvite ~ invitationsData:", invitationsData);
+  const partners = invitationsData?.data?.data || [];
+
   const { mutate: createInvitation, isPending: isCreating } =
     useInvitationCreate();
   const { mutate: deleteInvitation, isPending: isDeleting } =
@@ -30,8 +31,6 @@ export default function PartnerInvite() {
   const [email, setEmail] = useState("");
   const [roleLabel, setRoleLabel] = useState(t("partner.rolePartner"));
   const [roleValue, setRoleValue] = useState("partner");
-
-  const partners = invitationsData?.data || [];
 
   const handleSendInvite = () => {
     if (!email) {

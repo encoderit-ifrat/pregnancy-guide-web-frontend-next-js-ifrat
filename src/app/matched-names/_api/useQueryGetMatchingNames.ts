@@ -2,11 +2,10 @@ import api from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 export type MatchingFilter = "all" | "liked" | "loved";
-
-export interface MatchingNameItem {
-  _id: string;
+export type Gender = "male" | "female" | "unisex";
+export type MatchingType = {
   name: string;
-  gender: "male" | "female" | "unisex";
+  gender: Gender;
   liked_count: number;
   loved_count: number;
   category_id: {
@@ -19,6 +18,14 @@ export interface MatchingNameItem {
   createdAt: string;
   updatedAt: string;
   __v: number;
+};
+
+export interface MatchingNameItem {
+  _id: string;
+  user_id: string;
+  partner_id: string;
+  liked: MatchingType[];
+  loved: MatchingType[];
 }
 
 interface MatchingNamesResponse {
