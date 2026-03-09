@@ -3,7 +3,7 @@ export interface Invitation {
   inviter: string;
   email: string;
   invitation_type: string;
-  status: "pending" | "accepted";
+  status: "pending" | "accepted" | "cancelled";
   accepted_at: string | null;
   createdAt: string;
   updatedAt: string;

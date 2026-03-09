@@ -21,6 +21,7 @@ export default function PartnerInvite() {
   const { t } = useTranslation();
   const { data: invitationsData, isLoading: isFetching } =
     useQueryGetInvitations();
+  console.log("👉 ~ PartnerInvite ~ invitationsData:", invitationsData);
   const { mutate: createInvitation, isPending: isCreating } =
     useInvitationCreate();
   const { mutate: deleteInvitation, isPending: isDeleting } =
@@ -30,7 +31,7 @@ export default function PartnerInvite() {
   const [roleLabel, setRoleLabel] = useState(t("partner.rolePartner"));
   const [roleValue, setRoleValue] = useState("partner");
 
-  const partners = invitationsData?.data?.data || [];
+  const partners = invitationsData?.data || [];
 
   const handleSendInvite = () => {
     if (!email) {
@@ -164,15 +165,19 @@ export default function PartnerInvite() {
                 <div className="flex items-center gap-3 shrink-0">
                   <Badge
                     className={cn(
-                      "px-4 py-1 text-sm  font-semibold min-w-23 text-center border-none",
-                      partner.status !== "accepted"
-                        ? "bg-[#FFBB55] text-white"
-                        : "bg-[#4ADE80] text-white"
+                      "px-4 py-1 text-sm font-semibold min-w-23 text-center border-none",
+                      partner.status === "pending" && "bg-[#FFBB55] text-white",
+                      partner.status === "accepted" &&
+                        "bg-[#4ADE80] text-white",
+                      partner.status === "cancelled" &&
+                        "bg-[#EF4444] text-white"
                     )}
                   >
-                    {partner.status !== "accepted"
-                      ? t("partner.statusInvited")
-                      : t("partner.statusAccepted")}
+                    {partner.status === "pending" && t("partner.statusPending")}
+                    {partner.status === "accepted" &&
+                      t("partner.statusAccepted")}
+                    {partner.status === "cancelled" &&
+                      t("partner.statusCancelled")}
                   </Badge>
                   <button
                     onClick={() => handleDelete(partner._id)}

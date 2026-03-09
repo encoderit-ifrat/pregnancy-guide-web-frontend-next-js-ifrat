@@ -397,6 +397,8 @@
     "sendInvite": "Skicka inbjudan",
     "emailAddress": "E-postadress",
     "statusInvited": "inbjuden",
+    "statusPending": "Väntar",
+    "statusCancelled": "Avbryten",
     "statusAccepted": "Accepterad"
   },
   "formProfile": {

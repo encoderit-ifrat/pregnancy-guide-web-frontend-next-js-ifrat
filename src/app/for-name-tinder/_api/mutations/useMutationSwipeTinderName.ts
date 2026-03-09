@@ -1,7 +1,7 @@
 import api from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type SwipeAction = "like" | "love" | "pass";
+export type SwipeAction = "like" | "love" | "dislike";
 
 export interface SwipeResponse {
   success: boolean;

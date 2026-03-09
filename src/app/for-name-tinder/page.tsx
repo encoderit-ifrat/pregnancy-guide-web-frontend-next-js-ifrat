@@ -406,13 +406,16 @@ export default function Page() {
                   No names found for the selected filters.
                 </p>
               ) : (
-                (tinderData?.data ?? []).map((nameItem) => (
-                  <div key={nameItem.id} className="flex items-center gap-4">
+                (tinderData?.data ?? []).map((nameItem, index) => (
+                  <div key={index} className="flex items-center gap-4">
                     <button
                       title="Dislike"
                       disabled={swipePending}
                       onClick={() =>
-                        swipeName({ id: String(nameItem.id), action: "pass" })
+                        swipeName({
+                          id: String(nameItem._id),
+                          action: "dislike",
+                        })
                       }
                       className="flex size-12 border border-primary rotate-180 rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
                     >
@@ -425,7 +428,7 @@ export default function Page() {
                       title="Love"
                       disabled={swipePending}
                       onClick={() =>
-                        swipeName({ id: String(nameItem.id), action: "love" })
+                        swipeName({ id: String(nameItem._id), action: "love" })
                       }
                       className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
                     >
@@ -434,17 +437,21 @@ export default function Page() {
                   </div>
                 ))
               )}
-              <Button
-                className="w-99.5 mx-auto"
-                disabled={dislikeAllPending}
-                onClick={() => {
-                  const ids = (tinderData?.data ?? []).map((n) => String(n.id));
-                  dislikeAll(ids);
-                }}
-              >
-                {dislikeAllPending ? "Disliking..." : "Dislike All Names"}
-                <ChevronRight />
-              </Button>
+              {(tinderData?.data ?? []).length > 0 && (
+                <Button
+                  className="w-99.5 mx-auto"
+                  disabled={dislikeAllPending}
+                  onClick={() => {
+                    const ids = (tinderData?.data ?? []).map((n) =>
+                      String(n.id)
+                    );
+                    dislikeAll(ids);
+                  }}
+                >
+                  {dislikeAllPending ? "Disliking..." : "Dislike All Names"}
+                  <ChevronRight />
+                </Button>
+              )}
             </>
           )}
         </DialogContent>

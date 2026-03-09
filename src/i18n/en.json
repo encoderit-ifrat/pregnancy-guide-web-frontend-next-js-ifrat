@@ -423,6 +423,8 @@
     "sendInvite": "Send Invitation",
     "emailAddress": "Email Address",
     "statusInvited": "invited",
+    "statusPending": "Pending",
+    "statusCancelled": "Cancelled",
     "statusAccepted": "Accepted"
   },
   "formProfile": {

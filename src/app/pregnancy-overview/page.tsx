@@ -19,7 +19,11 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 // Fetch user-specific data using session
-async function getPregnancyData(token: string, week?: number, lang: string = "en") {
+async function getPregnancyData(
+  token: string,
+  week?: number,
+  lang: string = "en"
+) {
   try {
     const url = new URL(`${API_V1}/pregnancy`);
     if (week !== undefined) {
@@ -51,7 +55,9 @@ async function getPregnancyData(token: string, week?: number, lang: string = "en
 }
 
 // Async server component
-export default async function Page({ searchParams }: PregnancyOverviewPageProps) {
+export default async function Page({
+  searchParams,
+}: PregnancyOverviewPageProps) {
   // Get session from NextAuth or your auth provider
   const session = await getServerSession(authOptions);
 
@@ -106,7 +112,10 @@ export default async function Page({ searchParams }: PregnancyOverviewPageProps)
 
   return (
     <div>
-      <PregnancyOverview pregnancyData={pregnancyData} selectedWeek={selectedWeek} />
+      <PregnancyOverview
+        pregnancyData={pregnancyData}
+        selectedWeek={selectedWeek}
+      />
     </div>
   );
 }
