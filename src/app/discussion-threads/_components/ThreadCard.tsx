@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow, isValid } from "date-fns";
+import { enUS, sv as svLocale } from "date-fns/locale";
 
 interface ThreadCardProps {
   id: string;
@@ -69,7 +70,7 @@ export default function ThreadCard({
   onShare,
 }: ThreadCardProps) {
   console.log("👉 ~ ThreadCard ~ lastReplyUser:", lastReplyUser);
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
@@ -201,8 +202,9 @@ export default function ThreadCard({
                 {t("threads.lastReply")}
               </p>
               <p className="text-primary-color text-center text-xs sm:text-sm">
-                {`${formatDistanceToNow(lastReplyUser?.replied_at, {
+                {`${formatDistanceToNow(new Date(lastReplyUser?.replied_at), {
                   addSuffix: true,
+                  locale: locale === "sv" ? svLocale : enUS,
                 })} ${t("threads.by")} `}
                 {lastReplyUser.name}
               </p>
@@ -221,10 +223,10 @@ export default function ThreadCard({
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white">
           <SectionHeading className="m-0 text-center">
-            {t("threads.flagTitle") || "Flag This Content"}
+            {t("threads.flagTitle")}
           </SectionHeading>
           <p className="text-primary-color text-base text-center">
-            {t("threads.flagModeratorNotify") || "This Will Notify Moderators"}
+            {t("threads.flagModeratorNotify")}
           </p>
           <div className="flex items-center justify-center gap-2 pt-4">
             <Button
@@ -232,7 +234,7 @@ export default function ThreadCard({
               onClick={() => setOpenFlagDialog(false)}
               className="w-40"
             >
-              {t("common.cancel") || "Cancel"}
+              {t("common.cancel")}
             </Button>
             <Button
               className="w-40"
@@ -242,7 +244,7 @@ export default function ThreadCard({
                 setOpenFlagDialog(false);
               }}
             >
-              {t("threads.confirmFlag") || "Confirm Flag"}
+              {t("threads.confirmFlag")}
               <ChevronRight className="size-5" />
             </Button>
           </div>
