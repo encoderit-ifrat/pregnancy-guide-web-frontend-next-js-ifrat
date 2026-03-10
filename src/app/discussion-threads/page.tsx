@@ -235,9 +235,9 @@ export default function Page() {
               onValueChange={handleTabChange}
             >
               <div className="flex flex-col lg:flex-row justify-between items-center mb-6 md:mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
-                <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-bold text-primary-color tracking-tight text-center lg:text-left">
+                <SectionHeading className="text-[28px] md:text-[32px] lg:text-[42px] text-center lg:text-left">
                   {t("threads.communityThreads")}
-                </h2>
+                </SectionHeading>
 
                 <TabsList
                   variant="pill"
