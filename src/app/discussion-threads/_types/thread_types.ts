@@ -16,6 +16,7 @@ export interface Thread {
   flags: string[];
   flags_count?: number;
   is_flagged?: boolean;
+  is_liked?: boolean;
   shares_count: number;
   createdAt: string;
   updatedAt: string;

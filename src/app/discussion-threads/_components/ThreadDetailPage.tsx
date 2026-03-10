@@ -79,13 +79,15 @@ function ReplyCard({
   onReplyFlag,
   isNested = false,
   onReplyToReply,
+  parentId,
 }: {
   reply: ThreadReply;
   threadId: string;
-  onReplyLike?: (replyId: string) => void;
-  onReplyFlag?: (replyId: string) => void;
+  onReplyLike?: (replyId: string, parentId?: string) => void;
+  onReplyFlag?: (replyId: string, parentId?: string) => void;
   isNested?: boolean;
   onReplyToReply?: (reply: ThreadReply) => void;
+  parentId?: string;
 }) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
@@ -115,8 +117,10 @@ function ReplyCard({
     ? formatDistanceToNow(createdAtDate, { addSuffix: true })
     : "";
 
-  const isLiked = reply.likes?.includes(user?._id || "") || false;
-  const isFlagged = reply.flags?.includes(user?._id || "") || false;
+  const isLiked =
+    reply.is_liked || reply.likes?.includes(user?._id || "") || false;
+  const isFlagged =
+    reply.is_flagged || reply.flags?.includes(user?._id || "") || false;
 
   const nestedReplies = Array.isArray(nestedRepliesData?.data)
     ? nestedRepliesData.data
@@ -166,7 +170,9 @@ function ReplyCard({
             </button>
 
             <button
-              onClick={() => handleAuthAction(() => onReplyLike?.(reply._id))}
+              onClick={() =>
+                handleAuthAction(() => onReplyLike?.(reply._id, parentId))
+              }
               className={cn(
                 "flex items-center gap-1.5 transition-colors",
                 isLiked ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
@@ -179,7 +185,9 @@ function ReplyCard({
             </button>
 
             <button
-              onClick={() => handleAuthAction(() => onReplyFlag?.(reply._id))}
+              onClick={() =>
+                handleAuthAction(() => onReplyFlag?.(reply._id, parentId))
+              }
               className={cn(
                 "flex items-center gap-1.5 transition-colors",
                 isFlagged
@@ -222,6 +230,7 @@ function ReplyCard({
                   onReplyFlag={onReplyFlag}
                   isNested={true}
                   onReplyToReply={onReplyToReply}
+                  parentId={reply._id}
                 />
               ))}
             </div>
@@ -261,8 +270,10 @@ export default function ThreadDetailPage({
     action?.();
   };
 
-  const isLiked = thread?.likes?.includes(user?._id || "") || false;
-  const isFlagged = thread?.flags?.includes(user?._id) || false;
+  const isLiked =
+    thread?.is_liked || thread?.likes?.includes(user?._id || "") || false;
+  const isFlagged =
+    thread?.is_flagged || thread?.flags?.includes(user?._id || "") || false;
 
   const fullDescription = thread?.description || description || "";
 
@@ -326,25 +337,48 @@ export default function ThreadDetailPage({
   const flagThreadMutation = useMutationFlagThread();
   const shareThreadMutation = useMutationShareThread();
 
-  const handleReplyLike = async (replyId: string) => {
+  const handleReplyLike = async (replyId: string, parentId?: string) => {
     if (!threadId) return;
     try {
-      const result = await toggleReplyLike.mutateAsync({ threadId, replyId });
-      setReplies((prev = []) =>
-        prev.map((r) =>
-          r._id === replyId ? { ...r, likes_count: result.data.likes_count } : r
-        )
-      );
+      await toggleReplyLike.mutateAsync({ threadId, replyId });
+      // If it's a top-level reply, we can update the state for immediate UI feedback
+      if (!parentId) {
+        setReplies((prev = []) =>
+          prev.map((r) =>
+            r._id === replyId
+              ? {
+                  ...r,
+                  likes_count:
+                    (r.likes_count || 0) +
+                    (r.likes?.includes(user?._id || "") ? -1 : 1),
+                }
+              : r
+          )
+        );
+      } else {
+        // If it's a nested reply, invalidate the specific nested query
+        queryClient.invalidateQueries({
+          queryKey: ["get-nested-replies", threadId, parentId],
+        });
+      }
+      // Also refetch main replies to keep everything in sync
+      refetchReplies();
     } catch (error: any) {
       toast.error(error?.message || t("threads.errorLiking"));
     }
   };
 
-  const handleReplyFlag = async (replyId: string) => {
+  const handleReplyFlag = async (replyId: string, parentId?: string) => {
     if (!threadId) return;
     try {
       await flagReplyMutation.mutateAsync({ threadId, replyId });
       toast.success(t("threads.replyFlagSuccess"));
+      if (parentId) {
+        queryClient.invalidateQueries({
+          queryKey: ["get-nested-replies", threadId, parentId],
+        });
+      }
+      refetchReplies();
     } catch (error: any) {
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
     }
