@@ -159,18 +159,18 @@ export default function PublishedThreadsPage() {
           </p>
         </div>
 
-        <div className="w-full max-w-6xl bg-white rounded-4xl shadow-sm overflow-hidden px-9 pt-10 pb-6">
-          <div className="flex items-center justify-between mb-12">
-            <h1 className="text-5xl font-semibold text-[#3D3177]">
+        <div className="w-full max-w-6xl bg-white rounded-2xl sm:rounded-4xl shadow-sm overflow-hidden px-4 sm:px-9 pt-6 sm:pt-10 pb-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-8 sm:mb-12 gap-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#3D3177] text-center sm:text-left">
               {t("threads.myPublished")}
             </h1>
             <Button
               variant="outline"
-              className="rounded-full border-[#DED7F1] text-primary-color hover:bg-[#F6F0FF] px-7 h-11 border-2"
+              className="rounded-full border-[#DED7F1] text-primary-color hover:bg-[#F6F0FF] px-6 sm:px-7 h-10 sm:h-11 border-2 w-full sm:w-auto"
               onClick={() => router.back()}
             >
-              <ChevronLeft className="size-5 mr-1 text-[#DED7F1]" />
-              <span className="font-semibold text-base">
+              <ChevronLeft className="size-4 sm:size-5 mr-1 text-[#DED7F1]" />
+              <span className="font-semibold text-sm sm:text-base">
                 {t("common.back")}
               </span>
             </Button>
@@ -180,6 +180,7 @@ export default function PublishedThreadsPage() {
             {formattedThreads.map((thread) => (
               <MyThreadCard
                 key={thread.id}
+                id={thread.id}
                 title={thread.title}
                 description={thread.description}
                 createdBy={thread.createdBy}

@@ -207,15 +207,18 @@ export default function Page() {
           <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
             {t("threads.subtitle")}
           </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full max-w-2xl mx-auto px-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full max-w-2xl mx-auto px-6">
             <CreateThreadModal onSuccess={() => refetch()}>
-              <Button className="w-61.25 font-semibold ">
+              <Button className="w-full sm:w-fit sm:min-w-61.25 font-semibold ">
                 {t("threads.startThread")}
                 <ChevronRight className="size-4" />
               </Button>
             </CreateThreadModal>
-            <Link href="/published-threads">
-              <Button className="w-61.25 font-semibold " variant="outline">
+            <Link href="/published-threads" className="w-full sm:w-fit">
+              <Button
+                className="w-full sm:min-w-61.25 font-semibold "
+                variant="outline"
+              >
                 {t("threads.myPublished")}
                 <ChevronRight className="size-4" />
               </Button>
@@ -223,8 +226,8 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="w-full max-w-327  pb-20 mx-auto">
-          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
+        <div className="w-full max-w-327  pb-20 mx-auto px-4 sm:px-0">
+          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
             <Tabs
               defaultValue="newest"
               className="w-full"

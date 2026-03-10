@@ -14,8 +14,8 @@ import {
 
 function SkeletonCard() {
   return (
-    <div className="w-full border border-border rounded-lg p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12 animate-pulse">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+    <div className="w-full border border-border rounded-lg p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12 animate-pulse">
+      <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
         <div className="flex-1 space-y-3">
           <div className="h-7 w-40 rounded bg-primary/10" />
           <div className="flex gap-3">
@@ -39,8 +39,8 @@ function NameCard({ item }: { item: MatchingType }) {
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
-      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12">
+        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
           {/* Left: name + meta */}
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
@@ -138,7 +138,7 @@ function SharedMatchedNamesContent() {
 
   return (
     <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
-      <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
+      <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
         {/* Header */}
         <div className="mb-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">

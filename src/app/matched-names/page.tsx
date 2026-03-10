@@ -46,7 +46,7 @@ function NameCard({ item }: { item: MatchingType }) {
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
-      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12">
+      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
           {/* Left: name + meta */}
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
@@ -93,16 +93,16 @@ function NameCard({ item }: { item: MatchingType }) {
                   <p className="text-primary-color text-base text-center my-4">
                     It Will Be deleted forever.
                   </p>
-                  <div className="flex items-center justify-center gap-4 mt-6">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
                     <Button
                       variant="outline"
                       onClick={() => setOpenDeleteDialog(false)}
-                      className="w-41.25"
+                      className="w-full sm:w-41.25"
                     >
                       Cancel
                     </Button>
                     <Button
-                      className="w-41.25"
+                      className="w-full sm:w-41.25"
                       onClick={() => {
                         // TODO: call delete mutation here
                         setOpenDeleteDialog(false);
@@ -191,7 +191,7 @@ export default function MatchedName() {
 
   return (
     <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
-      <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
+      <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
         {/* Header */}
         <div className="mb-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">

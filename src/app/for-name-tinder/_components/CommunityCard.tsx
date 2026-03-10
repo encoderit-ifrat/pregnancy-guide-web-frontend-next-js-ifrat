@@ -64,24 +64,24 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
     <>
       <Card
         className={cn(
-          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden hover:shadow-md transition-all p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12",
+          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12",
           className
         )}
       >
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
+        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
               {name.name}
             </h3>
 
             {/* Footer Stats Area */}
-            <div className="flex flex-wrap items-center gap-6 sm:gap-10">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-10">
               {/* Like button */}
               <button
                 disabled={isPending}
                 onClick={() => handleSwipe("like")}
                 className={cn(
-                  "flex items-center gap-2 transition-colors",
+                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
                   userAction === "like"
                     ? "text-primary"
                     : "text-primary-color hover:text-primary",
@@ -90,11 +90,11 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
               >
                 <IconLike
                   className={cn(
-                    "size-4 sm:size-5 transition-transform",
+                    "size-3.5 sm:size-4 md:size-5 transition-transform",
                     userAction === "like" && "scale-110"
                   )}
                 />
-                <span className="text-sm sm:text-base font-medium">
+                <span className="text-xs sm:text-sm md:text-base font-medium">
                   {likedCount} {t("threads.like")}
                 </span>
               </button>
@@ -104,7 +104,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                 disabled={isPending}
                 onClick={() => handleSwipe("love")}
                 className={cn(
-                  "flex items-center gap-2 transition-colors",
+                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
                   userAction === "love"
                     ? "text-pink-500"
                     : "text-primary-color hover:text-pink-500",
@@ -113,13 +113,13 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
               >
                 <IconLove
                   className={cn(
-                    "size-4 sm:size-5 transition-transform",
+                    "size-3.5 sm:size-4 md:size-5 transition-transform",
                     userAction === "love"
                       ? "fill-pink-500 scale-110"
                       : "fill-[#3D3177]"
                   )}
                 />
-                <span className="text-sm sm:text-base font-medium">
+                <span className="text-xs sm:text-sm md:text-base font-medium">
                   {lovedCount} {t("Love")}
                 </span>
               </button>
@@ -127,14 +127,14 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
           </div>
 
           {/* Right Side Action Area */}
-          <div className="w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+          <div className="w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100 sm:min-w-37.5">
             <Button
               variant="outline"
-              className="w-full sm:w-auto px-8"
+              className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3"
               onClick={() => setOpenViewDialog(true)}
             >
-              <span className="font-semibold text-sm">View</span>
-              <ChevronRight className="size-4 sm:size-5" />
+              <span className="font-semibold text-xs sm:text-sm">View</span>
+              <ChevronRight className="size-4" />
             </Button>
           </div>
         </div>

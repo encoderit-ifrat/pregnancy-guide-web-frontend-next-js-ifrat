@@ -118,13 +118,11 @@ export default function Page() {
           ever since the 1500s, when an unknown printer took a galley of type
           and scrambled it to make a type specimen book.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full max-w-2xl mx-auto px-6">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full max-w-2xl mx-auto px-6">
           <Button
             onClick={() => setOpenSwipeDialog(true)}
-            // className="flex-1 font-semibold h-12 rounded-full"
-            className="w-61.25"
+            className="w-full sm:w-fit sm:min-w-61.25"
           >
-            {/* {t("threads.startThread")} */}
             Start Swiping
             <ChevronRight className="size-4" />
           </Button>
@@ -140,7 +138,10 @@ export default function Page() {
           </Button> */}
           <Link
             href="/matched-names"
-            className={cn("w-61.25", buttonVariants({ variant: "outline" }))}
+            className={cn(
+              "w-full sm:w-fit sm:min-w-61.25",
+              buttonVariants({ variant: "outline" })
+            )}
           >
             View My Matched Name
             <ChevronRight className="size-4" />
@@ -148,7 +149,7 @@ export default function Page() {
         </div>
 
         <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
-          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-9 pt-8 pl-6 pb-8 shadow-sm">
+          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
             <Tabs
               value={activeTab}
               onValueChange={setActiveTab}
@@ -439,7 +440,7 @@ export default function Page() {
               )}
               {(tinderData?.data ?? []).length > 0 && (
                 <Button
-                  className="w-99.5 mx-auto"
+                  className="w-full sm:w-99.5 mx-auto"
                   disabled={dislikeAllPending}
                   onClick={() => {
                     const ids = (tinderData?.data ?? []).map((n) =>
