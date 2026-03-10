@@ -23,6 +23,7 @@ import {
   useMutationToggleReplyLike,
   useMutationFlagReply,
   useMutationFlagThread,
+  useMutationShareThread,
 } from "../_api/mutations/useThreadMutations";
 import { usePusherThreadDetailSubscription } from "../_hooks/usePusherSubscription";
 import { formatDistanceToNow, isValid } from "date-fns";
@@ -30,6 +31,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import ShareModal from "./ShareModal";
 import { cn } from "@/lib/utils";
 import Loading from "../../loading";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
@@ -222,14 +224,14 @@ export default function ThreadDetailPage({
         likes: threadDetail.data.likes_count,
         replies: threadDetail.data.replies_count,
         views: threadDetail.data.views_count,
-        shares: 0,
+        shares: threadDetail.data.shares_count || 0,
       });
     } else if (thread) {
       setCurrentStats({
         likes: thread.likes_count,
         replies: thread.replies_count,
         views: thread.views_count,
-        shares: 0,
+        shares: thread.shares_count || 0,
       });
     }
   }, [threadDetail, thread]);
@@ -239,6 +241,7 @@ export default function ThreadDetailPage({
   const toggleReplyLike = useMutationToggleReplyLike();
   const flagReplyMutation = useMutationFlagReply();
   const flagThreadMutation = useMutationFlagThread();
+  const shareThreadMutation = useMutationShareThread();
 
   const handleReplyLike = async (replyId: string) => {
     if (!threadId) return;
@@ -349,6 +352,19 @@ export default function ThreadDetailPage({
         setIsSubmittingReply(false);
       }
     });
+  };
+
+  const handleShareMutation = async () => {
+    if (!threadId) return;
+    try {
+      const result = await shareThreadMutation.mutateAsync(threadId);
+      setCurrentStats((prev) => ({
+        ...prev,
+        shares: result.data.data.shares_count || prev.shares,
+      }));
+    } catch (error: any) {
+      console.error("Failed to track share:", error);
+    }
   };
 
   return (

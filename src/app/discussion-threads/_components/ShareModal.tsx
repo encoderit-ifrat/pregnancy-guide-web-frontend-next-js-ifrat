@@ -23,6 +23,7 @@ interface ShareModalProps {
   onOpenChange: (open: boolean) => void;
   title: string;
   threadId: string;
+  onShare?: () => void;
 }
 
 export default function ShareModal({
@@ -30,6 +31,7 @@ export default function ShareModal({
   onOpenChange,
   title,
   threadId,
+  onShare,
 }: ShareModalProps) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -43,11 +45,16 @@ export default function ShareModal({
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
+      onShare?.();
       toast.success(t("threads.linkCopied"));
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       toast.error(t("threads.copyFailed"));
     }
+  };
+
+  const handleSocialShare = () => {
+    onShare?.();
   };
 
   return (
@@ -88,19 +95,28 @@ export default function ShareModal({
           </button>
 
           <div className="flex gap-4 justify-center mt-2 flex-wrap">
-            <FacebookShareButton url={shareUrl}>
+            <FacebookShareButton url={shareUrl} onClick={handleSocialShare}>
               <FacebookIcon size={48} round />
             </FacebookShareButton>
 
-            <WhatsappShareButton url={shareUrl} title={title} separator=":: ">
+            <WhatsappShareButton
+              url={shareUrl}
+              title={title}
+              separator=":: "
+              onClick={handleSocialShare}
+            >
               <WhatsappIcon size={48} round />
             </WhatsappShareButton>
 
-            <LinkedinShareButton url={shareUrl}>
+            <LinkedinShareButton url={shareUrl} onClick={handleSocialShare}>
               <LinkedinIcon size={48} round />
             </LinkedinShareButton>
 
-            <TwitterShareButton url={shareUrl} title={title}>
+            <TwitterShareButton
+              url={shareUrl}
+              title={title}
+              onClick={handleSocialShare}
+            >
               <TwitterIcon size={48} round />
             </TwitterShareButton>
 
@@ -108,6 +124,7 @@ export default function ShareModal({
               url={shareUrl}
               subject={title}
               body="Check out this thread: "
+              onClick={handleSocialShare}
             >
               <EmailIcon size={48} round />
             </EmailShareButton>

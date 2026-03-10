@@ -12,6 +12,7 @@ import IconShare from "@/components/svg-icon/icon-share";
 import IconFlag from "@/components/svg-icon/icon-flag";
 import { Thread } from "../_types/thread_types";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useMutationShareThread } from "../_api/mutations/useThreadMutations";
 import {
   Dialog,
   DialogClose,
@@ -75,6 +76,23 @@ export default function ThreadCard({
   const router = useRouter();
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
   const [openReadMoreDialog, setOpenReadMoreDialog] = useState(false);
+  const [currentShares, setCurrentShares] = useState(stats.shares);
+
+  const shareMutation = useMutationShareThread();
+
+  const handleShareClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onShare?.();
+    try {
+      const res = await shareMutation.mutateAsync(id);
+      console.log("Share response:", res);
+      if (res.data?.data?.shares_count !== undefined) {
+        setCurrentShares(res.data.data.shares_count);
+      }
+    } catch (error) {
+      console.error("Share error:", error);
+    }
+  };
 
   const isFlagged = thread?.flags?.includes(user?._id) || false;
   const isLiked = thread?.likes?.includes(user?._id || "") || false;
@@ -161,14 +179,11 @@ export default function ThreadCard({
             </div>
             <div
               className="flex items-center gap-2 cursor-pointer transition-colors hover:text-primary text-secondary"
-              onClick={(e) => {
-                e.stopPropagation();
-                onShare?.();
-              }}
+              onClick={handleShareClick}
             >
               <IconShare className="size-4 sm:size-5" />
               <span className="text-sm sm:text-base font-medium">
-                {stats.shares} {t("threads.share")}
+                {currentShares} {t("threads.share")}
               </span>
             </div>
             <div
@@ -259,6 +274,7 @@ export default function ThreadCard({
             stats={stats}
             lastReply={lastReply}
             thread={thread}
+            onShare={onShare}
           />
         </DialogContent>
       </Dialog>

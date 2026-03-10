@@ -14,12 +14,29 @@ import { useQueryGetThreadDetail } from "../_api/queries/useQueryGetThreads";
 import Loading from "../../loading";
 import { Thread } from "../_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
+import ShareModal from "../_components/ShareModal";
+import { useMutationShareThread } from "../_api/mutations/useThreadMutations";
 
 export default function ThreadDetailClient({ threadId }: { threadId: string }) {
   const { t } = useTranslation();
   const router = useRouter();
 
   const { data, isLoading, error } = useQueryGetThreadDetail(threadId);
+
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const shareMutation = useMutationShareThread();
+
+  const handleShare = () => {
+    setShareModalOpen(true);
+  };
+
+  const onShareSuccess = async () => {
+    try {
+      await shareMutation.mutateAsync(threadId);
+    } catch (error) {
+      console.error("Failed to track share:", error);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -64,7 +81,7 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
     likes: thread.likes_count || 0,
     replies: thread.replies_count || 0,
     views: thread.views_count || 0,
-    shares: 0,
+    shares: thread.shares_count || 0,
   };
 
   // We are not mocking lastReply here because it's not present in ThreadDetailResponse directly,
@@ -112,8 +129,17 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
             createdBy={createdBy}
             stats={stats}
             thread={thread as Thread}
+            onShare={handleShare}
           />
         </div>
+
+        <ShareModal
+          open={shareModalOpen}
+          onOpenChange={setShareModalOpen}
+          title={thread.title || ""}
+          threadId={threadId}
+          onShare={onShareSuccess}
+        />
       </div>
     </PageContainer>
   );

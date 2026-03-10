@@ -1,6 +1,7 @@
 import api from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import {
+  ApiResponse,
   CreateThreadDto,
   CreateThreadReplyDto,
   DeleteResponse,
@@ -9,6 +10,7 @@ import {
   ThreadDetailResponse,
   ThreadReply,
   ToggleLikeResponse,
+  ShareResponse,
   UpdateThreadDto,
 } from "../../_types/thread_types";
 
@@ -46,6 +48,14 @@ export const useMutationFlagThread = () => {
   return useMutation({
     mutationKey: ["flag-thread"],
     mutationFn: (id: string) => api.post<FlagResponse>(`/threads/${id}/flag`),
+  });
+};
+
+export const useMutationShareThread = () => {
+  return useMutation({
+    mutationKey: ["share-thread"],
+    mutationFn: (id: string) =>
+      api.post<ApiResponse<ShareResponse>>(`/threads/${id}/share`),
   });
 };
 

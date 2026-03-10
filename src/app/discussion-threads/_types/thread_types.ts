@@ -16,6 +16,7 @@ export interface Thread {
   flags: string[];
   flags_count?: number;
   is_flagged?: boolean;
+  shares_count: number;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
@@ -77,6 +78,10 @@ export interface ToggleLikeResponse {
 
 export interface FlagResponse {
   message: string;
+}
+
+export interface ShareResponse {
+  shares_count: number;
 }
 
 export interface DeleteResponse {

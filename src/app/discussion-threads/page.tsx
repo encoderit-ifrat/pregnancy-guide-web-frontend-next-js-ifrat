@@ -23,6 +23,7 @@ import CreateThreadModal from "./_components/CreateThreadModal";
 import ThreadCard from "./_components/ThreadCard";
 import ShareModal from "./_components/ShareModal";
 import { usePusherThreadsSubscription } from "./_hooks/usePusherSubscription";
+import { useMutationShareThread } from "./_api/mutations/useThreadMutations";
 import { ThreadSortOption } from "./_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
 import Loading from "../loading";
@@ -60,10 +61,24 @@ export default function Page() {
   const [shareThreadTitle, setShareThreadTitle] = useState("");
   const queryClient = useQueryClient();
 
-  const handleShare = (threadId: string, title: string) => {
+  const shareMutation = useMutationShareThread();
+
+  const handleShare = async (threadId: string, title: string) => {
     setShareThreadId(threadId);
     setShareThreadTitle(title);
     setShareModalOpen(true);
+  };
+
+  const onShareSuccess = async () => {
+    if (!shareThreadId) return;
+    try {
+      await shareMutation.mutateAsync(shareThreadId);
+      // We might want to refetch or update local state if needed,
+      // but usually the mutation handles it or we rely on the next refresh.
+      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
+    } catch (error) {
+      console.error("Failed to track share:", error);
+    }
   };
 
   const {
@@ -158,7 +173,7 @@ export default function Page() {
         likes: thread.likes_count || 0,
         replies: thread.replies_count || 0,
         views: thread.views_count || 0,
-        shares: 0,
+        shares: thread.shares_count || 0,
       },
       lastReply: undefined,
       last_reply_user: thread.last_reply_user,
@@ -299,6 +314,7 @@ export default function Page() {
           onOpenChange={setShareModalOpen}
           title={shareThreadTitle}
           threadId={shareThreadId}
+          onShare={onShareSuccess}
         />
       </div>
     </PageContainer>
