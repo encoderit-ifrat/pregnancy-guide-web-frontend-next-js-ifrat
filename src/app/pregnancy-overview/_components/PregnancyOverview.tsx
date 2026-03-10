@@ -31,6 +31,7 @@ export default function PregnancyOverview({
   const checklist = pregnancyData?.checklist;
   const weeklyDetails = pregnancyData?.weeklyDetails;
   const userProfile = pregnancyData?.userProfile;
+  console.log("👉 ~ PregnancyOverview ~ userProfile:", userProfile);
 
   const latest = articles?.latest || [];
   const popularWeeks = articles?.popularWeeks || [];
@@ -85,12 +86,13 @@ export default function PregnancyOverview({
       {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (
         <WeeklyDetails data={weeklyArticle[0]} />
       )}
-      {Boolean(questions?.data?.[0]?._id) && (
-        <QuestionOfTheWeek
-          currentWeek={currentWeek}
-          question={questions?.data?.[0] as any}
-        />
-      )}
+      {Boolean(questions?.data?.[0]?._id) &&
+        userProfile?.roles?.[0].name !== "partner" && (
+          <QuestionOfTheWeek
+            currentWeek={currentWeek}
+            question={questions?.data?.[0] as any}
+          />
+        )}
       {/*popular weekly articles section*/}
       {popularWeeks && popularWeeks?.length > 0 && (
         <>
@@ -98,12 +100,14 @@ export default function PregnancyOverview({
         </>
       )}
       {/* Checklist Section */}
-      <CheckListSection>
-        <CheckLists
-          checkLists={checklist?.data as any}
-          count={checklist?.pagination.total}
-        />
-      </CheckListSection>
+      {userProfile?.roles?.[0].name !== "partner" && (
+        <CheckListSection>
+          <CheckLists
+            checkLists={checklist?.data as any}
+            count={checklist?.pagination.total}
+          />
+        </CheckListSection>
+      )}
       {Boolean(latest?.length) && (
         <section className="bg-primary-light">
           <ArticleSection data={(latest as any) || []} />

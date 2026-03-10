@@ -14,6 +14,9 @@ export type UserProfile = {
   avatar?: string | null;
   dob: string;
   gender: "male" | "female" | "other";
+  roles?: {
+    name: string;
+  }[];
   details?: {
     current_pregnancy_week: number | null;
     current_pregnancy_data?: {
