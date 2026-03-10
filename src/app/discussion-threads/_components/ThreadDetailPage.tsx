@@ -248,7 +248,7 @@ function ReplyCard({
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   placeholder={t("threads.writeReply") || "Write a reply..."}
-                  className="w-full min-h-[100px] p-4 text-sm border-2 border-[#A179F2] rounded-xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
+                  className="w-full min-h-25 p-4 text-sm border-2 border-[#A179F2] rounded-xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
                   autoFocus
                 />
               </div>

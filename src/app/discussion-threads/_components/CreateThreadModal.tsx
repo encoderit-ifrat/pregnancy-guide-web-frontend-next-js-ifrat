@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 import { Textarea } from "@/components/ui/Textarea";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useMutationCreateThread } from "../_api/mutations/useThreadMutations";
@@ -90,20 +90,21 @@ export default function CreateThreadModal({
         </DialogTitle>
 
         {/* Custom Close Button */}
-        <DialogPrimitive.Close className="absolute top-8 right-8 size-10 bg-white rounded-full border-4 border-[#3D3177] flex items-center justify-center text-primary-color hover:bg-[#F6F0FF] transition-colors z-15 shadow-sm">
-          <span className="text-2xl leading-none font-bold">x</span>
+        <DialogPrimitive.Close className="absolute top-8 right-8 size-8 bg-white rounded-full border-3 border-[#3D3177] flex items-center justify-center text-primary-color hover:bg-[#F6F0FF] transition-colors z-15 shadow-sm">
+          {/* <span className="text-2xl leading-none font-bold">x</span> */}
+          <X className="size-4 stroke-3" />
         </DialogPrimitive.Close>
 
         <form onSubmit={handleSubmit}>
-          <div className="p-12 md:p-16">
-            <h2 className="text-[45px] font-semibold text-primary-color mb-9">
+          <div className="p-8 lg:p-16">
+            <h2 className="text-[26px] lg:text-[45px] font-semibold  font-poppins text-primary-color mb-9">
               {t("threads.startThreadTitle")}
             </h2>
 
             <div className="flex flex-col gap-8">
               {/* Title Input */}
               <div className="flex flex-col gap-3">
-                <label className="text-3xl font-semibold text-primary-color">
+                <label className="lg:text-3xl text-xl font-poppins font-semibold text-primary-color">
                   {t("threads.inputTitleLabel")}
                 </label>
                 <input
@@ -111,7 +112,7 @@ export default function CreateThreadModal({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder={t("threads.inputTitlePlaceholder")}
-                  className="w-full border-2 border-[#DED7F1] rounded-2xl py-4 px-6 text-lg focus:ring-2 focus:ring-[#9A79F1]/20 focus:border-[#9A79F1] outline-none text-primary-color placeholder:text-[#D1C6F0] transition-colors"
+                  className="w-full border-2 border-[#DED7F1] rounded-2xl p-3  focus:ring-2 focus:ring-[#9A79F1]/20 focus:border-[#9A79F1] outline-none text-primary-color placeholder:text-[#D1C6F0] transition-colors"
                   minLength={3}
                   required
                 />
@@ -119,15 +120,15 @@ export default function CreateThreadModal({
 
               {/* Description Input */}
               <div className="flex flex-col gap-3">
-                <label className="text-3xl font-semibold text-primary-color">
+                <label className="lg:text-3xl text-xl font-poppins font-semibold text-primary-color">
                   {t("threads.inputDescriptionLabel")}
                 </label>
                 <Textarea
-                  rows={6}
+                  rows={5}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder={t("threads.inputDescriptionPlaceholder")}
-                  className="w-full border-2 border-[#DED7F1] rounded-2xl py-4 px-6 text-lg focus:ring-2 focus:ring-[#9A79F1]/20 focus:border-[#9A79F1] outline-none text-primary-color placeholder:text-[#D1C6F0] transition-colors resize-none"
+                  className="w-full border-2 border-[#DED7F1] rounded-2xl p-3  focus:ring-2 focus:ring-[#9A79F1]/20 focus:border-[#9A79F1] outline-none text-primary-color placeholder:text-[#D1C6F0] transition-colors resize-none"
                   minLength={10}
                   required
                 />
@@ -137,7 +138,7 @@ export default function CreateThreadModal({
             <div className="flex justify-end mt-12">
               <Button
                 type="submit"
-                className="font-semibold h-12 rounded-full px-10 text-lg gap-2"
+                className="font-semibold font-poppins h-12 rounded-full px-10 lg:text-lg gap-2"
                 variant="default"
                 disabled={isSubmitting}
               >

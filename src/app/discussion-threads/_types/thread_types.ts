@@ -30,6 +30,7 @@ export interface ThreadReply {
   author: ThreadAuthor;
   likes: string[];
   likes_count: number;
+  is_liked?: boolean;
   flags: string[];
   flags_count?: number;
   is_flagged?: boolean;
