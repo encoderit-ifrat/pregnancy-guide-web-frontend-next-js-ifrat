@@ -117,7 +117,7 @@ export default function ThreadCard({
         className
       )}
     >
-      <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
+      <div className="flex flex-col md:flex-row items-start gap-4 sm:gap-9">
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-2">
@@ -204,7 +204,7 @@ export default function ThreadCard({
         </div>
 
         {/* Right Side Action Area */}
-        <div className="w-full sm:w-auto flex flex-col items-center justify-center gap-3 sm:gap-6 sm:pl-9 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
+        <div className="w-full max-w-xs flex flex-col items-center justify-center gap-3 sm:gap-6 sm:pl-9 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
           {lastReplyUser?.name && (
             <div className="text-center sm:text-left w-full">
               <p className="text-primary-color text-center text-xs sm:text-sm font-medium">
