@@ -78,7 +78,6 @@ function ReplyCard({
   onReplyLike,
   onReplyFlag,
   isNested = false,
-  onReplyToReply,
   parentId,
 }: {
   reply: ThreadReply;
@@ -86,14 +85,18 @@ function ReplyCard({
   onReplyLike?: (replyId: string, parentId?: string) => void;
   onReplyFlag?: (replyId: string, parentId?: string) => void;
   isNested?: boolean;
-  onReplyToReply?: (reply: ThreadReply) => void;
   parentId?: string;
 }) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const createReply = useMutationCreateReply();
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
+  const [replyContent, setReplyContent] = useState("");
+  const [isSubmittingReply, setIsSubmittingReply] = useState(false);
 
   const { data: nestedRepliesData, isLoading: isLoadingNested } =
     useQueryGetNestedReplies({
@@ -108,6 +111,33 @@ function ReplyCard({
       return;
     }
     action?.();
+  };
+
+  const handleReplySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    handleAuthAction(async () => {
+      if (!replyContent.trim() || !threadId) return;
+
+      setIsSubmittingReply(true);
+      try {
+        await createReply.mutateAsync({
+          threadId: threadId,
+          content: replyContent,
+          parent_reply_id: reply._id,
+        });
+        setReplyContent("");
+        setIsReplying(false);
+        setIsExpanded(true); // Open nested replies to show the new one
+        queryClient.invalidateQueries({
+          queryKey: ["get-nested-replies", threadId, reply._id],
+        });
+        toast.success(t("threads.replyAdded") || "Reply posted successfully");
+      } catch (error: any) {
+        toast.error(error?.message || t("threads.errorReplying"));
+      } finally {
+        setIsSubmittingReply(false);
+      }
+    });
   };
 
   const createdAtDate = reply.createdAt
@@ -162,7 +192,7 @@ function ReplyCard({
 
           <div className="flex items-center gap-6">
             <button
-              onClick={() => handleAuthAction(() => onReplyToReply?.(reply))}
+              onClick={() => handleAuthAction(() => setIsReplying(!isReplying))}
               className="flex items-center gap-1.5 text-[#5B5B5B] hover:text-[#A179F2] transition-colors"
             >
               <IconReply className="size-4" />
@@ -211,6 +241,43 @@ function ReplyCard({
             </button>
           )}
 
+          {isReplying && (
+            <form onSubmit={handleReplySubmit} className="mt-4">
+              <div className="relative mb-3">
+                <Textarea
+                  value={replyContent}
+                  onChange={(e) => setReplyContent(e.target.value)}
+                  placeholder={t("threads.writeReply") || "Write a reply..."}
+                  className="w-full min-h-[100px] p-4 text-sm border-2 border-[#A179F2] rounded-xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
+                  autoFocus
+                />
+              </div>
+              <div className="flex justify-end gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsReplying(false);
+                    setReplyContent("");
+                  }}
+                  className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-6 h-10 text-sm font-bold"
+                >
+                  {t("common.cancel")}
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isSubmittingReply || !replyContent.trim()}
+                  className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-6 h-10 text-sm font-bold min-w-32"
+                >
+                  {isSubmittingReply ? (
+                    <Loader2 className="size-4 animate-spin mr-2" />
+                  ) : null}
+                  {t("threads.postReply") || "Post Reply"}
+                </Button>
+              </div>
+            </form>
+          )}
+
           {isExpanded && isLoadingNested && (
             <div className="mt-4">
               <Loader2 className="animate-spin size-4 text-[#A179F2]" />
@@ -229,7 +296,6 @@ function ReplyCard({
                   onReplyLike={onReplyLike}
                   onReplyFlag={onReplyFlag}
                   isNested={true}
-                  onReplyToReply={onReplyToReply}
                   parentId={reply._id}
                 />
               ))}
@@ -461,22 +527,6 @@ export default function ThreadDetailPage({
     }
   };
 
-  const [parentReplyId, setParentReplyId] = useState<string | null>(null);
-  const [replyingToUser, setReplyingToUser] = useState<string | null>(null);
-
-  const handleReplyToReply = (reply: ThreadReply) => {
-    setParentReplyId(reply._id);
-    setReplyingToUser(reply.author?.name || "Anonymous");
-    const replyForm = document.getElementById("reply-form");
-    replyForm?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleCancelReply = () => {
-    setParentReplyId(null);
-    setReplyingToUser(null);
-    setReplyContent("");
-  };
-
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     handleAuthAction(async () => {
@@ -487,18 +537,10 @@ export default function ThreadDetailPage({
         await createReply.mutateAsync({
           threadId: thread._id,
           content: replyContent,
-          parent_reply_id: parentReplyId || undefined,
         });
         setReplyContent("");
-        setParentReplyId(null);
-        setReplyingToUser(null);
         await refetchReplies();
         await refetchThreadDetail();
-        if (parentReplyId) {
-          queryClient.invalidateQueries({
-            queryKey: ["get-nested-replies", threadId, parentReplyId],
-          });
-        }
         toast.success(t("threads.replyAdded"));
       } catch (error: any) {
         toast.error(error?.message || t("threads.errorReplying"));
@@ -614,17 +656,6 @@ export default function ThreadDetailPage({
       <div id="reply-form" className="px-10 py-8 border-t border-[#F3EAFF]">
         {thread && (
           <form onSubmit={handleReplySubmit} className="max-w-7xl mx-auto">
-            {replyingToUser && (
-              <div className="mb-2 flex items-center justify-between bg-[#FBF8FF] px-4 py-2 rounded-lg border border-[#F3EAFF]">
-                <p className="text-[#A179F2] text-sm font-semibold">
-                  Replying to{" "}
-                  <span className="text-[#4D2C82]">@{replyingToUser}</span>
-                </p>
-                <button type="button" onClick={handleCancelReply}>
-                  <X className="size-4 text-[#A179F2]" />
-                </button>
-              </div>
-            )}
             <div className="relative mb-6">
               <Textarea
                 value={replyContent}
@@ -637,7 +668,7 @@ export default function ThreadDetailPage({
               <Button
                 type="button"
                 variant="outline"
-                onClick={handleCancelReply}
+                onClick={() => setReplyContent("")}
                 className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-10 h-12 text-lg font-bold"
               >
                 {t("common.cancel")}
@@ -674,7 +705,6 @@ export default function ThreadDetailPage({
                   threadId={threadId}
                   onReplyLike={handleReplyLike}
                   onReplyFlag={handleReplyFlag}
-                  onReplyToReply={handleReplyToReply}
                 />
               ))}
           {replies.length === 0 && (
