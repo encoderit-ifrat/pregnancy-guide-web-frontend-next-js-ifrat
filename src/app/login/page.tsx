@@ -11,17 +11,15 @@ function LoginContent() {
   const { t } = useTranslation();
   const searchParams = useSearchParams();
 
+  const invitation = searchParams.get("invitation");
+
   useEffect(() => {
-    console.log(
-      "👉 ~ LoginContent ~ searchParams:",
-      searchParams.get("invitation")
-    );
-    if (searchParams.get("invitation") === "accepted") {
+    if (invitation === "accepted") {
       toast.success(
-        "New account created successfuly. Plase chaeck your email for password"
+        "New account created successfully. Please check your email for password"
       );
     }
-  }, [searchParams]);
+  }, [invitation]);
 
   return (
     <div className="max-w-5xl mx-auto">

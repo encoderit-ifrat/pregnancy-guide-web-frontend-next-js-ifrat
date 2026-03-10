@@ -65,12 +65,15 @@ export const useMutationCreateReply = () => {
     mutationFn: ({
       threadId,
       content,
+      parent_reply_id,
     }: {
       threadId: string;
       content: string;
+      parent_reply_id?: string;
     }) =>
       api.post<ThreadReply>(`/threads/${threadId}/replies`, {
         content,
+        parent_reply_id,
       } as CreateThreadReplyDto),
   });
 };

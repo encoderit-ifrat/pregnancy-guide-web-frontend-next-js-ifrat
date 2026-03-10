@@ -6,6 +6,7 @@ import {
   PaginatedResponse,
   Thread,
   ThreadDetailResponse,
+  ThreadReply,
   ThreadRepliesResponse,
   ThreadQueryParams,
 } from "../../_types/thread_types";
@@ -162,5 +163,25 @@ export const useInfiniteQueryGetMyThreads = ({
       return current_page < last_page ? current_page + 1 : undefined;
     },
     refetchOnWindowFocus: false,
+  });
+};
+export const useQueryGetNestedReplies = ({
+  threadId,
+  replyId,
+  enabled = true,
+}: {
+  threadId: string;
+  replyId: string;
+  enabled?: boolean;
+}) => {
+  return useQuery({
+    queryKey: ["get-nested-replies", threadId, replyId],
+    queryFn: async () => {
+      const res = await api.get<ApiResponse<ThreadReply[]>>(
+        `/threads/${threadId}/replies/${replyId}/replies`
+      );
+      return res.data;
+    },
+    enabled: !!threadId && !!replyId && enabled,
   });
 };

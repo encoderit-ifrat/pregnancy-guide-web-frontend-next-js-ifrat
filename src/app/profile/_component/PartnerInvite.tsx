@@ -16,12 +16,16 @@ import { useQueryGetInvitations } from "../_api/queries/useQueryGetInvitations";
 import { useInvitationCreate } from "../_api/mutations/useInvitationCreate";
 import { useInvitationDelete } from "../_api/mutations/useInvitationDelete";
 import { toast } from "sonner";
+import {
+  Invitation,
+  InvitationCreateRequest,
+} from "../_types/invitation_types";
 
 export default function PartnerInvite() {
   const { t } = useTranslation();
   const { data: invitationsData, isLoading: isFetching } =
     useQueryGetInvitations();
-  const partners = invitationsData?.data || [];
+  const partners = invitationsData?.data?.data ?? [];
   console.log("👉 ~ PartnerInvite ~ partners:", invitationsData);
 
   const { mutate: createInvitation, isPending: isCreating } =
@@ -40,26 +44,24 @@ export default function PartnerInvite() {
       });
       return;
     }
-    createInvitation(
-      {
-        email,
-        invitation_type: roleValue,
+    const invitationData: InvitationCreateRequest = {
+      email,
+      invitation_type: roleValue,
+    };
+    createInvitation(invitationData, {
+      onSuccess: () => {
+        toast.success(
+          t("partner.feedbackSuccess") || "Invitation sent successfully"
+        );
+        setEmail("");
       },
-      {
-        onSuccess: () => {
-          toast.success(
-            t("partner.feedbackSuccess") || "Invitation sent successfully"
-          );
-          setEmail("");
-        },
-        onError: (error: any) => {
-          toast.error(t("common.error"), {
-            description:
-              error?.response?.data?.message || "Failed to send invitation",
-          });
-        },
-      }
-    );
+      onError: (error: any) => {
+        toast.error(t("common.error"), {
+          description:
+            error?.response?.data?.message || "Failed to send invitation",
+        });
+      },
+    });
   };
 
   const handleDelete = (id: string) => {
@@ -154,7 +156,7 @@ export default function PartnerInvite() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 bg-soft-white">
-            {partners.map((partner) => (
+            {partners.map((partner: Invitation) => (
               <div
                 key={partner._id}
                 className="flex items-center justify-between p-3 bg-[#FBF8FF] rounded-lg border border-[#F3EAFF]  hover:shadow-md transition-shadow"

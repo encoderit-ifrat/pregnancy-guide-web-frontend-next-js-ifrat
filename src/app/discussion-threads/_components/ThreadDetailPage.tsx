@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight, X, Loader2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import IconReplyWhite from "@/components/svg-icon/icon-reply-white";
+// import IconReplyWhite from "@/components/svg-icon/icon-reply-white";
 import IconLove from "@/components/svg-icon/icon-love";
 import IconFlag from "@/components/svg-icon/icon-flag";
 import IconReply from "@/components/svg-icon/icon-reply";
@@ -69,20 +70,35 @@ interface ThreadDetailPageProps {
   isOpen?: boolean;
 }
 
+import { useQueryGetNestedReplies } from "../_api/queries/useQueryGetThreads";
+
 function ReplyCard({
   reply,
   threadId,
   onReplyLike,
   onReplyFlag,
+  isNested = false,
+  onReplyToReply,
 }: {
   reply: ThreadReply;
   threadId: string;
   onReplyLike?: (replyId: string) => void;
   onReplyFlag?: (replyId: string) => void;
+  isNested?: boolean;
+  onReplyToReply?: (reply: ThreadReply) => void;
 }) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const { data: nestedRepliesData, isLoading: isLoadingNested } =
+    useQueryGetNestedReplies({
+      threadId,
+      replyId: reply._id,
+      enabled: isExpanded,
+    });
 
   const handleAuthAction = (action?: () => void) => {
     if (!user) {
@@ -102,52 +118,114 @@ function ReplyCard({
   const isLiked = reply.likes?.includes(user?._id || "") || false;
   const isFlagged = reply.flags?.includes(user?._id || "") || false;
 
+  const nestedReplies = Array.isArray(nestedRepliesData?.data)
+    ? nestedRepliesData.data
+    : (nestedRepliesData?.data as any)?.data || [];
+
   return (
-    <div className="w-full h-31 bg-white rounded-lg overflow-hidden shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] mx-auto">
-      <div className="px-7 h-full flex items-center justify-between gap-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-semibold text-xl text-primary-color">
+    <div className={cn("flex flex-col w-full", !isNested && "mb-4")}>
+      <div className="flex gap-4">
+        {/* Avatar and vertical line */}
+        <div className="flex flex-col items-center shrink-0">
+          <div className="size-12 rounded-full border-2 border-[#A179F2] p-0.5 overflow-hidden">
+            <img
+              src={reply.author?.avatar || "/images/avatar/default.png"}
+              alt={reply.author?.name}
+              className="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          {(reply.nested_replies_count ||
+            nestedReplies.length > 0 ||
+            isExpanded) && (
+            <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 pb-4">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="font-bold text-lg text-[#4D2C82]">
               {reply.author?.name || "Anonymous"}
             </span>
-            <Badge
-              variant="outline"
-              className="bg-[#EEE4FD] text-primary-color px-2.5 py-0.5 rounded-full text-[11px] font-medium border-none"
-            >
+            <span className="bg-[#EEE4FD] text-[#A179F2] px-2 py-0.5 rounded text-[10px] font-semibold">
               {timeAgo}
-            </Badge>
+            </span>
           </div>
-          <p className="text-primary-color text-base max-w-4xl">
+
+          <p className="text-[#5B5B5B] text-base mb-4 leading-relaxed">
             {reply.content}
           </p>
-        </div>
-        <div className="flex items-center gap-10 shrink-0">
-          <div className="flex items-center gap-1.5 text-primary-color cursor-pointer hover:opacity-80 transition-opacity">
-            <IconReplyWhite className="size-5" />
-            <span className="text-sm font-bold">{t("threads.reply")}</span>
+
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => handleAuthAction(() => onReplyToReply?.(reply))}
+              className="flex items-center gap-1.5 text-[#5B5B5B] hover:text-[#A179F2] transition-colors"
+            >
+              <IconReply className="size-4" />
+              <span className="text-sm font-bold">{t("threads.reply")}</span>
+            </button>
+
+            <button
+              onClick={() => handleAuthAction(() => onReplyLike?.(reply._id))}
+              className={cn(
+                "flex items-center gap-1.5 transition-colors",
+                isLiked ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
+              )}
+            >
+              <IconLove className={cn("size-4", isLiked && "fill-current")} />
+              <span className="text-sm font-bold">
+                {reply.likes_count} {t("threads.like")}
+              </span>
+            </button>
+
+            <button
+              onClick={() => handleAuthAction(() => onReplyFlag?.(reply._id))}
+              className={cn(
+                "flex items-center gap-1.5 transition-colors",
+                isFlagged
+                  ? "text-primary"
+                  : "text-[#5B5B5B] hover:text-[#A179F2]"
+              )}
+            >
+              <IconFlag className={cn("size-4", isFlagged && "fill-current")} />
+              <span className="text-sm font-bold">
+                {isFlagged ? t("threads.flagged") : t("threads.flag")}
+              </span>
+            </button>
           </div>
-          <div
-            className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
-              isLiked ? "text-primary" : "text-primary-color"
-            }`}
-            onClick={() => handleAuthAction(() => onReplyLike?.(reply._id))}
-          >
-            <IconLove className={`size-5 ${isLiked ? "fill-current" : ""}`} />
-            <span className="text-sm font-bold">
-              {reply.likes_count} {t("threads.like")}
-            </span>
-          </div>
-          <div
-            className={`flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity ${
-              isFlagged ? "text-primary" : "text-primary-color"
-            }`}
-            onClick={() => handleAuthAction(() => onReplyFlag?.(reply._id))}
-          >
-            <IconFlag className={`size-5 ${isFlagged ? "fill-current" : ""}`} />
-            <span className="text-sm font-bold">
-              {isFlagged ? t("threads.flagged") : t("threads.flag")}
-            </span>
-          </div>
+
+          {reply.nested_replies_count && !isExpanded && (
+            <button
+              onClick={() => setIsExpanded(true)}
+              className="mt-4 text-[#A179F2] text-sm font-bold hover:underline"
+            >
+              View {reply.nested_replies_count} more replies
+            </button>
+          )}
+
+          {isExpanded && isLoadingNested && (
+            <div className="mt-4">
+              <Loader2 className="animate-spin size-4 text-[#A179F2]" />
+            </div>
+          )}
+
+          {isExpanded && nestedReplies.length > 0 && (
+            <div className="mt-6 flex flex-col gap-6 relative">
+              {/* Indentation Line */}
+              <div className="absolute -left-8 -top-6 bottom-0 w-8 border-l-2 border-b-2 border-[#F3EAFF] rounded-bl-xl pointer-events-none" />
+              {nestedReplies.map((nestedReply: ThreadReply) => (
+                <ReplyCard
+                  key={nestedReply._id}
+                  reply={nestedReply}
+                  threadId={threadId}
+                  onReplyLike={onReplyLike}
+                  onReplyFlag={onReplyFlag}
+                  isNested={true}
+                  onReplyToReply={onReplyToReply}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -165,6 +243,7 @@ export default function ThreadDetailPage({
   isOpen = true,
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const [replies, setReplies] = useState<ThreadReply[]>([]);
   const [currentStats, setCurrentStats] = useState(stats);
   const [replyContent, setReplyContent] = useState("");
@@ -203,6 +282,10 @@ export default function ThreadDetailPage({
     params: { sort: "newest" },
     enabled: true,
   });
+  console.log(
+    "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
+    repliesInfiniteData
+  );
 
   const { ref: loadMoreRef, inView } = useInView();
 
@@ -303,6 +386,18 @@ export default function ThreadDetailPage({
           ...prev,
           replies: event.replies_count,
         }));
+
+        // If it's a nested reply, invalidate the nested replies query for the parent
+        if (event.reply.parent_reply) {
+          const parentId =
+            typeof event.reply.parent_reply === "string"
+              ? event.reply.parent_reply
+              : event.reply.parent_reply._id;
+
+          queryClient.invalidateQueries({
+            queryKey: ["get-nested-replies", threadId, parentId],
+          });
+        }
       }
     },
     onReplyLiked: (event) => {
@@ -332,6 +427,22 @@ export default function ThreadDetailPage({
     }
   };
 
+  const [parentReplyId, setParentReplyId] = useState<string | null>(null);
+  const [replyingToUser, setReplyingToUser] = useState<string | null>(null);
+
+  const handleReplyToReply = (reply: ThreadReply) => {
+    setParentReplyId(reply._id);
+    setReplyingToUser(reply.author?.name || "Anonymous");
+    const replyForm = document.getElementById("reply-form");
+    replyForm?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleCancelReply = () => {
+    setParentReplyId(null);
+    setReplyingToUser(null);
+    setReplyContent("");
+  };
+
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     handleAuthAction(async () => {
@@ -342,9 +453,18 @@ export default function ThreadDetailPage({
         await createReply.mutateAsync({
           threadId: thread._id,
           content: replyContent,
+          parent_reply_id: parentReplyId || undefined,
         });
         setReplyContent("");
+        setParentReplyId(null);
+        setReplyingToUser(null);
         await refetchReplies();
+        await refetchThreadDetail();
+        if (parentReplyId) {
+          queryClient.invalidateQueries({
+            queryKey: ["get-nested-replies", threadId, parentReplyId],
+          });
+        }
         toast.success(t("threads.replyAdded"));
       } catch (error: any) {
         toast.error(error?.message || t("threads.errorReplying"));
@@ -354,122 +474,35 @@ export default function ThreadDetailPage({
     });
   };
 
-  const handleShareMutation = async () => {
-    if (!threadId) return;
-    try {
-      const result = await shareThreadMutation.mutateAsync(threadId);
-      setCurrentStats((prev) => ({
-        ...prev,
-        shares: result.data.data.shares_count || prev.shares,
-      }));
-    } catch (error: any) {
-      console.error("Failed to track share:", error);
-    }
-  };
-
   return (
-    <div
-      className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white"
-      // showCloseButton={false}
-    >
-      <div className="shrink-0 px-8 pt-20 pb-6 flex justify-center">
-        {/* Thread Header (1146x257) */}
-        <div className="w-287 h-64 flex items-start gap-6">
-          {/* Left Side (930x257) */}
-          <div className="w-232 h-full  rounded-lg p-7 flex flex-col justify-between">
-            <div>
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                <h2 className="text-3xl font-semibold text-primary-color tracking-tight">
-                  {title}
-                </h2>
-                <Badge
-                  variant="outline"
-                  className="bg-[#EEE4FD] text-primary-color px-3 py-1 rounded-full text-[11px] font-medium border-none"
-                >
-                  {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
-                </Badge>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-primary-color text-base leading-relaxed">
-                  {fullDescription}{" "}
-                  <span className="text-[#9679E1] text-base cursor-pointer hover:underline">
-                    {t("articles.readMore")}
-                  </span>
-                </p>
-              </div>
+    <div className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-y-auto bg-white">
+      {/* Thread Header */}
+      <div className="px-10 pt-16 pb-8">
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex-1">
+            <div className="flex items-center gap-4 mb-4">
+              <h2 className="text-4xl font-bold text-[#4D2C82] tracking-tight">
+                {title}
+              </h2>
+              <Badge className="bg-[#EEE4FD] text-[#A179F2] px-4 py-1 rounded-full text-xs font-semibold border-none">
+                {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
+              </Badge>
             </div>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4 border-t border-[#F3F4F6] sm:gap-10">
-              <div
-                className={cn(
-                  "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
-                  isLiked ? "text-primary" : "text-secondary"
-                )}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAuthAction(handleLike);
-                }}
-              >
-                <IconLove
-                  className={cn(
-                    "size-4 sm:size-5"
-                    // isLiked ? "text-primary" : "text-secondary"
-                  )}
-                />
-                <span className="text-sm sm:text-base font-medium">
-                  {currentStats.likes} {t("threads.like")}
-                </span>
-              </div>
-              <div className={cn("flex items-center gap-2 text-secondary")}>
-                <IconReply className="size-4 sm:size-5" />
-                <span className="text-sm sm:text-base font-medium">
-                  {currentStats.replies} {t("threads.replies")}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-secondary">
-                <IconEye className="size-4 sm:size-5" />
-                <span className="text-sm sm:text-base font-medium">
-                  {currentStats.views} {t("threads.views")}
-                </span>
-              </div>
-              <div
-                className="flex items-center gap-2 text-secondary cursor-pointer"
-                onClick={onShare}
-              >
-                <IconShare className="size-4 sm:size-5" />
-                <span className="text-sm sm:text-base font-medium">
-                  {currentStats.shares} {t("threads.share")}
-                </span>
-              </div>
-              <div
-                className={cn(
-                  "flex items-center gap-2 cursor-pointer transition-colors hover:text-primary",
-                  isFlagged ? "text-primary" : "text-secondary"
-                )}
-                onClick={() => handleAuthAction(() => setOpenFlagDialog(true))}
-              >
-                <IconFlag
-                  className={cn(
-                    "size-4 sm:size-5",
-                    isFlagged && "text-secondary"
-                  )}
-                />
-                <span className="text-sm sm:text-base font-medium">
-                  {isFlagged ? t("threads.flagged") : t("threads.flag")}
-                </span>
-              </div>
-            </div>
+            <p className="text-[#5B5B5B] line-clamp-2 text-lg leading-relaxed max-w-5xl">
+              {fullDescription}{" "}
+              {/* <span className="text-[#A179F2] font-semibold cursor-pointer hover:underline ml-1">
+                {t("articles.readMore")}
+              </span> */}
+            </p>
           </div>
 
-          {/* Right Side (192x169) */}
-          <div className="w-48 h-42 rounded-lg p-5 flex flex-col items-center justify-center gap-6">
+          <div className="flex flex-col items-end gap-6 shrink-0">
             {lastReply && (
-              <div className="text-center">
-                <p className="text-primary-color text-sm font-medium">
-                  {t("threads.lastReply")}
+              <div className="text-right">
+                <p className="text-[#4D2C82] text-sm font-semibold mb-1">
+                  {t("threads.lastReply")}:
                 </p>
-                <p className="text-primary-color text-sm font-medium opacity-80">
+                <p className="text-[#4D2C82] text-sm opacity-80">
                   {t("threads.agoBy", {
                     time: lastReply.time,
                     user: lastReply.user,
@@ -477,65 +510,160 @@ export default function ThreadDetailPage({
                 </p>
               </div>
             )}
+            {/* <Button
+              onClick={() => {
+                const replyForm = document.getElementById("reply-form");
+                replyForm?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-8 py-2 h-auto text-lg font-bold flex items-center gap-2"
+            >
+              {t("threads.reply")}
+              <ChevronRight className="size-5" />
+            </Button> */}
+          </div>
+        </div>
+
+        {/* Stats Bar */}
+        <div className="flex items-center gap-10 pt-6 border-t border-[#F3EAFF]">
+          <div
+            className={cn(
+              "flex items-center gap-2 cursor-pointer transition-colors",
+              isLiked ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAuthAction(handleLike);
+            }}
+          >
+            <IconLove className={cn("size-6", isLiked && "fill-current")} />
+            <span className="text-base font-bold">
+              {currentStats.likes} {t("threads.like")}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-[#5B5B5B]">
+            <IconReply className="size-6" />
+            <span className="text-base font-bold">
+              {currentStats.replies} {t("threads.replies")}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-[#5B5B5B]">
+            <IconEye className="size-6" />
+            <span className="text-base font-bold">
+              {currentStats.views} {t("threads.views")}
+            </span>
+          </div>
+          <div
+            className="flex items-center gap-2 text-[#5B5B5B] cursor-pointer hover:text-[#A179F2] transition-colors"
+            onClick={onShare}
+          >
+            <IconShare className="size-6" />
+            <span className="text-base font-bold">
+              {currentStats.shares} {t("threads.share")}
+            </span>
+          </div>
+          <div
+            className={cn(
+              "flex items-center gap-2 cursor-pointer transition-colors",
+              isFlagged ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
+            )}
+            onClick={() => handleAuthAction(() => setOpenFlagDialog(true))}
+          >
+            <IconFlag className={cn("size-6", isFlagged && "fill-current")} />
+            <span className="text-base font-bold">
+              {isFlagged ? t("threads.flagged") : t("threads.flag")}
+            </span>
           </div>
         </div>
       </div>
+
       {/* Reply Form */}
-      {thread && (
-        <div className="px-8 py-4 border-t border-[#F0F0F0]">
-          <form onSubmit={handleReplySubmit} className="flex gap-4">
-            <Textarea
-              value={replyContent}
-              onChange={(e) => setReplyContent(e.target.value)}
-              placeholder={t("threads.writeReply")}
-              className="flex-1 min-h-20"
-            />
-            <Button
-              type="submit"
-              disabled={isSubmittingReply || !replyContent.trim()}
-              className="shrink-0"
-            >
-              {isSubmittingReply
-                ? t("common.sending")
-                : t("threads.submitReply")}
-            </Button>
+      <div id="reply-form" className="px-10 py-8 border-t border-[#F3EAFF]">
+        {thread && (
+          <form onSubmit={handleReplySubmit} className="max-w-7xl mx-auto">
+            {replyingToUser && (
+              <div className="mb-2 flex items-center justify-between bg-[#FBF8FF] px-4 py-2 rounded-lg border border-[#F3EAFF]">
+                <p className="text-[#A179F2] text-sm font-semibold">
+                  Replying to{" "}
+                  <span className="text-[#4D2C82]">@{replyingToUser}</span>
+                </p>
+                <button type="button" onClick={handleCancelReply}>
+                  <X className="size-4 text-[#A179F2]" />
+                </button>
+              </div>
+            )}
+            <div className="relative mb-6">
+              <Textarea
+                value={replyContent}
+                onChange={(e) => setReplyContent(e.target.value)}
+                placeholder={t("threads.writeReply") || "Reply Thread......"}
+                className="w-full min-h-48 p-6 text-lg border-2 border-[#A179F2] rounded-2xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
+              />
+            </div>
+            <div className="flex justify-end gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancelReply}
+                className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-10 h-12 text-lg font-bold"
+              >
+                {t("common.cancel")}
+              </Button>
+              <Button
+                type="submit"
+                disabled={isSubmittingReply || !replyContent.trim()}
+                className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-10 h-12 text-lg font-bold min-w-40"
+              >
+                {isSubmittingReply ? (
+                  <Loader2 className="size-5 animate-spin mr-2" />
+                ) : null}
+                {t("threads.postReply") || "Post Reply"}
+              </Button>
+            </div>
           </form>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Scrollable Replies List */}
-      <div className="flex-1 overflow-y-auto px-8 pb-10 min-h-0">
-        <div className="flex flex-col gap-5 pt-4">
+      <div className="px-10 pb-10">
+        <h3 className="text-2xl font-bold text-[#4D2C82] mb-8">
+          {t("threads.repliesCount", { count: currentStats.replies }) ||
+            `Replies (${currentStats.replies})`}
+        </h3>
+        <div className="flex flex-col gap-8">
           {replies.length > 0 &&
-            replies.map((reply) => (
-              <ReplyCard
-                key={reply._id}
-                reply={reply}
-                threadId={threadId}
-                onReplyLike={handleReplyLike}
-                onReplyFlag={handleReplyFlag}
-              />
-            ))}
+            replies
+              .filter((r) => !r.parent_reply)
+              .map((reply) => (
+                <ReplyCard
+                  key={reply._id}
+                  reply={reply}
+                  threadId={threadId}
+                  onReplyLike={handleReplyLike}
+                  onReplyFlag={handleReplyFlag}
+                  onReplyToReply={handleReplyToReply}
+                />
+              ))}
           {replies.length === 0 && (
-            <p className="text-center text-primary-color opacity-60 py-8">
+            <p className="text-center text-[#5B5B5B] opacity-60 py-12 text-lg">
               {t("threads.noReplies")}
             </p>
           )}
 
-          <div ref={loadMoreRef} className="w-full flex justify-center py-4">
+          <div ref={loadMoreRef} className="w-full flex justify-center py-6">
             {isFetchingNextPage && (
-              <div className="flex items-center gap-2 text-primary-color">
+              <div className="flex items-center gap-2 text-primary">
                 <Loading />
               </div>
             )}
             {!hasNextPage && replies.length > 0 && (
-              <p className="text-primary-color opacity-60 text-center">
+              <p className="text-[#5B5B5B] opacity-60 text-center font-semibold">
                 {t("threads.noMoreThreads")}
               </p>
             )}
           </div>
         </div>
       </div>
+
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white border-none">
           <SectionHeading className="m-0 text-center">

@@ -272,7 +272,8 @@
     "copyLink": "Copy Link",
     "copied": "Copied!",
     "linkCopied": "Link copied to clipboard!",
-    "copyFailed": "Failed to copy link"
+    "postReply": "Post Reply",
+    "repliesCount": "Replies ({count})"
   },
   "pregnancy": {
     "loginRequired": "Please login to view your pregnancy overview.",

@@ -32,6 +32,8 @@ export interface ThreadReply {
   flags: string[];
   flags_count?: number;
   is_flagged?: boolean;
+  parent_reply?: { _id: string; author: any } | string | null;
+  nested_replies_count?: number;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
@@ -69,6 +71,7 @@ export interface UpdateThreadDto {
 
 export interface CreateThreadReplyDto {
   content: string;
+  parent_reply_id?: string;
 }
 
 export interface ToggleLikeResponse {
