@@ -21,7 +21,8 @@ export default function PartnerInvite() {
   const { t } = useTranslation();
   const { data: invitationsData, isLoading: isFetching } =
     useQueryGetInvitations();
-  const partners = invitationsData?.data?.data || [];
+  const partners = invitationsData?.data || [];
+  console.log("👉 ~ PartnerInvite ~ partners:", invitationsData);
 
   const { mutate: createInvitation, isPending: isCreating } =
     useInvitationCreate();
