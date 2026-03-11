@@ -204,7 +204,7 @@ export default function Page() {
             {t("threads.title")}
           </SectionHeading>
 
-          <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
+          <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
             {t("threads.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full max-w-2xl mx-auto px-6">

@@ -154,7 +154,7 @@ export default function PublishedThreadsPage() {
             {t("threads.myPublished")}
           </SectionHeading>
 
-          <p className="mb-10 text-base text-primary-color max-w-3xl text-center">
+          <p className="mb-10 mt-3 text-base text-primary-color max-w-3xl text-center">
             {t("threads.subtitle")}
           </p>
         </div>

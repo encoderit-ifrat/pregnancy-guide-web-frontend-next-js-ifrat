@@ -564,7 +564,7 @@ export default function ThreadDetailPage({
                 {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
               </Badge>
             </div>
-            <p className="text-[#5B5B5B] line-clamp-2 text-lg leading-relaxed max-w-5xl">
+            <p className="text-[#5B5B5B]  text-lg leading-relaxed max-w-5xl">
               {fullDescription}{" "}
               {/* <span className="text-[#A179F2] font-semibold cursor-pointer hover:underline ml-1">
                 {t("articles.readMore")}

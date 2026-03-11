@@ -126,7 +126,7 @@ export default function ThreadCard({
               </h3>
               <Badge
                 variant="outline"
-                className="bg-[#EEE4FD] text-primary-color border-primary-light text-[10px] sm:text-xs truncate max-w-50 w-fit"
+                className="bg-[#EEE4FD] text-primary-color border-primary-light text-[10px] sm:text-xs truncate  w-fit"
               >
                 {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
               </Badge>

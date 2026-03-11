@@ -118,7 +118,7 @@ export default function MyThreadCard({
             </h3>
             <Badge
               variant="outline"
-              className="bg-[#EEE4FD] text-primary-color px-3 py-0.5 rounded-full text-[10px] sm:text-sm font-medium border-none truncate max-w-50 w-fit"
+              className="bg-[#EEE4FD] text-primary-color px-3 py-0.5 rounded-full text-[10px] sm:text-sm font-medium border-none truncate  w-fit"
             >
               {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
             </Badge>
@@ -172,7 +172,7 @@ export default function MyThreadCard({
               {stats.views} {t("threads.views")}
             </span>
           </div>
-          <div
+          {/* <div
             className="flex items-center gap-1.5 sm:gap-2 text-secondary cursor-pointer"
             onClick={handleShareClick}
           >
@@ -200,7 +200,7 @@ export default function MyThreadCard({
             <span className="text-xs sm:text-sm md:text-base font-medium">
               {isFlagged ? t("threads.flagged") : t("threads.flag")}
             </span>
-          </div>
+          </div> */}
         </div>
       </CardContent>
 
