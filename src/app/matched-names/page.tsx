@@ -1,7 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { ChevronLeft, ChevronRight, Copy, Heart, InfoIcon, Link2, ThumbsUp } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Heart,
+  InfoIcon,
+  Link2,
+  ThumbsUp,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
@@ -162,9 +170,9 @@ function NameCard({ item }: { item: MatchingType }) {
                 variant="default"
                 onPressedChange={() => handleSwipe("love")}
                 disabled={isSwiping}
-                className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
+                // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
               >
-                <Heart className="size-full group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
+                <Heart className="size-6 group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
               </Toggle>
 
               <Toggle
@@ -173,9 +181,9 @@ function NameCard({ item }: { item: MatchingType }) {
                 variant="default"
                 onPressedChange={() => handleSwipe("like")}
                 disabled={isSwiping}
-                className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
+                // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
               >
-                <ThumbsUp className="size-full group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
+                <ThumbsUp className="size-6 group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
               </Toggle>
             </div>
           </div>
