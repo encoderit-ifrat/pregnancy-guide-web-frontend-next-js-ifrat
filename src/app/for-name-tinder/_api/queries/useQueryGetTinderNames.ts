@@ -11,6 +11,7 @@ export interface TinderNameItem {
     _id: string;
     name: string;
     slug: string;
+    description?: string;
   };
   is_active: boolean;
   createdAt: string;

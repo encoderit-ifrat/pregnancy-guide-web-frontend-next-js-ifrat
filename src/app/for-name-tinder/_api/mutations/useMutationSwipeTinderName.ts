@@ -24,10 +24,22 @@ export const useMutationSwipeTinderName = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, action }: { id: string; action: SwipeAction }) => {
-      const res = await api.post<SwipeResponse>(`/tinder-names/${id}/swipe`, {
-        action,
-      });
+    mutationFn: async ({
+      id,
+      action,
+      guestId,
+    }: {
+      id: string;
+      action: SwipeAction;
+      guestId?: string | null;
+    }) => {
+      const res = await api.post<SwipeResponse>(
+        `/tinder-names/${id}/swipe`,
+        { action },
+        {
+          headers: guestId ? { "x-guest-id": guestId } : undefined,
+        }
+      );
       return res.data;
     },
     onSuccess: () => {

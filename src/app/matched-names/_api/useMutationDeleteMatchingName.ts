@@ -23,12 +23,10 @@ export const useMutationDeleteMatchingName = () => {
     onSuccess: () => {
       // Invalidate queries to refresh the list
       queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
-      toast.success(t("profile.deleteSuccess") || "Name removed successfully");
+      toast.success("Name removed successfully");
     },
     onError: (error: any) => {
-      toast.error(
-        error?.response?.data?.message || "Failed to remove name"
-      );
+      toast.error(error?.response?.data?.message || "Failed to remove name");
     },
   });
 };

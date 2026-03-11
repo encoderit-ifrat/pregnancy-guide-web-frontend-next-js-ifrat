@@ -9,12 +9,13 @@ export type MatchingType = {
   gender: Gender;
   liked_count: number;
   loved_count: number;
-  category_id: {
-    _id: string;
-    name: string;
-    slug: string;
-    id: string;
-  };
+    category_id: {
+      _id: string;
+      name: string;
+      slug: string;
+      id: string;
+      description?: string;
+    };
   is_active: boolean;
   createdAt: string;
   updatedAt: string;

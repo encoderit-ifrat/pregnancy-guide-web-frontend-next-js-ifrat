@@ -9,6 +9,10 @@ import {
   useQueryGetMatchingNames,
   MatchingType,
 } from "../matched-names/_api/useQueryGetMatchingNames";
+import { useGuestId } from "@/hooks/useGuestId";
+import { useMutationSwipeTinderName } from "../for-name-tinder/_api/mutations/useMutationSwipeTinderName";
+import { Toggle } from "@/components/ui/toggle";
+import { toast } from "sonner";
 
 function SkeletonCard() {
   return (
@@ -31,9 +35,23 @@ function SkeletonCard() {
   );
 }
 
-function NameCard({ item }: { item: MatchingType }) {
+function NameCard({ item, guestId }: { item: MatchingType; guestId: string | null }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
+  const { mutate: swipe, isPending: isSwiping } = useMutationSwipeTinderName();
+
+  const handleSwipe = (action: "like" | "love") => {
+    if (!item._id) return;
+    
+    swipe({ id: item._id, action, guestId }, {
+      onSuccess: () => {
+        toast.success("Swipe Successfully ");
+      },
+      onError: (err: any) => {
+        toast.error(err?.response?.data?.message || "Failed to swipe");
+      }
+    });
+  };
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
@@ -63,6 +81,26 @@ function NameCard({ item }: { item: MatchingType }) {
               <DialogTrigger asChild>
                 <InfoIcon className="size-5 cursor-pointer text-primary-color hover:text-primary transition-colors" />
               </DialogTrigger>
+
+              <Toggle
+                aria-label="Toggle love"
+                size="sm"
+                variant="default"
+                onPressedChange={() => handleSwipe("love")}
+                disabled={isSwiping}
+              >
+                <Heart className="size-6 group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
+              </Toggle>
+
+              <Toggle
+                aria-label="Toggle like"
+                size="sm"
+                variant="default"
+                onPressedChange={() => handleSwipe("like")}
+                disabled={isSwiping}
+              >
+                <ThumbsUp className="size-6 group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
+              </Toggle>
             </div>
           </div>
         </div>
@@ -78,6 +116,12 @@ function NameCard({ item }: { item: MatchingType }) {
                 Category
               </h4>
               <p className="leading-relaxed">{item.category_id?.name}</p>
+            </section>
+            <section>
+              <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
+                Description
+              </h4>
+              <p className="leading-relaxed">{item.category_id?.description || "N/A"}</p>
             </section>
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
@@ -113,6 +157,7 @@ export function SharedMatchedNamesClient({
   initialData?: any;
 }) {
   const [activeTab, setActiveTab] = useState(initialFilter);
+  const guestId = useGuestId();
 
   const tabFilterMap: Record<string, "liked" | "loved" | "all"> = {
     liked: "liked",
@@ -184,7 +229,7 @@ export function SharedMatchedNamesClient({
                   </p>
                 )}
               {listToRender?.map((nameItem: MatchingType, idx: number) => (
-                <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} />
+                <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} guestId={guestId} />
               ))}
             </TabsContent>
           ))}

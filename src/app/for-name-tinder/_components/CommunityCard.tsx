@@ -154,6 +154,15 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
               </section>
 
               <section>
+                <h4 className="text-sm font-bold uppercase tracking-wider mb-1 text-primary-color">
+                  Description
+                </h4>
+                <p className="leading-relaxed">
+                  {name.category_id.description || "N/A"}
+                </p>
+              </section>
+
+              <section>
                 <h4 className="text-sm font-bold uppercase tracking-wider mb-2 text-primary-color">
                   Stats
                 </h4>
