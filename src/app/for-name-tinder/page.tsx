@@ -78,6 +78,7 @@ export default function Page() {
     namesInfiniteData?.pages?.flatMap(
       (page) => page?.data?.data || page?.data || []
     ) || [];
+  console.log("👉 ~ Page ~ communityNames:", communityNames);
 
   const { ref: loadMoreRef, inView } = useInView();
 

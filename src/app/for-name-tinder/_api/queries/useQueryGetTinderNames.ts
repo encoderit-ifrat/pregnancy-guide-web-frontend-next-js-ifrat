@@ -7,6 +7,7 @@ export interface TinderNameItem {
   gender: "male" | "female" | "unisex";
   liked_count: number;
   loved_count: number;
+  description?: string;
   category_id: {
     _id: string;
     name: string;

@@ -18,6 +18,7 @@ interface CommunityCardProps {
 }
 
 export default function CommunityCard({ name, className }: CommunityCardProps) {
+  console.log("👉 ~ CommunityCard ~ name:", name);
   const { t } = useTranslation();
   const { mutate: swipe, isPending } = useMutationSwipeTinderName();
 
@@ -145,48 +146,10 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
 
             {/* Name details */}
             <div className="space-y-4">
-              <section>
-                <h4 className="text-sm font-bold uppercase tracking-wider mb-1 text-primary-color">
-                  Gender
-                </h4>
-                <p className="leading-relaxed capitalize">{name.gender}</p>
-              </section>
-
-              <section>
-                <h4 className="text-sm font-bold uppercase tracking-wider mb-1 text-primary-color">
-                  Category
-                </h4>
-                <p className="leading-relaxed">{name.category_id.name}</p>
-              </section>
-
-              <section>
-                <h4 className="text-sm font-bold uppercase tracking-wider mb-1 text-primary-color">
-                  Description
-                </h4>
-                <p className="leading-relaxed">
-                  {name.category_id.description || "N/A"}
-                </p>
-              </section>
-
-              <section>
-                <h4 className="text-sm font-bold uppercase tracking-wider mb-2 text-primary-color">
-                  Stats
-                </h4>
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2 text-primary-color">
-                    <ThumbsUp className="size-4 text-primary" />
-                    <span className="font-medium">
-                      {likedCount} {t("threads.like")}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-primary-color">
-                    <Heart className="size-4 text-rose-500 fill-rose-500" />
-                    <span className="font-medium">
-                      {lovedCount} {t("threads.like")}
-                    </span>
-                  </div>
-                </div>
-              </section>
+              <p
+                className="leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: name?.description || "" }}
+              />
             </div>
           </div>
         </DialogContent>
