@@ -25,6 +25,8 @@ import IconLove from "@/components/svg-icon/icon-love";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import IconHeading from "@/components/ui/text/IconHeading";
+import IconQuestion from "@/components/svg-icon/icon-question";
 
 function SkeletonCommunityCard() {
   return (
@@ -106,18 +108,32 @@ export default function Page() {
   }, [tinderData, fetchEnabled]);
   return (
     <PageContainer>
-      <div className="flex flex-col items-center  min-h-screen">
-        <SectionHeading className="m-0 text-center text-3xl md:text-4xl lg:text-5xl">
+      <div className="thread-header mb-16 flex flex-col items-center text-center">
+        <IconHeading
+          text={t("For Name Tinder")}
+          icon={<IconQuestion />}
+          className="text-primary justify-center"
+        />
+
+        <SectionHeading className="m-0 text-center">
+          {/* {t("threads.title")} */}
+          For Name Tinder
+        </SectionHeading>
+
+        <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
+          {t("threads.subtitle")}
+        </p>
+        {/* <SectionHeading className="m-0 text-center text-3xl md:text-4xl lg:text-5xl">
           For Name Tinder
         </SectionHeading>
 
         <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
-          {/* {t("threads.subtitle")} */}
+          
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry&apos;s standard dummy text
           ever since the 1500s, when an unknown printer took a galley of type
           and scrambled it to make a type specimen book.
-        </p>
+        </p> */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full max-w-2xl mx-auto px-6">
           <Button
             onClick={() => setOpenSwipeDialog(true)}
@@ -155,33 +171,33 @@ export default function Page() {
               onValueChange={setActiveTab}
               className="w-full"
             >
-              <div className=" space-y-3">
+              <div className=" flex flex-col items-start justify-center space-y-3">
                 <h2 className="text-[24px] sm:text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
                   {/* {t("threads.communityThreads")} */}
                   Start Swiping
                 </h2>
                 <RadioGroup
-                  className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg"
+                  className="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg"
                   defaultValue="male"
                   onValueChange={(val) =>
                     setSelectedGender(val as TinderNameGender)
                   }
                 >
                   {/* Boy → male */}
-                  <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <div className="relative flex flex-col sm:flex-row cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                     <RadioGroupItem
                       className="sr-only"
                       id="gender-male"
                       value="male"
                     />
 
-                    <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
+                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-2">
                       <Image
                         src="/boy.png"
                         alt="boy"
                         width={50}
                         height={50}
-                        className="object-cover object-center size-full"
+                        className="object-cover object-center size-12"
                       />
                     </div>
                     <label
@@ -192,20 +208,20 @@ export default function Page() {
                     </label>
                   </div>
                   {/* Girl → female */}
-                  <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <div className="relative flex flex-col sm:flex-row cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                     <RadioGroupItem
                       className="sr-only"
                       id="gender-female"
                       value="female"
                     />
 
-                    <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
+                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-2">
                       <Image
                         src="/girl.png"
                         alt="girl"
                         width={50}
                         height={50}
-                        className="object-cover object-center size-full"
+                        className="object-cover object-center size-12"
                       />
                     </div>
                     <label
@@ -216,20 +232,20 @@ export default function Page() {
                     </label>
                   </div>
                   {/* Genderless → unisex */}
-                  <div className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <div className="relative flex flex-col sm:flex-row cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                     <RadioGroupItem
                       className="sr-only"
                       id="gender-unisex"
                       value="unisex"
                     />
 
-                    <div className="flex items-center size-12 justify-center rounded-md bg-primary/10 p-2">
+                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-2">
                       <Image
                         src="/genderless.png"
                         alt="genderless"
                         width={50}
                         height={50}
-                        className="object-cover object-center size-full"
+                        className="object-cover object-center size-10"
                       />
                     </div>
                     <label
@@ -241,7 +257,7 @@ export default function Page() {
                   </div>
                 </RadioGroup>
                 <Button
-                  className="w-fit"
+                  className="w-full md:w-fit"
                   disabled={tinderLoading}
                   onClick={() => {
                     setFetchEnabled(true);

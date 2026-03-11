@@ -17,6 +17,9 @@ import {
   MatchingType,
 } from "./_api/useQueryGetMatchingNames";
 import { toast } from "sonner";
+import { PageContainer } from "@/components/layout/PageContainer";
+import IconHeading from "@/components/ui/text/IconHeading";
+import IconQuestion from "@/components/svg-icon/icon-question";
 
 function SkeletonCard() {
   return (
@@ -56,16 +59,16 @@ function NameCard({ item }: { item: MatchingType }) {
 
             {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-color text-sm sm:text-base">
-              <span className="capitalize rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium">
-                {item.gender}
-              </span>
-              <span className="text-muted-foreground text-xs">
-                {item.category_id?.name}
-              </span>
               <div className="flex items-center gap-2">
                 <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
                 <span className="font-medium">
-                  {item.loved_count} {t("threads.like")}
+                  {item.loved_count} {t("threads.love")}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+                <span className="font-medium">
+                  {item.liked_count} {t("threads.like")}
                 </span>
               </div>
             </div>
@@ -188,85 +191,114 @@ export default function MatchedName() {
     navigator.clipboard.writeText(shareLink);
     toast.success("Link copied to clipboard!");
   };
+  const { t } = useTranslation();
 
   return (
-    <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
-      <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
-            <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
-              Matched Names
-            </h2>
-            <Link
-              href="/for-name-tinder"
-              className={cn("w-fit", buttonVariants({ variant: "outline" }))}
-            >
-              <ChevronLeft className="size-4" />
-              Back
-            </Link>
-          </div>
+    <PageContainer>
+      <div className="">
+        <IconHeading
+          text={t(" Matched Names")}
+          icon={<IconQuestion />}
+          className="text-primary justify-center"
+        />
 
-          {shareLink && (
-            <div className="flex items-center gap-2 line-clamp-1 whitespace-normal rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
-              <Link2 />
-              <span className="truncate flex-1">{shareLink}</span>
-              <Copy
-                onClick={handleCopy}
-                className="ml-auto cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0"
-              />
+        <SectionHeading className="m-0 text-center">
+          {/* {t("threads.title")} */}
+          Matched Names
+        </SectionHeading>
+
+        <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
+          {t("threads.subtitle")}
+        </p>
+        <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
+          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
+            {/* Header */}
+            <div className="mb-10">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
+                <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+                  Matched Names
+                </h2>
+                <Link
+                  href="/for-name-tinder"
+                  className={cn(
+                    "w-fit",
+                    buttonVariants({ variant: "outline" })
+                  )}
+                >
+                  <ChevronLeft className="size-4" />
+                  Back
+                </Link>
+              </div>
+
+              {shareLink && (
+                <div className="flex items-center gap-2 line-clamp-1 whitespace-normal rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
+                  <Link2 />
+                  <span className="truncate flex-1">{shareLink}</span>
+                  <Copy
+                    onClick={handleCopy}
+                    className="ml-auto cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0"
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
-            <TabsList
-              variant="pill"
-              className="bg-white shadow-sm border border-white text-primary-color"
+            {/* Tabs */}
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
             >
-              <TabsTrigger value="liked" variant="pill">
-                Most Liked
-              </TabsTrigger>
-              <TabsTrigger value="loved" variant="pill">
-                Most Loved
-              </TabsTrigger>
-            </TabsList>
-          </div>
+              <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
+                <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-semibold text-primary-color tracking-tight">
+                  All Names
+                </h2>
+                <TabsList
+                  variant="pill"
+                  className="bg-white shadow-sm border border-white text-primary-color"
+                >
+                  <TabsTrigger value="liked" variant="pill">
+                    Most Liked
+                  </TabsTrigger>
+                  <TabsTrigger value="loved" variant="pill">
+                    Most Loved
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-          {["liked", "loved"].map((tab) => (
-            <TabsContent
-              key={tab}
-              value={tab}
-              className="m-0 flex flex-col gap-6"
-            >
-              {isLoading && (
-                <>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </>
-              )}
-              {isError && (
-                <p className="text-center text-red-500 py-4">
-                  Failed to load matched names. Please try again.
-                </p>
-              )}
-              {!isLoading &&
-                !isError &&
-                (!listToRender || listToRender.length === 0) && (
-                  <p className="text-center text-primary-color py-4">
-                    No matched names yet. Start swiping!
-                  </p>
-                )}
-              {listToRender?.map((nameItem, idx) => (
-                <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} />
+              {["liked", "loved"].map((tab) => (
+                <TabsContent
+                  key={tab}
+                  value={tab}
+                  className="m-0 flex flex-col gap-6"
+                >
+                  {isLoading && (
+                    <>
+                      <SkeletonCard />
+                      <SkeletonCard />
+                      <SkeletonCard />
+                    </>
+                  )}
+                  {isError && (
+                    <p className="text-center text-red-500 py-4">
+                      Failed to load matched names. Please try again.
+                    </p>
+                  )}
+                  {!isLoading &&
+                    !isError &&
+                    (!listToRender || listToRender.length === 0) && (
+                      <p className="text-center text-primary-color py-4">
+                        No matched names yet. Start swiping!
+                      </p>
+                    )}
+                  {listToRender?.map((nameItem, idx) => (
+                    <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} />
+                  ))}
+                </TabsContent>
               ))}
-            </TabsContent>
-          ))}
-        </Tabs>
+            </Tabs>
+          </div>
+        </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }

@@ -70,35 +70,12 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
       >
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
-            <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
+            <h3 className="text-left text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
               {name.name}
             </h3>
 
             {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-10">
-              {/* Like button */}
-              <button
-                disabled={isPending}
-                onClick={() => handleSwipe("like")}
-                className={cn(
-                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
-                  userAction === "like"
-                    ? "text-primary"
-                    : "text-primary-color hover:text-primary",
-                  isPending && "opacity-60 cursor-not-allowed"
-                )}
-              >
-                <IconLike
-                  className={cn(
-                    "size-3.5 sm:size-4 md:size-5 transition-transform",
-                    userAction === "like" && "scale-110"
-                  )}
-                />
-                <span className="text-xs sm:text-sm md:text-base font-medium">
-                  {likedCount} {t("threads.like")}
-                </span>
-              </button>
-
               {/* Love button */}
               <button
                 disabled={isPending}
@@ -121,6 +98,29 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                 />
                 <span className="text-xs sm:text-sm md:text-base font-medium">
                   {lovedCount} {t("Love")}
+                </span>
+              </button>
+
+              {/* Like button */}
+              <button
+                disabled={isPending}
+                onClick={() => handleSwipe("like")}
+                className={cn(
+                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
+                  userAction === "like"
+                    ? "text-primary"
+                    : "text-primary-color hover:text-primary",
+                  isPending && "opacity-60 cursor-not-allowed"
+                )}
+              >
+                <IconLike
+                  className={cn(
+                    "size-3.5 sm:size-4 md:size-5 transition-transform",
+                    userAction === "like" && "scale-110"
+                  )}
+                />
+                <span className="text-xs sm:text-sm md:text-base font-medium">
+                  {likedCount} {t("threads.like")}
                 </span>
               </button>
             </div>

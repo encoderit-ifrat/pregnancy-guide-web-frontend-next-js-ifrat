@@ -71,6 +71,8 @@ interface ThreadDetailPageProps {
 }
 
 import { useQueryGetNestedReplies } from "../_api/queries/useQueryGetThreads";
+import Image from "next/image";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 function ReplyCard({
   reply,
@@ -162,17 +164,19 @@ function ReplyCard({
         {/* Avatar and vertical line */}
         <div className="flex flex-col items-center shrink-0">
           <div className="size-12 rounded-full border-2 border-[#A179F2] p-0.5 overflow-hidden">
-            <img
-              src={reply.author?.avatar || "/images/avatar/default.png"}
+            <Image
+              width={48}
+              height={48}
+              src={imageLinkGenerator(reply.author?.avatar)}
               alt={reply.author?.name}
               className="w-full h-full rounded-full object-cover"
             />
           </div>
-          {(reply.nested_replies_count ||
+          {/* {(reply.nested_replies_count ||
             nestedReplies.length > 0 ||
             isExpanded) && (
             <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
-          )}
+          )} */}
         </div>
 
         {/* Content */}
@@ -186,7 +190,11 @@ function ReplyCard({
             </span>
           </div>
 
-          <p className="text-[#5B5B5B] text-base mb-4 leading-relaxed">
+          <p
+            className={cn("text-[#5B5B5B] text-base mb-4 leading-relaxed", {
+              "bg-primary/10 py-1 px-2 rounded-md": isNested,
+            })}
+          >
             {reply.content}
           </p>
 
@@ -284,9 +292,8 @@ function ReplyCard({
             </div>
           )}
 
-          {isExpanded && nestedReplies.length > 0 && (
+          {isExpanded && nestedReplies.length > 0 ? (
             <div className="mt-6 flex flex-col gap-6 relative">
-              {/* Indentation Line */}
               <div className="absolute -left-8 -top-6 bottom-0 w-8 border-l-2 border-b-2 border-[#F3EAFF] rounded-bl-xl pointer-events-none" />
               {nestedReplies.map((nestedReply: ThreadReply) => (
                 <ReplyCard
@@ -300,7 +307,7 @@ function ReplyCard({
                 />
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
