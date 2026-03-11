@@ -21,6 +21,8 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import IconHeading from "@/components/ui/text/IconHeading";
 import IconQuestion from "@/components/svg-icon/icon-question";
 import { useMutationSwipeTinderName } from "../for-name-tinder/_api/mutations/useMutationSwipeTinderName";
+import IconLike from "@/components/svg-icon/icon-like";
+import { useMutationDeleteMatchingName } from "./_api/useMutationDeleteMatchingName";
 
 function SkeletonCard() {
   return (
@@ -49,6 +51,8 @@ function NameCard({ item }: { item: MatchingType }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const { mutate: swipeTinderName, isPending: isSwiping } =
     useMutationSwipeTinderName();
+  const { mutate: deleteMatch, isPending: isDeleting } =
+    useMutationDeleteMatchingName();
 
   const handleSwipe = (action: "like" | "love") => {
     // If we don't have the _id we can't reliably swipe from this screen.
@@ -88,7 +92,7 @@ function NameCard({ item }: { item: MatchingType }) {
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-color text-sm sm:text-base">
               <button
                 disabled={isSwiping}
-                onClick={() => handleSwipe("love")}
+                // onClick={() => handleSwipe("love")}
                 className={cn(
                   "flex items-center gap-2 transition-colors hover:text-primary",
                   isSwiping && "opacity-60 cursor-not-allowed"
@@ -96,18 +100,18 @@ function NameCard({ item }: { item: MatchingType }) {
               >
                 <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
                 <span className="font-medium">
-                  {item.loved_count} {t("threads.love")}
+                  {item.loved_count} {t("Love")}
                 </span>
               </button>
               <button
                 disabled={isSwiping}
-                onClick={() => handleSwipe("like")}
+                // onClick={() => handleSwipe("like")}
                 className={cn(
                   "flex items-center gap-2 transition-colors hover:text-primary",
                   isSwiping && "opacity-60 cursor-not-allowed"
                 )}
               >
-                <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+                <IconLike className="size-4 sm:size-5 fill-[#3D3177]" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>
@@ -127,9 +131,13 @@ function NameCard({ item }: { item: MatchingType }) {
                 open={openDeleteDialog}
                 onOpenChange={setOpenDeleteDialog}
               >
-                <DialogTrigger asChild>
-                  <IconDelete className="size-5 cursor-pointer text-gray-500 hover:text-red-500 transition-colors" />
-                </DialogTrigger>
+                <div onClick={(e) => e.stopPropagation()}>
+                  <DialogTrigger asChild>
+                    <button className="p-1 rounded-full hover:bg-red-50 transition-colors">
+                      <IconDelete className="size-5 cursor-pointer text-gray-500 hover:text-red-500 transition-colors" />
+                    </button>
+                  </DialogTrigger>
+                </div>
                 <DialogContent className="sm:max-w-xl text-center bg-white p-8">
                   <SectionHeading className="m-0 text-center text-2xl!">
                     Remove This Name
@@ -147,17 +155,48 @@ function NameCard({ item }: { item: MatchingType }) {
                     </Button>
                     <Button
                       className="w-full sm:w-41.25"
+                      disabled={isDeleting}
                       onClick={() => {
-                        // TODO: call delete mutation here
-                        setOpenDeleteDialog(false);
+                        if (item._id) {
+                          deleteMatch(item._id, {
+                            onSuccess: () => setOpenDeleteDialog(false),
+                          });
+                        }
                       }}
                     >
-                      Remove
+                      {isDeleting ? "Removing..." : "Remove"}
                       <ChevronRight className="size-5" />
                     </Button>
                   </div>
                 </DialogContent>
               </Dialog>
+              <button
+                disabled={isSwiping}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSwipe("love");
+                }}
+                className={cn(
+                  "p-1 rounded-full hover:bg-pink-50 transition-colors",
+                  isSwiping && "opacity-50 cursor-not-allowed"
+                )}
+              >
+                <IconLove className="size-5 fill-[#3D3177] hover:fill-pink-500 transition-colors" />
+              </button>
+
+              <button
+                disabled={isSwiping}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSwipe("like");
+                }}
+                className={cn(
+                  "p-1 rounded-full hover:bg-blue-50 transition-colors",
+                  isSwiping && "opacity-50 cursor-not-allowed"
+                )}
+              >
+                <IconLike className="size-5 text-primary-color hover:text-primary transition-colors" />
+              </button>
             </div>
           </div>
         </div>
@@ -331,7 +370,7 @@ export default function MatchedName() {
                         No matched names yet. Start swiping!
                       </p>
                     )}
-                  {listToRender?.map((nameItem, idx) => (
+                  {listToRender?.map((nameItem: MatchingType, idx: number) => (
                     <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} />
                   ))}
                 </TabsContent>

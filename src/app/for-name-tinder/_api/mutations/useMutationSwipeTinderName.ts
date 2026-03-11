@@ -33,6 +33,7 @@ export const useMutationSwipeTinderName = () => {
     onSuccess: () => {
       // Invalidate all tinder-names list queries so counts refresh
       queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
+      queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
     },
   });
 };
