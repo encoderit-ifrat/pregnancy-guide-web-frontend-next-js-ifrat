@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import IconDelete from "@/components/svg-icon/icon-delete";
-import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -58,6 +58,7 @@ function NameCard({ item }: { item: MatchingType }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [activeAction, setActiveAction] = useState<"like" | "love" | null>(null);
   const { mutate: swipeTinderName, isPending: isSwiping } =
     useMutationSwipeTinderName();
   const { mutate: deleteMatch, isPending: isDeleting } =
@@ -74,6 +75,7 @@ function NameCard({ item }: { item: MatchingType }) {
       { id: item._id, action },
       {
         onSuccess: () => {
+          setActiveAction(action);
           toast.success(
             // t("threads.swipeSuccess") || `Successfully ${action}d name!`
             "Swipe Successfully "
@@ -166,27 +168,35 @@ function NameCard({ item }: { item: MatchingType }) {
                   </div>
                 </DialogContent>
               </Dialog>
-              <Toggle
-                aria-label="Toggle love"
-                size="sm"
-                variant="default"
-                onPressedChange={() => handleSwipe("love")}
+              <ToggleGroup
+                type="single"
+                value={activeAction || ""}
+                onValueChange={(value) => {
+                  if (value) handleSwipe(value as "like" | "love");
+                }}
                 disabled={isSwiping}
-                // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
+                className="gap-4"
               >
-                <Heart className="size-6 group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
-              </Toggle>
+                <ToggleGroupItem
+                  value="love"
+                  aria-label="Toggle love"
+                  variant="default"
+                  size="sm"
+                  className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+                >
+                  <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                </ToggleGroupItem>
 
-              <Toggle
-                aria-label="Toggle like"
-                size="sm"
-                variant="default"
-                onPressedChange={() => handleSwipe("like")}
-                disabled={isSwiping}
-                // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
-              >
-                <ThumbsUp className="size-6 group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
-              </Toggle>
+                <ToggleGroupItem
+                  value="like"
+                  aria-label="Toggle like"
+                  variant="default"
+                  size="sm"
+                  className="p-0 hover:bg-transparent data-[state=on]/toggle-group-item:bg-transparent"
+                >
+                  <ThumbsUp className="size-6 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                </ToggleGroupItem>
+              </ToggleGroup>
             </div>
           </div>
         </div>
@@ -199,25 +209,25 @@ function NameCard({ item }: { item: MatchingType }) {
             {item.name}
           </h2>
           <div className="space-y-4">
-            <section>
+            {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Category
               </h4>
               <p className="leading-relaxed">{item.category_id?.name}</p>
-            </section>
+            </section> */}
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Description
               </h4>
               <p className="leading-relaxed">{item?.description || "N/A"}</p>
             </section>
-            <section>
+            {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Gender
               </h4>
               <p className="capitalize leading-relaxed">{item.gender}</p>
-            </section>
-            <section>
+            </section> */}
+            {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Stats
               </h4>
@@ -225,7 +235,7 @@ function NameCard({ item }: { item: MatchingType }) {
                 <li>Loved: {item.loved_count}</li>
                 <li>Liked: {item.liked_count}</li>
               </ul>
-            </section>
+            </section> */}
           </div>
         </div>
       </DialogContent>

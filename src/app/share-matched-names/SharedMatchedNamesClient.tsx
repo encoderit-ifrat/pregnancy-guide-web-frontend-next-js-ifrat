@@ -11,7 +11,7 @@ import {
 } from "../matched-names/_api/useQueryGetMatchingNames";
 import { useGuestId } from "@/hooks/useGuestId";
 import { useMutationSwipeTinderName } from "../for-name-tinder/_api/mutations/useMutationSwipeTinderName";
-import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 
 function SkeletonCard() {
@@ -44,6 +44,7 @@ function NameCard({
 }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
+  const [activeAction, setActiveAction] = useState<"like" | "love" | null>(null);
   const { mutate: swipe, isPending: isSwiping } = useMutationSwipeTinderName();
 
   const handleSwipe = (action: "like" | "love") => {
@@ -53,6 +54,7 @@ function NameCard({
       { id: item._id, action, guestId },
       {
         onSuccess: () => {
+          setActiveAction(action);
           toast.success("Swipe Successfully ");
         },
         onError: (err: any) => {
@@ -91,25 +93,35 @@ function NameCard({
                 <InfoIcon className="size-5 cursor-pointer text-primary-color hover:text-primary transition-colors" />
               </DialogTrigger>
 
-              <Toggle
-                aria-label="Toggle love"
-                size="sm"
-                variant="default"
-                onPressedChange={() => handleSwipe("love")}
+              <ToggleGroup
+                type="single"
+                value={activeAction || ""}
+                onValueChange={(value) => {
+                  if (value) handleSwipe(value as "like" | "love");
+                }}
                 disabled={isSwiping}
+                className="gap-4"
               >
-                <Heart className="size-6 group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
-              </Toggle>
+                <ToggleGroupItem
+                  value="love"
+                  aria-label="Toggle love"
+                  variant="default"
+                  size="sm"
+                  className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+                >
+                  <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                </ToggleGroupItem>
 
-              <Toggle
-                aria-label="Toggle like"
-                size="sm"
-                variant="default"
-                onPressedChange={() => handleSwipe("like")}
-                disabled={isSwiping}
-              >
-                <ThumbsUp className="size-6 group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
-              </Toggle>
+                <ToggleGroupItem
+                  value="like"
+                  aria-label="Toggle like"
+                  variant="default"
+                  size="sm"
+                  className="p-0 hover:bg-transparent data-[state=on]/toggle-group-item:bg-transparent"
+                >
+                  <ThumbsUp className="size-6 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                </ToggleGroupItem>
+              </ToggleGroup>
             </div>
           </div>
         </div>

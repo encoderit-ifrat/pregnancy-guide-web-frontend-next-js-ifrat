@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { TinderNameItem } from "../_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTinderName";
 import { toast } from "sonner";
-import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface CommunityCardProps {
   name: TinderNameItem;
@@ -74,41 +74,47 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
 
             {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-10">
-              {/* Love button */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <Toggle
-                  aria-label="Toggle love"
-                  size="sm"
-                  variant="default"
-                  pressed={userAction === "love"}
-                  onPressedChange={() => handleSwipe("love")}
-                  disabled={isPending}
-                  // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
-                >
-                  <Heart className="size-6 group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
-                </Toggle>
-                <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
-                  {lovedCount} {t("Love")}
-                </span>
-              </div>
+              <ToggleGroup
+                type="single"
+                value={userAction || ""}
+                onValueChange={(value) => {
+                  if (value) handleSwipe(value as "like" | "love");
+                }}
+                disabled={isPending}
+                className="gap-4 sm:gap-10"
+              >
+                {/* Love button */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <ToggleGroupItem
+                    value="love"
+                    aria-label="Toggle love"
+                    variant="default"
+                    size="sm"
+                    className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+                  >
+                    <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                  </ToggleGroupItem>
+                  <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
+                    {lovedCount} {t("Love")}
+                  </span>
+                </div>
 
-              {/* Like button */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <Toggle
-                  aria-label="Toggle like"
-                  size="sm"
-                  variant="default"
-                  pressed={userAction === "like"}
-                  onPressedChange={() => handleSwipe("like")}
-                  disabled={isPending}
-                  // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
-                >
-                  <ThumbsUp className="size-6 group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
-                </Toggle>
-                <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
-                  {likedCount} {t("threads.like")}
-                </span>
-              </div>
+                {/* Like button */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <ToggleGroupItem
+                    value="like"
+                    aria-label="Toggle like"
+                    variant="default"
+                    size="sm"
+                    className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+                  >
+                    <ThumbsUp className="size-6 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                  </ToggleGroupItem>
+                  <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
+                    {likedCount} {t("threads.like")}
+                  </span>
+                </div>
+              </ToggleGroup>
             </div>
           </div>
 

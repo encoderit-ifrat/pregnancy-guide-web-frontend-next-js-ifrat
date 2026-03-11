@@ -34,7 +34,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import IconHeading from "@/components/ui/text/IconHeading";
 import IconQuestion from "@/components/svg-icon/icon-question";
-import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useInView } from "react-intersection-observer";
 import Loading from "../loading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
@@ -484,51 +484,42 @@ export default function Page() {
                   console.log("👉 ~ Page ~ nameItem:", nameItem);
                   return (
                     <div key={index} className="flex items-center gap-4">
-                      <Toggle
-                        aria-label="Toggle dislike"
-                        size="sm"
-                        variant="default"
-                        onPressedChange={() =>
-                          swipeName({
-                            id: String(nameItem._id),
-                            action: "dislike",
-                          })
-                        }
-                        className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors "
-                      >
-                        <ThumbsDown className="size-full group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
-                      </Toggle>
-                      {/* <button
-                        title="Dislike"
+                      <ToggleGroup
+                        type="single"
+                        onValueChange={(value) => {
+                          if (value)
+                            swipeName({
+                              id: String(nameItem._id),
+                              action: value as "love" | "dislike",
+                            });
+                        }}
                         disabled={swipePending}
-                        onClick={() =>
-                          swipeName({
-                            id: String(nameItem._id),
-                            action: "dislike",
-                          })
-                        }
-                        className="flex size-12 border border-primary rotate-180 rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
+                        className="flex items-center gap-4"
                       >
-                        <IconLike />
-                      </button> */}
-                      <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
-                        {nameItem.name}
-                      </p>
+                        <ToggleGroupItem
+                          value="dislike"
+                          aria-label="Toggle dislike"
+                          variant="default"
+                          size="sm"
+                          className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
+                        >
+                          <ThumbsDown className="size-full group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                        </ToggleGroupItem>
 
-                      <Toggle
-                        aria-label="Toggle love"
-                        size="sm"
-                        variant="default"
-                        onPressedChange={() =>
-                          swipeName({
-                            id: String(nameItem._id),
-                            action: "love",
-                          })
-                        }
-                        className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
-                      >
-                        <Heart className="size-full group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
-                      </Toggle>
+                        <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
+                          {nameItem.name}
+                        </p>
+
+                        <ToggleGroupItem
+                          value="love"
+                          aria-label="Toggle love"
+                          variant="default"
+                          size="sm"
+                          className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
+                        >
+                          <Heart className="size-full group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                        </ToggleGroupItem>
+                      </ToggleGroup>
                     </div>
                   );
                 })
