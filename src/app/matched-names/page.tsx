@@ -54,6 +54,7 @@ function SkeletonCard() {
 }
 
 function NameCard({ item }: { item: MatchingType }) {
+  console.log("👉 ~ NameCard ~ item:", item);
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -208,9 +209,7 @@ function NameCard({ item }: { item: MatchingType }) {
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Description
               </h4>
-              <p className="leading-relaxed">
-                {item.category_id?.description || "N/A"}
-              </p>
+              <p className="leading-relaxed">{item?.description || "N/A"}</p>
             </section>
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
