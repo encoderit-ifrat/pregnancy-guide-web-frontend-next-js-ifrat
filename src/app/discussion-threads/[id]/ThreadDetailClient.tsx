@@ -90,7 +90,7 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
   return (
     <PageContainer>
       <div className="flex flex-col items-center min-h-screen">
-        <div className="thread-header mb-6 flex flex-col items-center text-center">
+        {/* <div className="thread-header mb-6 flex flex-col items-center text-center">
           <IconHeading
             text={t("threads.label")}
             icon={<IconQuestion />}
@@ -100,17 +100,30 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
           <SectionHeading className="m-0 text-center">
             {t("threads.detailTitle") || "Thread Detail"}
           </SectionHeading>
-        </div>
+        </div> */}
+        <IconHeading
+          text={t("threads.label")}
+          icon={<IconQuestion />}
+          className="text-primary justify-center"
+        />
+
+        <SectionHeading className="m-0 text-center">
+          {t("threads.title")}
+        </SectionHeading>
+
+        <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
+          {t("threads.subtitle")}
+        </p>
 
         <div className="w-full max-w-7xl bg-white rounded-4xl shadow-sm overflow-hidden px-4 sm:px-9 pt-10 pb-6 mb-20 relative">
-          <Button
+          {/* <Button
             variant="outline"
             className="absolute top-8 right-8 rounded-full border-[#DED7F1] text-primary-color hover:bg-[#F6F0FF] px-7 h-11 border-2 hidden md:flex"
             onClick={() => router.back()}
           >
             <ChevronLeft className="size-5 mr-1 text-[#DED7F1]" />
             <span className="font-semibold text-base">{t("common.back")}</span>
-          </Button>
+          </Button> */}
 
           <Button
             variant="ghost"
