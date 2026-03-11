@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { ChevronLeft, ChevronRight, Copy, InfoIcon, Link2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, Heart, InfoIcon, Link2, ThumbsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import IconLove from "@/components/svg-icon/icon-love";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import IconDelete from "@/components/svg-icon/icon-delete";
+import { Toggle } from "@/components/ui/toggle";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -90,32 +90,18 @@ function NameCard({ item }: { item: MatchingType }) {
 
             {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-color text-sm sm:text-base">
-              <button
-                disabled={isSwiping}
-                // onClick={() => handleSwipe("love")}
-                className={cn(
-                  "flex items-center gap-2 transition-colors hover:text-primary",
-                  isSwiping && "opacity-60 cursor-not-allowed"
-                )}
-              >
-                <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+              <div className="flex items-center gap-2">
+                <Heart className="size-4 sm:size-5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
                   {item.loved_count} {t("Love")}
                 </span>
-              </button>
-              <button
-                disabled={isSwiping}
-                // onClick={() => handleSwipe("like")}
-                className={cn(
-                  "flex items-center gap-2 transition-colors hover:text-primary",
-                  isSwiping && "opacity-60 cursor-not-allowed"
-                )}
-              >
-                <IconLike className="size-4 sm:size-5 fill-[#3D3177]" />
+              </div>
+              <div className="flex items-center gap-2">
+                <ThumbsUp className="size-4 sm:size-5 text-primary" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>
-              </button>
+              </div>
             </div>
           </div>
 
@@ -170,33 +156,27 @@ function NameCard({ item }: { item: MatchingType }) {
                   </div>
                 </DialogContent>
               </Dialog>
-              <button
+              <Toggle
+                aria-label="Toggle love"
+                size="sm"
+                variant="default"
+                onPressedChange={() => handleSwipe("love")}
                 disabled={isSwiping}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSwipe("love");
-                }}
-                className={cn(
-                  "p-1 rounded-full hover:bg-pink-50 transition-colors",
-                  isSwiping && "opacity-50 cursor-not-allowed"
-                )}
+                className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
               >
-                <IconLove className="size-5 fill-[#3D3177] hover:fill-pink-500 transition-colors" />
-              </button>
+                <Heart className="size-full group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
+              </Toggle>
 
-              <button
+              <Toggle
+                aria-label="Toggle like"
+                size="sm"
+                variant="default"
+                onPressedChange={() => handleSwipe("like")}
                 disabled={isSwiping}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSwipe("like");
-                }}
-                className={cn(
-                  "p-1 rounded-full hover:bg-blue-50 transition-colors",
-                  isSwiping && "opacity-50 cursor-not-allowed"
-                )}
+                className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
               >
-                <IconLike className="size-5 text-primary-color hover:text-primary transition-colors" />
-              </button>
+                <ThumbsUp className="size-full group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
+              </Toggle>
             </div>
           </div>
         </div>

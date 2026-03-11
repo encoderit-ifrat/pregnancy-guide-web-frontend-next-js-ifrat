@@ -1,16 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { InfoIcon } from "lucide-react";
+import { Heart, InfoIcon, ThumbsUp } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import IconLove from "@/components/svg-icon/icon-love";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useQueryGetMatchingNames,
   MatchingType,
 } from "../matched-names/_api/useQueryGetMatchingNames";
-import IconLike from "@/components/svg-icon/icon-like";
 
 function SkeletonCard() {
   return (
@@ -47,13 +45,13 @@ function NameCard({ item }: { item: MatchingType }) {
             </h3>
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-color text-sm sm:text-base">
               <div className="flex items-center gap-2">
-                <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
+                <Heart className="size-4 sm:size-5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
                   {item.loved_count} {t("threads.love")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <IconLike className="size-4 sm:size-5 fill-[#3D3177]" />
+                <ThumbsUp className="size-4 sm:size-5 text-primary" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>

@@ -3,7 +3,14 @@
 import { Button, buttonVariants } from "@/components/ui/Button";
 // import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { ChevronLeft, ChevronRight, Copy, Link2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Heart,
+  Link2,
+  ThumbsDown,
+} from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -27,6 +34,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import IconHeading from "@/components/ui/text/IconHeading";
 import IconQuestion from "@/components/svg-icon/icon-question";
+import { Toggle } from "@/components/ui/toggle";
 
 function SkeletonCommunityCard() {
   return (
@@ -423,36 +431,58 @@ export default function Page() {
                   No names found for the selected filters.
                 </p>
               ) : (
-                (tinderData?.data ?? []).map((nameItem, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <button
-                      title="Dislike"
-                      disabled={swipePending}
-                      onClick={() =>
-                        swipeName({
-                          id: String(nameItem._id),
-                          action: "dislike",
-                        })
-                      }
-                      className="flex size-12 border border-primary rotate-180 rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
-                    >
-                      <IconLike />
-                    </button>
-                    <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
-                      {nameItem.name}
-                    </p>
-                    <button
-                      title="Love"
-                      disabled={swipePending}
-                      onClick={() =>
-                        swipeName({ id: String(nameItem._id), action: "love" })
-                      }
-                      className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
-                    >
-                      <IconLove />
-                    </button>
-                  </div>
-                ))
+                (tinderData?.data ?? []).map((nameItem, index) => {
+                  console.log("👉 ~ Page ~ nameItem:", nameItem);
+                  return (
+                    <div key={index} className="flex items-center gap-4">
+                      <Toggle
+                        aria-label="Toggle dislike"
+                        size="sm"
+                        variant="default"
+                        onPressedChange={() =>
+                          swipeName({
+                            id: String(nameItem._id),
+                            action: "dislike",
+                          })
+                        }
+                        className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors "
+                      >
+                        <ThumbsDown className="size-full group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
+                      </Toggle>
+                      {/* <button
+                        title="Dislike"
+                        disabled={swipePending}
+                        onClick={() =>
+                          swipeName({
+                            id: String(nameItem._id),
+                            action: "dislike",
+                          })
+                        }
+                        className="flex size-12 border border-primary rotate-180 rounded-md items-center justify-center hover:bg-primary/10 transition-colors disabled:opacity-50"
+                      >
+                        <IconLike />
+                      </button> */}
+                      <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
+                        {nameItem.name}
+                      </p>
+
+                      <Toggle
+                        aria-label="Toggle love"
+                        size="sm"
+                        variant="default"
+                        onPressedChange={() =>
+                          swipeName({
+                            id: String(nameItem._id),
+                            action: "love",
+                          })
+                        }
+                        className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
+                      >
+                        <Heart className="size-full group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
+                      </Toggle>
+                    </div>
+                  );
+                })
               )}
               {(tinderData?.data ?? []).length > 0 && (
                 <Button

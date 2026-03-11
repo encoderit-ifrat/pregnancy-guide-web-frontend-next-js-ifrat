@@ -1,18 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Heart, ThumbsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import IconLove from "@/components/svg-icon/icon-love";
-import IconLike from "@/components/svg-icon/icon-like";
-import IconDelete from "@/components/svg-icon/icon-delete";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { TinderNameItem } from "../_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTinderName";
 import { toast } from "sonner";
+import { Toggle } from "@/components/ui/toggle";
 
 interface CommunityCardProps {
   name: TinderNameItem;
@@ -77,52 +75,40 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
             {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-10">
               {/* Love button */}
-              <button
-                disabled={isPending}
-                onClick={() => handleSwipe("love")}
-                className={cn(
-                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
-                  userAction === "love"
-                    ? "text-pink-500"
-                    : "text-primary-color hover:text-pink-500",
-                  isPending && "opacity-60 cursor-not-allowed"
-                )}
-              >
-                <IconLove
-                  className={cn(
-                    "size-3.5 sm:size-4 md:size-5 transition-transform",
-                    userAction === "love"
-                      ? "fill-pink-500 scale-110"
-                      : "fill-[#3D3177]"
-                  )}
-                />
-                <span className="text-xs sm:text-sm md:text-base font-medium">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Toggle
+                  aria-label="Toggle love"
+                  size="sm"
+                  variant="default"
+                  pressed={userAction === "love"}
+                  onPressedChange={() => handleSwipe("love")}
+                  disabled={isPending}
+                  // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
+                >
+                  <Heart className="size-6 group-data-[state=on]/toggle:fill-rose-500 group-data-[state=on]/toggle:stroke-rose-500" />
+                </Toggle>
+                <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
                   {lovedCount} {t("Love")}
                 </span>
-              </button>
+              </div>
 
               {/* Like button */}
-              <button
-                disabled={isPending}
-                onClick={() => handleSwipe("like")}
-                className={cn(
-                  "flex items-center gap-1.5 sm:gap-2 transition-colors",
-                  userAction === "like"
-                    ? "text-primary"
-                    : "text-primary-color hover:text-primary",
-                  isPending && "opacity-60 cursor-not-allowed"
-                )}
-              >
-                <IconLike
-                  className={cn(
-                    "size-3.5 sm:size-4 md:size-5 transition-transform",
-                    userAction === "like" && "scale-110"
-                  )}
-                />
-                <span className="text-xs sm:text-sm md:text-base font-medium">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Toggle
+                  aria-label="Toggle like"
+                  size="sm"
+                  variant="default"
+                  pressed={userAction === "like"}
+                  onPressedChange={() => handleSwipe("like")}
+                  disabled={isPending}
+                  // className="flex size-10 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors"
+                >
+                  <ThumbsUp className="size-6 group-data-[state=on]/toggle:fill-primary group-data-[state=on]/toggle:stroke-primary" />
+                </Toggle>
+                <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
                   {likedCount} {t("threads.like")}
                 </span>
-              </button>
+              </div>
             </div>
           </div>
 
@@ -173,13 +159,13 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                 </h4>
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-2 text-primary-color">
-                    <IconLike className="size-4" />
+                    <ThumbsUp className="size-4 text-primary" />
                     <span className="font-medium">
                       {likedCount} {t("threads.like")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-primary-color">
-                    <IconLove className="size-4 fill-[#3D3177]" />
+                    <Heart className="size-4 text-rose-500 fill-rose-500" />
                     <span className="font-medium">
                       {lovedCount} {t("threads.like")}
                     </span>
