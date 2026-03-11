@@ -345,13 +345,6 @@ export default function ThreadDetailPage({
     action?.();
   };
 
-  const isLiked =
-    thread?.is_liked || thread?.likes?.includes(user?._id || "") || false;
-  const isFlagged =
-    thread?.is_flagged || thread?.flags?.includes(user?._id || "") || false;
-
-  const fullDescription = thread?.description || description || "";
-
   const threadId = thread?._id || "";
 
   const { data: threadDetail, refetch: refetchThreadDetail } =
@@ -372,6 +365,18 @@ export default function ThreadDetailPage({
     "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
     repliesInfiniteData
   );
+
+  const effectiveThread = threadDetail?.data || thread;
+  const isLiked =
+    effectiveThread?.is_liked ||
+    effectiveThread?.likes?.includes(user?._id || "") ||
+    false;
+  const isFlagged =
+    effectiveThread?.is_flagged ||
+    effectiveThread?.flags?.includes(user?._id || "") ||
+    false;
+
+  const fullDescription = thread?.description || description || "";
 
   const { ref: loadMoreRef, inView } = useInView();
 
@@ -465,6 +470,10 @@ export default function ThreadDetailPage({
       await flagThreadMutation.mutateAsync(threadId);
       toast.success(t("threads.flagSuccess"));
       setOpenFlagDialog(false);
+      queryClient.invalidateQueries({
+        queryKey: ["get-thread-detail", threadId],
+      });
+      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
     } catch (error: any) {
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
     }
@@ -531,6 +540,10 @@ export default function ThreadDetailPage({
         ...prev,
         likes: result.data.likes_count,
       }));
+      queryClient.invalidateQueries({
+        queryKey: ["get-thread-detail", thread._id],
+      });
+      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
     } catch (error: any) {
       toast.error(error?.message || t("threads.errorLiking"));
     }
