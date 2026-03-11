@@ -33,13 +33,10 @@ export const useMutationSwipeTinderName = () => {
       action: SwipeAction;
       guestId?: string | null;
     }) => {
-      const res = await api.post<SwipeResponse>(
-        `/tinder-names/${id}/swipe`,
-        { action },
-        {
-          headers: guestId ? { "x-guest-id": guestId } : undefined,
-        }
-      );
+      const res = await api.post<SwipeResponse>(`/tinder-names/${id}/swipe`, {
+        action,
+        guest_id: guestId,
+      });
       return res.data;
     },
     onSuccess: () => {
