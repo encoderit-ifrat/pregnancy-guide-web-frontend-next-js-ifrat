@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { PageContainer } from "@/components/layout/PageContainer";
 import IconHeading from "@/components/ui/text/IconHeading";
 import IconQuestion from "@/components/svg-icon/icon-question";
+import { useMutationSwipeTinderName } from "../for-name-tinder/_api/mutations/useMutationSwipeTinderName";
 
 function SkeletonCard() {
   return (
@@ -46,6 +47,32 @@ function NameCard({ item }: { item: MatchingType }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const { mutate: swipeTinderName, isPending: isSwiping } =
+    useMutationSwipeTinderName();
+
+  const handleSwipe = (action: "like" | "love") => {
+    // If we don't have the _id we can't reliably swipe from this screen.
+    if (!item._id) {
+      toast.error("Cannot swipe on this item");
+      return;
+    }
+
+    swipeTinderName(
+      { id: item._id, action },
+      {
+        onSuccess: () => {
+          toast.success(
+            t("threads.swipeSuccess") || `Successfully ${action}d name!`
+          );
+        },
+        onError: (error: any) => {
+          toast.error(
+            error?.response?.data?.message || "Failed to update name status"
+          );
+        },
+      }
+    );
+  };
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
@@ -59,18 +86,32 @@ function NameCard({ item }: { item: MatchingType }) {
 
             {/* Footer Stats Area */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-color text-sm sm:text-base">
-              <div className="flex items-center gap-2">
+              <button
+                disabled={isSwiping}
+                onClick={() => handleSwipe("love")}
+                className={cn(
+                  "flex items-center gap-2 transition-colors hover:text-primary",
+                  isSwiping && "opacity-60 cursor-not-allowed"
+                )}
+              >
                 <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
                 <span className="font-medium">
                   {item.loved_count} {t("threads.love")}
                 </span>
-              </div>
-              <div className="flex items-center gap-2">
+              </button>
+              <button
+                disabled={isSwiping}
+                onClick={() => handleSwipe("like")}
+                className={cn(
+                  "flex items-center gap-2 transition-colors hover:text-primary",
+                  isSwiping && "opacity-60 cursor-not-allowed"
+                )}
+              >
                 <IconLove className="size-4 sm:size-5 fill-[#3D3177]" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>
-              </div>
+              </button>
             </div>
           </div>
 
@@ -236,7 +277,7 @@ export default function MatchedName() {
                   <span className="truncate flex-1">{shareLink}</span>
                   <Copy
                     onClick={handleCopy}
-                    className="ml-auto cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0"
+                    className="ml-auto cursor-pointer hover:opacity-70 transition-opacity shrink-0"
                   />
                 </div>
               )}

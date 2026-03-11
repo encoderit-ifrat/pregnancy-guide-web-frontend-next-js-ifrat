@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 export type MatchingFilter = "all" | "liked" | "loved";
 export type Gender = "male" | "female" | "unisex";
 export type MatchingType = {
+  _id: string;
   name: string;
   gender: Gender;
   liked_count: number;
