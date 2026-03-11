@@ -37,6 +37,7 @@ import IconQuestion from "@/components/svg-icon/icon-question";
 import { Toggle } from "@/components/ui/toggle";
 import { useInView } from "react-intersection-observer";
 import Loading from "../loading";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 function SkeletonCommunityCard() {
   return (
@@ -422,7 +423,7 @@ export default function Page() {
                   {category.image ? (
                     <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
                       <Image
-                        src={category.image}
+                        src={imageLinkGenerator(category.image)}
                         alt={category.name}
                         width={48}
                         height={48}

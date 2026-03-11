@@ -35,22 +35,31 @@ function SkeletonCard() {
   );
 }
 
-function NameCard({ item, guestId }: { item: MatchingType; guestId: string | null }) {
+function NameCard({
+  item,
+  guestId,
+}: {
+  item: MatchingType;
+  guestId: string | null;
+}) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const { mutate: swipe, isPending: isSwiping } = useMutationSwipeTinderName();
 
   const handleSwipe = (action: "like" | "love") => {
     if (!item._id) return;
-    
-    swipe({ id: item._id, action, guestId }, {
-      onSuccess: () => {
-        toast.success("Swipe Successfully ");
-      },
-      onError: (err: any) => {
-        toast.error(err?.response?.data?.message || "Failed to swipe");
+
+    swipe(
+      { id: item._id, action, guestId },
+      {
+        onSuccess: () => {
+          toast.success("Swipe Successfully ");
+        },
+        onError: (err: any) => {
+          toast.error(err?.response?.data?.message || "Failed to swipe");
+        },
       }
-    });
+    );
   };
 
   return (
@@ -65,7 +74,7 @@ function NameCard({ item, guestId }: { item: MatchingType; guestId: string | nul
               <div className="flex items-center gap-2">
                 <Heart className="size-4 sm:size-5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
-                  {item.loved_count} {t("threads.love")}
+                  {item.loved_count} {t("Love")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -121,7 +130,9 @@ function NameCard({ item, guestId }: { item: MatchingType; guestId: string | nul
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Description
               </h4>
-              <p className="leading-relaxed">{item.category_id?.description || "N/A"}</p>
+              <p className="leading-relaxed">
+                {item.category_id?.description || "N/A"}
+              </p>
             </section>
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
@@ -229,7 +240,11 @@ export function SharedMatchedNamesClient({
                   </p>
                 )}
               {listToRender?.map((nameItem: MatchingType, idx: number) => (
-                <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} guestId={guestId} />
+                <NameCard
+                  key={`${nameItem.name}-${idx}`}
+                  item={nameItem}
+                  guestId={guestId}
+                />
               ))}
             </TabsContent>
           ))}
