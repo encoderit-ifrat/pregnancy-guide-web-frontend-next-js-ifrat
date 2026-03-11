@@ -67,6 +67,7 @@ interface ThreadDetailPageProps {
   thread?: Thread;
   //children: React.ReactNode;
   onShare?: () => void;
+  onClose?: () => void;
   isOpen?: boolean;
 }
 
@@ -322,6 +323,7 @@ export default function ThreadDetailPage({
   lastReply,
   thread,
   onShare,
+  onClose,
   isOpen = true,
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
@@ -675,7 +677,10 @@ export default function ThreadDetailPage({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setReplyContent("")}
+                onClick={() => {
+                  setReplyContent("");
+                  onClose?.();
+                }}
                 className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-10 h-12 text-lg font-bold"
               >
                 {t("common.cancel")}
