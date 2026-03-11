@@ -23,7 +23,7 @@ import {
   TinderNameGender,
 } from "./_api/queries/useQueryGetRandomTinderName";
 import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinderNameCategories";
-import { useQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
+import { useInfiniteQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "./_api/mutations/useMutationSwipeTinderName";
 import { useMutationDislikeAllTinderNames } from "./_api/mutations/useMutationDislikeAllTinderNames";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
@@ -35,6 +35,8 @@ import { cn } from "@/lib/utils";
 import IconHeading from "@/components/ui/text/IconHeading";
 import IconQuestion from "@/components/svg-icon/icon-question";
 import { Toggle } from "@/components/ui/toggle";
+import { useInView } from "react-intersection-observer";
+import Loading from "../loading";
 
 function SkeletonCommunityCard() {
   return (
@@ -63,12 +65,26 @@ export default function Page() {
   };
 
   const {
-    data: namesData,
+    data: namesInfiniteData,
     isLoading: namesLoading,
+    isFetchingNextPage: isFetchingNextNames,
+    hasNextPage: hasNextNames,
+    fetchNextPage: fetchNextNames,
     isError: namesError,
-  } = useQueryGetTinderNames({ sort: tabSortMap[activeTab] });
+  } = useInfiniteQueryGetTinderNames({ sort: tabSortMap[activeTab] });
 
-  const communityNames = namesData?.data?.data ?? [];
+  const communityNames =
+    namesInfiniteData?.pages?.flatMap(
+      (page) => page?.data?.data || page?.data || []
+    ) || [];
+
+  const { ref: loadMoreRef, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextNames && !isFetchingNextNames) {
+      fetchNextNames();
+    }
+  }, [inView, hasNextNames, isFetchingNextNames, fetchNextNames]);
   const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
   // stores the real _id of the selected category
@@ -317,6 +333,22 @@ export default function Page() {
                 {communityNames.map((item) => (
                   <CommunityCard key={item._id} name={item} />
                 ))}
+
+                <div
+                  ref={loadMoreRef}
+                  className="w-full flex justify-center py-4"
+                >
+                  {isFetchingNextNames && (
+                    <div className="flex items-center gap-2 text-primary-color">
+                      <Loading />
+                    </div>
+                  )}
+                  {!hasNextNames && communityNames.length > 0 && (
+                    <p className="text-primary-color opacity-60">
+                      No more names found.
+                    </p>
+                  )}
+                </div>
               </TabsContent>
               <TabsContent value="viewed" className="m-0 flex flex-col gap-6">
                 {namesLoading && (
@@ -341,6 +373,22 @@ export default function Page() {
                 {communityNames.map((item) => (
                   <CommunityCard key={item._id} name={item} />
                 ))}
+
+                <div
+                  ref={loadMoreRef}
+                  className="w-full flex justify-center py-4"
+                >
+                  {isFetchingNextNames && (
+                    <div className="flex items-center gap-2 text-primary-color">
+                      <Loading />
+                    </div>
+                  )}
+                  {!hasNextNames && communityNames.length > 0 && (
+                    <p className="text-primary-color opacity-60">
+                      No more names found.
+                    </p>
+                  )}
+                </div>
               </TabsContent>
             </Tabs>
           </div>
