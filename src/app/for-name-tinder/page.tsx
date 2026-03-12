@@ -27,7 +27,7 @@ import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinde
 import { useInfiniteQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "./_api/mutations/useMutationSwipeTinderName";
 import { useMutationDislikeAllTinderNames } from "./_api/mutations/useMutationDislikeAllTinderNames";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import IconLike from "@/components/svg-icon/icon-like";
 import IconLove from "@/components/svg-icon/icon-love";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -406,6 +406,9 @@ export default function Page() {
       </div>
       <Dialog open={openSwipeDialog} onOpenChange={setOpenSwipeDialog}>
         <DialogContent className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-6 pt-12">
+          <DialogTitle className="sr-only">
+            Start Swiping
+          </DialogTitle>
           <SectionHeading className="m-0 text-2xl sm:text-3xl">
             Start Swiping
           </SectionHeading>
@@ -467,6 +470,9 @@ export default function Page() {
       </Dialog>
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>
         <DialogContent className="sm:max-w-xl bg-white">
+          <DialogTitle className="sr-only">
+            This Name Is Matched
+          </DialogTitle>
           <SectionHeading className="m-0 text-center text-lg! flex items-center justify-center gap-2">
             <Image src="/check.png" alt="check" width={20} height={20} />
             This Name Is Matched

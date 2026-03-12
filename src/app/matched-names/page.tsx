@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import IconDelete from "@/components/svg-icon/icon-delete";
@@ -137,6 +137,9 @@ function NameCard({ item }: { item: MatchingType }) {
                   </DialogTrigger>
                 </div>
                 <DialogContent className="sm:max-w-xl text-center bg-white p-8">
+                  <DialogTitle className="sr-only">
+                    Remove This Name
+                  </DialogTitle>
                   <SectionHeading className="m-0 text-center text-2xl!">
                     Remove This Name
                   </SectionHeading>
@@ -204,6 +207,9 @@ function NameCard({ item }: { item: MatchingType }) {
 
       {/* Info dialog content */}
       <DialogContent className="sm:max-w-xl bg-white p-8">
+        <DialogTitle className="sr-only">
+          {item.name}
+        </DialogTitle>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold text-primary-color mb-2 border-b border-b-gray-200">
             {item.name}

@@ -18,6 +18,7 @@ import {
   DialogClose,
   DialogContent,
   DialogTrigger,
+  DialogTitle,
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
@@ -78,6 +79,7 @@ export default function ThreadCard({
   const router = useRouter();
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
   const [openReadMoreDialog, setOpenReadMoreDialog] = useState(false);
+  const [currentStats, setCurrentStats] = useState(stats);
   const [currentShares, setCurrentShares] = useState(stats.shares);
 
   const shareMutation = useMutationShareThread();
@@ -159,7 +161,7 @@ export default function ThreadCard({
             >
               <IconLove className="size-3.5 sm:size-4 md:size-5" />
               <span className="text-xs sm:text-sm md:text-base font-medium">
-                {stats.likes} {t("threads.like")}
+                {currentStats.likes} {t("threads.like")}
               </span>
             </div>
             <div
@@ -169,13 +171,13 @@ export default function ThreadCard({
             >
               <IconReply className="size-3.5 sm:size-4 md:size-5" />
               <span className="text-xs sm:text-sm md:text-base font-medium">
-                {stats.replies} {t("threads.replies")}
+                {currentStats.replies} {t("threads.replies")}
               </span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2 text-secondary">
               <IconEye className="size-3.5 sm:size-4 md:size-5" />
               <span className="text-xs sm:text-sm md:text-base font-medium">
-                {stats.views} {t("threads.views")}
+                {currentStats.views} {t("threads.views")}
               </span>
             </div>
             <div
@@ -235,6 +237,9 @@ export default function ThreadCard({
       </div>
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white">
+          <DialogTitle className="sr-only">
+            {t("threads.flagTitle")}
+          </DialogTitle>
           <SectionHeading className="m-0 text-center">
             {t("threads.flagTitle")}
           </SectionHeading>
@@ -273,16 +278,25 @@ export default function ThreadCard({
         }}
       >
         <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
+          <DialogTitle className="sr-only">
+            {title}
+          </DialogTitle>
           <ThreadDetailPage
             title={title}
             description={description}
             createdBy={createdBy}
-            stats={stats}
+            stats={currentStats}
             lastReply={lastReply}
             thread={thread}
             onShare={onShare}
             isOpen={openReadMoreDialog}
             onClose={() => setOpenReadMoreDialog(false)}
+            onStatsUpdate={(updated) => {
+              setCurrentStats((prev) => ({
+                ...prev,
+                ...updated,
+              }));
+            }}
           />
         </DialogContent>
       </Dialog>

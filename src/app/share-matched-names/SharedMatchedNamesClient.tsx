@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Heart, InfoIcon, ThumbsUp } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useQueryGetMatchingNames,
@@ -127,6 +127,9 @@ function NameCard({
         </div>
       </Card>
       <DialogContent className="sm:max-w-xl bg-white p-8">
+        <DialogTitle className="sr-only">
+          {item.name}
+        </DialogTitle>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold text-primary-color mb-2 border-b border-b-gray-200">
             {item.name}

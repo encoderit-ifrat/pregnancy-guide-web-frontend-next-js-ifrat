@@ -35,7 +35,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import ShareModal from "./ShareModal";
 import { cn } from "@/lib/utils";
 import Loading from "../../loading";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useRouter } from "next/navigation";
 
@@ -69,6 +69,12 @@ interface ThreadDetailPageProps {
   onShare?: () => void;
   onClose?: () => void;
   isOpen?: boolean;
+  onStatsUpdate?: (stats: {
+    likes: number;
+    replies: number;
+    views: number;
+    shares: number;
+  }) => void;
 }
 
 import { useQueryGetNestedReplies } from "../_api/queries/useQueryGetThreads";
@@ -351,6 +357,7 @@ export default function ThreadDetailPage({
   onShare,
   onClose,
   isOpen = false,
+  onStatsUpdate,
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -414,19 +421,25 @@ export default function ThreadDetailPage({
 
   useEffect(() => {
     if (threadDetail?.data) {
-      setCurrentStats({
+      const updatedStats = {
         likes: threadDetail.data.likes_count,
         replies: threadDetail.data.replies_count,
         views: threadDetail.data.views_count,
         shares: threadDetail.data.shares_count || 0,
-      });
+      };
+
+      setCurrentStats(updatedStats);
+      onStatsUpdate?.(updatedStats);
     } else if (thread) {
-      setCurrentStats({
+      const fallbackStats = {
         likes: thread.likes_count,
         replies: thread.replies_count,
         views: thread.views_count,
         shares: thread.shares_count || 0,
-      });
+      };
+
+      setCurrentStats(fallbackStats);
+      onStatsUpdate?.(fallbackStats);
     }
   }, [threadDetail, thread]);
 
@@ -616,18 +629,40 @@ export default function ThreadDetailPage({
 
     // Optimistic Update
     const currentlyLiked = effectiveThread?.is_liked || effectiveThread?.likes?.includes(user._id) || false;
-    setCurrentStats((prev) => ({
-      ...prev,
-      likes: (prev.likes as number) + (currentlyLiked ? -1 : 1),
-    }));
+    setCurrentStats((prev) => {
+      const updated = {
+        ...prev,
+        likes: (prev.likes as number) + (currentlyLiked ? -1 : 1),
+      };
+
+      onStatsUpdate?.({
+        likes: Number(updated.likes),
+        replies: Number(updated.replies),
+        views: Number(updated.views),
+        shares: Number(updated.shares),
+      });
+
+      return updated;
+    });
 
     try {
       const result = await toggleLike.mutateAsync(threadId);
       // Ensure we have the final correct count
-      setCurrentStats((prev) => ({
-        ...prev,
-        likes: result.data.likes_count,
-      }));
+      setCurrentStats((prev) => {
+        const updated = {
+          ...prev,
+          likes: result.data.likes_count,
+        };
+
+        onStatsUpdate?.({
+          likes: Number(updated.likes),
+          replies: Number(updated.replies),
+          views: Number(updated.views),
+          shares: Number(updated.shares),
+        });
+
+        return updated;
+      });
       queryClient.invalidateQueries({
         queryKey: ["get-thread-detail", threadId],
       });
@@ -847,6 +882,9 @@ export default function ThreadDetailPage({
 
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white border-none">
+          <DialogTitle className="sr-only">
+            {t("threads.flagTitle") || "Flag This Content"}
+          </DialogTitle>
           <SectionHeading className="m-0 text-center">
             {t("threads.flagTitle") || "Flag This Content"}
           </SectionHeading>

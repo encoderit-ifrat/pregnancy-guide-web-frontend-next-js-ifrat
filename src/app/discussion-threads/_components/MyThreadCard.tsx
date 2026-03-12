@@ -19,7 +19,7 @@ import { useMutationShareThread } from "../_api/mutations/useThreadMutations";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 
 interface MyThreadCardProps {
   id: string;
@@ -206,6 +206,9 @@ export default function MyThreadCard({
 
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white">
+          <DialogTitle className="sr-only">
+            {t("threads.flagTitle") || "Flag This Content"}
+          </DialogTitle>
           <SectionHeading className="m-0 text-center">
             {t("threads.flagTitle") || "Flag This Content"}
           </SectionHeading>
@@ -237,6 +240,9 @@ export default function MyThreadCard({
 
       <Dialog open={openReadMoreDialog} onOpenChange={setOpenReadMoreDialog}>
         <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
+          <DialogTitle className="sr-only">
+            {title}
+          </DialogTitle>
           <ThreadDetailPage
             title={title}
             description={description}

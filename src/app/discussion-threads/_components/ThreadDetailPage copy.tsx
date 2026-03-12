@@ -34,7 +34,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import ShareModal from "./ShareModal";
 import { cn } from "@/lib/utils";
 import Loading from "../../loading";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useRouter } from "next/navigation";
 
@@ -538,6 +538,9 @@ export default function ThreadDetailPage({
       </div>
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent className="sm:max-w-xl text-center bg-white border-none">
+          <DialogTitle className="sr-only">
+            {t("threads.flagTitle") || "Flag This Content"}
+          </DialogTitle>
           <SectionHeading className="m-0 text-center">
             {t("threads.flagTitle") || "Flag This Content"}
           </SectionHeading>

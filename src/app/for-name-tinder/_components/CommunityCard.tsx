@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { TinderNameItem } from "../_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTinderName";
 import { toast } from "sonner";
@@ -149,6 +149,9 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
       {/* View Dialog */}
       <Dialog open={openViewDialog} onOpenChange={setOpenViewDialog}>
         <DialogContent className="sm:max-w-xl bg-white p-8">
+          <DialogTitle className="sr-only">
+            {name.name}
+          </DialogTitle>
           <div className="space-y-6">
             {/* Header row: name + delete icon */}
             <div className="flex items-start justify-between gap-4 border-b border-b-gray-200 pb-3">
