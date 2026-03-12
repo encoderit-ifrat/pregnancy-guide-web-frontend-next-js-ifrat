@@ -50,6 +50,7 @@ export const getInitial = (name?: string): string => {
 export default function ProfilePage() {
   const { t } = useTranslation();
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
+  console.log("👉 ~ ProfilePage ~ user:", user);
   const [babyProfiles, setBabyProfiles] = useState<BabyProfile[]>([]);
 
   const [profileDetails, setProfileDetails] = useState<ProfileDetail[]>([
@@ -324,9 +325,11 @@ export default function ProfilePage() {
       </div>
 
       <div className="max-w-7xl w-full mx-auto px-4 mt-20">
-        <div className="mb-8 md:mb-12">
-          <PartnerInvite />
-        </div>
+        {user?.roles?.[0]?.name === "user" && (
+          <div className="mb-8 md:mb-12">
+            <PartnerInvite />
+          </div>
+        )}
         <div className="flex items-center justify-between mb-6 md:mb-20">
           <h4 className="text-primary-dark text-3xl font-semibold">
             {t("profile.editProfile")}
@@ -448,43 +451,48 @@ export default function ProfilePage() {
                         </p>
 
                         {/* Actions */}
-                        <div className="flex items-center justify-center lg:justify-start gap-2">
-                          {/* Edit Baby Profile */}
-                          <AppDialog
-                            title={t("profile.editBabyProfile")}
-                            customTrigger={
-                              <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
-                                <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
-                                <span className="text-sm">
-                                  {t("profile.edit")}
-                                </span>
-                              </button>
-                            }
-                          >
-                            {(close) => (
-                              <FormProfile
-                                initialData={profile}
-                                onSubmitForDialogAndRefetch={async () => {
-                                  await refetch();
-                                  close();
-                                }}
-                              />
-                            )}
-                          </AppDialog>
+                        {user?.roles?.[0]?.name === "user" && (
+                          <div className="flex items-center justify-center lg:justify-start gap-2">
+                            {/* Edit Baby Profile */}
+                            <AppDialog
+                              title={t("profile.editBabyProfile")}
+                              customTrigger={
+                                <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
+                                  <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
+                                  <span className="text-sm">
+                                    {t("profile.edit")}
+                                  </span>
+                                </button>
+                              }
+                            >
+                              {(close) => (
+                                <FormProfile
+                                  initialData={profile}
+                                  onSubmitForDialogAndRefetch={async () => {
+                                    await refetch();
+                                    close();
+                                  }}
+                                />
+                              )}
+                            </AppDialog>
 
-                          {/* Delete Baby Profile */}
-                          <button
-                            className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
-                            onClick={() => {
-                              setFormData({ type: "delete", id: profile._id });
-                            }}
-                          >
-                            <Trash2 className="size-4 cursor-pointer mr-2" />
-                            <span className="text-sm">
-                              {t("profile.delete")}
-                            </span>
-                          </button>
-                        </div>
+                            {/* Delete Baby Profile */}
+                            <button
+                              className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
+                              onClick={() => {
+                                setFormData({
+                                  type: "delete",
+                                  id: profile._id,
+                                });
+                              }}
+                            >
+                              <Trash2 className="size-4 cursor-pointer mr-2" />
+                              <span className="text-sm">
+                                {t("profile.delete")}
+                              </span>
+                            </button>
+                          </div>
+                        )}
                         <AlertDialog
                           open={formData.type == "delete"}
                           onOpenChange={() =>
