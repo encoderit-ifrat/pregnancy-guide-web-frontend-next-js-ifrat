@@ -12,24 +12,30 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
     userData?.details?.last_period_date || ""
   );
 
+  const currentProgress = {
+    ...pregnancyProgressInfo,
+    ...(userData?.details?.current_pregnancy_data || {}),
+  };
+
   return (
     <section className="w-full container-xl my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         <Cards>
           <h3 className="text-primary-dark text-lg md:text-[22px] font-semibold mb-2">
-            {t(`pregnancy.trimesters.${pregnancyProgressInfo?.trimester?.match(/\d/)?.[0] || "1"}`)}
+            {t(`pregnancy.trimesters.${currentProgress?.trimester?.toString().match(/\d/)?.[0] || "1"}`)}
           </h3>
           <h3 className="text-lg md:text-[22px] mb-4">
             <span className="text-primary-dark font-medium md:font-semibold">
               {t("pregnancy.beenPregnant")}
             </span>
             <span className="font-normal ml-1">
-              {pregnancyProgressInfo?.week} {t("pregnancy.weeks")} {pregnancyProgressInfo?.day}{" "} {t("pregnancy.days")}
+              {currentProgress?.week || 0} {t("pregnancy.weeks")} {currentProgress?.day || 0}{" "}
+              {t("pregnancy.days")}
             </span>
           </h3>
           <div className="text-lg md:text-[22px] mb-2">
             <span className="text-primary mr-2">
-              {pregnancyProgressInfo?.percentage || 0}%
+              {currentProgress?.percentage || 0}%
             </span>
             {t("pregnancy.completed")}
           </div>
@@ -38,7 +44,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
             <div className="w-full bg-gray-100 rounded-full h-4 mt-2">
               <div
                 className="relative bg-primary h-4 rounded-full"
-                style={{ width: `${pregnancyProgressInfo?.percentage || 0}%` }}
+                style={{ width: `${currentProgress?.percentage || 0}%` }}
               >
                 <div className="h-6 w-6 bg-white shadow-lg border border-black rounded-full absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2"></div>
               </div>

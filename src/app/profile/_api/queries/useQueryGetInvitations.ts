@@ -7,6 +7,7 @@ export const useQueryGetInvitations = () => {
     queryKey: ["invitations"],
     queryFn: async () => {
       const { data } = await api.get<InvitationsResponse>("/invitations");
+      console.log("👉 ~ useQueryGetInvitations ~ data:", data);
       return data?.data ?? [];
     },
   });
