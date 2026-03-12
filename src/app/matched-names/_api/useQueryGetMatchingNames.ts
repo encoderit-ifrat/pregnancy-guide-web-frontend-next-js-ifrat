@@ -46,7 +46,8 @@ export const useQueryGetMatchingNames = (
   return useQuery({
     queryKey: ["tinder-names-matching", filter, user_id, partner_id, isPublic],
     staleTime: 0,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
     initialData: initialData,
     queryFn: async () => {
       const endpoint = isPublic
