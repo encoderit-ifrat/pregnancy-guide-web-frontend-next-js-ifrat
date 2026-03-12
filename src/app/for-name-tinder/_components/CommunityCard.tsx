@@ -30,17 +30,30 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
   const [lovedCount, setLovedCount] = useState(name.loved_count);
   const [userAction, setUserAction] = useState<"like" | "love" | null>(null);
 
-  const handleSwipe = (action: "like" | "love") => {
-    if (userAction === action) return;
-
-    if (action === "like") {
-      setLikedCount((c) => c + 1);
-      if (userAction === "love") setLovedCount((c) => Math.max(0, c - 1));
-    } else {
-      setLovedCount((c) => c + 1);
+  const handleSwipe = (action: "like" | "love" | null) => {
+    if (!action) {
+      if (!userAction) return;
+      // Undo current action
       if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
+      else setLovedCount((c) => Math.max(0, c - 1));
+      setUserAction(null);
+      // We still call swipe with the original action to toggle it off
+      // assuming the backend handles toggling or we have an undo action.
+      // If the backend doesn't support undo, we might need a different approach.
+      // For now, we'll send the previous action to trigger the backend logic.
+      action = userAction;
+    } else {
+      if (userAction === action) return;
+
+      if (action === "like") {
+        setLikedCount((c) => c + 1);
+        if (userAction === "love") setLovedCount((c) => Math.max(0, c - 1));
+      } else {
+        setLovedCount((c) => c + 1);
+        if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
+      }
+      setUserAction(action);
     }
-    setUserAction(action);
 
     swipe(
       { id: name._id, action },
@@ -79,7 +92,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                 type="single"
                 value={userAction || ""}
                 onValueChange={(value) => {
-                  if (value) handleSwipe(value as "like" | "love");
+                  handleSwipe((value as "like" | "love") || null);
                 }}
                 disabled={isPending}
                 className="gap-4 sm:gap-10"
