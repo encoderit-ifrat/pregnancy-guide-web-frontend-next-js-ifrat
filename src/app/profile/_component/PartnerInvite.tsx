@@ -25,7 +25,7 @@ export default function PartnerInvite() {
   const { t } = useTranslation();
   const { data: invitationsData, isLoading: isFetching } =
     useQueryGetInvitations();
-  const partners = invitationsData?.data?.data ?? [];
+  const partners = invitationsData ?? [];
 
   const { mutate: createInvitation, isPending: isCreating } =
     useInvitationCreate();
@@ -57,7 +57,9 @@ export default function PartnerInvite() {
       onError: (error: Error | any) => {
         toast.error(t("common.error"), {
           description:
-            error?.response?.data?.message || error?.message || "Failed to send invitation",
+            error?.response?.data?.message ||
+            error?.message ||
+            "Failed to send invitation",
         });
       },
     });
@@ -73,7 +75,9 @@ export default function PartnerInvite() {
       onError: (error: Error | any) => {
         toast.error(t("common.error"), {
           description:
-            error?.response?.data?.message || error?.message || "Failed to delete invitation",
+            error?.response?.data?.message ||
+            error?.message ||
+            "Failed to delete invitation",
         });
       },
     });
