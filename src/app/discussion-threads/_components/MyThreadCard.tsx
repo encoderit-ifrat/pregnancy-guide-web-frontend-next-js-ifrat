@@ -131,9 +131,9 @@ export default function MyThreadCard({
         <div className="mb-6 ">
           <p className="text-primary-color text-sm sm:text-base">
             {description}{" "}
-            <span className="text-[#9679E1] text-sm sm:text-base cursor-pointer hover:underline">
+            {/* <span className="text-[#9679E1] text-sm sm:text-base cursor-pointer hover:underline">
               {t("articles.readMore")}
-            </span>
+            </span> */}
           </p>
         </div>
 
