@@ -359,15 +359,18 @@ export default function ThreadDetailPage({
 
   const [replies, setReplies] = useState<ThreadReply[]>([]);
   const [currentStats, setCurrentStats] = useState({
-    likes: Number(thread?.likes_count ?? stats.likes),
-    replies: Number(thread?.replies_count ?? stats.replies),
-    views: Number(thread?.views_count ?? stats.views),
+    likes: Number(thread?.likes_count ?? stats.likes ?? 0),
+    replies: Number(thread?.replies_count ?? stats.replies ?? 0),
+    views: Number(thread?.views_count ?? stats.views ?? 0),
     shares: Number(thread?.shares_count ?? stats.shares ?? 0),
     isLiked:
       thread?.is_liked || thread?.likes?.includes(user?._id || "") || false,
     isFlagged:
       thread?.is_flagged || thread?.flags?.includes(user?._id || "") || false,
   });
+  // Track whether we've done the first authoritative sync from the thread-detail API.
+  // After that, mutations own the local state; we don't let background refetches overwrite it.
+  const hasInitialized = React.useRef(false);
   const [replyContent, setReplyContent] = useState("");
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
@@ -431,16 +434,22 @@ export default function ThreadDetailPage({
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
+  // Reset initialization flag when thread changes so a freshly-opened thread always syncs.
   useEffect(() => {
-    // Shield local state from synchronization if a like mutation is currently pending.
-    // This prevents the "jumping" behavior where stale background data overwrites the optimistic local state.
-    if (toggleLike.isPending) return;
+    hasInitialized.current = false;
+  }, [threadId]);
+
+  useEffect(() => {
+    // Only sync from server data ONCE — on the first authoritative load.
+    // After that, mutations are the sole source of truth for local state.
+    if (hasInitialized.current) return;
 
     if (threadDetail?.data) {
+      hasInitialized.current = true;
       setCurrentStats({
-        likes: Number(threadDetail.data.likes_count),
-        replies: Number(threadDetail.data.replies_count),
-        views: Number(threadDetail.data.views_count),
+        likes: Number(threadDetail.data.likes_count) || 0,
+        replies: Number(threadDetail.data.replies_count) || 0,
+        views: Number(threadDetail.data.views_count) || 0,
         shares: Number(threadDetail.data.shares_count || 0),
         isLiked:
           threadDetail.data.is_liked ||
@@ -451,21 +460,8 @@ export default function ThreadDetailPage({
           threadDetail.data.flags?.includes(user?._id || "") ||
           false,
       });
-    } else if (thread && currentStats.likes === 0 && currentStats.replies === 0) {
-      // Only use thread prop for initial hydration if we don't have stats yet.
-      // This prevents the thread prop from overwriting optimistic local state during parent rerenders.
-      setCurrentStats({
-        likes: Number(thread.likes_count),
-        replies: Number(thread.replies_count),
-        views: Number(thread.views_count),
-        shares: Number(thread.shares_count || 0),
-        isLiked:
-          thread.is_liked || thread.likes?.includes(user?._id || "") || false,
-        isFlagged:
-          thread.is_flagged || thread.flags?.includes(user?._id || "") || false,
-      });
     }
-  }, [threadDetail, user?._id, toggleLike.isPending]);
+  }, [threadDetail, user?._id]);
 
   const handleReplyLike = async (replyId: string, parentId?: string) => {
     if (!threadId || !user) return;
@@ -693,7 +689,7 @@ export default function ThreadDetailPage({
     // Truly Optimistic Update
     const currentlyLiked = currentStats.isLiked;
     const newLikesCount =
-      Number(currentStats.likes) + (currentlyLiked ? -1 : 1);
+      (Number(currentStats.likes) || 0) + (currentlyLiked ? -1 : 1);
 
     setCurrentStats((prev) => ({
       ...prev,
@@ -720,16 +716,30 @@ export default function ThreadDetailPage({
 
     try {
       const result = await toggleLike.mutateAsync(threadId);
-      // Final sync with server result
+      // Write server result directly into cache to avoid triggering a new refetch (which causes a flush).
+      // The useEffect is shielded while isPending=true, but fires once it drops. By updating the cache
+      // with the exact server values first, the useEffect render is a no-op (same data).
+      queryClient.setQueryData(["get-thread-detail", threadId], (old: any) => {
+        if (!old?.data) return old;
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            likes_count: result.data.likes_count,
+            is_liked: result.data.liked,
+            likes: result.data.liked
+              ? [...(old.data.likes || []), user._id]
+              : old.data.likes?.filter((id: string) => id !== user._id),
+          },
+        };
+      });
+      // Sync local state too
       setCurrentStats((prev) => ({
         ...prev,
         likes: result.data.likes_count,
         isLiked: result.data.liked,
       }));
-      queryClient.invalidateQueries({
-        queryKey: ["get-thread-detail", threadId],
-      });
-      // Removed to avoid multiple /threads calls; Pusher handle real-time sync instead.
+      // NOTE: not calling invalidateQueries to avoid flush + extra /threads calls.
     } catch (error: any) {
       // Rollback on error
       refetchThreadDetail();
@@ -819,10 +829,10 @@ export default function ThreadDetailPage({
                 ? "text-primary"
                 : "text-[#5B5B5B] hover:text-[#A179F2]"
             )}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAuthAction(handleLike);
-            }}
+            // onClick={(e) => {
+            //   e.stopPropagation();
+            //   handleAuthAction(handleLike);
+            // }}
           >
             <IconLove
               className={cn("size-6", currentStats.isLiked && "fill-current")}
