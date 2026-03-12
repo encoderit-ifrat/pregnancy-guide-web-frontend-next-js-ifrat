@@ -350,7 +350,7 @@ export default function ThreadDetailPage({
   thread,
   onShare,
   onClose,
-  isOpen = true,
+  isOpen = false,
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -412,11 +412,7 @@ export default function ThreadDetailPage({
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  useEffect(() => {
-    if (isOpen && threadId) {
-      refetchThreadDetail();
-    }
-  }, [isOpen, threadId, refetchThreadDetail]);
+
 
   useEffect(() => {
     if (threadDetail?.data) {

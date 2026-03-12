@@ -281,6 +281,7 @@ export default function ThreadCard({
             lastReply={lastReply}
             thread={thread}
             onShare={onShare}
+            isOpen={openReadMoreDialog}
             onClose={() => setOpenReadMoreDialog(false)}
           />
         </DialogContent>
