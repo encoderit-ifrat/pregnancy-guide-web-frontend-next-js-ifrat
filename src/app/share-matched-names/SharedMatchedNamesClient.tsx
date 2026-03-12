@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { Heart, InfoIcon, ThumbsUp } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -47,8 +48,15 @@ function NameCard({
   const [activeAction, setActiveAction] = useState<"like" | "love" | null>(null);
   const { mutate: swipe, isPending: isSwiping } = useMutationSwipeTinderName();
 
-  const handleSwipe = (action: "like" | "love") => {
+  // Toggle: clicking the same action again clears it; clicking a different action switches.
+  const handleToggle = (action: "like" | "love") => {
     if (!item._id) return;
+
+    if (activeAction === action) {
+      // Deselect — optimistically clear the UI; backend may or may not support un-swipe
+      setActiveAction(null);
+      return;
+    }
 
     swipe(
       { id: item._id, action, guestId },
@@ -97,7 +105,11 @@ function NameCard({
                 type="single"
                 value={activeAction || ""}
                 onValueChange={(value) => {
-                  if (value) handleSwipe(value as "like" | "love");
+                  if (value) handleToggle(value as "like" | "love");
+                  else {
+                    // ToggleGroup already deselected (value is empty string)
+                    setActiveAction(null);
+                  }
                 }}
                 disabled={isSwiping}
                 className="gap-4"
@@ -109,7 +121,14 @@ function NameCard({
                   size="sm"
                   className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                 >
-                  <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                  <Heart
+                    className={cn(
+                      "size-6 transition-colors",
+                      activeAction === "love"
+                        ? "fill-rose-500 stroke-rose-500"
+                        : "stroke-current"
+                    )}
+                  />
                 </ToggleGroupItem>
 
                 <ToggleGroupItem
@@ -117,9 +136,16 @@ function NameCard({
                   aria-label="Toggle like"
                   variant="default"
                   size="sm"
-                  className="p-0 hover:bg-transparent data-[state=on]/toggle-group-item:bg-transparent"
+                  className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                 >
-                  <ThumbsUp className="size-6 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                  <ThumbsUp
+                    className={cn(
+                      "size-6 transition-colors",
+                      activeAction === "like"
+                        ? "fill-primary stroke-primary"
+                        : "stroke-current"
+                    )}
+                  />
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>

@@ -71,10 +71,14 @@ function NameCard({ item }: { item: MatchingType }) {
   const { mutate: deleteMatch, isPending: isDeleting } =
     useMutationDeleteMatchingName();
 
-  const handleSwipe = (action: "like" | "love") => {
-    // If we don't have the _id we can't reliably swipe from this screen.
+  const handleToggle = (action: "like" | "love") => {
     if (!item._id) {
       toast.error("Cannot swipe on this item");
+      return;
+    }
+
+    if (activeAction === action) {
+      setActiveAction(null);
       return;
     }
 
@@ -83,10 +87,7 @@ function NameCard({ item }: { item: MatchingType }) {
       {
         onSuccess: () => {
           setActiveAction(action);
-          toast.success(
-            // t("threads.swipeSuccess") || `Successfully ${action}d name!`
-            "Swipe Successfully "
-          );
+          toast.success("Swipe Successfully ");
         },
         onError: (error: any) => {
           toast.error(
@@ -182,7 +183,8 @@ function NameCard({ item }: { item: MatchingType }) {
                 type="single"
                 value={activeAction || ""}
                 onValueChange={(value) => {
-                  if (value) handleSwipe(value as "like" | "love");
+                  if (value) handleToggle(value as "like" | "love");
+                  else setActiveAction(null);
                 }}
                 disabled={isSwiping}
                 className="gap-4"
@@ -194,7 +196,14 @@ function NameCard({ item }: { item: MatchingType }) {
                   size="sm"
                   className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                 >
-                  <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                  <Heart
+                    className={cn(
+                      "size-6 transition-colors",
+                      activeAction === "love"
+                        ? "fill-rose-500 stroke-rose-500"
+                        : "stroke-current"
+                    )}
+                  />
                 </ToggleGroupItem>
 
                 <ToggleGroupItem
@@ -202,9 +211,16 @@ function NameCard({ item }: { item: MatchingType }) {
                   aria-label="Toggle like"
                   variant="default"
                   size="sm"
-                  className="p-0 hover:bg-transparent data-[state=on]/toggle-group-item:bg-transparent"
+                  className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                 >
-                  <ThumbsUp className="size-6 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                  <ThumbsUp
+                    className={cn(
+                      "size-6 transition-colors",
+                      activeAction === "like"
+                        ? "fill-primary stroke-primary"
+                        : "stroke-current"
+                    )}
+                  />
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
