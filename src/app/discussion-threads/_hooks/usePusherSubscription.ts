@@ -16,6 +16,7 @@ type ThreadCallback<T> = (data: T) => void;
 interface UsePusherThreadsSubscriptionOptions {
   onNewThread?: ThreadCallback<PusherNewThreadEvent>;
   onThreadDeleted?: ThreadCallback<PusherThreadDeletedEvent>;
+  onThreadLiked?: ThreadCallback<PusherThreadLikedEvent>;
 }
 
 interface UsePusherThreadDetailSubscriptionOptions {
@@ -29,9 +30,11 @@ interface UsePusherThreadDetailSubscriptionOptions {
 export function usePusherThreadsSubscription({
   onNewThread,
   onThreadDeleted,
+  onThreadLiked,
 }: UsePusherThreadsSubscriptionOptions) {
   const onNewThreadRef = useRef(onNewThread);
   const onThreadDeletedRef = useRef(onThreadDeleted);
+  const onThreadLikedRef = useRef(onThreadLiked);
 
   useEffect(() => {
     onNewThreadRef.current = onNewThread;
@@ -40,6 +43,10 @@ export function usePusherThreadsSubscription({
   useEffect(() => {
     onThreadDeletedRef.current = onThreadDeleted;
   }, [onThreadDeleted]);
+
+  useEffect(() => {
+    onThreadLikedRef.current = onThreadLiked;
+  }, [onThreadLiked]);
 
   useEffect(() => {
     const pusher = getPusherClient();
@@ -55,6 +62,10 @@ export function usePusherThreadsSubscription({
         onThreadDeletedRef.current?.(data);
       }
     );
+
+    channel.bind(PUSHER_EVENTS.THREAD_LIKED, (data: PusherThreadLikedEvent) => {
+      onThreadLikedRef.current?.(data);
+    });
 
     return () => {
       channel.unbind_all();

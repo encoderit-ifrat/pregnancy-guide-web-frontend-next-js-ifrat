@@ -117,9 +117,42 @@ export default function Page() {
     refetch();
   }, [refetch]);
 
+  const handleThreadLiked = useCallback(
+    (event: any) => {
+      queryClient.setQueriesData(
+        { queryKey: ["get-threads"] },
+        (old: any) => {
+          if (!old?.pages) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page: any) => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((thread: any) =>
+                  thread._id === event.thread_id
+                    ? {
+                        ...thread,
+                        likes_count: event.likes_count,
+                        // Update is_liked if it's our own action, usually we trust Pusher for count but mutate locally for state
+                        // Actually event.liked will be true if the person who triggered it liked it.
+                        // For the list view, we just care about the count usually, unless we want live boolean sync too.
+                      }
+                    : thread
+                ),
+              },
+            })),
+          };
+        }
+      );
+    },
+    [queryClient]
+  );
+
   usePusherThreadsSubscription({
     onNewThread: handleNewThread,
     onThreadDeleted: handleThreadDeleted,
+    onThreadLiked: handleThreadLiked,
   });
 
   const likeMutation = useMutation({

@@ -354,14 +354,23 @@ export default function ThreadDetailPage({
 }: ThreadDetailPageProps) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const { user } = useCurrentUser();
+  const router = useRouter();
+
   const [replies, setReplies] = useState<ThreadReply[]>([]);
-  const [currentStats, setCurrentStats] = useState(stats);
+  const [currentStats, setCurrentStats] = useState({
+    likes: Number(thread?.likes_count ?? stats.likes),
+    replies: Number(thread?.replies_count ?? stats.replies),
+    views: Number(thread?.views_count ?? stats.views),
+    shares: Number(thread?.shares_count ?? stats.shares ?? 0),
+    isLiked:
+      thread?.is_liked || thread?.likes?.includes(user?._id || "") || false,
+    isFlagged:
+      thread?.is_flagged || thread?.flags?.includes(user?._id || "") || false,
+  });
   const [replyContent, setReplyContent] = useState("");
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [openFlagDialog, setOpenFlagDialog] = useState(false);
-
-  const { user } = useCurrentUser();
-  const router = useRouter();
 
   const handleAuthAction = (action?: () => void) => {
     if (!user) {
@@ -392,6 +401,8 @@ export default function ThreadDetailPage({
     repliesInfiniteData
   );
 
+  /* 
+  // These are now handled by currentStats for optimistic updates
   const effectiveThread = threadDetail?.data || thread;
   const isLiked =
     effectiveThread?.is_liked ||
@@ -401,10 +412,18 @@ export default function ThreadDetailPage({
     effectiveThread?.is_flagged ||
     effectiveThread?.flags?.includes(user?._id || "") ||
     false;
+  */
 
   const fullDescription = thread?.description || description || "";
 
   const { ref: loadMoreRef, inView } = useInView();
+
+  const toggleLike = useMutationToggleThreadLike();
+  const createReply = useMutationCreateReply();
+  const toggleReplyLike = useMutationToggleReplyLike();
+  const flagReplyMutation = useMutationFlagReply();
+  const flagThreadMutation = useMutationFlagThread();
+  const shareThreadMutation = useMutationShareThread();
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -413,29 +432,40 @@ export default function ThreadDetailPage({
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   useEffect(() => {
+    // Shield local state from synchronization if a like mutation is currently pending.
+    // This prevents the "jumping" behavior where stale background data overwrites the optimistic local state.
+    if (toggleLike.isPending) return;
+
     if (threadDetail?.data) {
       setCurrentStats({
-        likes: threadDetail.data.likes_count,
-        replies: threadDetail.data.replies_count,
-        views: threadDetail.data.views_count,
-        shares: threadDetail.data.shares_count || 0,
+        likes: Number(threadDetail.data.likes_count),
+        replies: Number(threadDetail.data.replies_count),
+        views: Number(threadDetail.data.views_count),
+        shares: Number(threadDetail.data.shares_count || 0),
+        isLiked:
+          threadDetail.data.is_liked ||
+          threadDetail.data.likes?.includes(user?._id || "") ||
+          false,
+        isFlagged:
+          threadDetail.data.is_flagged ||
+          threadDetail.data.flags?.includes(user?._id || "") ||
+          false,
       });
-    } else if (thread) {
+    } else if (thread && currentStats.likes === 0 && currentStats.replies === 0) {
+      // Only use thread prop for initial hydration if we don't have stats yet.
+      // This prevents the thread prop from overwriting optimistic local state during parent rerenders.
       setCurrentStats({
-        likes: thread.likes_count,
-        replies: thread.replies_count,
-        views: thread.views_count,
-        shares: thread.shares_count || 0,
+        likes: Number(thread.likes_count),
+        replies: Number(thread.replies_count),
+        views: Number(thread.views_count),
+        shares: Number(thread.shares_count || 0),
+        isLiked:
+          thread.is_liked || thread.likes?.includes(user?._id || "") || false,
+        isFlagged:
+          thread.is_flagged || thread.flags?.includes(user?._id || "") || false,
       });
     }
-  }, [threadDetail, thread]);
-
-  const toggleLike = useMutationToggleThreadLike();
-  const createReply = useMutationCreateReply();
-  const toggleReplyLike = useMutationToggleReplyLike();
-  const flagReplyMutation = useMutationFlagReply();
-  const flagThreadMutation = useMutationFlagThread();
-  const shareThreadMutation = useMutationShareThread();
+  }, [threadDetail, user?._id, toggleLike.isPending]);
 
   const handleReplyLike = async (replyId: string, parentId?: string) => {
     if (!threadId || !user) return;
@@ -452,17 +482,50 @@ export default function ThreadDetailPage({
               ...r,
               is_liked: !currentlyLiked,
               likes_count: (r.likes_count || 0) + (currentlyLiked ? -1 : 1),
-              // We don't necessarily need to update the likes array here for UI,
-              // but we can for consistency if we wanted to be very precise.
             };
           }
           return r;
         })
       );
+
+      // Also update the infinite query cache to prevent jumps
+      const params = { sort: "newest" };
+      queryClient.setQueryData(
+        ["get-thread-replies-infinite", threadId, params],
+        (old: any) => {
+          if (!old?.pages) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page: any) => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((r: ThreadReply) => {
+                  if (r._id === replyId) {
+                    const currentlyLiked =
+                      r.is_liked || r.likes?.includes(user._id) || false;
+                    return {
+                      ...r,
+                      is_liked: !currentlyLiked,
+                      likes_count:
+                        (r.likes_count || 0) + (currentlyLiked ? -1 : 1),
+                      likes: currentlyLiked
+                        ? r.likes?.filter((id: string) => id !== user._id)
+                        : [...(r.likes || []), user._id],
+                    };
+                  }
+                  return r;
+                }),
+              },
+            })),
+          };
+        }
+      );
     } else {
       // Nested reply optimistic update via Query Cache
       const queryKey = ["get-nested-replies", threadId, parentId];
-      const previousData = queryClient.getQueryData<ApiResponse<ThreadReply[]>>(queryKey);
+      const previousData =
+        queryClient.getQueryData<ApiResponse<ThreadReply[]>>(queryKey);
 
       if (previousData?.data) {
         queryClient.setQueryData<ApiResponse<ThreadReply[]>>(queryKey, {
@@ -522,6 +585,10 @@ export default function ThreadDetailPage({
 
   const handleThreadFlag = async () => {
     if (!threadId) return;
+
+    // Optimistic Update
+    setCurrentStats((prev) => ({ ...prev, isFlagged: true }));
+
     try {
       await flagThreadMutation.mutateAsync(threadId);
       toast.success(t("threads.flagSuccess"));
@@ -529,27 +596,34 @@ export default function ThreadDetailPage({
       queryClient.invalidateQueries({
         queryKey: ["get-thread-detail", threadId],
       });
-      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
+      // Removed to avoid multiple /threads calls; Pusher handle real-time sync instead.
     } catch (error: any) {
+      // Rollback
+      refetchThreadDetail();
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
     }
   };
 
   useEffect(() => {
+    // Shield replies from synchronization if a reply like mutation is pending.
+    if (toggleReplyLike.isPending) return;
+
     const allReplies =
       repliesInfiniteData?.pages?.flatMap(
         (page: any) => page?.data?.data || page?.data || []
       ) || [];
     setReplies(allReplies);
-  }, [repliesInfiniteData]);
+  }, [repliesInfiniteData, toggleReplyLike.isPending]);
 
   usePusherThreadDetailSubscription({
     threadId,
     onThreadLiked: (event) => {
-      if (thread && event.thread_id === thread._id) {
+      if (threadId === event.thread_id) {
         setCurrentStats((prev) => ({
           ...prev,
           likes: event.likes_count,
+          // We removed isLiked sync from Pusher because events are global and might reflect other users' actions.
+          // The current user's isLiked state is handled by mutation results and targeted query refetches.
         }));
       }
     },
@@ -584,24 +658,26 @@ export default function ThreadDetailPage({
         )
       );
 
-      // We don't know the parentId from the event usually, 
+      // We don't know the parentId from the event usually,
       // so we might need to search all nested queries or just invalidate.
       // But we can try to find if it exists in any active nested query.
       // For now, simple approach: find the parent if possible or just invalidate.
       // Given the event doesn't have parentId, we'll search the cache keys.
       const queryCache = queryClient.getQueryCache();
-      const queries = queryCache.findAll({ queryKey: ["get-nested-replies", threadId] });
-      
-      queries.forEach(query => {
+      const queries = queryCache.findAll({
+        queryKey: ["get-nested-replies", threadId],
+      });
+
+      queries.forEach((query) => {
         const data = query.state.data as ApiResponse<ThreadReply[]> | undefined;
-        if (data?.data?.some(r => r._id === event.reply_id)) {
+        if (data?.data?.some((r) => r._id === event.reply_id)) {
           queryClient.setQueryData<ApiResponse<ThreadReply[]>>(query.queryKey, {
             ...data,
-            data: data.data.map(r => 
-              r._id === event.reply_id 
-                ? { ...r, likes_count: event.likes_count } 
+            data: data.data.map((r) =>
+              r._id === event.reply_id
+                ? { ...r, likes_count: event.likes_count }
                 : r
-            )
+            ),
           });
         }
       });
@@ -614,29 +690,49 @@ export default function ThreadDetailPage({
   const handleLike = async () => {
     if (!threadId || !user) return;
 
-    // Optimistic Update
-    const currentlyLiked = effectiveThread?.is_liked || effectiveThread?.likes?.includes(user._id) || false;
+    // Truly Optimistic Update
+    const currentlyLiked = currentStats.isLiked;
+    const newLikesCount =
+      Number(currentStats.likes) + (currentlyLiked ? -1 : 1);
+
     setCurrentStats((prev) => ({
       ...prev,
-      likes: (prev.likes as number) + (currentlyLiked ? -1 : 1),
+      isLiked: !currentlyLiked,
+      likes: newLikesCount,
     }));
+
+    // Update query cache as well to prevent useEffect from jumping back
+    queryClient.setQueryData(["get-thread-detail", threadId], (old: any) => {
+      if (!old?.data) return old;
+      return {
+        ...old,
+        data: {
+          ...old.data,
+          likes_count: newLikesCount,
+          is_liked: !currentlyLiked,
+          // Also update the likes array if it exists to be safe
+          likes: currentlyLiked
+            ? old.data.likes?.filter((id: string) => id !== user._id)
+            : [...(old.data.likes || []), user._id],
+        },
+      };
+    });
 
     try {
       const result = await toggleLike.mutateAsync(threadId);
-      // Ensure we have the final correct count
+      // Final sync with server result
       setCurrentStats((prev) => ({
         ...prev,
         likes: result.data.likes_count,
+        isLiked: result.data.liked,
       }));
       queryClient.invalidateQueries({
         queryKey: ["get-thread-detail", threadId],
       });
-      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
+      // Removed to avoid multiple /threads calls; Pusher handle real-time sync instead.
     } catch (error: any) {
-      // Rollback
-      queryClient.invalidateQueries({
-        queryKey: ["get-thread-detail", threadId],
-      });
+      // Rollback on error
+      refetchThreadDetail();
       toast.error(error?.message || t("threads.errorLiking"));
     }
   };
@@ -715,21 +811,26 @@ export default function ThreadDetailPage({
 
         {/* Stats Bar */}
         <div className="flex items-center gap-10 pt-6 border-t border-[#F3EAFF]">
-          <div
+          <button
+            type="button"
             className={cn(
-              "flex items-center gap-2 cursor-pointer transition-colors",
-              isLiked ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
+              "flex items-center gap-2 cursor-pointer transition-colors select-none outline-none",
+              currentStats.isLiked
+                ? "text-primary"
+                : "text-[#5B5B5B] hover:text-[#A179F2]"
             )}
             onClick={(e) => {
               e.stopPropagation();
               handleAuthAction(handleLike);
             }}
           >
-            <IconLove className={cn("size-6", isLiked && "fill-current")} />
-            <span className="text-base font-bold">
+            <IconLove
+              className={cn("size-6", currentStats.isLiked && "fill-current")}
+            />
+            <span className="text-base font-bold pointer-events-none">
               {currentStats.likes} {t("threads.like")}
             </span>
-          </div>
+          </button>
           <div className="flex items-center gap-2 text-[#5B5B5B]">
             <IconReply className="size-6" />
             <span className="text-base font-bold">
@@ -754,13 +855,19 @@ export default function ThreadDetailPage({
           <div
             className={cn(
               "flex items-center gap-2 cursor-pointer transition-colors",
-              isFlagged ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
+              currentStats.isFlagged
+                ? "text-primary"
+                : "text-[#5B5B5B] hover:text-[#A179F2]"
             )}
             onClick={() => handleAuthAction(() => setOpenFlagDialog(true))}
           >
-            <IconFlag className={cn("size-6", isFlagged && "fill-current")} />
+            <IconFlag
+              className={cn("size-6", currentStats.isFlagged && "fill-current")}
+            />
             <span className="text-base font-bold">
-              {isFlagged ? t("threads.flagged") : t("threads.flag")}
+              {currentStats.isFlagged
+                ? t("threads.flagged")
+                : t("threads.flag")}
             </span>
           </div>
         </div>
