@@ -12,7 +12,7 @@ import IconFlag from "@/components/svg-icon/icon-flag";
 import IconReply from "@/components/svg-icon/icon-reply";
 import IconEye from "@/components/svg-icon/icon-eye";
 import IconShare from "@/components/svg-icon/icon-share";
-import { Thread, ThreadReply } from "../_types/thread_types";
+import { Thread, ThreadReply, ApiResponse } from "../_types/thread_types";
 import {
   useQueryGetThreadDetail,
   useInfiniteQueryGetThreadReplies,
@@ -412,8 +412,6 @@ export default function ThreadDetailPage({
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-
-
   useEffect(() => {
     if (threadDetail?.data) {
       setCurrentStats({
@@ -440,32 +438,68 @@ export default function ThreadDetailPage({
   const shareThreadMutation = useMutationShareThread();
 
   const handleReplyLike = async (replyId: string, parentId?: string) => {
-    if (!threadId) return;
+    if (!threadId || !user) return;
+
+    // 1. Optimistic Update
+    if (!parentId) {
+      // Top-level reply optimistic update
+      setReplies((prev = []) =>
+        prev.map((r) => {
+          if (r._id === replyId) {
+            const currentlyLiked =
+              r.is_liked || r.likes?.includes(user._id) || false;
+            return {
+              ...r,
+              is_liked: !currentlyLiked,
+              likes_count: (r.likes_count || 0) + (currentlyLiked ? -1 : 1),
+              // We don't necessarily need to update the likes array here for UI,
+              // but we can for consistency if we wanted to be very precise.
+            };
+          }
+          return r;
+        })
+      );
+    } else {
+      // Nested reply optimistic update via Query Cache
+      const queryKey = ["get-nested-replies", threadId, parentId];
+      const previousData = queryClient.getQueryData<ApiResponse<ThreadReply[]>>(queryKey);
+
+      if (previousData?.data) {
+        queryClient.setQueryData<ApiResponse<ThreadReply[]>>(queryKey, {
+          ...previousData,
+          data: previousData.data.map((r: ThreadReply) => {
+            if (r._id === replyId) {
+              const currentlyLiked =
+                r.is_liked || r.likes?.includes(user._id) || false;
+              return {
+                ...r,
+                is_liked: !currentlyLiked,
+                likes_count: (r.likes_count || 0) + (currentlyLiked ? -1 : 1),
+              };
+            }
+            return r;
+          }),
+        });
+      }
+    }
+
     try {
       await toggleReplyLike.mutateAsync({ threadId, replyId });
-      // If it's a top-level reply, we can update the state for immediate UI feedback
-      if (!parentId) {
-        setReplies((prev = []) =>
-          prev.map((r) =>
-            r._id === replyId
-              ? {
-                  ...r,
-                  likes_count:
-                    (r.likes_count || 0) +
-                    (r.likes?.includes(user?._id || "") ? -1 : 1),
-                }
-              : r
-          )
-        );
-      } else {
-        // If it's a nested reply, invalidate the specific nested query
+      // Final sync - refetch to ensure server-side consistency
+      refetchReplies();
+      if (parentId) {
         queryClient.invalidateQueries({
           queryKey: ["get-nested-replies", threadId, parentId],
         });
       }
-      // Also refetch main replies to keep everything in sync
-      refetchReplies();
     } catch (error: any) {
+      // Rollback on error (invalidate to restore correct state)
+      refetchReplies();
+      if (parentId) {
+        queryClient.invalidateQueries({
+          queryKey: ["get-nested-replies", threadId, parentId],
+        });
+      }
       toast.error(error?.message || t("threads.errorLiking"));
     }
   };
@@ -541,6 +575,7 @@ export default function ThreadDetailPage({
       }
     },
     onReplyLiked: (event) => {
+      // Update top-level replies state
       setReplies((prev = []) =>
         prev.map((r) =>
           r._id === event.reply_id
@@ -548,6 +583,28 @@ export default function ThreadDetailPage({
             : r
         )
       );
+
+      // We don't know the parentId from the event usually, 
+      // so we might need to search all nested queries or just invalidate.
+      // But we can try to find if it exists in any active nested query.
+      // For now, simple approach: find the parent if possible or just invalidate.
+      // Given the event doesn't have parentId, we'll search the cache keys.
+      const queryCache = queryClient.getQueryCache();
+      const queries = queryCache.findAll({ queryKey: ["get-nested-replies", threadId] });
+      
+      queries.forEach(query => {
+        const data = query.state.data as ApiResponse<ThreadReply[]> | undefined;
+        if (data?.data?.some(r => r._id === event.reply_id)) {
+          queryClient.setQueryData<ApiResponse<ThreadReply[]>>(query.queryKey, {
+            ...data,
+            data: data.data.map(r => 
+              r._id === event.reply_id 
+                ? { ...r, likes_count: event.likes_count } 
+                : r
+            )
+          });
+        }
+      });
     },
     onReplyDeleted: (event) => {
       setReplies((prev = []) => prev.filter((r) => r._id !== event.reply_id));
@@ -555,18 +612,31 @@ export default function ThreadDetailPage({
   });
 
   const handleLike = async () => {
-    if (!thread) return;
+    if (!threadId || !user) return;
+
+    // Optimistic Update
+    const currentlyLiked = effectiveThread?.is_liked || effectiveThread?.likes?.includes(user._id) || false;
+    setCurrentStats((prev) => ({
+      ...prev,
+      likes: (prev.likes as number) + (currentlyLiked ? -1 : 1),
+    }));
+
     try {
-      const result = await toggleLike.mutateAsync(thread._id);
+      const result = await toggleLike.mutateAsync(threadId);
+      // Ensure we have the final correct count
       setCurrentStats((prev) => ({
         ...prev,
         likes: result.data.likes_count,
       }));
       queryClient.invalidateQueries({
-        queryKey: ["get-thread-detail", thread._id],
+        queryKey: ["get-thread-detail", threadId],
       });
       queryClient.invalidateQueries({ queryKey: ["get-threads"] });
     } catch (error: any) {
+      // Rollback
+      queryClient.invalidateQueries({
+        queryKey: ["get-thread-detail", threadId],
+      });
       toast.error(error?.message || t("threads.errorLiking"));
     }
   };
