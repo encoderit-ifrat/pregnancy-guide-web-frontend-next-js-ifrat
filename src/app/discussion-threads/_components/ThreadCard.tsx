@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight } from "lucide-react";
@@ -101,6 +101,14 @@ export default function ThreadCard({
   const isFlagged = thread?.flags?.includes(user?._id) || false;
   const isLiked = thread?.likes?.includes(user?._id || "") || false;
 
+  const [liked, setLiked] = useState(isLiked);
+  const [flagged, setFlagged] = useState(isFlagged);
+
+  useEffect(() => {
+    setLiked(isLiked);
+    setFlagged(isFlagged);
+  }, [isLiked, isFlagged]);
+
   const handleAuthAction = (action?: () => void) => {
     if (!user) {
       router.push("/login?callbackUrl=/discussion-threads");
@@ -152,11 +160,18 @@ export default function ThreadCard({
             <div
               className={cn(
                 "flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-colors hover:text-primary",
-                isLiked ? "text-primary" : "text-secondary"
+                liked ? "text-primary" : "text-secondary"
               )}
               onClick={(e) => {
                 e.stopPropagation();
-                handleAuthAction(onLike);
+                handleAuthAction(() => {
+                  setCurrentStats((prev) => ({
+                    ...prev,
+                    likes: Number(prev.likes) + (liked ? -1 : 1),
+                  }));
+                  setLiked((prev) => !prev);
+                  onLike?.();
+                });
               }}
             >
               <IconLove className="size-3.5 sm:size-4 md:size-5" />
@@ -192,7 +207,7 @@ export default function ThreadCard({
             <div
               className={cn(
                 "flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-colors hover:text-primary",
-                isFlagged ? "text-primary" : "text-secondary"
+                flagged ? "text-primary" : "text-secondary"
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -201,7 +216,7 @@ export default function ThreadCard({
             >
               <IconFlag className="size-3.5 sm:size-4 md:size-5" />
               <span className="text-xs sm:text-sm md:text-base font-medium">
-                {isFlagged ? t("threads.flagged") : t("threads.flag")}
+                {flagged ? t("threads.flagged") : t("threads.flag")}
               </span>
             </div>
           </div>
@@ -258,6 +273,7 @@ export default function ThreadCard({
               className="w-40"
               onClick={(e) => {
                 e.stopPropagation();
+                setFlagged(true);
                 onFlag?.();
                 setOpenFlagDialog(false);
               }}
