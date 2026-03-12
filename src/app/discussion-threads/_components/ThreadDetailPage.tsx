@@ -82,6 +82,7 @@ function ReplyCard({
   onReplyFlag,
   isNested = false,
   parentId,
+  depth = 0,
 }: {
   reply: ThreadReply;
   threadId: string;
@@ -89,7 +90,9 @@ function ReplyCard({
   onReplyFlag?: (replyId: string, parentId?: string) => void;
   isNested?: boolean;
   parentId?: string;
+  depth?: number;
 }) {
+  console.log("👉 ~ ReplyCard ~ reply:", reply);
   const { t } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
@@ -164,7 +167,12 @@ function ReplyCard({
       <div className="flex gap-4">
         {/* Avatar and vertical line */}
         <div className="flex flex-col items-center shrink-0">
-          <div className="size-12 rounded-full border-2 border-[#A179F2] p-0.5 overflow-hidden">
+          <div
+            className={cn(
+              "rounded-full border-2 border-[#A179F2] p-0.5 overflow-hidden transition-all duration-300",
+              depth === 0 ? "size-12" : depth === 1 ? "size-10" : "size-8"
+            )}
+          >
             <Image
               width={48}
               height={48}
@@ -173,11 +181,11 @@ function ReplyCard({
               className="w-full h-full rounded-full object-cover"
             />
           </div>
-          {/* {(reply.nested_replies_count ||
+          {(reply.nested_replies_count ||
             nestedReplies.length > 0 ||
             isExpanded) && (
             <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
-          )} */}
+          )}
         </div>
 
         {/* Content */}
@@ -190,15 +198,14 @@ function ReplyCard({
               {timeAgo}
             </span>
           </div>
-
           <p
             className={cn("text-[#5B5B5B] text-base mb-4 leading-relaxed", {
-              "bg-primary/10 py-1 px-2 rounded-md": isNested,
+              "bg-primary/5 py-2 px-3 rounded-xl": isNested && depth % 2 === 1,
+              "bg-primary/10 py-2 px-3 rounded-xl": isNested && depth % 2 === 0,
             })}
           >
             {reply.content}
           </p>
-
           <div className="flex items-center gap-6">
             <button
               onClick={() => handleAuthAction(() => setIsReplying(!isReplying))}
@@ -249,7 +256,6 @@ function ReplyCard({
               View {reply.nested_replies_count} more replies
             </button>
           ) : null}
-
           {isReplying && (
             <form onSubmit={handleReplySubmit} className="mt-4">
               <div className="relative mb-3">
@@ -286,26 +292,46 @@ function ReplyCard({
               </div>
             </form>
           )}
-
           {isExpanded && isLoadingNested && (
             <div className="mt-4">
               <Loader2 className="animate-spin size-4 text-[#A179F2]" />
             </div>
           )}
-
           {isExpanded && nestedReplies.length > 0 ? (
-            <div className="mt-6 flex flex-col gap-6 relative">
-              <div className="absolute -left-8 -top-6 bottom-0 w-8 border-l-2 border-b-2 border-[#F3EAFF] rounded-bl-xl pointer-events-none" />
+            <div
+              className={cn(
+                "mt-6 flex flex-col gap-6 relative",
+                depth < 4 ? "ml-4" : "ml-2"
+              )}
+            >
+              <div
+                className={cn(
+                  "absolute -top-6 bottom-0 border-l-2 border-[#F3EAFF] pointer-events-none",
+                  depth === 0 ? "-left-8" : depth === 1 ? "-left-7" : "-left-6"
+                )}
+              />
               {nestedReplies.map((nestedReply: ThreadReply) => (
-                <ReplyCard
-                  key={nestedReply._id}
-                  reply={nestedReply}
-                  threadId={threadId}
-                  onReplyLike={onReplyLike}
-                  onReplyFlag={onReplyFlag}
-                  isNested={true}
-                  parentId={reply._id}
-                />
+                <div key={nestedReply._id} className="relative">
+                  <div
+                    className={cn(
+                      "absolute border-b-2 border-[#F3EAFF] rounded-bl-xl pointer-events-none",
+                      depth === 0
+                        ? "-left-8 w-8 top-6"
+                        : depth === 1
+                          ? "-left-7 w-7 top-5"
+                          : "-left-6 w-6 top-4"
+                    )}
+                  />
+                  <ReplyCard
+                    reply={nestedReply}
+                    threadId={threadId}
+                    onReplyLike={onReplyLike}
+                    onReplyFlag={onReplyFlag}
+                    isNested={true}
+                    parentId={reply._id}
+                    depth={depth + 1}
+                  />
+                </div>
               ))}
             </div>
           ) : null}
