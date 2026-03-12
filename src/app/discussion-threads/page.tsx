@@ -90,6 +90,7 @@ export default function Page() {
     refetch,
   } = useInfiniteQuery({
     queryKey: ["get-threads", activeTab],
+    refetchOnWindowFocus: true,
     queryFn: ({ pageParam = 1 }) =>
       fetchThreads({ pageParam, sort: activeTab }),
     initialPageParam: 1,
@@ -287,6 +288,7 @@ export default function Page() {
                       onLike={() => handleLike(thread.id)}
                       onFlag={() => handleFlag(thread.id)}
                       onShare={() => handleShare(thread.id, thread.title)}
+                      onDialogClose={() => refetch()}
                     />
                   ))
                 )}

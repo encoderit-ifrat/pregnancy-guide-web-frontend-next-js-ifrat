@@ -53,6 +53,7 @@ interface ThreadCardProps {
   onReply?: () => void;
   onFlag?: () => void;
   onShare?: () => void;
+  onDialogClose?: () => void;
 }
 
 export default function ThreadCard({
@@ -69,6 +70,7 @@ export default function ThreadCard({
   onReply,
   onFlag,
   onShare,
+  onDialogClose,
 }: ThreadCardProps) {
   console.log("👉 ~ ThreadCard ~ lastReplyUser:", lastReplyUser);
   const { t, locale } = useTranslation();
@@ -261,7 +263,15 @@ export default function ThreadCard({
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={openReadMoreDialog} onOpenChange={setOpenReadMoreDialog}>
+      <Dialog
+        open={openReadMoreDialog}
+        onOpenChange={(open) => {
+          setOpenReadMoreDialog(open);
+          if (!open) {
+            onDialogClose?.();
+          }
+        }}
+      >
         <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
           <ThreadDetailPage
             title={title}
