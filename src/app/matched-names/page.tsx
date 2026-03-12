@@ -12,7 +12,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import IconDelete from "@/components/svg-icon/icon-delete";
@@ -58,7 +63,9 @@ function NameCard({ item }: { item: MatchingType }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [activeAction, setActiveAction] = useState<"like" | "love" | null>(null);
+  const [activeAction, setActiveAction] = useState<"like" | "love" | null>(
+    null
+  );
   const { mutate: swipeTinderName, isPending: isSwiping } =
     useMutationSwipeTinderName();
   const { mutate: deleteMatch, isPending: isDeleting } =
@@ -207,9 +214,7 @@ function NameCard({ item }: { item: MatchingType }) {
 
       {/* Info dialog content */}
       <DialogContent className="sm:max-w-xl bg-white p-8">
-        <DialogTitle className="sr-only">
-          {item.name}
-        </DialogTitle>
+        <DialogTitle className="sr-only">{item.name}</DialogTitle>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold text-primary-color mb-2 border-b border-b-gray-200">
             {item.name}
@@ -225,7 +230,10 @@ function NameCard({ item }: { item: MatchingType }) {
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 Description
               </h4>
-              <p className="leading-relaxed">{item?.description || "N/A"}</p>
+              <p
+                className="leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: item?.description || "N/A" }}
+              ></p>
             </section>
             {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
