@@ -30,6 +30,7 @@ import Loading from "../loading";
 import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
 import { toast } from "sonner";
+import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
 const PAGE_LIMIT = 4;
 
@@ -60,6 +61,13 @@ export default function Page() {
   const [shareThreadId, setShareThreadId] = useState("");
   const [shareThreadTitle, setShareThreadTitle] = useState("");
   const queryClient = useQueryClient();
+
+  // Ensure when user leaves and comes back, we reset to top
+  // and start fetching threads again from page 1 with smooth scroll.
+  useResetInfiniteScrollOnFocus({
+    queryKeyPrefix: ["get-threads"],
+    routePrefix: "/discussion-threads",
+  });
 
   const shareMutation = useMutationShareThread();
 

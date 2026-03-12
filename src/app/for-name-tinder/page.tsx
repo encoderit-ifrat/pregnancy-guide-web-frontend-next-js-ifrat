@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useQueryClient } from "@tanstack/react-query";
 
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -38,6 +39,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useInView } from "react-intersection-observer";
 import Loading from "../loading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
 function SkeletonCommunityCard() {
   return (
@@ -59,6 +61,12 @@ function SkeletonCommunityCard() {
 export default function Page() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("liked");
+  const queryClient = useQueryClient();
+  // Reset scroll + infinite community names when user returns.
+  useResetInfiniteScrollOnFocus({
+    queryKeyPrefix: ["tinder-names-infinite"],
+    routePrefix: "/for-name-tinder",
+  });
 
   const tabSortMap: Record<string, string> = {
     liked: "most_liked",

@@ -20,6 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { toast } from "sonner";
 import ShareModal from "../discussion-threads/_components/ShareModal";
+import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
 const formatThreadForCard = (thread: Thread) => {
   const createdAtDate = thread.createdAt
@@ -56,6 +57,12 @@ export default function PublishedThreadsPage() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareThreadId, setShareThreadId] = useState("");
   const [shareThreadTitle, setShareThreadTitle] = useState("");
+
+  // Reset scroll + infinite pages when returning to this screen.
+  useResetInfiniteScrollOnFocus({
+    queryKeyPrefix: ["get-my-threads-infinite"],
+    routePrefix: "/published-threads",
+  });
 
   const handleShare = (threadId: string, title: string) => {
     setShareThreadId(threadId);
