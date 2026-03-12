@@ -241,14 +241,14 @@ function ReplyCard({
             </button>
           </div>
 
-          {reply.nested_replies_count && !isExpanded && (
+          {reply.nested_replies_count && !isExpanded ? (
             <button
               onClick={() => setIsExpanded(true)}
               className="mt-4 text-[#A179F2] text-sm font-bold hover:underline"
             >
               View {reply.nested_replies_count} more replies
             </button>
-          )}
+          ) : null}
 
           {isReplying && (
             <form onSubmit={handleReplySubmit} className="mt-4">
