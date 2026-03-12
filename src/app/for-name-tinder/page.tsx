@@ -495,7 +495,7 @@ export default function Page() {
                             });
                         }}
                         disabled={swipePending}
-                        className="flex items-center gap-4"
+                        className="flex items-center gap-4 w-full"
                       >
                         <ToggleGroupItem
                           value="dislike"
