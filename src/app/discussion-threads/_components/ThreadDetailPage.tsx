@@ -453,49 +453,6 @@ export default function ThreadDetailPage({
   const handleReplyLike = async (replyId: string, parentId?: string) => {
     if (!threadId || !user) return;
 
-    // 1. Optimistic Update
-    if (!parentId) {
-      // Top-level reply optimistic update
-      setReplies((prev = []) =>
-        prev.map((r) => {
-          if (r._id === replyId) {
-            const currentlyLiked =
-              r.is_liked || r.likes?.includes(user._id) || false;
-            return {
-              ...r,
-              is_liked: !currentlyLiked,
-              likes_count: (r.likes_count || 0) + (currentlyLiked ? -1 : 1),
-              // We don't necessarily need to update the likes array here for UI,
-              // but we can for consistency if we wanted to be very precise.
-            };
-          }
-          return r;
-        })
-      );
-    } else {
-      // Nested reply optimistic update via Query Cache
-      const queryKey = ["get-nested-replies", threadId, parentId];
-      const previousData = queryClient.getQueryData<ApiResponse<ThreadReply[]>>(queryKey);
-
-      if (previousData?.data) {
-        queryClient.setQueryData<ApiResponse<ThreadReply[]>>(queryKey, {
-          ...previousData,
-          data: previousData.data.map((r: ThreadReply) => {
-            if (r._id === replyId) {
-              const currentlyLiked =
-                r.is_liked || r.likes?.includes(user._id) || false;
-              return {
-                ...r,
-                is_liked: !currentlyLiked,
-                likes_count: (r.likes_count || 0) + (currentlyLiked ? -1 : 1),
-              };
-            }
-            return r;
-          }),
-        });
-      }
-    }
-
     try {
       await toggleReplyLike.mutateAsync({ threadId, replyId });
       // Final sync - refetch to ensure server-side consistency
@@ -605,18 +562,35 @@ export default function ThreadDetailPage({
       const queryCache = queryClient.getQueryCache();
       const queries = queryCache.findAll({ queryKey: ["get-nested-replies", threadId] });
       
-      queries.forEach(query => {
-        const data = query.state.data as ApiResponse<ThreadReply[]> | undefined;
-        if (data?.data?.some(r => r._id === event.reply_id)) {
-          queryClient.setQueryData<ApiResponse<ThreadReply[]>>(query.queryKey, {
-            ...data,
-            data: data.data.map(r => 
-              r._id === event.reply_id 
-                ? { ...r, likes_count: event.likes_count } 
-                : r
-            )
-          });
+      queries.forEach((query) => {
+        const data = query.state.data as
+          | ApiResponse<ThreadReply[]>
+          | undefined;
+        if (!data) return;
+
+        const repliesArray = Array.isArray(data.data)
+          ? data.data
+          : ((data.data as any)?.data as ThreadReply[]) || [];
+
+        if (!repliesArray.some((r) => r._id === event.reply_id)) {
+          return;
         }
+
+        const updatedReplies = repliesArray.map((r) =>
+          r._id === event.reply_id
+            ? { ...r, likes_count: event.likes_count }
+            : r
+        );
+
+        queryClient.setQueryData<ApiResponse<ThreadReply[]>>(query.queryKey, {
+          ...data,
+          data: Array.isArray(data.data)
+            ? (updatedReplies as any)
+            : {
+                ...(data.data as any),
+                data: updatedReplies,
+              },
+        });
       });
     },
     onReplyDeleted: (event) => {
@@ -626,24 +600,6 @@ export default function ThreadDetailPage({
 
   const handleLike = async () => {
     if (!threadId || !user) return;
-
-    // Optimistic Update
-    const currentlyLiked = effectiveThread?.is_liked || effectiveThread?.likes?.includes(user._id) || false;
-    setCurrentStats((prev) => {
-      const updated = {
-        ...prev,
-        likes: (prev.likes as number) + (currentlyLiked ? -1 : 1),
-      };
-
-      onStatsUpdate?.({
-        likes: Number(updated.likes),
-        replies: Number(updated.replies),
-        views: Number(updated.views),
-        shares: Number(updated.shares),
-      });
-
-      return updated;
-    });
 
     try {
       const result = await toggleLike.mutateAsync(threadId);
