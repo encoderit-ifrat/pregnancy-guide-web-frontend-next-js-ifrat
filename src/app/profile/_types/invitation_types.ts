@@ -13,9 +13,7 @@ export interface Invitation {
 export interface InvitationsResponse {
   success: boolean;
   message: string;
-  data: {
-    data: Invitation[];
-  };
+  data: Invitation[];
 }
 
 export interface InvitationCreateRequest {
