@@ -4,7 +4,12 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { Heart, InfoIcon, ThumbsUp } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useQueryGetMatchingNames,
@@ -45,7 +50,9 @@ function NameCard({
 }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
-  const [activeAction, setActiveAction] = useState<"like" | "love" | null>(null);
+  const [activeAction, setActiveAction] = useState<"like" | "love" | null>(
+    null
+  );
   const { mutate: swipe, isPending: isSwiping } = useMutationSwipeTinderName();
 
   // Toggle: clicking the same action again clears it; clicking a different action switches.
@@ -66,7 +73,9 @@ function NameCard({
           toast.success(t("matchedNames.swipeSuccess"));
         },
         onError: (err: any) => {
-          toast.error(err?.response?.data?.message || t("matchedNames.failedSwipe"));
+          toast.error(
+            err?.response?.data?.message || t("matchedNames.failedSwipe")
+          );
         },
       }
     );
@@ -153,33 +162,36 @@ function NameCard({
         </div>
       </Card>
       <DialogContent className="sm:max-w-xl bg-white p-8">
-        <DialogTitle className="sr-only">
-          {item.name}
-        </DialogTitle>
+        <DialogTitle className="sr-only">{item.name}</DialogTitle>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold text-primary-color mb-2 border-b border-b-gray-200">
             {item.name}
           </h2>
           <div className="space-y-4">
-            <section>
+            {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 {t("matchedNames.category")}
               </h4>
               <p className="leading-relaxed">{item.category_id?.name}</p>
-            </section>
+            </section> */}
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 {t("matchedNames.description")}
               </h4>
-              <p className="leading-relaxed">{item?.description || t("matchedNames.na")}</p>
+              <p
+                className="leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html: item?.description || t("matchedNames.na"),
+                }}
+              ></p>
             </section>
-            <section>
+            {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 {t("matchedNames.gender")}
               </h4>
               <p className="capitalize leading-relaxed">{item.gender}</p>
-            </section>
-            <section>
+            </section> */}
+            {/* <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 {t("matchedNames.stats")}
               </h4>
@@ -187,7 +199,7 @@ function NameCard({
                 <li>{t("matchedNames.lovedCount")} {item.loved_count}</li>
                 <li>{t("matchedNames.likedCount")} {item.liked_count}</li>
               </ul>
-            </section>
+            </section> */}
           </div>
         </div>
       </DialogContent>
