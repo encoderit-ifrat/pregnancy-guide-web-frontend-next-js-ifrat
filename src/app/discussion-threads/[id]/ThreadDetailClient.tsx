@@ -14,11 +14,13 @@ import { useQueryGetThreadDetail } from "../_api/queries/useQueryGetThreads";
 import Loading from "../../loading";
 import { Thread } from "../_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
+import { sv, enUS } from "date-fns/locale";
 import ShareModal from "../_components/ShareModal";
 import { useMutationShareThread } from "../_api/mutations/useThreadMutations";
 
 export default function ThreadDetailClient({ threadId }: { threadId: string }) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const currentLocale = locale === "sv" ? sv : enUS;
   const router = useRouter();
 
   const { data, isLoading, error } = useQueryGetThreadDetail(threadId);
@@ -69,7 +71,7 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
     ? new Date(thread.createdAt)
     : new Date();
   const timeAgo = isValid(createdAtDate)
-    ? formatDistanceToNow(createdAtDate, { addSuffix: true })
+    ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
     : "";
 
   const createdBy = {

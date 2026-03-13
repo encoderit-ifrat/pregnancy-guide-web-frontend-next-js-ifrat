@@ -15,6 +15,7 @@ import { usePusherThreadsSubscription } from "../discussion-threads/_hooks/usePu
 import { useInView } from "react-intersection-observer";
 import { Thread } from "../discussion-threads/_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
+import { sv, enUS } from "date-fns/locale";
 import Loading from "../loading";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
@@ -22,12 +23,12 @@ import { toast } from "sonner";
 import ShareModal from "../discussion-threads/_components/ShareModal";
 import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
-const formatThreadForCard = (thread: Thread) => {
+const formatThreadForCard = (thread: Thread, currentLocale: any) => {
   const createdAtDate = thread.createdAt
     ? new Date(thread.createdAt)
     : new Date();
   const timeAgo = isValid(createdAtDate)
-    ? formatDistanceToNow(createdAtDate, { addSuffix: true })
+    ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
     : "";
 
   return {
@@ -50,7 +51,8 @@ const formatThreadForCard = (thread: Thread) => {
 };
 
 export default function PublishedThreadsPage() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const currentLocale = locale === "sv" ? sv : enUS;
   const router = useRouter();
   const queryClient = useQueryClient();
   const [threads, setThreads] = useState<Thread[]>([]);
@@ -145,7 +147,7 @@ export default function PublishedThreadsPage() {
     return <Loading />;
   }
 
-  const formattedThreads = threads.map(formatThreadForCard);
+  const formattedThreads = threads.map((thread) => formatThreadForCard(thread, currentLocale));
 
   return (
     <PageContainer>

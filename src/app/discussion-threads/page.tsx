@@ -26,6 +26,7 @@ import { usePusherThreadsSubscription } from "./_hooks/usePusherSubscription";
 import { useMutationShareThread } from "./_api/mutations/useThreadMutations";
 import { ThreadSortOption } from "./_types/thread_types";
 import { formatDistanceToNow, isValid } from "date-fns";
+import { sv, enUS } from "date-fns/locale";
 import Loading from "../loading";
 import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
@@ -52,7 +53,7 @@ const fetchThreads = async ({
 };
 
 export default function Page() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const searchParams = useSearchParams();
   const currentSort =
     (searchParams.get("sort") as ThreadSortOption) || "newest";
@@ -166,8 +167,11 @@ export default function Page() {
     const createdAtDate = thread.createdAt
       ? new Date(thread.createdAt)
       : new Date();
+    
+    const currentLocale = locale === "sv" ? sv : enUS;
+    
     const timeAgo = isValid(createdAtDate)
-      ? formatDistanceToNow(createdAtDate, { addSuffix: true })
+      ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
       : "";
 
     return {

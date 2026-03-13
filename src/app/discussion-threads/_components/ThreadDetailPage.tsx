@@ -28,6 +28,7 @@ import {
 } from "../_api/mutations/useThreadMutations";
 import { usePusherThreadDetailSubscription } from "../_hooks/usePusherSubscription";
 import { formatDistanceToNow, isValid } from "date-fns";
+import { sv, enUS } from "date-fns/locale";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
@@ -99,7 +100,7 @@ function ReplyCard({
   depth?: number;
 }) {
   console.log("👉 ~ ReplyCard ~ reply:", reply);
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -155,8 +156,11 @@ function ReplyCard({
   const createdAtDate = reply.createdAt
     ? new Date(reply.createdAt)
     : new Date();
+  
+  const currentLocale = locale === "sv" ? sv : enUS;
+
   const timeAgo = isValid(createdAtDate)
-    ? formatDistanceToNow(createdAtDate, { addSuffix: true })
+    ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
     : "";
 
   const isLiked =
@@ -259,7 +263,7 @@ function ReplyCard({
               onClick={() => setIsExpanded(true)}
               className="mt-4 text-[#A179F2] text-sm font-bold hover:underline"
             >
-              View {reply.nested_replies_count} more replies
+              {t("threads.viewMoreReplies", { count: reply.nested_replies_count }) || `View ${reply.nested_replies_count} more replies`}
             </button>
           ) : null}
           {isReplying && (
