@@ -175,9 +175,9 @@ function NameCard({
               <p className="leading-relaxed">{item.category_id?.name}</p>
             </section> */}
             <section>
-              <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
+              {/* <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 {t("matchedNames.description")}
-              </h4>
+              </h4> */}
               <p
                 className="leading-relaxed"
                 dangerouslySetInnerHTML={{

@@ -91,7 +91,8 @@ function NameCard({ item }: { item: MatchingType }) {
         },
         onError: (error: any) => {
           toast.error(
-            error?.response?.data?.message || t("matchedNames.failedUpdateStatus")
+            error?.response?.data?.message ||
+              t("matchedNames.failedUpdateStatus")
           );
         },
       }
@@ -173,7 +174,9 @@ function NameCard({ item }: { item: MatchingType }) {
                         }
                       }}
                     >
-                      {isDeleting ? t("matchedNames.removing") : t("matchedNames.remove")}
+                      {isDeleting
+                        ? t("matchedNames.removing")
+                        : t("matchedNames.remove")}
                       <ChevronRight className="size-5" />
                     </Button>
                   </div>
@@ -243,12 +246,14 @@ function NameCard({ item }: { item: MatchingType }) {
               <p className="leading-relaxed">{item.category_id?.name}</p>
             </section> */}
             <section>
-              <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
+              {/* <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
                 {t("matchedNames.description")}
-              </h4>
+              </h4> */}
               <p
                 className="leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: item?.description || t("matchedNames.na") }}
+                dangerouslySetInnerHTML={{
+                  __html: item?.description || t("matchedNames.na"),
+                }}
               ></p>
             </section>
             {/* <section>
