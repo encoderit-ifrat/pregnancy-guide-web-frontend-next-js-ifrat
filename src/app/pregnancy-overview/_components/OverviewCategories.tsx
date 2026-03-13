@@ -91,19 +91,19 @@ const overviewCategories = [
     id: 2,
     icon: <IconMother className="w-full h-full" />,
     name: "Mother",
-    label: "pregnancy.mother",
+    label: "pregnancy.categories.mother",
   },
   {
     id: 1,
     icon: <IconBaby className="w-full h-full" />,
     name: "Baby",
-    label: "pregnancy.baby",
+    label: "pregnancy.categories.baby",
   },
   {
     id: 3,
     icon: <IconPartner className="w-full h-full" />,
     name: "Partner",
-    label: "pregnancy.partner",
+    label: "pregnancy.categories.partner",
   },
 ];
 

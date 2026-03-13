@@ -73,7 +73,7 @@ function NameCard({ item }: { item: MatchingType }) {
 
   const handleToggle = (action: "like" | "love") => {
     if (!item._id) {
-      toast.error("Cannot swipe on this item");
+      toast.error(t("matchedNames.cannotSwipe"));
       return;
     }
 
@@ -87,11 +87,11 @@ function NameCard({ item }: { item: MatchingType }) {
       {
         onSuccess: () => {
           setActiveAction(action);
-          toast.success("Swipe Successfully ");
+          toast.success(t("matchedNames.swipeSuccess"));
         },
         onError: (error: any) => {
           toast.error(
-            error?.response?.data?.message || "Failed to update name status"
+            error?.response?.data?.message || t("matchedNames.failedUpdateStatus")
           );
         },
       }
@@ -113,7 +113,7 @@ function NameCard({ item }: { item: MatchingType }) {
               <div className="flex items-center gap-2">
                 <Heart className="size-4 sm:size-5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
-                  {item.loved_count} {t("Love")}
+                  {item.loved_count} {t("forNameTinder.love")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -146,13 +146,13 @@ function NameCard({ item }: { item: MatchingType }) {
                 </div>
                 <DialogContent className="sm:max-w-xl text-center bg-white p-8">
                   <DialogTitle className="sr-only">
-                    Remove This Name
+                    {t("matchedNames.removeThisName")}
                   </DialogTitle>
                   <SectionHeading className="m-0 text-center text-2xl!">
-                    Remove This Name
+                    {t("matchedNames.removeThisName")}
                   </SectionHeading>
                   <p className="text-primary-color text-base text-center my-4">
-                    It Will Be deleted forever.
+                    {t("matchedNames.deletedForever")}
                   </p>
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
                     <Button
@@ -160,7 +160,7 @@ function NameCard({ item }: { item: MatchingType }) {
                       onClick={() => setOpenDeleteDialog(false)}
                       className="w-full sm:w-41.25"
                     >
-                      Cancel
+                      {t("matchedNames.cancel")}
                     </Button>
                     <Button
                       className="w-full sm:w-41.25"
@@ -173,7 +173,7 @@ function NameCard({ item }: { item: MatchingType }) {
                         }
                       }}
                     >
-                      {isDeleting ? "Removing..." : "Remove"}
+                      {isDeleting ? t("matchedNames.removing") : t("matchedNames.remove")}
                       <ChevronRight className="size-5" />
                     </Button>
                   </div>
@@ -244,11 +244,11 @@ function NameCard({ item }: { item: MatchingType }) {
             </section> */}
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
-                Description
+                {t("matchedNames.description")}
               </h4>
               <p
                 className="leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: item?.description || "N/A" }}
+                dangerouslySetInnerHTML={{ __html: item?.description || t("matchedNames.na") }}
               ></p>
             </section>
             {/* <section>
@@ -305,7 +305,7 @@ export default function MatchedName() {
   const handleCopy = () => {
     if (!shareLink) return;
     navigator.clipboard.writeText(shareLink);
-    toast.success("Link copied to clipboard!");
+    toast.success(t("matchedNames.linkCopied"));
   };
   const { t } = useTranslation();
 
@@ -313,14 +313,14 @@ export default function MatchedName() {
     <PageContainer>
       <div className="">
         <IconHeading
-          text={t(" Matched Names")}
+          text={t("matchedNames.title")}
           icon={<IconQuestion />}
           className="text-primary justify-center"
         />
 
         <SectionHeading className="m-0 text-center">
           {/* {t("threads.title")} */}
-          Matched Names
+          {t("matchedNames.title")}
         </SectionHeading>
 
         <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
@@ -332,7 +332,7 @@ export default function MatchedName() {
             <div className="mb-10">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
                 <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
-                  Matched Names
+                  {t("matchedNames.title")}
                 </h2>
                 <Link
                   href="/for-name-tinder"
@@ -342,7 +342,7 @@ export default function MatchedName() {
                   )}
                 >
                   <ChevronLeft className="size-4" />
-                  Back
+                  {t("matchedNames.back")}
                 </Link>
               </div>
 
@@ -366,17 +366,17 @@ export default function MatchedName() {
             >
               <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
                 <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-semibold text-primary-color tracking-tight">
-                  All Names
+                  {t("matchedNames.allNames")}
                 </h2>
                 <TabsList
                   variant="pill"
                   className="bg-white shadow-sm border border-white text-primary-color"
                 >
                   <TabsTrigger value="liked" variant="pill">
-                    Most Liked
+                    {t("matchedNames.mostLiked")}
                   </TabsTrigger>
                   <TabsTrigger value="loved" variant="pill">
-                    Most Loved
+                    {t("matchedNames.mostLoved")}
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -396,14 +396,14 @@ export default function MatchedName() {
                   )}
                   {isError && (
                     <p className="text-center text-red-500 py-4">
-                      Failed to load matched names. Please try again.
+                      {t("matchedNames.failedLoad")}
                     </p>
                   )}
                   {!isLoading &&
                     !isError &&
                     (!listToRender || listToRender.length === 0) && (
                       <p className="text-center text-primary-color py-4">
-                        No matched names yet. Start swiping!
+                        {t("matchedNames.noNamesYet")}
                       </p>
                     )}
                   {listToRender?.map((nameItem: MatchingType, idx: number) => (

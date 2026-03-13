@@ -467,5 +467,26 @@
     "failedSaveAction": "Det gick inte att spara din åtgärd. Försök igen.",
     "love": "Älskar",
     "view": "Visa"
+  },
+  "matchedNames": {
+    "title": "Matchade namn",
+    "subtitle": "Granska och hantera dina matchade namn.",
+    "cannotSwipe": "Kan inte svajpa på det här objektet",
+    "swipeSuccess": "Svepningen lyckades",
+    "failedUpdateStatus": "Det gick inte att uppdatera namnets status",
+    "removeThisName": "Ta bort det här namnet",
+    "deletedForever": "Det kommer att raderas för alltid.",
+    "cancel": "Avbryt",
+    "remove": "Ta bort",
+    "removing": "Tar bort...",
+    "description": "Beskrivning",
+    "na": "Ej tillämpligt",
+    "back": "Tillbaka",
+    "allNames": "Alla namn",
+    "mostLiked": "Mest gillade",
+    "mostLoved": "Mest älskade",
+    "failedLoad": "Det gick inte att ladda matchade namn. Försök igen.",
+    "noNamesYet": "Inga matchade namn ännu. Börja svajpa!",
+    "linkCopied": "Länken kopierad till urklipp!"
   }
 }

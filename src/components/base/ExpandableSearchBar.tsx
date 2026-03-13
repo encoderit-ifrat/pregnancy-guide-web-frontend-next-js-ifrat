@@ -5,6 +5,7 @@ import { Search, X } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ExpandableSearchBar({
   // onSearch,
@@ -21,6 +22,7 @@ export default function ExpandableSearchBar({
   isExpanded?: boolean;
 }) {
   const router = useRouter();
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(isExpanded);
   const [searchTerm, setSearchTerm] = useState(defaultValue);
   // const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -94,7 +96,7 @@ export default function ExpandableSearchBar({
         }`}
       >
         <Input
-          placeholder={placeholder}
+          placeholder={t("header.search")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           autoFocus={expanded}

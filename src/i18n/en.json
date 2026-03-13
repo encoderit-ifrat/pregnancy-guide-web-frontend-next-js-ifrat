@@ -467,5 +467,26 @@
     "failedSaveAction": "Failed to save your action. Please try again.",
     "love": "Love",
     "view": "View"
+  },
+  "matchedNames": {
+    "title": "Matched Names",
+    "subtitle": "Review and manage your matched names.",
+    "cannotSwipe": "Cannot swipe on this item",
+    "swipeSuccess": "Swiped Successfully",
+    "failedUpdateStatus": "Failed to update name status",
+    "removeThisName": "Remove This Name",
+    "deletedForever": "It will be deleted forever.",
+    "cancel": "Cancel",
+    "remove": "Remove",
+    "removing": "Removing...",
+    "description": "Description",
+    "na": "N/A",
+    "back": "Back",
+    "allNames": "All Names",
+    "mostLiked": "Most Liked",
+    "mostLoved": "Most Loved",
+    "failedLoad": "Failed to load matched names. Please try again.",
+    "noNamesYet": "No matched names yet. Start swiping!",
+    "linkCopied": "Link copied to clipboard!"
   }
 }

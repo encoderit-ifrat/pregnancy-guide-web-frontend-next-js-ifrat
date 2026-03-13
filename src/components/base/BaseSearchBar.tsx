@@ -48,7 +48,7 @@ export default function BaseSearchBar({
       <Search className="absolute left-4 text-gray-400 h-5 w-5 pointer-events-none" />
 
       <Input
-        placeholder={placeholder || t("header.search")}
+        placeholder={t(placeholder || "header.search")}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyPress={handleKeyPress}
