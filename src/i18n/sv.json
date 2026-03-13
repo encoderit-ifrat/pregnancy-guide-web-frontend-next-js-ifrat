@@ -445,5 +445,27 @@
       "title": "Support dygnet runt",
       "description": "Vårt team är här för att hjälpa dig hela vägen."
     }
+  },
+  "forNameTinder": {
+    "title": "Namn Tinder",
+    "startSwiping": "Börja svajpa",
+    "viewMatchedName": "Visa mina matchade namn",
+    "boy": "Pojke",
+    "girl": "Flicka",
+    "genderless": "Könlös",
+    "communityNames": "Gemenskapens namn",
+    "loadingCategories": "Laddar kategorier...",
+    "thisNameIsMatched": "Detta namn är matchat",
+    "loadingNames": "Laddar namn...",
+    "failedLoadNames": "Det gick inte att ladda namn.",
+    "failedLoadNamesTryAgain": "Det gick inte att ladda namn. Försök igen.",
+    "noNamesFound": "Inga namn hittades.",
+    "noNamesFoundFilters": "Inga namn hittades för de valda filtren.",
+    "noMoreNames": "Inga fler namn hittades.",
+    "dislikeAll": "Ogilla alla namn",
+    "disliking": "Ogillar...",
+    "failedSaveAction": "Det gick inte att spara din åtgärd. Försök igen.",
+    "love": "Älskar",
+    "view": "Visa"
   }
 }

@@ -71,7 +71,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
           setLikedCount(name.liked_count);
           setLovedCount(name.loved_count);
           setUserAction(null);
-          toast.error("Failed to save your action. Please try again.");
+          toast.error(t("forNameTinder.failedSaveAction"));
         },
       }
     );
@@ -114,7 +114,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
                   </ToggleGroupItem>
                   <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
-                    {lovedCount} {t("Love")}
+                    {lovedCount} {t("forNameTinder.love")}
                   </span>
                 </div>
 
@@ -144,7 +144,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
               className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3"
               onClick={() => setOpenViewDialog(true)}
             >
-              <span className="font-semibold text-xs sm:text-sm">View</span>
+              <span className="font-semibold text-xs sm:text-sm">{t("forNameTinder.view")}</span>
               <ChevronRight className="size-4" />
             </Button>
           </div>

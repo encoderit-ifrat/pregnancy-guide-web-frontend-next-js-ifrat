@@ -144,14 +144,14 @@ export default function Page() {
     <PageContainer>
       <div className="thread-header mb-16 flex flex-col items-center text-center">
         <IconHeading
-          text={t("For Name Tinder")}
+          text={t("forNameTinder.title")}
           icon={<IconQuestion />}
           className="text-primary justify-center"
         />
 
         <SectionHeading className="m-0 text-center">
           {/* {t("threads.title")} */}
-          For Name Tinder
+          {t("forNameTinder.title")}
         </SectionHeading>
 
         <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
@@ -173,7 +173,7 @@ export default function Page() {
             onClick={() => setOpenSwipeDialog(true)}
             className="w-full sm:w-fit sm:min-w-61.25"
           >
-            Start Swiping
+            {t("forNameTinder.startSwiping")}
             <ChevronRight className="size-4" />
           </Button>
 
@@ -193,7 +193,7 @@ export default function Page() {
               buttonVariants({ variant: "outline" })
             )}
           >
-            View My Matched Name
+            {t("forNameTinder.viewMatchedName")}
             <ChevronRight className="size-4" />
           </Link>
         </div>
@@ -208,7 +208,7 @@ export default function Page() {
               <div className=" flex flex-col items-start justify-center space-y-3">
                 <h2 className="text-[24px] sm:text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
                   {/* {t("threads.communityThreads")} */}
-                  Start Swiping
+                  {t("forNameTinder.startSwiping")}
                 </h2>
                 <RadioGroup
                   className="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg"
@@ -238,7 +238,7 @@ export default function Page() {
                       className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
                       htmlFor="gender-male"
                     >
-                      Boy
+                      {t("forNameTinder.boy")}
                     </label>
                   </div>
                   {/* Girl → female */}
@@ -262,7 +262,7 @@ export default function Page() {
                       className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
                       htmlFor="gender-female"
                     >
-                      Girl
+                      {t("forNameTinder.girl")}
                     </label>
                   </div>
                   {/* Genderless → unisex */}
@@ -286,7 +286,7 @@ export default function Page() {
                       className="cursor-pointer font-medium text-foreground leading-none after:absolute after:inset-0"
                       htmlFor="gender-unisex"
                     >
-                      Genderless
+                      {t("forNameTinder.genderless")}
                     </label>
                   </div>
                 </RadioGroup>
@@ -299,13 +299,13 @@ export default function Page() {
                     // setIsNext(false);
                   }}
                 >
-                  {tinderLoading ? "Loading..." : "Next"}
+                  {tinderLoading ? t("common.loading") : t("common.next")}
                   <ChevronRight className="size-4" />
                 </Button>
               </div>
               <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
                 <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-semibold text-primary-color tracking-tight">
-                  Community Names
+                  {t("forNameTinder.communityNames")}
                 </h2>
 
                 <TabsList
@@ -330,14 +330,14 @@ export default function Page() {
                 )}
                 {namesError && (
                   <p className="text-center text-red-500 py-4">
-                    Failed to load names.
+                    {t("forNameTinder.failedLoadNames")}
                   </p>
                 )}
                 {!namesLoading &&
                   !namesError &&
                   communityNames.length === 0 && (
                     <p className="text-center text-primary-color py-4">
-                      No names found.
+                      {t("forNameTinder.noNamesFound")}
                     </p>
                   )}
                 {communityNames.map((item) => (
@@ -355,7 +355,7 @@ export default function Page() {
                   )}
                   {!hasNextNames && communityNames.length > 0 && (
                     <p className="text-primary-color opacity-60">
-                      No more names found.
+                      {t("forNameTinder.noMoreNames")}
                     </p>
                   )}
                 </div>
@@ -370,14 +370,14 @@ export default function Page() {
                 )}
                 {namesError && (
                   <p className="text-center text-red-500 py-4">
-                    Failed to load names.
+                    {t("forNameTinder.failedLoadNames")}
                   </p>
                 )}
                 {!namesLoading &&
                   !namesError &&
                   communityNames.length === 0 && (
                     <p className="text-center text-primary-color py-4">
-                      No names found.
+                      {t("forNameTinder.noNamesFound")}
                     </p>
                   )}
                 {communityNames.map((item) => (
@@ -395,7 +395,7 @@ export default function Page() {
                   )}
                   {!hasNextNames && communityNames.length > 0 && (
                     <p className="text-primary-color opacity-60">
-                      No more names found.
+                      {t("forNameTinder.noMoreNames")}
                     </p>
                   )}
                 </div>
@@ -407,14 +407,14 @@ export default function Page() {
       <Dialog open={openSwipeDialog} onOpenChange={setOpenSwipeDialog}>
         <DialogContent className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-6 pt-12">
           <DialogTitle className="sr-only">
-            Start Swiping
+            {t("forNameTinder.startSwiping")}
           </DialogTitle>
           <SectionHeading className="m-0 text-2xl sm:text-3xl">
-            Start Swiping
+            {t("forNameTinder.startSwiping")}
           </SectionHeading>
           {categoriesLoading ? (
             <p className="text-center text-primary-color py-4">
-              Loading categories…
+              {t("forNameTinder.loadingCategories")}
             </p>
           ) : (
             <RadioGroup
@@ -463,7 +463,7 @@ export default function Page() {
               setOpenSwipeDialog(false);
             }}
           >
-            Next
+            {t("common.next")}
             <ChevronRight className="size-4" />
           </Button>
         </DialogContent>
@@ -471,28 +471,28 @@ export default function Page() {
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>
         <DialogContent className="sm:max-w-xl bg-white">
           <DialogTitle className="sr-only">
-            This Name Is Matched
+            {t("forNameTinder.thisNameIsMatched")}
           </DialogTitle>
           <SectionHeading className="m-0 text-center text-lg! flex items-center justify-center gap-2">
             <Image src="/check.png" alt="check" width={20} height={20} />
-            This Name Is Matched
+            {t("forNameTinder.thisNameIsMatched")}
           </SectionHeading>
 
           {tinderLoading && (
             <p className="text-center text-primary-color py-4">
-              Loading names…
+              {t("forNameTinder.loadingNames")}
             </p>
           )}
           {tinderError && (
             <p className="text-center text-red-500 py-4">
-              Failed to load names. Please try again.
+              {t("forNameTinder.failedLoadNamesTryAgain")}
             </p>
           )}
           {!tinderLoading && !tinderError && (
             <>
               {(tinderData?.data ?? []).length === 0 ? (
                 <p className="text-center text-primary-color py-4">
-                  No names found for the selected filters.
+                  {t("forNameTinder.noNamesFoundFilters")}
                 </p>
               ) : (
                 (tinderData?.data ?? []).map((nameItem, index) => {
@@ -550,7 +550,7 @@ export default function Page() {
                     dislikeAll(ids);
                   }}
                 >
-                  {dislikeAllPending ? "Disliking..." : "Dislike All Names"}
+                  {dislikeAllPending ? t("forNameTinder.disliking") : t("forNameTinder.dislikeAll")}
                   <ChevronRight />
                 </Button>
               )}

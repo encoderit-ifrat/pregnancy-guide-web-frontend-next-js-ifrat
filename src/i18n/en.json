@@ -445,5 +445,27 @@
     "validation": {
       "dueDateRequired": "Due date is required"
     }
+  },
+  "forNameTinder": {
+    "title": "For Name Tinder",
+    "startSwiping": "Start Swiping",
+    "viewMatchedName": "View My Matched Name",
+    "boy": "Boy",
+    "girl": "Girl",
+    "genderless": "Genderless",
+    "communityNames": "Community Names",
+    "loadingCategories": "Loading categories...",
+    "thisNameIsMatched": "This Name Is Matched",
+    "loadingNames": "Loading names...",
+    "failedLoadNames": "Failed to load names.",
+    "failedLoadNamesTryAgain": "Failed to load names. Please try again.",
+    "noNamesFound": "No names found.",
+    "noNamesFoundFilters": "No names found for the selected filters.",
+    "noMoreNames": "No more names found.",
+    "dislikeAll": "Dislike All Names",
+    "disliking": "Disliking...",
+    "failedSaveAction": "Failed to save your action. Please try again.",
+    "love": "Love",
+    "view": "View"
   }
 }
