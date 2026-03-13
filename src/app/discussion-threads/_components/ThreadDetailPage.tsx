@@ -156,11 +156,14 @@ function ReplyCard({
   const createdAtDate = reply.createdAt
     ? new Date(reply.createdAt)
     : new Date();
-  
+
   const currentLocale = locale === "sv" ? sv : enUS;
 
   const timeAgo = isValid(createdAtDate)
-    ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
+    ? formatDistanceToNow(createdAtDate, {
+        addSuffix: true,
+        locale: currentLocale,
+      })
     : "";
 
   const isLiked =
@@ -263,7 +266,9 @@ function ReplyCard({
               onClick={() => setIsExpanded(true)}
               className="mt-4 text-[#A179F2] text-sm font-bold hover:underline"
             >
-              {t("threads.viewMoreReplies", { count: reply.nested_replies_count }) || `View ${reply.nested_replies_count} more replies`}
+              {t("threads.viewMoreReplies", {
+                count: reply.nested_replies_count,
+              }) || `View ${reply.nested_replies_count} more replies`}
             </button>
           ) : null}
           {isReplying && (
@@ -558,18 +563,18 @@ export default function ThreadDetailPage({
         )
       );
 
-      // We don't know the parentId from the event usually, 
+      // We don't know the parentId from the event usually,
       // so we might need to search all nested queries or just invalidate.
       // But we can try to find if it exists in any active nested query.
       // For now, simple approach: find the parent if possible or just invalidate.
       // Given the event doesn't have parentId, we'll search the cache keys.
       const queryCache = queryClient.getQueryCache();
-      const queries = queryCache.findAll({ queryKey: ["get-nested-replies", threadId] });
-      
+      const queries = queryCache.findAll({
+        queryKey: ["get-nested-replies", threadId],
+      });
+
       queries.forEach((query) => {
-        const data = query.state.data as
-          | ApiResponse<ThreadReply[]>
-          | undefined;
+        const data = query.state.data as ApiResponse<ThreadReply[]> | undefined;
         if (!data) return;
 
         const repliesArray = Array.isArray(data.data)
@@ -855,12 +860,12 @@ export default function ThreadDetailPage({
             <Button
               variant="outline"
               onClick={() => setOpenFlagDialog(false)}
-              className="w-40"
+              className="w-44"
             >
               {t("common.cancel")}
             </Button>
             <Button
-              className="w-40"
+              className="w-44"
               onClick={(e) => {
                 e.stopPropagation();
                 handleThreadFlag();

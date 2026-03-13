@@ -261,16 +261,16 @@ export default function ThreadCard({
           <p className="text-primary-color text-base text-center">
             {t("threads.flagModeratorNotify")}
           </p>
-          <div className="flex items-center justify-center gap-2 pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-4">
             <Button
               variant="outline"
               onClick={() => setOpenFlagDialog(false)}
-              className="w-40"
+              className="w-full sm:max-w-48"
             >
               {t("common.cancel")}
             </Button>
             <Button
-              className="w-40"
+              className="w-full sm:max-w-48"
               onClick={(e) => {
                 e.stopPropagation();
                 setFlagged(true);
@@ -294,9 +294,7 @@ export default function ThreadCard({
         }}
       >
         <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
-          <DialogTitle className="sr-only">
-            {title}
-          </DialogTitle>
+          <DialogTitle className="sr-only">{title}</DialogTitle>
           <ThreadDetailPage
             title={title}
             description={description}

@@ -240,9 +240,7 @@ export default function MyThreadCard({
 
       <Dialog open={openReadMoreDialog} onOpenChange={setOpenReadMoreDialog}>
         <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
-          <DialogTitle className="sr-only">
-            {title}
-          </DialogTitle>
+          <DialogTitle className="sr-only">{title}</DialogTitle>
           <ThreadDetailPage
             title={title}
             description={description}
