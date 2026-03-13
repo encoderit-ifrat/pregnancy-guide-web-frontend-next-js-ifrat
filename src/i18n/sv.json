@@ -487,6 +487,13 @@
     "mostLoved": "Mest älskade",
     "failedLoad": "Det gick inte att ladda matchade namn. Försök igen.",
     "noNamesYet": "Inga matchade namn ännu. Börja svajpa!",
-    "linkCopied": "Länken kopierad till urklipp!"
+    "linkCopied": "Länken kopierad till urklipp!",
+    "failedSwipe": "Svepningen misslyckades",
+    "category": "Kategori",
+    "gender": "Kön",
+    "stats": "Statistik",
+    "lovedCount": "Älskade:",
+    "likedCount": "Gillade:",
+    "noNamesYetShared": "Inga matchade namn ännu."
   }
 }

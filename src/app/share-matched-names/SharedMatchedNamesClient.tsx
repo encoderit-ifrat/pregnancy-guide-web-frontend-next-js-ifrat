@@ -63,10 +63,10 @@ function NameCard({
       {
         onSuccess: () => {
           setActiveAction(action);
-          toast.success("Swipe Successfully ");
+          toast.success(t("matchedNames.swipeSuccess"));
         },
         onError: (err: any) => {
-          toast.error(err?.response?.data?.message || "Failed to swipe");
+          toast.error(err?.response?.data?.message || t("matchedNames.failedSwipe"));
         },
       }
     );
@@ -84,7 +84,7 @@ function NameCard({
               <div className="flex items-center gap-2">
                 <Heart className="size-4 sm:size-5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
-                  {item.loved_count} {t("Love")}
+                  {item.loved_count} {t("forNameTinder.love")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -163,29 +163,29 @@ function NameCard({
           <div className="space-y-4">
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
-                Category
+                {t("matchedNames.category")}
               </h4>
               <p className="leading-relaxed">{item.category_id?.name}</p>
             </section>
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
-                Description
+                {t("matchedNames.description")}
               </h4>
-              <p className="leading-relaxed">{item?.description || "N/A"}</p>
+              <p className="leading-relaxed">{item?.description || t("matchedNames.na")}</p>
             </section>
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
-                Gender
+                {t("matchedNames.gender")}
               </h4>
               <p className="capitalize leading-relaxed">{item.gender}</p>
             </section>
             <section>
               <h4 className="text-sm font-bold uppercase tracking-wider mb-1">
-                Stats
+                {t("matchedNames.stats")}
               </h4>
               <ul className="list-disc list-inside space-y-1">
-                <li>Loved: {item.loved_count}</li>
-                <li>Liked: {item.liked_count}</li>
+                <li>{t("matchedNames.lovedCount")} {item.loved_count}</li>
+                <li>{t("matchedNames.likedCount")} {item.liked_count}</li>
               </ul>
             </section>
           </div>
@@ -206,6 +206,7 @@ export function SharedMatchedNamesClient({
   initialFilter: string;
   initialData?: any;
 }) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(initialFilter);
   const guestId = useGuestId();
 
@@ -233,7 +234,7 @@ export function SharedMatchedNamesClient({
         <div className="mb-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
             <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
-              Matched Names
+              {t("matchedNames.title")}
             </h2>
           </div>
         </div>
@@ -245,10 +246,10 @@ export function SharedMatchedNamesClient({
               className="bg-white shadow-sm border border-white text-primary-color"
             >
               <TabsTrigger value="liked" variant="pill">
-                Most Liked
+                {t("matchedNames.mostLiked")}
               </TabsTrigger>
               <TabsTrigger value="loved" variant="pill">
-                Most Loved
+                {t("matchedNames.mostLoved")}
               </TabsTrigger>
             </TabsList>
           </div>
@@ -268,14 +269,14 @@ export function SharedMatchedNamesClient({
               )}
               {isError && (
                 <p className="text-center text-red-500 py-4">
-                  Failed to load matched names. Please try again.
+                  {t("matchedNames.failedLoad")}
                 </p>
               )}
               {!isLoading &&
                 !isError &&
                 (!listToRender || listToRender.length === 0) && (
                   <p className="text-center text-primary-color py-4">
-                    No matched names yet.
+                    {t("matchedNames.noNamesYetShared")}
                   </p>
                 )}
               {listToRender?.map((nameItem: MatchingType, idx: number) => (

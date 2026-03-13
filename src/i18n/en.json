@@ -487,6 +487,13 @@
     "mostLoved": "Most Loved",
     "failedLoad": "Failed to load matched names. Please try again.",
     "noNamesYet": "No matched names yet. Start swiping!",
-    "linkCopied": "Link copied to clipboard!"
+    "linkCopied": "Link copied to clipboard!",
+    "failedSwipe": "Failed to swipe",
+    "category": "Category",
+    "gender": "Gender",
+    "stats": "Stats",
+    "lovedCount": "Loved:",
+    "likedCount": "Liked:",
+    "noNamesYetShared": "No matched names yet."
   }
 }
