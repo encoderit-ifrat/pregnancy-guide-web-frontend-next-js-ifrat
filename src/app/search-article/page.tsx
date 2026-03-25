@@ -1,5 +1,5 @@
 // app/search/page.tsx
-import React from "react";
+// import React from "react";
 import SearchArticle from "./_component/SearchArticle";
 import Image from "next/image";
 import { Metadata } from "next";
@@ -9,6 +9,8 @@ import { HeroSection2 } from "@/components/home/HeroSection2";
 import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
 import { tr } from "date-fns/locale";
+import { redirect } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 // Force SSR for dynamic search queries
 export const dynamic = "force-dynamic";
@@ -95,17 +97,14 @@ async function getArticles(searchParams: SearchParams, lang: string = "en") {
       ...(week && { week }),
     });
 
-    const res = await fetch(
-      `${API_V1}/articles?${params}`,
-      {
-        cache: "no-store", // Always fetch fresh data
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": lang,
-          "x-lang": lang,
-        },
-      }
-    );
+    const res = await fetch(`${API_V1}/articles?${params}`, {
+      cache: "no-store", // Always fetch fresh data
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": lang,
+        "x-lang": lang,
+      },
+    });
 
     if (!res.ok) {
       throw new Error(`API returned ${res.status}`);
@@ -125,23 +124,36 @@ export default async function Page({
 }) {
   // Await searchParams before using it
   const params = await searchParams;
-
+  // const router = useRouter();
   // Get locale from cookies
   const cookieStore = await cookies();
   const locale = cookieStore.get("familj-locale")?.value || "en";
 
   const articlesData = await getArticles(params, locale);
-  const category = articlesData?.data?.categories?.[0] || null
+  if (articlesData.data.data.length === 1) {
+    redirect(`/articles/${articlesData.data.data[0].slug}`);
+  }
+  console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
+  // useEffect(() => {
+  //   // console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
+  //   const data = articlesData.data.data;
+  //   if (data.length === 1) {
+  //     router.replace(`/articles/${data[0].slug}`);
+  //   }
+  // }, [articlesData]);
+  const category = articlesData?.data?.categories?.[0] || null;
 
   return (
     <div className="min-h-svh mb-6 md:pb-10">
       <main>
-        {category && <HeroSection2
-          name={category.name}
-          title={category?.title}
-          description={category?.description}
-          image={category?.image}
-        />}
+        {category && (
+          <HeroSection2
+            name={category.name}
+            title={category?.title}
+            description={category?.description}
+            image={category?.image}
+          />
+        )}
 
         <SearchArticle
           initialQuery={params.search || ""}
