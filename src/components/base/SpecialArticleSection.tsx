@@ -45,9 +45,12 @@ export type Article = {
 
 type TProps = {
   data: Article[];
+  weeklyDetails: {
+    week: number;
+  };
 };
 
-const SpecialArticleSection = ({ data }: TProps) => {
+const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
   const { t } = useTranslation();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
@@ -142,7 +145,9 @@ const SpecialArticleSection = ({ data }: TProps) => {
               )}
             </Slider>
             <div className="justify-center hidden md:flex md:mt-8">
-              <Link href="/search-article?page=1&tag=special&week=">
+              <Link
+                href={`/search-article?page=1&tag=special&week=${weeklyDetails?.week}`}
+              >
                 <Button variant="default" className="px-8">
                   {t("pregnancy.viewAll")} <ChevronRight className="ml-2" />
                 </Button>

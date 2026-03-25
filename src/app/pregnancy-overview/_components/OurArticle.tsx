@@ -37,14 +37,19 @@ export type Article = {
 
 type TProps = {
   data: Article[];
+  weeklyDetails: {
+    week: number;
+  };
 };
 
-function OurArticle({ data }: TProps) {
+function OurArticle({ data, weeklyDetails }: TProps) {
+  console.log("👉 ~ OurArticle ~ data:", data);
   const { t } = useTranslation();
   // const shuffled = [...data].sort(() => Math.random() - 0.5);
 
   const [firstArticle, ...rest] = data;
   const otherArticles = rest.slice(0, 3);
+  console.log("👉 ~ OurArticle ~ otherArticles:", otherArticles);
 
   if (!data || data.length === 0) {
     return null;
@@ -63,7 +68,9 @@ function OurArticle({ data }: TProps) {
             <SectionHeading>{t("pregnancy.bannerArticle")}</SectionHeading>
           </div>
           <div className="hidden md:block">
-            <Link href="/search-article?page=1&tag=banner-article&week=">
+            <Link
+              href={`/search-article?page=1&tag=banner-article&week=${weeklyDetails?.week}`}
+            >
               <Button variant="default" className="px-6">
                 {t("pregnancy.viewAll")} <ChevronRight className="ml-2" />
               </Button>

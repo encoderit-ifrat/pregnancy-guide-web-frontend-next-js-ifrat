@@ -30,6 +30,7 @@ export default function PregnancyOverview({
   const questions = pregnancyData?.questions;
   const checklist = pregnancyData?.checklist;
   const weeklyDetails = pregnancyData?.weeklyDetails;
+  console.log("👉 ~ PregnancyOverview ~ weeklyDetails:", weeklyDetails);
   const userProfile = pregnancyData?.userProfile;
   console.log("👉 ~ PregnancyOverview ~ userProfile:", userProfile);
 
@@ -116,19 +117,24 @@ export default function PregnancyOverview({
 
       {Boolean(bannerArticle.length) && (
         <>
-          {/* divider */}
           <ConcaveCurve
             className="text-white h-10! sm:h-20! md:h-24! lg:h-42!"
             bgClassName="bg-primary-light"
           />
-          <OurArticle data={(bannerArticle as any) ?? []} />
+          <OurArticle
+            data={(bannerArticle as any) ?? []}
+            weeklyDetails={weeklyDetails}
+          />
         </>
       )}
       {Boolean(specialArticle.length) && (
         <>
           {/* divider */}
           <WaveDivider className="text-primary-light" bgClassName="bg-white" />
-          <SpecialArticleSection data={(specialArticle as any) ?? []} />
+          <SpecialArticleSection
+            data={(specialArticle as any) ?? []}
+            weeklyDetails={weeklyDetails}
+          />
         </>
       )}
     </div>
