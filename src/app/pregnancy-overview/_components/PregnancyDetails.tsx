@@ -22,15 +22,17 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         <Cards>
           <h3 className="text-primary-dark text-lg md:text-[22px] font-semibold mb-2">
-            {t(`pregnancy.trimesters.${currentProgress?.trimester?.toString().match(/\d/)?.[0] || "1"}`)}
+            {t(
+              `pregnancy.trimesters.${currentProgress?.trimester?.toString().match(/\d/)?.[0] || "1"}`
+            )}
           </h3>
           <h3 className="text-lg md:text-[22px] mb-4">
             <span className="text-primary-dark font-medium md:font-semibold">
               {t("pregnancy.beenPregnant")}
             </span>
             <span className="font-normal ml-1">
-              {currentProgress?.week || 0} {t("pregnancy.weeks")} {currentProgress?.day || 0}{" "}
-              {t("pregnancy.days")}
+              {currentProgress?.week || 0} {t("pregnancy.weeks")}{" "}
+              {currentProgress?.day || 0} {t("pregnancy.days")}
             </span>
           </h3>
           <div className="text-lg md:text-[22px] mb-2">
@@ -55,6 +57,9 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           {/* <h3 className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
             Week-{pregnancyProgressInfo?.week} {userData.name}
           </h3> */}
+          <span className="text-primary-dark font-medium md:font-semibold">
+            {t("checklists.form.description")}:
+          </span>
           {weeklyDetails?.description && (
             <div
               className="no-tailwind"
@@ -64,7 +69,9 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
         </Cards>
         <Cards>
           <div className="mb-2">
-            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">{t("pregnancy.dueDate")}</span>{" "}
+            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
+              {t("pregnancy.dueDate")}
+            </span>{" "}
             {pregnancyProgressInfo?.dueDate}
           </div>
           <div>
@@ -81,10 +88,17 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
 
 export default PregnancyDetails;
 
-
-function Cards({ children }: { children: React.ReactNode }) {
+function Cards({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl">
+    <div
+      className={`border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl ${className}`}
+    >
       {children}
     </div>
   );
