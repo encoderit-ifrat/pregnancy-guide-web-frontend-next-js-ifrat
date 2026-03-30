@@ -91,37 +91,37 @@ export default function CommentCard({ data }: TCommentCardProps) {
   return (
     <div
       key={_id}
-      className="bg-white rounded-xl shadow-xl p-4 border border-gray-100 hover:shadow-lg transition-shadow shadow-primary-light"
+      className="bg-white rounded-xl shadow-lg p-3 border border-gray-100 hover:shadow-md transition-shadow shadow-primary-light"
     >
       {/* User Info */}
       <div className="flex items-center gap-3 h-full">
-        <div className="relative w-[150px] h-[150px] bg-purple-100">
+        <div className="relative w-[80px] h-[80px] bg-purple-100 flex-shrink-0">
           {created_by.avatar ? (
             <Image
               src={imageLinkGenerator(created_by.avatar)}
               alt={created_by.name}
               fill
-              className="object-cover rounded"
+              className="object-cover rounded-lg"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-purple-600 font-semibold rounded">
+            <div className="w-full h-full flex items-center justify-center text-purple-600 font-semibold rounded-lg">
               {created_by.name.charAt(0).toUpperCase()}
             </div>
           )}
         </div>
 
         <div className="flex-1 h-full">
-          <div className="flex items-center gap-4">
-            <SectionHeading variant="h4" className="mb-0 pb-0">
+          <div className="flex items-center gap-3">
+            <h4 className="text-base font-bold text-foreground mb-0 pb-0">
               {created_by.name}
-            </SectionHeading>
-            <p className="bg-primary-light text-primary-dark rounded-full px-4 py-1 text-sm">
+            </h4>
+            <p className="bg-primary-light text-primary-dark rounded-full px-3 py-0.5 text-[10px] font-medium">
               {new Date(updatedAt || createdAt).toLocaleDateString()}
             </p>
           </div>
 
           {/* Comment Content */}
-          <p className="h-full text-gray-800 leading-relaxed mb-4">
+          <p className="h-full text-gray-800 text-sm leading-relaxed mb-2">
             {/* {content || "No answer"} */}
             {comment || "No answer"}
           </p>
@@ -129,9 +129,9 @@ export default function CommentCard({ data }: TCommentCardProps) {
             onClick={() => setIsOpen(!isOpen)}
             className="max-w-fit hover:no-underline hover:text-primary cursor-pointer"
           >
-            <div className="flex items-center gap-2 mb-3 ">
-              <MessageCircle className="h-4 w-4 text-gray-400" />
-              <span className="text-sm font-medium text-gray-600 hover:text-primary">
+            <div className="flex items-center gap-2 mb-1">
+              <MessageCircle className="h-3.5 w-3.5 text-gray-400" />
+              <span className="text-xs font-medium text-gray-600 hover:text-primary">
                 {allComments.length > 0 ? allComments.length : ""}{" "}
                 {allComments.length === 0
                   ? "Add Comment"
@@ -144,12 +144,12 @@ export default function CommentCard({ data }: TCommentCardProps) {
         </div>
         <div>
           {/* like / dislike */}
-          <div className="flex items-center gap-2 md:mr-4">
-            <Button variant="outline" size="icon" className="rounded-full">
-              <ThumbsUp className="h-4 w-4" />
+          <div className="flex items-center gap-1.5 md:mr-2">
+            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full">
+              <ThumbsUp className="h-3.5 w-3.5" />
             </Button>
-            <Button variant="outline" size="icon" className="rounded-full">
-              <ThumbsDown className="h-4 w-4" />
+            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full">
+              <ThumbsDown className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
@@ -166,27 +166,27 @@ export default function CommentCard({ data }: TCommentCardProps) {
                     key={comment._id}
                     className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors flex gap-4"
                   >
-                    <div className="relative w-[80px] h-[80px] bg-purple-100">
+                    <div className="relative w-[40px] h-[40px] bg-purple-100 flex-shrink-0">
                       {comment?.user?.avatar ? (
                         <Image
                           src={imageLinkGenerator(comment?.user?.avatar)}
                           alt={comment?.user?.name}
                           fill
-                          className="object-cover rounded"
+                          className="object-cover rounded-md"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-purple-600 font-semibold rounded">
+                        <div className="w-full h-full flex items-center justify-center text-purple-600 text-xs font-semibold rounded-md">
                           {comment?.user?.name.charAt(0).toUpperCase()}
                         </div>
                       )}
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-gray-700 leading-relaxed">
+                      <p className="text-[10px] font-bold text-gray-700 leading-tight">
                         {comment?.user?._id == currentUser.id
                           ? "You"
                           : comment?.user?.name}
                       </p>
-                      <p className="text-sm text-gray-700 leading-relaxed">
+                      <p className="text-xs text-gray-700 leading-relaxed">
                         {comment?.description}
                       </p>
                     </div>

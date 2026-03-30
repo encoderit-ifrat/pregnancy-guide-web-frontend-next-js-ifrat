@@ -57,7 +57,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-6">
       <AnswerForm
         data={{
           hasAnswered,
@@ -77,7 +77,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
       >
         <AnswerFormTitle />
         <AnswerFormDescription />
-        <div className="grid grid-cols-1 mt-2 mb-10">
+        <div className="grid grid-cols-1 mt-2 mb-6">
           {hasAnswered ? (
             <AnswerFormPercentage />
           ) : (
@@ -114,7 +114,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
             );
           })
         ) : (
-          <div className="bg-white rounded-xl shadow-md p-12 text-center border border-gray-100">
+          <div className="bg-white rounded-xl shadow-md p-8 text-center border border-gray-100">
             <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500">
               {t("weeklyQuestion.noAnswersYet")}

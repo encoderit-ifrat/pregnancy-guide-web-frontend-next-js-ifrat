@@ -93,7 +93,7 @@ export default function AnswerForm({
         setAnswerText,
       }}
     >
-      <div className="w-full mx-auto space-y-8">
+      <div className="w-full mx-auto space-y-6">
         <div className="bg-white rounded-2xl">{children}</div>
       </div>
     </AnswerFormContext.Provider>
@@ -106,7 +106,7 @@ export const AnswerFormTitle = () => {
   const { question: title } = question;
 
   return (
-    <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+    <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
       {title}
     </h1>
   );
@@ -116,7 +116,7 @@ export const AnswerFormDescription = () => {
   const { question } = data;
   const { description } = question;
 
-  return <p className="text-gray-600 text-lg leading-relaxed">{description}</p>;
+  return <p className="text-gray-600 text-base leading-relaxed">{description}</p>;
 };
 export const AnswerFormRadioGroup = ({
   ...props
@@ -133,7 +133,7 @@ export const AnswerFormRadioGroup = ({
       onValueChange={(val) => {
         setOption(val);
       }}
-      className="mt-3 mb-6 flex flex-col gap-3"
+      className="mt-2 mb-4 flex flex-col gap-2"
       {...props}
     // disabled={hasAnswered}
     >
@@ -145,19 +145,19 @@ export const AnswerFormRadioGroup = ({
               <label
                 htmlFor={optionItem._id}
                 // onClick={() => setOption(optionItem._id)}
-                className={`flex items-center gap-4 rounded-sm p-4 cursor-pointer transition-shadow ${isSelected
+                className={`flex items-center gap-3 rounded-sm p-3 cursor-pointer transition-shadow ${isSelected
                   ? "bg-primary text-white shadow-md"
                   : "bg-[#F2EAFB] text-foreground hover:shadow-md"
                   }`}
               >
                 <div
-                  className={`flex items-center justify-center h-12 w-10 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
+                  className={`flex items-center justify-center h-10 w-9 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
                 >
                   {getLetter(idx)}
                 </div>
 
                 <div
-                  className={`flex-1 text-left text-lg font-normal capitalize ${isSelected ? "text-white" : "text-foreground"}`}
+                  className={`flex-1 text-left text-base font-normal capitalize ${isSelected ? "text-white" : "text-foreground"}`}
                 >
                   {optionItem.content}
                 </div>
@@ -186,14 +186,14 @@ export const AnswerFormPercentage = ({
   if (!answer_options || answer_options.length === 0) return null;
 
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
+    <div className={cn("flex flex-col gap-2", className)}>
       {answer_options.map((option) => {
         const percentage =
           statistics.find((s) => s.option_id === option._id)?.percentage ?? 0;
 
         return (
           <div key={option._id} className="flex items-center gap-2 flex-1 relative rounded-sm bg-[#F6F0FF]">
-            <div className="z-10 text-primary-text px-5 py-4 flex items-center gap-5"><strong className="text-2xl md:text-3xl font-medium">{percentage}%</strong> <span className="text-xl md:text-[22px]">{option.content}</span></div>
+            <div className="z-10 text-primary-text px-4 py-3 flex items-center gap-4"><strong className="text-xl md:text-2xl font-medium">{percentage}%</strong> <span className="text-lg md:text-xl">{option.content}</span></div>
             <div className="absolute bg-[#DCC3FF] h-full rounded-sm" style={{ width: percentage + '%' }}></div>
             {/*<Progress value={percentage} />*/}
           </div>
@@ -215,8 +215,8 @@ export const AnswerFormComment = () => {
         placeholder={t("weeklyQuestion.commentPlaceholder")}
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
-        className="bg-white mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
-        rows={5}
+        className="bg-white mb-3 text-sm resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+        rows={4}
       />
     </>
   );
@@ -284,7 +284,7 @@ export const AnswerFormSubmitButton = ({
       onClick={handleSubmit}
       isLoading={isPending}
       disabled={isPending}
-      className="w-full max-w-lg md:w-auto px-8 py-3"
+      className="w-full max-w-lg md:w-auto px-6 py-2"
     >
       {isPending ? t("weeklyQuestion.submitting") : buttonText}
     </Button>
