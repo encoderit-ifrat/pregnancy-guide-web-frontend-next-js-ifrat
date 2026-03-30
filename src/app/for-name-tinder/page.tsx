@@ -312,7 +312,7 @@ export default function Page() {
                   </TabsTrigger>
                 </TabsList>
               </div>
-              <TabsContent value="liked" className="m-0 flex flex-col gap-6">
+              <TabsContent value="liked" className="m-0 flex flex-col gap-2">
                 {namesLoading && (
                   <>
                     <SkeletonCommunityCard />

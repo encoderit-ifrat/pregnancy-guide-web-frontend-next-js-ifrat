@@ -81,29 +81,27 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
     <>
       <Card
         className={cn(
-          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden hover:shadow-md transition-all p-2 sm:p-3 md:pt-4 md:pr-7 md:pb-5 md:pl-6",
+          "w-full border border-border shadow-[0px_2px_24px_-2px_rgba(169,122,236,0.1)] rounded-md overflow-hidden hover:shadow-sm transition-all p-1.5 sm:p-2 md:p-2.5",
           className
         )}
       >
-        <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-6">
-          <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
-            <h3 className="text-left text-lg sm:text-xl lg:text-2xl font-semibold text-primary-color leading-tight">
+        <div className="flex flex-col sm:flex-row items-start gap-1.5 sm:gap-3">
+          <div className="flex-1 flex flex-col justify-between space-y-0.5">
+            <h3 className="text-left text-sm sm:text-base lg:text-lg font-semibold text-primary-color leading-tight">
               {name.name}
             </h3>
 
             {/* Footer Stats Area */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-7">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
               <ToggleGroup
                 type="single"
                 value={userAction || ""}
-                onValueChange={(value) => {
-                  handleSwipe((value as "like" | "love") || null);
-                }}
+                onValueChange={(val) => handleSwipe((val as "like" | "love") || null)}
                 disabled={isPending}
-                className="gap-3 sm:gap-7"
+                className="gap-1.5 sm:gap-3"
               >
                 {/* Love button */}
-                <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="flex items-center gap-1 sm:gap-1.5">
                   <ToggleGroupItem
                     value="love"
                     aria-label="Toggle love"
@@ -111,15 +109,15 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     size="sm"
                     className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                   >
-                    <Heart className="size-5 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                    <Heart className="size-4 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
                   </ToggleGroupItem>
-                  <span className="text-[10px] sm:text-xs md:text-sm font-medium text-primary-color">
+                  <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-primary-color">
                     {lovedCount} {t("forNameTinder.love")}
                   </span>
                 </div>
 
                 {/* Like button */}
-                <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="flex items-center gap-1 sm:gap-1.5">
                   <ToggleGroupItem
                     value="like"
                     aria-label="Toggle like"
@@ -127,9 +125,9 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     size="sm"
                     className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                   >
-                    <ThumbsUp className="size-5 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                    <ThumbsUp className="size-4 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                   </ToggleGroupItem>
-                  <span className="text-[10px] sm:text-xs md:text-sm font-medium text-primary-color">
+                  <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-primary-color">
                     {likedCount} {t("threads.like")}
                   </span>
                 </div>
@@ -138,16 +136,16 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
           </div>
 
           {/* Right Side Action Area */}
-          <div className="w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 sm:min-w-24">
+          <div className="w-full sm:w-auto pt-1 sm:pt-0 border-t sm:border-t-0 border-gray-100 sm:min-w-16">
             <Button
               variant="outline"
-              className="w-full sm:w-auto px-3 sm:px-5 py-1.5 sm:py-2"
+              className="w-full sm:w-auto px-2 sm:px-3 h-7 sm:h-8 text-[10px] sm:text-xs"
               onClick={() => setOpenViewDialog(true)}
             >
-              <span className="font-semibold text-[10px] sm:text-xs">
+              <span className="font-semibold">
                 {t("forNameTinder.view")}
               </span>
-              <ChevronRight className="size-4" />
+              <ChevronRight className="size-3" />
             </Button>
           </div>
         </div>
