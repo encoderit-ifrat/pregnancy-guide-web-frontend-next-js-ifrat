@@ -3,14 +3,7 @@
 import { Button, buttonVariants } from "@/components/ui/Button";
 // import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Copy,
-  Heart,
-  Link2,
-  ThumbsDown,
-} from "lucide-react";
+import { Link2, ThumbsDown, Loader2, ChevronRight, Heart } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient } from "@tanstack/react-query";
@@ -137,6 +130,7 @@ export default function Page() {
   useEffect(() => {
     if (fetchEnabled && tinderData) {
       setOpenMatchDialog(true);
+      setOpenSwipeDialog(false); // Close the category dialog after fetch is complete
       setFetchEnabled(false);
     }
   }, [tinderData, fetchEnabled]);
@@ -294,12 +288,10 @@ export default function Page() {
                   className="w-full md:w-fit"
                   disabled={tinderLoading}
                   onClick={() => {
-                    setFetchEnabled(true);
-                    refetchTinderNames();
-                    // setIsNext(false);
+                    setOpenSwipeDialog(true);
                   }}
                 >
-                  {tinderLoading ? t("common.loading") : t("common.next")}
+                  {t("common.next")}
                   <ChevronRight className="size-4" />
                 </Button>
               </div>
@@ -459,12 +451,21 @@ export default function Page() {
           )}
           <Button
             className="w-full mt-6"
+            disabled={tinderLoading}
             onClick={() => {
-              setOpenSwipeDialog(false);
+              setFetchEnabled(true);
+              refetchTinderNames();
             }}
           >
-            {t("common.next")}
-            <ChevronRight className="size-4" />
+            {tinderLoading ? (
+              <>
+                <Loader2 className="size-4 animate-spin mr-2" />
+                {t("common.loading")}
+              </>
+            ) : (
+              t("common.next")
+            )}
+            {!tinderLoading && <ChevronRight className="size-4" />}
           </Button>
         </DialogContent>
       </Dialog>
@@ -474,8 +475,9 @@ export default function Page() {
             {t("forNameTinder.thisNameIsMatched")}
           </DialogTitle>
           <SectionHeading className="m-0 text-center text-base! flex items-center justify-center gap-2">
-            <Image src="/check.png" alt="check" width={18} height={18} />
-            {t("forNameTinder.thisNameIsMatched")}
+            {/* <Image src="/check.png" alt="check" width={18} height={18} />
+            {t("forNameTinder.thisNameIsMatched")} */}
+            <div className="h-5"></div>
           </SectionHeading>
 
           {tinderLoading && (
@@ -516,12 +518,12 @@ export default function Page() {
                           aria-label="Toggle dislike"
                           variant="default"
                           size="sm"
-                          className="flex size-9 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
+                          className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
                         >
                           <ThumbsDown className="size-full group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                         </ToggleGroupItem>
 
-                        <p className="text-primary-color text-center flex items-center justify-center text-sm grow border h-9 border-primary rounded-md">
+                        <p className="text-primary-color text-center flex items-center justify-center text-sm grow border h-12 border-primary rounded-md">
                           {nameItem.name}
                         </p>
 
@@ -530,7 +532,7 @@ export default function Page() {
                           aria-label="Toggle love"
                           variant="default"
                           size="sm"
-                          className="flex size-9 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
+                          className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
                         >
                           <Heart className="size-full group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
                         </ToggleGroupItem>
@@ -550,7 +552,9 @@ export default function Page() {
                     dislikeAll(ids);
                   }}
                 >
-                  {dislikeAllPending ? t("forNameTinder.disliking") : t("forNameTinder.dislikeAll")}
+                  {dislikeAllPending
+                    ? t("forNameTinder.disliking")
+                    : t("forNameTinder.dislikeAll")}
                   <ChevronRight />
                 </Button>
               )}
