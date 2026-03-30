@@ -205,7 +205,7 @@ export default function Page() {
   return (
     <PageContainer>
       <div className="flex flex-col items-center  min-h-screen">
-        <div className="thread-header mb-16 flex flex-col items-center text-center">
+        <div className="thread-header mb-8 flex flex-col items-center text-center">
           {/* Section Label */}
           <IconHeading
             text={t("threads.label")}
@@ -213,23 +213,23 @@ export default function Page() {
             className="text-primary justify-center"
           />
 
-          <SectionHeading className="m-0 text-center">
+          <SectionHeading className="m-0 text-center text-[20px] md:text-[26px] lg:text-[32px]">
             {t("threads.title")}
           </SectionHeading>
 
-          <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
+          <p className="text-sm mt-1.5 text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("threads.subtitle")}
           </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full max-w-2xl mx-auto px-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-2xl mx-auto px-6">
             <CreateThreadModal onSuccess={() => refetch()}>
-              <Button className="w-full sm:w-fit sm:min-w-61.25 font-semibold ">
+              <Button className="w-full sm:w-fit sm:min-w-48 font-semibold h-10 text-sm">
                 {t("threads.startThread")}
                 <ChevronRight className="size-4" />
               </Button>
             </CreateThreadModal>
             <Link href="/published-threads" className="w-full sm:w-fit">
               <Button
-                className="w-full sm:min-w-61.25 font-semibold "
+                className="w-full sm:min-w-48 font-semibold h-10 text-sm"
                 variant="outline"
               >
                 {t("threads.myPublished")}
@@ -240,15 +240,15 @@ export default function Page() {
         </div>
 
         <div className="w-full max-w-327  pb-20 mx-auto px-4 sm:px-0">
-          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
+          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-3 sm:px-6 pt-6 pb-6 shadow-sm">
             <Tabs
               defaultValue="newest"
               className="w-full"
               value={activeTab}
               onValueChange={handleTabChange}
             >
-              <div className="flex flex-col lg:flex-row justify-between items-center mb-6 md:mb-10 gap-4 border-b border-[#F0F0F0] pb-6">
-                <SectionHeading className="text-[28px] md:text-[32px] lg:text-[42px] text-center lg:text-left">
+              <div className="flex flex-col lg:flex-row justify-between items-center mb-4 md:mb-7 gap-4 border-b border-[#F0F0F0] pb-6">
+                <SectionHeading className="text-[20px] md:text-[24px] lg:text-[32px] text-center lg:text-left">
                   {t("threads.communityThreads")}
                 </SectionHeading>
 
@@ -280,7 +280,7 @@ export default function Page() {
                 </TabsList>
               </div>
 
-              <div className="m-0 flex flex-col gap-6">
+              <div className="m-0 flex flex-col gap-4">
                 {formattedThreads.length === 0 ? (
                   <p className="text-center text-primary-color opacity-60 py-8">
                     {t("threads.noThreadsYet")}

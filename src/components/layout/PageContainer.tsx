@@ -2,7 +2,13 @@ import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-export function PageContainer({ className, children }: { className?: string, children: React.ReactNode }) {
+export function PageContainer({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
     <>
       <div className={cn("relative min-h-svh", className)}>
@@ -14,9 +20,7 @@ export function PageContainer({ className, children }: { className?: string, chi
             height="h-30 lg:h-auto"
           />
         </section>
-        <div className="relative z-20 px-4 pt-10 md:pt-20 pb-10 md:pb-20">
-          {children}
-        </div>
+        <div className="relative z-20 px-4 py-10">{children}</div>
       </div>
     </>
   );

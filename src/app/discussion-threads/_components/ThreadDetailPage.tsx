@@ -183,7 +183,7 @@ function ReplyCard({
           <div
             className={cn(
               "rounded-full border-2 border-[#A179F2] p-0.5 overflow-hidden transition-all duration-300",
-              depth === 0 ? "size-12" : depth === 1 ? "size-10" : "size-8"
+              depth === 0 ? "size-9" : depth === 1 ? "size-7.5" : "size-6"
             )}
           >
             <Image
@@ -204,7 +204,7 @@ function ReplyCard({
         {/* Content */}
         <div className="flex-1 pb-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="font-bold text-lg text-[#4D2C82]">
+            <span className="font-bold text-base text-[#4D2C82]">
               {reply.author?.name || "Anonymous"}
             </span>
             <span className="bg-[#EEE4FD] text-[#A179F2] px-2 py-0.5 rounded text-[10px] font-semibold">
@@ -212,14 +212,14 @@ function ReplyCard({
             </span>
           </div>
           <p
-            className={cn("text-[#5B5B5B] text-base mb-4 leading-relaxed", {
+            className={cn("text-[#5B5B5B] text-sm mb-4 leading-relaxed", {
               "bg-primary/5 py-2 px-3 rounded-xl": isNested && depth % 2 === 1,
               "bg-primary/10 py-2 px-3 rounded-xl": isNested && depth % 2 === 0,
             })}
           >
             {reply.content}
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => handleAuthAction(() => setIsReplying(!isReplying))}
               className="flex items-center gap-1.5 text-[#5B5B5B] hover:text-[#A179F2] transition-colors"
@@ -278,7 +278,7 @@ function ReplyCard({
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   placeholder={t("threads.writeReply") || "Write a reply..."}
-                  className="w-full min-h-25 p-4 text-sm border-2 border-[#A179F2] rounded-xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
+                  className="w-full min-h-18 p-3 text-sm border-2 border-[#A179F2] rounded-xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
                   autoFocus
                 />
               </div>
@@ -290,14 +290,14 @@ function ReplyCard({
                     setIsReplying(false);
                     setReplyContent("");
                   }}
-                  className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-6 h-10 text-sm font-bold"
+                  className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-4 h-9 text-xs font-bold"
                 >
                   {t("common.cancel")}
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmittingReply || !replyContent.trim()}
-                  className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-6 h-10 text-sm font-bold min-w-32"
+                  className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-4 h-9 text-xs font-bold min-w-28"
                 >
                   {isSubmittingReply ? (
                     <Loader2 className="size-4 animate-spin mr-2" />
@@ -315,7 +315,7 @@ function ReplyCard({
           {isExpanded && nestedReplies.length > 0 ? (
             <div
               className={cn(
-                "mt-6 flex flex-col gap-6 relative",
+                "mt-4 flex flex-col gap-4 relative",
                 depth < 4 ? "ml-4" : "ml-2"
               )}
             >
@@ -667,18 +667,18 @@ export default function ThreadDetailPage({
   return (
     <div className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-y-auto bg-white">
       {/* Thread Header */}
-      <div className="px-10 pt-16 pb-8">
+      <div className="px-7 pt-11 pb-6">
         <div className="flex justify-between items-start mb-6">
           <div className="flex-1">
-            <div className="flex items-center gap-4 mb-4">
-              <h2 className="text-4xl font-bold text-[#4D2C82] tracking-tight">
+            <div className="flex items-center gap-4 mb-3">
+              <h2 className="text-3xl font-bold text-[#4D2C82] tracking-tight">
                 {title}
               </h2>
-              <Badge className="bg-[#EEE4FD] text-[#A179F2] px-4 py-1 rounded-full text-xs font-semibold border-none">
+              <Badge className="bg-[#EEE4FD] text-[#A179F2] px-3 py-0.5 rounded-full text-xs font-semibold border-none">
                 {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
               </Badge>
             </div>
-            <p className="text-[#5B5B5B]  text-lg leading-relaxed max-w-5xl">
+            <p className="text-[#5B5B5B]  text-base leading-relaxed max-w-5xl">
               {fullDescription}{" "}
               {/* <span className="text-[#A179F2] font-semibold cursor-pointer hover:underline ml-1">
                 {t("articles.readMore")}
@@ -714,7 +714,7 @@ export default function ThreadDetailPage({
         </div>
 
         {/* Stats Bar */}
-        <div className="flex items-center gap-10 pt-6 border-t border-[#F3EAFF]">
+        <div className="flex items-center gap-7 pt-5 border-t border-[#F3EAFF]">
           <div
             className={cn(
               "flex items-center gap-2 cursor-pointer transition-colors",
@@ -725,20 +725,20 @@ export default function ThreadDetailPage({
               handleAuthAction(handleLike);
             }}
           >
-            <IconLove className={cn("size-6", isLiked && "fill-current")} />
-            <span className="text-base font-bold">
+            <IconLove className={cn("size-4.5", isLiked && "fill-current")} />
+            <span className="text-sm font-bold">
               {currentStats.likes} {t("threads.like")}
             </span>
           </div>
           <div className="flex items-center gap-2 text-[#5B5B5B]">
-            <IconReply className="size-6" />
-            <span className="text-base font-bold">
+            <IconReply className="size-4.5" />
+            <span className="text-sm font-bold">
               {currentStats.replies} {t("threads.replies")}
             </span>
           </div>
           <div className="flex items-center gap-2 text-[#5B5B5B]">
-            <IconEye className="size-6" />
-            <span className="text-base font-bold">
+            <IconEye className="size-4.5" />
+            <span className="text-sm font-bold">
               {currentStats.views} {t("threads.views")}
             </span>
           </div>
@@ -746,8 +746,8 @@ export default function ThreadDetailPage({
             className="flex items-center gap-2 text-[#5B5B5B] cursor-pointer hover:text-[#A179F2] transition-colors"
             onClick={onShare}
           >
-            <IconShare className="size-6" />
-            <span className="text-base font-bold">
+            <IconShare className="size-4.5" />
+            <span className="text-sm font-bold">
               {currentStats.shares} {t("threads.share")}
             </span>
           </div>
@@ -758,8 +758,8 @@ export default function ThreadDetailPage({
             )}
             onClick={() => handleAuthAction(() => setOpenFlagDialog(true))}
           >
-            <IconFlag className={cn("size-6", isFlagged && "fill-current")} />
-            <span className="text-base font-bold">
+            <IconFlag className={cn("size-4.5", isFlagged && "fill-current")} />
+            <span className="text-sm font-bold">
               {isFlagged ? t("threads.flagged") : t("threads.flag")}
             </span>
           </div>
@@ -767,15 +767,15 @@ export default function ThreadDetailPage({
       </div>
 
       {/* Reply Form */}
-      <div id="reply-form" className="px-10 py-8 border-t border-[#F3EAFF]">
+      <div id="reply-form" className="px-7 py-6 border-t border-[#F3EAFF]">
         {thread && (
           <form onSubmit={handleReplySubmit} className="max-w-7xl mx-auto">
-            <div className="relative mb-6">
+            <div className="relative mb-4">
               <Textarea
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
                 placeholder={t("threads.writeReply") || "Reply Thread......"}
-                className="w-full min-h-48 p-6 text-lg border-2 border-[#A179F2] rounded-2xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
+                className="w-full min-h-34 p-4 text-base border-2 border-[#A179F2] rounded-2xl focus-visible:ring-offset-0 focus-visible:ring-[#8B5CF6]/20 placeholder:text-[#A179F2]/40"
               />
             </div>
             <div className="flex justify-end gap-4">
@@ -786,14 +786,14 @@ export default function ThreadDetailPage({
                   setReplyContent("");
                   onClose?.();
                 }}
-                className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-10 h-12 text-lg font-bold"
+                className="border-2 border-[#A179F2] text-[#A179F2] hover:bg-[#FBF8FF] rounded-full px-7 h-9 text-base font-bold"
               >
                 {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={isSubmittingReply || !replyContent.trim()}
-                className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-10 h-12 text-lg font-bold min-w-40"
+                className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white rounded-full px-7 h-9 text-base font-bold min-w-36"
               >
                 {isSubmittingReply ? (
                   <Loader2 className="size-5 animate-spin mr-2" />

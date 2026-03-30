@@ -142,19 +142,19 @@ export default function Page() {
   }, [tinderData, fetchEnabled]);
   return (
     <PageContainer>
-      <div className="thread-header mb-16 flex flex-col items-center text-center">
+      <div className="thread-header mb-8 flex flex-col items-center text-center">
         <IconHeading
           text={t("forNameTinder.title")}
           icon={<IconQuestion />}
           className="text-primary justify-center"
         />
 
-        <SectionHeading className="m-0 text-center">
+        <SectionHeading className="m-0 text-center text-[20px] md:text-[26px] lg:text-[32px]">
           {/* {t("threads.title")} */}
           {t("forNameTinder.title")}
         </SectionHeading>
 
-        <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
+        <p className="text-sm mt-1.5 text-primary-color text-center mb-4 max-w-3xl mx-auto">
           {t("threads.subtitle")}
         </p>
         {/* <SectionHeading className="m-0 text-center text-3xl md:text-4xl lg:text-5xl">
@@ -168,10 +168,10 @@ export default function Page() {
           ever since the 1500s, when an unknown printer took a galley of type
           and scrambled it to make a type specimen book.
         </p> */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full max-w-2xl mx-auto px-6">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-2xl mx-auto px-6">
           <Button
             onClick={() => setOpenSwipeDialog(true)}
-            className="w-full sm:w-fit sm:min-w-61.25"
+            className="w-full sm:w-fit sm:min-w-48 font-semibold h-10 text-sm"
           >
             {t("forNameTinder.startSwiping")}
             <ChevronRight className="size-4" />
@@ -189,7 +189,7 @@ export default function Page() {
           <Link
             href="/matched-names"
             className={cn(
-              "w-full sm:w-fit sm:min-w-61.25",
+              "w-full sm:w-fit sm:min-w-48 font-semibold h-10 text-sm",
               buttonVariants({ variant: "outline" })
             )}
           >
@@ -198,40 +198,40 @@ export default function Page() {
           </Link>
         </div>
 
-        <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
-          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
+        <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-8">
+          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-3 sm:px-6 pt-6 pb-6 shadow-sm">
             <Tabs
               value={activeTab}
               onValueChange={setActiveTab}
               className="w-full"
             >
-              <div className=" flex flex-col items-start justify-center space-y-3">
-                <h2 className="text-[24px] sm:text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+              <div className=" flex flex-col items-start justify-center space-y-2">
+                <h2 className="text-[20px] sm:text-[28px] md:text-[36px] font-semibold text-primary-color tracking-tight">
                   {/* {t("threads.communityThreads")} */}
                   {t("forNameTinder.startSwiping")}
                 </h2>
                 <RadioGroup
-                  className="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg"
+                  className="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-3 text-base"
                   defaultValue="male"
                   onValueChange={(val) =>
                     setSelectedGender(val as TinderNameGender)
                   }
                 >
                   {/* Boy → male */}
-                  <div className="relative flex flex-col sm:flex-row cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <div className="relative flex flex-col sm:flex-row cursor-pointer gap-2 items-center rounded-md border border-input px-1.5 py-2 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                     <RadioGroupItem
                       className="sr-only"
                       id="gender-male"
                       value="male"
                     />
 
-                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-2">
+                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-1.5">
                       <Image
                         src="/boy.png"
                         alt="boy"
-                        width={50}
-                        height={50}
-                        className="object-cover object-center size-12"
+                        width={40}
+                        height={40}
+                        className="object-cover object-center size-9"
                       />
                     </div>
                     <label
@@ -242,20 +242,20 @@ export default function Page() {
                     </label>
                   </div>
                   {/* Girl → female */}
-                  <div className="relative flex flex-col sm:flex-row cursor-pointer gap-3 items-center rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <div className="relative flex flex-col sm:flex-row cursor-pointer gap-2 items-center rounded-md border border-input px-1.5 py-2 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                     <RadioGroupItem
                       className="sr-only"
                       id="gender-female"
                       value="female"
                     />
 
-                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-2">
+                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-1.5">
                       <Image
                         src="/girl.png"
                         alt="girl"
-                        width={50}
-                        height={50}
-                        className="object-cover object-center size-12"
+                        width={40}
+                        height={40}
+                        className="object-cover object-center size-9"
                       />
                     </div>
                     <label
@@ -266,20 +266,20 @@ export default function Page() {
                     </label>
                   </div>
                   {/* Genderless → unisex */}
-                  <div className="relative flex flex-col sm:flex-row cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-3 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <div className="relative flex flex-col sm:flex-row cursor-pointer items-center gap-2 rounded-md border border-input px-1.5 py-2 text-center shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                     <RadioGroupItem
                       className="sr-only"
                       id="gender-unisex"
                       value="unisex"
                     />
 
-                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-2">
+                    <div className="flex items-center w-full sm:w-fit justify-center rounded-md bg-primary/10 p-1.5">
                       <Image
                         src="/genderless.png"
                         alt="genderless"
-                        width={50}
-                        height={50}
-                        className="object-cover object-center size-10"
+                        width={40}
+                        height={40}
+                        className="object-cover object-center size-7"
                       />
                     </div>
                     <label
@@ -303,8 +303,8 @@ export default function Page() {
                   <ChevronRight className="size-4" />
                 </Button>
               </div>
-              <div className="flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-[#F0F0F0] pb-6 mb-6">
-                <h2 className="text-[28px] md:text-[32px] lg:text-[42px] font-semibold text-primary-color tracking-tight">
+              <div className="flex flex-col lg:flex-row justify-between items-center gap-3 border-b border-[#F0F0F0] pb-4 mb-4">
+                <h2 className="text-[20px] sm:text-[28px] md:text-[36px] font-semibold text-primary-color tracking-tight">
                   {t("forNameTinder.communityNames")}
                 </h2>
 
@@ -405,11 +405,11 @@ export default function Page() {
         </div>
       </div>
       <Dialog open={openSwipeDialog} onOpenChange={setOpenSwipeDialog}>
-        <DialogContent className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-6 pt-12">
+        <DialogContent className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-5 pt-8">
           <DialogTitle className="sr-only">
             {t("forNameTinder.startSwiping")}
           </DialogTitle>
-          <SectionHeading className="m-0 text-2xl sm:text-3xl">
+          <SectionHeading className="m-0 text-xl sm:text-2xl">
             {t("forNameTinder.startSwiping")}
           </SectionHeading>
           {categoriesLoading ? (
@@ -420,12 +420,12 @@ export default function Page() {
             <RadioGroup
               value={selectedCategory}
               onValueChange={setSelectedCategory}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"
             >
               {apiCategories.map((category) => (
                 <div
                   key={category._id}
-                  className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-3 py-2 sm:py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
+                  className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-1.5 sm:py-2 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
                 >
                   <RadioGroupItem
                     className="sr-only"
@@ -433,7 +433,7 @@ export default function Page() {
                     value={category._id}
                   />
                   {category.image ? (
-                    <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
+                    <div className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
                       <Image
                         src={imageLinkGenerator(category.image)}
                         alt={category.name}
@@ -443,7 +443,7 @@ export default function Page() {
                       />
                     </div>
                   ) : (
-                    <div className="flex size-10 sm:size-12 items-center justify-center rounded-md bg-primary/10 shrink-0 text-primary font-bold text-lg">
+                    <div className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary/10 shrink-0 text-primary font-bold text-base">
                       {category.name.charAt(0).toUpperCase()}
                     </div>
                   )}
@@ -458,7 +458,7 @@ export default function Page() {
             </RadioGroup>
           )}
           <Button
-            className="w-full mt-8"
+            className="w-full mt-6"
             onClick={() => {
               setOpenSwipeDialog(false);
             }}
@@ -469,12 +469,12 @@ export default function Page() {
         </DialogContent>
       </Dialog>
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>
-        <DialogContent className="sm:max-w-xl bg-white">
+        <DialogContent className="sm:max-w-xl bg-white p-5">
           <DialogTitle className="sr-only">
             {t("forNameTinder.thisNameIsMatched")}
           </DialogTitle>
-          <SectionHeading className="m-0 text-center text-lg! flex items-center justify-center gap-2">
-            <Image src="/check.png" alt="check" width={20} height={20} />
+          <SectionHeading className="m-0 text-center text-base! flex items-center justify-center gap-2">
+            <Image src="/check.png" alt="check" width={18} height={18} />
             {t("forNameTinder.thisNameIsMatched")}
           </SectionHeading>
 
@@ -516,12 +516,12 @@ export default function Page() {
                           aria-label="Toggle dislike"
                           variant="default"
                           size="sm"
-                          className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
+                          className="flex size-9 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
                         >
                           <ThumbsDown className="size-full group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                         </ToggleGroupItem>
 
-                        <p className="text-primary-color text-center flex items-center justify-center text-base grow border h-12 border-primary rounded-md">
+                        <p className="text-primary-color text-center flex items-center justify-center text-sm grow border h-9 border-primary rounded-md">
                           {nameItem.name}
                         </p>
 
@@ -530,7 +530,7 @@ export default function Page() {
                           aria-label="Toggle love"
                           variant="default"
                           size="sm"
-                          className="flex size-12 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
+                          className="flex size-9 border border-primary rounded-md items-center justify-center hover:bg-primary/10 transition-colors data-[state=on]:bg-primary/20"
                         >
                           <Heart className="size-full group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
                         </ToggleGroupItem>
@@ -541,7 +541,7 @@ export default function Page() {
               )}
               {(tinderData?.data ?? []).length > 0 && (
                 <Button
-                  className="w-full sm:w-99.5 mx-auto"
+                  className="w-full sm:w-80 mx-auto h-10 text-sm"
                   disabled={dislikeAllPending}
                   onClick={() => {
                     const ids = (tinderData?.data ?? []).map((n) =>

@@ -81,18 +81,18 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
     <>
       <Card
         className={cn(
-          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12",
+          "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden hover:shadow-md transition-all p-2 sm:p-3 md:pt-4 md:pr-7 md:pb-5 md:pl-6",
           className
         )}
       >
-        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
+        <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-6">
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
-            <h3 className="text-left text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
+            <h3 className="text-left text-lg sm:text-xl lg:text-2xl font-semibold text-primary-color leading-tight">
               {name.name}
             </h3>
 
             {/* Footer Stats Area */}
-            <div className="flex flex-wrap items-center gap-4 sm:gap-10">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-7">
               <ToggleGroup
                 type="single"
                 value={userAction || ""}
@@ -100,7 +100,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                   handleSwipe((value as "like" | "love") || null);
                 }}
                 disabled={isPending}
-                className="gap-4 sm:gap-10"
+                className="gap-3 sm:gap-7"
               >
                 {/* Love button */}
                 <div className="flex items-center gap-1.5 sm:gap-2">
@@ -111,9 +111,9 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     size="sm"
                     className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                   >
-                    <Heart className="size-6 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
+                    <Heart className="size-5 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
                   </ToggleGroupItem>
-                  <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
+                  <span className="text-[10px] sm:text-xs md:text-sm font-medium text-primary-color">
                     {lovedCount} {t("forNameTinder.love")}
                   </span>
                 </div>
@@ -127,9 +127,9 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     size="sm"
                     className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                   >
-                    <ThumbsUp className="size-6 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
+                    <ThumbsUp className="size-5 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                   </ToggleGroupItem>
-                  <span className="text-xs sm:text-sm md:text-base font-medium text-primary-color">
+                  <span className="text-[10px] sm:text-xs md:text-sm font-medium text-primary-color">
                     {likedCount} {t("threads.like")}
                   </span>
                 </div>
@@ -138,13 +138,15 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
           </div>
 
           {/* Right Side Action Area */}
-          <div className="w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100 sm:min-w-37.5">
+          <div className="w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 sm:min-w-24">
             <Button
               variant="outline"
-              className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3"
+              className="w-full sm:w-auto px-3 sm:px-5 py-1.5 sm:py-2"
               onClick={() => setOpenViewDialog(true)}
             >
-              <span className="font-semibold text-xs sm:text-sm">{t("forNameTinder.view")}</span>
+              <span className="font-semibold text-[10px] sm:text-xs">
+                {t("forNameTinder.view")}
+              </span>
               <ChevronRight className="size-4" />
             </Button>
           </div>
@@ -153,20 +155,20 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
 
       {/* View Dialog */}
       <Dialog open={openViewDialog} onOpenChange={setOpenViewDialog}>
-        <DialogContent className="sm:max-w-xl bg-white p-8">
+        <DialogContent className="sm:max-w-xl bg-white p-5">
           <DialogTitle className="sr-only">{name.name}</DialogTitle>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Header row: name + delete icon */}
-            <div className="flex items-start justify-between gap-4 border-b border-b-gray-200 pb-3">
-              <h2 className="text-3xl font-bold text-primary-color">
+            <div className="flex items-start justify-between gap-4 border-b border-b-gray-200 pb-2">
+              <h2 className="text-2xl font-bold text-primary-color">
                 {name.name}
               </h2>
             </div>
 
             {/* Name details */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               <p
-                className="leading-relaxed"
+                className="leading-relaxed text-sm"
                 dangerouslySetInnerHTML={{ __html: name?.description || "" }}
               />
             </div>

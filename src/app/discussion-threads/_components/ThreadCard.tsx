@@ -125,15 +125,15 @@ export default function ThreadCard({
   return (
     <Card
       className={cn(
-        "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12",
+        "w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-3 sm:p-4 md:pt-6 md:pr-9 md:pb-7 md:pl-8",
         className
       )}
     >
-      <div className="flex flex-col md:flex-row items-start gap-4 sm:gap-9">
+      <div className="flex flex-col md:flex-row items-start gap-3 sm:gap-6">
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-2">
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-primary-color leading-tight">
                 {title}
               </h3>
               <Badge
@@ -145,7 +145,7 @@ export default function ThreadCard({
             </div>
 
             <p
-              className="text-primary-color text-sm sm:text-base mb-4"
+              className="text-primary-color text-xs sm:text-sm mb-4"
               onClick={() => setOpenReadMoreDialog(true)}
             >
               {excerpt}{" "}
@@ -156,10 +156,10 @@ export default function ThreadCard({
           </div>
 
           {/* Footer Stats Area */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6 md:gap-x-10">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 sm:gap-x-4 md:gap-x-7">
             <div
               className={cn(
-                "flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-colors hover:text-primary",
+                "flex items-center gap-1.2 sm:gap-1.5 cursor-pointer transition-colors hover:text-primary",
                 liked ? "text-primary" : "text-secondary"
               )}
               onClick={(e) => {
@@ -174,8 +174,8 @@ export default function ThreadCard({
                 });
               }}
             >
-              <IconLove className="size-3.5 sm:size-4 md:size-5" />
-              <span className="text-xs sm:text-sm md:text-base font-medium">
+              <IconLove className="size-3 sm:size-3.5 md:size-4" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium">
                 {currentStats.likes} {t("threads.like")}
               </span>
             </div>
@@ -184,14 +184,14 @@ export default function ThreadCard({
                 "flex items-center gap-1.5 sm:gap-2 text-secondary"
               )}
             >
-              <IconReply className="size-3.5 sm:size-4 md:size-5" />
-              <span className="text-xs sm:text-sm md:text-base font-medium">
+              <IconReply className="size-3 sm:size-3.5 md:size-4" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium">
                 {currentStats.replies} {t("threads.replies")}
               </span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2 text-secondary">
-              <IconEye className="size-3.5 sm:size-4 md:size-5" />
-              <span className="text-xs sm:text-sm md:text-base font-medium">
+              <IconEye className="size-3 sm:size-3.5 md:size-4" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium">
                 {currentStats.views} {t("threads.views")}
               </span>
             </div>
@@ -199,8 +199,8 @@ export default function ThreadCard({
               className="flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-colors hover:text-primary text-secondary"
               onClick={handleShareClick}
             >
-              <IconShare className="size-3.5 sm:size-4 md:size-5" />
-              <span className="text-xs sm:text-sm md:text-base font-medium">
+              <IconShare className="size-3 sm:size-3.5 md:size-4" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium">
                 {currentShares} {t("threads.share")}
               </span>
             </div>
@@ -214,8 +214,8 @@ export default function ThreadCard({
                 handleAuthAction(() => setOpenFlagDialog(true));
               }}
             >
-              <IconFlag className="size-3.5 sm:size-4 md:size-5" />
-              <span className="text-xs sm:text-sm md:text-base font-medium">
+              <IconFlag className="size-3 sm:size-3.5 md:size-4" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium">
                 {flagged ? t("threads.flagged") : t("threads.flag")}
               </span>
             </div>
@@ -223,7 +223,7 @@ export default function ThreadCard({
         </div>
 
         {/* Right Side Action Area */}
-        <div className="w-full max-w-xs flex flex-col items-center justify-center gap-3 sm:gap-6 sm:pl-9 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
+        <div className="w-full max-w-xs flex flex-col items-center justify-center gap-2 sm:gap-4 sm:pl-6 border-t sm:border-t-0 sm:border-l border-gray-100 pt-4 sm:pt-0 sm:min-w-37.5">
           {lastReplyUser?.name && (
             <div className="text-center sm:text-left w-full">
               <p className="text-primary-color text-center text-xs sm:text-sm font-medium">
@@ -240,10 +240,10 @@ export default function ThreadCard({
           )}
 
           <div
-            className="bg-primary hover:bg-primary/90 text-white px-6 py-2 sm:py-3 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-fit"
+            className="bg-primary hover:bg-primary/90 text-white px-4 py-1.5 sm:py-2 rounded-full flex items-center justify-center gap-2 transition-colors w-full sm:w-fit"
             onClick={() => setOpenReadMoreDialog(true)}
           >
-            <span className="font-semibold text-xs sm:text-sm">
+            <span className="font-semibold text-[10px] sm:text-xs">
               {t("threads.reply")}
             </span>
             <ChevronRight className="size-4" />
