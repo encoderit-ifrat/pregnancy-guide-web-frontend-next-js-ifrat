@@ -53,7 +53,7 @@ function SkeletonCommunityCard() {
 
 export default function Page() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState("liked");
+  const [activeTab, setActiveTab] = useState("loved");
   const queryClient = useQueryClient();
   // Reset scroll + infinite community names when user returns.
   useResetInfiniteScrollOnFocus({
@@ -63,7 +63,7 @@ export default function Page() {
 
   const tabSortMap: Record<string, string> = {
     liked: "most_liked",
-    viewed: "most_viewed",
+    loved: "most_loved",
   };
 
   const {
@@ -304,11 +304,11 @@ export default function Page() {
                   variant="pill"
                   className="bg-white shadow-sm border border-white text-primary-color"
                 >
+                  <TabsTrigger value="loved" variant="pill">
+                    {t("threads.mostLoved")}
+                  </TabsTrigger>
                   <TabsTrigger value="liked" variant="pill">
                     {t("threads.mostLiked")}
-                  </TabsTrigger>
-                  <TabsTrigger value="viewed" variant="pill">
-                    {t("threads.mostViewed")}
                   </TabsTrigger>
                 </TabsList>
               </div>
