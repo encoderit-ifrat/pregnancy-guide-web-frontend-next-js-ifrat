@@ -180,6 +180,7 @@
   "checklists": {
     "label": "Vår Checklista",
     "title": "Checklistor",
+    "description": "Organisera dina uppgifter effektivt",
     "subtitle": "Expertråd, verkliga berättelser och hjälpsamma tips för att stödja dig och din familj i varje steg.",
     "addNew": "Lägg till ny",
     "finalizedTasks": "Slutförda Uppgifter",
@@ -220,6 +221,10 @@
     }
   },
   "threads": {
+    "active": "aktiv",
+    "finalized": "slutförd",
+    "addNewList": "Lägg till ny lista",
+    "addTemplate": "Lägg till mall",
     "label": "Diskussioner",
     "title": "Starta en Ny Tråd",
     "subtitle": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",

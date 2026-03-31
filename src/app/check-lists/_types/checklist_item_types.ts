@@ -34,7 +34,7 @@ export type CheckListItemProps = {
 
 export type ChecklistFormProps = {
   formData?: {
-    type: "default" | "update" | "delete";
+    type: "default" | "update" | "delete" | "create";
     id: string;
     data?: ChecklistSchemaType;
   };

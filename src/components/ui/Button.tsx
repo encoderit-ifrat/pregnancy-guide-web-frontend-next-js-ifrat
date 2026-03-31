@@ -7,17 +7,17 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-']):not(.spinner-icon)]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring rounded-full",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-']):not(.spinner-icon)]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring rounded-full [&_div]:bg-primary! [&_div]:size-8 [&_div]:p-1.5 [&_div]:rounded-full [&_div_svg]:text-white",
   {
     variants: {
       variant: {
         default: "bg-primary text-white shadow-md hover:opacity-90",
         outline:
-          "border border-primary text-primary bg-white shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-dark dark:hover:bg-input/50",
+          "border border-primary text-primary bg-white shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-dark dark:hover:bg-input/50 flex items-center justify-between",
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost:
-          "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground [&>svg]:text-primary",
+          "flex items-center justify-between shadow-sm text-primary hover:bg-muted hover:text-primary dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-primary [&>svg]:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
         purple: "bg-secondary text-white shadow-md hover:opacity-90",
         darkPurple: "bg-foreground text-white shadow-md hover:opacity-90",

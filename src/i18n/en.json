@@ -180,6 +180,7 @@
   "checklists": {
     "label": "Our Checklist",
     "title": "Checklists",
+    "description": "Organize your tasks efficiently",
     "subtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
     "addNew": "Add New",
     "finalizedTasks": "Finalized Tasks",
@@ -220,6 +221,10 @@
     }
   },
   "threads": {
+    "active": "Active",
+    "finalized": "Finalized",
+    "addNewList": "Add New List",
+    "addTemplate": "Add Template",
     "label": "Discussions",
     "title": "Start a New Thread",
     "subtitle": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",

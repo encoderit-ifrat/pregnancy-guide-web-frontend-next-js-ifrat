@@ -32,12 +32,10 @@ export const ChecklistSchema = z.object({
     .string()
     .max(500, "Description must be less than 500 characters")
     .optional(),
-  category: z
-    .string()
-    .optional(),
-  items: z
-    .array(ChecklistItemSchema)
-    .min(1, "At least one checklist item is required"),
+  category: z.string().optional(),
+  // items: z
+  //   .array(ChecklistItemSchema)
+  //   .min(1, "At least one checklist item is required"),
   is_active: z.boolean(),
 });
 
