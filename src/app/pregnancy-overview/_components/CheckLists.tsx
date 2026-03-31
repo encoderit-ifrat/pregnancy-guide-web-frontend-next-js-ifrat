@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
-import CheckListItem from "@/app/check-lists/_component/CheckListItem";
+import CheckListItem from "@/app/check-lists/_component/CheckList";
 
 import { CheckListsProps } from "../_types/checklists_component_types";
 

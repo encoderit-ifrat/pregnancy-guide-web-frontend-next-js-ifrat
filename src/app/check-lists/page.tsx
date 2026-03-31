@@ -35,7 +35,7 @@ import Pagination from "@/components/base/Pagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "../loading";
 import Link from "next/link";
-import CheckListItem from "@/app/check-lists/_component/CheckListItem";
+import CheckListItem from "@/app/check-lists/_component/CheckList";
 import { ChecklistFormData } from "./_types/checklist_page_types";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
@@ -228,7 +228,7 @@ export default function CheckLists() {
               Finalized
             </TabsContent>
 
-            <CheckListItem
+            {/* <CheckListItem
               checklistItems={checklists}
               onDeleteAction={(item: any) => {
                 setFormData({ type: "delete", id: item._id });
@@ -240,8 +240,8 @@ export default function CheckLists() {
                   data: item,
                 });
               }}
-            />
-            {meta && meta.last_page > 1 && (
+            /> */}
+            {/* {meta && meta.last_page > 1 && (
               <div className="w-full max-w-3xl mx-auto mt-8">
                 <Pagination
                   currentPage={meta.current_page}
@@ -249,7 +249,7 @@ export default function CheckLists() {
                   onPageChange={handlePageChange}
                 />
               </div>
-            )}
+            )} */}
           </div>
         </Tabs>
         <AlertDialog

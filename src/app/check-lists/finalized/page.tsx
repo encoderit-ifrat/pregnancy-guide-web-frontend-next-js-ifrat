@@ -53,7 +53,7 @@ import Link from "next/link";
 import { ChecklistFormData } from "../_types/checklist_page_types";
 import { ChecklistItemWithItems } from "../_types/checklist_item_types";
 import { PageContainer } from "@/components/layout/PageContainer";
-import CheckListItem from "@/app/check-lists/_component/CheckListItem";
+import CheckListItem from "@/app/check-lists/_component/CheckList";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function CheckLists() {
@@ -133,10 +133,11 @@ export default function CheckLists() {
           toast.warning(t("checklists.loginToAdd"));
         }
       }}
-      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${isAuthenticated
+      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${
+        isAuthenticated
           ? "cursor-pointer hover:bg-purple-50"
           : "opacity-50 cursor-not-allowed"
-        }`}
+      }`}
     >
       <div className="flex items-center justify-center text-white bg-primary rounded-full w-10 h-10 hover:bg-primary-dark transition-all">
         <Plus size={22} strokeWidth={3} />
@@ -203,7 +204,9 @@ export default function CheckLists() {
                 }}
                 disabled={isPendingDeleteChecklist}
               >
-                {isPendingDeleteChecklist ? t("checklists.loading") : t("common.confirm")}
+                {isPendingDeleteChecklist
+                  ? t("checklists.loading")
+                  : t("common.confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -214,7 +217,9 @@ export default function CheckLists() {
         >
           <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
             <DialogHeader>
-              <DialogTitle className="text-left">{t("checklists.updateChecklist")}</DialogTitle>
+              <DialogTitle className="text-left">
+                {t("checklists.updateChecklist")}
+              </DialogTitle>
             </DialogHeader>
             <ChecklistForm
               onSubmitForDialogAndRefetch={async () => {

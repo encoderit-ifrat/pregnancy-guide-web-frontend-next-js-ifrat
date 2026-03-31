@@ -26,10 +26,10 @@ function AccordionTrigger({
   className,
   children,
   actionButtons,
-  showIcon = true,
+  // showIcon = true,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
-  showIcon?: boolean;
+  // showIcon?: boolean;
   actionButtons?: React.ReactNode;
 }) {
   return (
@@ -43,12 +43,12 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        {showIcon && (
+        {/* {showIcon && (
           <div className="flex items-center gap-3">
             {actionButtons}
             <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
           </div>
-        )}
+        )} */}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

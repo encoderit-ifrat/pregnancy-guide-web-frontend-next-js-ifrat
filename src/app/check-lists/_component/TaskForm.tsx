@@ -46,7 +46,7 @@ type FormValues = z.infer<typeof formSchema>;
 // ----------------------
 // COMPONENT
 // ----------------------
-export default function TaskForm() {
+export default function TaskForm({ onClose }: { onClose?: () => void }) {
   const [date, setDate] = useState<Date | undefined>();
 
   const form = useForm<FormValues>({
@@ -61,6 +61,7 @@ export default function TaskForm() {
 
   function onSubmit(values: FormValues) {
     console.log(values);
+    onClose?.();
   }
 
   return (

@@ -69,18 +69,18 @@ export default function ExpandableSearchBar({
       {/* 🔹 Collapsed Icon */}
       {!expanded && (
         <Button
-          variant="outline"
+          // variant="outline"
           size="icon"
-          className="border-none outline-none bg-transparent"
+          className="border-none outline-none bg-primary-light transition-colors hover:text-primary p-4 shadow-none [&_svg]:bg-transparent [&_svg]:text-primary-dark"
           // onClick={() => router.replace("/search-article")}
           onClick={handleExpand}
         >
-          <div
+          {/* <div
             className="bg-primary-light text-secondary transition-colors hover:text-primary p-4 rounded-full"
             aria-label="Search"
-          >
-            <Search className="h-8 w-8 text-primary-dark" />
-          </div>
+          > */}
+          <Search className="rounded-full size-8" />
+          {/* </div> */}
         </Button>
       )}
 
