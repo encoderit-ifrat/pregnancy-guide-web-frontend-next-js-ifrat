@@ -34,11 +34,12 @@ import { useState } from "react";
 // ZOD SCHEMA
 // ----------------------
 const formSchema = z.object({
+  checklist_id: z.string(),
   title: z.string().min(1, "Task title is required"),
   priority: z.enum(["high", "medium", "low"]),
-  assignedTo: z.enum(["none", "me", "partner"]),
-  dueDate: z.date().optional(),
-  notes: z.string().optional(),
+  assigned_to: z.enum(["none", "me", "partner"]),
+  due_date: z.date(),
+  description: z.string().optional(),
   reminder: z.boolean().optional(),
 });
 
@@ -47,21 +48,27 @@ type FormValues = z.infer<typeof formSchema>;
 // ----------------------
 // COMPONENT
 // ----------------------
-export default function TaskForm({ onClose }: { onClose?: () => void }) {
+export default function TaskForm({ onClose, checklist_id }: { onClose?: () => void, checklist_id: string }) {
   const [date, setDate] = useState<Date | undefined>();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+
+      checklist_id,
       title: "",
+      description: "",
+      // optional fields ...
       priority: "high",
-      assignedTo: "partner",
-      notes: "",
+      due_date: new Date(),
+      reminder: false,
+      assigned_to: "none" // 'none', 'me', 'partner'
+
     },
   });
 
   function onSubmit(values: FormValues) {
-    console.log(values);
+    console.log("values", values);
     onClose?.();
   }
 
@@ -142,7 +149,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             {/* Due Date */}
             <FormField
               control={form.control}
-              name="dueDate"
+              name="due_date"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base text-[#1B1343]">
@@ -183,7 +190,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             {/* Assigned */}
             <FormField
               control={form.control}
-              name="assignedTo"
+              name="assigned_to"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base text-[#1B1343]">
@@ -250,7 +257,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
           {/* Notes */}
           <FormField
             control={form.control}
-            name="notes"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base text-[#1B1343]">Task Notes</FormLabel>
@@ -272,7 +279,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
           {/* Footer */}
           <div className="flex justify-between items-center pt-4 text-lg">
             {/* Delete */}
-            <button
+            {/* <button
               type="button"
               className="flex items-center gap-2 text-[#E7000B] font-semibold"
             >
@@ -280,14 +287,14 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
               <span className="bg-red-100 p-2 rounded-full">
                 <Trash2 className="w-4 h-4" />
               </span>
-            </button>
+            </button> */}
 
             {/* Submit */}
             <Button
               type="submit"
               className="bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md"
             >
-              Save Changes
+              Create Task
               <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
                 <Save className="size-5 text-[#A855F7]" />
               </div>

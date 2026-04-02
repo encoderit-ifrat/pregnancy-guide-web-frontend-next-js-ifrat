@@ -53,7 +53,7 @@ export default function CheckList({
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
     checklistItems || []
   );
-  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
+  const [isAddTaskOpen, setIsAddTaskOpen] = useState<string | null>(null);
 
 
   // Sync filteredLists with checklistItems prop
@@ -156,7 +156,7 @@ export default function CheckList({
               <Button
                 variant={"ghost"}
                 className="shadow-none text-primary font-semibold hover:bg-transparent"
-                onClick={() => setIsAddTaskOpen(true)}
+                onClick={() => setIsAddTaskOpen(group.id)}
               >
                 Add Task{" "}
                 <PlusIcon
@@ -267,7 +267,7 @@ export default function CheckList({
 
                     {/* Task Details Expand */}
                     <AccordionContent className="border-t border-[#FEE685] bg-gray-50/30 p-5">
-                      <TaskForm />
+                      {/* <TaskForm /> */}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -275,10 +275,10 @@ export default function CheckList({
             </AccordionContent>
           </AccordionItem>
         ))}
-        <Dialog open={isAddTaskOpen} onOpenChange={setIsAddTaskOpen}>
+        <Dialog open={!!isAddTaskOpen} onOpenChange={() => setIsAddTaskOpen(null)}>
           <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none">
             <DialogTitle className="sr-only">Add Task</DialogTitle>
-            <TaskForm />
+            <TaskForm checklist_id={isAddTaskOpen || ""} onClose={() => setIsAddTaskOpen(null)} />
           </DialogContent>
         </Dialog>
       </Accordion>
