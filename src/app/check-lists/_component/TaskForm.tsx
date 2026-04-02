@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/Textarea";
-import { CalendarIcon, Bell, Trash2, Save } from "lucide-react";
+import { CalendarIcon, Bell, Trash2, Save, Loader2 } from "lucide-react";
 
 import {
   Popover,
@@ -29,6 +29,8 @@ import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useMutationCreateItem } from "../_api/mutations/UseMutationCreateItem";
+import { toast } from "sonner";
 
 // ----------------------
 // ZOD SCHEMA
@@ -43,7 +45,7 @@ const formSchema = z.object({
   reminder: z.boolean().optional(),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+export type TaskFormValues = z.infer<typeof formSchema>;
 
 // ----------------------
 // COMPONENT
@@ -51,7 +53,9 @@ type FormValues = z.infer<typeof formSchema>;
 export default function TaskForm({ onClose, checklist_id }: { onClose?: () => void, checklist_id: string }) {
   const [date, setDate] = useState<Date | undefined>();
 
-  const form = useForm<FormValues>({
+  const { mutateAsync: createItem, isPending: isCreatingItem } = useMutationCreateItem();
+
+  const form = useForm<TaskFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
 
@@ -67,9 +71,17 @@ export default function TaskForm({ onClose, checklist_id }: { onClose?: () => vo
     },
   });
 
-  function onSubmit(values: FormValues) {
+  function onSubmit(values: TaskFormValues) {
     console.log("values", values);
-    onClose?.();
+    createItem(values, {
+      onSuccess: () => {
+        onClose?.();
+      },
+      onError: (error) => {
+        console.log("error", error);
+        toast.error("Failed to create task");
+      }
+    })
   }
 
   return (
@@ -240,13 +252,21 @@ export default function TaskForm({ onClose, checklist_id }: { onClose?: () => vo
                   <FormControl>
                     <Button
                       type="button"
-                      variant="outline"
-                      className="w-full h-[46px] justify-center gap-3 text-base items-center border-[#A855F7] text-[#A97AEC] rounded-full font-outfit"
+                      variant={field.value ? "default" : "outline"}
+                      onClick={() => field.onChange(!field.value)}
+                      className={cn(
+                        "w-full h-[46px] justify-center gap-3 text-base items-center rounded-full font-outfit transition-all duration-300",
+                        !field.value && "border-[#A855F7] text-[#A855F7]",
+                        field.value && "bg-[#A855F7] hover:bg-[#9333EA] text-white"
+                      )}
                     >
-                      <div className="size-7 rounded-full flex items-center justify-center shrink-0">
-                        <Bell className="size-4 text-[#A97AEC]" />
+                      <div className={cn(
+                        "size-7 rounded-full flex items-center justify-center shrink-0 transition-colors",
+                        field.value ? "bg-white/20" : "bg-purple-50"
+                      )}>
+                        <Bell className={cn("size-4", field.value ? "text-white" : "text-[#A855F7]")} />
                       </div>
-                      Set Reminder
+                      {field.value ? "Reminder Set" : "Set Reminder"}
                     </Button>
                   </FormControl>
                 </FormItem>
@@ -291,12 +311,14 @@ export default function TaskForm({ onClose, checklist_id }: { onClose?: () => vo
 
             {/* Submit */}
             <Button
+              disabled={isCreatingItem}
+
               type="submit"
               className="bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md"
             >
               Create Task
               <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                <Save className="size-5 text-[#A855F7]" />
+                {isCreatingItem ? <Loader2 className="size-5 text-[#A855F7] animate-spin" /> : <Save className="size-5 text-[#A855F7]" />}
               </div>
             </Button>
           </div>
