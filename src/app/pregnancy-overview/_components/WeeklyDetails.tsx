@@ -9,6 +9,7 @@ import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import IconRightArrow from "@/components/svg-icon/icon-rightArrow";
 
 const initialData = {
   title: "",
@@ -42,23 +43,30 @@ function WeeklyDetails({ data = initialData }: TProps) {
           <SectionHeading>{t("pregnancy.weeklyDetails")}</SectionHeading>
         </div>
 
-        <div className="bg-white shadow-lg p-5 rounded-2xl">
-          <div className="relative w-full h-[180] md:h-145">
+        <div className="bg-white shadow-week-details p-7 rounded-2xl">
+          <div className="relative w-full h-[366px] md:h-145 overflow-hidden">
             <Link href={`/articles/${slug || "article-not-found"}`}>
               <Image
                 src={imageLinkGenerator(cover_image || thumbnail_image)}
                 alt={title}
                 width="1366"
                 height="580"
-                className="w-full h-full rounded-2xl object-cover"
+                className="w-full h-full rounded-lg object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
                 priority
               />
             </Link>
+            <div className="absolute bottom-0 left-0 right-0 bg-primary-dark/74 py-7 px-4 md:px-[52px] rounded-b-lg">
+              <div className="flex items-center justify-between">
+                <h3 className="text-2xl! md:text-3xl! font-semibold text-white">{title}</h3>
+                <Link href={`/articles/${slug || "article-not-found"}`}>
+                  <IconRightArrow />
+                </Link>
+              </div>
+            </div>
           </div>
-          <div className="px-4 py-4 w-full lg:w-1/2 space-y-4 text-center lg:text-left popover-foreground order-1 lg:order-2">
+          {/* <div className="px-4 py-4 w-full lg:w-1/2 space-y-4 text-center lg:text-left popover-foreground order-1 lg:order-2">
             <Link href={`/articles/${slug || "article-not-found"}`}>
-              <h3 className="text-3xl!">{title}</h3>
             </Link>
             <p className="mt-3 mb-6">{excerpt}</p>
             <div className="pt-2">
@@ -71,7 +79,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
                 </Button>
               </Link>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

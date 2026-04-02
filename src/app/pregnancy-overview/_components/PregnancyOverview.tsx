@@ -110,7 +110,7 @@ export default function PregnancyOverview({
         </CheckListSection>
       )}
       {Boolean(latest?.length) && (
-        <section className="bg-primary-light">
+        <section className="bg-purple-soft">
           <ArticleSection data={(latest as any) || []} />
         </section>
       )}
@@ -119,7 +119,7 @@ export default function PregnancyOverview({
         <>
           <ConcaveCurve
             className="text-white h-10! sm:h-20! md:h-24! lg:h-42!"
-            bgClassName="bg-primary-light"
+            bgClassName="bg-purple-soft"
           />
           <OurArticle
             data={(bannerArticle as any) ?? []}

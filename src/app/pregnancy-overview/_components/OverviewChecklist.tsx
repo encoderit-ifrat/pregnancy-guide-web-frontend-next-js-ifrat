@@ -80,13 +80,13 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
       <div className="flex flex-wrap justify-center gap-4 mb-8">
         <Button
           variant="softPurple"
-          className="rounded-full text-lg font-semibold shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6]"
+          className="rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6]"
         >
           Add List +
         </Button>
         <Button
           variant="outline"
-          className="rounded-full text-lg font-semibold text-primary bg-white hover:bg-white/10 shadow-none border-1"
+          className="rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border-1"
         >
           Add Task +
         </Button>
@@ -127,8 +127,8 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                   <div className={cn(
                     "size-8 rounded-full flex items-center justify-center transition-all duration-300",
                     openItems.includes(`item-${index}`)
-                      ? "bg-[#F3E8FF] text-[#A67EEA] rotate-180"
-                      : "bg-[#F3F4F6] text-[#9CA3AF]"
+                      ? "bg-[#F3E8FF] text-[#A97AEC] rotate-180"
+                      : "bg-[#F3E8FF] text-[#A97AEC]"
                   )}>
                     <ChevronDown className="size-5" />
                   </div>
