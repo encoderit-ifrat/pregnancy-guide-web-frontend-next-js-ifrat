@@ -143,14 +143,14 @@ export default function CheckList({
                 <div className="text-[22px] font-semibold">{group.name}</div>
 
                 <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282]">
-                  0 / 2
+                  {group.tasks.filter((task: any) => task.checked).length} / {group.tasks.length}
                 </span>
 
                 <div className="flex items-center gap-1 text-primary font-semibold">
                   <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="w-[3%] h-full bg-primary"></div>
+                    <div className="h-full bg-primary" style={{ width: `${group.tasks.filter((task: any) => task.checked).length / group.tasks.length * 100}%` }}></div>
                   </div>
-                  <span>0%</span>
+                  <span>{(group.tasks.filter((task: any) => task.checked).length / group.tasks.length * 100).toFixed(2)}%</span>
                 </div>
               </div>
               <Button
