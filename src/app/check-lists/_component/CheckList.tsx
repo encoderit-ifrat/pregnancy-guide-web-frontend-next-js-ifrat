@@ -38,6 +38,7 @@ import {
   DialogTitle,
 } from "@/components/ui/Dialog";
 import TaskForm from "./TaskForm";
+import { useQueryGetAllMyCompletedChecklists } from "../_api/queries/useQueryGetAllMyChecklists";
 
 export default function CheckList({
   checklistItems,
@@ -54,6 +55,9 @@ export default function CheckList({
   );
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
 
+  const { data: completedChecklists } = useQueryGetAllMyCompletedChecklists({});
+  console.log("completedChecklists", completedChecklists?.data?.data);
+
   // Sync filteredLists with checklistItems prop
   useEffect(() => {
     if (checklistItems) {
@@ -63,192 +67,44 @@ export default function CheckList({
 
   const router = useRouter();
 
-  // Map filteredLists to the structure expected by the new UI
-  const displayData =
-    filteredLists && filteredLists.length > 0
-      ? filteredLists.map((list) => ({
-          id: list._id,
-          name: list.title,
-          tasks: (list.items || []).map((item) => ({
-            id: item._id,
-            name: item.title,
-            checked: !!item.is_completed,
-            priority: "medium" as const,
-            assignedTo: "none" as const,
-            description: item.description,
-            date: undefined,
-            reminder: undefined,
-          })),
-        }))
-      : null;
+  // Determine the source of API data (handling nested structure in query results)
+  const apiChecklists = (completedChecklists as any)?.data?.data || completedChecklists?.data || [];
 
-  const data = displayData || [
-    {
-      id: "1",
-      name: "Baby Preparation",
-      tasks: [
-        {
-          id: "t1",
-          name: "Buy baby clothes",
-          checked: false,
-          priority: "high",
-          assignedTo: "partner",
-          description: "Buy newborn essentials (0–3 months)",
-          date: "01-02-2026",
-          reminder: "1 day before",
-        },
-        {
-          id: "t2",
-          name: "Prepare nursery",
-          checked: true,
-          priority: "medium",
-          assignedTo: "me",
-          description: "Setup crib, lighting, and decorations",
-          date: "05-02-2026",
-        },
-        {
-          id: "t3",
-          name: "Install baby monitor",
-          checked: false,
-          priority: "low",
-          assignedTo: "me",
-          description: "Connect monitor to phone app",
-        },
-        {
-          id: "t4",
-          name: "Pack hospital bag",
-          checked: false,
-          priority: "high",
-          assignedTo: "partner",
-          description: "Include clothes, documents, essentials",
-          date: "28-01-2026",
-          reminder: "2 days before",
-        },
-      ],
-    },
-    {
-      id: "2",
-      name: "Health & Appointments",
-      tasks: [
-        {
-          id: "t5",
-          name: "Doctor appointment",
-          checked: false,
-          priority: "high",
-          assignedTo: "me",
-          description: "Monthly pregnancy checkup",
-          date: "10-02-2026",
-          reminder: "3 hours before",
-        },
-        {
-          id: "t6",
-          name: "Take vitamins",
-          checked: true,
-          priority: "medium",
-          assignedTo: "me",
-          description: "Daily prenatal vitamins",
-          reminder: "Every morning",
-        },
-        {
-          id: "t7",
-          name: "Blood test",
-          checked: false,
-          priority: "high",
-          assignedTo: "partner",
-          description: "Routine lab test",
-          date: "15-02-2026",
-        },
-        {
-          id: "t8",
-          name: "Vaccination schedule",
-          checked: false,
-          priority: "low",
-          assignedTo: "none",
-          description: "Check recommended vaccines",
-        },
-      ],
-    },
-    {
-      id: "3",
-      name: "Home & Shopping",
-      tasks: [
-        {
-          id: "t9",
-          name: "Buy groceries",
-          checked: true,
-          priority: "low",
-          assignedTo: "partner",
-          description: "Weekly grocery shopping",
-        },
-        {
-          id: "t10",
-          name: "Order baby stroller",
-          checked: false,
-          priority: "high",
-          assignedTo: "me",
-          description: "Compare brands and order online",
-          reminder: "Tonight",
-        },
-        {
-          id: "t11",
-          name: "Clean house",
-          checked: false,
-          priority: "medium",
-          assignedTo: "none",
-          description: "Deep cleaning before baby arrives",
-        },
-        {
-          id: "t12",
-          name: "Buy diapers",
-          checked: false,
-          priority: "high",
-          assignedTo: "partner",
-          description: "Stock up for first 2 months",
-          date: "20-02-2026",
-        },
-      ],
-    },
-    {
-      id: "4",
-      name: "Work & Personal",
-      tasks: [
-        {
-          id: "t13",
-          name: "Submit leave application",
-          checked: false,
-          priority: "high",
-          assignedTo: "me",
-          description: "Apply for parental leave",
-          date: "25-01-2026",
-        },
-        {
-          id: "t14",
-          name: "Finish project report",
-          checked: true,
-          priority: "medium",
-          assignedTo: "me",
-          description: "Finalize and submit report",
-        },
-        {
-          id: "t15",
-          name: "Backup important files",
-          checked: false,
-          priority: "low",
-          assignedTo: "none",
-          description: "Store files in cloud",
-        },
-        {
-          id: "t16",
-          name: "Team meeting",
-          checked: false,
-          priority: "medium",
-          assignedTo: "me",
-          date: "30-01-2026",
-          reminder: "30 minutes before",
-        },
-      ],
-    },
-  ];
+  // Map filteredLists (from props) to the structure expected by the new UI
+  const propMappedData = (filteredLists || []).map((list) => ({
+    id: list._id,
+    name: list.title,
+    tasks: (list.items || []).map((item) => ({
+      id: item._id,
+      name: item.title,
+      checked: !!(item.checked ?? item.is_completed),
+      priority: "medium" as const,
+      assignedTo: "none" as const,
+      description: item.description,
+      date: undefined,
+      reminder: undefined,
+    })),
+  }));
+
+  // Map query results if checklistItems prop is not provided
+  const queryMappedData = Array.isArray(apiChecklists)
+    ? apiChecklists.map((list: any) => ({
+      id: list._id,
+      name: list.title,
+      tasks: (list.items || []).map((item: any) => ({
+        id: item._id,
+        name: item.title,
+        checked: !!(item.checked ?? item.is_completed),
+        priority: "medium" as const,
+        assignedTo: "none" as const,
+        description: item.description,
+        date: undefined,
+        reminder: undefined,
+      })),
+    }))
+    : [];
+
+  const data = propMappedData.length > 0 ? propMappedData : queryMappedData;
 
   function handleChecklistToggle(id: string) {
     setToggleLoading(id);
@@ -294,7 +150,7 @@ export default function CheckList({
 
   return (
     <Accordion type="multiple" className="w-full space-y-4">
-      {data.map((group, index) => (
+      {data.map((group: any, index: number) => (
         <AccordionItem
           key={group.id}
           value={group.id}
@@ -337,7 +193,7 @@ export default function CheckList({
             <div className="border-t my-2" />
             {/* TASK LEVEL */}
             <Accordion type="single" collapsible className="space-y-3">
-              {group.tasks.map((task) => (
+              {group.tasks.map((task: any) => (
                 <AccordionItem
                   key={task.id}
                   value={task.id}

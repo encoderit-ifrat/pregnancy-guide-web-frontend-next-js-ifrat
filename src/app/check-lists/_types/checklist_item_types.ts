@@ -6,6 +6,7 @@ export type ChecklistItem = {
   description: string;
   week?: number;
   is_completed?: boolean;
+  checked?: boolean;
   order?: number;
   is_optional?: boolean;
 };
