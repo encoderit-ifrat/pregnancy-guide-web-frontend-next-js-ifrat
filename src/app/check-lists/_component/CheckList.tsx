@@ -28,6 +28,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useTranslation } from "@/hooks/useTranslation";
+import { format, isPast, differenceInDays, parseISO } from "date-fns";
 import { CheckBox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/Button";
@@ -46,6 +47,7 @@ export default function CheckList({
   onDeleteAction,
   onEditAction,
   className,
+  refetch,
 }: CheckListItemProps) {
   const { t } = useTranslation();
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
@@ -73,11 +75,11 @@ export default function CheckList({
       id: item._id,
       name: item.title,
       checked: !!(item.checked ?? item.is_completed),
-      priority: "medium" as const,
-      assignedTo: "none" as const,
+      priority: item.priority || "",
+      assignedTo: item.assigned_to || "none",
       description: item.description,
-      date: undefined,
-      reminder: undefined,
+      date: item.due_date,
+      reminder: item.reminder,
     })),
   }));
 
@@ -116,7 +118,7 @@ export default function CheckList({
             });
           });
           setToggleLoading(null);
-          router.refresh();
+          refetch?.();
         },
         onError(res) {
           setToggleLoading(null);
@@ -147,10 +149,22 @@ export default function CheckList({
                 </span>
 
                 <div className="flex items-center gap-1 text-primary font-semibold">
-                  <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary" style={{ width: `${group.tasks.filter((task: any) => task.checked).length / group.tasks.length * 100}%` }}></div>
-                  </div>
-                  <span>{(group.tasks.filter((task: any) => task.checked).length / group.tasks.length * 100).toFixed(2)}%</span>
+                  {(() => {
+                    const completedTasks = group.tasks.filter((task: any) => task.checked).length;
+                    const totalTasks = group.tasks.length;
+                    const percentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+                    return (
+                      <>
+                        <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-primary transition-all duration-300"
+                            style={{ width: `${percentage}%` }}
+                          ></div>
+                        </div>
+                        <span>{percentage.toFixed(2)}%</span>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
               <Button
@@ -235,16 +249,30 @@ export default function CheckList({
 
                         {/* Due Date Badge */}
                         {task.date && (
-                          <Badge className="bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685] hover:bg-[#FFFBE5] flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200">
+                          <Badge
+                            className={cn(
+                              "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
+                              isPast(parseISO(task.date)) && !task.checked
+                                ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                                : "bg-[#F3F4F6] text-[#6B7280] border-[#E5E7EB]"
+                            )}
+                          >
                             <Calendar className="size-3.5" />
-                            {task.date === "28-01-2026"
-                              ? "363d overdue"
-                              : task.date}
+                            {isPast(parseISO(task.date)) && !task.checked
+                              ? `${differenceInDays(new Date(), parseISO(task.date))}d overdue`
+                              : format(parseISO(task.date), "dd-MM-yyyy")}
                           </Badge>
                         )}
 
                         {/* Assigned To Icon */}
-                        <div className="size-8 rounded-full border border-[#A67EEA] bg-white flex items-center justify-center text-[#A67EEA] font-bold text-xs shrink-0 transition-opacity hover:opacity-80">
+                        <div
+                          className={cn(
+                            "size-8 rounded-full border flex items-center justify-center font-bold text-xs shrink-0 transition-opacity hover:opacity-80",
+                            task.assignedTo === "partner"
+                              ? "border-[#22C55E] text-[#22C55E] bg-[#F0FDF4]"
+                              : "border-[#A67EEA] text-[#A67EEA] bg-white"
+                          )}
+                        >
                           {task.assignedTo === "partner"
                             ? "P"
                             : task.assignedTo === "me"
@@ -253,8 +281,15 @@ export default function CheckList({
                         </div>
 
                         {/* Notification Icon */}
-                        <div className="size-8 rounded-full bg-[#F5F3FF] flex items-center justify-center text-[#A67EEA] shrink-0 hover:bg-[#EDE9FE] transition-colors cursor-pointer">
-                          <Bell className="size-4" />
+                        <div
+                          className={cn(
+                            "size-8 rounded-full flex items-center justify-center shrink-0 transition-colors cursor-pointer",
+                            task.reminder
+                              ? "bg-[#F5F3FF] text-[#A67EEA] hover:bg-[#EDE9FE]"
+                              : "bg-gray-50 text-gray-300 hover:bg-gray-100"
+                          )}
+                        >
+                          <Bell className={cn("size-4", task.reminder && "fill-[#A67EEA]")} />
                         </div>
 
                         <AccordionTrigger className="flex items-center hover:no-underline">
@@ -267,7 +302,11 @@ export default function CheckList({
 
                     {/* Task Details Expand */}
                     <AccordionContent className="border-t border-[#FEE685] bg-gray-50/30 p-5">
-                      {/* <TaskForm /> */}
+                      <TaskForm
+                        checklist_id={task.id}
+                        onClose={() => setIsAddTaskOpen(null)}
+                        refetch={refetch}
+                      />
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -278,7 +317,11 @@ export default function CheckList({
         <Dialog open={!!isAddTaskOpen} onOpenChange={() => setIsAddTaskOpen(null)}>
           <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none">
             <DialogTitle className="sr-only">Add Task</DialogTitle>
-            <TaskForm checklist_id={isAddTaskOpen || ""} onClose={() => setIsAddTaskOpen(null)} />
+            <TaskForm
+              checklist_id={isAddTaskOpen || ""}
+              onClose={() => setIsAddTaskOpen(null)}
+              refetch={refetch}
+            />
           </DialogContent>
         </Dialog>
       </Accordion>

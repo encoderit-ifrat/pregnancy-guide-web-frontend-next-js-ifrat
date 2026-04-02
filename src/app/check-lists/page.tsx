@@ -107,7 +107,7 @@ export default function CheckLists() {
     </div>
   );
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -197,6 +197,7 @@ export default function CheckLists() {
                 checklistItems={checklists}
                 totalPages={meta?.last_page || 1}
                 currentPage={Number(page)}
+                refetch={refetch}
               />
             </TabsContent>
             <TabsContent value="finalized" className="m-0 flex flex-col gap-2">

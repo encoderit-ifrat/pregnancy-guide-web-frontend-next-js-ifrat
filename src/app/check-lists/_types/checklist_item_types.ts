@@ -9,6 +9,10 @@ export type ChecklistItem = {
   checked?: boolean;
   order?: number;
   is_optional?: boolean;
+  priority?: "high" | "medium" | "low";
+  due_date?: string;
+  reminder?: boolean;
+  assigned_to?: "none" | "me" | "partner";
 };
 
 export type ChecklistItemWithItems = {
@@ -35,6 +39,7 @@ export type CheckListItemProps = {
   activeTab?: string;
   totalPages?: number;
   currentPage?: number;
+  refetch?: () => void;
 };
 
 export type ChecklistFormProps = {

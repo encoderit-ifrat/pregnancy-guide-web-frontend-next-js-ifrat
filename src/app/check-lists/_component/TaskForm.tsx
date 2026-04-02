@@ -50,7 +50,7 @@ export type TaskFormValues = z.infer<typeof formSchema>;
 // ----------------------
 // COMPONENT
 // ----------------------
-export default function TaskForm({ onClose, checklist_id }: { onClose?: () => void, checklist_id: string }) {
+export default function TaskForm({ onClose, checklist_id, refetch }: { onClose?: () => void, checklist_id: string, refetch?: () => void }) {
   const [date, setDate] = useState<Date | undefined>();
 
   const { mutateAsync: createItem, isPending: isCreatingItem } = useMutationCreateItem();
@@ -75,6 +75,7 @@ export default function TaskForm({ onClose, checklist_id }: { onClose?: () => vo
     console.log("values", values);
     createItem(values, {
       onSuccess: () => {
+        refetch?.();
         onClose?.();
       },
       onError: (error) => {
