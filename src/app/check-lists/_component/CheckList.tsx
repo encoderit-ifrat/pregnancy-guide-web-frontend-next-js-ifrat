@@ -39,34 +39,50 @@ import {
 } from "@/components/ui/Dialog";
 import TaskForm from "./TaskForm";
 
-export default function CheckList() {
+export default function CheckList({
+  checklistItems,
+  overview,
+  onDeleteAction,
+  onEditAction,
+  className,
+}: CheckListItemProps) {
   const { t } = useTranslation();
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
-    []
+    checklistItems || []
   );
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
 
+  // Sync filteredLists with checklistItems prop
+  useEffect(() => {
+    if (checklistItems) {
+      setFilterLists(checklistItems);
+    }
+  }, [checklistItems]);
+
   const router = useRouter();
-  type Task = {
-    id: string;
-    name: string;
-    checked: boolean;
-    priority: "high" | "medium" | "low";
-    assignedTo: "me" | "partner" | "none";
-    description?: string;
-    date?: string;
-    reminder?: string;
-  };
 
-  type Group = {
-    id: string;
-    name: string;
-    tasks: Task[];
-  };
+  // Map filteredLists to the structure expected by the new UI
+  const displayData =
+    filteredLists && filteredLists.length > 0
+      ? filteredLists.map((list) => ({
+          id: list._id,
+          name: list.title,
+          tasks: (list.items || []).map((item) => ({
+            id: item._id,
+            name: item.title,
+            checked: !!item.is_completed,
+            priority: "medium" as const,
+            assignedTo: "none" as const,
+            description: item.description,
+            date: undefined,
+            reminder: undefined,
+          })),
+        }))
+      : null;
 
-  const data: Group[] = [
+  const data = displayData || [
     {
       id: "1",
       name: "Baby Preparation",
@@ -110,7 +126,6 @@ export default function CheckList() {
         },
       ],
     },
-
     {
       id: "2",
       name: "Health & Appointments",
@@ -153,7 +168,6 @@ export default function CheckList() {
         },
       ],
     },
-
     {
       id: "3",
       name: "Home & Shopping",
@@ -194,7 +208,6 @@ export default function CheckList() {
         },
       ],
     },
-
     {
       id: "4",
       name: "Work & Personal",
@@ -236,10 +249,6 @@ export default function CheckList() {
       ],
     },
   ];
-  // FIX: Only update when checklistItems prop changes
-  // useEffect(() => {
-  //   setFilterLists(checklistItems);
-  // }, [checklistItems]); // Add dependency array
 
   function handleChecklistToggle(id: string) {
     setToggleLoading(id);
@@ -284,137 +293,20 @@ export default function CheckList() {
   }
 
   return (
-    // <Accordion type="single" collapsible className="w-full">
-    //   {filteredLists?.map((item: ChecklistItemWithItems, index: number) => {
-    //     const hasItemDetails =
-    //       item?.items?.length > 0 && item.items.some((itm) => itm.title);
-
-    //     return (
-    //       <AccordionItem
-    //         key={item._id}
-    //         value={`item-${index}`}
-    //         className={cn("bg-white", className)}
-    //       >
-    //         <AccordionTrigger
-    //           className={cn(
-    //             "flex items-center justify-between  px-4 ",
-    //             !hasItemDetails ? "opacity-50 cursor-not-allowed" : ""
-    //           )}
-    //           actionButtons={
-    //             <>
-    //               {!overview && item.userId && (
-    //                 <>
-    //                   <button
-    //                     className="bg-primary-light hover:bg-primary text-primary hover:text-white rounded-full p-2 cursor-pointer"
-    //                     onClick={(e) => {
-    //                       e.stopPropagation();
-    //                       onEditAction?.(item);
-    //                     }}
-    //                   >
-    //                     <Pencil className="size-5" />
-    //                   </button>
-    //                   <button
-    //                     className="bg-primary-light hover:bg-primary text-primary hover:text-white rounded-full p-2 cursor-pointer"
-    //                     onClick={(e) => {
-    //                       e.stopPropagation();
-    //                       onDeleteAction?.(item);
-    //                     }}
-    //                   >
-    //                     <Trash2 className="size-5" />
-    //                   </button>
-    //                 </>
-    //               )}
-    //             </>
-    //           }
-    //         >
-    //           <div className="size-full pl-0 p-4 flex items-center cursor-pointer">
-    //             {item?.all_checked && (
-    //               <div className="mr-4 md:mr-0 bg-green-600 rounded-full p-1">
-    //                 <Check className="h-4 w-4 text-white shrink-0" />
-    //               </div>
-    //             )}
-    //             <div className="sm:pl-6 text-primary-dark">
-    //               <h4 className="text-[22px] mb-0 font-semibold w-full max-w-48 md:max-w-md truncate">
-    //                 {item.title}
-    //               </h4>
-    //               {item.description && (
-    //                 <p className="text-[16px] mt-1 font-normal line-clamp-2">
-    //                   {item.description}
-    //                 </p>
-    //               )}
-    //             </div>
-    //           </div>
-    //         </AccordionTrigger>
-    //         <AccordionContent>
-    //           {/* percentage Completed */}
-    //           <div className="relative h-0.5 w-full bg-gray-200">
-    //             <div
-    //               className="absolute h-0.5 bg-green-500"
-    //               style={{ width: `${item?.progress?.percentage || 0}%` }}
-    //             ></div>
-    //           </div>
-    //           <div>
-    //             {item?.items?.map((itm: any, idx: number) => (
-    //               <div
-    //                 key={idx}
-    //                 onClick={() => handleChecklistToggle(itm._id)}
-    //                 className={`flex items-center gap-4 p-2 sm:p-4 m-2 cursor-pointer transition-all ${itm.checked ? "bg-green-50" : "hover:bg-gray-50"} border-b last:border-b-0`}
-    //               >
-    //                 <div className="pt-0.5">
-    //                   {toggleLoading == itm._id && isPending ? (
-    //                     <Spinner variant="circle" />
-    //                   ) : itm.checked ? (
-    //                     <div className="bg-green-600 rounded-full p-1">
-    //                       <Check className="h-4 w-4 text-white shrink-0" />
-    //                     </div>
-    //                   ) : (
-    //                     <Circle className="h-6 w-6 text-gray-400 shrink-0" />
-    //                   )}
-    //                 </div>
-    //                 <div className="flex-1">
-    //                   <h4
-    //                     className={`text-xl text-primary-dark font-bold block ${
-    //                       itm.checked ? "text-green-800" : "text-gray-700"
-    //                     }`}
-    //                   >
-    //                     {itm.title}
-    //                   </h4>
-    //                   {itm.description && (
-    //                     <p
-    //                       className={`text-sm text-primary-dark font-medium mt-1 ${
-    //                         itm.checked
-    //                           ? "text-green-700 opacity-75"
-    //                           : "text-gray-600"
-    //                       }`}
-    //                     >
-    //                       {itm.description}
-    //                     </p>
-    //                   )}
-    //                 </div>
-    //               </div>
-    //             ))}
-    //           </div>
-    //         </AccordionContent>
-    //       </AccordionItem>
-    //     );
-    //   })}
-    // </Accordion>
-
     <Accordion type="multiple" className="w-full space-y-4">
-
       {data.map((group, index) => (
-        <AccordionItem key={group.id} value={group.id} className={cn("py-3", index === 0 && "border-t")}>
+        <AccordionItem
+          key={group.id}
+          value={group.id}
+          className={cn("py-3", index === 0 && "border-t")}
+        >
           <div className="flex items-center justify-between gap-3 font-poppins font-semibold text-primary-dark">
-
             <div className="flex items-center gap-3">
-
               <AccordionTrigger>
                 <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
               </AccordionTrigger>
 
-              <div className="text-[22px] font-semibold">
-                {group.name}
-              </div>
+              <div className="text-[22px] font-semibold">{group.name}</div>
 
               <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282]">
                 0 / 2
@@ -432,7 +324,12 @@ export default function CheckList() {
               className="shadow-none text-primary font-semibold hover:bg-transparent"
               onClick={() => setIsAddTaskOpen(true)}
             >
-              Add Task <PlusIcon className="bg-primary size-7 p-1.5 rounded-full text-white ml-2" stroke="white" strokeWidth={3} />
+              Add Task{" "}
+              <PlusIcon
+                className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
+                stroke="white"
+                strokeWidth={3}
+              />
             </Button>
           </div>
 
@@ -444,64 +341,90 @@ export default function CheckList() {
                 <AccordionItem
                   key={task.id}
                   value={task.id}
-                // className="border rounded-lg px-3"
+                  className={cn(
+                    "border-none transition-colors duration-200",
+                    task.checked && "bg-[#F0FDF4]"
+                  )}
                 >
                   {/* Task Header */}
-                  <div className="flex items-center gap-3 my-3 px-5">
-                    <CheckBox checked={task.checked} />
+                  <div className="flex items-center gap-3 py-3 px-5 border-b last:border-b-0 border-gray-50">
+                    {/* Checkbox */}
+                    <div className="size-7 flex items-center justify-center shrink-0 cursor-pointer">
+                      {toggleLoading === task.id && isPending ? (
+                        <Spinner variant="circle" className="size-5" />
+                      ) : (
+                        <CheckBox
+                          checked={task.checked}
+                          onCheckedChange={() => handleChecklistToggle(task.id)}
+                          className={cn(
+                            "size-7 transition-all duration-200",
+                            task.checked
+                              ? "!bg-[#22C55E] !border-[#22C55E] text-white"
+                              : "border-2 border-gray-300 bg-white"
+                          )}
+                        />
+                      )}
+                    </div>
                     <span
                       className={cn(
-                        "text-[#1B1343] text-[22px]",
-                        task.checked && "line-through text-gray-400"
+                        "text-[#1B1343] text-[20px] font-medium transition-all duration-200",
+                        task.checked && "line-through text-gray-400 opacity-60"
                       )}
                     >
                       {task.name}
                     </span>
 
-                    <div className="ml-auto flex items-center gap-2">
+                    <div className="ml-auto flex items-center gap-3">
                       {/* Priority Badge */}
                       <Badge
                         className={cn(
-                          "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none",
-                          task.priority === "medium"
-                            ? "bg-[#E1EFFE] text-[#1E429F] border-[#C3DDFD]"
-                            : task.priority === "low"
-                              ? "bg-[#DEF7EC] text-[#03543F] border-[#BCF0DA]"
-                              : "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                          "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
+                          task.priority === "high"
+                            ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                            : task.priority === "medium"
+                              ? "bg-[#E1EFFE] text-[#1E429F] border-[#C3DDFD]"
+                              : "bg-[#DEF7EC] text-[#03543F] border-[#BCF0DA]"
                         )}
                       >
-                        <div className={cn(
-                          "size-2 rounded-full",
-                          task.priority === "high" ? "bg-[#D99B6A]" :
-                            task.priority === "medium" ? "bg-[#3F83F8]" :
-                              task.priority === "low" ? "bg-[#31C48D]" :
-                                "bg-yellow-500"
-                        )} />
+                        <div
+                          className={cn(
+                            "size-2 rounded-full",
+                            task.priority === "high"
+                              ? "bg-[#BB4D00]"
+                              : task.priority === "medium"
+                                ? "bg-[#3F83F8]"
+                                : "bg-[#31C48D]"
+                          )}
+                        />
                         {task.priority}
                       </Badge>
 
                       {/* Due Date Badge */}
                       {task.date && (
-                        <Badge
-                          className="bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685] hover:bg-[#FFFBE5] flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none"
-                        >
+                        <Badge className="bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685] hover:bg-[#FFFBE5] flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200">
                           <Calendar className="size-3.5" />
-                          {task.date === "28-01-2026" ? "363d overdue" : task.date}
+                          {task.date === "28-01-2026"
+                            ? "363d overdue"
+                            : task.date}
                         </Badge>
                       )}
 
                       {/* Assigned To Icon */}
-                      <div className="size-8 rounded-full border border-[#A67EEA] bg-white flex items-center justify-center text-[#A67EEA] font-bold text-xs shrink-0">
-                        {task.assignedTo === "partner" ? "P" : task.assignedTo === "me" ? "M" : "N"}
+                      <div className="size-8 rounded-full border border-[#A67EEA] bg-white flex items-center justify-center text-[#A67EEA] font-bold text-xs shrink-0 transition-opacity hover:opacity-80">
+                        {task.assignedTo === "partner"
+                          ? "P"
+                          : task.assignedTo === "me"
+                            ? "M"
+                            : "N"}
                       </div>
 
                       {/* Notification Icon */}
-                      <div className="size-8 rounded-full bg-[#F5F3FF] flex items-center justify-center text-[#A67EEA] shrink-0">
+                      <div className="size-8 rounded-full bg-[#F5F3FF] flex items-center justify-center text-[#A67EEA] shrink-0 hover:bg-[#EDE9FE] transition-colors cursor-pointer">
                         <Bell className="size-4" />
                       </div>
 
-                      <AccordionTrigger className="flex items-center">
-                        <div className="size-8 rounded-full bg-[#F5F3FF] flex items-center justify-center text-primary group-data-[state=open]:rotate-180 transition-transform shrink-0">
+                      <AccordionTrigger className="flex items-center hover:no-underline">
+                        <div className="size-8 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-primary group-data-[state=open]:rotate-180 transition-all duration-200 shrink-0 hover:border-gray-200">
                           <ChevronDownIcon className="size-5" />
                         </div>
                       </AccordionTrigger>

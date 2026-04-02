@@ -11,7 +11,7 @@ import WeeklyDetails from "./WeeklyDetails";
 import QuestionOfTheWeek from "./QuestionOfTheWeek";
 import WeeklyArticle from "./WeeklyArticle";
 import OurArticle from "./OurArticle";
-import CheckLists from "./CheckLists";
+import OverviewChecklist from "./OverviewChecklist";
 import WeekSelector from "./WeekSelector";
 import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
@@ -103,7 +103,7 @@ export default function PregnancyOverview({
       {/* Checklist Section */}
       {userProfile?.roles?.[0].name !== "partner" && (
         <CheckListSection>
-          <CheckLists
+          <OverviewChecklist
             checkLists={checklist?.data as any}
             count={checklist?.pagination.total}
           />
