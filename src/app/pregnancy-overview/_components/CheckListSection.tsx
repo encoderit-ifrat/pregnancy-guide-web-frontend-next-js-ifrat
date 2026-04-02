@@ -17,10 +17,10 @@ export default function CheckListSection({
     <section className="relative w-full mx-auto">
       <div>
         {/* Background image */}
-        <div className="absolute inset-0 z-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#240443] to-[#230343]/0 pointer-events-none" />
+        {/* <div className="absolute inset-0 z-0 bg-[url('/images/checklist-bg.png')] bg-cover bg-center" /> */}
+        {/* <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#240443] to-[#230343]/0 pointer-events-none" /> */}
         {/* Overlay image */}
-        <div className="absolute inset-0 z-20 bg-[url('/images/heart-bg.png')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 z-20 bg-text-light-purple" />
 
         {/* Content */}
         <div className="relative z-30">
@@ -33,19 +33,19 @@ export default function CheckListSection({
               <IconHeading
                 text={t("checklists.label")}
                 image="/images/icons/baby-gift.png"
-                className="text-white justify-center"
+                className="text-primary justify-center"
               />
-              <SectionHeading className="text-white!">
+              <SectionHeading className="text-secondary!">
                 {t("checklists.title")}
               </SectionHeading>
-              <p className="max-w-105 mx-auto max-md:mb-6 text-white!">
+              <p className="max-w-105 mx-auto max-md:mb-6 text-primary-text!">
                 {t("checklists.subtitle")}
               </p>
             </div>
             {children}
           </div>
           <WaveDivider3
-            waveColorClass="text-primary-light transform translate-y-[2px]"
+            waveColorClass="text-purple-soft transform translate-y-[2px]"
             bgClassName="bg-transparent"
           />
         </div>

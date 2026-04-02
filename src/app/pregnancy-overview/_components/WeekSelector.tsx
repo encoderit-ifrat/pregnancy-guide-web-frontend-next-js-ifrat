@@ -76,13 +76,17 @@ export default function WeekSelector({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-6 px-4 md:px-6 md:pt-12">
+    <div className="flex flex-col items-center justify-center gap-3 py-8 px-4 md:px-6 md:pt-12">
       <div
         className={cn(
-          "flex items-center gap-2 sm:gap-3 bg-white rounded-full px-6 md:px-8 py-3 shadow-2xl shadow-primary/40 border border-gray-100 transition-all duration-300 ease-out",
+          "relative flex items-center gap-2 sm:gap-3 bg-white rounded-full px-6 md:px-8 py-3 shadow-2xl shadow-primary/40 border border-gray-100 transition-all duration-300 ease-out",
           isLoading && "scale-[1.02] ring-2 ring-primary/30 shadow-primary/70"
         )}
       >
+        {/* week */}
+        <div className="absolute top-[-30px] left-1/2 -translate-x-1/2 bg-white flex items-center justify-center rounded-t-[15px] w-[147px] h-[33px]">
+          <p className="text-primary font-bold text-lg">week</p>
+        </div>
         {/* Previous Button */}
         <button
           onClick={handlePrevious}
@@ -107,14 +111,14 @@ export default function WeekSelector({
               "flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit cursor-pointer",
               selectedWeek === week
                 ? "bg-primary text-white shadow-md"
-                : "bg-primary-light text-primary-dark",
+                : "bg-purple-soft text-primary-dark",
               selectedWeek == week
-                ? "w-[45px] h-[65px] md:w-[55px] md:h-[72px]"
-                : "w-[41px] h-[59px] md:w-[46px] md:h-[60px]"
+                ? "w-[50px] h-[50px] md:w-[72px] md:h-[72px]"
+                : "w-[50px] h-[50px] md:w-[60px] md:h-[60px]"
             )}
           >
             <span className="font-bold text-xs md:text-lg">{week < 10 ? `0${week}` : week}</span>
-            {selectedWeek == week ? <span className="text-xs md:text-[15px]">{t("pregnancy.weekSelector")}</span> : null}
+            {/* {selectedWeek == week ? <span className="text-xs md:text-[15px]">{t("pregnancy.weekSelector")}</span> : null} */}
           </button>
         ))}
 
