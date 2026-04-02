@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import {
+  Bell,
+  Calendar,
   Check,
   ChevronDownIcon,
   Circle,
@@ -397,18 +399,27 @@ export default function CheckList() {
     //     );
     //   })}
     // </Accordion>
-    <Accordion type="multiple" className="w-full">
-      {data.map((group) => (
-        <AccordionItem key={group.id} value={group.id} className="py-3 px-5">
+
+    <Accordion type="multiple" className="w-full space-y-4">
+
+      {data.map((group, index) => (
+        <AccordionItem key={group.id} value={group.id} className={cn("py-3", index === 0 && "border-t")}>
           <div className="flex items-center justify-between gap-3 font-poppins font-semibold text-primary-dark">
+
             <div className="flex items-center gap-3">
+
               <AccordionTrigger>
                 <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
               </AccordionTrigger>
-              {group.name}
+
+              <div className="text-[22px] font-semibold">
+                {group.name}
+              </div>
+
               <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282]">
                 0 / 2
               </span>
+
               <div className="flex items-center gap-1 text-primary font-semibold">
                 <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div className="w-[3%] h-full bg-primary"></div>
@@ -418,70 +429,88 @@ export default function CheckList() {
             </div>
             <Button
               variant={"ghost"}
-              className="shadow-none [&_svg:text-white]"
+              className="shadow-none text-primary font-semibold hover:bg-transparent"
               onClick={() => setIsAddTaskOpen(true)}
             >
-              Add Task <PlusIcon className="size-40" />
+              Add Task <PlusIcon className="bg-primary size-7 p-1.5 rounded-full text-white ml-2" stroke="white" strokeWidth={3} />
             </Button>
           </div>
 
           <AccordionContent>
+            <div className="border-t my-2" />
             {/* TASK LEVEL */}
-            <Accordion type="single" collapsible className="space-y-2">
+            <Accordion type="single" collapsible className="space-y-3">
               {group.tasks.map((task) => (
                 <AccordionItem
                   key={task.id}
                   value={task.id}
-                  // className="border rounded-lg px-3"
+                // className="border rounded-lg px-3"
                 >
                   {/* Task Header */}
-                  <div className="flex items-center gap-3">
-                    <AccordionTrigger className="flex items-center gap-3">
-                      <div>
-                        <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
-                      </div>
-                    </AccordionTrigger>
-
+                  <div className="flex items-center gap-3 my-3 px-5">
                     <CheckBox checked={task.checked} />
-
                     <span
                       className={cn(
-                        "text-sm",
+                        "text-[#1B1343] text-[22px]",
                         task.checked && "line-through text-gray-400"
                       )}
                     >
                       {task.name}
                     </span>
 
-                    {/* Priority Badge */}
-                    <Badge
-                      className={cn(
-                        "ml-auto capitalize",
-                        task.priority === "high" && "bg-red-100 text-red-600",
-                        task.priority === "medium" &&
-                          "bg-yellow-100 text-yellow-600",
-                        task.priority === "low" && "bg-green-100 text-green-600"
+                    <div className="ml-auto flex items-center gap-2">
+                      {/* Priority Badge */}
+                      <Badge
+                        className={cn(
+                          "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none",
+                          task.priority === "medium"
+                            ? "bg-[#E1EFFE] text-[#1E429F] border-[#C3DDFD]"
+                            : task.priority === "low"
+                              ? "bg-[#DEF7EC] text-[#03543F] border-[#BCF0DA]"
+                              : "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                        )}
+                      >
+                        <div className={cn(
+                          "size-2 rounded-full",
+                          task.priority === "high" ? "bg-[#D99B6A]" :
+                            task.priority === "medium" ? "bg-[#3F83F8]" :
+                              task.priority === "low" ? "bg-[#31C48D]" :
+                                "bg-yellow-500"
+                        )} />
+                        {task.priority}
+                      </Badge>
+
+                      {/* Due Date Badge */}
+                      {task.date && (
+                        <Badge
+                          className="bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685] hover:bg-[#FFFBE5] flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none"
+                        >
+                          <Calendar className="size-3.5" />
+                          {task.date === "28-01-2026" ? "363d overdue" : task.date}
+                        </Badge>
                       )}
-                    >
-                      {task.priority}
-                    </Badge>
+
+                      {/* Assigned To Icon */}
+                      <div className="size-8 rounded-full border border-[#A67EEA] bg-white flex items-center justify-center text-[#A67EEA] font-bold text-xs shrink-0">
+                        {task.assignedTo === "partner" ? "P" : task.assignedTo === "me" ? "M" : "N"}
+                      </div>
+
+                      {/* Notification Icon */}
+                      <div className="size-8 rounded-full bg-[#F5F3FF] flex items-center justify-center text-[#A67EEA] shrink-0">
+                        <Bell className="size-4" />
+                      </div>
+
+                      <AccordionTrigger className="flex items-center">
+                        <div className="size-8 rounded-full bg-[#F5F3FF] flex items-center justify-center text-primary group-data-[state=open]:rotate-180 transition-transform shrink-0">
+                          <ChevronDownIcon className="size-5" />
+                        </div>
+                      </AccordionTrigger>
+                    </div>
                   </div>
 
                   {/* Task Details Expand */}
-                  <AccordionContent className="space-y-2 text-sm text-gray-600">
-                    <p>{task.description}</p>
-
-                    <div className="flex gap-4 text-xs">
-                      {task.date && <span>📅 {task.date}</span>}
-                      {task.reminder && <span>⏰ {task.reminder}</span>}
-                    </div>
-
-                    <div className="text-xs">
-                      Assigned:{" "}
-                      <span className="font-medium capitalize">
-                        {task.assignedTo}
-                      </span>
-                    </div>
+                  <AccordionContent className="border-t border-[#FEE685] bg-gray-50/30 p-5">
+                    <TaskForm />
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -490,7 +519,7 @@ export default function CheckList() {
         </AccordionItem>
       ))}
       <Dialog open={isAddTaskOpen} onOpenChange={setIsAddTaskOpen}>
-        <DialogContent className="w-full max-w-5xl p-0 border-none bg-transparent shadow-none">
+        <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none">
           <DialogTitle className="sr-only">Add Task</DialogTitle>
           <TaskForm />
         </DialogContent>

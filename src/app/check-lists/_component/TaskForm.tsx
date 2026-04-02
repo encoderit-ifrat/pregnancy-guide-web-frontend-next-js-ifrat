@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/Textarea";
-import { CalendarIcon, Bell, Trash2 } from "lucide-react";
+import { CalendarIcon, Bell, Trash2, Save } from "lucide-react";
 
 import {
   Popover,
@@ -39,6 +39,7 @@ const formSchema = z.object({
   assignedTo: z.enum(["none", "me", "partner"]),
   dueDate: z.date().optional(),
   notes: z.string().optional(),
+  reminder: z.boolean().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -65,7 +66,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6 bg-white rounded-2xl shadow">
+    <div className="w-full max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white rounded-2xl shadow-lg">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Task Title */}
@@ -74,7 +75,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Task Title</FormLabel>
+                <FormLabel className="text-base text-[#1B1343]">Task Title</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Buy baby clothes"
@@ -88,32 +89,48 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
           />
 
           {/* Priority + Due Date */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Priority */}
             <FormField
               control={form.control}
               name="priority"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Priority Level</FormLabel>
+                  <FormLabel className="text-base text-[#1B1343]">
+                    Priority Level
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex gap-3"
+                      className="flex gap-2"
                     >
-                      {["high", "medium", "low"].map((item) => (
+                      {[
+                        { value: "high", label: "High" },
+                        { value: "medium", label: "Medium" },
+                        { value: "low", label: "Low" },
+                      ].map((item) => (
                         <label
-                          key={item}
+                          key={item.value}
                           className={cn(
-                            "flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer capitalize",
-                            field.value === item
-                              ? "border-purple-400 bg-purple-50 text-purple-600"
-                              : "bg-gray-100"
+                            "flex flex-1 items-center justify-center gap-3 px-4 py-3 rounded-sm border transition-all cursor-pointer font-medium text-base",
+                            field.value === item.value
+                              ? "bg-white text-primary border-primary ring-1 ring-primary/20 shadow-sm"
+                              : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
                           )}
                         >
-                          <RadioGroupItem value={item} />
-                          {item}
+                          <RadioGroupItem value={item.value} className="sr-only" />
+                          <div
+                            className={cn(
+                              "size-5 rounded-full border flex items-center justify-center transition-all",
+                              field.value === item.value ? "border-primary" : "border-gray-300"
+                            )}
+                          >
+                            {field.value === item.value && (
+                              <div className="size-2.5 rounded-full bg-primary" />
+                            )}
+                          </div>
+                          <span>{item.label}</span>
                         </label>
                       ))}
                     </RadioGroup>
@@ -123,59 +140,78 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             />
 
             {/* Due Date */}
-            <FormItem>
-              <FormLabel>Due Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-left border-purple-200"
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "dd-MM-yyyy") : "Pick a date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="p-0">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(d) => {
-                      setDate(d);
-                      form.setValue("dueDate", d);
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="dueDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base text-[#1B1343]">
+                    Due Date
+                  </FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full h-[52px] justify-start gap-4 text-left border-gray-200 bg-[#F9FAFB] rounded-sm  font-medium text-base px-5",
+                            !field.value && "text-[#4F4F4F]"
+                          )}
+                        >
+                          <div className="size-8 rounded-full border border-gray-100 flex items-center justify-center shrink-0 text-[#4F4F4F]">
+                            <CalendarIcon className="size-4.5 text-[#4F4F4F]" />
+                          </div>
+                          {field.value ? format(field.value, "dd-MM-yyyy") : "01-02-2026"}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </FormItem>
+              )}
+            />
           </div>
 
           {/* Assigned + Reminder */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             {/* Assigned */}
             <FormField
               control={form.control}
               name="assignedTo"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Assigned To</FormLabel>
+                  <FormLabel className="text-base text-[#1B1343]">
+                    Assigned To
+                  </FormLabel>
                   <FormControl>
-                    <div className="flex gap-3">
+                    <div className="flex gap-2">
                       {[
                         { label: "None", value: "none" },
-                        { label: "Me", value: "me" },
-                        { label: "Partner", value: "partner" },
+                        { label: "Me", value: "me", initial: "M", color: "bg-[#EDE9FE] text-[#A855F7]" },
+                        { label: "Partner", value: "partner", initial: "P", color: "bg-[#E0F2F1] text-[#2DD4BF]" },
                       ].map((item) => (
                         <button
                           type="button"
                           key={item.value}
                           onClick={() => field.onChange(item.value)}
                           className={cn(
-                            "px-4 py-2 rounded-lg border",
+                            "flex-1 flex items-center justify-center gap-3 px-3 py-3 rounded-sm border transition-all font-medium text-base h-[52px]",
                             field.value === item.value
-                              ? "border-purple-400 text-purple-600"
-                              : "bg-gray-100"
+                              ? "border-primary text-primary ring-1 ring-primary/20 bg-white shadow-sm"
+                              : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
                           )}
                         >
+                          {item.initial && (
+                            <div className={cn("size-6 rounded-full flex items-center justify-center text-[15px] font-bold shrink-0", item.color)}>
+                              {item.initial}
+                            </div>
+                          )}
                           {item.label}
                         </button>
                       ))}
@@ -186,17 +222,29 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             />
 
             {/* Reminder */}
-            <div>
-              <FormLabel>Reminder</FormLabel>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full justify-center border-purple-300 text-purple-500"
-              >
-                <Bell className="mr-2 h-4 w-4" />
-                Set Reminder
-              </Button>
-            </div>
+            <FormField
+              control={form.control}
+              name="reminder"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base text-[#1B1343]">
+                    Reminder
+                  </FormLabel>
+                  <FormControl>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full h-[46px] justify-center gap-3 text-base items-center border-[#A855F7] text-[#A97AEC] rounded-full font-outfit"
+                    >
+                      <div className="size-7 rounded-full flex items-center justify-center shrink-0">
+                        <Bell className="size-4 text-[#A97AEC]" />
+                      </div>
+                      Set Reminder
+                    </Button>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </div>
 
           {/* Notes */}
@@ -205,7 +253,7 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Task Notes</FormLabel>
+                <FormLabel className="text-base text-[#1B1343]">Task Notes</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Add any additional notes..."
@@ -222,11 +270,11 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
           </p>
 
           {/* Footer */}
-          <div className="flex justify-between items-center pt-4">
+          <div className="flex justify-between items-center pt-4 text-lg">
             {/* Delete */}
             <button
               type="button"
-              className="flex items-center gap-2 text-red-500 font-medium"
+              className="flex items-center gap-2 text-[#E7000B] font-semibold"
             >
               Delete Task
               <span className="bg-red-100 p-2 rounded-full">
@@ -237,9 +285,12 @@ export default function TaskForm({ onClose }: { onClose?: () => void }) {
             {/* Submit */}
             <Button
               type="submit"
-              className="bg-purple-500 hover:bg-purple-600 text-white px-6 rounded-full"
+              className="bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md"
             >
               Save Changes
+              <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
+                <Save className="size-5 text-[#A855F7]" />
+              </div>
             </Button>
           </div>
         </form>

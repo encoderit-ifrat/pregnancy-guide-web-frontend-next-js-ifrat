@@ -4,7 +4,7 @@ import CheckList from "../_component/CheckList";
 
 export default function ActiveChecklist() {
   return (
-    <div className="">
+    <div className="space-y-10">
       <OverallProgress />
       <CheckList />
     </div>

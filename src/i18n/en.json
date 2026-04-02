@@ -218,6 +218,13 @@
         "exercise": "Exercise",
         "preparation": "Preparation"
       }
+    },
+    "finalized": {
+      "congratulations": "🎉 Congratulations! All tasks completed!",
+      "noActiveTasks": "No active tasks",
+      "noActiveTasksDesc": "Start organizing by adding a category or choosing from our helpful templates",
+      "addNewList": "Add new list.",
+      "browseTemplates": "Browse Templates"
     }
   },
   "threads": {
