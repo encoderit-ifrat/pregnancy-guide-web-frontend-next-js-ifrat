@@ -31,6 +31,18 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useMutationCreateItem } from "../_api/mutations/UseMutationCreateItem";
 import { toast } from "sonner";
+import { useMutationUpdateItem } from "../_api/mutations/UseMutationUpdateItem";
+import { useMutationDeleteItem } from "../_api/mutations/UseMutationDeleteItem";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/AlertDialog";
 
 // ----------------------
 // ZOD SCHEMA
@@ -50,39 +62,71 @@ export type TaskFormValues = z.infer<typeof formSchema>;
 // ----------------------
 // COMPONENT
 // ----------------------
-export default function TaskForm({ onClose, checklist_id, refetch }: { onClose?: () => void, checklist_id: string, refetch?: () => void }) {
-  const [date, setDate] = useState<Date | undefined>();
+export default function TaskForm({
+  onClose,
+  checklist_id,
+  refetch,
+  task,
+}: {
+  onClose?: () => void;
+  checklist_id: string;
+  refetch?: () => void;
+  task?: any;
+}) {
+  const isUpdate = !!task;
 
   const { mutateAsync: createItem, isPending: isCreatingItem } = useMutationCreateItem();
+  const { mutateAsync: updateItem, isPending: isUpdatingItem } = useMutationUpdateItem();
+  const { mutateAsync: deleteItem, isPending: isDeletingItem } = useMutationDeleteItem();
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const form = useForm<TaskFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-
-      checklist_id,
-      title: "",
-      description: "",
-      // optional fields ...
-      priority: "high",
-      due_date: new Date(),
-      reminder: false,
-      assigned_to: "none" // 'none', 'me', 'partner'
-
+      checklist_id: checklist_id,
+      title: task?.name || "",
+      description: task?.description || "",
+      priority: task?.priority || "high",
+      due_date: task?.date ? new Date(task.date) : new Date(),
+      reminder: task?.reminder || false,
+      assigned_to: task?.assignedTo || "none",
     },
   });
 
   function onSubmit(values: TaskFormValues) {
-    console.log("values", values);
-    createItem(values, {
+    console.log("Submitting values:", values);
+
+    if (isUpdate) {
+      updateItem({ id: task.id, data: values }, {
+        onSuccess: () => {
+          refetch?.();
+          onClose?.();
+        },
+      });
+    } else {
+      createItem(values, {
+        onSuccess: () => {
+          refetch?.();
+          onClose?.();
+        },
+      });
+    }
+  }
+
+  function handleDelete() {
+    setIsDeleteDialogOpen(true);
+  }
+
+  function confirmDelete() {
+    if (!task?.id) return;
+    deleteItem(task.id, {
       onSuccess: () => {
         refetch?.();
         onClose?.();
+        setIsDeleteDialogOpen(false);
       },
-      onError: (error) => {
-        console.log("error", error);
-        toast.error("Failed to create task");
-      }
-    })
+    });
   }
 
   return (
@@ -300,31 +344,80 @@ export default function TaskForm({ onClose, checklist_id, refetch }: { onClose?:
           {/* Footer */}
           <div className="flex justify-between items-center pt-4 text-lg">
             {/* Delete */}
-            {/* <button
-              type="button"
-              className="flex items-center gap-2 text-[#E7000B] font-semibold"
-            >
-              Delete Task
-              <span className="bg-red-100 p-2 rounded-full">
-                <Trash2 className="w-4 h-4" />
-              </span>
-            </button> */}
+            {isUpdate && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={isDeletingItem}
+                className="flex items-center gap-2 text-[#E7000B] font-semibold hover:opacity-80 transition-opacity"
+              >
+                Delete Task
+                <span className="bg-red-100 p-2 rounded-full">
+                  <Trash2 className="w-4 h-4" />
+                </span>
+              </button>
+            )}
 
             {/* Submit */}
             <Button
-              disabled={isCreatingItem}
-
+              disabled={isCreatingItem || isUpdatingItem}
               type="submit"
-              className="bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md"
+              className={cn(
+                "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md",
+                !isUpdate && "ml-auto"
+              )}
             >
-              Create Task
+              {isUpdate ? "Update Task" : "Create Task"}
               <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                {isCreatingItem ? <Loader2 className="size-5 text-[#A855F7] animate-spin" /> : <Save className="size-5 text-[#A855F7]" />}
+                {(isCreatingItem || isUpdatingItem) ? (
+                  <Loader2 className="size-5 text-[#A855F7] animate-spin" />
+                ) : (
+                  <Save className="size-5 text-[#A855F7]" />
+                )}
               </div>
             </Button>
           </div>
         </form>
       </Form>
+
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent className="max-w-[400px] rounded-[20px] p-8">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-center text-[24px] font-bold text-[#1B1343]">
+              Are you sure you want to delete?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-[18px] text-[#6B7280]">
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex flex-row justify-center gap-4 sm:justify-center pt-4">
+            <AlertDialogCancel
+              disabled={isDeletingItem}
+              className="h-[50px] px-8 rounded-xl border-[#E5E7EB] text-[#6B7280] font-semibold text-lg hover:bg-gray-50"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isDeletingItem}
+              onClick={(e) => {
+                e.preventDefault();
+                confirmDelete();
+              }}
+              className="h-[50px] min-w-[140px] px-8 rounded-xl bg-[#E7000B] hover:bg-[#C40009] text-white font-semibold text-lg flex items-center justify-center gap-2 shadow-sm"
+            >
+              {isDeletingItem ? (
+                <Loader2 className="size-5 animate-spin" />
+              ) : (
+                <>
+                  <Trash2 className="size-5" />
+                  Delete
+                </>
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
+

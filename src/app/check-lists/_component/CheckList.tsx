@@ -303,7 +303,8 @@ export default function CheckList({
                     {/* Task Details Expand */}
                     <AccordionContent className="border-t border-[#FEE685] bg-gray-50/30 p-5">
                       <TaskForm
-                        checklist_id={task.id}
+                        checklist_id={group.id}
+                        task={task}
                         onClose={() => setIsAddTaskOpen(null)}
                         refetch={refetch}
                       />
