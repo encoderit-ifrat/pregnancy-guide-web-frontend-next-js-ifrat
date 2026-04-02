@@ -26,11 +26,15 @@ export type ChecklistItemWithItems = {
 };
 
 export type CheckListItemProps = {
-  checklistItems: ChecklistItemWithItems[];
+  checklistItems?: ChecklistItemWithItems[];
   overview?: boolean;
   onDeleteAction?: (item: ChecklistItemWithItems) => void;
   onEditAction?: (item: ChecklistItemWithItems) => void;
   className?: string;
+  limit?: number;
+  activeTab?: string;
+  totalPages?: number;
+  currentPage?: number;
 };
 
 export type ChecklistFormProps = {

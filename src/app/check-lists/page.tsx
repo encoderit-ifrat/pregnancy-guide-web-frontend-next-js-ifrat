@@ -66,11 +66,13 @@ export default function CheckLists() {
     params: {
       id: queryID ?? "",
       page: page,
+      limit: "5",
     },
   });
   const { mutate: deleteChecklist, isPending: isPendingDeleteChecklist } =
     useMutationDeleteChecklist();
-  const { data: checklists, pagination: meta } = data?.data ?? {};
+  const { data: checklists, pagination: meta } = data ?? {};
+  console.log("🔍 DEBUG meta:", meta, "checklists count:", checklists?.length);
   const [filteredLists, setFilterLists] = useState(() => checklists);
   useEffect(() => {
     setFilterLists(checklists);
@@ -188,47 +190,14 @@ export default function CheckLists() {
                     <Sparkles size={20} strokeWidth={2} className="text-white" />
                   </div>
                 </Button>
-                {/* <Link
-                      href="/check-lists/finalized"
-                      className="inline-block flex-1 sm:flex-initial"
-                      >
-                      <Button size="default">
-                        <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-2.5">
-                          <span className="tracking-wide text-lg drop-shadow-sm whitespace-nowrap">
-                            {t("checklists.finalizedTasks")}
-                          </span>
-                          <ChevronRight size="3" />
-                        </span>
-                      </Button>
-                    </Link> */}
-
-                {/* <div>
-                  {isAuthenticated ? (
-                    <AppDialog
-                      dialogContentProps={{
-                        className:
-                          "max-h-[80vh] overflow-y-auto max-w-[95vw] sm:max-w-2xl lg:max-w-4xl",
-                      }}
-                      title={t("checklists.addChecklist")}
-                      customTrigger={AddChecklistTrigger}
-                    >
-                      {(close) => (
-                        <ChecklistForm
-                          onSubmitForDialogAndRefetch={async () => {
-                            await refetch();
-                            close();
-                          }}
-                        />
-                      )}
-                    </AppDialog>
-                  ) : (
-                    AddChecklistTrigger
-                  )}
-                </div> */}
               </div>
             </div>
             <TabsContent value="active" className="m-0 flex flex-col gap-2">
-              <ActiveChecklist />
+              <ActiveChecklist
+                checklistItems={checklists}
+                totalPages={meta?.last_page || 1}
+                currentPage={Number(page)}
+              />
             </TabsContent>
             <TabsContent value="finalized" className="m-0 flex flex-col gap-2">
               <FinalizedChecklist
@@ -237,28 +206,16 @@ export default function CheckLists() {
               />
             </TabsContent>
 
-            {/* <CheckListItem
-              checklistItems={checklists}
-              onDeleteAction={(item: any) => {
-                setFormData({ type: "delete", id: item._id });
-              }}
-              onEditAction={(item: any) => {
-                setFormData({
-                  type: "update",
-                  id: item._id,
-                  data: item,
-                });
-              }}
-            /> */}
-            {/* {meta && meta.last_page > 1 && (
-              <div className="w-full max-w-3xl mx-auto mt-8">
+            {/* Pagination Footer */}
+            {meta && (
+              <div className="w-full max-w-3xl mx-auto mt-8 pb-4">
                 <Pagination
                   currentPage={meta.current_page}
-                  totalPages={meta.last_page} // ← Changed from meta.total to meta.last_page
+                  totalPages={meta.last_page}
                   onPageChange={handlePageChange}
                 />
               </div>
-            )} */}
+            )}
           </div>
         </Tabs>
         <AlertDialog
