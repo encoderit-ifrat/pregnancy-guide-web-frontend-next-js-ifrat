@@ -2,70 +2,87 @@
 
 import React from "react";
 import OverallProgress from "@/components/ui/overall-progress";
-import { ListTodo, Plus, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Sparkles } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useQueryGetAllMyCompletedChecklists } from "../_api/queries/useQueryGetAllMyChecklists";
+import { useSearchParams, useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+import CheckList from "../_component/CheckList";
+import Pagination from "@/components/base/Pagination";
 
-interface FinalizedChecklistProps {
-  onAddNew: () => void;
-  onBrowseTemplates: () => void;
-}
+interface FinalizedChecklistProps {}
 
-export default function FinalizedChecklist({
-  onAddNew,
-  onBrowseTemplates,
-}: FinalizedChecklistProps) {
+export default function FinalizedChecklist({}: FinalizedChecklistProps) {
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const page = searchParams.get("page") || "1";
+
+  const { data: apiResponse, isLoading, refetch } = useQueryGetAllMyCompletedChecklists({
+    params: {
+      page: page,
+      limit: "5",
+    },
+  });
+
+  const checklists = apiResponse?.data || [];
+  const meta = apiResponse?.pagination;
+
+  const allTasks = checklists?.flatMap((item: any) => item.items) || [];
+  const totalTasks = allTasks.length;
+  const tasksDone = allTasks.filter((task: any) => task.is_completed || task.checked).length;
+  const progressValue = totalTasks > 0 ? Math.round((tasksDone / totalTasks) * 100) : 0;
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`/check-lists?${params.toString()}`);
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="space-y-10">
-      <OverallProgress value={100} tasksDone={6} totalTasks={6} />
+      <OverallProgress 
+        value={progressValue} 
+        tasksDone={tasksDone} 
+        totalTasks={totalTasks} 
+      />
 
-      <div className="flex flex-col items-center justify-center text-center space-y-2">
-        <p className="font-medium text-lg flex items-center justify-center gap-2 w-full text-center">
-          <span className="!text-[#00A63E]">
-            {t("checklists.finalized.congratulations")}
-          </span>
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center py-12 space-y-6">
-        <div className="size-24 rounded-full bg-[#F3E8FF] flex items-center justify-center">
-          <ListTodo className="size-12 text-[#A97AEC]" />
-        </div>
-
-        <div className="space-y-2 text-center">
-          <h3 className="text-3xl font-semibold text-primary-dark font-poppins">
-            {t("checklists.finalized.noActiveTasks")}
-          </h3>
-          <p className="text-[#6A7282] max-w-sm mx-auto font-outfit text-lg leading-relaxed">
-            {t("checklists.finalized.noActiveTasksDesc")}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4 pt-4">
-          <Button
-            variant="outline"
-            className="h-14 py-2 px-6 rounded-full bg-[#F9FAFB] text-[#A67EEA] font-medium flex items-center gap-3 hover:bg-white transition-all font-outfit text-xl shadow-sm"
-            onClick={onAddNew}
-          >
-            {t("checklists.finalized.addNewList")}
-            <div className="size-8 p-1.5 rounded-full bg-[#A67EEA] text-white flex items-center justify-center shrink-0">
-              <Plus size={20} strokeWidth={3} />
+      {checklists.length > 0 ? (
+        <div className="space-y-8">
+          <CheckList
+            checklistItems={checklists}
+            refetch={refetch}
+          />
+          {meta && meta.last_page > 1 && (
+            <div className="w-full max-w-3xl mx-auto mt-8 pb-4">
+              <Pagination
+                currentPage={meta.current_page}
+                totalPages={meta.last_page}
+                onPageChange={handlePageChange}
+              />
             </div>
-          </Button>
-
-          <Button
-            className="h-14 py-2 px-6 rounded-full bg-[#A67EEA] text-white font-medium flex items-center gap-3 hover:bg-[#9333EA] transition-all font-outfit text-xl shadow-md"
-            onClick={onBrowseTemplates}
-          >
-            {t("checklists.finalized.browseTemplates")}
-            <div className="size-8 p-1.5 rounded-full bg-white text-[#A67EEA] flex items-center justify-center shrink-0">
-              <Sparkles size={20} />
-            </div>
-          </Button>
+          )}
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-12 space-y-6">
+          <div className="size-24 rounded-full bg-[#F3E8FF] flex items-center justify-center">
+            <Sparkles className="size-12 text-[#A97AEC]" />
+          </div>
+
+          <div className="space-y-2 text-center">
+            <h3 className="text-3xl font-semibold text-primary-dark font-poppins">
+              {t("checklists.finalized.noActiveTasks")}
+            </h3>
+            <p className="text-[#6A7282] max-w-sm mx-auto font-outfit text-lg leading-relaxed">
+              {t("checklists.finalized.noActiveTasksDesc")}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -201,14 +201,11 @@ export default function CheckLists() {
               />
             </TabsContent>
             <TabsContent value="finalized" className="m-0 flex flex-col gap-2">
-              <FinalizedChecklist
-                onAddNew={() => setFormData({ type: "create", id: "" })}
-                onBrowseTemplates={() => setIsTemplateOpen(true)}
-              />
+              <FinalizedChecklist />
             </TabsContent>
 
             {/* Pagination Footer */}
-            {meta && (
+            {activeTab === "active" && meta && (
               <div className="w-full max-w-3xl mx-auto mt-8 pb-4">
                 <Pagination
                   currentPage={meta.current_page}
