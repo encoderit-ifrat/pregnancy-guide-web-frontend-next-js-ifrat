@@ -13,36 +13,13 @@ import {
 } from "@/components/ui/Accordion";
 import { CheckListsProps } from "../_types/checklists_component_types";
 import { cn } from "@/lib/utils";
-import { CheckBox } from "@/components/ui/Checkbox";
 import { Spinner } from "@/components/ui/Spinner";
 import { useMutationToggleChecklist } from "../../check-lists/_api/mutations/UseMutationToggleChecklist";
 import { toast } from "sonner";
 
-const DUMMY_CHECKLISTS = [
-  {
-    _id: "list-1",
-    title: "Baby Preparation",
-    description: "Essential preparations for your newborn",
-    items: [
-      { _id: "item-1-1", title: "Buy baby clothes", description: "Newborn essentials (0–3 months)", is_completed: true },
-      { _id: "item-1-2", title: "Prepare nursery", description: "Setup crib and decorations", is_completed: false },
-      { _id: "item-1-3", title: "Install baby monitor", description: "Connect to phone app", is_completed: false },
-    ]
-  },
-  {
-    _id: "list-2",
-    title: "Health & Care",
-    description: "Daily health and medical routines",
-    items: [
-      { _id: "item-2-1", title: "Take vitamins", description: "Daily prenatal supplements", is_completed: true },
-      { _id: "item-2-2", title: "Yoga practice", description: "Gentle morning stretching", is_completed: false },
-    ]
-  }
-];
-
 export default function OverviewChecklist({ checkLists, count }: CheckListsProps) {
   const { t } = useTranslation();
-  const [lists, setLists] = useState(checkLists || DUMMY_CHECKLISTS);
+  const [lists, setLists] = useState(checkLists || []);
 
   // Sync state with props when checkLists changes
   React.useEffect(() => {
@@ -152,12 +129,12 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                     )}
                   </div>
                   <div className={cn(
-                    "size-8 rounded-full flex items-center justify-center transition-all duration-300",
+                    "size-7 rounded-full flex items-center justify-center transition-all duration-300",
                     openItems.includes(`item-${index}`)
                       ? "bg-[#F3E8FF] text-[#A97AEC] rotate-180"
-                      : "bg-[#F3E8FF] text-[#A97AEC]"
+                      : "bg-gray-100 text-gray-400"
                   )}>
-                    <ChevronDown className="size-5" />
+                    <ChevronDown className="size-4" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -168,44 +145,67 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                     <div
                       key={item._id || itemIdx}
                       className={cn(
-                        "flex items-center gap-4 px-6 py-4 transition-all duration-200 border-t border-gray-50 group/item cursor-pointer",
+                        "flex items-center gap-4 px-6 py-4 transition-all duration-200 border-t border-gray-100 group/item cursor-pointer relative",
                         item.is_completed
                           ? "bg-[#F0FDF4]"
-                          : "hover:bg-gray-50"
+                          : "hover:bg-gray-50/50"
                       )}
                       onClick={() => handleToggle(list._id, item._id)}
                     >
-                      {/* Checkbox */}
-                      <div className="size-7 flex items-center justify-center shrink-0">
+                      {/* Top accent line for first item if completed */}
+                      {itemIdx === 0 && item.is_completed && (
+                        <div className="absolute top-0 left-0 w-32 h-[1px] bg-[#22C55E]" />
+                      )}
+
+                      {/* Custom Circular Checkbox */}
+                      <div className="shrink-0">
                         {toggleLoading === item._id && isPending ? (
-                          <Spinner variant="circle" className="size-5" />
+                          <Spinner variant="circle" className="size-6" />
                         ) : (
-                          <CheckBox
-                            checked={item.is_completed}
-                            onCheckedChange={() => handleToggle(list._id, item._id)}
+                          <div
                             className={cn(
-                              "size-7 transition-all duration-200",
+                              "size-6 rounded-full border-2 flex items-center justify-center transition-all duration-200",
                               item.is_completed
-                                ? "!bg-[#22C55E] !border-[#22C55E] text-white"
-                                : "border-2 border-gray-300 bg-white"
+                                ? "bg-[#22C55E] border-[#22C55E]"
+                                : "border-gray-200 bg-white"
                             )}
-                          />
+                          >
+                            {item.is_completed && (
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="size-3.5 text-white"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            )}
+                          </div>
                         )}
                       </div>
 
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-xl font-medium truncate text-[#3D3177]">
+                      {/* Content: Title & Description in same line */}
+                      <div className="flex-1 flex items-baseline gap-3 min-w-0">
+                        <h4 className={cn(
+                          "text-[18px] font-semibold text-[#3D3177] shrink-0",
+                          item.is_completed && "text-[#3D3177]/70"
+                        )}>
                           {item.title}
                         </h4>
-                        <p className="text-sm truncate text-[#1B1343]">
+                        <p className={cn(
+                          "text-sm truncate font-normal",
+                          item.is_completed ? "text-[#3D3177]/40" : "text-[#3D3177]/60"
+                        )}>
                           {item.description}
                         </p>
                       </div>
 
-                      {/* Eye Icon */}
-                      <div className="size-9 rounded-full bg-[#A67EEA] flex items-center justify-center text-white cursor-pointer hover:bg-[#8B5CF6] transition-all transform hover:scale-110 shrink-0 shadow-md">
-                        <Eye className="size-5" />
+                      {/* Eye Icon with purple circle border */}
+                      <div className="size-7 rounded-full border border-[#A67EEA]/40 flex items-center justify-center text-[#A67EEA] hover:bg-[#A67EEA] hover:text-white transition-all shrink-0">
+                        <Eye className="size-4" />
                       </div>
                     </div>
                   ))}
