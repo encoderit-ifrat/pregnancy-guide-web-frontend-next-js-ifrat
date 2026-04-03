@@ -5,6 +5,15 @@ import { ChevronRight, Eye, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/Dialog";
+import ChecklistForm from "../../check-lists/_component/CheckListForm";
+import TaskForm from "../../check-lists/_component/TaskForm";
 import {
   Accordion,
   AccordionContent,
@@ -19,7 +28,16 @@ import { toast } from "sonner";
 
 export default function OverviewChecklist({ checkLists, count }: CheckListsProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const [lists, setLists] = useState(checkLists || []);
+  const [formData, setFormData] = useState<{
+    type: "default" | "create" | "update" | "delete";
+    id: string;
+  }>({
+    type: "default",
+    id: "",
+  });
+  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
 
   // Sync state with props when checkLists changes
   React.useEffect(() => {
@@ -78,22 +96,26 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
     <div className="px-4 sm:pt-8 lg:pt-10 space-y-6 max-w-4xl mx-auto pb-7 lg:pb-15">
       {/* Buttons Header */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
-        <Link href="/check-lists" className="sm:w-auto w-full">
-          <Button
-            variant="softPurple"
-            className="rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6] font-poppins"
-          >
-            Add List +
-          </Button>
-        </Link>
-        <Link href="/check-lists" className="sm:w-auto w-full">
-          <Button
-            variant="outline"
-            className="rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border-1 font-poppins"
-          >
-            Add Task +
-          </Button>
-        </Link>
+        <Button
+          variant="softPurple"
+          className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6] font-poppins"
+          onClick={() => setFormData({ type: "create", id: "" })}
+        >
+          {t("add List")} +
+        </Button>
+        <Button
+          variant="outline"
+          className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border-1 font-poppins"
+          onClick={() => {
+            if (lists && lists.length > 0) {
+              setIsAddTaskOpen(true);
+            } else {
+              toast.error(t("checklists.noListError") || "Please create a list first before adding tasks");
+            }
+          }}
+        >
+          {t("add Task")} +
+        </Button>
       </div>
 
       {/* Checklist Container */}
@@ -238,6 +260,43 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
           </Button>
         </Link>
       </div>
+
+      <Dialog
+        open={formData.type == "create"}
+        onOpenChange={() => setFormData({ type: "default", id: "" })}
+      >
+        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="text-left">
+              {t("checklists.addChecklist")}
+            </DialogTitle>
+          </DialogHeader>
+          <ChecklistForm
+            onSubmitForDialogAndRefetch={async () => {
+              router.refresh();
+              setFormData({ type: "default", id: "" });
+            }}
+            formData={formData}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={isAddTaskOpen}
+        onOpenChange={() => setIsAddTaskOpen(false)}
+      >
+        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
+          <DialogTitle className="sr-only">Add Task</DialogTitle>
+          <TaskForm
+            checklist_id={lists?.[0]?._id || ""}
+            onClose={() => setIsAddTaskOpen(false)}
+            refetch={() => {
+              router.refresh();
+              setIsAddTaskOpen(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
