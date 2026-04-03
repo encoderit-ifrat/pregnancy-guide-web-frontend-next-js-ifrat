@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import WaveDivider3 from "@/components/layout/svg/WaveDivider3";
 import { useTranslation } from "@/hooks/useTranslation";
+import IconBabyGift from "@/components/svg-icon/icon-baby-gift";
 
 export default function CheckListSection({
   children,
@@ -28,11 +29,13 @@ export default function CheckListSection({
             waveColorClass="text-white"
             bgClassName="bg-transparent"
           />
+
           <div className="">
             <div className="text-center text-white">
+
               <IconHeading
                 text={t("checklists.label")}
-                image="/images/icons/baby-gift.png"
+                icon={<IconBabyGift />}
                 className="text-primary justify-center"
               />
               <SectionHeading className="text-secondary!">
@@ -45,6 +48,7 @@ export default function CheckListSection({
             {children}
           </div>
           <WaveDivider3
+
             waveColorClass="text-purple-soft transform translate-y-[2px]"
             bgClassName="bg-transparent"
           />
