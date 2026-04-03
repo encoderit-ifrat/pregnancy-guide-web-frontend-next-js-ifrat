@@ -117,7 +117,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
           className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6] font-poppins"
           onClick={() => setFormData({ type: "create", id: "" })}
         >
-          {t("add List")} +
+          {t("checklists.addList")} +
         </Button>
         <Button
           variant="outline"
@@ -130,7 +130,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
             }
           }}
         >
-          {t("add Task")} +
+          {t("checklists.addTask")} +
         </Button>
       </div>
 

@@ -183,6 +183,8 @@
     "description": "Organisera dina uppgifter effektivt",
     "subtitle": "Expertråd, verkliga berättelser och hjälpsamma tips för att stödja dig och din familj i varje steg.",
     "addNew": "Lägg till ny",
+    "addList": "Lägg till lista",
+    "addTask": "Lägg till uppgift",
     "finalizedTasks": "Slutförda Uppgifter",
     "addChecklist": "Lägg till checklista",
     "updateChecklist": "Uppdatera checklista",

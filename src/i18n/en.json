@@ -183,6 +183,8 @@
     "description": "Organize your tasks efficiently",
     "subtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
     "addNew": "Add New",
+    "addList": "Add List",
+    "addTask": "Add Task",
     "finalizedTasks": "Finalized Tasks",
     "addChecklist": "Add Checklist",
     "updateChecklist": "Update Checklist",
