@@ -38,20 +38,36 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
     id: "",
   });
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
+  const [isNewlyCreated, setIsNewlyCreated] = useState(false);
+  const [editingTask, setEditingTask] = useState<{
+    checklistId: string;
+    task: any;
+  } | null>(null);
+  const [editingList, setEditingList] = useState<any | null>(null);
 
   // Sync state with props when checkLists changes
   React.useEffect(() => {
     if (checkLists) {
+      console.log("OverviewChecklist Data:", checkLists);
+      if (isNewlyCreated) {
+        const currentIds = new Set(lists.map((l) => l._id));
+        const newIndex = checkLists.findIndex((l) => !currentIds.has(l._id));
+
+        if (newIndex !== -1) {
+          setOpenItem(`item-${newIndex}`);
+        }
+        setIsNewlyCreated(false);
+      }
       setLists(checkLists);
     }
-  }, [checkLists]);
+  }, [checkLists, isNewlyCreated, lists]);
 
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
 
   // Open the first item by default if available
-  const [openItems, setOpenItems] = useState<string[]>(
-    lists && lists.length > 0 ? [`item-0`] : []
+  const [openItem, setOpenItem] = useState<string | undefined>(
+    lists && lists.length > 0 ? `item-0` : undefined
   );
 
   const handleToggle = (listId: string, itemId: string) => {
@@ -121,9 +137,10 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
       {/* Checklist Container */}
       <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-white/20">
         <Accordion
-          type="multiple"
-          value={openItems}
-          onValueChange={setOpenItems}
+          type="single"
+          collapsible
+          value={openItem}
+          onValueChange={setOpenItem}
           className="w-full"
         >
           {lists?.map((list, index) => (
@@ -132,7 +149,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
               value={`item-${index}`}
               className={cn(
                 "border-b border-gray-100 last:border-b-0 transition-all duration-300",
-                openItems.includes(`item-${index}`) ? "bg-white" : "bg-gray-50/30"
+                openItem === `item-${index}` ? "bg-white" : "bg-gray-50/30"
               )}
             >
 
@@ -141,10 +158,12 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
               >
                 <div className="flex items-center justify-between w-full pr-2">
                   <div className="flex flex-col items-start text-left">
-                    <span className="text-[22px] font-semibold text-[#3D3177] leading-tight">
-                      {list.title}
-                    </span>
-                    {!openItems.includes(`item-${index}`) && list.description && (
+                    <div className="flex items-center gap-3">
+                      <span className="text-[22px] font-semibold text-[#3D3177] leading-tight">
+                        {list.title}
+                      </span>
+                    </div>
+                    {openItem !== `item-${index}` && list.description && (
                       <p className="text-gray-500 text-sm mt-1 line-clamp-1 font-normal">
                         {list.description}
                       </p>
@@ -152,7 +171,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                   </div>
                   <div className={cn(
                     "size-7 rounded-full flex items-center justify-center transition-all duration-300",
-                    openItems.includes(`item-${index}`)
+                    openItem === `item-${index}`
                       ? "bg-[#F3E8FF] text-[#A97AEC] rotate-180"
                       : "bg-gray-100 text-gray-400"
                   )}>
@@ -172,7 +191,9 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                           ? "bg-[#F0FDF4]"
                           : "hover:bg-gray-50/50"
                       )}
-                      onClick={() => handleToggle(list._id, item._id)}
+                      onClick={() =>
+                        setEditingTask({ checklistId: list._id, task: item })
+                      }
                     >
                       {/* Top accent line for first item if completed */}
                       {itemIdx === 0 && item.is_completed && (
@@ -191,6 +212,10 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                                 ? "bg-[#22C55E] border-[#22C55E]"
                                 : "border-gray-200 bg-white"
                             )}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggle(list._id, item._id);
+                            }}
                           >
                             {item.is_completed && (
                               <svg
@@ -211,12 +236,14 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
 
                       {/* Content: Title & Description in same line */}
                       <div className="flex-1 flex items-baseline gap-3 min-w-0">
-                        <h4 className={cn(
-                          "text-[18px] font-semibold text-[#3D3177] shrink-0",
-                          item.is_completed && "text-[#3D3177]/70"
-                        )}>
-                          {item.title}
-                        </h4>
+                        <div className="flex items-center gap-2">
+                          <h4 className={cn(
+                            "text-[18px] font-semibold text-[#3D3177] shrink-0",
+                            item.is_completed && "text-[#3D3177]/70"
+                          )}>
+                            {item.title}
+                          </h4>
+                        </div>
                         <p className={cn(
                           "text-sm truncate font-normal",
                           item.is_completed ? "text-[#3D3177]/40" : "text-[#3D3177]/60"
@@ -224,6 +251,18 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                           {item.description}
                         </p>
                       </div>
+
+                      {/* Assigned To Initials */}
+                      {item.assigned_to && item.assigned_to !== "none" && (
+                        <div className={cn(
+                          "size-7 rounded-full border flex items-center justify-center text-[10px] font-bold shrink-0",
+                          item.assigned_to === "partner"
+                            ? "border-[#22C55E]/40 text-[#22C55E] bg-[#F0FDF4]/50"
+                            : "border-[#A67EEA]/40 text-[#A67EEA] bg-[#F3E8FF]/50"
+                        )}>
+                          {item.assigned_to === "partner" ? "P" : "M"}
+                        </div>
+                      )}
 
                       {/* Eye Icon with purple circle border */}
                       <div className="size-7 rounded-full border border-[#A67EEA]/40 flex items-center justify-center text-[#A67EEA] hover:bg-[#A67EEA] hover:text-white transition-all shrink-0">
@@ -273,6 +312,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
           </DialogHeader>
           <ChecklistForm
             onSubmitForDialogAndRefetch={async () => {
+              setIsNewlyCreated(true);
               router.refresh();
               setFormData({ type: "default", id: "" });
             }}
@@ -288,11 +328,73 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
         <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
           <DialogTitle className="sr-only">Add Task</DialogTitle>
           <TaskForm
-            checklist_id={lists?.[0]?._id || ""}
+            checklist_id={
+              openItem
+                ? lists?.[parseInt(openItem.replace("item-", ""))]?._id || ""
+                : lists?.[0]?._id || ""
+            }
             onClose={() => setIsAddTaskOpen(false)}
             refetch={() => {
               router.refresh();
               setIsAddTaskOpen(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Task Dialog */}
+      <Dialog
+        open={Boolean(editingTask)}
+        onOpenChange={() => setEditingTask(null)}
+      >
+        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
+          <DialogTitle className="sr-only">Edit Task</DialogTitle>
+          <TaskForm
+            checklist_id={editingTask?.checklistId || ""}
+            task={editingTask?.task ? {
+              id: editingTask.task._id,
+              name: editingTask.task.title,
+              description: editingTask.task.description,
+              priority: editingTask.task.priority,
+              date: editingTask.task.due_date,
+              reminder: editingTask.task.reminder,
+              assignedTo: editingTask.task.assigned_to,
+            } : null}
+            onClose={() => setEditingTask(null)}
+            refetch={() => {
+              router.refresh();
+              setEditingTask(null);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit List Dialog */}
+      <Dialog
+        open={Boolean(editingList)}
+        onOpenChange={() => setEditingList(null)}
+      >
+        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="text-left">
+              Edit Checklist
+            </DialogTitle>
+          </DialogHeader>
+          <ChecklistForm
+            onSubmitForDialogAndRefetch={async () => {
+              router.refresh();
+              setEditingList(null);
+            }}
+            formData={{
+              type: "update",
+              id: editingList?._id || "",
+              data: editingList ? {
+                _id: editingList._id,
+                title: editingList.title,
+                description: editingList.description,
+                category: editingList.category,
+                is_active: editingList.is_active,
+              } : undefined
             }}
           />
         </DialogContent>

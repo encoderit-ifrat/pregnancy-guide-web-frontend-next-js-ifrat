@@ -52,6 +52,10 @@ export type ChecklistItem = {
   description: string;
   week: number;
   is_completed: boolean;
+  priority?: "high" | "medium" | "low" | "none";
+  assigned_to?: "none" | "me" | "partner";
+  due_date?: string;
+  reminder?: boolean;
 };
 
 export type Checklist = {
