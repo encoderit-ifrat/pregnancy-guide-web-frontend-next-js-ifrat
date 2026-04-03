@@ -21,6 +21,7 @@ import {
   AccordionTrigger
 } from "@/components/ui/Accordion";
 import { CheckListsProps } from "../_types/checklists_component_types";
+import { Checklist, ChecklistItem } from "../_types/pregnancy_overview_types";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/Spinner";
 import { useMutationToggleChecklist } from "../../check-lists/_api/mutations/UseMutationToggleChecklist";
@@ -29,7 +30,7 @@ import { toast } from "sonner";
 export default function OverviewChecklist({ checkLists, count }: CheckListsProps) {
   const { t } = useTranslation();
   const router = useRouter();
-  const [lists, setLists] = useState(checkLists || []);
+  const [lists, setLists] = useState<Checklist[]>(checkLists || []);
   const [formData, setFormData] = useState<{
     type: "default" | "create" | "update" | "delete";
     id: string;
@@ -77,12 +78,12 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
       {
         onSuccess: () => {
           toast.success(t("checklists.toggleSuccess") || "Task updated successfully");
-          setLists((prevLists) => {
-            const updated = prevLists.map((list) => {
+          setLists((prevLists: Checklist[]) => {
+            const updated = prevLists.map((list: Checklist) => {
               if (list._id === listId) {
                 return {
                   ...list,
-                  items: list.items.map((item) =>
+                  items: list.items.map((item: ChecklistItem) =>
                     item._id === itemId
                       ? { ...item, is_completed: !item.is_completed }
                       : item
@@ -93,8 +94,8 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
             });
 
             // Filter out checklists where all items are completed, consistent with main CheckList view
-            return updated.filter((list) => {
-              const allChecked = list.items.every((itm) => itm.is_completed);
+            return updated.filter((list: Checklist) => {
+              const allChecked = list.items.every((itm: ChecklistItem) => itm.is_completed);
               return !allChecked;
             });
           });
@@ -121,7 +122,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
         </Button>
         <Button
           variant="outline"
-          className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border-1 font-poppins"
+          className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border font-poppins"
           onClick={() => {
             if (lists && lists.length > 0) {
               setIsAddTaskOpen(true);
@@ -182,7 +183,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
 
               <AccordionContent className="px-0 pb-0">
                 <div className="space-y-0">
-                  {list.items?.map((item, itemIdx) => (
+                  {list.items?.map((item: ChecklistItem, itemIdx: number) => (
                     <div
                       key={item._id || itemIdx}
                       className={cn(
@@ -197,7 +198,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
                     >
                       {/* Top accent line for first item if completed */}
                       {itemIdx === 0 && item.is_completed && (
-                        <div className="absolute top-0 left-0 w-32 h-[1px] bg-[#22C55E]" />
+                        <div className="absolute top-0 left-0 w-32 h-px bg-[#22C55E]" />
                       )}
 
                       {/* Custom Circular Checkbox */}

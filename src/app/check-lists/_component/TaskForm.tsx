@@ -50,7 +50,7 @@ import {
 const formSchema = z.object({
   checklist_id: z.string(),
   title: z.string().min(1, "Task title is required"),
-  priority: z.enum(["high", "medium", "low"]),
+  priority: z.enum(["high", "medium", "low", "none"]),
   assigned_to: z.enum(["none", "me", "partner"]),
   due_date: z.date(),
   description: z.string().optional(),

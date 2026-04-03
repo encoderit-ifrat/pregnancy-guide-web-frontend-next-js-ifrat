@@ -46,26 +46,12 @@ export type Question = {
   week: number;
 };
 
-export type ChecklistItem = {
-  _id: string;
-  title: string;
-  description: string;
-  week: number;
-  is_completed: boolean;
-  priority?: "high" | "medium" | "low" | "none";
-  assigned_to?: "none" | "me" | "partner";
-  due_date?: string;
-  reminder?: boolean;
-};
+import { 
+  ChecklistItem, 
+  ChecklistItemWithItems as Checklist 
+} from "../../check-lists/_types/checklist_item_types";
 
-export type Checklist = {
-  _id: string;
-  title: string;
-  description: string;
-  category: string;
-  items: ChecklistItem[];
-  is_active: boolean;
-};
+export type { ChecklistItem, Checklist };
 
 export type ArticlesData = {
   latest: Article[];
