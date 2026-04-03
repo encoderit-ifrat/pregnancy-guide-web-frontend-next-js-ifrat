@@ -103,7 +103,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isLikePending || isDislikePending) return;
-    mutateLike({ id: _id }, { 
+    mutateLike({ id: _id }, {
       onSuccess: () => {
         toast.success("Liked!");
         onActionSuccess?.();
@@ -114,7 +114,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
   const handleDislike = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isLikePending || isDislikePending) return;
-    mutateDislike({ id: _id }, { 
+    mutateDislike({ id: _id }, {
       onSuccess: () => {
         toast.success("Disliked!");
         onActionSuccess?.();
@@ -194,9 +194,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
               >
                 <ThumbsUp className={cn("h-3.5 w-3.5", isLiked && "fill-current")} />
               </Button>
-              <span className={cn("text-[10px] mt-0.5 font-medium", isLiked ? "text-primary" : "text-gray-400")}>
-                {data.likes_count || 0}
-              </span>
+
             </div>
 
             <div className="flex flex-col items-center">
@@ -207,14 +205,12 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
                 disabled={isLikePending || isDislikePending}
                 className={cn(
                   "h-8 w-8 rounded-full",
-                  isDisliked && "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
+                  isDisliked && "bg-primary text-white border-primary hover:bg-primary/90"
                 )}
               >
                 <ThumbsDown className={cn("h-3.5 w-3.5", isDisliked && "fill-current")} />
               </Button>
-              <span className={cn("text-[10px] mt-0.5 font-medium", isDisliked ? "text-orange-500" : "text-gray-400")}>
-                {data.dislikes_count || 0}
-              </span>
+
             </div>
           </div>
         </div>
