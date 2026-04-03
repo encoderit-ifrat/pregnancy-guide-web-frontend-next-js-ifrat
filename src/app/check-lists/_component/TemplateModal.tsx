@@ -94,10 +94,10 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl w-full p-0 overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
+      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-[90vh] flex flex-col overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
         <DialogTitle className="sr-only">Ready-Made Templates</DialogTitle>
         {/* Header */}
-        <div className="bg-[#A97AEC] p-8 relative">
+        <div className="bg-[#A97AEC] p-8 relative shrink-0">
           <button
             onClick={onClose}
             className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors"
@@ -117,7 +117,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           </div>
         </div>
 
-        <div className="flex h-[600px]">
+        <div className="flex flex-1 min-h-0">
           {/* Left Column: List */}
           <div className="w-[40%] border-r border-gray-100 p-6 overflow-y-auto">
             <h3 className="text-3xl font-medium text-[#1B1343] font-outfit mb-6">
@@ -252,7 +252,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-100 flex items-center justify-between bg-white">
+        <div className="p-6 border-t border-gray-100 flex items-center justify-between bg-white shrink-0">
           <p className="text-primary-dark/80 font-medium font-outfit text-lg">
             Add{" "}
             <span className="font-bold">
