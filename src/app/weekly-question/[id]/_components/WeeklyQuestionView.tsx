@@ -103,13 +103,8 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
             return (
               <CommentCard
                 key={answer._id}
-                // content={
-                //   question.answer_options.find(
-                //     (oldAnswer: any) =>
-                //       oldAnswer._id === answer.answer_option_id
-                //   )?.content
-                // }
                 data={answer}
+                onActionSuccess={refetch}
               />
             );
           })

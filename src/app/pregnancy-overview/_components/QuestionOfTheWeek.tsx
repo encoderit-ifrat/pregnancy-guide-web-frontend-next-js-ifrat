@@ -7,6 +7,12 @@ import AnswerForm, {
   AnswerFormSubmitButton,
 } from "@/app/weekly-question/[id]/_components/AnswerForm";
 import React from "react";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { useQuestionLike } from "../_api/mutation/useQuestionLike";
+import { useQuestionDislike } from "../_api/mutation/useQuestionDislike";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 
 import { QuestionOfTheWeekProps } from "@/app/weekly-question/[id]/_types/weekly_question_types";
 import IconHeading from "@/components/ui/text/IconHeading";
@@ -19,9 +25,13 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
   const { t } = useTranslation();
   //   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
 
-  const { data, isLoading } = useQueryGetAllAnswers({
+  const { data, isLoading, refetch } = useQueryGetAllAnswers({
     params: { id: question?._id },
   });
+
+  const { user: currentUser } = useCurrentUser();
+  const { mutate: mutateLike, isPending: isLikePending } = useQuestionLike();
+  const { mutate: mutateDislike, isPending: isDislikePending } = useQuestionDislike();
   const {
     question: questionData,
     // answers,
@@ -29,6 +39,45 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     statistics,
     userAnswer,
   } = data?.data ?? {};
+
+  console.log("👉 QuestionOfTheWeek Data:", { hasAnswered, userAnswer, questionData });
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("🔥 handleLike CALLED", userAnswer?._id);
+    if (!userAnswer?._id) {
+      console.error("❌ userAnswer._id is missing");
+      return;
+    }
+    mutateLike({ id: userAnswer._id }, {
+      onSuccess: () => {
+        console.log("✅ Like Success");
+        refetch();
+      },
+      onError: (err) => console.error("❌ Like Error:", err)
+    });
+  };
+
+  const handleDislike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("🔥 handleDislike CALLED", userAnswer?._id);
+    if (!userAnswer?._id) {
+      console.error("❌ userAnswer._id is missing");
+      return;
+    }
+    mutateDislike({ id: userAnswer._id }, {
+      onSuccess: () => {
+        console.log("✅ Dislike Success");
+        refetch();
+      },
+      onError: (err) => console.error("❌ Dislike Error:", err)
+    });
+  };
+
+  const isLiked = userAnswer?.likes?.includes(currentUser?._id);
+  const isDisliked = userAnswer?.dislikes?.includes(currentUser?._id);
   //   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
   return (
     <section className="relative w-full mx-auto">
@@ -86,8 +135,59 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                         {question?.title}
                       </h4>
 
-                      <div className="grid grid-cols-1 gap-2">
-                        {hasAnswered ? (<AnswerFormPercentage />) : <AnswerFormRadioGroup disabled={hasAnswered} />}
+                      <div className="grid grid-cols-1 gap-2 w-full">
+                        {hasAnswered ? (
+                          <>
+                            <AnswerFormPercentage />
+                            {userAnswer && (
+                              <div className="mt-6 p-4 rounded-xl bg-gray-50/50 border border-purple-50 text-left">
+                                <div className="flex justify-between items-start gap-4">
+                                  <div className="flex-1">
+                                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">Your Answer</p>
+                                    <p className="text-gray-700 italic">"{userAnswer.comment || "No comment shared"}"</p>
+                                  </div>
+                                  <div className="flex items-center gap-2 shrink-0">
+                                    <div className="flex flex-col items-center">
+                                      <button
+                                        type="button"
+                                        onClick={handleLike}
+                                        disabled={isLikePending || isDislikePending}
+                                        className={cn(
+                                          "flex items-center justify-center size-10 rounded-full transition-all duration-200 border-none cursor-pointer",
+                                          isLiked ? "bg-primary text-white shadow-md" : "bg-transparent hover:bg-primary/10 text-gray-400"
+                                        )}
+                                      >
+                                        <ThumbsUp className={cn("size-5", isLiked && "fill-current")} />
+                                      </button>
+                                      <span className={cn("text-xs mt-1 font-medium", isLiked ? "text-primary" : "text-gray-400")}>
+                                        {userAnswer.likes_count || 0}
+                                      </span>
+                                    </div>
+
+                                    <div className="flex flex-col items-center">
+                                      <button
+                                        type="button"
+                                        onClick={handleDislike}
+                                        disabled={isLikePending || isDislikePending}
+                                        className={cn(
+                                          "flex items-center justify-center size-10 rounded-full transition-all duration-200 border-none cursor-pointer",
+                                          isDisliked ? "bg-orange-500 text-white shadow-md" : "bg-transparent hover:bg-orange-100 text-gray-400"
+                                        )}
+                                      >
+                                        <ThumbsDown className={cn("size-5", isDisliked && "fill-current")} />
+                                      </button>
+                                      <span className={cn("text-xs mt-1 font-medium", isDisliked ? "text-orange-500" : "text-gray-400")}>
+                                        {userAnswer.dislikes_count || 0}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <AnswerFormRadioGroup disabled={hasAnswered} />
+                        )}
                       </div>
 
                       <div className="my-6 md:mb-0 md:mt-6">

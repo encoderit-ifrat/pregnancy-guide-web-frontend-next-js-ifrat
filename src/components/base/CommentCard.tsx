@@ -3,6 +3,9 @@ import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { MessageCircle, Send, ThumbsDown, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useQuestionLike } from "@/app/pregnancy-overview/_api/mutation/useQuestionLike";
+import { useQuestionDislike } from "@/app/pregnancy-overview/_api/mutation/useQuestionDislike";
+import { cn } from "@/lib/utils";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -38,12 +41,17 @@ export type TCommentCard = {
   updatedAt: string;
   answer_option_id: string;
   created_by: { name: string; avatar: string };
+  likes?: string[];
+  likes_count?: number;
+  dislikes?: string[];
+  dislikes_count?: number;
 };
 export type TCommentCardProps = {
   // content: string;
   data: TCommentCard;
+  onActionSuccess?: () => void;
 };
-export default function CommentCard({ data }: TCommentCardProps) {
+export default function CommentCard({ data, onActionSuccess }: TCommentCardProps) {
   const { user: currentUser } = useCurrentUser();
   console.log("👉 ~ CommentCard ~ currentUser:", currentUser);
 
@@ -88,6 +96,34 @@ export default function CommentCard({ data }: TCommentCardProps) {
       }
     );
   };
+
+  const { mutate: mutateLike, isPending: isLikePending } = useQuestionLike();
+  const { mutate: mutateDislike, isPending: isDislikePending } = useQuestionDislike();
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isLikePending || isDislikePending) return;
+    mutateLike({ id: _id }, { 
+      onSuccess: () => {
+        toast.success("Liked!");
+        onActionSuccess?.();
+      }
+    });
+  };
+
+  const handleDislike = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isLikePending || isDislikePending) return;
+    mutateDislike({ id: _id }, { 
+      onSuccess: () => {
+        toast.success("Disliked!");
+        onActionSuccess?.();
+      }
+    });
+  };
+
+  const isLiked = data?.likes?.includes(currentUser?._id);
+  const isDisliked = data?.dislikes?.includes(currentUser?._id);
   return (
     <div
       key={_id}
@@ -145,12 +181,41 @@ export default function CommentCard({ data }: TCommentCardProps) {
         <div>
           {/* like / dislike */}
           <div className="flex items-center gap-1.5 md:mr-2">
-            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full">
-              <ThumbsUp className="h-3.5 w-3.5" />
-            </Button>
-            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full">
-              <ThumbsDown className="h-3.5 w-3.5" />
-            </Button>
+            <div className="flex flex-col items-center">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleLike}
+                disabled={isLikePending || isDislikePending}
+                className={cn(
+                  "h-8 w-8 rounded-full",
+                  isLiked && "bg-primary text-white border-primary hover:bg-primary/90"
+                )}
+              >
+                <ThumbsUp className={cn("h-3.5 w-3.5", isLiked && "fill-current")} />
+              </Button>
+              <span className={cn("text-[10px] mt-0.5 font-medium", isLiked ? "text-primary" : "text-gray-400")}>
+                {data.likes_count || 0}
+              </span>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleDislike}
+                disabled={isLikePending || isDislikePending}
+                className={cn(
+                  "h-8 w-8 rounded-full",
+                  isDisliked && "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
+                )}
+              >
+                <ThumbsDown className={cn("h-3.5 w-3.5", isDisliked && "fill-current")} />
+              </Button>
+              <span className={cn("text-[10px] mt-0.5 font-medium", isDisliked ? "text-orange-500" : "text-gray-400")}>
+                {data.dislikes_count || 0}
+              </span>
+            </div>
           </div>
         </div>
       </div>

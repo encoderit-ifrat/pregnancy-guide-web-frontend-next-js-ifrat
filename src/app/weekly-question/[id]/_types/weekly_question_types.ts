@@ -25,6 +25,10 @@ export type Answer = {
   answer: string | number;
   comment?: string;
   createdAt: string;
+  likes?: string[];
+  likes_count?: number;
+  dislikes?: string[];
+  dislikes_count?: number;
 };
 
 export type Statistics = {
