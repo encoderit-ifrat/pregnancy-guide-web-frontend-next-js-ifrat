@@ -15,6 +15,8 @@ import { CheckListsProps } from "../_types/checklists_component_types";
 import { cn } from "@/lib/utils";
 import { CheckBox } from "@/components/ui/Checkbox";
 import { Spinner } from "@/components/ui/Spinner";
+import { useMutationToggleChecklist } from "../../check-lists/_api/mutations/UseMutationToggleChecklist";
+import { toast } from "sonner";
 
 const DUMMY_CHECKLISTS = [
   {
@@ -50,7 +52,7 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
   }, [checkLists]);
 
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
-  const isPending = false; // Placeholder for toggle loading state
+  const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
 
   // Open the first item by default if available
   const [openItems, setOpenItems] = useState<string[]>(
@@ -58,19 +60,40 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
   );
 
   const handleToggle = (listId: string, itemId: string) => {
-    // If you have an API call, you would setToggleLoading(itemId) and handle isPending here
-    setLists(prevLists =>
-      prevLists.map(list => {
-        if (list._id === listId) {
-          return {
-            ...list,
-            items: list.items.map(item =>
-              item._id === itemId ? { ...item, is_completed: !item.is_completed } : item
-            )
-          };
-        }
-        return list;
-      })
+    setToggleLoading(itemId);
+    toggleChecklist(
+      { id: itemId },
+      {
+        onSuccess: () => {
+          toast.success(t("checklists.toggleSuccess") || "Task updated successfully");
+          setLists((prevLists) => {
+            const updated = prevLists.map((list) => {
+              if (list._id === listId) {
+                return {
+                  ...list,
+                  items: list.items.map((item) =>
+                    item._id === itemId
+                      ? { ...item, is_completed: !item.is_completed }
+                      : item
+                  ),
+                };
+              }
+              return list;
+            });
+
+            // Filter out checklists where all items are completed, consistent with main CheckList view
+            return updated.filter((list) => {
+              const allChecked = list.items.every((itm) => itm.is_completed);
+              return !allChecked;
+            });
+          });
+          setToggleLoading(null);
+        },
+        onError: () => {
+          toast.error("Failed to update task");
+          setToggleLoading(null);
+        },
+      }
     );
   };
 
@@ -78,18 +101,22 @@ export default function OverviewChecklist({ checkLists, count }: CheckListsProps
     <div className="px-4 sm:pt-8 lg:pt-10 space-y-6 max-w-4xl mx-auto pb-7 lg:pb-15">
       {/* Buttons Header */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
-        <Button
-          variant="softPurple"
-          className="rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6]"
-        >
-          Add List +
-        </Button>
-        <Button
-          variant="outline"
-          className="rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border-1"
-        >
-          Add Task +
-        </Button>
+        <Link href="/check-lists" className="sm:w-auto w-full">
+          <Button
+            variant="softPurple"
+            className="rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6] font-poppins"
+          >
+            Add List +
+          </Button>
+        </Link>
+        <Link href="/check-lists" className="sm:w-auto w-full">
+          <Button
+            variant="outline"
+            className="rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border-1 font-poppins"
+          >
+            Add Task +
+          </Button>
+        </Link>
       </div>
 
       {/* Checklist Container */}
