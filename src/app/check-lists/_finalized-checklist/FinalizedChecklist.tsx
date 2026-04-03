@@ -10,9 +10,9 @@ import Loading from "@/app/loading";
 import CheckList from "../_component/CheckList";
 import Pagination from "@/components/base/Pagination";
 
-interface FinalizedChecklistProps {}
 
-export default function FinalizedChecklist({}: FinalizedChecklistProps) {
+
+export default function FinalizedChecklist() {
   const { t } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
