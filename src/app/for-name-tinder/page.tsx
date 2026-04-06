@@ -352,7 +352,7 @@ export default function Page() {
                   )}
                 </div>
               </TabsContent>
-              <TabsContent value="viewed" className="m-0 flex flex-col gap-6">
+              <TabsContent value="loved" className="m-0 flex flex-col gap-2">
                 {namesLoading && (
                   <>
                     <SkeletonCommunityCard />
@@ -475,9 +475,9 @@ export default function Page() {
             {t("forNameTinder.thisNameIsMatched")}
           </DialogTitle>
           <SectionHeading className="m-0 text-center text-base! flex items-center justify-center gap-2">
-            {/* <Image src="/check.png" alt="check" width={18} height={18} />
-            {t("forNameTinder.thisNameIsMatched")} */}
-            <div className="h-5"></div>
+            <Image src="/check.png" alt="check" width={18} height={18} />
+            {t("forNameTinder.thisNameIsMatched")}
+            {/* <div className="h-5"></div> */}
           </SectionHeading>
 
           {tinderLoading && (
