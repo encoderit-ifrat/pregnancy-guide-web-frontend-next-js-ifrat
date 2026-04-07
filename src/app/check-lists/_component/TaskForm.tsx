@@ -239,6 +239,7 @@ export default function TaskForm({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
+                        disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
                       />
                     </PopoverContent>
                   </Popover>
