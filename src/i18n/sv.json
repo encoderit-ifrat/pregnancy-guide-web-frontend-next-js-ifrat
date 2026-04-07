@@ -220,8 +220,66 @@
         "exercise": "Träning",
         "preparation": "Förberedelse"
       }
+    },
+    "taskForm": {
+      "title": "Uppgiftstitel",
+      "titlePlaceholder": "Köp babykläder",
+      "priority": "Prioritetsnivå",
+      "priorities": {
+        "high": "Hög",
+        "medium": "Medel",
+        "low": "Låg",
+        "none": "Ingen"
+      },
+      "dueDate": "Förfallodatum",
+      "assignedTo": "Tilldelad till",
+      "assignees": {
+        "none": "Ingen",
+        "me": "Mig",
+        "partner": "Partner"
+      },
+      "reminder": "Påminnelse",
+      "reminderSet": "Påminnelse inställd",
+      "setReminder": "Ställ in påminnelse",
+      "notes": "Anteckningar",
+      "notesPlaceholder": "Lägg till ytterligare anteckningar...",
+      "notesHelper": "Dessa anteckningar visas endast när uppgiften är expanderad",
+      "deleteTask": "Ta bort uppgift",
+      "updateTask": "Uppdatera uppgift",
+      "createTask": "Skapa uppgift",
+      "validation": {
+        "titleRequired": "Uppgiftstitel krävs"
+      },
+      "deleteConfirm": {
+        "title": "Är du säker på att du vill ta bort?",
+        "description": "Denna åtgärd kan inte ångras.",
+        "cancel": "Avbryt",
+        "delete": "Ta bort"
+      }
+    },
+    "templateModal": {
+      "title": "Färdiga mallar",
+      "description": "Expertråd, verkliga berättelser och hjälpsamma tips för att stödja dig och din familj i varje steg.",
+      "availableTemplates": "Tillgängliga mallar",
+      "noTemplates": "Inga mallar hittades.",
+      "tasksCount": "{count} uppgifter",
+      "templatePreview": "Förhandsgranskning av mall",
+      "templatesSelected": "{count} mallar valda",
+      "selectionContains": "Detta urval innehåller",
+      "selectToPreview": "Välj en mall för att förhandsgranska",
+      "footerText": {
+        "addOne": "Lägg till \"{title}\" i din checklista",
+        "addMany": "Lägg till {count} mallar i din checklista"
+      },
+      "cancel": "Avbryt",
+      "adding": "Lägger till...",
+      "add": "Lägg till",
+      "success": "Mallar har lagts till",
+      "error": "Misslyckades med att lägga till mallar"
     }
   },
+
+
   "threads": {
     "active": "aktiv",
     "finalized": "slutförd",

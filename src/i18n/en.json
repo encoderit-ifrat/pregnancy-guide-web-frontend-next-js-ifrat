@@ -227,8 +227,66 @@
       "noActiveTasksDesc": "Start organizing by adding a category or choosing from our helpful templates",
       "addNewList": "Add new list.",
       "browseTemplates": "Browse Templates"
+    },
+    "taskForm": {
+      "title": "Task Title",
+      "titlePlaceholder": "Buy baby clothes",
+      "priority": "Priority Level",
+      "priorities": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "none": "None"
+      },
+      "dueDate": "Due Date",
+      "assignedTo": "Assigned To",
+      "assignees": {
+        "none": "None",
+        "me": "Me",
+        "partner": "Partner"
+      },
+      "reminder": "Reminder",
+      "reminderSet": "Reminder Set",
+      "setReminder": "Set Reminder",
+      "notes": "Task Notes",
+      "notesPlaceholder": "Add any additional notes...",
+      "notesHelper": "These notes are only visible when the task is expanded",
+      "deleteTask": "Delete Task",
+      "updateTask": "Update Task",
+      "createTask": "Create Task",
+      "validation": {
+        "titleRequired": "Task title is required"
+      },
+      "deleteConfirm": {
+        "title": "Are you sure you want to delete?",
+        "description": "This action cannot be undone.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    },
+    "templateModal": {
+      "title": "Ready-Made Templates",
+      "description": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
+      "availableTemplates": "Available Templates",
+      "noTemplates": "No templates found.",
+      "tasksCount": "{count} tasks",
+      "templatePreview": "Template Preview",
+      "templatesSelected": "{count} Templates Selected",
+      "selectionContains": "This selection contains",
+      "selectToPreview": "Select a template to preview",
+      "footerText": {
+        "addOne": "Add \"{title}\" to your checklist",
+        "addMany": "Add {count} templates to your checklist"
+      },
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add",
+      "success": "Templates added successfully",
+      "error": "Failed to add templates"
     }
   },
+
+
   "threads": {
     "active": "Active",
     "finalized": "Finalized",

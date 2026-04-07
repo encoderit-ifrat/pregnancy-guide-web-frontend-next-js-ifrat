@@ -30,7 +30,6 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useMutationCreateItem } from "../_api/mutations/UseMutationCreateItem";
-import { toast } from "sonner";
 import { useMutationUpdateItem } from "../_api/mutations/UseMutationUpdateItem";
 import { useMutationDeleteItem } from "../_api/mutations/UseMutationDeleteItem";
 import {
@@ -43,13 +42,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/AlertDialog";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // ----------------------
-// ZOD SCHEMA
+// SCHEMA TYPE
 // ----------------------
-const formSchema = z.object({
+const getFormSchema = (t: (key: string) => string) => z.object({
   checklist_id: z.string(),
-  title: z.string().min(1, "Task title is required"),
+  title: z.string().min(1, t("checklists.taskForm.validation.titleRequired")),
   priority: z.enum(["high", "medium", "low", "none"]),
   assigned_to: z.enum(["none", "me", "partner"]),
   due_date: z.date(),
@@ -57,7 +57,7 @@ const formSchema = z.object({
   reminder: z.boolean().optional(),
 });
 
-export type TaskFormValues = z.infer<typeof formSchema>;
+export type TaskFormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
 // ----------------------
 // COMPONENT
@@ -73,6 +73,7 @@ export default function TaskForm({
   refetch?: () => void;
   task?: any;
 }) {
+  const { t } = useTranslation();
   const isUpdate = !!task;
 
   const { mutateAsync: createItem, isPending: isCreatingItem } = useMutationCreateItem();
@@ -80,6 +81,8 @@ export default function TaskForm({
   const { mutateAsync: deleteItem, isPending: isDeletingItem } = useMutationDeleteItem();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const formSchema = getFormSchema(t);
 
   const form = useForm<TaskFormValues>({
     resolver: zodResolver(formSchema),
@@ -139,10 +142,12 @@ export default function TaskForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base text-[#1B1343]">Task Title</FormLabel>
+                <FormLabel className="text-base text-[#1B1343]">
+                  {t("checklists.taskForm.title")}
+                </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Buy baby clothes"
+                    placeholder={t("checklists.taskForm.titlePlaceholder")}
                     className="border-purple-300 focus-visible:ring-purple-400"
                     {...field}
                   />
@@ -161,7 +166,7 @@ export default function TaskForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base text-[#1B1343]">
-                    Priority Level
+                    {t("checklists.taskForm.priority")}
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -170,9 +175,9 @@ export default function TaskForm({
                       className="flex gap-2"
                     >
                       {[
-                        { value: "high", label: "High" },
-                        { value: "medium", label: "Medium" },
-                        { value: "low", label: "Low" },
+                        { value: "high", label: t("checklists.taskForm.priorities.high") },
+                        { value: "medium", label: t("checklists.taskForm.priorities.medium") },
+                        { value: "low", label: t("checklists.taskForm.priorities.low") },
                       ].map((item) => (
                         <label
                           key={item.value}
@@ -210,7 +215,7 @@ export default function TaskForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base text-[#1B1343]">
-                    Due Date
+                    {t("checklists.taskForm.dueDate")}
                   </FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -251,14 +256,14 @@ export default function TaskForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base text-[#1B1343]">
-                    Assigned To
+                    {t("checklists.taskForm.assignedTo")}
                   </FormLabel>
                   <FormControl>
                     <div className="flex gap-2">
                       {[
-                        { label: "None", value: "none" },
-                        { label: "Me", value: "me", initial: "M", color: "bg-[#EDE9FE] text-[#A855F7]" },
-                        { label: "Partner", value: "partner", initial: "P", color: "bg-[#E0F2F1] text-[#2DD4BF]" },
+                        { label: t("checklists.taskForm.assignees.none"), value: "none" },
+                        { label: t("checklists.taskForm.assignees.me"), value: "me", initial: "M", color: "bg-[#EDE9FE] text-[#A855F7]" },
+                        { label: t("checklists.taskForm.assignees.partner"), value: "partner", initial: "P", color: "bg-[#E0F2F1] text-[#2DD4BF]" },
                       ].map((item) => (
                         <button
                           type="button"
@@ -292,7 +297,7 @@ export default function TaskForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base text-[#1B1343]">
-                    Reminder
+                    {t("checklists.taskForm.reminder")}
                   </FormLabel>
                   <FormControl>
                     <Button
@@ -311,7 +316,7 @@ export default function TaskForm({
                       )}>
                         <Bell className={cn("size-4", field.value ? "text-white" : "text-[#A855F7]")} />
                       </div>
-                      {field.value ? "Reminder Set" : "Set Reminder"}
+                      {field.value ? t("checklists.taskForm.reminderSet") : t("checklists.taskForm.setReminder")}
                     </Button>
                   </FormControl>
                 </FormItem>
@@ -325,10 +330,12 @@ export default function TaskForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base text-[#1B1343]">Task Notes</FormLabel>
+                <FormLabel className="text-base text-[#1B1343]">
+                    {t("checklists.taskForm.notes")}
+                </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Add any additional notes..."
+                    placeholder={t("checklists.taskForm.notesPlaceholder")}
                     className="min-h-30 bg-purple-50"
                     {...field}
                   />
@@ -338,7 +345,7 @@ export default function TaskForm({
           />
 
           <p className="text-sm text-gray-500">
-            These notes are only visible when the task is expanded
+            {t("checklists.taskForm.notesHelper")}
           </p>
 
           {/* Footer */}
@@ -351,7 +358,7 @@ export default function TaskForm({
                 disabled={isDeletingItem}
                 className="flex items-center gap-2 text-[#E7000B] font-semibold hover:opacity-80 transition-opacity"
               >
-                Delete Task
+                {t("checklists.taskForm.deleteTask")}
                 <span className="bg-red-100 p-2 rounded-full">
                   <Trash2 className="w-4 h-4" />
                 </span>
@@ -367,7 +374,7 @@ export default function TaskForm({
                 !isUpdate && "ml-auto"
               )}
             >
-              {isUpdate ? "Update Task" : "Create Task"}
+              {isUpdate ? t("checklists.taskForm.updateTask") : t("checklists.taskForm.createTask")}
               <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
                 {(isCreatingItem || isUpdatingItem) ? (
                   <Loader2 className="size-5 text-[#A855F7] animate-spin" />
@@ -384,10 +391,10 @@ export default function TaskForm({
         <AlertDialogContent className="max-w-[400px] rounded-[20px] p-8">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-center text-[24px] font-bold text-[#1B1343]">
-              Are you sure you want to delete?
+              {t("checklists.taskForm.deleteConfirm.title")}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[18px] text-[#6B7280]">
-              This action cannot be undone.
+              {t("checklists.taskForm.deleteConfirm.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex flex-row justify-center gap-4 sm:justify-center pt-4">
@@ -395,7 +402,7 @@ export default function TaskForm({
               disabled={isDeletingItem}
               className="h-[50px] px-8 rounded-xl border-[#E5E7EB] text-[#6B7280] font-semibold text-lg hover:bg-gray-50"
             >
-              Cancel
+              {t("checklists.taskForm.deleteConfirm.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={isDeletingItem}
@@ -410,7 +417,7 @@ export default function TaskForm({
               ) : (
                 <>
                   <Trash2 className="size-5" />
-                  Delete
+                  {t("checklists.taskForm.deleteConfirm.delete")}
                 </>
               )}
             </AlertDialogAction>
@@ -420,4 +427,3 @@ export default function TaskForm({
     </div>
   );
 }
-

@@ -92,10 +92,11 @@ export default function CheckLists() {
           toast.warning(t("checklists.loginToAdd"));
         }
       }}
-      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${isAuthenticated
-        ? "cursor-pointer hover:bg-purple-50"
-        : "opacity-50 cursor-not-allowed"
-        }`}
+      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${
+        isAuthenticated
+          ? "cursor-pointer hover:bg-purple-50"
+          : "opacity-50 cursor-not-allowed"
+      }`}
     >
       <span className="pr-2 text-primary text-base lg:text-lg font-medium">
         {t("checklists.addNew")}
@@ -133,7 +134,7 @@ export default function CheckLists() {
           defaultValue="active"
           onValueChange={(value) => setActiveTab(value)}
         >
-          <div className="max-w-[1213px] w-full mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+          <div className="max-w-303.25 w-full mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
             <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-4 mb-8">
               <div className="">
                 <h3 className="text-3xl font-semibold">
@@ -187,7 +188,11 @@ export default function CheckLists() {
                 >
                   {t("threads.addTemplate")}
                   <div className="size-8 p-1.5 rounded-full bg-[#A97AEC] flex items-center justify-center shrink-0 shadow-sm">
-                    <Sparkles size={20} strokeWidth={2} className="text-white" />
+                    <Sparkles
+                      size={20}
+                      strokeWidth={2}
+                      className="text-white"
+                    />
                   </div>
                 </Button>
               </div>
