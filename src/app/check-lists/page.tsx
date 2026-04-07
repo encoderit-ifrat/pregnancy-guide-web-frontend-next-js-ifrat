@@ -203,10 +203,15 @@ export default function CheckLists() {
                 totalPages={meta?.last_page || 1}
                 currentPage={Number(page)}
                 refetch={refetch}
+                onAddList={() => setFormData({ type: "create", id: "" })}
+                onBrowseTemplates={() => setIsTemplateOpen(true)}
               />
             </TabsContent>
             <TabsContent value="finalized" className="m-0 flex flex-col gap-2">
-              <FinalizedChecklist />
+              <FinalizedChecklist
+                onAddList={() => setFormData({ type: "create", id: "" })}
+                onBrowseTemplates={() => setIsTemplateOpen(true)}
+              />
             </TabsContent>
 
             {/* Pagination Footer */}

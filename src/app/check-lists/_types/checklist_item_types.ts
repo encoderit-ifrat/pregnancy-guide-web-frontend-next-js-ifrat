@@ -40,6 +40,8 @@ export type CheckListItemProps = {
   totalPages?: number;
   currentPage?: number;
   refetch?: () => void;
+  onAddList?: () => void;
+  onBrowseTemplates?: () => void;
 };
 
 export type ChecklistFormProps = {

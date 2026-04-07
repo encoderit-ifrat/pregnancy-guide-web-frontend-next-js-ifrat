@@ -196,6 +196,12 @@
     "loginToAdd": "Please log in to add a checklist",
     "toggleSuccess": "Checklist updated successfully.",
     "overdue": "{days}d overdue",
+    "noListError": "Please create a list first before adding tasks",
+    "noItems": "No items found in this list.",
+    "noChecklistsForWeek": "No checklists available for this week.",
+    "seeAll": "See All",
+    "editChecklist": "Edit Checklist",
+    "failedToUpdate": "Failed to update task",
     "form": {
       "title": "Title",
       "titlePlaceholder": "Enter title",

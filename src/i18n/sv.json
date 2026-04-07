@@ -196,6 +196,12 @@
     "loginToAdd": "Logga in för att lägga till en checklista",
     "toggleSuccess": "Checklistan uppdaterades.",
     "overdue": "{days}d försenad",
+    "noListError": "Vänligen skapa en lista först innan du lägger till uppgifter",
+    "noItems": "Inga punkter hittades i denna lista.",
+    "noChecklistsForWeek": "Inga checklistor tillgängliga för denna vecka.",
+    "seeAll": "Visa alla",
+    "editChecklist": "Redigera checklista",
+    "failedToUpdate": "Misslyckades med att uppdatera uppgiften",
     "form": {
       "title": "Titel",
       "titlePlaceholder": "Ange titel",
@@ -234,6 +240,13 @@
         "exercise": "Träning",
         "preparation": "Förberedelse"
       }
+    },
+    "finalized": {
+      "congratulations": "🎉 Grattis! Alla uppgifter är klara!",
+      "noActiveTasks": "Inga aktiva uppgifter",
+      "noActiveTasksDesc": "Börja organisera genom att lägga till en kategori eller välja bland våra mallar",
+      "addNewList": "Lägg till ny lista.",
+      "browseTemplates": "Bläddra bland mallar"
     },
     "taskForm": {
       "title": "Uppgiftstitel",

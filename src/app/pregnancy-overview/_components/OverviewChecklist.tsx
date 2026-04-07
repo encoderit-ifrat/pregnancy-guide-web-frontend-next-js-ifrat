@@ -109,7 +109,7 @@ export default function OverviewChecklist({
           setToggleLoading(null);
         },
         onError: () => {
-          toast.error("Failed to update task");
+          toast.error(t("checklists.failedToUpdate"));
           setToggleLoading(null);
         },
       }
@@ -134,10 +134,7 @@ export default function OverviewChecklist({
             if (lists && lists.length > 0) {
               setIsAddTaskOpen(true);
             } else {
-              toast.error(
-                t("checklists.noListError") ||
-                  "Please create a list first before adding tasks"
-              );
+              toast.error(t("checklists.noListError"));
             }
           }}
         >
@@ -271,7 +268,7 @@ export default function OverviewChecklist({
 
               {(!list.items || list.items.length === 0) && (
                 <div className="py-8 text-center text-gray-500 italic">
-                  No items found in this list.
+                  {t("checklists.noItems")}
                 </div>
               )}
             </AccordionContent>
@@ -280,7 +277,7 @@ export default function OverviewChecklist({
 
         {(!lists || lists.length === 0) && (
           <div className="p-12 text-center text-gray-500 bg-gray-50/50">
-            No checklists available for this week.
+            {t("checklists.noChecklistsForWeek")}
           </div>
         )}
       </Accordion>
@@ -290,7 +287,7 @@ export default function OverviewChecklist({
       <div className="flex justify-center pt-4">
         <Link href="/check-lists" className="w-full">
           <Button className="w-full rounded-full text-xl font-semibold bg-[#A67EEA] hover:bg-[#8B5CF6] shadow-xl border-none text-white transition-all transform hover:-translate-y-1">
-            See All <ChevronRight className="ml-2 size-6" />
+            {t("checklists.seeAll")} <ChevronRight className="ml-2 size-6" />
           </Button>
         </Link>
       </div>
@@ -318,7 +315,9 @@ export default function OverviewChecklist({
 
       <Dialog open={isAddTaskOpen} onOpenChange={() => setIsAddTaskOpen(false)}>
         <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
-          <DialogTitle className="sr-only">Add Task</DialogTitle>
+          <DialogTitle className="sr-only">
+            {t("checklists.addTask")}
+          </DialogTitle>
           <TaskForm
             checklist_id={
               openItem
@@ -340,7 +339,9 @@ export default function OverviewChecklist({
         onOpenChange={() => setEditingTask(null)}
       >
         <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
-          <DialogTitle className="sr-only">Edit Task</DialogTitle>
+          <DialogTitle className="sr-only">
+            {t("checklists.taskForm.updateTask")}
+          </DialogTitle>
           <TaskForm
             checklist_id={editingTask?.checklistId || ""}
             task={
@@ -372,7 +373,9 @@ export default function OverviewChecklist({
       >
         <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
           <DialogHeader>
-            <DialogTitle className="text-left">Edit Checklist</DialogTitle>
+            <DialogTitle className="text-left">
+              {t("checklists.editChecklist")}
+            </DialogTitle>
           </DialogHeader>
           <ChecklistForm
             onSubmitForDialogAndRefetch={async () => {
