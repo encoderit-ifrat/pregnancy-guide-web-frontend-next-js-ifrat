@@ -42,11 +42,11 @@ const fetchThreads = async ({
   pageParam?: number;
   sort: ThreadSortOption;
 }) => {
-  const res = await api.get("/threads", {
+  const res = await api.get("/threads/my", {
     params: omitEmpty({
       sort,
       page: pageParam,
-      limit: PAGE_LIMIT,
+      limit: 10,
     }),
   });
   return res.data;
@@ -167,11 +167,14 @@ export default function Page() {
     const createdAtDate = thread.createdAt
       ? new Date(thread.createdAt)
       : new Date();
-    
+
     const currentLocale = locale === "sv" ? sv : enUS;
-    
+
     const timeAgo = isValid(createdAtDate)
-      ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
+      ? formatDistanceToNow(createdAtDate, {
+          addSuffix: true,
+          locale: currentLocale,
+        })
       : "";
 
     return {
