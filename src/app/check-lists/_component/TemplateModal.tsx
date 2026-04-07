@@ -58,8 +58,12 @@ interface TemplateModalProps {
 
 export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
   const { t } = useTranslation();
-  const { mutateAsync: createTemplate, isPending: isCreatingTemplate } = useMutationCreateTemplate()
-  const { data: apiResponse, isLoading } = useQueryGetAllTemplate() as { data: TemplateApiResponse, isLoading: boolean };
+  const { mutateAsync: createTemplate, isPending: isCreatingTemplate } =
+    useMutationCreateTemplate();
+  const { data: apiResponse, isLoading } = useQueryGetAllTemplate() as {
+    data: TemplateApiResponse;
+    isLoading: boolean;
+  };
   const templates = apiResponse?.data?.data || [];
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -72,15 +76,19 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
   }, [templates, selectedIds]);
 
   const toggleSelection = (id: string) => {
-    setSelectedIds(prev =>
+    setSelectedIds((prev) =>
       prev.includes(id)
-        ? (prev.length > 1 ? prev.filter(i => i !== id) : prev)
+        ? prev.length > 1
+          ? prev.filter((i) => i !== id)
+          : prev
         : [...prev, id]
     );
   };
 
-  const selectedTemplates = templates.filter((t) => selectedIds.includes(t._id));
-  const allTasks = selectedTemplates.flatMap(t => t.items || []);
+  const selectedTemplates = templates.filter((t) =>
+    selectedIds.includes(t._id)
+  );
+  const allTasks = selectedTemplates.flatMap((t) => t.items || []);
 
   const handleAddTemplates = async () => {
     try {
@@ -88,15 +96,18 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
       toast.success(t("checklists.templateModal.success"));
       onClose();
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || t("checklists.templateModal.error"));
+      toast.error(
+        error?.response?.data?.message || t("checklists.templateModal.error")
+      );
     }
   };
-
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-5xl w-full p-0 max-h-[90vh] flex flex-col overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
-        <DialogTitle className="sr-only">{t("checklists.templateModal.title")}</DialogTitle>
+        <DialogTitle className="sr-only">
+          {t("checklists.templateModal.title")}
+        </DialogTitle>
         {/* Header */}
         <div className="bg-[#A97AEC] p-8 relative shrink-0">
           <button
@@ -121,7 +132,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           {/* Left Column: List */}
           <div className="w-[40%] border-r border-gray-100 p-6 overflow-y-auto">
             <h3 className="text-3xl font-medium text-[#1B1343] font-outfit mb-6">
-                {t("checklists.templateModal.availableTemplates")}
+              {t("checklists.templateModal.availableTemplates")}
             </h3>
             <div className="space-y-4">
               {isLoading ? (
@@ -129,7 +140,9 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#A97AEC]"></div>
                 </div>
               ) : templates.length === 0 ? (
-                <p className="text-center text-gray-500 py-20">{t("checklists.templateModal.noTemplates")}</p>
+                <p className="text-center text-gray-500 py-20">
+                  {t("checklists.templateModal.noTemplates")}
+                </p>
               ) : (
                 templates.map((template) => (
                   <div
@@ -148,7 +161,10 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                       </div>
                       {selectedIds.includes(template._id) && (
                         <div className="size-[22px] rounded-full border-2 border-[#A97AEC] flex items-center justify-center shrink-0 mt-0.5">
-                          <Check className="size-3 text-[#A97AEC]" strokeWidth={4} />
+                          <Check
+                            className="size-3 text-[#A97AEC]"
+                            strokeWidth={4}
+                          />
                         </div>
                       )}
                     </div>
@@ -159,9 +175,14 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                     )}
                     <div className="flex items-center gap-2 text-[#1B1343] font-medium text-base">
                       <div className="size-[22px] rounded-full border-2 border-[#A97AEC] flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="size-3 text-[#A97AEC]" strokeWidth={4} />
+                        <Check
+                          className="size-3 text-[#A97AEC]"
+                          strokeWidth={4}
+                        />
                       </div>
-                      {t("checklists.templateModal.tasksCount", { count: template.items?.length || 0 })}
+                      {t("checklists.templateModal.tasksCount", {
+                        count: template.items?.length || 0,
+                      })}
                     </div>
                   </div>
                 ))
@@ -172,7 +193,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           {/* Right Column: Preview */}
           <div className="flex-1 bg-gray-50/30 p-6 overflow-y-auto">
             <h3 className="text-3xl font-medium text-[#1B1343] font-outfit mb-6">
-                {t("checklists.templateModal.templatePreview")}
+              {t("checklists.templateModal.templatePreview")}
             </h3>
 
             <div className="space-y-4">
@@ -183,17 +204,22 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                     <h4 className="text-[#101828] font-poppins text-base font-semibold">
                       {selectedTemplates.length === 1
                         ? selectedTemplates[0].title
-                        : t("checklists.templateModal.templatesSelected", { count: selectedTemplates.length })}
+                        : t("checklists.templateModal.templatesSelected", {
+                            count: selectedTemplates.length,
+                          })}
                     </h4>
-                    {selectedTemplates.length === 1 && selectedTemplates[0].description && (
-                      <p className="text-[#1B1343] text-base font-outfit mb-4 leading-relaxed line-clamp-2">
-                        {selectedTemplates[0].description}
-                      </p>
-                    )}
+                    {selectedTemplates.length === 1 &&
+                      selectedTemplates[0].description && (
+                        <p className="text-[#1B1343] text-base font-outfit mb-4 leading-relaxed line-clamp-2">
+                          {selectedTemplates[0].description}
+                        </p>
+                      )}
                     <p className="text-[#1B1343] font-medium text-base">
                       {t("checklists.templateModal.selectionContains")}{" "}
                       <span className="text-[#1B1343] font-semibold">
-                        {t("checklists.templateModal.tasksCount", { count: allTasks.length })}
+                        {t("checklists.templateModal.tasksCount", {
+                          count: allTasks.length,
+                        })}
                       </span>
                     </p>
                   </div>
@@ -217,7 +243,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                         <div className="pt-2">
                           <span
                             className={cn(
-                              "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ring-1",
+                              "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs ring-1",
                               task.priority === "high"
                                 ? "bg-[#FFFBE5] text-[#BB4D00] ring-[#FEE685]"
                                 : task.priority === "medium"
@@ -244,7 +270,9 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                 </>
               ) : (
                 <div className="flex items-center justify-center py-20 bg-white rounded-2xl border border-dashed border-gray-200">
-                  <p className="text-gray-400 font-outfit">{t("checklists.templateModal.selectToPreview")}</p>
+                  <p className="text-gray-400 font-outfit">
+                    {t("checklists.templateModal.selectToPreview")}
+                  </p>
                 </div>
               )}
             </div>
@@ -253,10 +281,14 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
 
         {/* Footer */}
         <div className="p-6 border-t border-gray-100 flex items-center justify-between bg-white shrink-0">
-          <p className="text-primary-dark/80 font-medium font-outfit text-lg">
+          <p className="text-primary-dark/80 font-outfit">
             {selectedTemplates.length === 1
-                ? t("checklists.templateModal.footerText.addOne", { title: selectedTemplates[0].title })
-                : t("checklists.templateModal.footerText.addMany", { count: selectedTemplates.length })}
+              ? t("checklists.templateModal.footerText.addOne", {
+                  title: selectedTemplates[0].title,
+                })
+              : t("checklists.templateModal.footerText.addMany", {
+                  count: selectedTemplates.length,
+                })}
           </p>
           <div className="flex items-center gap-4">
             <Button
@@ -271,7 +303,9 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
               disabled={isCreatingTemplate || selectedIds.length === 0}
               className="h-12 px-8 rounded-full bg-[#A97AEC] hover:bg-[#9333EA] text-white flex items-center gap-3 font-outfit font-bold text-lg shadow-lg shadow-purple-200"
             >
-              {isCreatingTemplate ? t("checklists.templateModal.adding") : t("checklists.templateModal.add")}
+              {isCreatingTemplate
+                ? t("checklists.templateModal.adding")
+                : t("checklists.templateModal.add")}
               {!isCreatingTemplate && (
                 <div className="size-6 rounded-full bg-white text-primary flex items-center justify-center">
                   <Plus className="size-4" />
