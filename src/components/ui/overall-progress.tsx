@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function OverallProgress({
   value = 17,
@@ -9,17 +10,18 @@ export default function OverallProgress({
   tasksDone?: number;
   totalTasks?: number;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="w-full font-inter space-y-6">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3">
           <div className="text-lg font-medium text-[#1B1343] font-[Outfit] align-middle">
-            Overall Progress
+            {t("checklists.progress.title")}
           </div>
 
           <div className="flex items-center gap-1 text-sm leading-[15.02px] text-[#1B1343] mt-1 font-normal">
             <div className="size-1 rounded-full bg-primary"></div>
-            {tasksDone} of {totalTasks} tasks
+            {t("checklists.progress.status", { done: tasksDone, total: totalTasks })}
           </div>
         </div>
         <div className="text-[22.53px] leading-[30.04px] font-bold text-primary">

@@ -195,6 +195,7 @@
     "deleteSuccess": "Checklistan har raderats",
     "loginToAdd": "Logga in för att lägga till en checklista",
     "toggleSuccess": "Checklistan uppdaterades.",
+    "overdue": "{days}d försenad",
     "form": {
       "title": "Titel",
       "titlePlaceholder": "Ange titel",
@@ -213,6 +214,19 @@
       "atLeastOneItem": "Vänligen lägg till minst en checklistepunkt.",
       "updateSuccess": "Checklistan har uppdaterats!",
       "saveSuccess": "Checklistan har sparats!",
+      "validation": {
+        "titleRequired": "Checklist-titel krävs",
+        "titleMin": "Titeln måste vara minst 2 tecken",
+        "titleMax": "Titeln får bara vara 100 tecken lång",
+        "descriptionMax": "Beskrivningen får bara vara 500 tecken lång",
+        "itemTitleRequired": "Titel på punkt krävs",
+        "itemTitleMin": "Titel på punkt måste vara minst 2 tecken",
+        "itemTitleMax": "Titel på punkt får bara vara 200 tecken lång",
+        "itemDescriptionMax": "Beskrivning av punkt får bara vara 500 tecken lång",
+        "weekWholeNumber": "Vecka måste vara ett heltal",
+        "weekMin": "Veckan måste vara 0 eller mer",
+        "weekMax": "Veckan får bara vara 42"
+      },
       "categories": {
         "general": "Allmänt",
         "medical": "Medicinskt",
@@ -276,8 +290,13 @@
       "add": "Lägg till",
       "success": "Mallar har lagts till",
       "error": "Misslyckades med att lägga till mallar"
+    },
+    "progress": {
+      "title": "Övergripande framsteg",
+      "status": "{done} av {total} uppgifter"
     }
   },
+
 
 
   "threads": {

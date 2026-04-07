@@ -195,6 +195,7 @@
     "deleteSuccess": "Check list deleted successfully",
     "loginToAdd": "Please log in to add a checklist",
     "toggleSuccess": "Checklist updated successfully.",
+    "overdue": "{days}d overdue",
     "form": {
       "title": "Title",
       "titlePlaceholder": "Enter title",
@@ -213,6 +214,19 @@
       "atLeastOneItem": "Please add at least one checklist item.",
       "updateSuccess": "Checklist updated successfully!",
       "saveSuccess": "Checklist saved successfully!",
+      "validation": {
+        "titleRequired": "Checklist title is required",
+        "titleMin": "Title must be at least 2 characters",
+        "titleMax": "Title must be less than 100 characters",
+        "descriptionMax": "Description must be less than 500 characters",
+        "itemTitleRequired": "Item title is required",
+        "itemTitleMin": "Item title must be at least 2 characters",
+        "itemTitleMax": "Item title must be less than 200 characters",
+        "itemDescriptionMax": "Item description must be less than 500 characters",
+        "weekWholeNumber": "Week must be a whole number",
+        "weekMin": "Week must be 0 or greater",
+        "weekMax": "Week must be 42 or less"
+      },
       "categories": {
         "general": "General",
         "medical": "Medical",
@@ -283,8 +297,13 @@
       "add": "Add",
       "success": "Templates added successfully",
       "error": "Failed to add templates"
+    },
+    "progress": {
+      "title": "Overall Progress",
+      "status": "{done} of {total} tasks"
     }
   },
+
 
 
   "threads": {

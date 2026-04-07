@@ -40,7 +40,6 @@ import {
 } from "@/components/ui/Dialog";
 import TaskForm from "./TaskForm";
 
-
 export default function CheckList({
   checklistItems,
   overview,
@@ -56,7 +55,6 @@ export default function CheckList({
     checklistItems || []
   );
   const [isAddTaskOpen, setIsAddTaskOpen] = useState<string | null>(null);
-
 
   // Sync filteredLists with checklistItems prop
   useEffect(() => {
@@ -82,8 +80,6 @@ export default function CheckList({
       reminder: item.reminder,
     })),
   }));
-
-
 
   function handleChecklistToggle(id: string) {
     setToggleLoading(id);
@@ -145,14 +141,18 @@ export default function CheckList({
                 <div className="text-[22px] font-semibold">{group.name}</div>
 
                 <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282]">
-                  {group.tasks.filter((task: any) => task.checked).length} / {group.tasks.length}
+                  {group.tasks.filter((task: any) => task.checked).length} /{" "}
+                  {group.tasks.length}
                 </span>
 
                 <div className="flex items-center gap-1 text-primary font-semibold">
                   {(() => {
-                    const completedTasks = group.tasks.filter((task: any) => task.checked).length;
+                    const completedTasks = group.tasks.filter(
+                      (task: any) => task.checked
+                    ).length;
                     const totalTasks = group.tasks.length;
-                    const percentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+                    const percentage =
+                      totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
                     return (
                       <>
                         <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -172,7 +172,7 @@ export default function CheckList({
                 className="shadow-none text-primary font-semibold hover:bg-transparent"
                 onClick={() => setIsAddTaskOpen(group.id)}
               >
-                Add Task{" "}
+                {t("checklists.addTask")}{" "}
                 <PlusIcon
                   className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
                   stroke="white"
@@ -203,7 +203,9 @@ export default function CheckList({
                         ) : (
                           <CheckBox
                             checked={task.checked}
-                            onCheckedChange={() => handleChecklistToggle(task.id)}
+                            onCheckedChange={() =>
+                              handleChecklistToggle(task.id)
+                            }
                             className={cn(
                               "size-7 transition-all duration-200",
                               task.checked
@@ -216,7 +218,8 @@ export default function CheckList({
                       <span
                         className={cn(
                           "text-[#1B1343] text-[20px] font-medium transition-all duration-200",
-                          task.checked && "line-through text-gray-400 opacity-60"
+                          task.checked &&
+                            "line-through text-gray-400 opacity-60"
                         )}
                       >
                         {task.name}
@@ -259,7 +262,12 @@ export default function CheckList({
                           >
                             <Calendar className="size-3.5" />
                             {isPast(parseISO(task.date)) && !task.checked
-                              ? `${differenceInDays(new Date(), parseISO(task.date))}d overdue`
+                              ? t("checklists.overdue", {
+                                  days: differenceInDays(
+                                    new Date(),
+                                    parseISO(task.date)
+                                  ),
+                                })
                               : format(parseISO(task.date), "dd-MM-yyyy")}
                           </Badge>
                         )}
@@ -289,7 +297,12 @@ export default function CheckList({
                               : "bg-gray-50 text-gray-300 hover:bg-gray-100"
                           )}
                         >
-                          <Bell className={cn("size-4", task.reminder && "fill-[#A67EEA]")} />
+                          <Bell
+                            className={cn(
+                              "size-4",
+                              task.reminder && "fill-[#A67EEA]"
+                            )}
+                          />
                         </div>
 
                         <AccordionTrigger className="flex items-center hover:no-underline">
@@ -315,9 +328,14 @@ export default function CheckList({
             </AccordionContent>
           </AccordionItem>
         ))}
-        <Dialog open={!!isAddTaskOpen} onOpenChange={() => setIsAddTaskOpen(null)}>
+        <Dialog
+          open={!!isAddTaskOpen}
+          onOpenChange={() => setIsAddTaskOpen(null)}
+        >
           <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none">
-            <DialogTitle className="sr-only">Add Task</DialogTitle>
+            <DialogTitle className="sr-only">
+              {t("checklists.addTask")}
+            </DialogTitle>
             <TaskForm
               checklist_id={isAddTaskOpen || ""}
               onClose={() => setIsAddTaskOpen(null)}

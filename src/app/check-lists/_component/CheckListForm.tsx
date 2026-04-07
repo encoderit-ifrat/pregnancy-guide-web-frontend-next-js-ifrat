@@ -1,10 +1,9 @@
 "use client";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-// import { Trash2, Plus, ChevronDown } from "lucide-react";
 import {
-  ChecklistSchema,
+  getChecklistSchema,
   ChecklistSchemaType,
 } from "../_types/checklist_types";
 import {
@@ -12,7 +11,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
@@ -36,7 +34,7 @@ export default function ChecklistForm({
   const hasAddedInitialItem = useRef(false);
   useEffect(() => {}, [formData]);
   const { type, data } = formData ?? {};
-  const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
+  const { user, refetch } = useCurrentUser();
 
   const last_period_date = user?.details?.last_period_date;
   const current_pregnancy_week = user?.details?.current_pregnancy_week;
@@ -46,7 +44,7 @@ export default function ChecklistForm({
     (current_pregnancy_week && current_pregnancy_week > 0);
 
   const form = useForm<ChecklistSchemaType>({
-    resolver: zodResolver(ChecklistSchema),
+    resolver: zodResolver(getChecklistSchema(t)),
     defaultValues:
       type == "update"
         ? data
@@ -55,7 +53,6 @@ export default function ChecklistForm({
             title: "",
             description: "",
             category: "general",
-            // items: [],
             is_active: true,
           },
   });
@@ -93,52 +90,21 @@ export default function ChecklistForm({
     },
   ];
 
-  const selectedCategory = categoryOptions.find(
-    (c) => c.value === form.watch("category")
-  );
-
   const {
     control,
     handleSubmit,
     reset,
-    watch,
-    setValue,
     formState: { errors },
   } = form;
-
-  // const { fields, append, remove } = useFieldArray({
-  //   control,
-  //   name: "items",
-  // });
-
-  // Automatically add an empty checklist item when modal opens for new checklists
-  // useEffect(() => {
-  //   if (
-  //     type !== "update" &&
-  //     fields.length === 0 &&
-  //     !hasAddedInitialItem.current
-  //   ) {
-  //     hasAddedInitialItem.current = true;
-  //     append({
-  //       title: "",
-  //       description: "",
-  //     });
-  //   }
-  // }, [type, fields.length, append]);
 
   const checklistMutation = useMutationCreateChecklist();
   const { mutate: updateChecklist, isPending: isPendingUpdateChecklist } =
     useMutationUpdateChecklist();
 
   const onSubmit = (values: ChecklistSchemaType) => {
-    // if (values.items.length === 0) {
-    //   toast.error(t("checklists.form.atLeastOneItem"));
-    //   return;
-    // }
     if (type === "update") {
       updateChecklist(
         values,
-
         {
           onSuccess: (data: any) => {
             onSubmitForDialogAndRefetch();
@@ -148,15 +114,11 @@ export default function ChecklistForm({
             );
             reset();
           },
-          // onError: (error: any) => {
-          //   toast.error("Something went wrong while saving the checklist.");
-          // },
         }
       );
     } else {
       checklistMutation.mutate(
         values,
-
         {
           onSuccess: (data: any) => {
             onSubmitForDialogAndRefetch();
@@ -166,9 +128,6 @@ export default function ChecklistForm({
             );
             reset();
           },
-          // onError: (error: any) => {
-          //   toast.error("Something went wrong while saving the checklist.");
-          // },
         }
       );
     }
@@ -215,139 +174,8 @@ export default function ChecklistForm({
               </FormItem>
             )}
           />
-          {/* <FormField
-            control={form.control}
-            name="category"
-            rules={{ required: "Category is required" }}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        className="w-full bg-light px-4
-                                    flex items-center justify-between
-                                    disabled:cursor-not-allowed disabled:opacity-50
-                                    rounded-full
-                                    h-11 sm:h-12 md:h-13 lg:h-14
-                                    text-sm sm:text-base md:text-lg lg:text-xl 
-                                   text-text-mid"
-                      >
-                        <span className="flex items-center gap-2">
-                          {selectedCategory
-                            ? selectedCategory.label
-                            : t("checklists.form.selectCategory")}
-                        </span>
-                        <ChevronDown className="w-5 h-5" />
-                      </DropdownMenuTrigger>
-
-                      <DropdownMenuContent
-                        align="start"
-                        className="w-full max-w-md"
-                      >
-                        {categoryOptions.map((option) => (
-                          <DropdownMenuItem
-                            key={option.value}
-                            onClick={() => field.onChange(option.value)}
-                            className="flex items-center gap-2 cursor-pointer rounded-full hover:bg-soft-purple/20 text-text-mid"
-                          >
-                            <span className="text-sm sm:text-base">
-                              {option.emoji} {option.label}
-                            </span>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </FormControl>
-
-                <FormMessage className="text-xs sm:text-sm" />
-              </FormItem>
-            )}
-          /> */}
 
           <div className="space-y-2">
-            {/* Header */}
-            {/* <div className="flex justify-between items-center">
-              <h3 className="font-medium">{t("checklists.form.items")}</h3>
-              <Button
-                type="button"
-                onClick={() =>
-                  append({
-                    title: "",
-                    description: "",
-                    // order: fields.length + 1,
-                    // is_optional: false,
-                  })
-                }
-                variant="outline"
-                size="sm"
-                className="hover:text-text-light dark:hover:bg-primary transition-all duration-200"
-              >
-                <Plus className="w-4 h-4 mr-1" /> {t("checklists.form.addItem")}
-              </Button>
-            </div> */}
-
-            {/* Checklist Fields */}
-            {/* <div className="h-full overflow-y-auto space-y-3">
-              {fields.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="px-2 py-2 rounded bg-muted/30 "
-                >
-                  <div className="flex flex-col lg:flex-row md:items-start md:gap-4 space-y-2 md:space-y-2 ">
-                    <FormField
-                      control={control}
-                      name={`items.${index}.title`}
-                      render={({ field }) => (
-                        <FormItem className="flex-1 w-full">
-                          <FormLabel>{t("checklists.form.itemTitle")} {index + 1}</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder={t("checklists.form.itemDescriptionPlaceholder")}
-                              required={true}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={control}
-                      name={`items.${index}.description`}
-                      render={({ field }) => (
-                        <FormItem className="flex-1  w-full">
-                          <FormLabel>{t("checklists.form.itemDescription")}</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder={t("checklists.form.itemDescriptionPlaceholder")}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-
-
-                    <Button
-                      type="button"
-                      // size="sm"
-                      className="my-auto h-11 sm:h-12"
-                      onClick={() => remove(index)}
-                    >
-                      <Trash2 className="w-4 h-4 mr-1" />
-                      {t("checklists.form.remove")}
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div> */}
           </div>
           <Button
             type="submit"

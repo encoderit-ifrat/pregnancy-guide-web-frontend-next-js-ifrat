@@ -1,36 +1,36 @@
 import { FormType } from "@/types/global";
 import { z } from "zod";
 
-export const ChecklistItemSchema = z.object({
+export const getChecklistItemSchema = (t: any) => z.object({
   _id: z.string().optional(),
   title: z
     .string()
-    .min(1, "Item title is required")
-    .min(2, "Item title must be at least 2 characters")
-    .max(200, "Item title must be less than 200 characters"),
+    .min(1, t("checklists.form.validation.itemTitleRequired"))
+    .min(2, t("checklists.form.validation.itemTitleMin"))
+    .max(200, t("checklists.form.validation.itemTitleMax")),
   description: z
     .string()
-    .max(500, "Item description must be less than 500 characters")
+    .max(500, t("checklists.form.validation.itemDescriptionMax"))
     .optional(),
   week: z
     .number()
-    .int("Week must be a whole number")
-    .min(0, "Week must be 0 or greater")
-    .max(42, "Week must be 42 or less")
+    .int(t("checklists.form.validation.weekWholeNumber"))
+    .min(0, t("checklists.form.validation.weekMin"))
+    .max(42, t("checklists.form.validation.weekMax"))
     .optional(),
 });
 
-export const ChecklistSchema = z.object({
+export const getChecklistSchema = (t: any) => z.object({
   _id: z.string().optional(),
   title: z
     .string()
-    .min(1, "Checklist title is required")
-    .min(2, "Title must be at least 2 characters")
-    .max(100, "Title must be less than 100 characters")
+    .min(1, t("checklists.form.validation.titleRequired"))
+    .min(2, t("checklists.form.validation.titleMin"))
+    .max(100, t("checklists.form.validation.titleMax"))
     .optional(),
   description: z
     .string()
-    .max(500, "Description must be less than 500 characters")
+    .max(500, t("checklists.form.validation.descriptionMax"))
     .optional(),
   category: z.string().optional(),
   // items: z
@@ -39,6 +39,10 @@ export const ChecklistSchema = z.object({
   is_active: z.boolean(),
   items: z.any().optional(),
 });
+
+// For backward compatibility and type inference
+export const ChecklistSchema = getChecklistSchema((key: string) => key);
+export const ChecklistItemSchema = getChecklistItemSchema((key: string) => key);
 
 export type ChecklistSchemaType = z.infer<typeof ChecklistSchema>;
 
