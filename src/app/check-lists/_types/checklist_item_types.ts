@@ -42,6 +42,7 @@ export type CheckListItemProps = {
   refetch?: () => void;
   onAddList?: () => void;
   onBrowseTemplates?: () => void;
+  readOnly?: boolean;
 };
 
 export type ChecklistFormProps = {

@@ -67,11 +67,13 @@ export default function TaskForm({
   checklist_id,
   refetch,
   task,
+  readOnly = false,
 }: {
   onClose?: () => void;
   checklist_id: string;
   refetch?: () => void;
   task?: any;
+  readOnly?: boolean;
 }) {
   const { t } = useTranslation();
   const isUpdate = !!task;
@@ -149,6 +151,7 @@ export default function TaskForm({
                   <Input
                     placeholder={t("checklists.taskForm.titlePlaceholder")}
                     className="border-purple-300 focus-visible:ring-purple-400"
+                    disabled={readOnly}
                     {...field}
                   />
                 </FormControl>
@@ -173,6 +176,7 @@ export default function TaskForm({
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex gap-2"
+                      disabled={readOnly}
                     >
                       {[
                         { value: "high", label: t("checklists.taskForm.priorities.high") },
@@ -222,6 +226,7 @@ export default function TaskForm({
                       <FormControl>
                         <Button
                           variant="outline"
+                          disabled={readOnly}
                           className={cn(
                             "w-full h-[52px] justify-start gap-4 text-left border-gray-200 bg-[#F9FAFB] rounded-sm  font-medium text-base px-5",
                             !field.value && "text-[#4F4F4F]"
@@ -269,7 +274,8 @@ export default function TaskForm({
                         <button
                           type="button"
                           key={item.value}
-                          onClick={() => field.onChange(item.value)}
+                          onClick={() => !readOnly && field.onChange(item.value)}
+                          disabled={readOnly}
                           className={cn(
                             "flex-1 flex items-center justify-center gap-3 px-3 py-3 rounded-sm border transition-all font-medium text-base h-[52px]",
                             field.value === item.value
@@ -304,7 +310,8 @@ export default function TaskForm({
                     <Button
                       type="button"
                       variant={field.value ? "default" : "outline"}
-                      onClick={() => field.onChange(!field.value)}
+                      disabled={readOnly}
+                      onClick={() => !readOnly && field.onChange(!field.value)}
                       className={cn(
                         "w-full h-[46px] justify-center gap-3 text-base items-center rounded-full font-outfit transition-all duration-300",
                         !field.value && "border-[#A855F7] text-[#A855F7]",
@@ -338,6 +345,7 @@ export default function TaskForm({
                   <Textarea
                     placeholder={t("checklists.taskForm.notesPlaceholder")}
                     className="min-h-30 bg-purple-50"
+                    disabled={readOnly}
                     {...field}
                   />
                 </FormControl>
@@ -350,41 +358,43 @@ export default function TaskForm({
           </p>
 
           {/* Footer */}
-          <div className="flex justify-between items-center pt-4 text-lg">
-            {/* Delete */}
-            {isUpdate && (
-              <button
-                type="button"
-                onClick={handleDelete}
-                disabled={isDeletingItem}
-                className="flex items-center gap-2 text-[#E7000B] font-semibold hover:opacity-80 transition-opacity"
-              >
-                {t("checklists.taskForm.deleteTask")}
-                <span className="bg-red-100 p-2 rounded-full">
-                  <Trash2 className="w-4 h-4" />
-                </span>
-              </button>
-            )}
-
-            {/* Submit */}
-            <Button
-              disabled={isCreatingItem || isUpdatingItem}
-              type="submit"
-              className={cn(
-                "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md",
-                !isUpdate && "ml-auto"
+          {!readOnly && (
+            <div className="flex justify-between items-center pt-4 text-lg">
+              {/* Delete */}
+              {isUpdate && (
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  disabled={isDeletingItem}
+                  className="flex items-center gap-2 text-[#E7000B] font-semibold hover:opacity-80 transition-opacity"
+                >
+                  {t("checklists.taskForm.deleteTask")}
+                  <span className="bg-red-100 p-2 rounded-full">
+                    <Trash2 className="w-4 h-4" />
+                  </span>
+                </button>
               )}
-            >
-              {isUpdate ? t("checklists.taskForm.updateTask") : t("checklists.taskForm.createTask")}
-              <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                {(isCreatingItem || isUpdatingItem) ? (
-                  <Loader2 className="size-5 text-[#A855F7] animate-spin" />
-                ) : (
-                  <Save className="size-5 text-[#A855F7]" />
+
+              {/* Submit */}
+              <Button
+                disabled={isCreatingItem || isUpdatingItem}
+                type="submit"
+                className={cn(
+                  "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md",
+                  !isUpdate && "ml-auto"
                 )}
-              </div>
-            </Button>
-          </div>
+              >
+                {isUpdate ? t("checklists.taskForm.updateTask") : t("checklists.taskForm.createTask")}
+                <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
+                  {(isCreatingItem || isUpdatingItem) ? (
+                    <Loader2 className="size-5 text-[#A855F7] animate-spin" />
+                  ) : (
+                    <Save className="size-5 text-[#A855F7]" />
+                  )}
+                </div>
+              </Button>
+            </div>
+          )}
         </form>
       </Form>
 

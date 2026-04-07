@@ -64,7 +64,7 @@ export default function FinalizedChecklist({
 
       {checklists.length > 0 ? (
         <div className="space-y-8">
-          <CheckList checklistItems={checklists} refetch={refetch} />
+          <CheckList checklistItems={checklists} refetch={refetch} readOnly={true} />
           {meta && meta.last_page > 1 && (
             <div className="w-full max-w-3xl mx-auto mt-8 pb-4">
               <Pagination

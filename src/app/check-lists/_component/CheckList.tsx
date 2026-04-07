@@ -47,6 +47,7 @@ export default function CheckList({
   onEditAction,
   className,
   refetch,
+  readOnly = false,
 }: CheckListItemProps) {
   const { t } = useTranslation();
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
@@ -167,18 +168,20 @@ export default function CheckList({
                   })()}
                 </div>
               </div>
-              <Button
-                variant={"ghost"}
-                className="shadow-none text-primary font-semibold hover:bg-transparent"
-                onClick={() => setIsAddTaskOpen(group.id)}
-              >
-                {t("checklists.addTask")}{" "}
-                <PlusIcon
-                  className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
-                  stroke="white"
-                  strokeWidth={3}
-                />
-              </Button>
+              {!readOnly && (
+                <Button
+                  variant={"ghost"}
+                  className="shadow-none text-primary font-semibold hover:bg-transparent"
+                  onClick={() => setIsAddTaskOpen(group.id)}
+                >
+                  {t("checklists.addTask")}{" "}
+                  <PlusIcon
+                    className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
+                    stroke="white"
+                    strokeWidth={3}
+                  />
+                </Button>
+              )}
             </div>
 
             <AccordionContent>
@@ -204,8 +207,9 @@ export default function CheckList({
                           <CheckBox
                             checked={task.checked}
                             onCheckedChange={() =>
-                              handleChecklistToggle(task.id)
+                              !readOnly && handleChecklistToggle(task.id)
                             }
+                            disabled={readOnly}
                             className={cn(
                               "size-7 transition-all duration-200",
                               task.checked
@@ -227,28 +231,30 @@ export default function CheckList({
 
                       <div className="ml-auto flex items-center gap-3">
                         {/* Priority Badge */}
-                        <Badge
-                          className={cn(
-                            "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
-                            task.priority === "high"
-                              ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
-                              : task.priority === "medium"
-                                ? "bg-[#E1EFFE] text-[#1E429F] border-[#C3DDFD]"
-                                : "bg-[#DEF7EC] text-[#03543F] border-[#BCF0DA]"
-                          )}
-                        >
-                          <div
+                        {Boolean(task.priority) && (
+                          <Badge
                             className={cn(
-                              "size-2 rounded-full",
+                              "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
                               task.priority === "high"
-                                ? "bg-[#BB4D00]"
+                                ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
                                 : task.priority === "medium"
-                                  ? "bg-[#3F83F8]"
-                                  : "bg-[#31C48D]"
+                                  ? "bg-[#E1EFFE] text-[#1E429F] border-[#C3DDFD]"
+                                  : "bg-[#DEF7EC] text-[#03543F] border-[#BCF0DA]"
                             )}
-                          />
-                          {task.priority}
-                        </Badge>
+                          >
+                            <div
+                              className={cn(
+                                "size-2 rounded-full",
+                                task.priority === "high"
+                                  ? "bg-[#BB4D00]"
+                                  : task.priority === "medium"
+                                    ? "bg-[#3F83F8]"
+                                    : "bg-[#31C48D]"
+                              )}
+                            />
+                            {task.priority}
+                          </Badge>
+                        )}
 
                         {/* Due Date Badge */}
                         {task.date && (
@@ -320,6 +326,7 @@ export default function CheckList({
                         task={task}
                         onClose={() => setIsAddTaskOpen(null)}
                         refetch={refetch}
+                        readOnly={readOnly}
                       />
                     </AccordionContent>
                   </AccordionItem>
