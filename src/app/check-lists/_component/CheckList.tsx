@@ -19,6 +19,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import { useMutationToggleChecklist } from "../_api/mutations/UseMutationToggleChecklist";
+import { useMutationDeleteItem } from "../_api/mutations/UseMutationDeleteItem";
 import { Spinner } from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 import {
@@ -38,6 +39,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/Dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/AlertDialog";
 import TaskForm from "./TaskForm";
 
 export default function CheckList({
@@ -52,10 +63,13 @@ export default function CheckList({
   const { t } = useTranslation();
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
+  const { mutate: deleteItem, isPending: isPendingDelete } =
+    useMutationDeleteItem();
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
     checklistItems || []
   );
   const [isAddTaskOpen, setIsAddTaskOpen] = useState<string | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // Sync filteredLists with checklistItems prop
   useEffect(() => {
@@ -169,18 +183,29 @@ export default function CheckList({
                 </div>
               </div>
               {!readOnly && (
-                <Button
-                  variant={"ghost"}
-                  className="shadow-none text-primary font-semibold hover:bg-transparent"
-                  onClick={() => setIsAddTaskOpen(group.id)}
-                >
-                  {t("checklists.addTask")}{" "}
-                  <PlusIcon
-                    className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
-                    stroke="white"
-                    strokeWidth={3}
-                  />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant={"ghost"}
+                    className="shadow-none text-primary font-semibold hover:bg-transparent"
+                    onClick={() => setIsAddTaskOpen(group.id)}
+                  >
+                    {t("checklists.addTask")}{" "}
+                    <PlusIcon
+                      className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
+                      stroke="white"
+                      strokeWidth={3}
+                    />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className=" hover:bg-red-50 flex items-center justify-center"
+                    onClick={() => setDeleteId(group.id)}
+                    disabled={isPendingDelete}
+                  >
+                    <Trash2 className="size-5 text-red-500!" />
+                  </Button>
+                </div>
               )}
             </div>
 
@@ -351,6 +376,47 @@ export default function CheckList({
           </DialogContent>
         </Dialog>
       </Accordion>
+
+      <AlertDialog
+        open={!!deleteId}
+        onOpenChange={(open) => !open && setDeleteId(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("checklists.deleteTitle") || "Delete Checklist"}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("checklists.deleteDescription") ||
+                "Are you sure you want to delete this checklist?"}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isPendingDelete}>
+              {t("common.cancel") || "Cancel"}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 hover:bg-red-600 text-white border-none"
+              onClick={(e) => {
+                e.preventDefault();
+                if (deleteId) {
+                  deleteItem(deleteId, {
+                    onSuccess: () => {
+                      setDeleteId(null);
+                      refetch?.();
+                    },
+                  });
+                }
+              }}
+              disabled={isPendingDelete}
+            >
+              {isPendingDelete
+                ? t("common.loading")
+                : t("common.delete") || "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
