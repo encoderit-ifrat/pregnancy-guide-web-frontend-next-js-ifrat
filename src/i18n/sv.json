@@ -11,6 +11,9 @@
     "sending": "Skickar...",
     "or": "ELLER",
     "page": "Sida",
+    "edit": "Redigera",
+    "delete": "Ta bort",
+    "save": "Spara ändringar",
     "error": "Ett fel uppstod"
   },
   "auth": {

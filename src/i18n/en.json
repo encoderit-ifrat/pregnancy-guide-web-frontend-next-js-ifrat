@@ -11,6 +11,9 @@
     "sending": "Sending...",
     "or": "OR",
     "page": "Page",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save Changes",
     "error": "An error occurred"
   },
   "auth": {
@@ -348,6 +351,13 @@
     "titleMinLength": "Title must be at least 3 characters",
     "descriptionMinLength": "Description must be at least 10 characters",
     "threadCreated": "Thread created successfully!",
+    "threadUpdated": "Thread updated successfully!",
+    "errorUpdating": "Error updating thread",
+    "editThreadTitle": "Edit Thread",
+    "deleteConfirmTitle": "Are you sure?",
+    "deleteConfirmDescription": "This action cannot be undone. This will permanently delete your thread.",
+    "deleteSuccess": "Thread deleted successfully!",
+    "deleteError": "Failed to delete thread",
     "errorCreating": "Failed to create thread",
     "writeReply": "Write a reply...",
     "submitReply": "Submit Reply",
