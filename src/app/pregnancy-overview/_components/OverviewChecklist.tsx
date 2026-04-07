@@ -163,18 +163,18 @@ export default function OverviewChecklist({
             )}
           >
             <AccordionTrigger className="p-4 hover:no-underline group w-full">
-              <div className="flex items-center justify-between w-full pr-2">
+              <div className="flex items-center justify-between w-full">
                 <div className="flex flex-col items-start text-left">
                   <div className="flex items-center gap-3">
                     <span className="text-[20px] font-semibold text-[#3D3177] leading-tight">
                       {list.title}
                     </span>
                   </div>
-                  {openItem !== `item-${index}` && list.description && (
+                  {/* {openItem !== `item-${index}` && list.description && (
                     <p className="text-gray-500 text-sm mt-1 line-clamp-1 font-normal">
                       {list.description}
                     </p>
-                  )}
+                  )} */}
                 </div>
                 <div
                   className={cn(
@@ -201,7 +201,7 @@ export default function OverviewChecklist({
                     setEditingTask({ checklistId: list._id, task: item })
                   }
                 >
-                  <div className=" flex-1 flex items-center gap-2.5">
+                  <div className=" flex-1 flex items-center gap-2.5 ">
                     <div className="shrink-0">
                       {toggleLoading === item._id && isPending ? (
                         <Spinner variant="circle" className="size-6" />
@@ -252,7 +252,7 @@ export default function OverviewChecklist({
                     </span>
                   </div>
 
-                  <div
+                  {/* <div
                     className={cn(
                       "size-7 rounded-full border flex items-center justify-center text-[10px] font-bold shrink-0 uppercase",
                       item.assigned_to === "partner"
@@ -261,7 +261,7 @@ export default function OverviewChecklist({
                     )}
                   >
                     {item.assigned_to?.[0]}
-                  </div>
+                  </div> */}
 
                   <div className="size-7 rounded-full border border-[#A67EEA]/40 flex items-center justify-center text-[#A67EEA] hover:bg-[#A67EEA] hover:text-white transition-all shrink-0">
                     <Eye className="size-4" />
@@ -299,7 +299,7 @@ export default function OverviewChecklist({
         open={formData.type == "create"}
         onOpenChange={() => setFormData({ type: "default", id: "" })}
       >
-        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
+        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-5xl">
           <DialogHeader>
             <DialogTitle className="text-left">
               {t("checklists.addChecklist")}
