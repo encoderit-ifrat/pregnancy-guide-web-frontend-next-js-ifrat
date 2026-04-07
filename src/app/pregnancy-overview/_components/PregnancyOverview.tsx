@@ -101,14 +101,13 @@ export default function PregnancyOverview({
         </>
       )}
       {/* Checklist Section */}
-      {userProfile?.roles?.[0].name !== "partner" && (
-        <CheckListSection>
-          <OverviewChecklist
-            checkLists={checklist?.data as any}
-            count={checklist?.pagination.total}
-          />
-        </CheckListSection>
-      )}
+
+      <CheckListSection>
+        <OverviewChecklist
+          checkLists={checklist?.data as any}
+          count={checklist?.pagination.total}
+        />
+      </CheckListSection>
       {Boolean(latest?.length) && (
         <section className="bg-purple-soft">
           <ArticleSection data={(latest as any) || []} />
