@@ -340,21 +340,11 @@ export function Header() {
           )}
           style={{
             top: headerHeight,
-            maxHeight: `calc(100vh - ${headerHeight}px)`,
+            height: `calc(100vh - ${headerHeight}px)`,
           }}
         >
-          <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto max-h-full">
+          <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto h-full shadow-xl">
             <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
-              {/* <Link
-                href="/"
-                className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${pathname === "/"
-                  ? "text-primary bg-primary-light"
-                  : "text-text-primary"
-                  }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t("footer.home")}
-              </Link> */}
               {navigationLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -373,163 +363,60 @@ export function Header() {
                 );
               })}
 
-              {/* Mobile Functions Section */}
-              <div className="border-t border-gray-100 mt-2 pt-2">
+              <div className="w-full">
                 <button
                   onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
-                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors"
+                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors focus:outline-none"
                 >
                   <span className="flex items-center gap-2">
                     {t("header.functions")}
                   </span>
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 transition-transform",
+                      "w-4 h-4 transition-transform duration-200",
                       isFunctionsOpen && "rotate-180"
                     )}
                   />
                 </button>
 
                 {isFunctionsOpen && (
-                  <div className="ml-4 mt-1 border-l-2 border-primary-light pl-4 flex flex-col gap-2 py-2">
-                    <button
-                      onClick={() => {
-                        setLocale("en");
-                        setIsMenuOpen(false);
-                      }}
+                  <div className="flex flex-col gap-1 ml-6 mt-1 border-l-2 border-primary-light pl-4 py-2">
+                    <Link
+                      href="/discussion-threads"
+                      onClick={() => setIsMenuOpen(false)}
                       className={cn(
-                        "text-left px-3 py-2 rounded-md text-sm",
-                        locale === "en"
+                        "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
+                        pathname === "/discussion-threads" ||
+                          pathname === "/published-threads"
                           ? "bg-primary-light text-primary font-semibold"
-                          : "text-primary-dark"
+                          : "hover:bg-primary-light/50 text-text-primary"
                       )}
                     >
-                      {t("header.english")}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setLocale("sv");
-                        setIsMenuOpen(false);
-                      }}
+                      {t("header.discussions")}
+                    </Link>
+                    <Link
+                      href="/for-name-tinder"
+                      onClick={() => setIsMenuOpen(false)}
                       className={cn(
-                        "text-left px-3 py-2 rounded-md text-sm",
-                        locale === "sv"
+                        "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
+                        pathname === "/for-name-tinder"
                           ? "bg-primary-light text-primary font-semibold"
-                          : "text-primary-dark"
+                          : "hover:bg-primary-light/50 text-text-primary"
                       )}
                     >
-                      {t("header.swedish")}
-                    </button>
+                      {t("header.forNameTinder")}
+                    </Link>
                   </div>
                 )}
               </div>
-
-              {/* language Menu Dropdown */}
-              {/* <div
-                className="relative"
-              >
-                <button
-                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors"
-                >
-                  <span className="flex items-center gap-2">
-                    {locale === "en" ? (
-                      <>
-                        <Image
-                          src="/images/icons/en.png"
-                          alt="English"
-                          width={20}
-                          height={20}
-                          className="rounded-full"
-                        />
-                        English
-                      </>
-                    ) : (
-                      <>
-                        <Image
-                          src="/images/icons/sv.png"
-                          alt="Swedish"
-                          width={20}
-                          height={20}
-                          className="rounded-full"
-                        />
-                        Svenska
-                      </>
-                    )}
-                  </span>
-                  <ChevronDown className={cn("w-4 h-4 transition-transform", isLanguageOpen && "rotate-180")} />
-                </button>
-
-                {isLanguageOpen && (
-                  <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                    <button
-                      onClick={() => {
-                        setLocale("en");
-                        setIsLanguageOpen(false);
-                        setIsMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex items-center gap-2 w-full px-4 py-2 text-sm text-left",
-                        locale === "en" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark hover:bg-gray-100"
-                      )}
-                    >
-                      <Image
-                        src="/images/icons/en.png"
-                        alt="English"
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                      />
-                      English
-                    </button>
-                    <button
-                      onClick={() => {
-                        setLocale("sv");
-                        setIsLanguageOpen(false);
-                        setIsMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex items-center gap-2 w-full px-4 py-2 text-sm text-left",
-                        locale === "sv" ? "bg-primary-light text-primary font-semibold" : "text-primary-dark hover:bg-gray-100"
-                      )}
-                    >
-                      <Image
-                        src="/images/icons/sv.png"
-                        alt="Swedish"
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                      />
-                      Svenska
-                    </button>
-                  </div>
-                )}
-              </div> */}
-
               <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" />
 
-              {/* <div>
-                <div className="w-full bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] px-4 py-2 flex items-center gap-2">
-                  <label htmlFor="mobile-search">
-                    <Search className="h-6 w-6" />
-                  </label>
-                  <input
-                    id="mobile-search"
-                    type="text"
-                    placeholder={t("header.search")}
-                    className="block w-full px-2 py-2 focus:outline-none bg-transparent"
-                  />
-                </div>
-              </div> */}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!searchTerm) return;
                   handleSearch();
                 }}
-                // className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
-                //   expanded ? "w-96 opacity-100" : "w-0 opacity-0"
-                // }`}
               >
                 <Input
                   placeholder={"Search"}
