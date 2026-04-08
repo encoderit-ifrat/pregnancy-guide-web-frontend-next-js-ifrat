@@ -28,7 +28,10 @@ const formatThreadForCard = (thread: Thread, currentLocale: any) => {
     ? new Date(thread.createdAt)
     : new Date();
   const timeAgo = isValid(createdAtDate)
-    ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
+    ? formatDistanceToNow(createdAtDate, {
+        addSuffix: true,
+        locale: currentLocale,
+      })
     : "";
 
   return {
@@ -80,7 +83,7 @@ export default function PublishedThreadsPage() {
     refetch,
   } = useInfiniteQueryGetMyThreads({
     params: {
-      limit: 1,
+      limit: 10,
     },
   });
 
@@ -101,14 +104,12 @@ export default function PublishedThreadsPage() {
   }, [infiniteData]);
 
   const handleNewThread = useCallback((event: { thread: Thread }) => {
-    setThreads((prev: Thread[]) => [event.thread, ...prev]);
-  }, []);
+    refetch();
+  }, [refetch]);
 
   const handleThreadDeleted = useCallback((event: { thread_id: string }) => {
-    setThreads((prev: Thread[]) =>
-      prev.filter((t: Thread) => t._id !== event.thread_id)
-    );
-  }, []);
+    refetch();
+  }, [refetch]);
 
   usePusherThreadsSubscription({
     onNewThread: handleNewThread,
@@ -118,7 +119,7 @@ export default function PublishedThreadsPage() {
   const likeMutation = useMutation({
     mutationFn: (threadId: string) => api.post(`/threads/${threadId}/like`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-my-threads"] });
+      queryClient.invalidateQueries({ queryKey: ["get-my-threads-infinite"] });
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || t("threads.errorLiking"));
@@ -129,6 +130,7 @@ export default function PublishedThreadsPage() {
     mutationFn: (threadId: string) => api.post(`/threads/${threadId}/flag`),
     onSuccess: () => {
       toast.success(t("threads.flagSuccess"));
+      queryClient.invalidateQueries({ queryKey: ["get-my-threads-infinite"] });
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
@@ -147,7 +149,9 @@ export default function PublishedThreadsPage() {
     return <Loading />;
   }
 
-  const formattedThreads = threads.map((thread) => formatThreadForCard(thread, currentLocale));
+  const formattedThreads = threads.map((thread) =>
+    formatThreadForCard(thread, currentLocale)
+  );
 
   return (
     <PageContainer>
@@ -199,6 +203,8 @@ export default function PublishedThreadsPage() {
                 onLike={() => handleLike(thread.id)}
                 onFlag={() => handleFlag(thread.id)}
                 onShare={() => handleShare(thread.id, thread.title)}
+                onUpdateSuccess={() => refetch()}
+                onDeleteSuccess={() => refetch()}
               />
             ))}
             {formattedThreads.length === 0 && (

@@ -33,8 +33,6 @@ import { omitEmpty } from "@/lib/utils";
 import { toast } from "sonner";
 import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
-const PAGE_LIMIT = 4;
-
 const fetchThreads = async ({
   pageParam = 1,
   sort,
@@ -42,7 +40,7 @@ const fetchThreads = async ({
   pageParam?: number;
   sort: ThreadSortOption;
 }) => {
-  const res = await api.get("/threads/my", {
+  const res = await api.get("/threads", {
     params: omitEmpty({
       sort,
       page: pageParam,
@@ -145,6 +143,7 @@ export default function Page() {
     mutationFn: (threadId: string) => api.post(`/threads/${threadId}/flag`),
     onSuccess: () => {
       toast.success(t("threads.flagSuccess"));
+      queryClient.invalidateQueries({ queryKey: ["get-threads"] });
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
