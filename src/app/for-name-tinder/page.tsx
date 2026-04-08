@@ -156,7 +156,7 @@ export default function Page() {
         </SectionHeading>
 
         <p className="text-sm mt-1.5 text-primary-color text-center mb-4 max-w-3xl mx-auto">
-          {t("threads.subtitle")}
+          {t("forNameTinder.subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-2xl mx-auto px-6">
           <Button
