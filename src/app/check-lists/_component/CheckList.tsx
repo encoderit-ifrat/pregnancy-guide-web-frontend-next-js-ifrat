@@ -19,7 +19,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import { useMutationToggleChecklist } from "../_api/mutations/UseMutationToggleChecklist";
-import { useMutationDeleteItem } from "../_api/mutations/UseMutationDeleteItem";
+import { useMutationDeleteChecklist } from "../_api/mutations/UseMutationDeleteChecklist";
 import { Spinner } from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 import {
@@ -63,8 +63,8 @@ export default function CheckList({
   const { t } = useTranslation();
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
-  const { mutate: deleteItem, isPending: isPendingDelete } =
-    useMutationDeleteItem();
+  const { mutate: deleteChecklist, isPending: isPendingDelete } =
+    useMutationDeleteChecklist();
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
     checklistItems || []
   );
@@ -400,12 +400,15 @@ export default function CheckList({
               onClick={(e) => {
                 e.preventDefault();
                 if (deleteId) {
-                  deleteItem(deleteId, {
-                    onSuccess: () => {
-                      setDeleteId(null);
-                      refetch?.();
-                    },
-                  });
+                  deleteChecklist(
+                    { id: deleteId },
+                    {
+                      onSuccess: () => {
+                        setDeleteId(null);
+                        refetch?.();
+                      },
+                    }
+                  );
                 }
               }}
               disabled={isPendingDelete}

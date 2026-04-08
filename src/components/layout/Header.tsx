@@ -340,7 +340,7 @@ export function Header() {
           )}
           style={{
             top: headerHeight,
-            height: `calc(100vh - ${headerHeight}px)`,
+            // height: `calc(100vh - ${headerHeight}px)`,
           }}
         >
           <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto h-full shadow-xl">
