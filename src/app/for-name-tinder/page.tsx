@@ -92,6 +92,10 @@ export default function Page() {
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
   // stores the real _id of the selected category
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isFromStartSwiping, setIsFromStartSwiping] = useState(false);
+  const [swipeStep, setSwipeStep] = useState<"categories" | "gender">(
+    "categories"
+  );
 
   const { data: categoriesData, isLoading: categoriesLoading } =
     useQueryGetTinderNameCategories();
@@ -154,35 +158,18 @@ export default function Page() {
         <p className="text-sm mt-1.5 text-primary-color text-center mb-4 max-w-3xl mx-auto">
           {t("threads.subtitle")}
         </p>
-        {/* <SectionHeading className="m-0 text-center text-3xl md:text-4xl lg:text-5xl">
-          For Name Tinder
-        </SectionHeading>
-
-        <p className="text-base text-primary-color text-center mb-6 max-w-3xl mx-auto">
-          
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book.
-        </p> */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-2xl mx-auto px-6">
           <Button
-            onClick={() => setOpenSwipeDialog(true)}
+            onClick={() => {
+              setIsFromStartSwiping(true);
+              setSwipeStep("categories");
+              setOpenSwipeDialog(true);
+            }}
             className="w-full sm:w-fit sm:min-w-48 font-semibold h-10 text-sm"
           >
             {t("forNameTinder.startSwiping")}
             <ChevronRight className="size-4" />
           </Button>
-
-          {/* <Button
-            // className="w-full font-semibold h-12 rounded-full"
-            variant="outline"
-            className="w-61.25"
-            onClick={() => setOpenMatchDialog(true)}
-          >
-            View My Matched Name
-            <ChevronRight className="size-4" />
-          </Button> */}
           <Link
             href="/matched-names"
             className={cn(
@@ -291,6 +278,8 @@ export default function Page() {
                   className="w-full md:w-fit"
                   disabled={tinderLoading}
                   onClick={() => {
+                    setIsFromStartSwiping(false);
+                    setSwipeStep("categories");
                     setOpenSwipeDialog(true);
                   }}
                 >
@@ -404,72 +393,176 @@ export default function Page() {
           <DialogTitle className="sr-only">
             {t("forNameTinder.startSwiping")}
           </DialogTitle>
-          <SectionHeading className="m-0 text-xl sm:text-2xl">
-            {t("forNameTinder.startSwiping")}
+          <SectionHeading className="m-0 text-xl sm:text-2xl mb-4">
+            {swipeStep === "categories"
+              ? t("forNameTinder.selectCategory")
+              : t("forNameTinder.selectGender")}
           </SectionHeading>
-          {categoriesLoading ? (
-            <p className="text-center text-primary-color py-4">
-              {t("forNameTinder.loadingCategories")}
-            </p>
-          ) : (
-            <RadioGroup
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"
-            >
-              {apiCategories.map((category) => (
-                <div
-                  key={category._id}
-                  className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-1.5 sm:py-2 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
+
+          {swipeStep === "categories" ? (
+            <>
+              {categoriesLoading ? (
+                <p className="text-center text-primary-color py-4">
+                  {t("forNameTinder.loadingCategories")}
+                </p>
+              ) : (
+                <RadioGroup
+                  value={selectedCategory}
+                  onValueChange={setSelectedCategory}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"
                 >
+                  {apiCategories.map((category) => (
+                    <div
+                      key={category._id}
+                      className="relative flex cursor-pointer items-center gap-3 rounded-md border border-input px-2 py-1.5 sm:py-2 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
+                    >
+                      <RadioGroupItem
+                        className="sr-only"
+                        id={category._id}
+                        value={category._id}
+                      />
+                      {category.image ? (
+                        <div className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
+                          <Image
+                            src={imageLinkGenerator(category.image)}
+                            alt={category.name}
+                            width={48}
+                            height={48}
+                            className="size-full object-cover rounded"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary/10 shrink-0 text-primary font-bold text-base">
+                          {category.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <label
+                        className="grow cursor-pointer text-sm sm:text-base font-medium text-primary-color after:absolute after:inset-0"
+                        htmlFor={category._id}
+                      >
+                        {category.name}
+                      </label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              )}
+              <Button
+                className="w-full mt-6"
+                disabled={tinderLoading}
+                onClick={() => {
+                  if (isFromStartSwiping) {
+                    setSwipeStep("gender");
+                  } else {
+                    setFetchEnabled(true);
+                    refetchTinderNames();
+                  }
+                }}
+              >
+                {t("common.next")}
+                <ChevronRight className="size-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* Gender Selection Step */}
+              <RadioGroup
+                className="grid grid-cols-1 gap-3 text-base mt-2"
+                value={selectedGender}
+                onValueChange={(val) =>
+                  setSelectedGender(val as TinderNameGender)
+                }
+              >
+                {/* Boy */}
+                <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-3 py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
                   <RadioGroupItem
                     className="sr-only"
-                    id={category._id}
-                    value={category._id}
+                    id="dialog-gender-male"
+                    value="male"
                   />
-                  {category.image ? (
-                    <div className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary/10 p-1 shrink-0">
-                      <Image
-                        src={imageLinkGenerator(category.image)}
-                        alt={category.name}
-                        width={48}
-                        height={48}
-                        className="size-full object-cover rounded"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary/10 shrink-0 text-primary font-bold text-base">
-                      {category.name.charAt(0).toUpperCase()}
-                    </div>
-                  )}
+                  <div className="flex items-center justify-center rounded-md bg-primary/10 p-1.5 shrink-0">
+                    <Image
+                      src="/boy.png"
+                      alt="boy"
+                      width={32}
+                      height={32}
+                      className="object-cover size-8"
+                    />
+                  </div>
                   <label
-                    className="grow cursor-pointer text-sm sm:text-base font-medium text-primary-color after:absolute after:inset-0"
-                    htmlFor={category._id}
+                    className="cursor-pointer font-medium text-foreground leading-none flex-1 py-1 after:absolute after:inset-0"
+                    htmlFor="dialog-gender-male"
                   >
-                    {category.name}
+                    {t("forNameTinder.boy")}
                   </label>
                 </div>
-              ))}
-            </RadioGroup>
+                {/* Girl */}
+                <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-3 py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <RadioGroupItem
+                    className="sr-only"
+                    id="dialog-gender-female"
+                    value="female"
+                  />
+                  <div className="flex items-center justify-center rounded-md bg-primary/10 p-1.5 shrink-0">
+                    <Image
+                      src="/girl.png"
+                      alt="girl"
+                      width={32}
+                      height={32}
+                      className="object-cover size-8"
+                    />
+                  </div>
+                  <label
+                    className="cursor-pointer font-medium text-foreground leading-none flex-1 py-1 after:absolute after:inset-0"
+                    htmlFor="dialog-gender-female"
+                  >
+                    {t("forNameTinder.girl")}
+                  </label>
+                </div>
+                {/* Genderless */}
+                <div className="relative flex cursor-pointer gap-3 items-center rounded-md border border-input px-3 py-3 shadow-xs outline-none transition-[color,box-shadow] has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50">
+                  <RadioGroupItem
+                    className="sr-only"
+                    id="dialog-gender-unisex"
+                    value="unisex"
+                  />
+                  <div className="flex items-center justify-center rounded-md bg-primary/10 p-1.5 shrink-0">
+                    <Image
+                      src="/genderless.png"
+                      alt="genderless"
+                      width={32}
+                      height={32}
+                      className="object-cover size-8"
+                    />
+                  </div>
+                  <label
+                    className="cursor-pointer font-medium text-foreground leading-none flex-1 py-1 after:absolute after:inset-0"
+                    htmlFor="dialog-gender-unisex"
+                  >
+                    {t("forNameTinder.genderless")}
+                  </label>
+                </div>
+              </RadioGroup>
+
+              <Button
+                className="w-full mt-8"
+                disabled={tinderLoading}
+                onClick={() => {
+                  setFetchEnabled(true);
+                  refetchTinderNames();
+                }}
+              >
+                {tinderLoading ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin mr-2" />
+                    {t("common.loading")}
+                  </>
+                ) : (
+                  t("common.next")
+                )}
+                {!tinderLoading && <ChevronRight className="size-4" />}
+              </Button>
+            </>
           )}
-          <Button
-            className="w-full mt-6"
-            disabled={tinderLoading}
-            onClick={() => {
-              setFetchEnabled(true);
-              refetchTinderNames();
-            }}
-          >
-            {tinderLoading ? (
-              <>
-                <Loader2 className="size-4 animate-spin mr-2" />
-                {t("common.loading")}
-              </>
-            ) : (
-              t("common.next")
-            )}
-            {!tinderLoading && <ChevronRight className="size-4" />}
-          </Button>
         </DialogContent>
       </Dialog>
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>
