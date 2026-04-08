@@ -11,6 +11,7 @@ import Pagination from "@/components/base/Pagination";
 import ArticleBigCard from "@/components/ui/cards/ArticleBigCard";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useLayoutFooterVisibility } from "@/components/layout/LayoutFooterVisibility";
 
 type Meta = {
   total: number;
@@ -42,6 +43,14 @@ export default function SearchArticle({
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setSearchArticleCount } = useLayoutFooterVisibility();
+
+  React.useEffect(() => {
+    setSearchArticleCount(initialData.length);
+    return () => {
+      setSearchArticleCount(null);
+    };
+  }, [initialData.length, setSearchArticleCount]);
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(searchParams.toString());

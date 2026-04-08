@@ -13,8 +13,8 @@ import SessionWrapper from "@/components/session/SessionWrapper";
 import { Toaster } from "sonner";
 import { UserProvider } from "@/providers/UserProvider";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import FooterWaveDivider from "@/components/layout/svg/FooterWaveDivider";
+import LayoutFooter from "@/components/layout/LayoutFooter";
+import { LayoutFooterVisibilityProvider } from "@/components/layout/LayoutFooterVisibility";
 
 import { I18nProvider } from "@/providers/I18nProvider";
 
@@ -83,13 +83,14 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <ReactQueryProvider>
-                <Header />
-                <UserProvider>
-                  {children}
-                  <Toaster richColors position="top-right" />
-                </UserProvider>
-                {/* divider */} <FooterWaveDivider />
-                <Footer />
+                <LayoutFooterVisibilityProvider>
+                  <Header />
+                  <UserProvider>
+                    {children}
+                    <Toaster richColors position="top-right" />
+                  </UserProvider>
+                  <LayoutFooter />
+                </LayoutFooterVisibilityProvider>
               </ReactQueryProvider>
             </ThemeProvider>
           </I18nProvider>
