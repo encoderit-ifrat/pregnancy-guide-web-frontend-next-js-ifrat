@@ -121,6 +121,8 @@ export default function Page() {
     enabled: fetchEnabled,
   });
 
+  const [matchedName, setMatchedName] = useState<string | null>(null);
+
   const { mutate: swipeName, isPending: swipePending } =
     useMutationSwipeTinderName();
   const { mutate: dislikeAll, isPending: dislikeAllPending } =
@@ -132,6 +134,7 @@ export default function Page() {
       setOpenMatchDialog(true);
       setOpenSwipeDialog(false); // Close the category dialog after fetch is complete
       setFetchEnabled(false);
+      setMatchedName(null);
     }
   }, [tinderData, fetchEnabled]);
   return (
@@ -474,11 +477,14 @@ export default function Page() {
           <DialogTitle className="sr-only">
             {t("forNameTinder.thisNameIsMatched")}
           </DialogTitle>
-          <SectionHeading className="m-0 text-center text-base! flex items-center justify-center gap-2">
-            <Image src="/check.png" alt="check" width={18} height={18} />
-            {t("forNameTinder.thisNameIsMatched")}
-            {/* <div className="h-5"></div> */}
-          </SectionHeading>
+          {matchedName ? (
+            <SectionHeading className="m-0 text-center text-base! flex items-center justify-center gap-2">
+              <Image src="/check.png" alt="check" width={18} height={18} />
+              {matchedName} {t("forNameTinder.thisNameIsMatched")}
+            </SectionHeading>
+          ) : (
+            <div className="h-5"></div>
+          )}
 
           {tinderLoading && (
             <p className="text-center text-primary-color py-4">
@@ -505,10 +511,21 @@ export default function Page() {
                         type="single"
                         onValueChange={(value) => {
                           if (value)
-                            swipeName({
-                              id: String(nameItem._id),
-                              action: value as "love" | "dislike",
-                            });
+                            swipeName(
+                              {
+                                id: String(nameItem._id),
+                                action: value as "love" | "dislike",
+                              },
+                              {
+                                onSuccess: (res: any) => {
+                                  if (res?.data?.partner_liked) {
+                                    setMatchedName(nameItem.name);
+                                  } else {
+                                    setMatchedName(null);
+                                  }
+                                },
+                              }
+                            );
                         }}
                         disabled={swipePending}
                         className="flex items-center gap-4 w-full"

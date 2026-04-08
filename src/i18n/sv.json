@@ -313,8 +313,6 @@
     }
   },
 
-
-
   "threads": {
     "active": "aktiv",
     "finalized": "slutförd",
@@ -556,7 +554,7 @@
     "genderless": "Könlös",
     "communityNames": "Gemenskapens namn",
     "loadingCategories": "Laddar kategorier...",
-    "thisNameIsMatched": "Detta namn är matchat",
+    "thisNameIsMatched": "är matchat",
     "loadingNames": "Laddar namn...",
     "failedLoadNames": "Det gick inte att ladda namn.",
     "failedLoadNamesTryAgain": "Det gick inte att ladda namn. Försök igen.",
