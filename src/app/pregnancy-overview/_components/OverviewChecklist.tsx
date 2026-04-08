@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/Spinner";
 import { useMutationToggleChecklist } from "../../check-lists/_api/mutations/UseMutationToggleChecklist";
 import { toast } from "sonner";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function OverviewChecklist({
   checkLists,
@@ -48,6 +49,12 @@ export default function OverviewChecklist({
     task: any;
   } | null>(null);
   const [editingList, setEditingList] = useState<any | null>(null);
+
+  const [addTaskStep, setAddTaskStep] = useState<"select-list" | "form">(
+    "select-list"
+  );
+  const [selectedChecklistIdForTask, setSelectedChecklistIdForTask] =
+    useState<string>("");
 
   // Sync state with props when checkLists changes
   React.useEffect(() => {
@@ -132,6 +139,12 @@ export default function OverviewChecklist({
           className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border font-poppins"
           onClick={() => {
             if (lists && lists.length > 0) {
+              setAddTaskStep("select-list");
+              // default to current open item or first item
+              const initialId = openItem
+                ? lists?.[parseInt(openItem.replace("item-", ""))]?._id
+                : lists?.[0]?._id;
+              setSelectedChecklistIdForTask(initialId || "");
               setIsAddTaskOpen(true);
             } else {
               toast.error(t("checklists.noListError"));
@@ -313,23 +326,65 @@ export default function OverviewChecklist({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isAddTaskOpen} onOpenChange={() => setIsAddTaskOpen(false)}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
+      <Dialog open={isAddTaskOpen} onOpenChange={setIsAddTaskOpen}>
+        <DialogContent
+          className={cn(
+            "max-h-[90vh] overflow-y-auto w-full p-0 border-none shadow-none",
+            addTaskStep === "select-list"
+              ? "lg:max-w-xl bg-white p-6 pt-10"
+              : "lg:max-w-4xl bg-transparent"
+          )}
+        >
           <DialogTitle className="sr-only">
             {t("checklists.addTask")}
           </DialogTitle>
-          <TaskForm
-            checklist_id={
-              openItem
-                ? lists?.[parseInt(openItem.replace("item-", ""))]?._id || ""
-                : lists?.[0]?._id || ""
-            }
-            onClose={() => setIsAddTaskOpen(false)}
-            refetch={() => {
-              router.refresh();
-              setIsAddTaskOpen(false);
-            }}
-          />
+
+          {addTaskStep === "select-list" ? (
+            <div className="space-y-6">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-poppins font-semibold text-[#3D3177]">
+                  {t("checklists.form.selectCategory")}
+                </DialogTitle>
+              </DialogHeader>
+
+              <RadioGroup
+                value={selectedChecklistIdForTask}
+                onValueChange={setSelectedChecklistIdForTask}
+                className="space-y-3"
+              >
+                {lists.map((list) => (
+                  <div
+                    key={list._id}
+                    className="flex items-center space-x-3 p-4 rounded-2xl border border-gray-100 hover:border-primary/30 transition-all cursor-pointer has-data-[state=checked]:border-primary/50 has-data-[state=checked]:bg-primary/5 shadow-sm"
+                  >
+                    <RadioGroupItem value={list._id} id={list._id} />
+                    <label
+                      htmlFor={list._id}
+                      className="flex-1 text-lg font-medium text-[#3D3177] cursor-pointer"
+                    >
+                      {list.title}
+                    </label>
+                  </div>
+                ))}
+              </RadioGroup>
+
+              <Button
+                className="w-full h-12 rounded-full text-lg font-bold bg-primary hover:bg-primary/90 mt-4"
+                onClick={() => setAddTaskStep("form")}
+              >
+                {t("common.next")}
+              </Button>
+            </div>
+          ) : (
+            <TaskForm
+              checklist_id={selectedChecklistIdForTask}
+              onClose={() => setIsAddTaskOpen(false)}
+              refetch={() => {
+                router.refresh();
+                setIsAddTaskOpen(false);
+              }}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
