@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight, Eye, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -57,7 +57,7 @@ export default function OverviewChecklist({
     useState<string>("");
 
   // Sync state with props when checkLists changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (checkLists) {
       console.log("OverviewChecklist Data:", checkLists);
       if (isNewlyCreated) {
@@ -71,7 +71,7 @@ export default function OverviewChecklist({
       }
       setLists(checkLists);
     }
-  }, [checkLists, isNewlyCreated, lists]);
+  }, [checkLists, isNewlyCreated]);
 
   const [toggleLoading, setToggleLoading] = useState<string | null>(null);
   const { mutate: toggleChecklist, isPending } = useMutationToggleChecklist();
@@ -105,13 +105,7 @@ export default function OverviewChecklist({
               return list;
             });
 
-            // Filter out checklists where all items are completed, consistent with main CheckList view
-            return updated.filter((list: Checklist) => {
-              const allChecked = list.items.every(
-                (itm: ChecklistItem) => itm.checked
-              );
-              return !allChecked;
-            });
+            return updated;
           });
           setToggleLoading(null);
         },
@@ -261,17 +255,6 @@ export default function OverviewChecklist({
                       {item.description}
                     </span>
                   </div>
-
-                  {/* <div
-                    className={cn(
-                      "size-7 rounded-full border flex items-center justify-center text-[10px] font-bold shrink-0 uppercase",
-                      item.assigned_to === "partner"
-                        ? "border-[#22C55E]/40 text-[#22C55E] bg-[#F0FDF4]/50"
-                        : "border-[#A67EEA]/40 text-[#A67EEA] bg-[#F3E8FF]/50"
-                    )}
-                  >
-                    {item.assigned_to?.[0]}
-                  </div> */}
 
                   <div className="size-7 rounded-full border border-[#A67EEA]/40 flex items-center justify-center text-[#A67EEA] hover:bg-[#A67EEA] hover:text-white transition-all shrink-0">
                     <Eye className="size-4" />
