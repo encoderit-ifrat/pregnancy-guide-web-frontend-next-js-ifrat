@@ -58,7 +58,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
             Week-{pregnancyProgressInfo?.week} {userData.name}
           </h3> */}
           <span className="text-primary-dark font-medium md:font-semibold">
-            {t("checklists.form.description")}:
+            {weeklyDetails?.title || t("checklists.form.description")}:
           </span>
           {weeklyDetails?.description && (
             <div
