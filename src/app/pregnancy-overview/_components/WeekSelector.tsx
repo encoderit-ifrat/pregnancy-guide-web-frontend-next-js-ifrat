@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -85,7 +83,7 @@ export default function WeekSelector({
       >
         {/* week */}
         <div className="absolute top-[-30px] left-1/2 -translate-x-1/2 bg-white flex items-center justify-center rounded-t-[15px] w-[147px] h-[33px]">
-          <p className="text-primary font-bold text-lg">week</p>
+          <p className="text-[#A97AEC]! font-semibold text-lg">Week</p>
         </div>
         {/* Previous Button */}
         <button
@@ -117,7 +115,9 @@ export default function WeekSelector({
                 : "w-[50px] h-[50px] md:w-[60px] md:h-[60px]"
             )}
           >
-            <span className="font-bold text-xs md:text-lg">{week < 10 ? `0${week}` : week}</span>
+            <span className="font-bold text-xs md:text-lg">
+              {week < 10 ? `0${week}` : week}
+            </span>
             {/* {selectedWeek == week ? <span className="text-xs md:text-[15px]">{t("pregnancy.weekSelector")}</span> : null} */}
           </button>
         ))}
