@@ -15,6 +15,7 @@ import CommunityCard from "./_components/CommunityCard";
 import {
   useQueryGetRandomTinderName,
   TinderNameGender,
+  TinderName,
 } from "./_api/queries/useQueryGetRandomTinderName";
 import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinderNameCategories";
 import { useInfiniteQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
@@ -118,6 +119,8 @@ export default function Page() {
     data: tinderData,
     isLoading: tinderLoading,
     isError: tinderError,
+    isSuccess: tinderSuccess,
+    isFetching: tinderFetching,
     refetch: refetchTinderNames,
   } = useQueryGetRandomTinderName({
     gender: selectedGender,
@@ -125,6 +128,7 @@ export default function Page() {
     enabled: fetchEnabled,
   });
 
+  const [displayNames, setDisplayNames] = useState<TinderName[]>([]);
   const [matchedName, setMatchedName] = useState<string | null>(null);
 
   const { mutate: swipeName, isPending: swipePending } =
@@ -134,7 +138,8 @@ export default function Page() {
 
   // When data arrives open the match dialog
   useEffect(() => {
-    if (fetchEnabled && tinderData) {
+    if (fetchEnabled && tinderSuccess && !tinderFetching) {
+      setDisplayNames(tinderData?.data || []);
       setOpenMatchDialog(true);
       setOpenSwipeDialog(false); // Close the category dialog after fetch is complete
       setFetchEnabled(false);
@@ -148,7 +153,7 @@ export default function Page() {
         setSelectedCategory("");
       }
     }
-  }, [tinderData, fetchEnabled, apiCategories]);
+  }, [tinderSuccess, tinderFetching, fetchEnabled, apiCategories, tinderData]);
   return (
     <PageContainer>
       <div className="thread-header mb-8 flex flex-col items-center text-center">
@@ -284,7 +289,7 @@ export default function Page() {
                 </RadioGroup>
                 <Button
                   className="w-full md:w-fit"
-                  disabled={tinderLoading}
+                  disabled={tinderLoading || tinderFetching}
                   onClick={() => {
                     setIsFromStartSwiping(false);
                     setSwipeStep("categories");
@@ -456,14 +461,23 @@ export default function Page() {
               )}
               <Button
                 className="w-full mt-6"
-                disabled={tinderLoading}
+                disabled={tinderLoading || tinderFetching}
                 onClick={() => {
                   setFetchEnabled(true);
                   refetchTinderNames();
                 }}
               >
-                {t("common.next")}
-                <ChevronRight className="size-4" />
+                {tinderLoading || tinderFetching ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin mr-2" />
+                    {t("common.loading")}
+                  </>
+                ) : (
+                  t("common.next")
+                )}
+                {!(tinderLoading || tinderFetching) && (
+                  <ChevronRight className="size-4" />
+                )}
               </Button>
             </>
           ) : (
@@ -549,7 +563,7 @@ export default function Page() {
 
               <Button
                 className="w-full mt-8"
-                disabled={tinderLoading}
+                disabled={tinderLoading || tinderFetching}
                 onClick={() => {
                   if (isFromStartSwiping) {
                     setSwipeStep("categories");
@@ -559,7 +573,7 @@ export default function Page() {
                   }
                 }}
               >
-                {tinderLoading ? (
+                {tinderLoading || tinderFetching ? (
                   <>
                     <Loader2 className="size-4 animate-spin mr-2" />
                     {t("common.loading")}
@@ -567,7 +581,9 @@ export default function Page() {
                 ) : (
                   t("common.next")
                 )}
-                {!tinderLoading && <ChevronRight className="size-4" />}
+                {!(tinderLoading || tinderFetching) && (
+                  <ChevronRight className="size-4" />
+                )}
               </Button>
             </>
           )}
@@ -599,12 +615,12 @@ export default function Page() {
           )}
           {!tinderLoading && !tinderError && (
             <>
-              {(tinderData?.data ?? []).length === 0 ? (
+              {displayNames.length === 0 ? (
                 <p className="text-center text-primary-color py-4">
                   {t("forNameTinder.noNamesFoundFilters")}
                 </p>
               ) : (
-                (tinderData?.data ?? []).map((nameItem, index) => {
+                displayNames.map((nameItem, index) => {
                   console.log("👉 ~ Page ~ nameItem:", nameItem);
                   return (
                     <div key={index} className="flex items-center gap-4">
@@ -641,6 +657,7 @@ export default function Page() {
                           <ThumbsDown className="size-full group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                         </ToggleGroupItem>
 
+
                         <p className="text-primary-color text-center flex items-center justify-center text-sm grow border h-12 border-primary rounded-md">
                           {nameItem.name}
                         </p>
@@ -659,13 +676,13 @@ export default function Page() {
                   );
                 })
               )}
-              {(tinderData?.data ?? []).length > 0 && (
+              {displayNames.length > 0 && (
                 <Button
                   className="w-full sm:w-80 mx-auto h-10 text-sm"
                   disabled={dislikeAllPending}
                   onClick={() => {
-                    const ids = (tinderData?.data ?? []).map((n) =>
-                      String(n.id)
+                    const ids = displayNames.map((n) =>
+                      String(n._id || n.id)
                     );
                     dislikeAll(ids);
                   }}
