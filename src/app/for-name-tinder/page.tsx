@@ -139,8 +139,16 @@ export default function Page() {
       setOpenSwipeDialog(false); // Close the category dialog after fetch is complete
       setFetchEnabled(false);
       setMatchedName(null);
+
+      // Reset selections after fetch
+      setSelectedGender("male");
+      if (apiCategories.length > 0) {
+        setSelectedCategory(apiCategories[0]._id);
+      } else {
+        setSelectedCategory("");
+      }
     }
-  }, [tinderData, fetchEnabled]);
+  }, [tinderData, fetchEnabled, apiCategories]);
   return (
     <PageContainer>
       <div className="thread-header mb-8 flex flex-col items-center text-center">
@@ -162,7 +170,7 @@ export default function Page() {
           <Button
             onClick={() => {
               setIsFromStartSwiping(true);
-              setSwipeStep("categories");
+              setSwipeStep("gender");
               setOpenSwipeDialog(true);
             }}
             className="w-full sm:w-fit sm:min-w-48 font-semibold h-10 text-sm"
@@ -196,7 +204,7 @@ export default function Page() {
                 </h2>
                 <RadioGroup
                   className="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-3 text-base"
-                  defaultValue="male"
+                  value={selectedGender}
                   onValueChange={(val) =>
                     setSelectedGender(val as TinderNameGender)
                   }
@@ -450,12 +458,8 @@ export default function Page() {
                 className="w-full mt-6"
                 disabled={tinderLoading}
                 onClick={() => {
-                  if (isFromStartSwiping) {
-                    setSwipeStep("gender");
-                  } else {
-                    setFetchEnabled(true);
-                    refetchTinderNames();
-                  }
+                  setFetchEnabled(true);
+                  refetchTinderNames();
                 }}
               >
                 {t("common.next")}
@@ -547,8 +551,12 @@ export default function Page() {
                 className="w-full mt-8"
                 disabled={tinderLoading}
                 onClick={() => {
-                  setFetchEnabled(true);
-                  refetchTinderNames();
+                  if (isFromStartSwiping) {
+                    setSwipeStep("categories");
+                  } else {
+                    setFetchEnabled(true);
+                    refetchTinderNames();
+                  }
                 }}
               >
                 {tinderLoading ? (
