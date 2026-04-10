@@ -562,7 +562,7 @@
     "failedLoadNames": "Det gick inte att ladda namn.",
     "failedLoadNamesTryAgain": "Det gick inte att ladda namn. Försök igen.",
     "noNamesFound": "Inga namn hittades.",
-    "noNamesFoundFilters": "Inga namn hittades för de valda filtren.",
+    "noNamesFoundFilters": "Du har gått genom alla namn i denna kategori, välj en annan kategori.",
     "noMoreNames": "Inga fler namn hittades.",
     "dislikeAll": "Ogilla alla namn",
     "disliking": "Ogillar...",

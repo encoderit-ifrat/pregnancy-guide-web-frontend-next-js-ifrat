@@ -571,7 +571,7 @@
     "failedLoadNames": "Failed to load names.",
     "failedLoadNamesTryAgain": "Failed to load names. Please try again.",
     "noNamesFound": "No names found.",
-    "noNamesFoundFilters": "No names found for the selected filters.",
+    "noNamesFoundFilters": "You have gone through all names in this category, please choose another category.",
     "noMoreNames": "No more names found.",
     "dislikeAll": "Dislike All Names",
     "disliking": "Disliking...",

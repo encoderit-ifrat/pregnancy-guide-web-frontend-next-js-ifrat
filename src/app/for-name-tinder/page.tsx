@@ -657,7 +657,6 @@ export default function Page() {
                           <ThumbsDown className="size-full group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                         </ToggleGroupItem>
 
-
                         <p className="text-primary-color text-center flex items-center justify-center text-sm grow border h-12 border-primary rounded-md">
                           {nameItem.name}
                         </p>
@@ -681,9 +680,7 @@ export default function Page() {
                   className="w-full sm:w-80 mx-auto h-10 text-sm"
                   disabled={dislikeAllPending}
                   onClick={() => {
-                    const ids = displayNames.map((n) =>
-                      String(n._id || n.id)
-                    );
+                    const ids = displayNames.map((n) => String(n._id || n.id));
                     dislikeAll(ids);
                   }}
                 >
