@@ -24,6 +24,7 @@ export type ChecklistItemWithItems = {
   is_active: boolean;
   userId?: string;
   all_checked?: boolean;
+  owned?: boolean;
   progress?: {
     percentage: number;
   };

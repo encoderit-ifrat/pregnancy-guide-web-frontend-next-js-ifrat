@@ -68,6 +68,7 @@ export default function CheckList({
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
     checklistItems || []
   );
+  console.log("👉 ~ CheckList ~ filteredLists:", filteredLists);
   const [isAddTaskOpen, setIsAddTaskOpen] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -84,6 +85,7 @@ export default function CheckList({
   const data = (filteredLists || []).map((list) => ({
     id: list._id,
     name: list.title,
+    owned: list.owned,
     tasks: (list.items || []).map((item) => ({
       id: item._id,
       name: item.title,
@@ -182,7 +184,7 @@ export default function CheckList({
                   })()}
                 </div>
               </div>
-              {!readOnly && (
+              {!readOnly && group.owned !== false && (
                 <div className="flex items-center gap-2">
                   <Button
                     variant={"ghost"}
@@ -357,7 +359,7 @@ export default function CheckList({
                         task={task}
                         onClose={() => setIsAddTaskOpen(null)}
                         refetch={refetch}
-                        readOnly={readOnly}
+                        readOnly={readOnly || group.owned === false}
                       />
                     </AccordionContent>
                   </AccordionItem>
