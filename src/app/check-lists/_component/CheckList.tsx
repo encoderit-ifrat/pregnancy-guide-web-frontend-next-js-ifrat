@@ -285,21 +285,27 @@ export default function CheckList({
                         {task.date && (
                           <Badge
                             className={cn(
-                              "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
-                              isPast(parseISO(task.date)) && !task.checked
-                                ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
-                                : "bg-[#F3F4F6] text-[#6B7280] border-[#E5E7EB]"
+                              "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200 bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                              // isPast(parseISO(task.date)) && !task.checked
+                              //   ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                              //   : "bg-[#F3F4F6] text-[#6B7280] border-[#E5E7EB]"
                             )}
                           >
                             <Calendar className="size-3.5" />
-                            {isPast(parseISO(task.date)) && !task.checked
+                            {/* {isPast(parseISO(task.date))
                               ? t("checklists.overdue", {
                                   days: differenceInDays(
                                     new Date(),
                                     parseISO(task.date)
                                   ),
                                 })
-                              : format(parseISO(task.date), "dd-MM-yyyy")}
+                              : format(parseISO(task.date), "dd-MM-yyyy")} */}
+                            {t("checklists.overdue", {
+                              days: differenceInDays(
+                                new Date(),
+                                parseISO(task.date)
+                              ),
+                            })}
                           </Badge>
                         )}
 
