@@ -756,7 +756,10 @@ export default function ThreadDetailPage({
               "flex items-center gap-2 cursor-pointer transition-colors",
               isFlagged ? "text-primary" : "text-[#5B5B5B] hover:text-[#A179F2]"
             )}
-            onClick={() => handleAuthAction(() => setOpenFlagDialog(true))}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAuthAction(() => setOpenFlagDialog(true));
+            }}
           >
             <IconFlag className={cn("size-4.5", isFlagged && "fill-current")} />
             <span className="text-sm font-bold">
@@ -846,7 +849,10 @@ export default function ThreadDetailPage({
       </div>
 
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
-        <DialogContent className="sm:max-w-xl text-center bg-white border-none">
+        <DialogContent
+          className="sm:max-w-xl text-center bg-white border-none"
+          onClick={(e) => e.stopPropagation()}
+        >
           <DialogTitle className="sr-only">
             {t("threads.flagTitle") || "Flag This Content"}
           </DialogTitle>
@@ -859,7 +865,10 @@ export default function ThreadDetailPage({
           <div className="flex items-center justify-center gap-2 pt-4">
             <Button
               variant="outline"
-              onClick={() => setOpenFlagDialog(false)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenFlagDialog(false);
+              }}
               className="w-44"
             >
               {t("common.cancel")}

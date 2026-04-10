@@ -212,7 +212,10 @@ export default function MyThreadCard({
         </CardContent>
 
         <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
-          <DialogContent className="sm:max-w-xl text-center bg-white">
+          <DialogContent
+            className="sm:max-w-xl text-center bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
             <DialogTitle className="sr-only">
               {t("threads.flagTitle") || "Flag This Content"}
             </DialogTitle>
@@ -226,7 +229,10 @@ export default function MyThreadCard({
             <div className="flex items-center justify-center gap-2 pt-4">
               <Button
                 variant="outline"
-                onClick={() => setOpenFlagDialog(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenFlagDialog(false);
+                }}
                 className="w-40"
               >
                 {t("common.cancel") || "Cancel"}
@@ -247,7 +253,10 @@ export default function MyThreadCard({
         </Dialog>
 
         <Dialog open={openReadMoreDialog} onOpenChange={setOpenReadMoreDialog}>
-          <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
+          <DialogContent
+            className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
             <DialogTitle className="sr-only">{title}</DialogTitle>
             <ThreadDetailPage
               title={title}
