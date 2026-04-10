@@ -34,7 +34,17 @@ export default function OverviewChecklist({
 }: CheckListsProps) {
   const { t } = useTranslation();
   const router = useRouter();
-  const [lists, setLists] = useState<Checklist[]>(checkLists || []);
+  const filterCompletedLists = (checklists: Checklist[]) => {
+    return checklists.filter((list) => {
+      const hasItems = list.items && list.items.length > 0;
+      const allChecked = list.items.every((item) => item.checked);
+      return !(hasItems && allChecked);
+    });
+  };
+
+  const [lists, setLists] = useState<Checklist[]>(
+    filterCompletedLists(checkLists || [])
+  );
   const [formData, setFormData] = useState<{
     type: "default" | "create" | "update" | "delete";
     id: string;
@@ -60,16 +70,17 @@ export default function OverviewChecklist({
   useEffect(() => {
     if (checkLists) {
       console.log("OverviewChecklist Data:", checkLists);
+      const filtered = filterCompletedLists(checkLists);
       if (isNewlyCreated) {
         const currentIds = new Set(lists.map((l) => l._id));
         const newIndex = checkLists.findIndex((l) => !currentIds.has(l._id));
 
         if (newIndex !== -1) {
-          setOpenItem(`item-${newIndex}`);
+          setOpenItem(checkLists[newIndex]._id);
         }
         setIsNewlyCreated(false);
       }
-      setLists(checkLists);
+      setLists(filtered);
     }
   }, [checkLists, isNewlyCreated]);
 
@@ -78,7 +89,7 @@ export default function OverviewChecklist({
 
   // Open the first item by default if available
   const [openItem, setOpenItem] = useState<string | undefined>(
-    lists && lists.length > 0 ? `item-0` : undefined
+    lists && lists.length > 0 ? lists[0]._id : undefined
   );
 
   const handleToggle = (listId: string, itemId: string) => {
@@ -105,7 +116,7 @@ export default function OverviewChecklist({
               return list;
             });
 
-            return updated;
+            return filterCompletedLists(updated);
           });
           setToggleLoading(null);
         },
@@ -135,9 +146,7 @@ export default function OverviewChecklist({
             if (lists && lists.length > 0) {
               setAddTaskStep("select-list");
               // default to current open item or first item
-              const initialId = openItem
-                ? lists?.[parseInt(openItem.replace("item-", ""))]?._id
-                : lists?.[0]?._id;
+              const initialId = openItem || lists?.[0]?._id;
               setSelectedChecklistIdForTask(initialId || "");
               setIsAddTaskOpen(true);
             } else {
@@ -157,13 +166,13 @@ export default function OverviewChecklist({
         onValueChange={setOpenItem}
         className="w-full bg-white rounded-3xl overflow-hidden shadow-lg "
       >
-        {lists?.map((list, index) => (
+        {lists?.map((list) => (
           <AccordionItem
-            key={list._id || index}
-            value={`item-${index}`}
+            key={list._id}
+            value={list._id}
             className={cn(
               "border-b border-gray-100 last:border-b-0 transition-all duration-300",
-              openItem === `item-${index}` ? "bg-white" : "bg-gray-50/30"
+              openItem === list._id ? "bg-white" : "bg-gray-50/30"
             )}
           >
             <AccordionTrigger className="p-4 hover:no-underline group w-full">
@@ -183,7 +192,7 @@ export default function OverviewChecklist({
                 <div
                   className={cn(
                     "size-7 rounded-full flex items-center justify-center transition-all duration-300",
-                    openItem === `item-${index}`
+                    openItem === list._id
                       ? "bg-[#F3E8FF] text-[#A97AEC] rotate-180"
                       : "bg-gray-100 text-gray-400"
                   )}
