@@ -61,7 +61,7 @@ export default function CheckLists() {
     id: "",
   });
   const [isTemplateOpen, setIsTemplateOpen] = useState(false);
-  const { isAuthenticated } = useCurrentUser();
+  const { isAuthenticated, user } = useCurrentUser();
   const { data, isLoading, refetch, isFetching } = useQueryGetAllMyChecklists({
     params: {
       id: queryID ?? "",
@@ -171,30 +171,34 @@ export default function CheckLists() {
                     </div>
                   </TabsTrigger>
                 </TabsList>
-                <Button
-                  variant={"outline"}
-                  className="h-12 py-2 px-4 rounded-full bg-white text-primary font-medium flex items-center gap-2.5 shadow-sm hover:bg-purple-50 hover:border-purple-100 transition-all font-outfit text-base"
-                  onClick={() => setFormData({ type: "create", id: "" })}
-                >
-                  {t("threads.addNewList")}
-                  <div className="size-8 p-1.5 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
-                    <Plus size={20} strokeWidth={3} />
-                  </div>
-                </Button>
-                <Button
-                  variant={"ghost"}
-                  className="h-12 py-2 px-4 rounded-full bg-[#FFFFFF66] text-[#A97AEC] font-medium flex items-center gap-2.5 hover:bg-[#FFFFFF99] transition-all font-outfit text-base border border-transparent hover:border-white"
-                  onClick={() => setIsTemplateOpen(true)}
-                >
-                  {t("threads.addTemplate")}
-                  <div className="size-8 p-1.5 rounded-full bg-[#A97AEC] flex items-center justify-center shrink-0 shadow-sm">
-                    <Sparkles
-                      size={20}
-                      strokeWidth={2}
-                      className="text-white"
-                    />
-                  </div>
-                </Button>
+                {user?.roles?.[0]?.name !== "partner" && (
+                  <>
+                    <Button
+                      variant={"outline"}
+                      className="h-12 py-2 px-4 rounded-full bg-white text-primary font-medium flex items-center gap-2.5 shadow-sm hover:bg-purple-50 hover:border-purple-100 transition-all font-outfit text-base"
+                      onClick={() => setFormData({ type: "create", id: "" })}
+                    >
+                      {t("threads.addNewList")}
+                      <div className="size-8 p-1.5 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
+                        <Plus size={20} strokeWidth={3} />
+                      </div>
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="h-12 py-2 px-4 rounded-full bg-[#FFFFFF66] text-[#A97AEC] font-medium flex items-center gap-2.5 hover:bg-[#FFFFFF99] transition-all font-outfit text-base border border-transparent hover:border-white"
+                      onClick={() => setIsTemplateOpen(true)}
+                    >
+                      {t("threads.addTemplate")}
+                      <div className="size-8 p-1.5 rounded-full bg-[#A97AEC] flex items-center justify-center shrink-0 shadow-sm">
+                        <Sparkles
+                          size={20}
+                          strokeWidth={2}
+                          className="text-white"
+                        />
+                      </div>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
             <TabsContent value="active" className="m-0 flex flex-col gap-2">
