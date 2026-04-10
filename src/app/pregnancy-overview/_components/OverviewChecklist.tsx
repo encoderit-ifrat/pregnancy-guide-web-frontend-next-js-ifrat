@@ -27,6 +27,7 @@ import { Spinner } from "@/components/ui/Spinner";
 import { useMutationToggleChecklist } from "../../check-lists/_api/mutations/UseMutationToggleChecklist";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function OverviewChecklist({
   checkLists,
@@ -34,6 +35,7 @@ export default function OverviewChecklist({
 }: CheckListsProps) {
   const { t } = useTranslation();
   const router = useRouter();
+  const { user } = useCurrentUser();
   const filterCompletedLists = (checklists: Checklist[]) => {
     return checklists.filter((list) => {
       const hasItems = list.items && list.items.length > 0;
@@ -131,32 +133,34 @@ export default function OverviewChecklist({
   return (
     <div className="px-4 sm:pt-8 lg:pt-10 space-y-6 max-w-4xl mx-auto pb-7 lg:pb-15">
       {/* Buttons Header */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
-        <Button
-          variant="softPurple"
-          className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6] font-poppins"
-          onClick={() => setFormData({ type: "create", id: "" })}
-        >
-          {t("checklists.addList")} +
-        </Button>
-        <Button
-          variant="outline"
-          className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border font-poppins"
-          onClick={() => {
-            if (lists && lists.length > 0) {
-              setAddTaskStep("select-list");
-              // default to current open item or first item
-              const initialId = openItem || lists?.[0]?._id;
-              setSelectedChecklistIdForTask(initialId || "");
-              setIsAddTaskOpen(true);
-            } else {
-              toast.error(t("checklists.noListError"));
-            }
-          }}
-        >
-          {t("checklists.addTask")} +
-        </Button>
-      </div>
+      {user?.roles?.[0]?.name !== "partner" && (
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <Button
+            variant="softPurple"
+            className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 shadow-none bg-[#A67EEA] hover:bg-[#8B5CF6] font-poppins"
+            onClick={() => setFormData({ type: "create", id: "" })}
+          >
+            {t("checklists.addList")} +
+          </Button>
+          <Button
+            variant="outline"
+            className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border font-poppins"
+            onClick={() => {
+              if (lists && lists.length > 0) {
+                setAddTaskStep("select-list");
+                // default to current open item or first item
+                const initialId = openItem || lists?.[0]?._id;
+                setSelectedChecklistIdForTask(initialId || "");
+                setIsAddTaskOpen(true);
+              } else {
+                toast.error(t("checklists.noListError"));
+              }
+            }}
+          >
+            {t("checklists.addTask")} +
+          </Button>
+        </div>
+      )}
 
       {/* Checklist Container */}
       <Accordion

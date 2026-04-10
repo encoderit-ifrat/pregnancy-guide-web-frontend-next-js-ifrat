@@ -4,6 +4,7 @@ import React from "react";
 import { Plus, Sparkles, ListChecks } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface EmptyChecklistProps {
   onAddList: () => void;
@@ -17,6 +18,7 @@ export default function EmptyChecklist({
   showCongratulations = true,
 }: EmptyChecklistProps) {
   const { t } = useTranslation();
+  const { user } = useCurrentUser();
 
   return (
     <div className="flex flex-col items-center justify-center py-12 space-y-10 animate-in fade-in duration-500">
@@ -41,28 +43,30 @@ export default function EmptyChecklist({
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-        <Button
-          variant="outline"
-          onClick={onAddList}
-          className="h-14 py-2 px-6 rounded-full border-[#A97AEC]/30 text-[#A97AEC] font-semibold flex items-center gap-3 hover:bg-[#F3E8FF]/50 transition-all font-outfit text-xl shadow-sm"
-        >
-          {t("checklists.finalized.addNewList")}
-          <div className="size-8 rounded-full bg-[#A97AEC] text-white flex items-center justify-center shrink-0">
-            <Plus size={20} strokeWidth={3} />
-          </div>
-        </Button>
+      {user?.roles?.[0]?.name !== "partner" && (
+        <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+          <Button
+            variant="outline"
+            onClick={onAddList}
+            className="h-14 py-2 px-6 rounded-full border-[#A97AEC]/30 text-[#A97AEC] font-semibold flex items-center gap-3 hover:bg-[#F3E8FF]/50 transition-all font-outfit text-xl shadow-sm"
+          >
+            {t("checklists.finalized.addNewList")}
+            <div className="size-8 rounded-full bg-[#A97AEC] text-white flex items-center justify-center shrink-0">
+              <Plus size={20} strokeWidth={3} />
+            </div>
+          </Button>
 
-        <Button
-          onClick={onBrowseTemplates}
-          className="h-14 py-2 px-6 rounded-full bg-[#A97AEC] hover:bg-[#9166D6] text-white font-semibold flex items-center gap-3 transition-all font-outfit text-xl shadow-md"
-        >
-          {t("checklists.finalized.browseTemplates")}
-          <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-            <Sparkles size={18} strokeWidth={2} className="text-[#A97AEC]" />
-          </div>
-        </Button>
-      </div>
+          <Button
+            onClick={onBrowseTemplates}
+            className="h-14 py-2 px-6 rounded-full bg-[#A97AEC] hover:bg-[#9166D6] text-white font-semibold flex items-center gap-3 transition-all font-outfit text-xl shadow-md"
+          >
+            {t("checklists.finalized.browseTemplates")}
+            <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
+              <Sparkles size={18} strokeWidth={2} className="text-[#A97AEC]" />
+            </div>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
