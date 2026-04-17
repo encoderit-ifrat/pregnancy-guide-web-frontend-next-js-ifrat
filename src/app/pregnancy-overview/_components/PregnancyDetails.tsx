@@ -8,6 +8,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   const htmlString = weeklyDetails?.description;
 
   const updatedHtml = htmlString?.replace("$name", userData?.name);
+  const titledHtml = weeklyDetails?.title?.replace("$name", userData?.name);
   const pregnancyProgressInfo = calculatePregnancyProgress(
     userData?.details?.last_period_date || ""
   );
@@ -54,11 +55,8 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </div>
         </Cards>
         <Cards>
-          {/* <h3 className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
-            Week-{pregnancyProgressInfo?.week} {userData.name}
-          </h3> */}
           <span className="text-primary-dark font-medium md:font-semibold">
-            {weeklyDetails?.title || t("checklists.form.description")}:
+            {titledHtml || t("checklists.form.description")}:
           </span>
           {weeklyDetails?.description && (
             <div
