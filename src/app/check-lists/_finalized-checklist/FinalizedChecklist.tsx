@@ -77,8 +77,8 @@ export default function FinalizedChecklist({
         </div>
       ) : (
         <EmptyChecklist
-          onAddList={onAddList || (() => {})}
-          onBrowseTemplates={onBrowseTemplates || (() => {})}
+          onAddList={onAddList || (() => { })}
+          onBrowseTemplates={onBrowseTemplates || (() => { })}
         />
       )}
     </div>
