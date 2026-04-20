@@ -53,7 +53,7 @@ export type TCommentCardProps = {
 };
 export default function CommentCard({ data, onActionSuccess }: TCommentCardProps) {
   const { user: currentUser } = useCurrentUser();
-  console.log("👉 ~ CommentCard ~ currentUser:", currentUser);
+  // console.log("👉 ~ CommentCard ~ currentUser:", currentUser);
 
   const {
     _id,
@@ -64,7 +64,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
     updatedAt,
     created_by,
   } = data;
-  console.log("👉 ~ CommentCard ~ data:", data);
+  // console.log("👉 ~ CommentCard ~ data:", data);
   const [allComments, setAllComments] = useState([...comments]);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
         onSuccess: (res) => {
           const message = res.data.data;
           setAllComments((old) => [...old, { ...message, user: currentUser }]);
-          console.log("👉 ~ handleSubmit ~ res::::", res);
+          // console.log("👉 ~ handleSubmit ~ res::::", res);
           toast.success("Comment submitted");
           setText("");
         },

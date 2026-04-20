@@ -58,7 +58,7 @@ export default function OverviewChecklist({
   const [isNewlyCreated, setIsNewlyCreated] = useState(false);
   const [editingTask, setEditingTask] = useState<{
     checklistId: string;
-    task: any;
+    task: ChecklistItem;
   } | null>(null);
   const [editingList, setEditingList] = useState<any | null>(null);
 
@@ -71,7 +71,7 @@ export default function OverviewChecklist({
   // Sync state with props when checkLists changes
   useEffect(() => {
     if (checkLists) {
-      console.log("OverviewChecklist Data:", checkLists);
+      // console.log("OverviewChecklist Data:", checkLists);
       const filtered = filterCompletedLists(checkLists);
       if (isNewlyCreated) {
         const currentIds = new Set(lists.map((l) => l._id));

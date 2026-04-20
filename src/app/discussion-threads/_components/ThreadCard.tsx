@@ -73,7 +73,7 @@ export default function ThreadCard({
   onShare,
   onDialogClose,
 }: ThreadCardProps) {
-  console.log("👉 ~ ThreadCard ~ lastReplyUser:", lastReplyUser);
+  // console.log("👉 ~ ThreadCard ~ lastReplyUser:", lastReplyUser);
   const { t, locale } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
@@ -89,12 +89,12 @@ export default function ThreadCard({
     onShare?.();
     try {
       const res = await shareMutation.mutateAsync(id);
-      console.log("Share response:", res);
+      // console.log("Share response:", res);
       if (res.data?.data?.shares_count !== undefined) {
         setCurrentShares(res.data.data.shares_count);
       }
     } catch (error) {
-      console.error("Share error:", error);
+      // console.error("Share error:", error);
     }
   };
 

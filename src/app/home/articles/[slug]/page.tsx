@@ -81,7 +81,7 @@ export default async function PublicArticlePage({
   const locale = cookieStore.get("familj-locale")?.value || "en";
 
   const article = await getArticle(slug, locale);
-  console.log("👉 ~ ArticlePage ~ article:", article);
+  // console.log("👉 ~ ArticlePage ~ article:", article);
 
   if (!Boolean(article)) {
     notFound();

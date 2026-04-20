@@ -80,7 +80,7 @@ export default function Page() {
     namesInfiniteData?.pages?.flatMap(
       (page) => page?.data?.data || page?.data || []
     ) || [];
-  console.log("👉 ~ Page ~ communityNames:", communityNames);
+  // console.log("👉 ~ Page ~ communityNames:", communityNames);
 
   const { ref: loadMoreRef, inView } = useInView();
 
@@ -621,7 +621,7 @@ export default function Page() {
                 </p>
               ) : (
                 displayNames.map((nameItem, index) => {
-                  console.log("👉 ~ Page ~ nameItem:", nameItem);
+                  // console.log("👉 ~ Page ~ nameItem:", nameItem);
                   return (
                     <div key={index} className="flex items-center gap-4">
                       <ToggleGroup

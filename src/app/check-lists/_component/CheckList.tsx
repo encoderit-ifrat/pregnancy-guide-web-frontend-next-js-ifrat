@@ -51,6 +51,24 @@ import {
 } from "@/components/ui/AlertDialog";
 import TaskForm from "./TaskForm";
 
+type Task = {
+  id: string;
+  name: string;
+  checked: boolean;
+  priority: string;
+  assignedTo: string;
+  description: string;
+  date: string | undefined;
+  reminder: string | boolean | null | undefined;
+};
+
+type Group = {
+  id: string;
+  name: string;
+  owned: boolean | undefined;
+  tasks: Task[];
+};
+
 export default function CheckList({
   checklistItems,
   overview,
@@ -68,7 +86,7 @@ export default function CheckList({
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
     checklistItems || []
   );
-  console.log("👉 ~ CheckList ~ filteredLists:", filteredLists);
+  // console.log("👉 ~ CheckList ~ filteredLists:", filteredLists);
   const [isAddTaskOpen, setIsAddTaskOpen] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -143,7 +161,7 @@ export default function CheckList({
   return (
     <>
       <Accordion type="multiple" className="w-full space-y-4">
-        {data.map((group: any, index: number) => (
+        {data.map((group: Group, index: number) => (
           <AccordionItem
             key={group.id}
             value={group.id}
@@ -158,14 +176,14 @@ export default function CheckList({
                 <div className="text-[22px] font-semibold">{group.name}</div>
 
                 <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282]">
-                  {group.tasks.filter((task: any) => task.checked).length} /{" "}
+                  {group.tasks.filter((task: Task) => task.checked).length} /{" "}
                   {group.tasks.length}
                 </span>
 
                 <div className="flex items-center gap-1 text-primary font-semibold">
                   {(() => {
                     const completedTasks = group.tasks.filter(
-                      (task: any) => task.checked
+                      (task: Task) => task.checked
                     ).length;
                     const totalTasks = group.tasks.length;
                     const percentage =
@@ -215,7 +233,7 @@ export default function CheckList({
               <div className="border-t my-2" />
               {/* TASK LEVEL */}
               <Accordion type="single" collapsible className="space-y-3">
-                {group.tasks.map((task: any) => (
+                {group.tasks.map((task: Task) => (
                   <AccordionItem
                     key={task.id}
                     value={task.id}

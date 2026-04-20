@@ -72,7 +72,7 @@ export default function CheckLists() {
   const { mutate: deleteChecklist, isPending: isPendingDeleteChecklist } =
     useMutationDeleteChecklist();
   const { data: checklists, pagination: meta } = data ?? {};
-  console.log("🔍 DEBUG meta:", meta, "checklists count:", checklists?.length);
+  // console.log("🔍 DEBUG meta:", meta, "checklists count:", checklists?.length);
   const [filteredLists, setFilterLists] = useState(() => checklists);
   useEffect(() => {
     setFilterLists(checklists);

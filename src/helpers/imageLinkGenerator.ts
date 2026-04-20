@@ -4,7 +4,7 @@ import { API_BASE_URL } from "@/consts";
 export const imageLinkGenerator = (image?: string | null): string => {
   // Return fallback image if no image provided
   if (!image) {
-    return "/placeholder.png"; // or any default image path
+    return "/placeholder.png";
   }
 
   // If image already contains http/https, return as-is

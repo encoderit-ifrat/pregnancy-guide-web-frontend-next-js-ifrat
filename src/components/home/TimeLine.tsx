@@ -2,8 +2,19 @@
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 
-export default function Timeline({ timelineItems }: { timelineItems: any }) {
-  // console.log("👉 ~ Timeline ~ timelineItems:", timelineItems);
+type TimelineItem = {
+  _id?: string;
+  title: string;
+  description: string;
+  thumbnail_image: string;
+  fill?: boolean;
+};
+
+type TimelineProps = {
+  timelineItems: TimelineItem[];
+};
+
+export default function Timeline({ timelineItems }: TimelineProps) {
   return (
     <section className="relative mx-auto max-w-6xl px-4 py-16">
       {/* Center line (desktop only) */}
@@ -12,12 +23,12 @@ export default function Timeline({ timelineItems }: { timelineItems: any }) {
       <div className="space-y-16">
         {timelineItems &&
           timelineItems.length &&
-          timelineItems.map((item: any, index: number) => {
+          timelineItems.map((item: TimelineItem, index: number) => {
             const isEven = index % 2 === 0;
 
             return (
               <div
-                key={item._id ?? item.id ?? `timeline-${index}`}
+                key={item._id ?? item._id ?? `timeline-${index}`}
                 className="relative grid grid-cols-1 items-center gap-8 md:grid-cols-2"
               >
                 {/* Timeline dot */}

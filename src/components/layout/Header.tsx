@@ -134,7 +134,7 @@ export function Header() {
     // Tailwind md breakpoint is 768px -> use max-width: 767px to represent < md
     const mql = window.matchMedia("(max-width: 1024px)");
     const onChange = (e: MediaQueryListEvent | MediaQueryList) =>
-      setIsSmallScreen((e as any).matches);
+      setIsSmallScreen((e as MediaQueryListEvent | MediaQueryList).matches);
     // initial
     setIsSmallScreen(mql.matches);
     // add listener (with backward-compatible API)

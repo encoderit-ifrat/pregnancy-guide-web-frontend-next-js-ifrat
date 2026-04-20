@@ -50,7 +50,7 @@ export const getInitial = (name?: string): string => {
 export default function ProfilePage() {
   const { t } = useTranslation();
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
-  console.log("👉 ~ ProfilePage ~ user:", user);
+  // console.log("👉 ~ ProfilePage ~ user:", user);
   const [babyProfiles, setBabyProfiles] = useState<BabyProfile[]>([]);
 
   const [profileDetails, setProfileDetails] = useState<ProfileDetail[]>([

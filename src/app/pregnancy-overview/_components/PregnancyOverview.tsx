@@ -3,7 +3,9 @@
 import React, { useState, useEffect, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
-import ArticleSection from "@/components/base/ArticleSection";
+import ArticleSection, { Article } from "@/components/base/ArticleSection";
+import { Article as OurArticleType } from "@/app/pregnancy-overview/_components/OurArticle";
+import { Article as SpecialArticleType } from "@/components/base/SpecialArticleSection";
 import SpecialArticleSection from "@/components/base/SpecialArticleSection";
 import OverviewCategories from "./OverviewCategories";
 import PregnancyDetails from "./PregnancyDetails";
@@ -17,6 +19,7 @@ import { PregnancyOverviewProps } from "../_types/pregnancy_overview_types";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import CheckListSection from "@/app/pregnancy-overview/_components/CheckListSection";
 import ConcaveCurve from "@/components/layout/svg/ConcaveCurve";
+import { Question as QuestionType } from "@/app/weekly-question/[id]/_types/weekly_question_types";
 
 export default function PregnancyOverview({
   pregnancyData,
@@ -79,8 +82,8 @@ export default function PregnancyOverview({
       />
       <OverviewCategories />
       <PregnancyDetails
-        userData={userProfile as any}
-        weeklyDetails={weeklyDetails as any}
+        userData={userProfile }
+        weeklyDetails={weeklyDetails}
       />
       {/* divider */}
       <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]" />
@@ -91,7 +94,7 @@ export default function PregnancyOverview({
         userProfile?.roles?.[0].name !== "partner" && (
           <QuestionOfTheWeek
             currentWeek={currentWeek}
-            question={questions?.data?.[0] as any}
+            question={questions?.data?.[0] as unknown as QuestionType}
           />
         )}
       {/*popular weekly articles section*/}
@@ -104,13 +107,13 @@ export default function PregnancyOverview({
 
       <CheckListSection>
         <OverviewChecklist
-          checkLists={checklist?.data as any}
+          checkLists={checklist?.data}
           count={checklist?.pagination.total}
         />
       </CheckListSection>
       {Boolean(latest?.length) && (
         <section className="bg-purple-soft">
-          <ArticleSection data={(latest as any) || []} />
+          <ArticleSection data={(latest as Article[]) || []} />
         </section>
       )}
 
@@ -121,7 +124,7 @@ export default function PregnancyOverview({
             bgClassName="bg-purple-soft"
           />
           <OurArticle
-            data={(bannerArticle as any) ?? []}
+            data={(bannerArticle as OurArticleType[]) ?? []}
             weeklyDetails={weeklyDetails}
           />
         </>
@@ -131,7 +134,7 @@ export default function PregnancyOverview({
           {/* divider */}
           <WaveDivider className="text-primary-light" bgClassName="bg-white" />
           <SpecialArticleSection
-            data={(specialArticle as any) ?? []}
+            data={(specialArticle as SpecialArticleType[]) ?? []}
             weeklyDetails={weeklyDetails}
           />
         </>

@@ -9,6 +9,50 @@ import CheckList from "../_component/CheckList";
 import Pagination from "@/components/base/Pagination";
 import EmptyChecklist from "../_component/EmptyChecklist";
 
+type ChecklistItem = {
+  _id: string;
+  assigned_to: string;
+  checked?: boolean;
+  is_completed?: boolean;
+  checklist_id: string;
+  createdAt: string;
+  description: string;
+  due_date: string;
+  priority: string;
+  reminder: boolean;
+  title: string;
+  updatedAt: string;
+  __v: number;
+};
+
+type Checklist = {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  userId: string;
+  is_active: boolean;
+  is_global: boolean;
+  is_own: boolean;
+  owned: boolean;
+  all_checked: boolean;
+  items: ChecklistItem[];
+  progress: {
+    completed: number;
+    percentage: number;
+    total: number;
+  };
+  created_by: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  __v: number;
+};
+
 interface FinalizedChecklistProps {
   onAddList?: () => void;
   onBrowseTemplates?: () => void;
@@ -34,12 +78,13 @@ export default function FinalizedChecklist({
   });
 
   const checklists = apiResponse?.data || [];
+  // console.log("👉 ~ FinalizedChecklist ~ checklists:", checklists);
   const meta = apiResponse?.pagination;
 
-  const allTasks = checklists?.flatMap((item: any) => item.items) || [];
+  const allTasks = checklists?.flatMap((item: Checklist) => item.items) || [];
   const totalTasks = allTasks.length;
   const tasksDone = allTasks.filter(
-    (task: any) => task.is_completed || task.checked
+    (task: ChecklistItem) => task.is_completed || task.checked
   ).length;
   const progressValue =
     totalTasks > 0 ? Math.round((tasksDone / totalTasks) * 100) : 0;

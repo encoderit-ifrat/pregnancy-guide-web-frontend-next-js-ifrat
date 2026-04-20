@@ -1,13 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { getInitial } from "@/app/profile/_component/profile";
+import { BabyProfile } from "../_types.ts/profile_types";
 
 export default function BabyPercentage({
   percentage,
   profile,
 }: {
   percentage: number;
-  profile: any;
+  profile: BabyProfile;
 }) {
   return (
     <>

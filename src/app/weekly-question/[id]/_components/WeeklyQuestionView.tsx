@@ -43,10 +43,10 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
     data?.data ?? {};
 
   const { data: allAnswers, pagination } = answers ?? {};
-  console.log(
-    "👉 ~ WeeklyQuestionView ~ allAnswers /questions/${params?.id}/answers:",
-    allAnswers
-  );
+  // console.log(
+  //   "👉 ~ WeeklyQuestionView ~ allAnswers /questions/${params?.id}/answers:",
+  //   allAnswers
+  // );
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
@@ -99,7 +99,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {
-            console.log("👉 ~ WeeklyQuestionView ~ answer:", answer);
+            // console.log("👉 ~ WeeklyQuestionView ~ answer:", answer);
             return (
               <CommentCard
                 key={answer._id}
