@@ -113,7 +113,7 @@ async function getArticles(searchParams: SearchParams, lang: string = "en") {
     const data = await res.json();
     return data;
   } catch (error) {
-    return null;
+    return { data: { data: [], categories: [], pagination: null } };
   }
 }
 
