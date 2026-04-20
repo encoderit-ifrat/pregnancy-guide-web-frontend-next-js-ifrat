@@ -153,7 +153,14 @@ export default function Page() {
         setSelectedCategory("");
       }
     }
-  }, [tinderSuccess, tinderFetching, fetchEnabled, apiCategories, tinderData]);
+  }, [
+    tinderSuccess,
+    tinderFetching,
+    fetchEnabled,
+    apiCategories,
+    tinderData,
+    // refetchTinderNames,
+  ]);
   return (
     <PageContainer>
       <div className="thread-header mb-8 flex flex-col items-center text-center">
@@ -681,7 +688,13 @@ export default function Page() {
                   disabled={dislikeAllPending}
                   onClick={() => {
                     const ids = displayNames.map((n) => String(n._id || n.id));
-                    dislikeAll(ids);
+                    dislikeAll(ids, {
+                      onSuccess: () => {
+                        // setOpenMatchDialog(false);
+                        setFetchEnabled(true);
+                        refetchTinderNames();
+                      },
+                    });
                   }}
                 >
                   {dislikeAllPending
