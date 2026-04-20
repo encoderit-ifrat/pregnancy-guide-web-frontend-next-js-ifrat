@@ -27,10 +27,10 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     // const savedLocale = localStorage.getItem("familj-locale") as Locale;
-    const savedLocale = "sv";
     // if (savedLocale && (savedLocale === "en" || savedLocale === "sv")) {
     //   setLocaleState(savedLocale);
     // }
+    const savedLocale = "sv";
     setLocaleState(savedLocale);
     setMounted(true);
   }, []);
