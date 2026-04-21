@@ -88,14 +88,9 @@ export default async function PublicArticlePage({
   }
 
   return (
-    <div className="bg-background min-h-svh pb-32  md:pb-96">
-      <div className="min-h-screen w-full max-w-6xl mx-auto  pt-24 py-8 px-4">
-        <div className="bg-soft-white rounded-lg p-7">
-          <h1 className="text-4xl md:text-5xl  font-bold text-foreground mb-6 text-wrap">
-            {article?.title}
-          </h1>
-          <ArticleWithTOC article={article} />
-        </div>
+    <div className="bg-article-bg min-h-svh pt-20">
+      <div className="min-h-screen w-full px-4 md:px-0">
+        <ArticleWithTOC article={article} />
       </div>
     </div>
   );
