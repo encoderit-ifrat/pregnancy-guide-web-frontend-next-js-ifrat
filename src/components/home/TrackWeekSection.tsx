@@ -11,24 +11,28 @@ export function TrackYourWeekSection() {
 
   const data = [
     {
-      title: "Förlossning article 1",
-      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
-      thumbnail_image: "/images/track-week/5.png",
+      title: "Veckans känsla",
+      description:
+        "Varje vecka får du en fråga om hur du mår och vad du tänker på. Se hur andra i samma graviditetsvecka svarar och känn igen dig i det de delar.",
+      thumbnail_image: "/images/track-week/tw1.png",
     },
     {
-      title: "Förlossning article 2",
-      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
-      thumbnail_image: "/images/track-week/2.png",
+      title: "Bjud in din partner",
+      description:
+        "Din partner får sin egen ingång i appen med innehåll anpassat för den som följer graviditeten utifrån. Ni följer samma vecka, var ni än befinner er.",
+      thumbnail_image: "/images/track-week/tw2.png",
     },
     {
-      title: "Förlossning article 3",
-      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
-      thumbnail_image: "/images/track-week/4.png",
+      title: "Bjud in närstående",
+      description:
+        "Dela graviditeten med dem som betyder mest. Familj och vänner kan följa med och känna sig nära, vecka för vecka.",
+      thumbnail_image: "/images/track-week/tw3.png",
     },
     {
-      title: "Förlossning article 4",
-      description: "Understands activities, behaviors, risks, safety events, and operations through any camera across industries and environments.",
-      thumbnail_image: "/images/track-week/1.png",
+      title: "Forum för gravida",
+      description:
+        "Prata öppet med andra som är mitt i samma resa. Ställ frågor, dela erfarenheter och få svar från människor som verkligen förstår.",
+      thumbnail_image: "/images/track-week/tw4.png",
     },
   ];
 
