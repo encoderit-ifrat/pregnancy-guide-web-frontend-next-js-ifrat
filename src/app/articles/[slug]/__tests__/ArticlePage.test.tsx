@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import ArticlePage from "../page";
+import ArticlePage, { generateMetadata } from "../page";
 import React from "react";
 
 // ─── Mocks ───────────────────────────────────────────────────────────────────
@@ -136,5 +136,71 @@ describe("ArticlePage (Server Component)", () => {
     expect(screen.getAllByText("Main Title").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("First Sub").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Second Sub").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("handles API fetch error gracefully (500)", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({ token: "fake-token" });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: false,
+      status: 500,
+    });
+
+    const params = Promise.resolve({ slug: "buggy-slug" });
+    await expect(ArticlePage({ params })).rejects.toThrow("NEXT_NOT_FOUND");
+    expect(notFound).toHaveBeenCalled();
+  });
+
+  it("handles fetch exception", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({ token: "fake-token" });
+    (global.fetch as jest.Mock).mockRejectedValue(new Error("Network Error"));
+
+    const params = Promise.resolve({ slug: "error-slug" });
+    await expect(ArticlePage({ params })).rejects.toThrow("NEXT_NOT_FOUND");
+    expect(notFound).toHaveBeenCalled();
+  });
+});
+
+describe("ArticlePage Metadata", () => {
+  const mockArticle = {
+    title: "Pregnancy Tips",
+    excerpt: "Helpful tips",
+    cover_image: "/tips.jpg",
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("returns correct metadata when article is found", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({ token: "fake-token" });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: mockArticle }),
+    });
+
+    const params = Promise.resolve({ slug: "tips" });
+    const metadata = await generateMetadata({ params });
+
+    expect(metadata.title).toBe("Pregnancy Tips | Familij");
+    expect(metadata.description).toBe("Helpful tips");
+  });
+
+  it("returns fallback metadata when article is not found", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({ token: "fake-token" });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
+
+    const params = Promise.resolve({ slug: "missing" });
+    const metadata = await generateMetadata({ params });
+
+    expect(metadata.title).toBe("Article Not Found | Familij");
+  });
+
+  it("returns login required metadata if no session", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue(null);
+
+    const params = Promise.resolve({ slug: "any" });
+    const metadata = await generateMetadata({ params });
+
+    expect(metadata.title).toBe("Login Required | Familij");
   });
 });

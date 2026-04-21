@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/Input";
 
 import Link from "next/link";
 import { CheckBox } from "@/components/ui/Checkbox";
-import { RegisterFormType, useSignUp } from "../_api/mutations/useSignuUp";
+import { RegisterFormType, useSignUp } from "../_api/mutations/useSignUp";
 import { toast } from "sonner";
 import * as React from "react";
 import { ChevronRight } from "lucide-react";
