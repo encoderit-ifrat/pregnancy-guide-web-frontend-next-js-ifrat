@@ -7,6 +7,7 @@ import {
   Playfair_Display,
   Outfit,
   Libre_Baskerville,
+  Lora,
 } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import SessionWrapper from "@/components/session/SessionWrapper";
@@ -57,6 +58,14 @@ export const libre_baskerville = Libre_Baskerville({
   display: "swap",
 });
 
+// Lora font
+export const lora = Lora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-lora",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Familj",
   description: "Familj project setup",
@@ -72,7 +81,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} antialiased text-primary-dark overflow-x-hidden`}
+        className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} ${lora.variable} antialiased text-primary-dark overflow-x-hidden`}
       >
         <SessionWrapper>
           <I18nProvider>

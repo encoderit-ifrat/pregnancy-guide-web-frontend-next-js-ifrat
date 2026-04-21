@@ -120,16 +120,17 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
       {/*  </p>*/}
       {/*)}*/}
 
-      <div className="flex flex-col lg:flex-row">
-        {headings.length > 0 && article.show_table_of_content && (
-          <TableOfContents headings={headings} />
-        )}
-        {/*  hasToC={headings.length > 0} */}
-        <div className="w-full lg:flex-1 min-w-0">
-          <h3 className="text-[30px] md:text-[45px] leading-[1.2] font-bold text-primary-dark mb-6 text-wrap">
-            {article?.title}
-          </h3>
-          <ArticleContent content={contentWithIds} />
+      <div className="max-w-[720px] mx-auto px-4 md:px-0">
+        <div className="w-full">
+          {headings.length > 0 && article.show_table_of_content && (
+            <TableOfContents headings={headings} />
+          )}
+          <div className="w-full min-w-0">
+            <h1 className="text-[28px] leading-[1.3] font-semibold text-primary-dark mb-8 text-wrap">
+              {article?.title}
+            </h1>
+            <ArticleContent content={contentWithIds} />
+          </div>
         </div>
       </div>
     </>

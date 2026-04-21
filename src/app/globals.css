@@ -84,6 +84,7 @@ div.no-tailwind p span {
   --font-poppins: var(--font-poppins);
   --font-playfair: var(--font-playfair);
   --font-libre_baskerville: var(--font-libre_baskerville);
+  --font-lora: var(--font-lora);
 }
 
 @theme {
@@ -190,6 +191,11 @@ div.no-tailwind p span {
   --font-roboto: var(--font-roboto), sans-serif;
   --font-poppins: var(--font-poppins), sans-serif;
   --font-playfair: var(--font-playfair), serif;
+  --font-lora: var(--font-lora), serif;
+
+  /* === Article Section Colors === */
+  --color-article-bg: #faf7f2;
+  --color-article-text: #2a2a2a;
 }
 
 @layer base {
@@ -247,6 +253,41 @@ h6 {
 p {
   @apply font-outfit text-base text-primary-text;
 }
+
+/* Modern Editorial Layout for Articles */
+.article-editorial {
+  font-family: var(--font-lora), serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-article-text);
+  @apply antialiased;
+}
+
+.article-editorial p {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin-bottom: 24px;
+}
+
+.article-editorial h1,
+.article-editorial h2,
+.article-editorial h3,
+.article-editorial h4,
+.article-editorial h5,
+.article-editorial h6 {
+  font-family: var(--font-heading);
+  line-height: 1.3;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  color: var(--color-primary-dark);
+}
+
+.article-editorial h1 { font-size: 28px; font-weight: 600; }
+.article-editorial h2 { font-size: 24px; font-weight: 600; }
+.article-editorial h3 { font-size: 20px; font-weight: 600; }
+
 
 /*.swiper {*/
 /*  width: 100%;*/

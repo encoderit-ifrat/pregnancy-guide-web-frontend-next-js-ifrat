@@ -17,19 +17,19 @@ export function HowItWorksSection() {
       number: "01",
       title: t("howItWorks.step1Title"),
       description: t("howItWorks.step1Desc"),
-      image: "/images/articles/2.png",
+      image: "/images/articles/a1.png",
     },
     {
       number: "02",
       title: t("howItWorks.step2Title"),
       description: t("howItWorks.step2Desc"),
-      image: "/images/articles/3.png",
+      image: "/images/articles/a2.png",
     },
     {
       number: "03",
       title: t("howItWorks.step3Title"),
       description: t("howItWorks.step3Desc"),
-      image: "/images/articles/1.png",
+      image: "/images/articles/a3.png",
     },
   ];
 

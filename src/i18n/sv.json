@@ -47,7 +47,7 @@
     "english": "Engelska",
     "swedish": "Svenska",
     "discussions": "Diskussioner",
-    "forNameTinder": "Namn Tinder"
+    "forNameTinder": "Namnswajp"
   },
   "footer": {
     "quickLinks": "Snabblänkar",
@@ -69,36 +69,41 @@
     "contact": "Kontakt"
   },
   "hero": {
-    "companion": "Kompanjon",
-    "duringPregnancy": "Under Graviditeten",
-    "description": "Upptäck Familj, din pålitliga kompanjon genom varje steg av graviditeten, med personliga veckovisa insikter, expertartiklar och varsam vägledning för att göra din resa trygg och stöttande.",
+    "companion": "Din graviditet",
+    "duringPregnancy": "Vecka för vecka",
+    "description": "Familj ger dig och dina närstående medicinskt granskade artiklar, veckovisa insikter och verktyg som gör graviditeten till något ni delar, inte något du navigerar ensam.",
     "appStoreAlt": "Ladda ner på App Store",
     "googlePlayAlt": "Hämta på Google Play"
   },
   "mission": {
-    "label": "Uppdrag",
-    "title": "Vårt Uppdrag",
-    "description": "Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e"
+    "label": "Därför finns vi",
+    "title": "Vårt uppdrag",
+    "description": "Graviditet är en av livets mest omvälvande perioder – fylld av glädje, förväntan och tusentals frågor. Men det är också en tid då många känner sig ensamma med sina funderingar. Familj skapades för att ingen ska behöva gå igenom graviditeten ensam.",
+    "quote": "Hela familjen med, från första veckan."
   },
   "appShowcase": {
-    "label": "Pellentesque",
-    "title1": "Impersapienrhoncus",
-    "title2": "Etiampharetra",
-    "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendisse semper."
+    "label": "Appen",
+    "title1": "Sveriges mest kompletta",
+    "title2": "app för gravida",
+    "description": "Familj är byggd för hela resan, från de första veckorna av graviditeten till livet med ditt nyfödda barn. Varje vecka får du medicinskt granskade artiklar om vad som händer med barnet, din kropp och hur din partner kan vara nära på bästa sätt. Bjud in din partner och dina närstående så att de kan följa med, förstå och finnas där. Håll koll med smarta checklistor, hitta barnets namn tillsammans med Namnswajp och reflektera kring din graviditet med veckans känslor. Allt samlat, allt gratis."
   },
   "howItWorks": {
-    "label": "Steg-för-Steg",
-    "title": "Så Fungerar Det",
-    "step1Title": "Följ Din Vecka",
-    "step1Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
-    "step2Title": "Tillgång till Expertinnehåll",
-    "step2Desc": "Suspendisse vitae risus Cras nulla blandit Praesent.",
-    "step3Title": "Använd Smarta Checklistor",
-    "step3Desc": "Suspendisse vitae risus Cras nulla blandit Praesent."
+    "label": "Hjälpmedel",
+    "title": "Funktioner som underlättar under graviditeten",
+    "step1Title": "Prata med andra som förstår",
+    "step1Desc": "I vårt forum möter du andra som är mitt i samma resa. Ställ frågor, dela tankar och få svar från människor som vet precis hur det känns.",
+    "step2Title": "Håll koll på allt som ska hända",
+    "step2Desc": "Våra avancerade checklistor guidar dig genom hela graviditeten. Från första läkarbesöket till det sista du packar i förlossningsväskan.",
+    "step3Title": "Hitta namnet ni båda älskar",
+    "step3Desc": "Swajpa namn tillsammans med din partner. De namn ni båda gillar hamnar på en gemensam lista som närstående sedan kan rösta på."
   },
   "stats": {
     "ourVolunteer": "Våra Volontärer",
-    "happyChildren": "Glada Barn"
+    "happyChildren": "Glada Barn",
+    "titel_1": "Artiklar för varje graviditetsvecka",
+    "titel_2": "Bebis, mamma och partner",
+    "titel_3": "Medicinskt granskade artiklar",
+    "titel_4": "Gravida som använder appen dagligen"
   },
   "trackWeek": {
     "label": "Vestibulum",
@@ -117,13 +122,13 @@
     "support247Desc": "Suspendisse vitae risus Cras nulla blandit Praesent"
   },
   "downloadCta": {
-    "label": "Consectetu",
-    "title": "Etiam phar etr...",
-    "description": "Vestibulum egestas justo a lacus sagittis, sit amet iaculis nisi ultrices. Curabitur blandit tempus ipsum, eget hendrerit lacus molestie sed. Vivamus dignissim ultrices porta. Quisque vel pellentesque tellus. Morbi id velit ac metus pulvinar cursus nec eget elit. Suspendisse turpis nisi, tincidunt vitae leo in, mollis dictum lectus. Suspendissesemper."
+    "label": "Kom igång",
+    "title": "Ladda ner Familj idag",
+    "description": "Gör som tusentals andra gravida och ladda ner appen som följer dig och din familj genom hela graviditeten. Medicinskt granskade artiklar, smarta verktyg och en gemenskap av människor i samma situation, allt gratis, direkt i din telefon."
   },
   "testimonials": {
-    "label": "Vestibulum",
-    "title": "Hör från våra nöjda kunder"
+    "label": "Referenser",
+    "title": "Det tycker våra användare om oss"
   },
   "login": {
     "title": "Logga In",

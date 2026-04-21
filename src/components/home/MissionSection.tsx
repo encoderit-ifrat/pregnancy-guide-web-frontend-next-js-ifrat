@@ -48,8 +48,7 @@ export function MissionSection() {
               </p>
 
               <div className="mt-4 text-[20px] sm:text-[24px] pl-2 md:pl-4 m-0 font-bold border-l-7 border-primary italic">
-                Supporting every beginning with care.
-                Guiding parents with trust.
+                {t("mission.quote")}
               </div>
             </div>
           </div>

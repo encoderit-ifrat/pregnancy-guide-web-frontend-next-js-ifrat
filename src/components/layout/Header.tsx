@@ -290,7 +290,7 @@ export function Header() {
           <div className="flex items-center gap-4">
             {/* Desktop Actions */}
             <div className="flex items-center gap-4">
-              <MultiLanguageDropDown className="max-lg:hidden" />
+              {/* <MultiLanguageDropDown className="max-lg:hidden" /> */}
               <div className="hidden lg:flex items-center gap-4">
                 <ExpandableSearchBar
                   isExpanded={isSearchExpanded}
@@ -409,7 +409,7 @@ export function Header() {
                   </div>
                 )}
               </div>
-              <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" />
+              {/* <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" /> */}
 
               <form
                 onSubmit={(e) => {

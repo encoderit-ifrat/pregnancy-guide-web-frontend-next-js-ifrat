@@ -83,7 +83,7 @@ export default function WeekSelector({
       >
         {/* week */}
         <div className="absolute top-[-30px] left-1/2 -translate-x-1/2 bg-white flex items-center justify-center rounded-t-[15px] w-[147px] h-[33px]">
-          <p className="text-[#A97AEC]! font-semibold text-lg">Week</p>
+          <p className="text-[#A97AEC]! font-semibold text-lg">Vecka</p>
         </div>
         {/* Previous Button */}
         <button
