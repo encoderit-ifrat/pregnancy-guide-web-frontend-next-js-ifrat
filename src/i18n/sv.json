@@ -99,7 +99,11 @@
   },
   "stats": {
     "ourVolunteer": "Våra Volontärer",
-    "happyChildren": "Glada Barn"
+    "happyChildren": "Glada Barn",
+    "titel_1": "Artiklar för varje graviditetsvecka",
+    "titel_2": "Bebis, mamma och partner",
+    "titel_3": "Medicinskt granskade artiklar",
+    "titel_4": "Gravida som använder appen dagligen"
   },
   "trackWeek": {
     "label": "Vestibulum",

@@ -99,7 +99,11 @@
   },
   "stats": {
     "ourVolunteer": "Our Volunteer",
-    "happyChildren": "Happy Children"
+    "happyChildren": "Happy Children",
+    "titel_1": "titel_1",
+    "titel_2": "titel_2",
+    "titel_3": "titel_3",
+    "titel_4": "titel_4"
   },
   "trackWeek": {
     "label": "Vestibulum",
