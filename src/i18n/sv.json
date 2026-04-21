@@ -69,9 +69,9 @@
     "contact": "Kontakt"
   },
   "hero": {
-    "companion": "Kompanjon",
-    "duringPregnancy": "Under Graviditeten",
-    "description": "Upptäck Familj, din pålitliga kompanjon genom varje steg av graviditeten, med personliga veckovisa insikter, expertartiklar och varsam vägledning för att göra din resa trygg och stöttande.",
+    "companion": "Din graviditet",
+    "duringPregnancy": "Vecka för vecka",
+    "description": "Familj ger dig och dina närstående medicinskt granskade artiklar, veckovisa insikter och verktyg som gör graviditeten till något ni delar, inte något du navigerar ensam.",
     "appStoreAlt": "Ladda ner på App Store",
     "googlePlayAlt": "Hämta på Google Play"
   },

@@ -15,7 +15,9 @@ export function HeroSection() {
           {/* Content */}
           <div className="order-1 text-center lg:order-1 lg:text-left">
             <h1 className="mb-4 text-[40px] font-bold leading-tight text-text-primary md:text-[55px]">
-              <span className="font-normal text-primary">{t("hero.companion")}</span>
+              <span className="font-normal text-primary">
+                {t("hero.companion")}
+              </span>
               <br />
               <span className="font-bold md:font-black text-primary-dark">
                 {t("hero.duringPregnancy")}
@@ -48,12 +50,12 @@ export function HeroSection() {
             </div>
 
             {/* Carousel Dots */}
-            <div className="mt-8 flex justify-center gap-2 lg:justify-start">
+            {/* <div className="mt-8 flex justify-center gap-2 lg:justify-start">
               <span className="h-2 w-2 rounded-full bg-primary" />
               <span className="h-2 w-2 rounded-full bg-primary-muted" />
               <span className="h-2 w-2 rounded-full bg-primary-muted" />
               <span className="h-2 w-2 rounded-full bg-primary-muted" />
-            </div>
+            </div> */}
           </div>
 
           {/* Tree Illustration */}
