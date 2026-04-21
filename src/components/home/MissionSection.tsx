@@ -22,9 +22,9 @@ export function MissionSection() {
           <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
             {/* Image */}
             <div className="order-2 md:order-1 flex justify-center lg:justify-end">
-              <div className="relative overflow-hidden rounded-3xl shadow-lg">
+              <div className="relative overflow-hidden ">
                 <Image
-                  src="/images/track-week/1.png"
+                  src="/images/bild_citat.png"
                   alt="Baby feet"
                   width={420}
                   height={420}
