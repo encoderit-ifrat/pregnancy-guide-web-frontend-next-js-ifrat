@@ -32,8 +32,8 @@ export function AppShowcaseSection() {
           </div>
 
           {/* Phone Mockups Placeholder */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative">
+          {/* <div className="flex justify-center lg:justify-end">
+            <div className="relative bg-amber-600 w-full h-full">
               <Image
                 src="/images/mobiles.png"
                 alt="App screenshot"
@@ -42,6 +42,15 @@ export function AppShowcaseSection() {
                 className="h-full w-full"
               />
             </div>
+          </div> */}
+          <div>
+            <Image
+              src="/images/mobiles-1.png"
+              alt="App screenshot"
+              width={600}
+              height={400}
+              className="h-full w-full"
+            />
           </div>
         </div>
       </div>

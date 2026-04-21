@@ -78,7 +78,8 @@
   "mission": {
     "label": "Mission",
     "title": "Our Mission",
-    "description": "Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e"
+    "description": "Aenean congue vehicula lacinia. Sed nec varius velit. Suspendisse vitae risus et nulla blandit condimentum. Nunc pellentesque, felis ac pretium malesuada, nisi elit ullamcorper purus, vel aliquet felis justo sed quam. Cras consequat lobortis dui, ut auctor elit porta vitae. Suspendissecommodo vulputate congue. Cras nec dui e",
+    "quote": "Supporting every beginning with care. Guiding parents with trust."
   },
   "appShowcase": {
     "label": "Pellentesque",
@@ -312,8 +313,6 @@
       "status": "{done} of {total} tasks"
     }
   },
-
-
 
   "threads": {
     "active": "Active",
