@@ -20,7 +20,7 @@ async function fetchInitialData(filter: string, user_id?: string, partner_id?: s
     const items = Array.isArray(raw) ? raw : [raw];
     return { ...data, items };
   } catch (error) {
-    console.error("Error fetching matching names:", error);
+    // console.error("Error fetching matching names:", error);
     return null;
   }
 }

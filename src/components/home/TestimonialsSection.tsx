@@ -8,7 +8,33 @@ import { SwiperSlide } from "swiper/react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export function TestimonialsSection({ data }: { data: any }) {
+type TestimonialUser = {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string | null;
+  mobile: string | null;
+};
+
+type Testimonial = {
+  _id: string;
+  content: string;
+  rating: number;
+  approved: boolean;
+  location: string;
+  userId: string;
+  user: TestimonialUser;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  __v: number;
+};
+
+type TestimonialsSectionProps = {
+  data: Testimonial[];
+};
+
+export function TestimonialsSection({ data }: TestimonialsSectionProps) {
   const { t } = useTranslation();
 
   const pagination = {
@@ -59,8 +85,8 @@ export function TestimonialsSection({ data }: { data: any }) {
           >
             {data &&
               data.length &&
-              data.map((testimonial: any) => (
-                <SwiperSlide key={testimonial.id} className="h-auto flex">
+              data.map((testimonial: Testimonial) => (
+                <SwiperSlide key={testimonial._id} className="h-auto flex">
                   <Card className="min-h-55 bg-primary-light h-full flex flex-col border border-gray-100 p-6 transition-shadow hover:shadow-lg">
                     {/* Stars */}
                     <div className="mb-4 flex gap-1">

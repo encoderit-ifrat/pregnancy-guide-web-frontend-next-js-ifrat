@@ -36,7 +36,7 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
     try {
       await shareMutation.mutateAsync(threadId);
     } catch (error) {
-      console.error("Failed to track share:", error);
+      // console.error("Failed to track share:", error);
     }
   };
 

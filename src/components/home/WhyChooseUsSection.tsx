@@ -10,7 +10,31 @@ import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export function WhyChooseUsSection({ data }: { data: any }) {
+type ArticleTag = {
+  _id: string;
+  name: string;
+  slug: string;
+};
+
+type Article = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  cover_image: string;
+  thumbnail_image: string;
+  featured: boolean;
+  language: string;
+  status: "published" | "draft";
+  tags: ArticleTag[];
+};
+
+type WhyChooseUsSectionProps = {
+  data: Article[];
+};
+
+export function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
   const { t } = useTranslation();
 
   const pagination = {
@@ -54,7 +78,7 @@ export function WhyChooseUsSection({ data }: { data: any }) {
             },
           }}
         >
-          {data.map((d: any, index: number) => (
+          {data.map((d: Article, index: number) => (
             <SwiperSlide key={index} className="h-auto flex">
               <div
                 className="group relative overflow-hidden rounded-2xl shadow-lg"

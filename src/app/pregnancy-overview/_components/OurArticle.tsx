@@ -43,13 +43,13 @@ type TProps = {
 };
 
 function OurArticle({ data, weeklyDetails }: TProps) {
-  console.log("👉 ~ OurArticle ~ data:", data);
+  // console.log("👉 ~ OurArticle ~ data:", data);
   const { t } = useTranslation();
   // const shuffled = [...data].sort(() => Math.random() - 0.5);
 
   const [firstArticle, ...rest] = data;
   const otherArticles = rest.slice(0, 3);
-  console.log("👉 ~ OurArticle ~ otherArticles:", otherArticles);
+  // console.log("👉 ~ OurArticle ~ otherArticles:", otherArticles);
 
   if (!data || data.length === 0) {
     return null;

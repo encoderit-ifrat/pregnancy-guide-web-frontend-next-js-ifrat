@@ -100,7 +100,7 @@ export default function TaskForm({
   });
 
   function onSubmit(values: TaskFormValues) {
-    console.log("Submitting values:", values);
+    // console.log("Submitting values:", values);
 
     if (isUpdate) {
       updateItem({ id: task.id, data: values }, {

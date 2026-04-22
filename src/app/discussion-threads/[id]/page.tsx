@@ -29,7 +29,7 @@ export async function generateMetadata({
       }
     }
   } catch (error) {
-    console.error("Failed to fetch thread metadata:", error);
+    // console.error("Failed to fetch thread metadata:", error);
   }
 
   return {

@@ -50,7 +50,7 @@ export const getInitial = (name?: string): string => {
 export default function ProfilePage() {
   const { t } = useTranslation();
   const { user, isLoading, isAuthenticated, refetch } = useCurrentUser();
-  console.log("👉 ~ ProfilePage ~ user:", user);
+  // console.log("👉 ~ ProfilePage ~ user:", user);
   const [babyProfiles, setBabyProfiles] = useState<BabyProfile[]>([]);
 
   const [profileDetails, setProfileDetails] = useState<ProfileDetail[]>([
@@ -358,10 +358,10 @@ export default function ProfilePage() {
                         control={form.control}
                         name={
                           item.key as
-                            | "name"
-                            | "familyName"
-                            | "partnerName"
-                            | "email"
+                          | "name"
+                          | "familyName"
+                          | "partnerName"
+                          | "email"
                         } // Fix: use the actual field name
                         render={({ field }) => (
                           <FormItem className="mb-3 sm:mb-4 lg:mb-2">
@@ -442,11 +442,9 @@ export default function ProfilePage() {
                           </span>
                           :
                           {profile.upcoming
-                            ? `${
-                                user?.details?.current_pregnancy_data?.week || 0
-                              } ${t("pregnancy.weeks")} ${
-                                user?.details?.current_pregnancy_data?.day || 0
-                              } ${t("pregnancy.days")}`
+                            ? `${user?.details?.current_pregnancy_data?.week || 0
+                            } ${t("pregnancy.weeks")} ${user?.details?.current_pregnancy_data?.day || 0
+                            } ${t("pregnancy.days")}`
                             : t("profile.newborn")}
                         </p>
 
@@ -522,7 +520,7 @@ export default function ProfilePage() {
                                         await refetch();
                                         toast.success(
                                           data?.data?.message ||
-                                            t("profile.deleteSuccess")
+                                          t("profile.deleteSuccess")
                                         );
                                         setFormData({
                                           type: "default",

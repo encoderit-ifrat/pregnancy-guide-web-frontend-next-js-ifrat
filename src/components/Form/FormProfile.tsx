@@ -50,7 +50,7 @@ export default function FormProfile({
 }: FormProfileProps) {
   const { t } = useTranslation();
   const [profileType, setProfileType] = useState<"upcoming">("upcoming");
-  console.log("👉 ~ FormProfile ~ initialData:", initialData);
+  // console.log("👉 ~ FormProfile ~ initialData:", initialData);
 
   const form = useForm<ProfileFormSchemaType>({
     resolver: zodResolver(ProfileFormSchema),
@@ -219,7 +219,7 @@ export default function FormProfile({
     }
     return null;
   }, [lastPeriodDate, dueDate, primarySource, t]);
-  console.log(`👉 ~ FormProfile ~ pregnancyInfo:`, pregnancyInfo?.weeks);
+  // console.log(`👉 ~ FormProfile ~ pregnancyInfo:`, pregnancyInfo?.weeks);
 
   useEffect(() => {
     form.reset();

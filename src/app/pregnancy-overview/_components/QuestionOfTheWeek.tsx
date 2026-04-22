@@ -40,22 +40,22 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     userAnswer,
   } = data?.data ?? {};
 
-  console.log("QuestionOfTheWeek Data:", { hasAnswered, userAnswer, questionData });
+  // console.log("QuestionOfTheWeek Data:", { hasAnswered, userAnswer, questionData });
 
   const handleLike = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(" handleLike CALLED", userAnswer?._id);
+    // console.log(" handleLike CALLED", userAnswer?._id);
     if (!userAnswer?._id) {
-      console.error(" userAnswer._id is missing");
+      // console.error(" userAnswer._id is missing");
       return;
     }
     mutateLike({ id: userAnswer._id }, {
       onSuccess: () => {
-        console.log("Like Success");
+        // console.log("Like Success");
         refetch();
       },
-      onError: (err) => console.error("Like Error:", err)
+      onError: (err) => { }//console.error("Like Error:", err)
     });
   };
 
@@ -67,10 +67,10 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     }
     mutateDislike({ id: userAnswer._id }, {
       onSuccess: () => {
-        console.log("Dislike Success");
+        // console.log("Dislike Success");
         refetch();
       },
-      onError: (err) => console.error(" Dislike Error:", err)
+      onError: (err) => { }//console.error(" Dislike Error:", err)
     });
   };
 

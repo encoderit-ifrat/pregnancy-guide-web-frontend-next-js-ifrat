@@ -113,7 +113,7 @@ async function getArticles(searchParams: SearchParams, lang: string = "en") {
     const data = await res.json();
     return data;
   } catch (error) {
-    return null;
+    return { data: { data: [], categories: [], pagination: null } };
   }
 }
 
@@ -133,7 +133,7 @@ export default async function Page({
   if (articlesData.data.data.length === 1) {
     redirect(`/articles/${articlesData.data.data[0].slug}`);
   }
-  console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
+  // console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
   // useEffect(() => {
   //   // console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
   //   const data = articlesData.data.data;

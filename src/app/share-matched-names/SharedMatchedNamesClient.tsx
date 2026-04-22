@@ -20,6 +20,46 @@ import { useMutationSwipeTinderName } from "../for-name-tinder/_api/mutations/us
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 
+type NameCategory = {
+  _id: string;
+  name: string;
+  slug: string;
+};
+
+type NameItem = {
+  _id: string;
+  name: string;
+  gender: "male" | "female" | "unisex";
+  description?: string;
+  liked_count: number;
+  loved_count: number;
+  disliked_count?: number;
+  is_active?: boolean;
+  category_id?: NameCategory;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
+};
+
+type MatchedNamesData = {
+  liked: NameItem[];
+  loved: NameItem[];
+  user_id: string;
+  partner_id: string;
+};
+
+type MatchedNamesItem = {
+  liked: NameItem[];
+  loved: NameItem[];
+};
+
+type InitialData = {
+  success: boolean;
+  message: string;
+  data: MatchedNamesData;
+  items: MatchedNamesItem[];
+};
+
 function SkeletonCard() {
   return (
     <div className="w-full border border-border rounded-lg p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12 animate-pulse">
@@ -216,7 +256,7 @@ export function SharedMatchedNamesClient({
   user_id?: string;
   partner_id?: string;
   initialFilter: string;
-  initialData?: any;
+  initialData?: InitialData;
 }) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(initialFilter);

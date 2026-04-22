@@ -23,7 +23,7 @@ interface CommunityCardProps {
 }
 
 export default function CommunityCard({ name, className }: CommunityCardProps) {
-  console.log("👉 ~ CommunityCard ~ name:", name);
+  // console.log("👉 ~ CommunityCard ~ name:", name);
   const { t } = useTranslation();
   const { mutate: swipe, isPending } = useMutationSwipeTinderName();
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ChangePasswordForm from "./_component/ChangPasswordForm";
+import ChangePasswordForm from "./_component/ChangePasswordForm";
 import AuthCard from "@/components/ui/cards/AuthCard";
 import { useTranslation } from "@/hooks/useTranslation";
 

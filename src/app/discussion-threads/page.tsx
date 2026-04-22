@@ -84,7 +84,7 @@ export default function Page() {
       // but usually the mutation handles it or we rely on the next refresh.
       queryClient.invalidateQueries({ queryKey: ["get-threads"] });
     } catch (error) {
-      console.error("Failed to track share:", error);
+      // console.error("Failed to track share:", error);
     }
   };
 

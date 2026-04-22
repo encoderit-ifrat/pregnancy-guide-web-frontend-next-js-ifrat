@@ -57,7 +57,7 @@ type Article = {
 
 //   return { headings, contentWithIds };
 // }
-function extractHeadings(htmlContent: string): {
+export function extractHeadings(htmlContent: string): {
   headings: { id: string; text: string; level: number }[];
   contentWithIds: string;
 } {

@@ -6,6 +6,26 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
 
+type PaginationMeta = {
+  current_page: number;
+  last_page: number;
+  per_page?: number;
+  total?: number;
+  from?: number;
+  to?: number;
+  [key: string]: unknown;
+};
+
+type PaginationProps = {
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
+  meta?: PaginationMeta;
+  onClickPage?: (page: number) => void;
+  onClickPrev?: (page: number) => void;
+  onClickNext?: (page: number) => void;
+};
+
 export default function Pagination({
   currentPage: propCurrentPage,
   totalPages: propTotalPages,
@@ -14,15 +34,7 @@ export default function Pagination({
   onClickPage,
   onClickPrev,
   onClickNext,
-}: {
-  currentPage?: number;
-  totalPages?: number;
-  onPageChange?: (page: number) => void;
-  meta?: any;
-  onClickPage?: (page: number) => void;
-  onClickPrev?: (page: number) => void;
-  onClickNext?: (page: number) => void;
-}) {
+}: PaginationProps) {
   const { t } = useTranslation();
   
   // Use metadata first, then props

@@ -31,7 +31,7 @@ async function getPregnancyData(
     }
     url.searchParams.set("lang", lang);
 
-    console.log("url", { url: url.toString() });
+    // console.log("url", { url: url.toString() });
 
     const res = await fetch(url.toString(), {
       headers: {
@@ -91,7 +91,7 @@ export default async function Page({
     selectedWeek,
     locale
   );
-  console.log({ pregnancyData });
+  // console.log({ pregnancyData });
 
   // Handle error state
   if (error) {

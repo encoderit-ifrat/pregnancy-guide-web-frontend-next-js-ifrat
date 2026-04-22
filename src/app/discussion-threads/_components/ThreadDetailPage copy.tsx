@@ -362,8 +362,8 @@ export default function ThreadDetailPage({
         ...prev,
         shares: result.data.data.shares_count || prev.shares,
       }));
-    } catch (error: any) {
-      console.error("Failed to track share:", error);
+    } catch (error) {
+      // console.error("Failed to track share:", error);
     }
   };
 

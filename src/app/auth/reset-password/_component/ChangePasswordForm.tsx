@@ -32,8 +32,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ChangePasswordForm() {
   const { t } = useTranslation();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const { mutate: resetPassword, isPending } = useResetPassword();
   const router = useRouter();

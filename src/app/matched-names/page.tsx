@@ -59,7 +59,7 @@ function SkeletonCard() {
 }
 
 function NameCard({ item }: { item: MatchingType }) {
-  console.log("👉 ~ NameCard ~ item:", item);
+  // console.log("👉 ~ NameCard ~ item:", item);
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);

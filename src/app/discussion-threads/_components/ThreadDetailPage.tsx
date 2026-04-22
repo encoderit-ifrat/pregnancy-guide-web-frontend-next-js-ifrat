@@ -99,7 +99,7 @@ function ReplyCard({
   parentId?: string;
   depth?: number;
 }) {
-  console.log("👉 ~ ReplyCard ~ reply:", reply);
+  // console.log("👉 ~ ReplyCard ~ reply:", reply);
   const { t, locale } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
@@ -403,10 +403,10 @@ export default function ThreadDetailPage({
     params: { sort: "newest" },
     enabled: true,
   });
-  console.log(
-    "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
-    repliesInfiniteData
-  );
+  // console.log(
+  //   "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
+  //   repliesInfiniteData
+  // );
 
   const effectiveThread = threadDetail?.data || thread;
   const isLiked =
