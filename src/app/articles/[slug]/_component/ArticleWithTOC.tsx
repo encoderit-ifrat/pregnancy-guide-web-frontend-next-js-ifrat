@@ -120,7 +120,7 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
       {/*  </p>*/}
       {/*)}*/}
 
-      <div className="max-w-[720px] mx-auto px-4 md:px-0">
+      <div className="max-w-180 mx-auto px-4 md:px-0">
         <div className="w-full">
           {headings.length > 0 && article.show_table_of_content && (
             <TableOfContents headings={headings} />

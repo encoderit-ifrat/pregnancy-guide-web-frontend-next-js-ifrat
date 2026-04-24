@@ -31,18 +31,15 @@ type Article = {
 // Fetch article data with authentication
 async function getArticle(slug: string, token: string, lang: string = "en") {
   try {
-    const res = await fetch(
-      `${API_V1}/articles/${slug}?lang=${lang}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept-Language": lang,
-          "x-lang": lang,
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`${API_V1}/articles/${slug}?lang=${lang}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept-Language": lang,
+        "x-lang": lang,
+      },
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       return null; // Return null instead of throwing
@@ -118,7 +115,7 @@ export default async function ArticlePage({
   }
 
   return (
-    <div className="relative bg-article-bg min-h-screen pt-20">
+    <div className="relative bg-article-bg min-h-screen">
       <PageContainer className="z-20">
         <div className="w-full px-4 md:px-0">
           <ArticleWithTOC article={article} />
