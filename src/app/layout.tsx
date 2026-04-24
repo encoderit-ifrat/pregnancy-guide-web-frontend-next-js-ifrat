@@ -79,7 +79,7 @@ export default function RootLayout({
   // /pregnancy-overview
 
   return (
-    <html lang="en">
+    <html lang="sv">
       <body
         className={`${poppins.className} ${roboto.variable} ${poppins.variable} ${playfair.variable} ${outfit.variable} ${libre_baskerville.variable} ${lora.variable} antialiased text-primary-dark overflow-x-hidden`}
       >

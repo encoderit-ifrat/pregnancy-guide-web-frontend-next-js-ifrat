@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 // Fetch articles data at build time
-async function getHomePageData(lang: string = "en") {
+async function getHomePageData(lang: string = "sv") {
   console.log("api url", `${API_V1}/home?lang=${lang}`);
   try {
     const res = await fetch(`${API_V1}/home?lang=${lang}`, {
@@ -47,7 +47,7 @@ async function getHomePageData(lang: string = "en") {
 export default async function Page() {
   // Get locale from cookies
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   // Fetch data at build time
   const homePageData = await getHomePageData(locale);

@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 async function getPregnancyData(
   token: string,
   week?: number,
-  lang: string = "en"
+  lang: string = "sv"
 ) {
   try {
     const url = new URL(`${API_V1}/pregnancy`);
@@ -83,7 +83,7 @@ export default async function Page({
 
   // Get locale from cookies
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   // Fetch data with the token (pass week and lang to API if selected)
   const { data: pregnancyData, error } = await getPregnancyData(

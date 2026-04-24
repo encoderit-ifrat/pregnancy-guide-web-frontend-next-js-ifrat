@@ -29,7 +29,7 @@ type Article = {
 };
 
 // Fetch article data with authentication
-async function getArticle(slug: string, token: string, lang: string = "en") {
+async function getArticle(slug: string, token: string, lang: string = "sv") {
   try {
     const res = await fetch(`${API_V1}/articles/${slug}?lang=${lang}`, {
       headers: {
@@ -68,7 +68,7 @@ export async function generateMetadata({
   }
 
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, session.token, locale);
 
@@ -106,7 +106,7 @@ export default async function ArticlePage({
   }
 
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, session.token, locale);
 

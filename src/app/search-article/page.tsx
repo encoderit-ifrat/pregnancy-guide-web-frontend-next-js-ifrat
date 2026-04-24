@@ -79,7 +79,7 @@ export async function generateMetadata({
   };
 }
 
-async function getArticles(searchParams: SearchParams, lang: string = "en") {
+async function getArticles(searchParams: SearchParams, lang: string = "sv") {
   try {
     const query = searchParams.search || "";
     const page = searchParams.page || "1";
@@ -127,7 +127,7 @@ export default async function Page({
   // const router = useRouter();
   // Get locale from cookies
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const articlesData = await getArticles(params, locale);
   if (articlesData.data.data.length === 1) {

@@ -11,7 +11,7 @@ import { API_V1 } from "@/consts";
 export const dynamic = "force-dynamic";
 
 // Fetch article data with authentication
-async function getArticle(slug: string, lang: string = "en") {
+async function getArticle(slug: string, lang: string = "sv") {
   try {
     const res = await fetch(
       `${API_V1}/articles/public/${slug}?lang=${lang}`,
@@ -46,7 +46,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, locale);
 
@@ -78,7 +78,7 @@ export default async function PublicArticlePage({
   const { slug } = await params;
 
   const cookieStore = await cookies();
-  const locale = cookieStore.get("familj-locale")?.value || "en";
+  const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, locale);
   console.log("👉 ~ ArticlePage ~ article:", article);

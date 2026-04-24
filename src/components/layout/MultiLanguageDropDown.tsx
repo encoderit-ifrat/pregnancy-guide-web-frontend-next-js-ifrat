@@ -38,7 +38,7 @@ export default function MultiLanguageDropDown({
   ];
 
   return (
-    <div className="relative pointer-events-none" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       {/* language Trigger */}
       <div
         className={cn(
