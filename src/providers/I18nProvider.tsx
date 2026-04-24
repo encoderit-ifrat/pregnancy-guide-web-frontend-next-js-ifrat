@@ -35,7 +35,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
     setMounted(true);
   }, []);
 
-  const setLocale = (newLocale: Locale) => {
+  const setLocale = (newLocale: Locale = "sv") => {
     setLocaleState(newLocale);
     localStorage.setItem("familj-locale", newLocale);
     // Set cookie for SSR accessibility

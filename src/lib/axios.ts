@@ -25,13 +25,13 @@ api.interceptors.request.use(
     }
 
     // Get locale from cookies or localStorage
-    let locale = "en";
+    let locale = "sv";
     if (typeof window !== "undefined") {
       const cookieValue = document.cookie
         .split("; ")
         .find((row) => row.startsWith("familj-locale="))
         ?.split("=")[1];
-      locale = cookieValue || localStorage.getItem("familj-locale") || "en";
+      locale = cookieValue || localStorage.getItem("familj-locale") || "sv";
     }
 
     // Add language to headers for ALL requests
