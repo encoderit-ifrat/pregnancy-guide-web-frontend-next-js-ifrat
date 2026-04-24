@@ -116,7 +116,7 @@ export default async function ArticlePage({
 
   return (
     <div className="relative bg-article-bg min-h-screen">
-      <PageContainer className="z-20">
+      <PageContainer className="z-20" waaveClassName="text-article-bg">
         <div className="w-full px-4 md:px-0">
           <ArticleWithTOC article={article} />
         </div>
