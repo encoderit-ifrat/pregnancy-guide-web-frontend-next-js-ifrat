@@ -25,7 +25,7 @@ export function PageContainer({
             height="h-26 lg:h-auto"
           />
         </section>
-        <div className="relative z-20 px-4 py-10">{children}</div>
+        <div className="relative z-20 px-4 py-10 bg-article-bg">{children}</div>
       </div>
     </>
   );
