@@ -6,8 +6,10 @@ export function PageContainer({
   className,
   children,
   waaveClassName,
+  childClassName,
 }: {
   className?: string;
+  childClassName?: string;
   waaveClassName?: string;
   children: React.ReactNode;
 }) {
@@ -25,7 +27,9 @@ export function PageContainer({
             height="h-26 lg:h-auto"
           />
         </section>
-        <div className="relative z-20 px-4 py-10 bg-article-bg">{children}</div>
+        <div className={cn("relative z-20 px-4 py-10", childClassName)}>
+          {children}
+        </div>
       </div>
     </>
   );
