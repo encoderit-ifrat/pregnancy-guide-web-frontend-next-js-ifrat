@@ -120,13 +120,13 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
       {/*  </p>*/}
       {/*)}*/}
 
-      <div className="max-w-180 mx-auto px-4 md:px-0">
+      <div className="max-w-[680px] mx-auto px-6 md:px-0">
         <div className="w-full">
           {headings.length > 0 && article.show_table_of_content && (
             <TableOfContents headings={headings} />
           )}
           <div className="w-full min-w-0">
-            <h1 className="text-[28px] leading-[1.3] font-semibold text-primary-dark mb-8 text-wrap">
+            <h1 className="text-[40px] leading-[1.25] font-semibold text-[#1A1A1A] mb-8 text-wrap font-heading">
               {article?.title}
             </h1>
             <ArticleContent content={contentWithIds} />
