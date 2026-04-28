@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   useQuery,
   useMutation,
@@ -52,10 +52,12 @@ const fetchThreads = async ({
 export default function Page() {
   const { t, locale } = useTranslation();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const currentSort =
     (searchParams.get("sort") as ThreadSortOption) || "newest";
+  const currentPage = Number(searchParams.get("page")) || 1;
+
   const [activeTab, setActiveTab] = useState<ThreadSortOption>(currentSort);
-  const [currentPage, setCurrentPage] = useState(1);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareThreadId, setShareThreadId] = useState("");
   const [shareThreadTitle, setShareThreadTitle] = useState("");
@@ -172,9 +174,18 @@ export default function Page() {
     };
   });
 
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`/discussion-threads?${params.toString()}`);
+  };
+
   const handleTabChange = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", value);
+    params.set("page", "1");
     setActiveTab(value as ThreadSortOption);
-    setCurrentPage(1);
+    router.push(`/discussion-threads?${params.toString()}`);
   };
 
   if (isLoading) {
@@ -287,7 +298,7 @@ export default function Page() {
 
               <Pagination
                 meta={paginationMeta}
-                onPageChange={setCurrentPage}
+                onPageChange={handlePageChange}
               />
             </Tabs>
           </div>

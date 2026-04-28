@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -53,8 +54,13 @@ function SkeletonCommunityCard() {
 
 export default function Page() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState("loved");
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const currentTab = searchParams.get("tab") || "loved";
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  const [activeTab, setActiveTab] = useState(currentTab);
   const queryClient = useQueryClient();
 
   const tabSortMap: Record<string, string> = {
@@ -71,9 +77,19 @@ export default function Page() {
   const communityNames = namesData?.data?.data || [];
   const paginationMeta = namesData?.data?.pagination;
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activeTab]);
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`/for-name-tinder?${params.toString()}`);
+  };
+
+  const handleTabChange = (val: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", val);
+    params.set("page", "1");
+    setActiveTab(val);
+    router.push(`/for-name-tinder?${params.toString()}`);
+  };
   const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
   // stores the real _id of the selected category
@@ -191,7 +207,7 @@ export default function Page() {
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-3 sm:px-6 pt-6 pb-6 shadow-sm">
             <Tabs
               value={activeTab}
-              onValueChange={setActiveTab}
+              onValueChange={handleTabChange}
               className="w-full"
             >
               <div className=" flex flex-col items-start justify-center space-y-2">
@@ -335,7 +351,7 @@ export default function Page() {
 
                 <Pagination
                   meta={paginationMeta}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
                 />
               </TabsContent>
               <TabsContent value="loved" className="m-0 flex flex-col gap-2">
@@ -364,7 +380,7 @@ export default function Page() {
 
                 <Pagination
                   meta={paginationMeta}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
                 />
               </TabsContent>
             </Tabs>
