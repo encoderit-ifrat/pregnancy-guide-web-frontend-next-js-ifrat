@@ -3,11 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  useInfiniteQuery,
+  useQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
 
 import { Button } from "@/components/ui/Button";
 import IconHeading from "@/components/ui/text/IconHeading";
@@ -22,6 +21,7 @@ import IconQuestion from "@/components/svg-icon/icon-question";
 import CreateThreadModal from "./_components/CreateThreadModal";
 import ThreadCard from "./_components/ThreadCard";
 import ShareModal from "./_components/ShareModal";
+import Pagination from "@/components/base/Pagination";
 import { usePusherThreadsSubscription } from "./_hooks/usePusherSubscription";
 import { useMutationShareThread } from "./_api/mutations/useThreadMutations";
 import { ThreadSortOption } from "./_types/thread_types";
@@ -31,19 +31,18 @@ import Loading from "../loading";
 import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
 import { toast } from "sonner";
-import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
 const fetchThreads = async ({
-  pageParam = 1,
+  page = 1,
   sort,
 }: {
-  pageParam?: number;
+  page?: number;
   sort: ThreadSortOption;
 }) => {
   const res = await api.get("/threads", {
     params: omitEmpty({
       sort,
-      page: pageParam,
+      page,
       limit: 10,
     }),
   });
@@ -56,17 +55,11 @@ export default function Page() {
   const currentSort =
     (searchParams.get("sort") as ThreadSortOption) || "newest";
   const [activeTab, setActiveTab] = useState<ThreadSortOption>(currentSort);
+  const [currentPage, setCurrentPage] = useState(1);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareThreadId, setShareThreadId] = useState("");
   const [shareThreadTitle, setShareThreadTitle] = useState("");
   const queryClient = useQueryClient();
-
-  // Ensure when user leaves and comes back, we reset to top
-  // and start fetching threads again from page 1 with smooth scroll.
-  useResetInfiniteScrollOnFocus({
-    queryKeyPrefix: ["get-threads"],
-    routePrefix: "/discussion-threads",
-  });
 
   const shareMutation = useMutationShareThread();
 
@@ -91,30 +84,15 @@ export default function Page() {
   const {
     data,
     isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
     refetch,
-  } = useInfiniteQuery({
-    queryKey: ["get-threads", activeTab],
+  } = useQuery({
+    queryKey: ["get-threads", activeTab, currentPage],
     refetchOnWindowFocus: true,
-    queryFn: ({ pageParam = 1 }) =>
-      fetchThreads({ pageParam, sort: activeTab }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage: any) => {
-      if (!lastPage?.data?.pagination) return undefined;
-      const { current_page, last_page } = lastPage.data.pagination;
-      return current_page < last_page ? current_page + 1 : undefined;
-    },
+    queryFn: () =>
+      fetchThreads({ page: currentPage, sort: activeTab }),
   });
 
-  const { ref: loadMoreRef, inView } = useInView();
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const paginationMeta = data?.data?.pagination;
 
   const handleNewThread = useCallback(() => {
     refetch();
@@ -158,9 +136,7 @@ export default function Page() {
     flagMutation.mutate(threadId);
   };
 
-  const allThreads =
-    data?.pages?.flatMap((page: any) => page?.data?.data || page?.data || []) ||
-    [];
+  const allThreads = data?.data?.data || data?.data || [];
 
   const formattedThreads = allThreads.map((thread: any) => {
     const createdAtDate = thread.createdAt
@@ -198,6 +174,7 @@ export default function Page() {
 
   const handleTabChange = (value: string) => {
     setActiveTab(value as ThreadSortOption);
+    setCurrentPage(1);
   };
 
   if (isLoading) {
@@ -308,22 +285,10 @@ export default function Page() {
                 )}
               </div>
 
-              <div
-                ref={loadMoreRef}
-                className="w-full flex justify-center py-4"
-              >
-                {isFetchingNextPage && (
-                  <div className="flex items-center gap-2 text-primary-color">
-                    <Loading />
-                    {/* <span>{t("common.loading")}</span> */}
-                  </div>
-                )}
-                {!hasNextPage && formattedThreads.length > 0 && (
-                  <p className="text-primary-color opacity-60">
-                    {t("threads.noMoreThreads")}
-                  </p>
-                )}
-              </div>
+              <Pagination
+                meta={paginationMeta}
+                onPageChange={setCurrentPage}
+              />
             </Tabs>
           </div>
         </div>

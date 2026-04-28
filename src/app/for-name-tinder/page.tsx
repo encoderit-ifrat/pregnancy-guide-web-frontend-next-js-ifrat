@@ -18,9 +18,10 @@ import {
   TinderName,
 } from "./_api/queries/useQueryGetRandomTinderName";
 import { useQueryGetTinderNameCategories } from "./_api/queries/useQueryGetTinderNameCategories";
-import { useInfiniteQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
+import { useQueryGetTinderNames } from "./_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "./_api/mutations/useMutationSwipeTinderName";
 import { useMutationDislikeAllTinderNames } from "./_api/mutations/useMutationDislikeAllTinderNames";
+import Pagination from "@/components/base/Pagination";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import IconLike from "@/components/svg-icon/icon-like";
 import IconLove from "@/components/svg-icon/icon-love";
@@ -30,10 +31,8 @@ import { cn } from "@/lib/utils";
 import IconHeading from "@/components/ui/text/IconHeading";
 import IconQuestion from "@/components/svg-icon/icon-question";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useInView } from "react-intersection-observer";
 import Loading from "../loading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
 function SkeletonCommunityCard() {
   return (
@@ -55,12 +54,8 @@ function SkeletonCommunityCard() {
 export default function Page() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("loved");
+  const [currentPage, setCurrentPage] = useState(1);
   const queryClient = useQueryClient();
-  // Reset scroll + infinite community names when user returns.
-  useResetInfiniteScrollOnFocus({
-    queryKeyPrefix: ["tinder-names-infinite"],
-    routePrefix: "/for-name-tinder",
-  });
 
   const tabSortMap: Record<string, string> = {
     liked: "most_liked",
@@ -68,27 +63,17 @@ export default function Page() {
   };
 
   const {
-    data: namesInfiniteData,
+    data: namesData,
     isLoading: namesLoading,
-    isFetchingNextPage: isFetchingNextNames,
-    hasNextPage: hasNextNames,
-    fetchNextPage: fetchNextNames,
     isError: namesError,
-  } = useInfiniteQueryGetTinderNames({ sort: tabSortMap[activeTab] });
+  } = useQueryGetTinderNames({ sort: tabSortMap[activeTab], page: currentPage });
 
-  const communityNames =
-    namesInfiniteData?.pages?.flatMap(
-      (page) => page?.data?.data || page?.data || []
-    ) || [];
-  console.log("👉 ~ Page ~ communityNames:", communityNames);
-
-  const { ref: loadMoreRef, inView } = useInView();
+  const communityNames = namesData?.data?.data || [];
+  const paginationMeta = namesData?.data?.pagination;
 
   useEffect(() => {
-    if (inView && hasNextNames && !isFetchingNextNames) {
-      fetchNextNames();
-    }
-  }, [inView, hasNextNames, isFetchingNextNames, fetchNextNames]);
+    setCurrentPage(1);
+  }, [activeTab]);
   const [openSwipeDialog, setOpenSwipeDialog] = useState(false);
   const [openMatchDialog, setOpenMatchDialog] = useState(false);
   // stores the real _id of the selected category
@@ -348,21 +333,10 @@ export default function Page() {
                   <CommunityCard key={item._id} name={item} />
                 ))}
 
-                <div
-                  ref={loadMoreRef}
-                  className="w-full flex justify-center py-4"
-                >
-                  {isFetchingNextNames && (
-                    <div className="flex items-center gap-2 text-primary-color">
-                      <Loading />
-                    </div>
-                  )}
-                  {!hasNextNames && communityNames.length > 0 && (
-                    <p className="text-primary-color opacity-60">
-                      {t("forNameTinder.noMoreNames")}
-                    </p>
-                  )}
-                </div>
+                <Pagination
+                  meta={paginationMeta}
+                  onPageChange={setCurrentPage}
+                />
               </TabsContent>
               <TabsContent value="loved" className="m-0 flex flex-col gap-2">
                 {namesLoading && (
@@ -388,21 +362,10 @@ export default function Page() {
                   <CommunityCard key={item._id} name={item} />
                 ))}
 
-                <div
-                  ref={loadMoreRef}
-                  className="w-full flex justify-center py-4"
-                >
-                  {isFetchingNextNames && (
-                    <div className="flex items-center gap-2 text-primary-color">
-                      <Loading />
-                    </div>
-                  )}
-                  {!hasNextNames && communityNames.length > 0 && (
-                    <p className="text-primary-color opacity-60">
-                      {t("forNameTinder.noMoreNames")}
-                    </p>
-                  )}
-                </div>
+                <Pagination
+                  meta={paginationMeta}
+                  onPageChange={setCurrentPage}
+                />
               </TabsContent>
             </Tabs>
           </div>
