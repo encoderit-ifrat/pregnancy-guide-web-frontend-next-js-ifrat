@@ -667,7 +667,11 @@ p {
   /* or custom focus color */
   outline-offset: 2px;
 }
-
+.weekly-details p {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.25rem;
+  color: #1f2937;
+}
 /*Custom scrollbar*/
 /* width */
 ::-webkit-scrollbar {
