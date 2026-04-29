@@ -402,7 +402,7 @@
     "weekSelector": "Vecka",
     "question": "Fråga",
     "questionOfTheWeek": "Veckans Fråga",
-    "weekQuestion": "Fråga vecka {week}",
+    "weekQuestion": "Vecka {week}:s fråga",
     "seeAll": "Visa Alla",
     "noInfo": "Ingen graviditetsinformation hittades.",
     "error": "Ett fel uppstod vid hämtning av graviditetsdata.",

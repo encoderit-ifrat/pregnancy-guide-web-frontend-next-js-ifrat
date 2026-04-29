@@ -31,7 +31,8 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
 
   const { user: currentUser } = useCurrentUser();
   const { mutate: mutateLike, isPending: isLikePending } = useQuestionLike();
-  const { mutate: mutateDislike, isPending: isDislikePending } = useQuestionDislike();
+  const { mutate: mutateDislike, isPending: isDislikePending } =
+    useQuestionDislike();
   const {
     question: questionData,
     // answers,
@@ -40,7 +41,11 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     userAnswer,
   } = data?.data ?? {};
 
-  console.log("QuestionOfTheWeek Data:", { hasAnswered, userAnswer, questionData });
+  console.log("QuestionOfTheWeek Data:", {
+    hasAnswered,
+    userAnswer,
+    questionData,
+  });
 
   const handleLike = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -50,13 +55,16 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
       console.error(" userAnswer._id is missing");
       return;
     }
-    mutateLike({ id: userAnswer._id }, {
-      onSuccess: () => {
-        console.log("Like Success");
-        refetch();
-      },
-      onError: (err) => console.error("Like Error:", err)
-    });
+    mutateLike(
+      { id: userAnswer._id },
+      {
+        onSuccess: () => {
+          console.log("Like Success");
+          refetch();
+        },
+        onError: (err) => console.error("Like Error:", err),
+      }
+    );
   };
 
   const handleDislike = (e: React.MouseEvent) => {
@@ -65,13 +73,16 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     if (!userAnswer?._id) {
       return;
     }
-    mutateDislike({ id: userAnswer._id }, {
-      onSuccess: () => {
-        console.log("Dislike Success");
-        refetch();
-      },
-      onError: (err) => console.error(" Dislike Error:", err)
-    });
+    mutateDislike(
+      { id: userAnswer._id },
+      {
+        onSuccess: () => {
+          console.log("Dislike Success");
+          refetch();
+        },
+        onError: (err) => console.error(" Dislike Error:", err),
+      }
+    );
   };
 
   const isLiked = userAnswer?.likes?.includes(currentUser?._id);
@@ -95,17 +106,21 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
           <div className="pt-2 pb-10 md:pb-16">
             <div className="text-center">
               <IconHeading
-                text={t("pregnancy.question")}
+                // text={t("pregnancy.question")}
+                text={t("pregnancy.questionOfTheWeek")}
                 image="/images/icons/question.png"
                 className="text-primary justify-center"
               />
-              <SectionHeading>{t("pregnancy.questionOfTheWeek")}</SectionHeading>
+              <SectionHeading>
+                {/* {t("pregnancy.questionOfTheWeek")} */}
+                {t("pregnancy.weekQuestion", { week: currentWeek })}
+              </SectionHeading>
               {/* Week badge */}
-              {typeof currentWeek !== "undefined" && (
+              {/* {typeof currentWeek !== "undefined" && (
                 <div className="inline-block bg-white/90 text-primary font-semibold text-base md:text-lg px-4 py-1 rounded-full mb-6">
                   {t("pregnancy.weekQuestion", { week: currentWeek })}
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Outer decorative card to match the target layout (large rounded container with subtle bottom shadow/highlight) */}
@@ -137,7 +152,6 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                         {hasAnswered ? (
                           <>
                             <AnswerFormPercentage />
-
                           </>
                         ) : (
                           <AnswerFormRadioGroup disabled={hasAnswered} />
