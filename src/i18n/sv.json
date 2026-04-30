@@ -151,9 +151,10 @@
   },
   "signUp": {
     "title": "Registrera dig",
-    "description": "Skapa ett konto för att få tillgång till expertvägledning, resurser och stöd i varje steg av föräldraskapet.",
-    "userName": "Användarnamn",
-    "userEmail": "Användarens e-post",
+    // "description": "Skapa ett konto för att få tillgång till expertvägledning, resurser och stöd i varje steg av föräldraskapet.",
+    "description": "Skapa ett konto och få tillgång till hundratal medicinskt granskade artiklar och en massa verktyg som vägleder och stöttar dig i graviditeten.",
+    "userName": "E-post",
+    "userEmail": "e-post",
     "password": "Lösenord",
     "confirmPassword": "Bekräfta lösenord",
     "termsText": "Jag har förstått",
@@ -167,7 +168,6 @@
   },
   "forgotPassword": {
     "title": "Glömt Lösenord",
-    // "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
     "description": "Fyll i din e-postadress för att återställa lösenordet.",
     "email": "E-post",
     "emailPlaceholder": "e-post",
