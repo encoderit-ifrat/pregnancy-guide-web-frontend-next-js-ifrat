@@ -107,11 +107,15 @@
   },
   "trackWeek": {
     "label": "Gemenskap",
-    "title": "Du är inte ensam i det du känner"
+    "title": "Du är inte ensam i det du känner",
+    "labelUserLoggedOut": "Gemenskap",
+    "titleUserLoggedOut": "Du är inte ensam i det du känner"
   },
   "whyChooseUs": {
     "label": "Choose Us",
     "title": "Why choose Us",
+    "labelUserLoggedOut": "Choose Us",
+    "titleUserLoggedOut": "Why choose Us",
     "securePrivate": "Secure & Private",
     "securePrivateDesc": "Verified & professional.",
     "cloudSync": "Cloud Sync",

@@ -33,7 +33,6 @@ async function getHomePageData(lang: string = "sv") {
       },
     });
 
-
     if (!res.ok) {
       throw new Error("Failed to fetch articles");
     }

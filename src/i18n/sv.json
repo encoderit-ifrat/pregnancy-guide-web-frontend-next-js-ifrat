@@ -107,11 +107,15 @@
   },
   "trackWeek": {
     "label": "Vestibulum",
-    "title": "Följ Din Vecka"
+    "title": "Följ Din Vecka",
+    "labelUserLoggedOut": "Gemenskap",
+    "titleUserLoggedOut": "Du är inte ensam i det du känner"
   },
   "whyChooseUs": {
     "label": "Välj Oss",
     "title": "Varför Välja Oss",
+    "labelUserLoggedOut": "Medicinskt granskade",
+    "titleUserLoggedOut": "Utvalda artiklar",
     "securePrivate": "Säker & Privat",
     "securePrivateDesc": "Verifierad & professionell.",
     "cloudSync": "Molnsynkronisering",
