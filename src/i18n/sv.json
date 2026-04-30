@@ -273,7 +273,7 @@
       "dueDate": "Förfallodatum",
       "assignedTo": "Tilldelad till",
       "assignees": {
-        "none": "Ingen",
+        "none": "Båda",
         "me": "Mig",
         "partner": "Partner"
       },
