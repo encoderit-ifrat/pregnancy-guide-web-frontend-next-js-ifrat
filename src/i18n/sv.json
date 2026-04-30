@@ -167,9 +167,10 @@
   },
   "forgotPassword": {
     "title": "Glömt Lösenord",
-    "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+    // "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+    "description": "Fyll i din e-postadress för att återställa lösenordet.",
     "email": "E-post",
-    "emailPlaceholder": "Användarens e-post",
+    "emailPlaceholder": "e-post",
     "continueButton": "Fortsätt"
   },
   "changePassword": {
