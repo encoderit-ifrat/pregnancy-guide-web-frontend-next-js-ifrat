@@ -312,7 +312,7 @@ export default function CheckList({
                         )}
 
                         {/* Assigned To Icon */}
-                        <div
+                        {/* <div
                           className={cn(
                             "size-8 rounded-full border flex items-center justify-center font-bold text-xs shrink-0 transition-opacity hover:opacity-80",
                             task.assignedTo === "me"
@@ -325,8 +325,24 @@ export default function CheckList({
                             : task.assignedTo === "me"
                               ? "M"
                               : "N"}
-                        </div>
-
+                        </div> */}
+                        {task.assignedTo != "none" ? (
+                          <div
+                            className={cn("size-5 rounded-full", {
+                              "bg-[#2DD4BF]": task.assignedTo === "partner",
+                              "bg-[#A855F7]": task.assignedTo === "me",
+                            })}
+                          />
+                        ) : (
+                          <div className="flex -space-x-2.5">
+                            <div
+                              className={cn("size-5 rounded-full bg-[#A855F7]")}
+                            />
+                            <div
+                              className={cn("size-5 rounded-full bg-[#2DD4BF]")}
+                            />
+                          </div>
+                        )}
                         {/* Notification Icon */}
                         <div
                           className={cn(

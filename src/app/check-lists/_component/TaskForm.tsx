@@ -47,15 +47,16 @@ import { useTranslation } from "@/hooks/useTranslation";
 // ----------------------
 // SCHEMA TYPE
 // ----------------------
-const getFormSchema = (t: (key: string) => string) => z.object({
-  checklist_id: z.string(),
-  title: z.string().min(1, t("checklists.taskForm.validation.titleRequired")),
-  priority: z.enum(["high", "medium", "low", "none"]),
-  assigned_to: z.enum(["none", "me", "partner"]),
-  due_date: z.date(),
-  description: z.string().optional(),
-  reminder: z.boolean().optional(),
-});
+const getFormSchema = (t: (key: string) => string) =>
+  z.object({
+    checklist_id: z.string(),
+    title: z.string().min(1, t("checklists.taskForm.validation.titleRequired")),
+    priority: z.enum(["high", "medium", "low", "none"]),
+    assigned_to: z.enum(["none", "me", "partner"]),
+    due_date: z.date(),
+    description: z.string().optional(),
+    reminder: z.boolean().optional(),
+  });
 
 export type TaskFormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
@@ -78,9 +79,12 @@ export default function TaskForm({
   const { t } = useTranslation();
   const isUpdate = !!task;
 
-  const { mutateAsync: createItem, isPending: isCreatingItem } = useMutationCreateItem();
-  const { mutateAsync: updateItem, isPending: isUpdatingItem } = useMutationUpdateItem();
-  const { mutateAsync: deleteItem, isPending: isDeletingItem } = useMutationDeleteItem();
+  const { mutateAsync: createItem, isPending: isCreatingItem } =
+    useMutationCreateItem();
+  const { mutateAsync: updateItem, isPending: isUpdatingItem } =
+    useMutationUpdateItem();
+  const { mutateAsync: deleteItem, isPending: isDeletingItem } =
+    useMutationDeleteItem();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -103,12 +107,15 @@ export default function TaskForm({
     console.log("Submitting values:", values);
 
     if (isUpdate) {
-      updateItem({ id: task.id, data: values }, {
-        onSuccess: () => {
-          refetch?.();
-          onClose?.();
-        },
-      });
+      updateItem(
+        { id: task.id, data: values },
+        {
+          onSuccess: () => {
+            refetch?.();
+            onClose?.();
+          },
+        }
+      );
     } else {
       createItem(values, {
         onSuccess: () => {
@@ -179,9 +186,18 @@ export default function TaskForm({
                       disabled={readOnly}
                     >
                       {[
-                        { value: "high", label: t("checklists.taskForm.priorities.high") },
-                        { value: "medium", label: t("checklists.taskForm.priorities.medium") },
-                        { value: "low", label: t("checklists.taskForm.priorities.low") },
+                        {
+                          value: "high",
+                          label: t("checklists.taskForm.priorities.high"),
+                        },
+                        {
+                          value: "medium",
+                          label: t("checklists.taskForm.priorities.medium"),
+                        },
+                        {
+                          value: "low",
+                          label: t("checklists.taskForm.priorities.low"),
+                        },
                       ].map((item) => (
                         <label
                           key={item.value}
@@ -192,11 +208,16 @@ export default function TaskForm({
                               : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
                           )}
                         >
-                          <RadioGroupItem value={item.value} className="sr-only" />
+                          <RadioGroupItem
+                            value={item.value}
+                            className="sr-only"
+                          />
                           <div
                             className={cn(
                               "size-5 rounded-full border flex items-center justify-center transition-all",
-                              field.value === item.value ? "border-primary" : "border-gray-300"
+                              field.value === item.value
+                                ? "border-primary"
+                                : "border-gray-300"
                             )}
                           >
                             {field.value === item.value && (
@@ -235,7 +256,9 @@ export default function TaskForm({
                           <div className="size-8 rounded-full border border-gray-100 flex items-center justify-center shrink-0 text-[#4F4F4F]">
                             <CalendarIcon className="size-4.5 text-[#4F4F4F]" />
                           </div>
-                          {field.value ? format(field.value, "dd-MM-yyyy") : "01-02-2026"}
+                          {field.value
+                            ? format(field.value, "dd-MM-yyyy")
+                            : "01-02-2026"}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -244,7 +267,9 @@ export default function TaskForm({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
+                        disabled={{
+                          before: new Date(new Date().setHours(0, 0, 0, 0)),
+                        }}
                       />
                     </PopoverContent>
                   </Popover>
@@ -267,14 +292,29 @@ export default function TaskForm({
                   <FormControl>
                     <div className="flex gap-2">
                       {[
-                        { label: t("checklists.taskForm.assignees.none"), value: "none" },
-                        { label: t("checklists.taskForm.assignees.me"), value: "me", initial: "M", color: "bg-[#EDE9FE] text-[#A855F7]" },
-                        { label: t("checklists.taskForm.assignees.partner"), value: "partner", initial: "P", color: "bg-[#E0F2F1] text-[#2DD4BF]" },
+                        {
+                          label: t("checklists.taskForm.assignees.none"),
+                          value: "none",
+                        },
+                        {
+                          label: t("checklists.taskForm.assignees.me"),
+                          value: "me",
+                          // initial: "M",
+                          // color: "bg-[#EDE9FE] text-[#A855F7]",
+                        },
+                        {
+                          label: t("checklists.taskForm.assignees.partner"),
+                          value: "partner",
+                          // initial: "P",
+                          // color: "bg-[#E0F2F1] text-[#2DD4BF]",
+                        },
                       ].map((item) => (
                         <button
                           type="button"
                           key={item.value}
-                          onClick={() => !readOnly && field.onChange(item.value)}
+                          onClick={() =>
+                            !readOnly && field.onChange(item.value)
+                          }
                           disabled={readOnly}
                           className={cn(
                             "flex-1 flex items-center justify-center gap-3 px-3 py-3 rounded-sm border transition-all font-medium text-base h-[52px]",
@@ -283,10 +323,23 @@ export default function TaskForm({
                               : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
                           )}
                         >
-                          {item.initial && (
-                            <div className={cn("size-6 rounded-full flex items-center justify-center text-[15px] font-bold shrink-0", item.color)}>
+                          {/* {item.initial && (
+                            <div
+                              className={cn(
+                                "size-6 rounded-full flex items-center justify-center text-[15px] font-bold shrink-0",
+                                item.color
+                              )}
+                            >
                               {item.initial}
                             </div>
+                          )} */}
+                          {item.value != "none" && (
+                            <div
+                              className={cn("size-5 rounded-full", {
+                                "bg-[#2DD4BF]": item.value === "partner",
+                                "bg-[#A855F7]": item.value === "me",
+                              })}
+                            />
                           )}
                           {item.label}
                         </button>
@@ -315,16 +368,26 @@ export default function TaskForm({
                       className={cn(
                         "w-full h-[46px] justify-center gap-3 text-base items-center rounded-full font-outfit transition-all duration-300",
                         !field.value && "border-[#A855F7] text-[#A855F7]",
-                        field.value && "bg-[#A855F7] hover:bg-[#9333EA] text-white"
+                        field.value &&
+                          "bg-[#A855F7] hover:bg-[#9333EA] text-white"
                       )}
                     >
-                      <div className={cn(
-                        "size-7 rounded-full flex items-center justify-center shrink-0 transition-colors",
-                        field.value ? "bg-white/20" : "bg-purple-50"
-                      )}>
-                        <Bell className={cn("size-4", field.value ? "text-white" : "text-[#A855F7]")} />
+                      <div
+                        className={cn(
+                          "size-7 rounded-full flex items-center justify-center shrink-0 transition-colors",
+                          field.value ? "bg-white/20" : "bg-purple-50"
+                        )}
+                      >
+                        <Bell
+                          className={cn(
+                            "size-4",
+                            field.value ? "text-white" : "text-[#A855F7]"
+                          )}
+                        />
                       </div>
-                      {field.value ? t("checklists.taskForm.reminderSet") : t("checklists.taskForm.setReminder")}
+                      {field.value
+                        ? t("checklists.taskForm.reminderSet")
+                        : t("checklists.taskForm.setReminder")}
                     </Button>
                   </FormControl>
                 </FormItem>
@@ -339,7 +402,7 @@ export default function TaskForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base text-[#1B1343]">
-                    {t("checklists.taskForm.notes")}
+                  {t("checklists.taskForm.notes")}
                 </FormLabel>
                 <FormControl>
                   <Textarea
@@ -384,9 +447,11 @@ export default function TaskForm({
                   !isUpdate && "ml-auto"
                 )}
               >
-                {isUpdate ? t("checklists.taskForm.updateTask") : t("checklists.taskForm.createTask")}
+                {isUpdate
+                  ? t("checklists.taskForm.updateTask")
+                  : t("checklists.taskForm.createTask")}
                 <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                  {(isCreatingItem || isUpdatingItem) ? (
+                  {isCreatingItem || isUpdatingItem ? (
                     <Loader2 className="size-5 text-[#A855F7] animate-spin" />
                   ) : (
                     <Save className="size-5 text-[#A855F7]" />
@@ -398,7 +463,10 @@ export default function TaskForm({
         </form>
       </Form>
 
-      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
         <AlertDialogContent className="max-w-[400px] rounded-[20px] p-8">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-center text-[24px] font-bold text-[#1B1343]">
