@@ -151,10 +151,9 @@
   },
   "signUp": {
     "title": "Registrera dig",
-    // "description": "Skapa ett konto för att få tillgång till expertvägledning, resurser och stöd i varje steg av föräldraskapet.",
     "description": "Skapa ett konto och få tillgång till hundratal medicinskt granskade artiklar och en massa verktyg som vägleder och stöttar dig i graviditeten.",
-    "userName": "E-post",
-    "userEmail": "e-post",
+    "userName": "Användarnamn",
+    "userEmail": "E-post",
     "password": "Lösenord",
     "confirmPassword": "Bekräfta lösenord",
     "termsText": "Jag har förstått",
