@@ -279,7 +279,7 @@ export default function CheckList({
                                     : "bg-[#31C48D]"
                               )}
                             />
-                            {task.priority}
+                            {t(task.priority)}
                           </Badge>
                         )}
 
@@ -315,9 +315,9 @@ export default function CheckList({
                         <div
                           className={cn(
                             "size-8 rounded-full border flex items-center justify-center font-bold text-xs shrink-0 transition-opacity hover:opacity-80",
-                            task.assignedTo === "partner"
-                              ? "border-[#22C55E] text-[#22C55E] bg-[#F0FDF4]"
-                              : "border-[#A67EEA] text-[#A67EEA] bg-white"
+                            task.assignedTo === "me"
+                              ? "border-[#A67EEA] text-[#A67EEA] bg-white"
+                              : "border-[#22C55E] text-[#22C55E] bg-[#F0FDF4]"
                           )}
                         >
                           {task.assignedTo === "partner"

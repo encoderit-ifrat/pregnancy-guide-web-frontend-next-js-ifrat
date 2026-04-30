@@ -72,7 +72,10 @@ export default function Page() {
     data: namesData,
     isLoading: namesLoading,
     isError: namesError,
-  } = useQueryGetTinderNames({ sort: tabSortMap[activeTab], page: currentPage });
+  } = useQueryGetTinderNames({
+    sort: tabSortMap[activeTab],
+    page: currentPage,
+  });
 
   const communityNames = namesData?.data?.data || [];
   const paginationMeta = namesData?.data?.pagination;
@@ -166,8 +169,8 @@ export default function Page() {
     <PageContainer>
       <div className="thread-header mb-8 flex flex-col items-center text-center">
         <IconHeading
-          text={t("forNameTinder.title")}
-          icon={<IconQuestion />}
+          text={t("forNameTinder.label")}
+          // icon={<IconQuestion />}
           className="text-primary justify-center"
         />
 

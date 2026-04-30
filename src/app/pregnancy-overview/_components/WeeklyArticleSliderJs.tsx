@@ -38,12 +38,10 @@ function WeeklyArticleSliderJs({ articles }: TProps) {
             icon={<FileQuestion />}
             className="text-primary justify-center"
           />
-          <SectionHeading>
-            {t("pregnancy.articlesTitle")}
-          </SectionHeading>
-          <p>
+          <SectionHeading>{t("pregnancy.articlesTitle")}</SectionHeading>
+          {/* <p>
             {t("pregnancy.articlesSubtitle")}
-          </p>
+          </p> */}
         </div>
 
         {articles && articles.length && (

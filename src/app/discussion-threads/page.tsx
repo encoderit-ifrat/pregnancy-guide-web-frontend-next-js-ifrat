@@ -2,11 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/Button";
 import IconHeading from "@/components/ui/text/IconHeading";
@@ -83,15 +79,10 @@ export default function Page() {
     }
   };
 
-  const {
-    data,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["get-threads", activeTab, currentPage],
     refetchOnWindowFocus: true,
-    queryFn: () =>
-      fetchThreads({ page: currentPage, sort: activeTab }),
+    queryFn: () => fetchThreads({ page: currentPage, sort: activeTab }),
   });
 
   const paginationMeta = data?.data?.pagination;
@@ -199,7 +190,7 @@ export default function Page() {
           {/* Section Label */}
           <IconHeading
             text={t("threads.label")}
-            icon={<IconQuestion />}
+            // icon={<IconQuestion />}
             className="text-primary justify-center"
           />
 

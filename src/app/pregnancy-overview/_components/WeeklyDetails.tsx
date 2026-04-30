@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import IconRightArrow from "@/components/svg-icon/icon-rightArrow";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const initialData = {
   title: "",
@@ -30,6 +31,7 @@ type TProps = {
 
 function WeeklyDetails({ data = initialData }: TProps) {
   const { t } = useTranslation();
+  const { user } = useCurrentUser();
   const { title, excerpt, cover_image, slug, thumbnail_image } = data;
   return (
     <section className="bg-white">
@@ -40,7 +42,11 @@ function WeeklyDetails({ data = initialData }: TProps) {
             image="/images/icons/heart-baby.png"
             className="text-primary justify-center"
           />
-          <SectionHeading>{t("pregnancy.weeklyDetails")}</SectionHeading>
+          <SectionHeading>
+            {user
+              ? t("pregnancy.weeklyDetails")
+              : t("pregnancy.weeklyDetailsUserLoggedOut")}
+          </SectionHeading>
         </div>
 
         <div className="bg-white shadow-week-details p-7 rounded-2xl">
@@ -58,7 +64,9 @@ function WeeklyDetails({ data = initialData }: TProps) {
             </Link>
             <div className="absolute bottom-0 left-0 right-0 bg-primary-dark/74 py-7 px-4 md:px-[52px] rounded-b-lg">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl! md:text-3xl! font-semibold text-white">{title}</h3>
+                <h3 className="text-2xl! md:text-3xl! font-semibold text-white">
+                  {title}
+                </h3>
                 <Link href={`/articles/${slug || "article-not-found"}`}>
                   <IconRightArrow />
                 </Link>
