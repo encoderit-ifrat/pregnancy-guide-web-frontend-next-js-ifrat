@@ -110,7 +110,7 @@ export default function ExpandableSearchBar({
                 type="submit"
                 className="-mr-3 h-11 rounded-md text-sm px-4 bg-primary text-white hover:bg-primary/90 flex items-center justify-center cursor-pointer"
               >
-                Go
+                Sök
               </Button>
             </div>
           }
