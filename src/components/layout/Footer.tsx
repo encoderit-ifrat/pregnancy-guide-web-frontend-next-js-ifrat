@@ -16,10 +16,11 @@ export function Footer() {
       { href: "/articles", label: t("footer.pregnancy") },
     ],
     resources: [
-      { href: "/", label: t("footer.home") },
-      { href: "/articles", label: t("footer.articles") },
-      { href: "/feedback", label: t("footer.feedback") },
-      { href: "/settings", label: t("footer.settings") },
+      { href: "/login", label: t("footer.home") },
+      { href: "/signup", label: t("footer.articles") },
+      { href: "/forgot-password", label: "Glömt lösenord" },
+      // { href: "/feedback", label: t("footer.feedback") },
+      // { href: "/settings", label: t("footer.settings") },
     ],
     legal: [
       { href: "/terms", label: t("footer.termsConditions") },
@@ -129,7 +130,7 @@ export function Footer() {
                 new Date().getFullYear().toString()
               )}
             </p>
-            <div className="flex gap-6">
+            {/* <div className="flex gap-6">
               {footerLinks.legal.map((link, index) => (
                 <Link
                   key={link.href + index}
@@ -139,7 +140,7 @@ export function Footer() {
                   {link.label}
                 </Link>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
