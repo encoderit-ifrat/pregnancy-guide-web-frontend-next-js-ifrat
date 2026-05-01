@@ -90,7 +90,7 @@ export default function PregnancyOverview({
       {Boolean(questions?.data?.[0]?._id) &&
         userProfile?.roles?.[0].name !== "partner" && (
           <QuestionOfTheWeek
-            currentWeek={currentWeek}
+            currentWeek={debouncedWeek}
             question={questions?.data?.[0] as any}
           />
         )}
