@@ -44,6 +44,7 @@ export function DatePicker({
           fixedWeeks
           mode="single"
           selected={value}
+          defaultMonth={value}
           captionLayout="dropdown"
           startMonth={new Date(1980, 0)} // January 1980
           endMonth={new Date(2030, 11)} // December 2030

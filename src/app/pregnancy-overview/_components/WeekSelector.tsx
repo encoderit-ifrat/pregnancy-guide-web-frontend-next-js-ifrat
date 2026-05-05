@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -22,6 +22,8 @@ export default function WeekSelector({
   const { t } = useTranslation();
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [visibleWeekCount, setVisibleWeekCount] = useState(7);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastRequestedWeekRef = useRef(currentWeek);
 
   useEffect(() => {
     function updateVisibleWeekCount() {
@@ -39,8 +41,19 @@ export default function WeekSelector({
 
   // Sync internal state when the prop changes (e.g. URL query param updated)
   useEffect(() => {
-    setSelectedWeek(currentWeek);
+    if (currentWeek === lastRequestedWeekRef.current) {
+      setSelectedWeek(currentWeek);
+    }
   }, [currentWeek]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   // Ensure minWeek and maxWeek are defined numbers
   const min = minWeek ?? 0;
@@ -59,8 +72,16 @@ export default function WeekSelector({
 
   const handleWeekClick = (week: number) => {
     if (currentWeek === week) return;
+    lastRequestedWeekRef.current = week;
     setSelectedWeek(week);
-    onWeekChange?.(week);
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      onWeekChange?.(week);
+    }, 300);
   };
 
   const handlePrevious = () => {
@@ -118,7 +139,6 @@ export default function WeekSelector({
             <span className="font-bold text-xs md:text-lg">
               {week < 10 ? `0${week}` : week}
             </span>
-            {/* {selectedWeek == week ? <span className="text-xs md:text-[15px]">{t("pregnancy.weekSelector")}</span> : null} */}
           </button>
         ))}
 

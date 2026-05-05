@@ -17,7 +17,7 @@ export function Footer() {
     ],
     resources: [
       { href: "/login", label: t("footer.home") },
-      { href: "/signup", label: t("footer.articles") },
+      { href: "/sign-up", label: t("footer.articles") },
       { href: "/forgot-password", label: "Glömt lösenord" },
       // { href: "/feedback", label: t("footer.feedback") },
       // { href: "/settings", label: t("footer.settings") },

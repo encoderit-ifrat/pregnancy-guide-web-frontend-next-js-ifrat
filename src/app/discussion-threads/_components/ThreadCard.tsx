@@ -265,7 +265,7 @@ export default function ThreadCard({
             <Button
               variant="outline"
               onClick={() => setOpenFlagDialog(false)}
-              className="w-full sm:max-w-48"
+              className="w-full sm:max-w-48 justify-center"
             >
               {t("common.cancel")}
             </Button>

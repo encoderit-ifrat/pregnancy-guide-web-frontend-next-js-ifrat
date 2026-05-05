@@ -161,9 +161,9 @@ function ReplyCard({
 
   const timeAgo = isValid(createdAtDate)
     ? formatDistanceToNow(createdAtDate, {
-        addSuffix: true,
-        locale: currentLocale,
-      })
+      addSuffix: true,
+      locale: currentLocale,
+    })
     : "";
 
   const isLiked =
@@ -197,8 +197,8 @@ function ReplyCard({
           {(reply.nested_replies_count ||
             nestedReplies.length > 0 ||
             isExpanded) && (
-            <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
-          )}
+              <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
+            )}
         </div>
 
         {/* Content */}
@@ -403,10 +403,7 @@ export default function ThreadDetailPage({
     params: { sort: "newest" },
     enabled: true,
   });
-  // console.log(
-  //   "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
-  //   repliesInfiniteData
-  // );
+
 
   const effectiveThread = threadDetail?.data || thread;
   const isLiked =
@@ -417,6 +414,10 @@ export default function ThreadDetailPage({
     effectiveThread?.is_flagged ||
     effectiveThread?.flags?.includes(user?._id || "") ||
     false;
+  // console.log(
+  //   "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
+  //   effectiveThread
+  // );
 
   const fullDescription = thread?.description || description || "";
 
@@ -596,9 +597,9 @@ export default function ThreadDetailPage({
           data: Array.isArray(data.data)
             ? (updatedReplies as any)
             : {
-                ...(data.data as any),
-                data: updatedReplies,
-              },
+              ...(data.data as any),
+              data: updatedReplies,
+            },
         });
       });
     },
@@ -869,7 +870,7 @@ export default function ThreadDetailPage({
                 e.stopPropagation();
                 setOpenFlagDialog(false);
               }}
-              className="w-44"
+              className="w-44 justify-center"
             >
               {t("common.cancel")}
             </Button>
