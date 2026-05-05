@@ -10,6 +10,8 @@ export default function ArticleContent({ content }: { content: string }) {
     //   className={`prose w-full max-w-full!`}
     //   dangerouslySetInnerHTML={{ __html: content }}
     // />
-    <ViewReactTextEditor content={content} />
+    <div className="article-editorial">
+      <ViewReactTextEditor content={content} />
+    </div>
   );
 }

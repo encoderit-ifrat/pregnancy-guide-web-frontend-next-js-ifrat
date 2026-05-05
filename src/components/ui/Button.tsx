@@ -64,7 +64,7 @@ function Button({
       data-slot="button"
       className={cn(
         buttonVariants({ variant, size, className }),
-        "capitalize cursor-pointer"
+        "cursor-pointer"
       )}
       disabled={isLoading || disabled}
       {...props}

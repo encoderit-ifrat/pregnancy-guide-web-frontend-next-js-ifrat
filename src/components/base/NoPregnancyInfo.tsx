@@ -8,7 +8,7 @@ function NoPregnancyInfo() {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div className="bg-primary-light">
       <div className="flex items-center justify-center min-h-screen p-4">
         <div className="text-center max-w-md">
           {/* Icon/Illustration */}
@@ -73,7 +73,7 @@ function NoPregnancyInfo() {
           </p>
         </div>
       </div>
-      <section>
+      {/* <section>
         <Image
           src="/assets/logo/waveThird.svg"
           alt="Wave"
@@ -82,7 +82,7 @@ function NoPregnancyInfo() {
           className="object-cover w-full h-auto"
           priority
         />
-      </section>
+      </section> */}
     </div>
   );
 }

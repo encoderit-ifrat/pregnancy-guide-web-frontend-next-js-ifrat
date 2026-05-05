@@ -264,10 +264,10 @@ export const ViewReactTextEditor = ({ content }: TextEditorProps) => {
     return () => observer.disconnect();
   }, [editor]);
   return (
-    <div className="overflow-hidden! view-editor-content">
+    <div className="overflow-hidden! view-editor-content ">
       <RichTextProvider editor={editor as Editor}>
         <div className="flex max-h-full w-full flex-col">
-          <EditorContent editor={editor} />
+          <EditorContent editor={editor} className="bg-article-bg" />
         </div>
       </RichTextProvider>
     </div>

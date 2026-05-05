@@ -261,7 +261,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                                     : "bg-[#31C48D]"
                               )}
                             />
-                            {task.priority}
+                            {t(task.priority)}
                           </span>
                         </div>
                       </div>

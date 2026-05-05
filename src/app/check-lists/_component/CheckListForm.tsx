@@ -57,39 +57,6 @@ export default function ChecklistForm({
           },
   });
 
-  const categoryOptions = [
-    {
-      label: t("checklists.form.categories.general"),
-      value: "general",
-      emoji: "📋",
-      color: "from-blue-400 to-blue-600",
-    },
-    {
-      label: t("checklists.form.categories.medical"),
-      value: "medical",
-      emoji: "🏥",
-      color: "from-red-400 to-red-600",
-    },
-    {
-      label: t("checklists.form.categories.nutrition"),
-      value: "nutrition",
-      emoji: "🥗",
-      color: "from-green-400 to-green-600",
-    },
-    {
-      label: t("checklists.form.categories.exercise"),
-      value: "exercise",
-      emoji: "💪",
-      color: "from-purple-400 to-purple-600",
-    },
-    {
-      label: t("checklists.form.categories.preparation"),
-      value: "preparation",
-      emoji: "🎒",
-      color: "from-amber-400 to-amber-600",
-    },
-  ];
-
   const {
     control,
     handleSubmit,
@@ -103,33 +70,27 @@ export default function ChecklistForm({
 
   const onSubmit = (values: ChecklistSchemaType) => {
     if (type === "update") {
-      updateChecklist(
-        values,
-        {
-          onSuccess: (data: any) => {
-            onSubmitForDialogAndRefetch();
-            refetch();
-            toast.success(
-              data?.data?.message || t("checklists.form.updateSuccess")
-            );
-            reset();
-          },
-        }
-      );
+      updateChecklist(values, {
+        onSuccess: (data: any) => {
+          onSubmitForDialogAndRefetch();
+          refetch();
+          toast.success(
+            data?.data?.message || t("checklists.form.updateSuccess")
+          );
+          reset();
+        },
+      });
     } else {
-      checklistMutation.mutate(
-        values,
-        {
-          onSuccess: (data: any) => {
-            onSubmitForDialogAndRefetch();
-            refetch();
-            toast.success(
-              data?.data?.message || t("checklists.form.saveSuccess")
-            );
-            reset();
-          },
-        }
-      );
+      checklistMutation.mutate(values, {
+        onSuccess: (data: any) => {
+          onSubmitForDialogAndRefetch();
+          refetch();
+          toast.success(
+            data?.data?.message || t("checklists.form.saveSuccess")
+          );
+          reset();
+        },
+      });
     }
   };
 
@@ -175,8 +136,7 @@ export default function ChecklistForm({
             )}
           />
 
-          <div className="space-y-2">
-          </div>
+          <div className="space-y-2"></div>
           <Button
             type="submit"
             disabled={checklistMutation.isPending || isPendingUpdateChecklist}

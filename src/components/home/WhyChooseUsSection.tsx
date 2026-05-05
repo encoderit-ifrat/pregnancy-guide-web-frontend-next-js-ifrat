@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Tag, } from "lucide-react";
+import { Tag } from "lucide-react";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
@@ -9,6 +9,8 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useCurrentEditor } from "@tiptap/react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 type ArticleTag = {
   _id: string;
@@ -36,7 +38,7 @@ type WhyChooseUsSectionProps = {
 
 export function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
   const { t } = useTranslation();
-
+  const { user } = useCurrentUser();
   const pagination = {
     renderBullet: function (index: string | number, className: string) {
       return '<span class="' + className + '"></span>';
@@ -49,11 +51,19 @@ export function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
         {/* Section Header */}
         <div className="mb-12 text-center">
           <IconHeading
-            text={t("whyChooseUs.label")}
+            text={
+              user
+                ? t("whyChooseUs.label")
+                : t("whyChooseUs.labelUserLoggedOut")
+            }
             image="/images/icons/baby.png"
             className="text-primary justify-center"
           />
-          <SectionHeading>{t("whyChooseUs.title")}</SectionHeading>
+          <SectionHeading>
+            {user
+              ? t("whyChooseUs.title")
+              : t("whyChooseUs.titleUserLoggedOut")}
+          </SectionHeading>
         </div>
 
         <Slider
@@ -80,16 +90,14 @@ export function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
         >
           {data.map((d: Article, index: number) => (
             <SwiperSlide key={index} className="h-auto flex">
-              <div
-                className="group relative overflow-hidden rounded-2xl shadow-lg"
-              >
-                <Link
-                  href={`/articles/${d?.slug || "article-not-found"}`}
-                >
+              <div className="group relative overflow-hidden rounded-2xl shadow-lg">
+                <Link href={`/articles/${d?.slug || "article-not-found"}`}>
                   {/* Image */}
                   <div className="relative h-77.5">
                     <Image
-                      src={imageLinkGenerator(d.thumbnail_image || d.cover_image)}
+                      src={imageLinkGenerator(
+                        d.thumbnail_image || d.cover_image
+                      )}
                       alt={d.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -102,12 +110,14 @@ export function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h3 className="mb-1 text-lg font-bold text-white! line-clamp-1"
+                        <h3
+                          className="mb-1 text-lg font-bold text-white! line-clamp-1"
                           title={d.title}
                         >
                           {d.title}
                         </h3>
-                        <p className="text-sm text-white! line-clamp-2"
+                        <p
+                          className="text-sm text-white! line-clamp-2"
                           title={d.excerpt}
                         >
                           {d.excerpt}

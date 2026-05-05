@@ -22,17 +22,32 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
-  const [locale, setLocaleState] = useState<Locale>("en");
-  const [mounted, setMounted] = useState(false);
+  const [locale, setLocaleState] = useState<Locale>("sv");
 
   useEffect(() => {
-    // const savedLocale = localStorage.getItem("familj-locale") as Locale;
-    // if (savedLocale && (savedLocale === "en" || savedLocale === "sv")) {
-    //   setLocaleState(savedLocale);
-    // }
-    const savedLocale = "sv";
-    setLocaleState(savedLocale);
-    setMounted(true);
+    const readCookieLocale = () => {
+      const cookieLocale = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("familj-locale="))
+        ?.split("=")[1];
+      return cookieLocale === "en" || cookieLocale === "sv"
+        ? (cookieLocale as Locale)
+        : null;
+    };
+
+    const localStorageLocale = localStorage.getItem("familj-locale");
+    const validLocalStorageLocale =
+      localStorageLocale === "en" || localStorageLocale === "sv"
+        ? (localStorageLocale as Locale)
+        : null;
+
+    const cookieLocale = readCookieLocale();
+    const initialLocale = validLocalStorageLocale ?? cookieLocale ?? "sv";
+
+    setLocaleState(initialLocale);
+    localStorage.setItem("familj-locale", initialLocale);
+    document.cookie = `familj-locale=${initialLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    document.documentElement.lang = initialLocale;
   }, []);
 
   const setLocale = (newLocale: Locale) => {
@@ -40,6 +55,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("familj-locale", newLocale);
     // Set cookie for SSR accessibility
     document.cookie = `familj-locale=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    document.documentElement.lang = newLocale;
     // Soft refresh to re-render any server components with the new locale
     router.refresh();
   };
@@ -69,10 +85,6 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
 
     return translated;
   };
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
 
   return (
     <I18nContext.Provider value={{ locale, setLocale, t }}>

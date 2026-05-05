@@ -80,9 +80,9 @@ export default function PregnancyOverview({
         maxWeek={45}
         isLoading={isPending}
       />
-      <OverviewCategories />
+      <OverviewCategories debouncedWeek={debouncedWeek} />
       <PregnancyDetails
-        userData={userProfile }
+        userData={userProfile}
         weeklyDetails={weeklyDetails}
       />
       {/* divider */}

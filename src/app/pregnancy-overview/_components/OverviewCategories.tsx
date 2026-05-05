@@ -80,8 +80,8 @@ import IconBaby from "@/assets/IconBaby";
 import IconMother from "@/assets/IconMother";
 import IconPaper from "@/assets/IconPaper";
 import IconPartner from "@/assets/IconPartner";
-import { CircleIcon } from "@/components/ui/CircleIcon";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+// import { CircleIcon } from "@/components/ui/CircleIcon";
+// import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import React from "react";
@@ -107,13 +107,15 @@ const overviewCategories = [
   },
 ];
 
-function OverviewCategories() {
+function OverviewCategories({ debouncedWeek }: { debouncedWeek: number }) {
   const { t } = useTranslation();
-  const { user } = useCurrentUser();
-  const currentPregnancyData = user?.details?.current_pregnancy_data;
-  const week = currentPregnancyData?.week ?? 0;
-  const day = currentPregnancyData?.day ?? 0;
-  const currentWeek = day > 0 ? week + 1 : week;
+  // const { user } = useCurrentUser();
+  // const currentPregnancyData = user?.details?.current_pregnancy_data;
+
+  // const week = currentPregnancyData?.week ?? 0;
+  // const day = currentPregnancyData?.day ?? 0;
+  // const currentWeek = day > 0 ? week + 1 : week;
+  const currentWeek = debouncedWeek;
 
   return (
     <section className="w-full pt-10 max-w-6xl mx-auto">
@@ -135,9 +137,11 @@ function OverviewCategories() {
                     className={`
                     relative rounded-full border-6 border-primary-light
                     flex items-center justify-center
-                    ${isBaby
-                        ? 'w-32 h-32 md:w-56 md:h-56 lg:w-68 lg:h-68'
-                        : 'w-28 h-28 md:w-36 md:h-36 lg:w-56 lg:h-56'}
+                    ${
+                      isBaby
+                        ? "w-32 h-32 md:w-56 md:h-56 lg:w-68 lg:h-68"
+                        : "w-28 h-28 md:w-36 md:h-36 lg:w-56 lg:h-56"
+                    }
                     transition-all group-hover:border-primary-light/80
                   `}
                   >
@@ -158,14 +162,18 @@ function OverviewCategories() {
     transition-all duration-300 ease-in-out
   "
                     >
-                      <div className="flex flex-col items-center justify-center
+                      <div
+                        className="flex flex-col items-center justify-center
     rounded-full      
     group-hover:bg-primary-dark
     group-hover:p-6
     group-hover:size-full
-    ">
+    "
+                      >
                         <IconPaper className="w-12 h-12 md:group-hover:w-12 md:group-hover:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
-                        <p className="hidden group-hover:block text-white! text-center text-xs pt-1 text-wrap">{t("pregnancy.readArticle")}</p>
+                        <p className="hidden group-hover:block text-white! text-center text-xs pt-1 text-wrap">
+                          {t("pregnancy.readArticle")}
+                        </p>
                       </div>
                     </div>
 

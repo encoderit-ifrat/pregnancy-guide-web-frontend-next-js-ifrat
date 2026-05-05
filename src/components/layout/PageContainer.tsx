@@ -5,8 +5,12 @@ import React from "react";
 export function PageContainer({
   className,
   children,
+  waaveClassName,
+  childClassName,
 }: {
   className?: string;
+  childClassName?: string;
+  waaveClassName?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -15,12 +19,17 @@ export function PageContainer({
         <section className="absolute bg-[#F6F0FF] top-0 left-0 w-full h-[60vh] z-10">
           <div className="h-[50vh]"></div>
           <WaveDivider
-            className="text-white transform translate-y-px"
+            className={cn(
+              "text-white transform translate-y-px",
+              waaveClassName
+            )}
             bgClassName="bg-[#F6F0FF]"
-            height="h-30 lg:h-auto"
+            height="h-26 lg:h-auto"
           />
         </section>
-        <div className="relative z-20 px-4 py-10">{children}</div>
+        <div className={cn("relative z-20 px-4 py-10", childClassName)}>
+          {children}
+        </div>
       </div>
     </>
   );

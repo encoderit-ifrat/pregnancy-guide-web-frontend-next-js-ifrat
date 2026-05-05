@@ -103,13 +103,19 @@ export default function PublishedThreadsPage() {
     setThreads(allThreads);
   }, [infiniteData]);
 
-  const handleNewThread = useCallback((event: { thread: Thread }) => {
-    refetch();
-  }, [refetch]);
+  const handleNewThread = useCallback(
+    (event: { thread: Thread }) => {
+      refetch();
+    },
+    [refetch]
+  );
 
-  const handleThreadDeleted = useCallback((event: { thread_id: string }) => {
-    refetch();
-  }, [refetch]);
+  const handleThreadDeleted = useCallback(
+    (event: { thread_id: string }) => {
+      refetch();
+    },
+    [refetch]
+  );
 
   usePusherThreadsSubscription({
     onNewThread: handleNewThread,
@@ -122,18 +128,22 @@ export default function PublishedThreadsPage() {
       queryClient.invalidateQueries({ queryKey: ["get-my-threads-infinite"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("threads.errorLiking"));
+      toast.error(
+        error?.response?.data?.message || t("publishedThreads.errorLiking")
+      );
     },
   });
 
   const flagMutation = useMutation({
     mutationFn: (threadId: string) => api.post(`/threads/${threadId}/flag`),
     onSuccess: () => {
-      toast.success(t("threads.flagSuccess"));
+      toast.success(t("publishedThreads.flagSuccess"));
       queryClient.invalidateQueries({ queryKey: ["get-my-threads-infinite"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
+      toast.error(
+        error?.response?.data?.message || t("publishedThreads.errorFlagging")
+      );
     },
   });
 
@@ -158,24 +168,24 @@ export default function PublishedThreadsPage() {
       <div className="flex flex-col items-center min-h-screen">
         <div className="thread-header mb-6 flex flex-col items-center text-center">
           <IconHeading
-            text={t("threads.label")}
+            text={t("publishedThreads.label")}
             icon={<IconQuestion />}
             className="text-primary justify-center"
           />
 
           <SectionHeading className="m-0 text-center">
-            {t("threads.myPublished")}
+            {t("publishedThreads.myPublished")}
           </SectionHeading>
 
           <p className="mb-10 mt-3 text-base text-primary-color max-w-3xl text-center">
-            {t("threads.subtitle")}
+            {t("publishedThreads.subtitle")}
           </p>
         </div>
 
         <div className="w-full max-w-6xl bg-white rounded-2xl sm:rounded-4xl shadow-sm overflow-hidden px-4 sm:px-9 pt-6 sm:pt-10 pb-6">
           <div className="flex flex-col sm:flex-row items-center justify-between mb-8 sm:mb-12 gap-4">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#3D3177] text-center sm:text-left">
-              {t("threads.myPublished")}
+              {t("publishedThreads.myPublished1")}
             </h1>
             <Button
               variant="outline"
@@ -210,7 +220,7 @@ export default function PublishedThreadsPage() {
             {formattedThreads.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-primary-color text-lg">
-                  {t("threads.noThreads")}
+                  {t("publishedThreads.noThreads")}
                 </p>
               </div>
             )}
@@ -223,7 +233,7 @@ export default function PublishedThreadsPage() {
               )}
               {!hasNextPage && formattedThreads.length > 0 && (
                 <p className="text-primary-color opacity-60">
-                  {t("threads.noMoreThreads")}
+                  {t("publishedThreads.noMoreThreads")}
                 </p>
               )}
             </div>

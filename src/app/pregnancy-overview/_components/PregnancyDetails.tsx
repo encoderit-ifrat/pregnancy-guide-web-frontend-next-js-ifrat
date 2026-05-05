@@ -55,12 +55,12 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </div>
         </Cards>
         <Cards>
-          <span className="text-primary-dark font-medium md:font-semibold">
-            {titledHtml || t("checklists.form.description")}:
+          <span className="text-primary-dark font-medium md:font-semibold mb-4 block">
+            {titledHtml || t("checklists.form.description")}
           </span>
           {weeklyDetails?.description && (
             <div
-              className="no-tailwind"
+              className="weekly-details"
               dangerouslySetInnerHTML={{ __html: updatedHtml }}
             />
           )}

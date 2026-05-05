@@ -16,7 +16,11 @@ export default function FooterWaveDivider({
   const pathname = usePathname();
   // console.log("👉 ~ FooterWaveDivider ~ pathname:", pathname);
   const bgClassName =
-    pathname === "/pregnancy-overview" ? "bg-primary-light" : "bg-transparent";
+    pathname === "/pregnancy-overview"
+      ? "bg-primary-light"
+      : pathname.includes("/articles/")
+        ? "bg-article-bg"
+        : "bg-transparent";
   return (
     <div className={clsx("w-full", bgClassName)}>
       <svg

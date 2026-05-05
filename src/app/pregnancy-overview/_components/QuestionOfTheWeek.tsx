@@ -31,7 +31,8 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
 
   const { user: currentUser } = useCurrentUser();
   const { mutate: mutateLike, isPending: isLikePending } = useQuestionLike();
-  const { mutate: mutateDislike, isPending: isDislikePending } = useQuestionDislike();
+  const { mutate: mutateDislike, isPending: isDislikePending } =
+    useQuestionDislike();
   const {
     question: questionData,
     // answers,
@@ -95,17 +96,21 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
           <div className="pt-2 pb-10 md:pb-16">
             <div className="text-center">
               <IconHeading
-                text={t("pregnancy.question")}
+                // text={t("pregnancy.question")}
+                text={t("pregnancy.questionOfTheWeek")}
                 image="/images/icons/question.png"
                 className="text-primary justify-center"
               />
-              <SectionHeading>{t("pregnancy.questionOfTheWeek")}</SectionHeading>
+              <SectionHeading>
+                {/* {t("pregnancy.questionOfTheWeek")} */}
+                {t("pregnancy.weekQuestion", { week: currentWeek })}
+              </SectionHeading>
               {/* Week badge */}
-              {typeof currentWeek !== "undefined" && (
+              {/* {typeof currentWeek !== "undefined" && (
                 <div className="inline-block bg-white/90 text-primary font-semibold text-base md:text-lg px-4 py-1 rounded-full mb-6">
                   {t("pregnancy.weekQuestion", { week: currentWeek })}
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Outer decorative card to match the target layout (large rounded container with subtle bottom shadow/highlight) */}
@@ -137,7 +142,6 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
                         {hasAnswered ? (
                           <>
                             <AnswerFormPercentage />
-
                           </>
                         ) : (
                           <AnswerFormRadioGroup disabled={hasAnswered} />

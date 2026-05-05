@@ -38,19 +38,17 @@ function WeeklyArticle({ articles }: TProps) {
             image="/images/icons/heart-baby.png"
             className="text-primary justify-center"
           />
-          <SectionHeading>
-            {t("pregnancy.articlesTitle")}
-          </SectionHeading>
-          <p>
+          <SectionHeading>{t("pregnancy.articlesTitle")}</SectionHeading>
+          {/* <p>
             {t("pregnancy.articlesSubtitle")}
-          </p>
+          </p> */}
         </div>
 
         {articles?.length > 0 && (
           <Slider
             options={{
               spaceBetween: 50,
-              slidesPerView: (articles && articles?.length > 1) ? 1.1 : 1,
+              slidesPerView: articles && articles?.length > 1 ? 1.1 : 1,
               // slidesPerView: "auto",
               pagination: pagination,
               navigation: true,
@@ -61,7 +59,7 @@ function WeeklyArticle({ articles }: TProps) {
               loop: true,
               breakpoints: {
                 420: {
-                  slidesPerView: (articles && articles?.length > 1) ? 1.1 : 1,
+                  slidesPerView: articles && articles?.length > 1 ? 1.1 : 1,
                   spaceBetween: 20,
                 },
                 768: {

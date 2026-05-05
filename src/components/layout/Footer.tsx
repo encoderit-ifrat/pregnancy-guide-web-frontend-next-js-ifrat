@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, Music2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function Footer() {
@@ -16,10 +16,11 @@ export function Footer() {
       { href: "/articles", label: t("footer.pregnancy") },
     ],
     resources: [
-      { href: "/", label: t("footer.home") },
-      { href: "/articles", label: t("footer.articles") },
-      { href: "/feedback", label: t("footer.feedback") },
-      { href: "/settings", label: t("footer.settings") },
+      { href: "/login", label: t("footer.home") },
+      { href: "/signup", label: t("footer.articles") },
+      { href: "/forgot-password", label: "Glömt lösenord" },
+      // { href: "/feedback", label: t("footer.feedback") },
+      // { href: "/settings", label: t("footer.settings") },
     ],
     legal: [
       { href: "/terms", label: t("footer.termsConditions") },
@@ -28,10 +29,21 @@ export function Footer() {
   };
 
   const socialLinks = [
-    { href: "https://facebook.com", icon: Facebook, label: "Facebook" },
-    { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
-    { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
-    { href: "https://youtube.com", icon: Youtube, label: "YouTube" },
+    {
+      href: "https://www.facebook.com/profile.php?id=61588946097662",
+      icon: Facebook,
+      label: "Facebook",
+    },
+    {
+      href: "https://www.instagram.com/familj.se/",
+      icon: Instagram,
+      label: "Instagram",
+    },
+    {
+      href: "https://www.tiktok.com/@familj.se_gravid",
+      icon: Music2,
+      label: "TikTok",
+    },
   ];
 
   return (
@@ -113,9 +125,12 @@ export function Footer() {
         <div className="py-4 border-t text-[15px] border-white/10 mb-8 md:mb-0">
           <div className="flex flex-col md:items-center justify-between gap-4 md:flex-row">
             <p className="text-white/60!">
-              {t("footer.copyright").replace("{year}", new Date().getFullYear().toString())}
+              {t("footer.copyright").replace(
+                "{year}",
+                new Date().getFullYear().toString()
+              )}
             </p>
-            <div className="flex gap-6">
+            {/* <div className="flex gap-6">
               {footerLinks.legal.map((link, index) => (
                 <Link
                   key={link.href + index}
@@ -125,7 +140,7 @@ export function Footer() {
                   {link.label}
                 </Link>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

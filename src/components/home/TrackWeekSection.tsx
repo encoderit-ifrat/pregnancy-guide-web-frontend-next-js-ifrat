@@ -5,9 +5,12 @@ import Timeline from "@/components/home/TimeLine";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import Image from "next/image";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export function TrackYourWeekSection() {
   const { t } = useTranslation();
+  const { user } = useCurrentUser();
+  console.log("👉 ~ TrackYourWeekSection ~ user:", user);
 
   const data = [
     {
@@ -43,11 +46,15 @@ export function TrackYourWeekSection() {
           {/* Section Header */}
           <div className="mb-6 md:mb-12 text-center">
             <IconHeading
-              text={t("trackWeek.label")}
+              text={
+                user ? t("trackWeek.label") : t("trackWeek.labelUserLoggedOut")
+              }
               image="/images/icons/pregnant.png"
               className="text-primary justify-center"
             />
-            <SectionHeading>{t("trackWeek.title")}</SectionHeading>
+            <SectionHeading>
+              {user ? t("trackWeek.title") : t("trackWeek.titleUserLoggedOut")}
+            </SectionHeading>
           </div>
 
           <Timeline timelineItems={data} />
