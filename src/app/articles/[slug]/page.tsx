@@ -10,7 +10,7 @@ import Image from "next/image";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import WaveDivider from "@/components/layout/svg/WaveDivider";
 import { PageContainer } from "@/components/layout/PageContainer";
-import IconHeading from "@/components/ui/text/IconHeading";
+// import IconHeading from "@/components/ui/text/IconHeading";
 import { CircleQuestionMark } from "lucide-react";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import WeeklyQuestionView from "@/app/weekly-question/[id]/_components/WeeklyQuestionView";
