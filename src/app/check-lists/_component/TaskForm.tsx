@@ -104,8 +104,6 @@ export default function TaskForm({
   });
 
   function onSubmit(values: TaskFormValues) {
-    // console.log("Submitting values:", values);
-
     if (isUpdate) {
       updateItem(
         { id: task.id, data: values },
@@ -407,7 +405,7 @@ export default function TaskForm({
                 <FormControl>
                   <Textarea
                     placeholder={t("checklists.taskForm.notesPlaceholder")}
-                    className="min-h-30 bg-purple-50"
+                    className="min-h-30 bg-purple-50 resize-none overflow-y-auto disabled:pointer-events-auto"
                     disabled={readOnly}
                     {...field}
                   />

@@ -13,18 +13,14 @@ export const dynamic = "force-dynamic";
 // Fetch article data with authentication
 async function getArticle(slug: string, lang: string = "sv") {
   try {
-    const res = await fetch(
-      `${API_V1}/articles/public/${slug}?lang=${lang}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": lang,
-          "x-lang": lang,
-        },
-        cache: "no-store",
-      }
-    );
-
+    const res = await fetch(`${API_V1}/articles/public/${slug}?lang=${lang}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": lang,
+        "x-lang": lang,
+      },
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       return null; // Return null instead of throwing
@@ -81,7 +77,6 @@ export default async function PublicArticlePage({
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, locale);
-  // console.log("👉 ~ ArticlePage ~ article:", article);
 
   if (!Boolean(article)) {
     notFound();

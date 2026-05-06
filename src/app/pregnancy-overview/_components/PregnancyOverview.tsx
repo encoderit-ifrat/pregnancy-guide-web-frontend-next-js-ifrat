@@ -33,7 +33,6 @@ export default function PregnancyOverview({
   const questions = pregnancyData?.questions;
   const checklist = pregnancyData?.checklist;
   const weeklyDetails = pregnancyData?.weeklyDetails;
-  // console.log("👉 ~ PregnancyOverview ~ weeklyDetails:", pregnancyData);
   const userProfile = pregnancyData?.userProfile;
 
   const latest = articles?.latest || [];

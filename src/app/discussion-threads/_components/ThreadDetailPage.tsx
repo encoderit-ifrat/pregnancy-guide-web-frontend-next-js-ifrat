@@ -99,7 +99,6 @@ function ReplyCard({
   parentId?: string;
   depth?: number;
 }) {
-  // console.log("👉 ~ ReplyCard ~ reply:", reply);
   const { t, locale } = useTranslation();
   const { user } = useCurrentUser();
   const router = useRouter();
@@ -161,9 +160,9 @@ function ReplyCard({
 
   const timeAgo = isValid(createdAtDate)
     ? formatDistanceToNow(createdAtDate, {
-      addSuffix: true,
-      locale: currentLocale,
-    })
+        addSuffix: true,
+        locale: currentLocale,
+      })
     : "";
 
   const isLiked =
@@ -197,8 +196,8 @@ function ReplyCard({
           {(reply.nested_replies_count ||
             nestedReplies.length > 0 ||
             isExpanded) && (
-              <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
-            )}
+            <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
+          )}
         </div>
 
         {/* Content */}
@@ -404,7 +403,6 @@ export default function ThreadDetailPage({
     enabled: true,
   });
 
-
   const effectiveThread = threadDetail?.data || thread;
   const isLiked =
     effectiveThread?.is_liked ||
@@ -414,10 +412,6 @@ export default function ThreadDetailPage({
     effectiveThread?.is_flagged ||
     effectiveThread?.flags?.includes(user?._id || "") ||
     false;
-  // console.log(
-  //   "👉 ~ ThreadDetailPage ~ repliesInfiniteData:",
-  //   effectiveThread
-  // );
 
   const fullDescription = thread?.description || description || "";
 
@@ -597,9 +591,9 @@ export default function ThreadDetailPage({
           data: Array.isArray(data.data)
             ? (updatedReplies as any)
             : {
-              ...(data.data as any),
-              data: updatedReplies,
-            },
+                ...(data.data as any),
+                data: updatedReplies,
+              },
         });
       });
     },

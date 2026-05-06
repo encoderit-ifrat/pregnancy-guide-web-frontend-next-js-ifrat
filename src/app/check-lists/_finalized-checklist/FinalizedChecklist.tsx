@@ -78,7 +78,6 @@ export default function FinalizedChecklist({
   });
 
   const checklists = apiResponse?.data || [];
-  // console.log("👉 ~ FinalizedChecklist ~ checklists:", checklists);
   const meta = apiResponse?.pagination;
 
   const allTasks = checklists?.flatMap((item: Checklist) => item.items) || [];
@@ -109,7 +108,11 @@ export default function FinalizedChecklist({
 
       {checklists.length > 0 ? (
         <div className="space-y-8">
-          <CheckList checklistItems={checklists} refetch={refetch} readOnly={true} />
+          <CheckList
+            checklistItems={checklists}
+            refetch={refetch}
+            readOnly={true}
+          />
           {meta && meta.last_page > 1 && (
             <div className="w-full max-w-3xl mx-auto mt-8 pb-4">
               <Pagination
@@ -122,8 +125,8 @@ export default function FinalizedChecklist({
         </div>
       ) : (
         <EmptyChecklist
-          onAddList={onAddList || (() => { })}
-          onBrowseTemplates={onBrowseTemplates || (() => { })}
+          onAddList={onAddList || (() => {})}
+          onBrowseTemplates={onBrowseTemplates || (() => {})}
         />
       )}
     </div>

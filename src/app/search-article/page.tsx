@@ -137,14 +137,7 @@ export default async function Page({
   if (articles.length === 1 && articles[0]?.slug) {
     redirect(`/articles/${articles[0].slug}`);
   }
-  // console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
-  // useEffect(() => {
-  //   // console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
-  //   const data = articlesData.data.data;
-  //   if (data.length === 1) {
-  //     router.replace(`/articles/${data[0].slug}`);
-  //   }
-  // }, [articlesData]);
+
   const category = categories[0] || null;
 
   return (

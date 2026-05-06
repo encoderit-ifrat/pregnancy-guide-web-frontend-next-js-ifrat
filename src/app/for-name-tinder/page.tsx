@@ -610,7 +610,6 @@ export default function Page() {
                 </p>
               ) : (
                 displayNames.map((nameItem, index) => {
-                  // console.log("👉 ~ Page ~ nameItem:", nameItem);
                   return (
                     <div key={index} className="flex items-center gap-4">
                       <ToggleGroup

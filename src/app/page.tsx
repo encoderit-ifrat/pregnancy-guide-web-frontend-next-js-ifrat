@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 
 // Fetch articles data at build time
 async function getHomePageData(lang: string = "sv") {
-  // console.log("api url", `${API_V1}/home?lang=${lang}`);
   try {
     const res = await fetch(`${API_V1}/home?lang=${lang}`, {
       // Enable ISR with revalidation (optional)
@@ -50,7 +49,6 @@ export default async function Page() {
 
   // Fetch data at build time
   const homePageData = await getHomePageData(locale);
-  // console.log("👉 ~ Page ~ homePageData:", homePageData);
 
   return (
     <div className="min-h-svh bg-white">

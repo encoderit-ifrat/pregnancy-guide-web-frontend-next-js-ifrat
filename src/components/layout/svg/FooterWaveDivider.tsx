@@ -14,7 +14,6 @@ export default function FooterWaveDivider({
   // bgClassName = "bg-transparent",
 }: WaveDividerProps) {
   const pathname = usePathname();
-  // console.log("👉 ~ FooterWaveDivider ~ pathname:", pathname);
   const bgClassName =
     pathname === "/pregnancy-overview"
       ? "bg-primary-light"

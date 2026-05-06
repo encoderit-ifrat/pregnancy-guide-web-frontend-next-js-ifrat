@@ -43,10 +43,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
     data?.data ?? {};
 
   const { data: allAnswers, pagination } = answers ?? {};
-  // console.log(
-  //   "👉 ~ WeeklyQuestionView ~ allAnswers /questions/${params?.id}/answers:",
-  //   allAnswers
-  // );
+
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
@@ -88,18 +85,22 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
           <div className="relative">
             <AnswerFormComment />
             <div className="absolute bottom-2 right-2">
-              <AnswerFormSubmitButton text={t("weeklyQuestion.submitComment")} redirect={false} />
+              <AnswerFormSubmitButton
+                text={t("weeklyQuestion.submitComment")}
+                redirect={false}
+              />
             </div>
           </div>
         )}
       </AnswerForm>
 
       <div className="space-y-4">
-        <SectionHeading variant="h3">{t("weeklyQuestion.submittedComments")}</SectionHeading>
+        <SectionHeading variant="h3">
+          {t("weeklyQuestion.submittedComments")}
+        </SectionHeading>
 
         {allAnswers?.length > 0 ? (
           allAnswers.map((answer: TCommentCard) => {
-            // console.log("👉 ~ WeeklyQuestionView ~ answer:", answer);
             return (
               <CommentCard
                 key={answer._id}
@@ -111,9 +112,7 @@ export default function WeeklyQuestionView({ id, timestamp }: TProps) {
         ) : (
           <div className="bg-white rounded-xl shadow-md p-8 text-center border border-gray-100">
             <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">
-              {t("weeklyQuestion.noAnswersYet")}
-            </p>
+            <p className="text-gray-500">{t("weeklyQuestion.noAnswersYet")}</p>
           </div>
         )}
         {pagination && pagination.last_page > 1 && (

@@ -8,8 +8,6 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  console.error("Global app crash:", error);
-
   return (
     <html>
       <body>

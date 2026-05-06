@@ -81,7 +81,6 @@ export default function Navbar({
     }, 100);
     return () => clearTimeout(timer);
   }, [navigationLinks, checkScroll]);
-  //   console.log("🚀 ~ Navbar ~ canScrollLeft :", canScrollLeft);
 
   if (isLoadingCategories) {
     return (

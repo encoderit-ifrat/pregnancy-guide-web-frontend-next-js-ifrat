@@ -59,7 +59,6 @@ function SkeletonCard() {
 }
 
 function NameCard({ item }: { item: MatchingType }) {
-  // console.log("👉 ~ NameCard ~ item:", item);
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -293,8 +292,6 @@ export default function MatchedName() {
   const firstItem = items[0];
   const listToRender =
     activeTab === "liked" ? firstItem?.liked : firstItem?.loved;
-
-  console.log("👉 ~ MatchedName ~ items:", items);
 
   const [shareLink, setShareLink] = useState("");
 

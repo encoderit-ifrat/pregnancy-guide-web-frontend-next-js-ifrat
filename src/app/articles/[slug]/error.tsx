@@ -9,10 +9,6 @@ export default function ArticleError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error("Article page crashed:", error);
-  }, [error]);
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center bg-article-bg">
       <h1 className="text-2xl font-semibold mb-3">Something went wrong</h1>

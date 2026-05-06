@@ -86,7 +86,6 @@ export default function CheckList({
   const [filteredLists, setFilterLists] = useState<ChecklistItemWithItems[]>(
     checklistItems || []
   );
-  // console.log("👉 ~ CheckList ~ filteredLists:", filteredLists);
   const [isAddTaskOpen, setIsAddTaskOpen] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 

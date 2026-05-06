@@ -35,7 +35,7 @@ const fetchThreads = async ({
   page?: number;
   sort: ThreadSortOption;
 }) => {
-  const res = await api.get("/threads", {
+  const res = await api.get("/threads/list", {
     params: omitEmpty({
       sort,
       page,
@@ -74,9 +74,7 @@ export default function Page() {
       // We might want to refetch or update local state if needed,
       // but usually the mutation handles it or we rely on the next refresh.
       queryClient.invalidateQueries({ queryKey: ["get-threads"] });
-    } catch (error) {
-      // console.error("Failed to track share:", error);
-    }
+    } catch (error) {}
   };
 
   const { data, isLoading, refetch } = useQuery({

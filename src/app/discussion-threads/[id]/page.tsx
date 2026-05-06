@@ -28,9 +28,7 @@ export async function generateMetadata({
           rawDesc.length > 160 ? rawDesc.substring(0, 160) + "..." : rawDesc;
       }
     }
-  } catch (error) {
-    // console.error("Failed to fetch thread metadata:", error);
-  }
+  } catch (error) {}
 
   return {
     title,

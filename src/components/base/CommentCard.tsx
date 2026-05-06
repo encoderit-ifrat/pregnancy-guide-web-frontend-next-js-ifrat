@@ -51,9 +51,11 @@ export type TCommentCardProps = {
   data: TCommentCard;
   onActionSuccess?: () => void;
 };
-export default function CommentCard({ data, onActionSuccess }: TCommentCardProps) {
+export default function CommentCard({
+  data,
+  onActionSuccess,
+}: TCommentCardProps) {
   const { user: currentUser } = useCurrentUser();
-  // console.log("👉 ~ CommentCard ~ currentUser:", currentUser);
 
   const {
     _id,
@@ -64,7 +66,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
     updatedAt,
     created_by,
   } = data;
-  // console.log("👉 ~ CommentCard ~ data:", data);
+
   const [allComments, setAllComments] = useState([...comments]);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
@@ -89,7 +91,7 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
         onSuccess: (res) => {
           const message = res.data.data;
           setAllComments((old) => [...old, { ...message, user: currentUser }]);
-          // console.log("👉 ~ handleSubmit ~ res::::", res);
+
           toast.success("Comment submitted");
           setText("");
         },
@@ -98,28 +100,35 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
   };
 
   const { mutate: mutateLike, isPending: isLikePending } = useQuestionLike();
-  const { mutate: mutateDislike, isPending: isDislikePending } = useQuestionDislike();
+  const { mutate: mutateDislike, isPending: isDislikePending } =
+    useQuestionDislike();
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isLikePending || isDislikePending) return;
-    mutateLike({ id: _id }, {
-      onSuccess: () => {
-        toast.success("Liked!");
-        onActionSuccess?.();
+    mutateLike(
+      { id: _id },
+      {
+        onSuccess: () => {
+          toast.success("Liked!");
+          onActionSuccess?.();
+        },
       }
-    });
+    );
   };
 
   const handleDislike = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isLikePending || isDislikePending) return;
-    mutateDislike({ id: _id }, {
-      onSuccess: () => {
-        toast.success("Disliked!");
-        onActionSuccess?.();
+    mutateDislike(
+      { id: _id },
+      {
+        onSuccess: () => {
+          toast.success("Disliked!");
+          onActionSuccess?.();
+        },
       }
-    });
+    );
   };
 
   const isLiked = data?.likes?.includes(currentUser?._id);
@@ -189,12 +198,14 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
                 disabled={isLikePending || isDislikePending}
                 className={cn(
                   "h-8 w-8 rounded-full",
-                  isLiked && "bg-primary text-white border-primary hover:bg-primary/90"
+                  isLiked &&
+                    "bg-primary text-white border-primary hover:bg-primary/90"
                 )}
               >
-                <ThumbsUp className={cn("h-3.5 w-3.5", isLiked && "fill-current")} />
+                <ThumbsUp
+                  className={cn("h-3.5 w-3.5", isLiked && "fill-current")}
+                />
               </Button>
-
             </div>
 
             <div className="flex flex-col items-center">
@@ -205,12 +216,14 @@ export default function CommentCard({ data, onActionSuccess }: TCommentCardProps
                 disabled={isLikePending || isDislikePending}
                 className={cn(
                   "h-8 w-8 rounded-full",
-                  isDisliked && "bg-primary text-white border-primary hover:bg-primary/90"
+                  isDisliked &&
+                    "bg-primary text-white border-primary hover:bg-primary/90"
                 )}
               >
-                <ThumbsDown className={cn("h-3.5 w-3.5", isDisliked && "fill-current")} />
+                <ThumbsDown
+                  className={cn("h-3.5 w-3.5", isDisliked && "fill-current")}
+                />
               </Button>
-
             </div>
           </div>
         </div>

@@ -23,7 +23,6 @@ interface CommunityCardProps {
 }
 
 export default function CommunityCard({ name, className }: CommunityCardProps) {
-  // console.log("👉 ~ CommunityCard ~ name:", name);
   const { t } = useTranslation();
   const { mutate: swipe, isPending } = useMutationSwipeTinderName();
 
@@ -96,7 +95,9 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
               <ToggleGroup
                 type="single"
                 value={userAction || ""}
-                onValueChange={(val) => handleSwipe((val as "like" | "love") || null)}
+                onValueChange={(val) =>
+                  handleSwipe((val as "like" | "love") || null)
+                }
                 disabled={isPending}
                 className="gap-1.5 sm:gap-3"
               >
@@ -142,9 +143,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
               className="w-full sm:w-auto px-2 sm:px-3 h-7 sm:h-8 text-[10px] sm:text-xs"
               onClick={() => setOpenViewDialog(true)}
             >
-              <span className="font-semibold">
-                {t("forNameTinder.view")}
-              </span>
+              <span className="font-semibold">{t("forNameTinder.view")}</span>
               <ChevronRight className="size-3" />
             </Button>
           </div>

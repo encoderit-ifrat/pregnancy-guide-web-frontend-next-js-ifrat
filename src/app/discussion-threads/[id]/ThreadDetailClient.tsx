@@ -35,9 +35,7 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
   const onShareSuccess = async () => {
     try {
       await shareMutation.mutateAsync(threadId);
-    } catch (error) {
-      // console.error("Failed to track share:", error);
-    }
+    } catch (error) {}
   };
 
   if (isLoading) {
@@ -71,7 +69,10 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
     ? new Date(thread.createdAt)
     : new Date();
   const timeAgo = isValid(createdAtDate)
-    ? formatDistanceToNow(createdAtDate, { addSuffix: true, locale: currentLocale })
+    ? formatDistanceToNow(createdAtDate, {
+        addSuffix: true,
+        locale: currentLocale,
+      })
     : "";
 
   const createdBy = {

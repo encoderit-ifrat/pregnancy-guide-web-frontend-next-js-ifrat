@@ -10,7 +10,6 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 export function TrackYourWeekSection() {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
-  // console.log("👉 ~ TrackYourWeekSection ~ user:", user);
 
   const data = [
     {

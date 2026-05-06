@@ -30,9 +30,6 @@ async function getPregnancyData(
       url.searchParams.set("week", String(week));
     }
     url.searchParams.set("lang", lang);
-
-    // console.log("url", { url: url.toString() });
-
     const res = await fetch(url.toString(), {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -91,7 +88,6 @@ export default async function Page({
     selectedWeek,
     locale
   );
-  // console.log({ pregnancyData });
 
   // Handle error state
   if (error) {

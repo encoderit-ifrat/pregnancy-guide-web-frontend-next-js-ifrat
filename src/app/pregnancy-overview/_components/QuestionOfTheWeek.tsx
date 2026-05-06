@@ -23,7 +23,6 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
   const { t } = useTranslation();
-  //   console.log("👉 ~ QuestionOfTheWeek ~ question:", question);
 
   const { data, isLoading, refetch } = useQueryGetAllAnswers({
     params: { id: question?._id },
@@ -41,23 +40,21 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     userAnswer,
   } = data?.data ?? {};
 
-  // console.log("QuestionOfTheWeek Data:", { hasAnswered, userAnswer, questionData });
-
   const handleLike = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // console.log(" handleLike CALLED", userAnswer?._id);
     if (!userAnswer?._id) {
-      // console.error(" userAnswer._id is missing");
       return;
     }
-    mutateLike({ id: userAnswer._id }, {
-      onSuccess: () => {
-        // console.log("Like Success");
-        refetch();
-      },
-      onError: (err) => { }//console.error("Like Error:", err)
-    });
+    mutateLike(
+      { id: userAnswer._id },
+      {
+        onSuccess: () => {
+          refetch();
+        },
+        onError: (err) => {},
+      }
+    );
   };
 
   const handleDislike = (e: React.MouseEvent) => {
@@ -66,18 +63,19 @@ function QuestionOfTheWeek({ question, currentWeek }: QuestionOfTheWeekProps) {
     if (!userAnswer?._id) {
       return;
     }
-    mutateDislike({ id: userAnswer._id }, {
-      onSuccess: () => {
-        // console.log("Dislike Success");
-        refetch();
-      },
-      onError: (err) => { }//console.error(" Dislike Error:", err)
-    });
+    mutateDislike(
+      { id: userAnswer._id },
+      {
+        onSuccess: () => {
+          refetch();
+        },
+        onError: (err) => {},
+      }
+    );
   };
 
   const isLiked = userAnswer?.likes?.includes(currentUser?._id);
   const isDisliked = userAnswer?.dislikes?.includes(currentUser?._id);
-  //   console.log("👉 ~ QuestionOfTheWeek ~ questionData:", data?.data);
   return (
     <section className="relative w-full mx-auto">
       <div className="relative bg-[#F5EEFF] overflow-hidden">
