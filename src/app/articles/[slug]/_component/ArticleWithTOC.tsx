@@ -98,7 +98,8 @@ export function extractHeadings(htmlContent: string): {
 }
 
 export default function ArticleWithTOC({ article }: { article: Article }) {
-  const { headings, contentWithIds } = extractHeadings(article?.content);
+  const safeContent = article?.content || "";
+  const { headings, contentWithIds } = extractHeadings(safeContent);
 
   return (
     <>
@@ -129,7 +130,10 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
             <h1 className="text-[40px] leading-[1.25] font-semibold text-[#1A1A1A] mb-8 text-wrap font-heading">
               {article?.title}
             </h1>
-            <ArticleContent content={contentWithIds} />
+            <ArticleContent
+              key={`${article.title}-${contentWithIds.length}`}
+              content={contentWithIds}
+            />
           </div>
         </div>
       </div>

@@ -130,8 +130,12 @@ export default async function Page({
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const articlesData = await getArticles(params, locale);
-  if (articlesData.data.data.length === 1) {
-    redirect(`/articles/${articlesData.data.data[0].slug}`);
+  const articles = articlesData?.data?.data ?? [];
+  const categories = articlesData?.data?.categories ?? [];
+  const pagination = articlesData?.data?.pagination ?? null;
+
+  if (articles.length === 1 && articles[0]?.slug) {
+    redirect(`/articles/${articles[0].slug}`);
   }
   // console.log("👉 ~ Page ~ articlesData:", articlesData.data.data);
   // useEffect(() => {
@@ -141,7 +145,7 @@ export default async function Page({
   //     router.replace(`/articles/${data[0].slug}`);
   //   }
   // }, [articlesData]);
-  const category = articlesData?.data?.categories?.[0] || null;
+  const category = categories[0] || null;
 
   return (
     <div className="min-h-svh mb-6 md:pb-10">
@@ -157,9 +161,9 @@ export default async function Page({
 
         <SearchArticle
           initialQuery={params.search || ""}
-          initialData={articlesData?.data?.data || []}
+          initialData={articles}
           categoryName={category?.name || ""}
-          meta={articlesData?.data?.pagination || null}
+          meta={pagination}
         />
       </main>
     </div>
