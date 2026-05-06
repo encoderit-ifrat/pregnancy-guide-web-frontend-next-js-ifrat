@@ -35,7 +35,6 @@ export default function PregnancyOverview({
   const weeklyDetails = pregnancyData?.weeklyDetails;
   // console.log("👉 ~ PregnancyOverview ~ weeklyDetails:", pregnancyData);
   const userProfile = pregnancyData?.userProfile;
-  // console.log("👉 ~ PregnancyOverview ~ userProfile:", userProfile);
 
   const latest = articles?.latest || [];
   const popularWeeks = articles?.popularWeeks || [];
@@ -81,10 +80,7 @@ export default function PregnancyOverview({
         isLoading={isPending}
       />
       <OverviewCategories debouncedWeek={debouncedWeek} />
-      <PregnancyDetails
-        userData={userProfile}
-        weeklyDetails={weeklyDetails}
-      />
+      <PregnancyDetails userData={userProfile} weeklyDetails={weeklyDetails} />
       {/* divider */}
       <WaveDivider className="text-white" bgClassName="bg-[#F6F0FF]" />
       {Boolean(weeklyArticle?.[0]?.title) && weeklyArticle?.[0] && (

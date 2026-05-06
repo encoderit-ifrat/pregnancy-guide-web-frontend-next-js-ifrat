@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 // Fetch articles data at build time
 async function getHomePageData(lang: string = "sv") {
-  console.log("api url", `${API_V1}/home?lang=${lang}`);
+  // console.log("api url", `${API_V1}/home?lang=${lang}`);
   try {
     const res = await fetch(`${API_V1}/home?lang=${lang}`, {
       // Enable ISR with revalidation (optional)
