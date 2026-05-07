@@ -52,7 +52,7 @@ const getFormSchema = (t: (key: string) => string) =>
     checklist_id: z.string(),
     title: z.string().min(1, t("checklists.taskForm.validation.titleRequired")),
     priority: z.enum(["high", "medium", "low", "none"]),
-    assigned_to: z.enum(["none", "me", "partner"]),
+    assigned_to: z.enum(["both", "me", "partner"]),
     due_date: z.date(),
     description: z.string().optional(),
     reminder: z.boolean().optional(),
@@ -99,7 +99,7 @@ export default function TaskForm({
       priority: task?.priority || "high",
       due_date: task?.date ? new Date(task.date) : new Date(),
       reminder: task?.reminder || false,
-      assigned_to: task?.assignedTo || "none",
+      assigned_to: task?.assignedTo || "both",
     },
   });
 
@@ -292,7 +292,7 @@ export default function TaskForm({
                       {[
                         {
                           label: t("checklists.taskForm.assignees.none"),
-                          value: "none",
+                          value: "both",
                         },
                         {
                           label: t("checklists.taskForm.assignees.me"),
@@ -331,7 +331,7 @@ export default function TaskForm({
                               {item.initial}
                             </div>
                           )} */}
-                          {item.value != "none" && (
+                          {item.value != "both" && (
                             <div
                               className={cn("size-5 rounded-full", {
                                 "bg-[#2DD4BF]": item.value === "partner",
@@ -367,7 +367,7 @@ export default function TaskForm({
                         "w-full h-[46px] justify-center gap-3 text-base items-center rounded-full font-outfit transition-all duration-300",
                         !field.value && "border-[#A855F7] text-[#A855F7]",
                         field.value &&
-                          "bg-[#A855F7] hover:bg-[#9333EA] text-white"
+                        "bg-[#A855F7] hover:bg-[#9333EA] text-white"
                       )}
                     >
                       <div
