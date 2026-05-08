@@ -21,6 +21,17 @@ export function DatePicker({
 }) {
   const [open, setOpen] = React.useState(false);
 
+  // Controlled month state so parent re-renders don't reset the calendar view
+  const [month, setMonth] = React.useState<Date>(value ?? new Date());
+
+  // Sync displayed month when the selected value changes externally
+  // (e.g. auto-calculated due date from last period date)
+  React.useEffect(() => {
+    if (value) {
+      setMonth(value);
+    }
+  }, [value]);
+
   // Utility: convert date to local (strip UTC offset effect)
   const toLocalDate = (date: Date) => {
     const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
@@ -44,7 +55,8 @@ export function DatePicker({
           fixedWeeks
           mode="single"
           selected={value}
-          defaultMonth={value}
+          month={month}
+          onMonthChange={setMonth}
           captionLayout="dropdown"
           startMonth={new Date(1980, 0)} // January 1980
           endMonth={new Date(2130, 11)} // December 2030
