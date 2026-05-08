@@ -302,8 +302,18 @@ export default function FormProfile({
                               field.value ? new Date(field.value) : undefined
                             }
                             onChange={(date) => {
-                              field.onChange(date?.toISOString());
+                              const isoDate = date?.toISOString();
+                              field.onChange(isoDate);
                               setPrimarySource("lpd");
+
+                              // If LMP is entered and Due Date is empty, calculate Due Date
+                              if (isoDate && !form.getValues("dueDate")) {
+                                const calculatedDueDate =
+                                  calculateDueDateFromLPD(isoDate);
+                                form.setValue("dueDate", calculatedDueDate, {
+                                  shouldValidate: true,
+                                });
+                              }
                             }}
                             placeholder={t("formProfile.lastPeriodPlaceholder")}
                           />
