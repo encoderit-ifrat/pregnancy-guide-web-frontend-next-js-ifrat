@@ -32,15 +32,19 @@ export default function ChecklistForm({
 }: TProps) {
   const { t } = useTranslation();
   const hasAddedInitialItem = useRef(false);
-  useEffect(() => {}, [formData]);
+  useEffect(() => { }, [formData]);
   const { type, data } = formData ?? {};
   const { user, refetch } = useCurrentUser();
 
   const last_period_date = user?.details?.last_period_date;
-  const current_pregnancy_week = user?.details?.current_pregnancy_week;
+  const due_date = user?.details?.due_date;
+  const current_pregnancy_week =
+    user?.details?.current_pregnancy_week ||
+    user?.details?.current_pregnancy_data?.week;
 
   const shouldShowChecklist =
     (last_period_date && last_period_date.trim() !== "") ||
+    (due_date && due_date.trim() !== "") ||
     (current_pregnancy_week && current_pregnancy_week > 0);
 
   const form = useForm<ChecklistSchemaType>({
@@ -49,12 +53,12 @@ export default function ChecklistForm({
       type == "update"
         ? data
         : {
-            _id: "",
-            title: "",
-            description: "",
-            category: "general",
-            is_active: true,
-          },
+          _id: "",
+          title: "",
+          description: "",
+          category: "general",
+          is_active: true,
+        },
   });
 
   const {
