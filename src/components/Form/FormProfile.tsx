@@ -96,38 +96,12 @@ export default function FormProfile({
       },
     });
   };
+  // Track which field was last changed to determine the active source for calculations
   const [primarySource, setPrimarySource] = useState<"lpd" | "dd" | null>(null);
-  // Track which field was last changed to avoid infinite loops
-  const [lastChangedField, setLastChangedField] = React.useState<
-    "lpd" | "dd" | null
-  >(null);
 
   // Watch the form values at component level
   const lastPeriodDate = form.watch("lastPeriodDate");
   const dueDate = form.watch("dueDate");
-  const { weeks, days } = lastPeriodDate
-    ? calculateWeeksPregnant(lastPeriodDate)
-    : { weeks: 0, days: 0 };
-
-  // Auto-calculate due date when last period date changes
-  useEffect(() => {
-    if (lastPeriodDate && lastChangedField === "lpd") {
-      const calculatedDueDate = calculateDueDateFromLPD(lastPeriodDate || "");
-      form.setValue("dueDate", calculatedDueDate, { shouldValidate: false });
-      setPrimarySource("lpd");
-      setLastChangedField(null);
-    }
-  }, [lastPeriodDate, lastChangedField, form]);
-
-  // Auto-calculate last period date when due date changes
-  useEffect(() => {
-    if (dueDate && lastChangedField === "dd") {
-      const calculatedLPD = calculateLPDFromDueDate(dueDate || "");
-      form.setValue("lastPeriodDate", calculatedLPD, { shouldValidate: false });
-      setPrimarySource("dd");
-      setLastChangedField(null);
-    }
-  }, [dueDate, lastChangedField, form]);
 
   // Use primarySource to determine which calculation to show
   const pregnancyInfo = useMemo(() => {
@@ -211,6 +185,26 @@ export default function FormProfile({
         weeks,
         days,
         source: "dueDate",
+        message: t("formProfile.pregnantMessage", {
+          weeks,
+          weeks_plural: weeks !== 1 ? "s" : "",
+          daysText,
+        }),
+      };
+    } else if (lastPeriodDate) {
+      const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
+      const daysText =
+        days > 0
+          ? t("formProfile.andDays", {
+            count: days,
+            count_plural: days !== 1 ? "s" : "",
+          })
+          : "";
+
+      return {
+        weeks,
+        days,
+        source: "lastPeriod",
         message: t("formProfile.pregnantMessage", {
           weeks,
           weeks_plural: weeks !== 1 ? "s" : "",
@@ -309,7 +303,7 @@ export default function FormProfile({
                             }
                             onChange={(date) => {
                               field.onChange(date?.toISOString());
-                              setLastChangedField("lpd");
+                              setPrimarySource("lpd");
                             }}
                             placeholder={t("formProfile.lastPeriodPlaceholder")}
                           />
@@ -349,7 +343,7 @@ export default function FormProfile({
                             }
                             onChange={(date) => {
                               field.onChange(date?.toISOString());
-                              setLastChangedField("dd");
+                              setPrimarySource("dd");
                             }}
                             placeholder={t("formProfile.dueDatePlaceholder")}
                           />
