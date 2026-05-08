@@ -65,7 +65,7 @@ export const useQueryGetThreadDetail = (
     refetchOnMount: true,
     staleTime: 0,
     queryFn: async () => {
-      const res = await api.get<ThreadDetailResponse>(`/threads/${id}?userId=${userId}`);
+      const res = await api.get<ThreadDetailResponse>(`/threads/${id}${userId ? `?userId=${userId}` : ''}`);
       return res.data;
     },
     refetchOnWindowFocus: false,
