@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -60,11 +60,20 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
   const { t } = useTranslation();
   const { mutateAsync: createTemplate, isPending: isCreatingTemplate } =
     useMutationCreateTemplate();
-  const { data: apiResponse, isLoading } = useQueryGetAllTemplate() as {
-    data: TemplateApiResponse;
-    isLoading: boolean;
+  const [limit, setLimit] = useState(10);
+  const { data: apiResponse, isLoading, isFetching } = useQueryGetAllTemplate(limit);
+
+  const templates: Template[] = apiResponse?.data?.data || [];
+  const pagination = apiResponse?.data?.pagination;
+  const hasMore = pagination ? templates.length < pagination.total : false;
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (!hasMore || isFetching) return;
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    if (scrollTop + clientHeight >= scrollHeight - 100) {
+      setLimit((prev) => prev + 10);
+    }
   };
-  const templates = apiResponse?.data?.data || [];
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -130,7 +139,10 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
 
         <div className="flex flex-1 min-h-0">
           {/* Left Column: List */}
-          <div className="w-[40%] border-r border-gray-100 p-6 overflow-y-auto">
+          <div
+            className="w-[40%] border-r border-gray-100 p-6 overflow-y-auto"
+            onScroll={handleScroll}
+          >
             <h3 className="text-3xl font-medium text-[#1B1343] font-outfit mb-6">
               {t("checklists.templateModal.availableTemplates")}
             </h3>
@@ -187,6 +199,13 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                   </div>
                 ))
               )}
+
+              {/* Loading spinner for next page */}
+              {isFetching && !isLoading && (
+                <div className="flex items-center justify-center py-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#A97AEC]" />
+                </div>
+              )}
             </div>
           </div>
 
@@ -205,8 +224,8 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                       {selectedTemplates.length === 1
                         ? selectedTemplates[0].title
                         : t("checklists.templateModal.templatesSelected", {
-                            count: selectedTemplates.length,
-                          })}
+                          count: selectedTemplates.length,
+                        })}
                     </h4>
                     {selectedTemplates.length === 1 &&
                       selectedTemplates[0].description && (
@@ -284,11 +303,11 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           <p className="text-primary-dark/80 font-outfit">
             {selectedTemplates.length === 1
               ? t("checklists.templateModal.footerText.addOne", {
-                  title: selectedTemplates[0].title,
-                })
+                title: selectedTemplates[0].title,
+              })
               : t("checklists.templateModal.footerText.addMany", {
-                  count: selectedTemplates.length,
-                })}
+                count: selectedTemplates.length,
+              })}
           </p>
           <div className="flex items-center gap-4">
             <Button

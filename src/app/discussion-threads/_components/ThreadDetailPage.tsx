@@ -115,6 +115,7 @@ function ReplyCard({
       threadId,
       replyId: reply._id,
       enabled: isExpanded,
+      userId: user?.id || "",
     });
 
   const handleAuthAction = (action?: () => void) => {
@@ -160,9 +161,9 @@ function ReplyCard({
 
   const timeAgo = isValid(createdAtDate)
     ? formatDistanceToNow(createdAtDate, {
-        addSuffix: true,
-        locale: currentLocale,
-      })
+      addSuffix: true,
+      locale: currentLocale,
+    })
     : "";
 
   const isLiked =
@@ -196,8 +197,8 @@ function ReplyCard({
           {(reply.nested_replies_count ||
             nestedReplies.length > 0 ||
             isExpanded) && (
-            <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
-          )}
+              <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
+            )}
         </div>
 
         {/* Content */}
@@ -390,6 +391,7 @@ export default function ThreadDetailPage({
 
   const { data: threadDetail, refetch: refetchThreadDetail } =
     useQueryGetThreadDetail(threadId, isOpen);
+  // console.log("user", user);
 
   const {
     data: repliesInfiniteData,
@@ -399,7 +401,7 @@ export default function ThreadDetailPage({
     refetch: refetchReplies,
   } = useInfiniteQueryGetThreadReplies({
     threadId,
-    params: { sort: "newest" },
+    params: { sort: "newest", userId: user?.id || "" },
     enabled: true,
   });
 
@@ -591,9 +593,9 @@ export default function ThreadDetailPage({
           data: Array.isArray(data.data)
             ? (updatedReplies as any)
             : {
-                ...(data.data as any),
-                data: updatedReplies,
-              },
+              ...(data.data as any),
+              data: updatedReplies,
+            },
         });
       });
     },

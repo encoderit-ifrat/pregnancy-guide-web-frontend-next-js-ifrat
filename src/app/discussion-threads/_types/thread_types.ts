@@ -99,6 +99,7 @@ export interface ThreadQueryParams {
   sort?: ThreadSortOption;
   page?: string | number;
   limit?: string | number;
+  userId?: string;
 }
 
 export interface ThreadRepliesQueryParams {

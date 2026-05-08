@@ -169,16 +169,18 @@ export const useQueryGetNestedReplies = ({
   threadId,
   replyId,
   enabled = true,
+  userId,
 }: {
   threadId: string;
   replyId: string;
   enabled?: boolean;
+  userId?: string;
 }) => {
   return useQuery({
     queryKey: ["get-nested-replies", threadId, replyId],
     queryFn: async () => {
       const res = await api.get<ApiResponse<ThreadReply[]>>(
-        `/threads/${threadId}/replies/${replyId}/replies`
+        `/threads/${threadId}/replies/${replyId}/replies?userId=${userId}`
       );
       return res.data;
     },
