@@ -132,34 +132,35 @@ export default function FormProfile({
   // Use primarySource to determine which calculation to show
   const pregnancyInfo = useMemo(() => {
     // If primarySource is set, use that to determine the display
-    if (primarySource === "lpd" && lastPeriodDate) {
-      const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
-      const daysText =
-        days > 0
-          ? t("formProfile.andDays", {
-              count: days,
-              count_plural: days !== 1 ? "s" : "",
-            })
-          : "";
+    // if (primarySource === "lpd" && lastPeriodDate) {
+    //   const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
+    //   const daysText =
+    //     days > 0
+    //       ? t("formProfile.andDays", {
+    //         count: days,
+    //         count_plural: days !== 1 ? "s" : "",
+    //       })
+    //       : "";
 
-      return {
-        weeks,
-        days,
-        source: "lastPeriod",
-        message: t("formProfile.pregnantMessage", {
-          weeks,
-          weeks_plural: weeks !== 1 ? "s" : "",
-          daysText,
-        }),
-      };
-    } else if (primarySource === "dd" && dueDate) {
+    //   return {
+    //     weeks,
+    //     days,
+    //     source: "lastPeriod",
+    //     message: t("formProfile.pregnantMessage", {
+    //       weeks,
+    //       weeks_plural: weeks !== 1 ? "s" : "",
+    //       daysText,
+    //     }),
+    //   };
+    // } else
+    if (primarySource === "dd" && dueDate) {
       const { weeks, days } = calculateWeeksFromDueDate(dueDate);
       const daysText =
         days > 0
           ? t("formProfile.andDays", {
-              count: days,
-              count_plural: days !== 1 ? "s" : "",
-            })
+            count: days,
+            count_plural: days !== 1 ? "s" : "",
+          })
           : "";
 
       return {
@@ -175,34 +176,35 @@ export default function FormProfile({
     }
 
     // Fallback to default logic if primarySource not set
-    if (lastPeriodDate) {
-      const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
-      const daysText =
-        days > 0
-          ? t("formProfile.andDays", {
-              count: days,
-              count_plural: days !== 1 ? "s" : "",
-            })
-          : "";
+    // if (lastPeriodDate) {
+    //   const { weeks, days } = calculateWeeksPregnant(lastPeriodDate);
+    //   const daysText =
+    //     days > 0
+    //       ? t("formProfile.andDays", {
+    //         count: days,
+    //         count_plural: days !== 1 ? "s" : "",
+    //       })
+    //       : "";
 
-      return {
-        weeks,
-        days,
-        source: "lastPeriod",
-        message: t("formProfile.pregnantMessage", {
-          weeks,
-          weeks_plural: weeks !== 1 ? "s" : "",
-          daysText,
-        }),
-      };
-    } else if (dueDate) {
+    //   return {
+    //     weeks,
+    //     days,
+    //     source: "lastPeriod",
+    //     message: t("formProfile.pregnantMessage", {
+    //       weeks,
+    //       weeks_plural: weeks !== 1 ? "s" : "",
+    //       daysText,
+    //     }),
+    //   };
+    // } else
+    if (dueDate) {
       const { weeks, days } = calculateWeeksFromDueDate(dueDate);
       const daysText =
         days > 0
           ? t("formProfile.andDays", {
-              count: days,
-              count_plural: days !== 1 ? "s" : "",
-            })
+            count: days,
+            count_plural: days !== 1 ? "s" : "",
+          })
           : "";
 
       return {
@@ -271,9 +273,7 @@ export default function FormProfile({
                         {pregnancyInfo.message}
                       </p>
                       <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                        {pregnancyInfo.source === "lastPeriod"
-                          ? t("formProfile.lastPeriodSource")
-                          : t("formProfile.dueDateSource")}
+                        {t("formProfile.dueDateSource")}
                       </p>
                     </div>
                   </div>
@@ -284,7 +284,7 @@ export default function FormProfile({
                 control={form.control}
                 name="lastPeriodDate"
                 rules={{
-                  required: t("formProfile.validation.dueDateRequired"),
+                  required: false,
                 }}
                 render={({ field }) => (
                   <FormItem>

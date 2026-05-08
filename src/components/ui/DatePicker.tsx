@@ -47,7 +47,7 @@ export function DatePicker({
           defaultMonth={value}
           captionLayout="dropdown"
           startMonth={new Date(1980, 0)} // January 1980
-          endMonth={new Date(2030, 11)} // December 2030
+          endMonth={new Date(2130, 11)} // December 2030
           onSelect={(date) => {
             if (date) {
               const localDate = toLocalDate(date);

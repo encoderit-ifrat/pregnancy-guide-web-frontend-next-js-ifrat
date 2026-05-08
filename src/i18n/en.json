@@ -273,7 +273,7 @@
       "dueDate": "Due Date",
       "assignedTo": "Assigned To",
       "assignees": {
-        "none": "None",
+        "none": "Both",
         "me": "Me",
         "partner": "Partner"
       },
@@ -321,7 +321,6 @@
       "status": "{done} of {total} tasks"
     }
   },
-
   "publishedThreads": {
     "active": "Active",
     "finalized": "Finalized",

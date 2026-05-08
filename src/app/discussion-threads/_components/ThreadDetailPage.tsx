@@ -390,7 +390,7 @@ export default function ThreadDetailPage({
   const threadId = thread?._id || "";
 
   const { data: threadDetail, refetch: refetchThreadDetail } =
-    useQueryGetThreadDetail(threadId, isOpen);
+    useQueryGetThreadDetail(threadId, isOpen, user?.id || "");
   // console.log("user", user);
 
   const {

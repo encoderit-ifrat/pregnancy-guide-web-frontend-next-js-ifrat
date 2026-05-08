@@ -267,7 +267,7 @@ export default function CheckList({
                         className={cn(
                           "text-[#1B1343] text-[20px] font-medium transition-all duration-200",
                           task.checked &&
-                            "line-through text-gray-400 opacity-60"
+                          "line-through text-gray-400 opacity-60"
                         )}
                       >
                         {task.name}
@@ -343,7 +343,7 @@ export default function CheckList({
                               ? "M"
                               : "N"}
                         </div> */}
-                        {task.assignedTo != "none" ? (
+                        {task.assignedTo != "both" ? (
                           <div
                             className={cn("size-5 rounded-full", {
                               "bg-[#2DD4BF]": task.assignedTo === "partner",

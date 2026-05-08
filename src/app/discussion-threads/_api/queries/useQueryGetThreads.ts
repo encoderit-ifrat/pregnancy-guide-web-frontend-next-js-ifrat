@@ -57,14 +57,15 @@ export const useQueryGetMyThreads = ({
 
 export const useQueryGetThreadDetail = (
   id: string,
-  enabled: boolean = true
+  enabled: boolean = true,
+  userId?: string
 ) => {
   return useQuery({
     queryKey: ["get-thread-detail", id],
     refetchOnMount: true,
     staleTime: 0,
     queryFn: async () => {
-      const res = await api.get<ThreadDetailResponse>(`/threads/${id}`);
+      const res = await api.get<ThreadDetailResponse>(`/threads/${id}?userId=${userId}`);
       return res.data;
     },
     refetchOnWindowFocus: false,
