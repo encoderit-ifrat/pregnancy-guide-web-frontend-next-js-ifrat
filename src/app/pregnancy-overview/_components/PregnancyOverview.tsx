@@ -74,8 +74,8 @@ export default function PregnancyOverview({
       <WeekSelector
         currentWeek={initialWeek}
         onWeekChange={handleWeekChange}
-        minWeek={0}
-        maxWeek={45}
+        minWeek={2}
+        maxWeek={41}
         isLoading={isPending}
       />
       <OverviewCategories debouncedWeek={debouncedWeek} />

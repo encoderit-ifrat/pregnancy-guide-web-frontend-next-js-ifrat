@@ -15,8 +15,8 @@ interface WeekSelectorProps {
 export default function WeekSelector({
   currentWeek = 9,
   onWeekChange,
-  minWeek = 0,
-  maxWeek = 45,
+  minWeek = 2,
+  maxWeek = 41,
   isLoading = false,
 }: WeekSelectorProps) {
   const { t } = useTranslation();
@@ -56,8 +56,8 @@ export default function WeekSelector({
   }, []);
 
   // Ensure minWeek and maxWeek are defined numbers
-  const min = minWeek ?? 0;
-  const max = maxWeek ?? 45;
+  const min = minWeek ?? 2;
+  const max = maxWeek ?? 41;
 
   // Calculate visible weeks (current week +/- 2 on each side)
   const halfVisible = Math.floor(visibleWeekCount / 2);
@@ -137,7 +137,7 @@ export default function WeekSelector({
             )}
           >
             <span className="font-bold text-xs md:text-lg">
-              {week < 10 ? `0${week}` : week}
+              {week === 41 ? "41+" : week < 10 ? `0${week}` : week}
             </span>
           </button>
         ))}
