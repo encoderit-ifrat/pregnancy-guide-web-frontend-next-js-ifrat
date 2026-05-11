@@ -15,7 +15,7 @@ interface WeekSelectorProps {
 export default function WeekSelector({
   currentWeek = 9,
   onWeekChange,
-  minWeek = 2,
+  minWeek = 3,
   maxWeek = 41,
   isLoading = false,
 }: WeekSelectorProps) {
@@ -56,7 +56,7 @@ export default function WeekSelector({
   }, []);
 
   // Ensure minWeek and maxWeek are defined numbers
-  const min = minWeek ?? 2;
+  const min = minWeek ?? 3;
   const max = maxWeek ?? 41;
 
   // Calculate visible weeks (current week +/- 2 on each side)
