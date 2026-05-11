@@ -92,9 +92,12 @@ export default function PartnerInvite() {
     <div className="w-full bg-white rounded-2xl shadow-lg border border-[#F3EAFF] overflow-hidden">
       {/* Upper Section: Invite Form */}
       <div className="p-6 bg-[#FBF8FF] border-b border-[#F3EAFF]">
-        <h3 className="text-[#4D2C82] text-xl font-semibold mb-3 flex items-center gap-2">
+        <h3 className="text-[#4D2C82] text-xl font-semibold  flex items-center gap-2">
           {t("partner.inviteTitle")}
         </h3>
+        <p className="text-[#4D2C82] text-sm font-normal mb-3 flex items-center gap-2">
+          {t("partner.inviteSubTitle")}
+        </p>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center max-w-2xl relative ">
           <div className="flex flex-1 items-stretch h-11  border-[#A97AEC] rounded-lg border bg-white overflow-hidden">
             <input

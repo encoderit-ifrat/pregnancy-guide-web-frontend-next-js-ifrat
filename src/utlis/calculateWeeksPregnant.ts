@@ -1,20 +1,17 @@
-// Helper function to calculate weeks pregnant from last period date
-export const calculateWeeksPregnant = (lastPeriodDate: string) => {
-  const lpd = new Date(lastPeriodDate);
-  const today = new Date();
+export const calculateWeeksPregnant = (dueDate: string) => {
+  const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-  // Normalize both dates to local midnight to avoid timezone/time-of-day drift
-  lpd.setHours(0, 0, 0, 0);
+  const due = new Date(dueDate);
+  due.setHours(0, 0, 0, 0);
+
+  const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Calculate full-day difference
-  const diffTime = today.getTime() - lpd.getTime();
+  const daysSinceLMP =
+    280 - Math.round((due.getTime() - today.getTime()) / MS_PER_DAY);
 
-  // +1 day to make it inclusive (so 10th -> 11th = 2 days pregnant)
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-  const weeks = Math.floor(diffDays / 7);
-  const days = diffDays % 7;
+  const weeks = Math.floor(daysSinceLMP / 7);
+  const days = daysSinceLMP % 7;
 
   return { weeks, days };
 };

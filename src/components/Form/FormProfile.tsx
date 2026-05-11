@@ -44,11 +44,29 @@ import {
 } from "@/app/profile/_types.ts/profile_form_schema";
 import { useTranslation } from "@/hooks/useTranslation";
 
+const getPluralText = (locale: string, value: number, type: "week" | "day") => {
+  const plurals: Record<
+    string,
+    Record<string, { one: string; other: string }>
+  > = {
+    sv: {
+      week: { one: "vecka", other: "veckor" },
+      day: { one: "dag", other: "dagar" },
+    },
+    en: {
+      week: { one: "week", other: "weeks" },
+      day: { one: "day", other: "days" },
+    },
+  };
+  const lang = plurals[locale] || plurals["en"];
+  return value === 1 ? lang[type].one : lang[type].other;
+};
+
 export default function FormProfile({
   initialData,
   onSubmitForDialogAndRefetch,
 }: FormProfileProps) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const [profileType, setProfileType] = useState<"upcoming">("upcoming");
 
   const form = useForm<ProfileFormSchemaType>({
@@ -59,8 +77,8 @@ export default function FormProfile({
       dueDate: initialData?.due_date || "",
       dob: initialData?.dob || "",
       lastPeriodDate: initialData?.last_period_date || "",
-      weight: initialData?.weight || "",
-      height: initialData?.height || "",
+      weight: String(initialData?.weight || ""),
+      height: String(initialData?.height || ""),
     },
   });
 
@@ -132,9 +150,9 @@ export default function FormProfile({
       const daysText =
         days > 0
           ? t("formProfile.andDays", {
-            count: days,
-            count_plural: days !== 1 ? "s" : "",
-          })
+              count: days,
+              days_text: getPluralText(locale, days, "day"),
+            })
           : "";
 
       return {
@@ -143,7 +161,7 @@ export default function FormProfile({
         source: "dueDate",
         message: t("formProfile.pregnantMessage", {
           weeks,
-          weeks_plural: weeks !== 1 ? "s" : "",
+          weeks_text: getPluralText(locale, weeks, "week"),
           daysText,
         }),
       };
@@ -176,9 +194,9 @@ export default function FormProfile({
       const daysText =
         days > 0
           ? t("formProfile.andDays", {
-            count: days,
-            count_plural: days !== 1 ? "s" : "",
-          })
+              count: days,
+              days_text: getPluralText(locale, days, "day"),
+            })
           : "";
 
       return {
@@ -187,7 +205,7 @@ export default function FormProfile({
         source: "dueDate",
         message: t("formProfile.pregnantMessage", {
           weeks,
-          weeks_plural: weeks !== 1 ? "s" : "",
+          weeks_text: getPluralText(locale, weeks, "week"),
           daysText,
         }),
       };
@@ -196,9 +214,9 @@ export default function FormProfile({
       const daysText =
         days > 0
           ? t("formProfile.andDays", {
-            count: days,
-            count_plural: days !== 1 ? "s" : "",
-          })
+              count: days,
+              days_text: getPluralText(locale, days, "day"),
+            })
           : "";
 
       return {
@@ -207,7 +225,7 @@ export default function FormProfile({
         source: "lastPeriod",
         message: t("formProfile.pregnantMessage", {
           weeks,
-          weeks_plural: weeks !== 1 ? "s" : "",
+          weeks_text: getPluralText(locale, weeks, "week"),
           daysText,
         }),
       };

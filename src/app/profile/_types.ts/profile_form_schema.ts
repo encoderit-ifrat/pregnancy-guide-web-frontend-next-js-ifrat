@@ -19,36 +19,32 @@ export const ProfileFormSchema = z
     dob: z.string().optional(),
     lastPeriodDate: z.string().optional(),
     last_period_date: z.string().optional(),
-    weight: z
-      .string()
-      .optional()
-      .refine(
-        (val) => !val || /^\d+(\.\d+)?$/.test(val),
-        "Weight must be a valid number"
-      )
-      .refine(
-        (val) => !val || parseFloat(val) > 0,
-        "Weight must be greater than 0"
-      )
-      .refine(
-        (val) => !val || parseFloat(val) <= 20,
-        "Weight must be less than 20 kg"
-      ),
-    height: z
-      .string()
-      .optional()
-      .refine(
-        (val) => !val || /^\d+(\.\d+)?$/.test(val),
-        "Height must be a valid number"
-      )
-      .refine(
-        (val) => !val || parseFloat(val) > 0,
-        "Height must be greater than 0"
-      )
-      .refine(
-        (val) => !val || parseFloat(val) <= 200,
-        "Height must be less than 200 cm"
-      ),
+    weight: z.string().optional(),
+    // .refine(
+    //   (val) => !val || /^\d+(\.\d+)?$/.test(val),
+    //   "Weight must be a valid number"
+    // )
+    // .refine(
+    //   (val) => !val || parseFloat(val) > 0,
+    //   "Weight must be greater than 0"
+    // )
+    // .refine(
+    //   (val) => !val || parseFloat(val) <= 20,
+    //   "Weight must be less than 20 kg"
+    // ),
+    height: z.string().optional(),
+    // .refine(
+    //   (val) => !val || /^\d+(\.\d+)?$/.test(val),
+    //   "Height must be a valid number"
+    // )
+    // .refine(
+    //   (val) => !val || parseFloat(val) > 0,
+    //   "Height must be greater than 0"
+    // )
+    // .refine(
+    //   (val) => !val || parseFloat(val) <= 200,
+    //   "Height must be less than 200 cm"
+    // ),
   })
   .refine((data) => data.lastPeriodDate || data.dueDate, {
     message: "Either last period date or due date must be provided",

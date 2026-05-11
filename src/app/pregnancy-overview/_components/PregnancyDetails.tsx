@@ -36,20 +36,21 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               {currentProgress?.day || 0} {t("pregnancy.days")}
             </span>
           </h3>
-          <div className="text-lg md:text-[22px] mb-2">
-            <span className="text-primary mr-2">
-              {currentProgress?.percentage || 0}%
-            </span>
+          {/* <div className="text-lg md:text-[22px] mb-2">
             {t("pregnancy.completed")}
-          </div>
+          </div> */}
           {/*slider*/}
           <div>
-            <div className="w-full bg-gray-100 rounded-full h-4 mt-2">
+            <div className="w-full bg-gray-100 rounded-full h-4 mt-8">
               <div
                 className="relative bg-primary h-4 rounded-full"
                 style={{ width: `${currentProgress?.percentage || 0}%` }}
               >
-                <div className="h-6 w-6 bg-white shadow-lg border border-black rounded-full absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2"></div>
+                <div className="h-[38px] w-[38px] bg-white shadow-lg border border-black rounded-full absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 flex items-center justify-center">
+                  <span className="text-primary text-xs  font-semibold">
+                    {currentProgress?.percentage || 0}%
+                  </span>
+                </div>
               </div>
             </div>
           </div>

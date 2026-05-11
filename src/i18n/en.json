@@ -606,6 +606,7 @@
   },
   "partner": {
     "inviteTitle": "Partner Invite",
+    "inviteSubTitle": "So they can follow your pregnancy",
     "emailPlaceholder": "Enter Partner Email.....",
     "rolePartner": "Partner",
     "roleOther": "Other",
@@ -621,8 +622,8 @@
     "upcoming": "Upcoming Baby",
     "newborn": "Newborn",
     "congratulations": "Congratulations!",
-    "pregnantMessage": "You are {weeks} week{weeks_plural} {daysText} pregnant! 💕",
-    "andDays": "and {count} day{count_plural}",
+      "pregnantMessage": "You are {weeks} {weeks_text}{daysText} pregnant! 💕",
+      "andDays": " and {count} {days_text}",
     "lastPeriodSource": "Based on your last period date",
     "dueDateSource": "Estimated from your due date",
     "lastPeriodPlaceholder": "Last Period Date",

@@ -267,7 +267,7 @@ export default function CheckList({
                         className={cn(
                           "text-[#1B1343] text-[20px] font-medium transition-all duration-200",
                           task.checked &&
-                          "line-through text-gray-400 opacity-60"
+                            "line-through text-gray-400 opacity-60"
                         )}
                       >
                         {task.name}
@@ -377,8 +377,8 @@ export default function CheckList({
                           />
                         </div>
 
-                        <AccordionTrigger className="flex items-center hover:no-underline">
-                          <div className="size-8 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-primary group-data-[state=open]:rotate-180 transition-all duration-200 shrink-0 hover:border-gray-200">
+                        <AccordionTrigger className="group flex items-center hover:no-underline">
+                          <div className="size-8 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-primary group-data-[state=open]:rotate-180 transition-transform duration-200 shrink-0 hover:border-gray-200">
                             <ChevronDownIcon className="size-5" />
                           </div>
                         </AccordionTrigger>
