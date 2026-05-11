@@ -27,21 +27,8 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               `pregnancy.trimesters.${currentProgress?.trimester?.toString().match(/\d/)?.[0] || "1"}`
             )}
           </h3>
-          <h3 className="text-lg md:text-[22px] mb-4">
-            <span className="text-primary-dark font-medium md:font-semibold">
-              {t("pregnancy.beenPregnant")}
-            </span>
-            <span className="font-normal ml-1">
-              {currentProgress?.week || 0} {t("pregnancy.weeks")}{" "}
-              {currentProgress?.day || 0} {t("pregnancy.days")}
-            </span>
-          </h3>
-          {/* <div className="text-lg md:text-[22px] mb-2">
-            {t("pregnancy.completed")}
-          </div> */}
-          {/*slider*/}
-          <div>
-            <div className="w-full bg-gray-100 rounded-full h-4 mt-8">
+          <div className="my-5">
+            <div className="w-full bg-gray-100 rounded-full h-4">
               <div
                 className="relative bg-primary h-4 rounded-full"
                 style={{ width: `${currentProgress?.percentage || 0}%` }}
@@ -54,6 +41,23 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               </div>
             </div>
           </div>
+          <h3 className="text-lg md:text-[22px] mb-2">
+            <span className="text-primary-dark font-medium md:font-semibold">
+              {pregnancyProgressInfo?.daysLeft} {t("pregnancy.days")}
+            </span>
+            {/* <span className="font-normal ml-1">
+              {currentProgress?.week || 0} {t("pregnancy.weeks")}{" "}
+              {currentProgress?.day || 0} {t("pregnancy.days")}
+            </span> */}
+          </h3>
+          <div className="">
+            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
+              {t("pregnancy.dueDate")} {pregnancyProgressInfo?.dueDate}
+            </span>
+          </div>
+          {/* <div className="text-lg md:text-[22px] mb-2">
+            {t("pregnancy.completed")}
+          </div> */}
         </Cards>
         <Cards>
           <span className="text-primary-dark font-medium md:font-semibold mb-4 block">

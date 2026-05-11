@@ -453,9 +453,9 @@
     "loginRequired": "Logga in för att se din graviditetsöversikt.",
     "beenPregnant": "Varit gravid i:",
     "weeks": "veckor",
-    "days": "dagar",
+    "days": "dagar kvar",
     "completed": "Klart",
-    "dueDate": "BF-datum:",
+    "dueDate": "BF:",
     "daysRemaining": "Dagar kvar till födsel:",
     "trimesters": {
       "1": "1:a trimestern",
