@@ -43,7 +43,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </div>
           <h3 className="text-lg md:text-[22px] mb-2">
             <span className="text-primary-dark font-medium md:font-semibold">
-              {pregnancyProgressInfo?.daysLeft} {t("pregnancy.days")}
+              {pregnancyProgressInfo?.daysLeft || 0} {t("pregnancy.days")}
             </span>
             {/* <span className="font-normal ml-1">
               {currentProgress?.week || 0} {t("pregnancy.weeks")}{" "}
@@ -52,7 +52,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </h3>
           <div className="">
             <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
-              {t("pregnancy.dueDate")} {pregnancyProgressInfo?.dueDate}
+              {t("pregnancy.dueDate")} {pregnancyProgressInfo?.dueDate || ""}
             </span>
           </div>
           {/* <div className="text-lg md:text-[22px] mb-2">
