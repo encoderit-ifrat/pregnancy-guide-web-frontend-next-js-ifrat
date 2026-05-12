@@ -227,7 +227,7 @@ export function Header() {
               className={`transition-all duration-300 ease-in-out ${
                 isSearchExpanded
                   ? "max-w-0 opacity-0"
-                  : "max-w-[600px] opacity-100"
+                  : "max-w-[680px] opacity-100"
               }`}
             >
               <div className="flex items-center gap-4">
