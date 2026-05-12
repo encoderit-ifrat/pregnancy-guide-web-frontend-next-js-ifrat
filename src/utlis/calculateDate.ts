@@ -12,7 +12,7 @@ export const calculateLPDFromDueDate = (dueDate: string): string => {
   return lpd.toISOString();
 };
 
-export function calculatePregnancyProgress(dueDate: string) {
+export function calculatePregnancyProgress(dueDate: string, locale = "sv") {
   if (!dueDate) return null;
 
   const MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -52,7 +52,7 @@ export function calculatePregnancyProgress(dueDate: string) {
     day,
     percentage: +percentage.toFixed(1),
     trimester,
-    dueDate: dd.toLocaleDateString("en-GB", {
+    dueDate: dd.toLocaleDateString(locale, {
       day: "2-digit",
       month: "long",
       year: "numeric",

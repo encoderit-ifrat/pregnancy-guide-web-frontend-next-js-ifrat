@@ -5,13 +5,14 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const htmlString = weeklyDetails?.description;
 
   const updatedHtml = htmlString?.replace("$name", userData?.name);
   const titledHtml = weeklyDetails?.title?.replace("$name", userData?.name);
   const pregnancyProgressInfo = calculatePregnancyProgress(
-    userData?.details?.due_date || ""
+    userData?.details?.due_date || "",
+    locale
   );
 
   const currentProgress = {
