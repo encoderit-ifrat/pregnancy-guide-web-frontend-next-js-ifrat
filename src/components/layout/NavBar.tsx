@@ -113,8 +113,8 @@ export default function Navbar({
           onClick={() => handleScroll("left")}
         />
 
+        {/* Scrollable Navigation Menu */}
         <div>
-          {/* Scrollable Navigation Menu */}
           <NavigationMenu>
             <div
               ref={scrollRef}

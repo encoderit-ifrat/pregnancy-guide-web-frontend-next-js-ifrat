@@ -65,24 +65,21 @@ export default function ExpandableSearchBar({
   };
 
   return (
-    <div ref={ref} className="relative flex items-center">
+    <div ref={ref} className="relative flex items-center gap-0">
       {/* 🔹 Collapsed Icon */}
-      {!expanded && (
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          expanded ? "max-w-0 opacity-0" : "max-w-12 opacity-100"
+        }`}
+      >
         <Button
-          // variant="outline"
           size="icon"
           className="border-none outline-none bg-primary-light transition-colors hover:text-primary p-4 shadow-none [&_svg]:bg-transparent [&_svg]:text-primary-dark"
-          // onClick={() => router.replace("/search-article")}
           onClick={handleExpand}
         >
-          {/* <div
-            className="bg-primary-light text-secondary transition-colors hover:text-primary p-4 rounded-full"
-            aria-label="Search"
-          > */}
           <Search className="rounded-full size-8" />
-          {/* </div> */}
         </Button>
-      )}
+      </div>
 
       {/* 🔹 Expanded Search */}
       <form
@@ -91,7 +88,7 @@ export default function ExpandableSearchBar({
           if (!expanded || !searchTerm) return;
           handleSearch();
         }}
-        className={`mt-2 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${
           expanded ? "w-96 opacity-100" : "w-0 opacity-0"
         }`}
       >
