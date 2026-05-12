@@ -224,14 +224,16 @@ export function Header() {
             </div>
 
             <div
-              className={`overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out ${
+              className={`transition-all duration-300 ease-in-out ${
                 isSearchExpanded
                   ? "max-w-0 opacity-0"
                   : "max-w-[600px] opacity-100"
               }`}
             >
               <div className="flex items-center gap-4">
-                <Navbar isSearchExpanded={isSearchExpanded} />
+                <div className="overflow-hidden whitespace-nowrap">
+                  <Navbar isSearchExpanded={isSearchExpanded} />
+                </div>
 
                 {/* Functions Menu Dropdown */}
                 <div
