@@ -2,6 +2,7 @@ import React from "react";
 import { calculatePregnancyProgress } from "@/utlis/calculateDate";
 import { PregnancyDetailsProps } from "../_types/pregnancy_details_types";
 import { useTranslation } from "@/hooks/useTranslation";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
   return (
     <section className="w-full container-xl my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
-        <Cards>
+        <Cards className="px-6 py-6">
           <h3 className="text-primary-dark text-lg md:text-[22px] font-semibold mb-2">
             {t(
               `pregnancy.trimesters.${currentProgress?.trimester?.toString().match(/\d/)?.[0] || "1"}`
@@ -59,7 +60,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
             {t("pregnancy.completed")}
           </div> */}
         </Cards>
-        <Cards>
+        <Cards className="px-6 py-6">
           <span className="text-primary-dark font-medium md:font-semibold mb-4 block">
             {titledHtml || t("checklists.form.description")}
           </span>
@@ -70,18 +71,24 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
             />
           )}
         </Cards>
-        <Cards>
-          <div className="mb-2">
-            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
-              {t("pregnancy.dueDate")}
-            </span>{" "}
-            {pregnancyProgressInfo?.dueDate}
-          </div>
-          <div>
-            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
-              {t("pregnancy.daysRemaining")}
-            </span>{" "}
-            {pregnancyProgressInfo?.daysLeft} {t("pregnancy.days")}
+        <Cards className="px-0 py-0">
+          <div className="w-full h-full relative">
+            <img
+              src={imageLinkGenerator(weeklyDetails?.image)}
+              alt="img"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 h-full w-1/2 flex flex-col justify-center gap-2 ">
+              <h3 className="text-primary-dark text-center text-lg md:text-[22px] font-medium md:font-semibold">
+                {weeklyDetails?.description_one}
+              </h3>
+              <h3 className="text-primary-dark text-center text-lg md:text-[22px] font-medium md:font-semibold">
+                {weeklyDetails?.description_two}
+              </h3>
+              <h3 className="text-primary-dark text-center text-lg md:text-[22px] font-medium md:font-semibold">
+                {weeklyDetails?.description_three}
+              </h3>
+            </div>
           </div>
         </Cards>
       </div>
@@ -100,7 +107,7 @@ function Cards({
 }) {
   return (
     <div
-      className={`border-t-10 border-t-primary rounded-lg bg-white px-6 py-6 text-xl ${className}`}
+      className={`border-t-10 border-t-primary rounded-lg bg-white text-xl overflow-hidden ${className}`}
     >
       {children}
     </div>

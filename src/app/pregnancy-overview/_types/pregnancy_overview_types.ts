@@ -37,6 +37,10 @@ export type WeeklyDetails = {
   title: string;
   description: string;
   week: number;
+  image?: string;
+  description_one?: string;
+  description_two?: string;
+  description_three?: string;
 };
 
 export type Question = {
@@ -46,9 +50,9 @@ export type Question = {
   week: number;
 };
 
-import { 
-  ChecklistItem, 
-  ChecklistItemWithItems as Checklist 
+import {
+  ChecklistItem,
+  ChecklistItemWithItems as Checklist,
 } from "../../check-lists/_types/checklist_item_types";
 
 export type { ChecklistItem, Checklist };
