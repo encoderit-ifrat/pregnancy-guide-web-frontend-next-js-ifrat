@@ -12,23 +12,24 @@ export const calculateLPDFromDueDate = (dueDate: string): string => {
   return lpd.toISOString();
 };
 
-export function calculatePregnancyProgress(lastPeriodDate: string) {
-  if (!lastPeriodDate) return null;
+export function calculatePregnancyProgress(dueDate: string) {
+  if (!dueDate) return null;
 
-  const now = new Date();
-  now.setHours(0, 0, 0, 0); // Reset to midnight
+  const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-  const lastPeriod = new Date(lastPeriodDate);
-  lastPeriod.setHours(0, 0, 0, 0); // Reset to midnight
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  const dueDate = new Date(lastPeriod);
-  dueDate.setDate(lastPeriod.getDate() + 280);
+  const dd = new Date(dueDate);
+  dd.setHours(0, 0, 0, 0);
+
+  const pregnancyStart = new Date(dd);
+  pregnancyStart.setDate(dd.getDate() - 280);
 
   const diffDays = Math.floor(
-    (now.getTime() - lastPeriod.getTime()) / (1000 * 60 * 60 * 24)
+    (today.getTime() - pregnancyStart.getTime()) / MS_PER_DAY
   );
 
-  // Handle invalid dates
   if (diffDays < 0) return null;
 
   const week = Math.floor(diffDays / 7);
@@ -43,7 +44,7 @@ export function calculatePregnancyProgress(lastPeriodDate: string) {
 
   const daysLeft = Math.max(
     0,
-    Math.floor((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    Math.floor((dd.getTime() - today.getTime()) / MS_PER_DAY)
   );
 
   return {
@@ -51,12 +52,12 @@ export function calculatePregnancyProgress(lastPeriodDate: string) {
     day,
     percentage: +percentage.toFixed(1),
     trimester,
-    dueDate: dueDate.toLocaleDateString("en-GB", {
+    dueDate: dd.toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     }),
     daysLeft,
-    isOverdue: diffDays > totalDays, // Optional: flag overdue pregnancies
+    isOverdue: diffDays > totalDays,
   };
 }
