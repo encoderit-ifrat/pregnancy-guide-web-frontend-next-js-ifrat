@@ -43,7 +43,7 @@ export function DatePicker({
       <PopoverTrigger asChild>
         <Button
           variant="tertiary"
-          className="w-full justify-between rounded-full py-4 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+          className="w-full justify-between rounded-full py-4 pl-10 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
         >
           {value ? value.toLocaleDateString() : placeholder}
           <ChevronDownIcon />

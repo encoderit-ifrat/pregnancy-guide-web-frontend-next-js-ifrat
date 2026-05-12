@@ -6,9 +6,14 @@ import Image from "next/image";
 import IconPlus from "@/assets/IconPlus";
 import { AppDialog } from "@/components/base/AppDialog";
 import { CircleIcon } from "@/components/ui/CircleIcon";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Calendar } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import FormProfile from "@/components/Form/FormProfile";
+import { DatePicker } from "@/components/ui/DatePicker";
+import {
+  useBabyUpdate,
+  babyRequestType,
+} from "../_api/mutations/useBabyUpdate";
 import {
   BasicProfileRequestType,
   useBasicProfileUpdate,
@@ -45,6 +50,173 @@ import PartnerInvite from "./PartnerInvite";
 
 export const getInitial = (name?: string): string => {
   return name ? name.charAt(0).toUpperCase() : "U";
+};
+
+const BabyProfileCard = ({
+  profile,
+  user,
+  refetch,
+}: {
+  profile: BabyProfile;
+  user: any;
+  refetch: () => void;
+}) => {
+  const { t } = useTranslation();
+  const { mutate: babyUpdate } = useBabyUpdate(profile._id);
+  const [localDueDate, setLocalDueDate] = useState<Date | undefined>(
+    profile.due_date ? new Date(profile.due_date) : undefined
+  );
+  const [localLastPeriodDate, setLocalLastPeriodDate] = useState<
+    Date | undefined
+  >(
+    profile.last_period_date
+      ? new Date(profile.last_period_date)
+      : undefined
+  );
+
+  useEffect(() => {
+    setLocalDueDate(
+      profile.due_date ? new Date(profile.due_date) : undefined
+    );
+    setLocalLastPeriodDate(
+      profile.last_period_date
+        ? new Date(profile.last_period_date)
+        : undefined
+    );
+  }, [profile.due_date, profile.last_period_date]);
+
+  const handleDateChange =
+    (field: "due_date" | "last_period_date") => (date: Date | undefined) => {
+      if (!date) return;
+      if (field === "due_date") setLocalDueDate(date);
+      else setLocalLastPeriodDate(date);
+      const loadingToastId = toast.loading(t("common.loading"));
+      const isoDate = date.toISOString();
+      const updated: babyRequestType = {
+        due_date:
+          field === "due_date" ? isoDate : profile.due_date || undefined,
+        last_period_date:
+          field === "last_period_date"
+            ? isoDate
+            : profile.last_period_date || undefined,
+        upcoming: true,
+      };
+      babyUpdate(updated, {
+        onSuccess: () => {
+          toast.dismiss(loadingToastId);
+          refetch();
+          toast.success(t("profile.updateSuccess"));
+        },
+        onError: () => {
+          toast.dismiss(loadingToastId);
+          toast.error(t("profile.updateFailed"));
+        },
+      });
+    };
+
+  return (
+    <div className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light">
+      <div className="flex flex-wrap items-center justify-center gap-2 py-6">
+        <BabyPercentage
+          percentage={user?.details?.current_pregnancy_data?.percentage || 0}
+          profile={profile}
+        />
+        <div className="mx-auto text-center lg:text-left">
+          <p className="text-lg lg:text-2xl">{t("profile.pregnant")}</p>
+          <p className="text-lg lg:text-2xl mb-4">
+            <span className="text-primary">
+              {profile.upcoming ? t("profile.beenPregnant") : profile.name}
+            </span>
+            :
+            {profile.upcoming
+              ? `${
+                  user?.details?.current_pregnancy_data?.week || 0
+                } ${t("pregnancy.weeks")} ${
+                  user?.details?.current_pregnancy_data?.day || 0
+                } ${t("pregnancy.days")}`
+              : t("profile.newborn")}
+          </p>
+
+          {/* Previous action buttons - kept for reference */}
+          {/*
+          {user?.roles?.[0]?.name === "user" && (
+            <div className="flex items-center justify-center lg:justify-start gap-2">
+              <AppDialog
+                title={t("profile.editBabyProfile")}
+                customTrigger={
+                  <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
+                    <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
+                    <span className="text-sm">{t("profile.edit")}</span>
+                  </button>
+                }
+              >
+                {(close) => (
+                  <FormProfile
+                    initialData={profile}
+                    onSubmitForDialogAndRefetch={async () => {
+                      await refetch();
+                      close();
+                    }}
+                  />
+                )}
+              </AppDialog>
+              <button
+                className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
+                onClick={() => {
+                  setFormData({ type: "delete", id: profile._id });
+                }}
+              >
+                <Trash2 className="size-4 cursor-pointer mr-2" />
+                <span className="text-sm">{t("profile.delete")}</span>
+              </button>
+            </div>
+          )}
+          */}
+
+          <div className="flex flex-col gap-2">
+            <div>
+              {localDueDate && (
+                <p className="text-xs text-text-mid mb-1">
+                  {t("formProfile.dueDatePlaceholder")}
+                </p>
+              )}
+              <div className="relative">
+                <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 pointer-events-none">
+                  <Calendar className="w-4 h-4 text-text-mid" />
+                </div>
+                <DatePicker
+                  key={String(localDueDate?.getTime() ?? "due-empty")}
+                  value={localDueDate}
+                  onChange={handleDateChange("due_date")}
+                  placeholder={t("formProfile.dueDatePlaceholder")}
+                />
+              </div>
+            </div>
+            <div>
+              {localLastPeriodDate && (
+                <p className="text-xs text-text-mid mb-1">
+                  {t("formProfile.lastPeriodPlaceholder")}
+                </p>
+              )}
+              <div className="relative">
+                <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 pointer-events-none">
+                  <Calendar className="w-4 h-4 text-text-mid" />
+                </div>
+                <DatePicker
+                  key={String(
+                    localLastPeriodDate?.getTime() ?? "lpd-empty"
+                  )}
+                  value={localLastPeriodDate}
+                  onChange={handleDateChange("last_period_date")}
+                  placeholder={t("formProfile.lastPeriodPlaceholder")}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default function ProfilePage() {
@@ -357,10 +529,10 @@ export default function ProfilePage() {
                         control={form.control}
                         name={
                           item.key as
-                          | "name"
-                          | "familyName"
-                          | "partnerName"
-                          | "email"
+                            | "name"
+                            | "familyName"
+                            | "partnerName"
+                            | "email"
                         } // Fix: use the actual field name
                         render={({ field }) => (
                           <FormItem className="mb-3 sm:mb-4 lg:mb-2">
@@ -417,137 +589,12 @@ export default function ProfilePage() {
             <div className="flex flex-col gap-4">
               {babyProfiles.length > 0 ? (
                 babyProfiles.map((profile, index) => (
-                  <div
+                  <BabyProfileCard
                     key={index}
-                    className="bg-white transition px-4 rounded-lg shadow-xl shadow-primary-light"
-                  >
-                    <div className="flex flex-wrap items-center justify-center gap-2 py-6">
-                      <BabyPercentage
-                        percentage={
-                          user?.details?.current_pregnancy_data?.percentage || 0
-                        }
-                        profile={profile}
-                      />
-
-                      <div className="mx-auto text-center lg:text-left">
-                        <p className="text-lg lg:text-2xl">
-                          {t("profile.pregnant")}
-                        </p>
-                        <p className="text-lg lg:text-2xl mb-4">
-                          <span className="text-primary">
-                            {profile.upcoming
-                              ? t("profile.beenPregnant")
-                              : profile.name}
-                          </span>
-                          :
-                          {profile.upcoming
-                            ? `${user?.details?.current_pregnancy_data?.week || 0
-                            } ${t("pregnancy.weeks")} ${user?.details?.current_pregnancy_data?.day || 0
-                            } ${t("pregnancy.days")}`
-                            : t("profile.newborn")}
-                        </p>
-
-                        {/* Actions */}
-                        {user?.roles?.[0]?.name === "user" && (
-                          <div className="flex items-center justify-center lg:justify-start gap-2">
-                            {/* Edit Baby Profile */}
-                            <AppDialog
-                              title={t("profile.editBabyProfile")}
-                              customTrigger={
-                                <button className="px-4 py-2 bg-primary-light rounded-sm flex items-center">
-                                  <Pencil className="size-4 md:size-4 cursor-pointer mr-2" />
-                                  <span className="text-sm">
-                                    {t("profile.edit")}
-                                  </span>
-                                </button>
-                              }
-                            >
-                              {(close) => (
-                                <FormProfile
-                                  initialData={profile}
-                                  onSubmitForDialogAndRefetch={async () => {
-                                    await refetch();
-                                    close();
-                                  }}
-                                />
-                              )}
-                            </AppDialog>
-
-                            {/* Delete Baby Profile */}
-                            <button
-                              className="px-4 py-2 bg-primary-light rounded-sm flex items-center"
-                              onClick={() => {
-                                setFormData({
-                                  type: "delete",
-                                  id: profile._id,
-                                });
-                              }}
-                            >
-                              <Trash2 className="size-4 cursor-pointer mr-2" />
-                              <span className="text-sm">
-                                {t("profile.delete")}
-                              </span>
-                            </button>
-                          </div>
-                        )}
-                        <AlertDialog
-                          open={formData.type == "delete"}
-                          onOpenChange={() =>
-                            setFormData({ type: "default", id: "" })
-                          }
-                        >
-                          {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                {t("profile.deleteConfirmTitle")}
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                {t("profile.deleteConfirmDesc")}
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>
-                                {t("common.cancel")}
-                              </AlertDialogCancel>
-                              <Button
-                                onClick={() => {
-                                  babyDelete(
-                                    { id: formData.id },
-                                    {
-                                      onSuccess: async (data) => {
-                                        await refetch();
-                                        toast.success(
-                                          data?.data?.message ||
-                                          t("profile.deleteSuccess")
-                                        );
-                                        setFormData({
-                                          type: "default",
-                                          id: "",
-                                        });
-                                      },
-
-                                      onError(error) {
-                                        setFormData({
-                                          type: "default",
-                                          id: "",
-                                        });
-                                      },
-                                    }
-                                  );
-                                }}
-                                disabled={babyDeletePending}
-                              >
-                                {babyDeletePending
-                                  ? t("common.loading")
-                                  : t("common.confirm")}
-                              </Button>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </div>
-                  </div>
+                    profile={profile}
+                    user={user}
+                    refetch={refetch}
+                  />
                 ))
               ) : (
                 <p className="text-center text-gray-500">

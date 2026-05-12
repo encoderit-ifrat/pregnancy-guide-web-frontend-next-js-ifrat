@@ -1,11 +1,52 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Calendar } from "lucide-react";
+import { DatePicker } from "@/components/ui/DatePicker";
+import { Button } from "@/components/ui/Button";
+import { useBabyCreate, babyRequestType } from "@/app/profile/_api/mutations/useBabyCreate";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { toast } from "sonner";
+import { calculateDueDateFromLPD } from "@/utlis/calculateDate";
 
 function NoPregnancyInfo() {
   const { t } = useTranslation();
+  const router = useRouter();
+  const { refetch } = useCurrentUser();
+  const { mutate: babyCreate, isPending } = useBabyCreate();
+
+  const [dueDate, setDueDate] = useState<Date | undefined>();
+  const [lastPeriodDate, setLastPeriodDate] = useState<Date | undefined>();
+
+  const handleLastPeriodChange = (date: Date | undefined) => {
+    setLastPeriodDate(date);
+    if (date && !dueDate) {
+      const calculatedDueDate = calculateDueDateFromLPD(date.toISOString());
+      setDueDate(new Date(calculatedDueDate));
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!dueDate && !lastPeriodDate) return;
+    const values: babyRequestType = {
+      due_date: dueDate?.toISOString(),
+      last_period_date: lastPeriodDate?.toISOString(),
+      upcoming: true,
+    };
+    babyCreate(values, {
+      onSuccess: () => {
+        toast.success(t("profile.updateSuccess"));
+        refetch();
+        router.push("/profile");
+      },
+      onError: () => {
+        toast.error(t("profile.updateFailed"));
+      },
+    });
+  };
 
   return (
     <div className="bg-primary-light">
@@ -39,25 +80,57 @@ function NoPregnancyInfo() {
               {t("pregnancy.noInfoDesc")}
             </p>
 
-            <Link
-              href="/profile"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex flex-col gap-3 text-left">
+              <div>
+                {dueDate && (
+                  <p className="text-xs text-text-mid mb-1">
+                    {t("formProfile.dueDatePlaceholder")}
+                  </p>
+                )}
+                <div className="relative">
+                  <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 pointer-events-none">
+                    <Calendar className="w-5 h-5 text-text-mid" />
+                  </div>
+                  <div className="[&_button]:rounded-full [&_button]:pl-12 [&_button]:w-full [&_button]:justify-start [&_button]:font-normal [&_button]:text-text-mid [&_button]:!bg-white [&_button]:!border [&_button]:!border-input [&_button]:border-solid [&_button]:hover:!bg-white [&_button>svg]:hidden">
+                    <DatePicker
+                      key={String(dueDate?.getTime() ?? "due-empty")}
+                      value={dueDate}
+                      onChange={setDueDate}
+                      placeholder={t("formProfile.dueDatePlaceholder")}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                {lastPeriodDate && (
+                  <p className="text-xs text-text-mid mb-1">
+                    {t("formProfile.lastPeriodPlaceholder")}
+                  </p>
+                )}
+                <div className="relative">
+                  <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 pointer-events-none">
+                    <Calendar className="w-5 h-5 text-text-mid" />
+                  </div>
+                  <div className="[&_button]:rounded-full [&_button]:pl-12 [&_button]:w-full [&_button]:justify-start [&_button]:font-normal [&_button]:text-text-mid [&_button]:!bg-white [&_button]:!border [&_button]:!border-input [&_button]:border-solid [&_button]:hover:!bg-white [&_button>svg]:hidden">
+                    <DatePicker
+                      key={String(lastPeriodDate?.getTime() ?? "lpd-empty")}
+                      value={lastPeriodDate}
+                      onChange={handleLastPeriodChange}
+                      placeholder={t("formProfile.lastPeriodPlaceholder")}
+                    />
+                  </div>
+                </div>
+              </div>
+              <Button
+                onClick={handleSubmit}
+                isLoading={isPending}
+                disabled={isPending || (!dueDate && !lastPeriodDate)}
+                className="w-full mt-2"
+                size="lg"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              {t("pregnancy.addData")}
-            </Link>
+                {t("formProfile.saveProfile")}
+              </Button>
+            </div>
 
             {/* Decorative dots */}
             <div className="mt-8 flex justify-center gap-2">
