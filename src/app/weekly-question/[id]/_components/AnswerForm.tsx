@@ -201,7 +201,7 @@ export const AnswerFormPercentage = ({
           >
             <div className="z-10 text-primary-text px-4 py-3 flex items-center gap-4">
               <strong className="text-xl md:text-2xl font-medium">
-                {percentage}%
+                {Math.round(percentage)}%
               </strong>{" "}
               <span className="text-lg md:text-xl">{option.content}</span>
             </div>

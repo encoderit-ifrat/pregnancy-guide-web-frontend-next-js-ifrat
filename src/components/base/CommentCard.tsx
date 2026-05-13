@@ -1,6 +1,12 @@
 "use client";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import { MessageCircle, Send, ThumbsDown, ThumbsUp } from "lucide-react";
+import {
+  FlagIcon,
+  MessageCircle,
+  Send,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useQuestionLike } from "@/app/pregnancy-overview/_api/mutation/useQuestionLike";
@@ -220,7 +226,7 @@ export default function CommentCard({
                     "bg-primary text-white border-primary hover:bg-primary/90"
                 )}
               >
-                <ThumbsDown
+                <FlagIcon
                   className={cn("h-3.5 w-3.5", isDisliked && "fill-current")}
                 />
               </Button>
