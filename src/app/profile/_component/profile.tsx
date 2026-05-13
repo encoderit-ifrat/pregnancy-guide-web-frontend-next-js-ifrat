@@ -68,20 +68,12 @@ const BabyProfileCard = ({
   );
   const [localLastPeriodDate, setLocalLastPeriodDate] = useState<
     Date | undefined
-  >(
-    profile.last_period_date
-      ? new Date(profile.last_period_date)
-      : undefined
-  );
+  >(profile.last_period_date ? new Date(profile.last_period_date) : undefined);
 
   useEffect(() => {
-    setLocalDueDate(
-      profile.due_date ? new Date(profile.due_date) : undefined
-    );
+    setLocalDueDate(profile.due_date ? new Date(profile.due_date) : undefined);
     setLocalLastPeriodDate(
-      profile.last_period_date
-        ? new Date(profile.last_period_date)
-        : undefined
+      profile.last_period_date ? new Date(profile.last_period_date) : undefined
     );
   }, [profile.due_date, profile.last_period_date]);
 
@@ -122,18 +114,22 @@ const BabyProfileCard = ({
           profile={profile}
         />
         <div className="mx-auto text-center lg:text-left">
-          <p className="text-lg lg:text-2xl">{t("profile.pregnant")}</p>
-          <p className="text-lg lg:text-2xl mb-4">
+          <p className="text-lg lg:text-2xl mb-4 !text-primary">
             <span className="text-primary">
               {profile.upcoming ? t("profile.beenPregnant") : profile.name}
-            </span>
-            :
+            </span>{" "}
+            :{" "}
             {profile.upcoming
               ? `${
                   user?.details?.current_pregnancy_data?.week || 0
                 } ${t("pregnancy.weeks")} ${
                   user?.details?.current_pregnancy_data?.day || 0
-                } ${t("pregnancy.days")}`
+                } ${
+                  user?.details?.current_pregnancy_data?.day === 1 ||
+                  user?.details?.current_pregnancy_data?.day === 0
+                    ? t("pregnancy.profileday")
+                    : t("pregnancy.profiledays")
+                }`
               : t("profile.newborn")}
           </p>
 
@@ -203,9 +199,7 @@ const BabyProfileCard = ({
                   <Calendar className="w-4 h-4 text-text-mid" />
                 </div>
                 <DatePicker
-                  key={String(
-                    localLastPeriodDate?.getTime() ?? "lpd-empty"
-                  )}
+                  key={String(localLastPeriodDate?.getTime() ?? "lpd-empty")}
                   value={localLastPeriodDate}
                   onChange={handleDateChange("last_period_date")}
                   placeholder={t("formProfile.lastPeriodPlaceholder")}
