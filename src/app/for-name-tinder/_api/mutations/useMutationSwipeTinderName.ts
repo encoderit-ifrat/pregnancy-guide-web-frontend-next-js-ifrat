@@ -7,6 +7,7 @@ export interface SwipeResponse {
   success: boolean;
   message: string;
   data: {
+    partner_liked: any;
     _id: string;
     name: string;
     gender: string;

@@ -35,12 +35,12 @@
     }
   },
   "header": {
-    "login": "Logga In",
-    "logout": "Logga Ut",
-    "download": "Ladda Ner",
-    "myAccount": "Mitt Konto",
+    "login": "Logga in",
+    "logout": "Logga ut",
+    "download": "Ladda ner",
+    "myAccount": "Mitt konto",
     "profile": "Profil",
-    "changePassword": "Byt Lösenord",
+    "changePassword": "Byt lösenord",
     "search": "Sök ...",
     "functions": "Funktioner",
     "language": "Språk",
@@ -135,7 +135,7 @@
     "title": "Det tycker våra användare om oss"
   },
   "login": {
-    "title": "Logga In",
+    "title": "Logga in",
     "description": "Logga in på ditt befintliga Familj-konto.",
     "email": "E-post",
     "emailPlaceholder": "Användarens e-post",
