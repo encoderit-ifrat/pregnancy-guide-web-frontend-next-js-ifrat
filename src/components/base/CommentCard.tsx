@@ -24,6 +24,7 @@ import { useCreateComment } from "@/app/weekly-question/[id]/_api/mutations/useC
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { SectionHeading } from "../ui/text/SectionHeading";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export type TCommentCard = {
   _id: string;
@@ -62,7 +63,7 @@ export default function CommentCard({
   onActionSuccess,
 }: TCommentCardProps) {
   const { user: currentUser } = useCurrentUser();
-
+  const { t } = useTranslation();
   const {
     _id,
     question_id,
@@ -174,7 +175,7 @@ export default function CommentCard({
           {/* Comment Content */}
           <p className="h-full text-gray-800 text-sm leading-relaxed mb-2">
             {/* {content || "No answer"} */}
-            {comment || "No answer"}
+            {comment || t("weeklyQuestion.noAnswer")}
           </p>
           <div
             onClick={() => setIsOpen(!isOpen)}
@@ -185,10 +186,10 @@ export default function CommentCard({
               <span className="text-xs font-medium text-gray-600 hover:text-primary">
                 {allComments.length > 0 ? allComments.length : ""}{" "}
                 {allComments.length === 0
-                  ? "Add Comment"
+                  ? t("weeklyQuestion.addComment")
                   : allComments.length === 1
-                    ? "Comment"
-                    : "Comments"}
+                    ? t("weeklyQuestion.comment")
+                    : t("weeklyQuestion.comments")}
               </span>
             </div>
           </div>
@@ -205,7 +206,7 @@ export default function CommentCard({
                 className={cn(
                   "h-8 w-8 rounded-full",
                   isLiked &&
-                    "bg-primary text-white border-primary hover:bg-primary/90"
+                  "bg-primary text-white border-primary hover:bg-primary/90"
                 )}
               >
                 <ThumbsUp
@@ -223,7 +224,7 @@ export default function CommentCard({
                 className={cn(
                   "h-8 w-8 rounded-full",
                   isDisliked &&
-                    "bg-primary text-white border-primary hover:bg-primary/90"
+                  "bg-primary text-white border-primary hover:bg-primary/90"
                 )}
               >
                 <FlagIcon
@@ -263,7 +264,7 @@ export default function CommentCard({
                     <div>
                       <p className="text-[10px] font-bold text-gray-700 leading-tight">
                         {comment?.user?._id == currentUser.id
-                          ? "You"
+                          ? t("weeklyQuestion.you")
                           : comment?.user?.name}
                       </p>
                       <p className="text-xs text-gray-700 leading-relaxed">
@@ -275,12 +276,12 @@ export default function CommentCard({
               </div>
             )}
             <div className="p-1">
-              <SectionHeading variant="h3" className="mb-0 pb-0">
-                Share Your Comment
-              </SectionHeading>
+              {/* <SectionHeading variant="h3" className="mb-0 pb-0">
+                {t("weeklyQuestion.shareComment")}
+              </SectionHeading> */}
               <div className="relative">
                 <Textarea
-                  placeholder="Write your comment here..."
+                  placeholder={t("weeklyQuestion.commentPlaceholder")}
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
@@ -294,7 +295,7 @@ export default function CommentCard({
                     disabled={isPending}
                     className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
                   >
-                    Submit
+                    {t("weeklyQuestion.submitComment")}
                   </Button>
                 </div>
               </div>

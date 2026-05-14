@@ -50,9 +50,9 @@
     "forNameTinder": "Namnswajp"
   },
   "footer": {
-    "quickLinks": "Snabblänkar",
-    "additionalLink": "Ytterligare Länk",
-    "socialLink": "Sociala Länkar",
+    "quickLinks": "Graviditet och föräldraskap",
+    "additionalLink": "Hjälp och support",
+    "socialLink": "Följ oss",
     "copyright": "Copyright © {year} Familj.se. Alla rättigheter förbehållna.",
     "termsConditions": "Villkor",
     "privacyPolicy": "Integritetspolicy",
@@ -321,7 +321,6 @@
       "status": "{done} av {total} uppgifter"
     }
   },
-
   "publishedThreads": {
     "active": "aktiv",
     "finalized": "slutförd",
