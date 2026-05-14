@@ -4,10 +4,9 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 // import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { Link2, ThumbsDown, Loader2, ChevronRight, Heart } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient } from "@tanstack/react-query";
-
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -24,16 +23,13 @@ import { useMutationSwipeTinderName } from "./_api/mutations/useMutationSwipeTin
 import { useMutationDislikeAllTinderNames } from "./_api/mutations/useMutationDislikeAllTinderNames";
 import Pagination from "@/components/base/Pagination";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import IconLike from "@/components/svg-icon/icon-like";
-import IconLove from "@/components/svg-icon/icon-love";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import IconHeading from "@/components/ui/text/IconHeading";
-import IconQuestion from "@/components/svg-icon/icon-question";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import Loading from "../loading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { useSession } from "next-auth/react";
 
 function SkeletonCommunityCard() {
   return (
@@ -53,6 +49,8 @@ function SkeletonCommunityCard() {
 }
 
 export default function Page() {
+  const session = useSession();
+  const token = session.data?.token || null;
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -116,7 +114,6 @@ export default function Page() {
   // gender radio: "male" | "female" | "unisex"
   const [selectedGender, setSelectedGender] =
     useState<TinderNameGender>("male");
-  // flip to true when user clicks Next in the gender section to fire the query
   const [fetchEnabled, setFetchEnabled] = useState(false);
 
   const {
@@ -134,8 +131,13 @@ export default function Page() {
 
   const [displayNames, setDisplayNames] = useState<TinderName[]>([]);
   const [matchedName, setMatchedName] = useState<string | null>(null);
+  const [pendingSwipeIds, setPendingSwipeIds] = useState<Set<string>>(new Set());
+  const [isFetchingNewBatch, setIsFetchingNewBatch] = useState(false);
+  // ref-based counter avoids stale closure issues when checking "all swiped"
+  const swipedCountRef = useRef(0);
+  const totalNamesRef = useRef(0);
 
-  const { mutate: swipeName, isPending: swipePending } =
+  const { mutateAsync: swipeNameAsync, isPending: swipePending } =
     useMutationSwipeTinderName();
   const { mutate: dislikeAll, isPending: dislikeAllPending } =
     useMutationDislikeAllTinderNames();
@@ -143,19 +145,14 @@ export default function Page() {
   // When data arrives open the match dialog
   useEffect(() => {
     if (fetchEnabled && tinderSuccess && !tinderFetching) {
-      setDisplayNames(tinderData?.data || []);
+      const incoming = tinderData?.data || [];
+      setDisplayNames(incoming);
+      swipedCountRef.current = 0; // reset counter for new batch
+      totalNamesRef.current = incoming.length; // store total for comparison
       setOpenMatchDialog(true);
       setOpenSwipeDialog(false); // Close the category dialog after fetch is complete
       setFetchEnabled(false);
       setMatchedName(null);
-
-      // Reset selections after fetch
-      setSelectedGender("male");
-      if (apiCategories.length > 0) {
-        setSelectedCategory(apiCategories[0]._id);
-      } else {
-        setSelectedCategory("");
-      }
     }
   }, [
     tinderSuccess,
@@ -390,8 +387,12 @@ export default function Page() {
           </div>
         </div>
       </div>
+      {/* 1st modal */}
       <Dialog open={openSwipeDialog} onOpenChange={setOpenSwipeDialog}>
-        <DialogContent className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-5 pt-8">
+        <DialogContent
+          className="w-[95vw] sm:max-w-xl bg-white max-h-[90vh] overflow-y-auto p-5 pt-8"
+          translate="no"
+        >
           <DialogTitle className="sr-only">
             {t("forNameTinder.startSwiping")}
           </DialogTitle>
@@ -578,8 +579,9 @@ export default function Page() {
           )}
         </DialogContent>
       </Dialog>
+      {/* 2nd modal */}
       <Dialog open={openMatchDialog} onOpenChange={setOpenMatchDialog}>
-        <DialogContent className="sm:max-w-xl bg-white p-5">
+        <DialogContent className="sm:max-w-xl bg-white p-5" translate="no">
           <DialogTitle className="sr-only">
             {t("forNameTinder.thisNameIsMatched")}
           </DialogTitle>
@@ -604,35 +606,72 @@ export default function Page() {
           )}
           {!tinderLoading && !tinderError && (
             <>
-              {displayNames.length === 0 ? (
+              {isFetchingNewBatch ? (
+                <div className="flex justify-center items-center py-8">
+                  <Loader2 className="size-8 animate-spin text-primary" />
+                </div>
+              ) : displayNames.length === 0 ? (
                 <p className="text-center text-primary-color py-4">
                   {t("forNameTinder.noNamesFoundFilters")}
                 </p>
               ) : (
-                displayNames.map((nameItem, index) => {
+                displayNames.map((nameItem) => {
+                  const itemId = String(nameItem._id);
                   return (
-                    <div key={index} className="flex items-center gap-4">
+                    <div key={itemId} className="flex items-center gap-4">
                       <ToggleGroup
                         type="single"
-                        onValueChange={(value) => {
-                          if (value)
-                            swipeName(
-                              {
-                                id: String(nameItem._id),
-                                action: value as "love" | "dislike",
-                              },
-                              {
-                                onSuccess: (res: any) => {
-                                  if (res?.data?.partner_liked) {
-                                    setMatchedName(nameItem.name);
-                                  } else {
-                                    setMatchedName(null);
-                                  }
-                                },
-                              }
+                        onValueChange={async (value) => {
+                          if (value) {
+                            // mark this item as pending
+                            setPendingSwipeIds(
+                              (prev) => new Set([...prev, itemId])
                             );
+                            try {
+                              const res = await swipeNameAsync({
+                                id: itemId,
+                                action: value as "love" | "dislike",
+                              });
+                              if (res?.data?.partner_liked) {
+                                setMatchedName(nameItem.name);
+                              } else {
+                                setMatchedName(null);
+                              }
+                              // clear pending for this specific item
+                              setPendingSwipeIds((prev) => {
+                                const next = new Set(prev);
+                                next.delete(itemId);
+                                return next;
+                              });
+                              swipedCountRef.current += 1;
+                              if (
+                                swipedCountRef.current >= totalNamesRef.current
+                              ) {
+                                // all swiped — fetch new batch directly
+                                setFetchEnabled(true);
+                                setIsFetchingNewBatch(true);
+                                refetchTinderNames().then((result: any) => {
+                                  const incoming = result?.data?.data || [];
+                                  setDisplayNames(incoming);
+                                  swipedCountRef.current = 0;
+                                  totalNamesRef.current = incoming.length;
+                                  setMatchedName(null);
+                                  setFetchEnabled(false);
+                                  setIsFetchingNewBatch(false);
+                                });
+                              }
+                            } catch (error) {
+                              setPendingSwipeIds((prev) => {
+                                const next = new Set(prev);
+                                next.delete(itemId);
+                                return next;
+                              });
+                            }
+                          }
                         }}
-                        disabled={swipePending}
+                        disabled={
+                          pendingSwipeIds.has(itemId) || isFetchingNewBatch || !token
+                        }
                         className="flex items-center gap-4 w-full"
                       >
                         <ToggleGroupItem
@@ -673,7 +712,16 @@ export default function Page() {
                       onSuccess: () => {
                         // setOpenMatchDialog(false);
                         setFetchEnabled(true);
-                        refetchTinderNames();
+                        setIsFetchingNewBatch(true);
+                        refetchTinderNames().then((result: any) => {
+                          const incoming = result?.data?.data || [];
+                          setDisplayNames(incoming);
+                          swipedCountRef.current = 0;
+                          totalNamesRef.current = incoming.length;
+                          setMatchedName(null);
+                          setFetchEnabled(false);
+                          setIsFetchingNewBatch(false);
+                        });
                       },
                     });
                   }}

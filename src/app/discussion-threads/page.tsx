@@ -27,6 +27,7 @@ import Loading from "../loading";
 import api from "@/lib/axios";
 import { omitEmpty } from "@/lib/utils";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const fetchThreads = async ({
   page = 1,
@@ -46,9 +47,12 @@ const fetchThreads = async ({
 };
 
 export default function Page() {
+  const router = useRouter();
+  const session = useSession();
   const { t, locale } = useTranslation();
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const queryClient = useQueryClient();
+
   const currentSort =
     (searchParams.get("sort") as ThreadSortOption) || "newest";
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -57,7 +61,6 @@ export default function Page() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareThreadId, setShareThreadId] = useState("");
   const [shareThreadTitle, setShareThreadTitle] = useState("");
-  const queryClient = useQueryClient();
 
   const shareMutation = useMutationShareThread();
 
@@ -74,16 +77,15 @@ export default function Page() {
       // We might want to refetch or update local state if needed,
       // but usually the mutation handles it or we rely on the next refresh.
       queryClient.invalidateQueries({ queryKey: ["get-threads"] });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["get-threads", activeTab, currentPage],
     refetchOnWindowFocus: true,
     queryFn: () => fetchThreads({ page: currentPage, sort: activeTab }),
+    enabled: !!session.data?.token,
   });
-
-  const paginationMeta = data?.data?.pagination;
 
   const handleNewThread = useCallback(() => {
     refetch();
@@ -119,6 +121,23 @@ export default function Page() {
     },
   });
 
+  useEffect(() => {
+    if (session.status !== "loading" && !session.data?.token) {
+      router.push("/login");
+    }
+  }, [session.status, session.data?.token, router]);
+
+  if (session.status === "loading" || (isLoading && session.data?.token)) {
+    return <Loading />;
+  }
+
+  if (!session.data?.token) {
+    return null;
+  }
+
+  const paginationMeta = data?.data?.pagination;
+
+
   const handleLike = (threadId: string) => {
     likeMutation.mutate(threadId);
   };
@@ -138,9 +157,9 @@ export default function Page() {
 
     const timeAgo = isValid(createdAtDate)
       ? formatDistanceToNow(createdAtDate, {
-          addSuffix: true,
-          locale: currentLocale,
-        })
+        addSuffix: true,
+        locale: currentLocale,
+      })
       : "";
 
     return {

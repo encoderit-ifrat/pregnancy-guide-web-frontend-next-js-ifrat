@@ -40,6 +40,7 @@ function NoPregnancyInfo() {
       onSuccess: () => {
         toast.success(t("profile.updateSuccess"));
         refetch();
+        router.refresh();
         router.push("/profile");
       },
       onError: () => {
@@ -54,7 +55,7 @@ function NoPregnancyInfo() {
         <div className="text-center max-w-md">
           {/* Icon/Illustration */}
           <div className="mb-6 flex justify-center">
-            <div className="w-24 h-24 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-24 h-24 bg-linear-to-br from-pink-200 to-purple-200 rounded-full flex items-center justify-center shadow-lg">
               <svg
                 className="w-12 h-12 text-purple-600"
                 fill="none"

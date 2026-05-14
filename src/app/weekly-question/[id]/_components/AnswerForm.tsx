@@ -53,11 +53,11 @@ type TProps = {
 };
 const AnswerFormContext = createContext<
   | (TProps & {
-      option: string;
-      setOption: (val: string) => void;
-      answerText: string;
-      setAnswerText: (val: string) => void;
-    })
+    option: string;
+    setOption: (val: string) => void;
+    answerText: string;
+    setAnswerText: (val: string) => void;
+  })
   | null
 >(null);
 const useAnswerFormContext = () => {
@@ -137,7 +137,7 @@ export const AnswerFormRadioGroup = ({
       }}
       className="mt-2 mb-4 flex flex-col gap-2"
       {...props}
-      // disabled={hasAnswered}
+    // disabled={hasAnswered}
     >
       {answer_options?.length > 0 &&
         answer_options.map((optionItem, idx) => {
@@ -147,11 +147,10 @@ export const AnswerFormRadioGroup = ({
               <label
                 htmlFor={optionItem._id}
                 // onClick={() => setOption(optionItem._id)}
-                className={`flex items-center gap-3 rounded-sm p-3 cursor-pointer transition-shadow ${
-                  isSelected
-                    ? "bg-primary text-white shadow-md"
-                    : "bg-[#F2EAFB] text-foreground hover:shadow-md"
-                }`}
+                className={`flex items-center gap-3 rounded-sm p-3 cursor-pointer transition-shadow ${isSelected
+                  ? "bg-primary text-white shadow-md"
+                  : "bg-[#F2EAFB] text-foreground hover:shadow-md"
+                  }`}
               >
                 <div
                   className={`flex items-center justify-center h-10 w-9 rounded-full ${isSelected ? "bg-white text-primary" : "bg-white border border-purple-100 text-primary"} font-medium`}
@@ -201,7 +200,7 @@ export const AnswerFormPercentage = ({
           >
             <div className="z-10 text-primary-text px-4 py-3 flex items-center gap-4">
               <strong className="text-xl md:text-2xl font-medium">
-                {percentage}%
+                {Math.round(percentage)}%
               </strong>{" "}
               <span className="text-lg md:text-xl">{option.content}</span>
             </div>

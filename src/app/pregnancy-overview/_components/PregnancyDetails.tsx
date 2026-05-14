@@ -24,7 +24,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
     <section className="w-full container-xl my-10">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6">
         <Cards className="px-6 py-6">
-          <h3 className="text-primary-dark text-lg md:text-[22px] font-semibold mb-2">
+          <h3 className="text-primary-dark text-center text-lg md:text-[22px] font-semibold mb-2">
             {t(
               `pregnancy.trimesters.${currentProgress?.trimester?.toString().match(/\d/)?.[0] || "1"}`
             )}
@@ -43,31 +43,23 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               </div>
             </div>
           </div>
-          <h3 className="text-lg md:text-[22px] mb-2">
+          <h3 className="text-center text-lg md:text-[22px] mb-2">
             <span className="text-primary-dark font-medium md:font-semibold">
               {pregnancyProgressInfo?.daysLeft || 0} {t("pregnancy.days")}
             </span>
-            {/* <span className="font-normal ml-1">
-              {currentProgress?.week || 0} {t("pregnancy.weeks")}{" "}
-              {currentProgress?.day || 0} {t("pregnancy.days")}
-            </span> */}
           </h3>
-          <div className="">
-            <span className="text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
-              {t("pregnancy.dueDate")} {pregnancyProgressInfo?.dueDate || ""}
-            </span>
-          </div>
-          {/* <div className="text-lg md:text-[22px] mb-2">
-            {t("pregnancy.completed")}
-          </div> */}
+
+          <h3 className="text-center text-primary-dark text-lg md:text-[22px] font-medium md:font-semibold">
+            {t("pregnancy.dueDate")} {pregnancyProgressInfo?.dueDate || ""}
+          </h3>
         </Cards>
         <Cards className="px-6 py-6">
-          <span className="text-primary-dark font-medium md:font-semibold mb-4 block">
+          <h3 className="text-primary-dark text-center font-medium md:font-semibold mb-4 block">
             {titledHtml || t("checklists.form.description")}
-          </span>
+          </h3>
           {weeklyDetails?.description && (
             <div
-              className="weekly-details"
+              className="weekly-details prose-p:text-center prose-h1:text-center prose-h2:text-center prose-h3:text-center prose-h4:text-center prose-h5:text-center prose-h6:text-center"
               dangerouslySetInnerHTML={{ __html: updatedHtml }}
             />
           )}

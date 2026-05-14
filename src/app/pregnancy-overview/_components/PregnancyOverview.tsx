@@ -41,7 +41,7 @@ export default function PregnancyOverview({
   const bannerArticle = articles?.bannerArticle || [];
   const weeklyArticle = articles?.weeklyArticles || [];
 
-  const week = userProfile?.details?.current_pregnancy_data?.week ?? 0;
+  const week = userProfile?.details?.current_pregnancy_data?.week ?? 3;
   const day = userProfile?.details?.current_pregnancy_data?.day ?? 0;
   // 18 week 1 day → 19; 18 week 0 day → 18
   const currentWeek = day > 0 ? week + 1 : week;

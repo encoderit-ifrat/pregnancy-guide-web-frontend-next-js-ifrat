@@ -7,6 +7,7 @@ export interface SwipeResponse {
   success: boolean;
   message: string;
   data: {
+    partner_liked: any;
     _id: string;
     name: string;
     gender: string;
@@ -41,6 +42,14 @@ export const useMutationSwipeTinderName = () => {
     },
     onSuccess: () => {
       // Invalidate all tinder-names list queries so counts refresh
+      queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
+      queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
+    },
+    onError: () => {
+      queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
+      queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
       queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
     },

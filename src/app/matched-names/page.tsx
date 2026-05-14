@@ -36,6 +36,7 @@ import IconQuestion from "@/components/svg-icon/icon-question";
 import { useMutationSwipeTinderName } from "../for-name-tinder/_api/mutations/useMutationSwipeTinderName";
 import IconLike from "@/components/svg-icon/icon-like";
 import { useMutationDeleteMatchingName } from "./_api/useMutationDeleteMatchingName";
+import { useQueryClient } from "@tanstack/react-query";
 
 function SkeletonCard() {
   return (
@@ -60,6 +61,7 @@ function SkeletonCard() {
 
 function NameCard({ item }: { item: MatchingType }) {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [activeAction, setActiveAction] = useState<"like" | "love" | null>(
@@ -91,8 +93,12 @@ function NameCard({ item }: { item: MatchingType }) {
         onError: (error: any) => {
           toast.error(
             error?.response?.data?.message ||
-              t("matchedNames.failedUpdateStatus")
+            t("matchedNames.failedUpdateStatus")
           );
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
+          queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
         },
       }
     );

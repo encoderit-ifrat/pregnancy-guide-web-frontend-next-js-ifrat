@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 
 // Force dynamic rendering (SSR)
 export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 // Fetch user-specific data using session
 async function getPregnancyData(

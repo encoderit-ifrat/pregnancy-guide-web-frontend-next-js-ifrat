@@ -35,12 +35,12 @@
     }
   },
   "header": {
-    "login": "Logga In",
-    "logout": "Logga Ut",
-    "download": "Ladda Ner",
-    "myAccount": "Mitt Konto",
+    "login": "Logga in",
+    "logout": "Logga ut",
+    "download": "Ladda ner",
+    "myAccount": "Mitt konto",
     "profile": "Profil",
-    "changePassword": "Byt Lösenord",
+    "changePassword": "Byt lösenord",
     "search": "Sök ...",
     "functions": "Funktioner",
     "language": "Språk",
@@ -50,9 +50,9 @@
     "forNameTinder": "Namnswajp"
   },
   "footer": {
-    "quickLinks": "Snabblänkar",
-    "additionalLink": "Ytterligare Länk",
-    "socialLink": "Sociala Länkar",
+    "quickLinks": "Graviditet och föräldraskap",
+    "additionalLink": "Hjälp och support",
+    "socialLink": "Följ oss",
     "copyright": "Copyright © {year} Familj.se. Alla rättigheter förbehållna.",
     "termsConditions": "Villkor",
     "privacyPolicy": "Integritetspolicy",
@@ -135,7 +135,7 @@
     "title": "Det tycker våra användare om oss"
   },
   "login": {
-    "title": "Logga In",
+    "title": "Logga in",
     "description": "Logga in på ditt befintliga Familj-konto.",
     "email": "E-post",
     "emailPlaceholder": "Användarens e-post",
@@ -143,7 +143,7 @@
     "passwordPlaceholder": "Ange lösenord",
     "rememberMe": "Kom ihåg i 30 dagar",
     "forgotPassword": "Glömt lösenord?",
-    "loginButton": "Logga In",
+    "loginButton": "Logga in",
     "or": "ELLER",
     "noAccount": "Har du inget konto?",
     "createAccount": "Skapa konto",
@@ -161,7 +161,7 @@
     "signUpButton": "Registrera dig",
     "or": "ELLER",
     "hasAccount": "Har du redan ett konto?",
-    "signIn": "Logga In",
+    "signIn": "Logga in",
     "registrationSuccess": "Registrering lyckades",
     "registrationFailed": "Registrering misslyckades"
   },
@@ -321,7 +321,6 @@
       "status": "{done} av {total} uppgifter"
     }
   },
-
   "publishedThreads": {
     "active": "aktiv",
     "finalized": "slutförd",
@@ -454,6 +453,8 @@
     "beenPregnant": "Varit gravid i:",
     "weeks": "veckor",
     "days": "dagar kvar",
+    "profileday": "dag",
+    "profiledays": "dagar",
     "completed": "Klart",
     "dueDate": "BF:",
     "daysRemaining": "Dagar kvar till födsel:",
