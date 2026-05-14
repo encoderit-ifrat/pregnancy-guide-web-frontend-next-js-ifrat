@@ -5,8 +5,9 @@ import ThreadDetailClient from "./ThreadDetailClient";
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
+  const { id } = await params;
   let title = "View Discussion Thread - Familj";
   let description =
     "Join the conversation and discover community insights on Familj.";
@@ -14,7 +15,7 @@ export async function generateMetadata({
   try {
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || "";
     // Using a direct fetch to bypass axios instance client-side dependencies (like window)
-    const res = await fetch(`${backendUrl}/api/v1/threads/${params.id}`, {
+    const res = await fetch(`${backendUrl}/api/v1/threads/${id}`, {
       next: { revalidate: 60 }, // Cache for 60 seconds
     });
 
@@ -46,10 +47,11 @@ export async function generateMetadata({
   };
 }
 
-export default function ThreadDetailPageContainer({
+export default async function ThreadDetailPageContainer({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  return <ThreadDetailClient threadId={params.id} />;
+  const { id } = await params;
+  return <ThreadDetailClient threadId={id} />;
 }
