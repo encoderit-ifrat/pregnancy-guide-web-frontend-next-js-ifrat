@@ -143,7 +143,7 @@
     "passwordPlaceholder": "Ange lösenord",
     "rememberMe": "Kom ihåg i 30 dagar",
     "forgotPassword": "Glömt lösenord?",
-    "loginButton": "Logga In",
+    "loginButton": "Logga in",
     "or": "ELLER",
     "noAccount": "Har du inget konto?",
     "createAccount": "Skapa konto",
@@ -161,7 +161,7 @@
     "signUpButton": "Registrera dig",
     "or": "ELLER",
     "hasAccount": "Har du redan ett konto?",
-    "signIn": "Logga In",
+    "signIn": "Logga in",
     "registrationSuccess": "Registrering lyckades",
     "registrationFailed": "Registrering misslyckades"
   },

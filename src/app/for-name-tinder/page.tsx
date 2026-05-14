@@ -7,7 +7,6 @@ import { Link2, ThumbsDown, Loader2, ChevronRight, Heart } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient } from "@tanstack/react-query";
-
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -24,16 +23,13 @@ import { useMutationSwipeTinderName } from "./_api/mutations/useMutationSwipeTin
 import { useMutationDislikeAllTinderNames } from "./_api/mutations/useMutationDislikeAllTinderNames";
 import Pagination from "@/components/base/Pagination";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import IconLike from "@/components/svg-icon/icon-like";
-import IconLove from "@/components/svg-icon/icon-love";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import IconHeading from "@/components/ui/text/IconHeading";
-import IconQuestion from "@/components/svg-icon/icon-question";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import Loading from "../loading";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { useSession } from "next-auth/react";
 
 function SkeletonCommunityCard() {
   return (
@@ -53,6 +49,8 @@ function SkeletonCommunityCard() {
 }
 
 export default function Page() {
+  const session = useSession();
+  const token = session.data?.token || null;
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -116,7 +114,6 @@ export default function Page() {
   // gender radio: "male" | "female" | "unisex"
   const [selectedGender, setSelectedGender] =
     useState<TinderNameGender>("male");
-  // flip to true when user clicks Next in the gender section to fire the query
   const [fetchEnabled, setFetchEnabled] = useState(false);
 
   const {
@@ -156,14 +153,6 @@ export default function Page() {
       setOpenSwipeDialog(false); // Close the category dialog after fetch is complete
       setFetchEnabled(false);
       setMatchedName(null);
-
-      // Reset selections after fetch
-      setSelectedGender("male");
-      if (apiCategories.length > 0) {
-        setSelectedCategory(apiCategories[0]._id);
-      } else {
-        setSelectedCategory("");
-      }
     }
   }, [
     tinderSuccess,
@@ -681,7 +670,7 @@ export default function Page() {
                           }
                         }}
                         disabled={
-                          pendingSwipeIds.has(itemId) || isFetchingNewBatch
+                          pendingSwipeIds.has(itemId) || isFetchingNewBatch || !token
                         }
                         className="flex items-center gap-4 w-full"
                       >

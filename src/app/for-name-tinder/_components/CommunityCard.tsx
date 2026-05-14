@@ -16,6 +16,7 @@ import { TinderNameItem } from "../_api/queries/useQueryGetTinderNames";
 import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTinderName";
 import { toast } from "sonner";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useSession } from "next-auth/react";
 
 interface CommunityCardProps {
   name: TinderNameItem;
@@ -24,6 +25,8 @@ interface CommunityCardProps {
 
 export default function CommunityCard({ name, className }: CommunityCardProps) {
   const { t } = useTranslation();
+  const session = useSession();
+  const token = session.data?.token || null;
   const { mutate: swipe, isPending } = useMutationSwipeTinderName();
 
   const [openViewDialog, setOpenViewDialog] = useState(false);
@@ -37,14 +40,9 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
   const handleSwipe = (action: "like" | "love" | null) => {
     if (!action) {
       if (!userAction) return;
-      // Undo current action
       if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
       else setLovedCount((c) => Math.max(0, c - 1));
       setUserAction(null);
-      // We still call swipe with the original action to toggle it off
-      // assuming the backend handles toggling or we have an undo action.
-      // If the backend doesn't support undo, we might need a different approach.
-      // For now, we'll send the previous action to trigger the backend logic.
       action = userAction;
     } else {
       if (userAction === action) return;
@@ -108,6 +106,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     aria-label="Toggle love"
                     variant="default"
                     size="sm"
+                    disabled={!token}
                     className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                   >
                     <Heart className="size-4 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
@@ -124,6 +123,7 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                     aria-label="Toggle like"
                     variant="default"
                     size="sm"
+                    disabled={!token}
                     className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
                   >
                     <ThumbsUp className="size-4 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />

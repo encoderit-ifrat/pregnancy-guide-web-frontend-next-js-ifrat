@@ -147,7 +147,7 @@ export default function CommentCard({
     >
       {/* User Info */}
       <div className="flex items-center gap-3 h-full">
-        <div className="relative w-[80px] h-[80px] bg-purple-100 flex-shrink-0">
+        <div className="relative w-[80px] h-[80px] bg-purple-100 shrink-0">
           {created_by.avatar ? (
             <Image
               src={imageLinkGenerator(created_by.avatar)}
@@ -247,7 +247,7 @@ export default function CommentCard({
                     key={comment._id}
                     className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors flex gap-4"
                   >
-                    <div className="relative w-[40px] h-[40px] bg-purple-100 flex-shrink-0">
+                    <div className="relative w-[40px] h-[40px] bg-purple-100 shrink-0">
                       {comment?.user?.avatar ? (
                         <Image
                           src={imageLinkGenerator(comment?.user?.avatar)}
