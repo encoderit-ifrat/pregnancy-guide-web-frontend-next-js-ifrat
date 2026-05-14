@@ -147,7 +147,7 @@ export default function LoginForm() {
         <Button
           type="submit"
           size="lg"
-          className="w-full text-lg lg:text-xl h-12 leading-none flex"
+          className="w-full text-lg lg:text-xl h-12 leading-none flex text-transform-none"
           isLoading={loading}
           disabled={loading}
         >

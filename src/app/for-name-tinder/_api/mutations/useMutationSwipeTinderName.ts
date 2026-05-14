@@ -45,5 +45,13 @@ export const useMutationSwipeTinderName = () => {
       queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
       queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
     },
+    onError: () => {
+      queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
+      queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
+      queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
+    },
   });
 };

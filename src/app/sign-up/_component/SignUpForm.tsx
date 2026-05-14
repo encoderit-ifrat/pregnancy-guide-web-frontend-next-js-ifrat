@@ -178,7 +178,7 @@ export default function RegisterForm() {
           size="lg"
           isLoading={signUpMutation?.isPending}
           disabled={signUpMutation?.isPending}
-          className="w-full 
+          className="w-full text-transform-none
                      text-sm sm:text-base md:text-lg lg:text-xl
                      h-11 sm:h-12 md:h-13 lg:h-14
                      leading-none"
