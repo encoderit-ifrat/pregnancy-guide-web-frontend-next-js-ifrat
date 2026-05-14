@@ -49,12 +49,10 @@ const fetchThreads = async ({
 export default function Page() {
   const router = useRouter();
   const session = useSession();
-  if (!session.data?.token) {
-    router.push("/login")
-    return null;
-  }
   const { t, locale } = useTranslation();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+
   const currentSort =
     (searchParams.get("sort") as ThreadSortOption) || "newest";
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -63,7 +61,6 @@ export default function Page() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareThreadId, setShareThreadId] = useState("");
   const [shareThreadTitle, setShareThreadTitle] = useState("");
-  const queryClient = useQueryClient();
 
   const shareMutation = useMutationShareThread();
 
@@ -87,9 +84,8 @@ export default function Page() {
     queryKey: ["get-threads", activeTab, currentPage],
     refetchOnWindowFocus: true,
     queryFn: () => fetchThreads({ page: currentPage, sort: activeTab }),
+    enabled: !!session.data?.token,
   });
-
-  const paginationMeta = data?.data?.pagination;
 
   const handleNewThread = useCallback(() => {
     refetch();
@@ -124,6 +120,23 @@ export default function Page() {
       toast.error(error?.response?.data?.message || t("threads.errorFlagging"));
     },
   });
+
+  useEffect(() => {
+    if (session.status !== "loading" && !session.data?.token) {
+      router.push("/login");
+    }
+  }, [session.status, session.data?.token, router]);
+
+  if (session.status === "loading" || (isLoading && session.data?.token)) {
+    return <Loading />;
+  }
+
+  if (!session.data?.token) {
+    return null;
+  }
+
+  const paginationMeta = data?.data?.pagination;
+
 
   const handleLike = (threadId: string) => {
     likeMutation.mutate(threadId);
