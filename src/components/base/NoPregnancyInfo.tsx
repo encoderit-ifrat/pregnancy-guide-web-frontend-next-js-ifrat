@@ -40,6 +40,7 @@ function NoPregnancyInfo() {
       onSuccess: () => {
         toast.success(t("profile.updateSuccess"));
         refetch();
+        router.refresh();
         router.push("/profile");
       },
       onError: () => {
