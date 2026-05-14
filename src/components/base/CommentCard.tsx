@@ -131,7 +131,7 @@ export default function CommentCard({
       { id: _id },
       {
         onSuccess: () => {
-          toast.success("Disliked!");
+          toast.success("Flagged!");
           onActionSuccess?.();
         },
       }
