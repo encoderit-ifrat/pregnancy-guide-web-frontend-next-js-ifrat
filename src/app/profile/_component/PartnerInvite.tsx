@@ -98,44 +98,46 @@ export default function PartnerInvite() {
         <p className="text-[#4D2C82] text-sm font-normal mb-3 flex items-center gap-2">
           {t("partner.inviteSubTitle")}
         </p>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center max-w-2xl relative ">
-          <div className="flex flex-1 items-stretch h-11  border-[#A97AEC] rounded-lg border bg-white overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center max-w-2xl relative">
+          <div className="flex flex-col sm:flex-row flex-1 items-stretch sm:h-11 border-[#A97AEC] rounded-lg border bg-white overflow-hidden">
             <input
               type="email"
               placeholder={t("partner.emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isCreating}
-              className="flex-1 px-4 py-2 text-[#A179F2] placeholder:text-[#A179F2]/60 outline-none text-sm md:text-base border-r border-[#A97AEC] disabled:opacity-50"
+              className="flex-1 px-4 py-3 sm:py-2 text-[#A179F2] placeholder:text-[#A179F2]/60 outline-none text-sm md:text-base border-b sm:border-b-0 sm:border-r border-[#A97AEC] disabled:opacity-50"
             />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild disabled={isCreating}>
-                <button className="flex items-center justify-between gap-4 px-4 bg-white text-[#A179F2] hover:bg-[#FBF8FF] transition-colors min-w-28 text-sm md:text-base border-r border-[#A179F2] disabled:opacity-50">
-                  {roleLabel}
-                  <ChevronDown className="size-4 opacity-70" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem
-                  onClick={() =>
-                    handleRoleSelect(t("partner.rolePartner"), "partner")
-                  }
-                  className="text-[#A179F2]"
-                >
-                  {t("partner.rolePartner")}
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() =>
-                    handleRoleSelect(t("partner.roleOther"), "other")
-                  }
-                  className="text-[#A179F2]"
-                >
-                  {t("partner.roleOther")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex border-b sm:border-b-0 sm:border-r border-[#A97AEC]">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild disabled={isCreating}>
+                  <button className="flex-1 flex items-center justify-between gap-4 px-4 py-3 sm:py-0 bg-white text-[#A179F2] hover:bg-[#FBF8FF] transition-colors min-w-[120px] sm:min-w-28 text-sm md:text-base disabled:opacity-50">
+                    {roleLabel}
+                    <ChevronDown className="size-4 opacity-70" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      handleRoleSelect(t("partner.rolePartner"), "partner")
+                    }
+                    className="text-[#A179F2]"
+                  >
+                    {t("partner.rolePartner")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      handleRoleSelect(t("partner.roleOther"), "other")
+                    }
+                    className="text-[#A179F2]"
+                  >
+                    {t("partner.roleOther")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <button
-              className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white px-6 font-medium transition-colors text-sm md:text-base whitespace-nowrap disabled:opacity-50 flex items-center gap-2"
+              className="bg-[#A179F2] hover:bg-[#8B5CF6] text-white px-6 py-3 sm:py-0 font-medium transition-colors text-sm md:text-base whitespace-nowrap disabled:opacity-50 flex items-center justify-center gap-2"
               onClick={handleSendInvite}
               disabled={isCreating}
             >
@@ -161,16 +163,16 @@ export default function PartnerInvite() {
             {t("common.notFound") || "No invitations found"}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 bg-soft-white">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-x-8 sm:gap-y-4 bg-soft-white">
             {partners.map((partner: Invitation) => (
               <div
                 key={partner._id}
-                className="flex items-center justify-between p-3 bg-[#FBF8FF] rounded-lg border border-[#F3EAFF]  hover:shadow-md transition-shadow"
+                className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between p-3 sm:p-3 bg-[#FBF8FF] rounded-lg border border-[#F3EAFF] hover:shadow-md transition-shadow gap-2 sm:gap-0"
               >
-                <span className="text-[#5B5B5B] text-sm md:text-base font-semibold truncate mr-2">
+                <span className="text-[#5B5B5B] text-sm md:text-base font-semibold truncate">
                   {partner.email}
                 </span>
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
                   <Badge
                     className={cn(
                       "px-4 py-1 text-sm font-semibold min-w-23 text-center border-none",
