@@ -224,11 +224,10 @@ export function Header() {
             </div>
 
             <div
-              className={`transition-all duration-300 ease-in-out ${
-                isSearchExpanded
-                  ? "max-w-0 opacity-0"
-                  : "max-w-[680px] opacity-100"
-              }`}
+              className={`transition-all duration-300 ease-in-out ${isSearchExpanded
+                ? "max-w-0 opacity-0"
+                : "max-w-[680px] opacity-100"
+                }`}
             >
               <div className="flex items-center gap-4">
                 <div className="overflow-hidden whitespace-nowrap">
@@ -268,8 +267,8 @@ export function Header() {
                         >
                           {(pathname === "/discussion-threads" ||
                             pathname === "/published-threads") && (
-                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
-                          )}
+                              <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                            )}
                           {t("header.discussions")}
                         </Link>
                         <Link
@@ -359,19 +358,42 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
-                      isActive
-                        ? "text-primary bg-primary-light"
-                        : "text-text-primary"
-                    }`}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${isActive
+                      ? "text-primary bg-primary-light"
+                      : "text-text-primary"
+                      }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
                   </Link>
                 );
               })}
+              <Link
+                href="/discussion-threads"
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                  pathname === "/discussion-threads" ||
+                    pathname === "/published-threads"
+                    ? "bg-primary-light text-primary font-semibold"
+                    : "hover:bg-primary-light/50 text-text-primary"
+                )}
+              >
+                {t("header.discussions")}
+              </Link> <Link
+                href="/for-name-tinder"
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                  pathname === "/for-name-tinder"
+                    ? "bg-primary-light text-primary font-semibold"
+                    : "hover:bg-primary-light/50 text-text-primary"
+                )}
+              >
+                {t("header.forNameTinder")}
+              </Link>
 
-              <div className="w-full">
+              {/* <div className="w-full">
                 <button
                   onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
                   className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors focus:outline-none"
@@ -391,7 +413,7 @@ export function Header() {
                   <div className="flex flex-col gap-1 ml-6 mt-1 border-l-2 border-primary-light pl-4 py-2">
                     <Link
                       href="/discussion-threads"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setTimeout(() => { setIsMenuOpen(false); setIsFunctionsOpen(false); }, 0)}
                       className={cn(
                         "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
                         pathname === "/discussion-threads" ||
@@ -404,7 +426,7 @@ export function Header() {
                     </Link>
                     <Link
                       href="/for-name-tinder"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setTimeout(() => { setIsMenuOpen(false); setIsFunctionsOpen(false); }, 0)}
                       className={cn(
                         "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
                         pathname === "/for-name-tinder"
@@ -416,7 +438,7 @@ export function Header() {
                     </Link>
                   </div>
                 )}
-              </div>
+              </div> */}
               {/* <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" /> */}
 
               <form

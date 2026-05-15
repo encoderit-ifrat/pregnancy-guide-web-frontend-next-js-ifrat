@@ -72,7 +72,7 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
           </div>
         </div>
         {Boolean(data?.length) && (
-          <>
+          <div className="py-4 h-[550px]">
             <Slider
               options={{
                 spaceBetween: 10,
@@ -86,6 +86,7 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
                   rows: 1,
                   fill: "row",
                 },
+                watchSlidesProgress: true,
                 breakpoints: {
                   320: {
                     slidesPerView: 1,
@@ -119,13 +120,13 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
                       fill: "row",
                     },
                     pagination: {
-                      enabled: false,
+                      enabled: true,
                     },
                   },
                 },
               }}
               sideOverlayClassName="bg-transparent"
-              className=""
+              className="h-full overflow-visible! pt-14! md:pt-4! pb-10! [&_.swiper-pagination]:!bottom-2 [&_.swiper-pagination]:!top-auto md:[&_.swiper-pagination]:!bottom-4 [&_.swiper-button-prev]:!top-2 [&_.swiper-button-next]:!top-2 md:[&_.swiper-button-prev]:!top-1/2 md:[&_.swiper-button-next]:!top-1/2 [&_.swiper-button-next]:!z-50 [&_.swiper-button-prev]:!z-50 [&_.swiper-pagination]:!z-50"
             >
               {data.map(
                 (
@@ -153,7 +154,7 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
                 </Button>
               </Link>
             </div>
-          </>
+          </div>
         )}
       </div>
     </section>

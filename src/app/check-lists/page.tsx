@@ -91,11 +91,10 @@ export default function CheckLists() {
           toast.warning(t("checklists.loginToAdd"));
         }
       }}
-      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${
-        isAuthenticated
-          ? "cursor-pointer hover:bg-purple-50"
-          : "opacity-50 cursor-not-allowed"
-      }`}
+      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${isAuthenticated
+        ? "cursor-pointer hover:bg-purple-50"
+        : "opacity-50 cursor-not-allowed"
+        }`}
     >
       <span className="pr-2 text-primary text-base lg:text-lg font-medium">
         {t("checklists.addNew")}
@@ -133,10 +132,10 @@ export default function CheckLists() {
           defaultValue="active"
           onValueChange={(value) => setActiveTab(value)}
         >
-          <div className="max-w-303.25 w-full mx-auto  pt-10 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
-            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-4 mb-8">
+          <div className="max-w-303.25 w-full mx-auto pt-6 px-4 pb-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
+            <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
               <div className="">
-                <h3 className="text-3xl font-semibold">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
                   {t("checklists.title")}
                 </h3>
                 <span className="font-outfit">
@@ -144,7 +143,7 @@ export default function CheckLists() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-center gap-2 xs:gap-2.5 sm:gap-3">
+              <div className="flex items-center justify-start sm:justify-end flex-wrap gap-2 w-full sm:w-auto">
                 <TabsList
                   variant="pill"
                   className="bg-white shadow-sm border border-white text-primary"
@@ -174,7 +173,7 @@ export default function CheckLists() {
                   <>
                     <Button
                       variant={"outline"}
-                      className="h-12 py-2 px-4 rounded-full bg-white text-primary font-medium flex items-center gap-2.5 shadow-sm hover:bg-purple-50 hover:border-purple-100 transition-all font-outfit text-base"
+                      className="h-10 sm:h-12 py-2 px-3 sm:px-4 rounded-full bg-white text-primary font-medium flex items-center gap-2 shadow-sm hover:bg-purple-50 hover:border-purple-100 transition-all font-outfit text-sm sm:text-base"
                       onClick={() => setFormData({ type: "create", id: "" })}
                     >
                       {t("threads.addNewList")}
@@ -184,7 +183,7 @@ export default function CheckLists() {
                     </Button>
                     <Button
                       variant={"ghost"}
-                      className="h-12 py-2 px-4 rounded-full bg-[#FFFFFF66] text-[#A97AEC] font-medium flex items-center gap-2.5 hover:bg-[#FFFFFF99] transition-all font-outfit text-base border border-transparent hover:border-white"
+                      className="h-10 sm:h-12 py-2 px-3 sm:px-4 rounded-full bg-[#FFFFFF66] text-[#A97AEC] font-medium flex items-center gap-2 hover:bg-[#FFFFFF99] transition-all font-outfit text-sm sm:text-base border border-transparent hover:border-white"
                       onClick={() => setIsTemplateOpen(true)}
                     >
                       {t("threads.addTemplate")}

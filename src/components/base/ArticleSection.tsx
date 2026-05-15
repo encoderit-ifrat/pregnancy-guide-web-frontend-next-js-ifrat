@@ -58,9 +58,9 @@ const ArticleSection = ({ data }: TProps) => {
           <IconHeading
             text={t("pregnancy.articles")}
             image="/images/icons/baby-inside.png"
-            className="text-primary"
+            className="text-primary mb-0"
           />
-          <SectionHeading>{t("pregnancy.ourArticles")}</SectionHeading>
+          <SectionHeading className="text-[28px]">{t("pregnancy.ourArticles")}</SectionHeading>
         </div>
       </div>
 
@@ -113,7 +113,7 @@ const ArticleSection = ({ data }: TProps) => {
                 { _id, cover_image, thumbnail_image, title, excerpt, slug },
                 index
               ) => (
-                <SwiperSlide key={_id + index} className="h-auto! flex">
+                <SwiperSlide key={_id + index} className="h-auto! flex min-w-[280px]">
                   <ArticleCard
                     image={thumbnail_image || cover_image}
                     title={title}

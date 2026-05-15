@@ -118,7 +118,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           {t("checklists.templateModal.title")}
         </DialogTitle>
         {/* Header */}
-        <div className="bg-[#A97AEC] p-8 relative shrink-0">
+        <div className="bg-[#A97AEC] p-5 sm:p-8 relative shrink-0">
           <button
             onClick={onClose}
             className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors"
@@ -128,7 +128,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
             </div>
           </button>
           <div className="space-y-1">
-            <h2 className="text-[45px] font-semibold text-white font-poppins tracking-tight">
+            <h2 className="text-2xl sm:text-[36px] md:text-[45px] font-semibold text-white font-poppins tracking-tight">
               {t("checklists.templateModal.title")}
             </h2>
             <p className="!text-white text-base  font-outfit max-w-2xl">
@@ -137,13 +137,13 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           </div>
         </div>
 
-        <div className="flex flex-1 min-h-0">
+        <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
           {/* Left Column: List */}
           <div
-            className="w-[40%] border-r border-gray-100 p-6 overflow-y-auto"
+            className="w-full md:w-[40%] border-b md:border-b-0 md:border-r border-gray-100 p-4 sm:p-6 overflow-y-auto max-h-[30vh] md:max-h-none shrink-0"
             onScroll={handleScroll}
           >
-            <h3 className="text-3xl font-medium text-[#1B1343] font-outfit mb-6">
+            <h3 className="text-xl sm:text-3xl font-medium text-[#1B1343] font-outfit mb-4 sm:mb-6">
               {t("checklists.templateModal.availableTemplates")}
             </h3>
             <div className="space-y-4">
@@ -210,8 +210,8 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           </div>
 
           {/* Right Column: Preview */}
-          <div className="flex-1 bg-gray-50/30 p-6 overflow-y-auto">
-            <h3 className="text-3xl font-medium text-[#1B1343] font-outfit mb-6">
+          <div className="flex-1 bg-gray-50/30 p-4 sm:p-6 overflow-y-auto">
+            <h3 className="text-xl sm:text-3xl font-medium text-[#1B1343] font-outfit mb-4 sm:mb-6">
               {t("checklists.templateModal.templatePreview")}
             </h3>
 
@@ -299,8 +299,8 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-100 flex items-center justify-between bg-white shrink-0">
-          <p className="text-primary-dark/80 font-outfit">
+        <div className="p-4 sm:p-6 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white shrink-0">
+          <p className="text-primary-dark/80 font-outfit text-sm sm:text-base line-clamp-2">
             {selectedTemplates.length === 1
               ? t("checklists.templateModal.footerText.addOne", {
                 title: selectedTemplates[0].title,
@@ -309,18 +309,18 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                 count: selectedTemplates.length,
               })}
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <Button
               variant="outline"
               onClick={onClose}
-              className="h-12 px-8 rounded-full border-primary/20 text-primary hover:bg-primary/5 font-outfit font-bold text-lg"
+              className="h-10 sm:h-12 px-4 sm:px-8 rounded-full border-primary/20 text-primary hover:bg-primary/5 font-outfit font-bold text-sm sm:text-lg"
             >
               {t("checklists.templateModal.cancel")}
             </Button>
             <Button
               onClick={handleAddTemplates}
               disabled={isCreatingTemplate || selectedIds.length === 0}
-              className="h-12 px-8 rounded-full bg-[#A97AEC] hover:bg-[#9333EA] text-white flex items-center gap-3 font-outfit font-bold text-lg shadow-lg shadow-purple-200"
+              className="h-10 sm:h-12 px-4 sm:px-8 rounded-full bg-[#A97AEC] hover:bg-[#9333EA] text-white flex items-center gap-2 sm:gap-3 font-outfit font-bold text-sm sm:text-lg shadow-lg shadow-purple-200"
             >
               {isCreatingTemplate
                 ? t("checklists.templateModal.adding")

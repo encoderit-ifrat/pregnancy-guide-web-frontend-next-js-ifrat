@@ -202,7 +202,7 @@ export const AnswerFormPercentage = ({
               <strong className="text-xl md:text-2xl font-medium">
                 {Math.round(percentage)}%
               </strong>{" "}
-              <span className="text-lg md:text-xl">{option.content}</span>
+              <span className="text-base md:text-xl line-clamp-1">{option.content}</span>
             </div>
             <div
               className="absolute bg-[#DCC3FF] h-full rounded-sm"
@@ -230,7 +230,7 @@ export const AnswerFormComment = () => {
         placeholder={t("weeklyQuestion.commentPlaceholder")}
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
-        className="bg-white mb-3 text-sm resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+        className="bg-white mb-3 text-sm min-h-[130px] resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
         rows={4}
       />
     </>
@@ -299,7 +299,7 @@ export const AnswerFormSubmitButton = ({
       onClick={handleSubmit}
       isLoading={isPending}
       disabled={isPending}
-      className="w-full max-w-lg md:w-auto px-6 py-2"
+      className="w-full max-w-lg md:w-auto px-4 py-1.5 md:px-6 md:py-2"
     >
       {isPending ? t("weeklyQuestion.submitting") : buttonText}
     </Button>

@@ -100,7 +100,7 @@ function Cards({
 }) {
   return (
     <div
-      className={`border-t-10 border-t-primary rounded-lg bg-white text-xl overflow-hidden ${className}`}
+      className={`border-t-10 border-t-primary min-h-[220px] rounded-lg bg-white text-xl overflow-hidden ${className}`}
     >
       {children}
     </div>

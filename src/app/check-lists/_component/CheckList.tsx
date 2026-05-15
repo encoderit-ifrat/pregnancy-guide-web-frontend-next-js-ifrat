@@ -166,20 +166,20 @@ export default function CheckList({
             value={group.id}
             className={cn("py-3", index === 0 && "border-t")}
           >
-            <div className="flex items-center justify-between gap-3 font-poppins font-semibold text-primary-dark">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 font-poppins font-semibold text-primary-dark">
+              <div className="flex items-center gap-2 min-w-0">
                 <AccordionTrigger>
                   <ChevronDownIcon className="bg-primary-light rounded-full p-2 md:ml-4 text-primary pointer-events-none size-9 shrink-0 transition-transform duration-200" />
                 </AccordionTrigger>
 
-                <div className="text-[22px] font-semibold">{group.name}</div>
+                <div className="text-base sm:text-[22px] font-semibold truncate max-w-[120px] sm:max-w-none">{group.name}</div>
 
-                <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282]">
+                <span className="rounded-full bg-[#F3F4F6] py-1.5 px-2.5 text-sm font-inter font-medium h-fit text-[#6A7282] shrink-0">
                   {group.tasks.filter((task: Task) => task.checked).length} /{" "}
                   {group.tasks.length}
                 </span>
 
-                <div className="flex items-center gap-1 text-primary font-semibold">
+                <div className="hidden sm:flex items-center gap-1 text-primary font-semibold">
                   {(() => {
                     const completedTasks = group.tasks.filter(
                       (task: Task) => task.checked
@@ -202,15 +202,15 @@ export default function CheckList({
                 </div>
               </div>
               {!readOnly && group.owned !== false && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 shrink-0">
                   <Button
                     variant={"ghost"}
-                    className="shadow-none text-primary font-semibold hover:bg-transparent"
+                    className="shadow-none text-primary font-semibold hover:bg-transparent text-sm sm:text-base px-2 sm:px-3"
                     onClick={() => setIsAddTaskOpen(group.id)}
                   >
-                    {t("checklists.addTask")}{" "}
+                    <span className="hidden sm:inline">{t("checklists.addTask")}</span>
                     <PlusIcon
-                      className="bg-primary size-7 p-1.5 rounded-full text-white ml-2"
+                      className="bg-primary size-7 p-1.5 rounded-full text-white sm:ml-2"
                       stroke="white"
                       strokeWidth={3}
                     />
@@ -242,7 +242,7 @@ export default function CheckList({
                     )}
                   >
                     {/* Task Header */}
-                    <div className="flex items-center gap-3 py-3 px-5 border-b last:border-b-0 border-gray-50">
+                    <div className="flex items-center gap-2 sm:gap-3 py-2 sm:py-3 px-2 sm:px-5 border-b last:border-b-0 border-gray-50">
                       {/* Checkbox */}
                       <div className="size-7 flex items-center justify-center shrink-0 cursor-pointer">
                         {toggleLoading === task.id && isPending ? (
@@ -265,7 +265,7 @@ export default function CheckList({
                       </div>
                       <span
                         className={cn(
-                          "text-[#1B1343] text-[20px] font-medium transition-all duration-200",
+                          "text-[#1B1343] text-sm sm:text-[20px] font-medium transition-all duration-200 truncate",
                           task.checked &&
                             "line-through text-gray-400 opacity-60"
                         )}
@@ -273,12 +273,12 @@ export default function CheckList({
                         {task.name}
                       </span>
 
-                      <div className="ml-auto flex items-center gap-3">
+                      <div className="ml-auto flex items-center gap-1.5 sm:gap-3 shrink-0">
                         {/* Priority Badge */}
                         {Boolean(task.priority) && (
                           <Badge
                             className={cn(
-                              "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
+                              "capitalize hover:opacity-100 hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200",
                               task.priority === "high"
                                 ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
                                 : task.priority === "medium"
@@ -304,7 +304,7 @@ export default function CheckList({
                         {task.date && (
                           <Badge
                             className={cn(
-                              "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200 bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
+                              "capitalize hover:opacity-100 hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none transition-all duration-200 bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
                               // isPast(parseISO(task.date)) && !task.checked
                               //   ? "bg-[#FFFBE5] text-[#BB4D00] border-[#FEE685]"
                               //   : "bg-[#F3F4F6] text-[#6B7280] border-[#E5E7EB]"
@@ -405,7 +405,7 @@ export default function CheckList({
           open={!!isAddTaskOpen}
           onOpenChange={() => setIsAddTaskOpen(null)}
         >
-          <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none">
+          <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none max-h-[95vh] overflow-y-auto">
             <DialogTitle className="sr-only">
               {t("checklists.addTask")}
             </DialogTitle>

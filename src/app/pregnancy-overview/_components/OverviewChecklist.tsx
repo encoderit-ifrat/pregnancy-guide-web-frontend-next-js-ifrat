@@ -143,7 +143,7 @@ export default function OverviewChecklist({
           </Button>
           <Button
             variant="outline"
-            className="sm:w-auto w-full rounded-full text-lg font-semibold px-16 text-primary bg-white hover:bg-white/10 shadow-none border font-poppins"
+            className="sm:w-auto w-full rounded-full text-lg font-semibold justify-center px-16 text-primary bg-white hover:bg-white/10 shadow-none border font-poppins"
             onClick={() => {
               if (lists && lists.length > 0) {
                 setAddTaskStep("select-list");
@@ -294,7 +294,7 @@ export default function OverviewChecklist({
       {/* See All Button */}
       <div className="flex justify-center pt-4">
         <Link href="/check-lists" className="w-full">
-          <Button className="w-full rounded-full text-xl font-semibold bg-[#A67EEA] hover:bg-[#8B5CF6] shadow-xl border-none text-white transition-all transform hover:-translate-y-1">
+          <Button className="w-full justify-center rounded-full text-xl font-semibold bg-[#A67EEA] hover:bg-[#8B5CF6] shadow-xl border-none text-white transition-all transform hover:-translate-y-1">
             {t("checklists.seeAll")} <ChevronRight className="ml-2 size-6" />
           </Button>
         </Link>
@@ -397,14 +397,14 @@ export default function OverviewChecklist({
             task={
               editingTask?.task
                 ? {
-                    id: editingTask.task._id,
-                    name: editingTask.task.title,
-                    description: editingTask.task.description,
-                    priority: editingTask.task.priority,
-                    date: editingTask.task.due_date,
-                    reminder: editingTask.task.reminder,
-                    assignedTo: editingTask.task.assigned_to,
-                  }
+                  id: editingTask.task._id,
+                  name: editingTask.task.title,
+                  description: editingTask.task.description,
+                  priority: editingTask.task.priority,
+                  date: editingTask.task.due_date,
+                  reminder: editingTask.task.reminder,
+                  assignedTo: editingTask.task.assigned_to,
+                }
                 : null
             }
             onClose={() => setEditingTask(null)}
@@ -437,12 +437,12 @@ export default function OverviewChecklist({
               id: editingList?._id || "",
               data: editingList
                 ? {
-                    _id: editingList._id,
-                    title: editingList.title,
-                    description: editingList.description,
-                    category: editingList.category,
-                    is_active: editingList.is_active,
-                  }
+                  _id: editingList._id,
+                  title: editingList.title,
+                  description: editingList.description,
+                  category: editingList.category,
+                  is_active: editingList.is_active,
+                }
                 : undefined,
             }}
           />

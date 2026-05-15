@@ -140,7 +140,7 @@ export default function TaskForm({
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white rounded-2xl shadow-lg">
+    <div className="w-full max-w-5xl mx-auto p-4 sm:p-8 space-y-6 bg-white rounded-2xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Task Title */}
@@ -180,27 +180,28 @@ export default function TaskForm({
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex gap-2"
+                      className="flex flex-wrap gap-2"
                       disabled={readOnly}
                     >
                       {[
                         {
-                          value: "high",
-                          label: t("checklists.taskForm.priorities.high"),
-                        },
-                        {
+                          value: "low",
+                          label: t("checklists.taskForm.priorities.low"),
+                        }, {
                           value: "medium",
                           label: t("checklists.taskForm.priorities.medium"),
                         },
                         {
-                          value: "low",
-                          label: t("checklists.taskForm.priorities.low"),
+                          value: "high",
+                          label: t("checklists.taskForm.priorities.high"),
                         },
+
+
                       ].map((item) => (
                         <label
                           key={item.value}
                           className={cn(
-                            "flex flex-1 items-center justify-center gap-3 px-4 py-3 rounded-sm border transition-all cursor-pointer font-medium text-base",
+                            "flex flex-1 items-center justify-center gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-sm border transition-all cursor-pointer font-medium text-sm sm:text-base min-w-[70px]",
                             field.value === item.value
                               ? "bg-white text-primary border-primary ring-1 ring-primary/20 shadow-sm"
                               : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
@@ -420,7 +421,7 @@ export default function TaskForm({
 
           {/* Footer */}
           {!readOnly && (
-            <div className="flex justify-between items-center pt-4 text-lg">
+            <div className="flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 text-lg">
               {/* Delete */}
               {isUpdate && (
                 <button
@@ -441,7 +442,7 @@ export default function TaskForm({
                 disabled={isCreatingItem || isUpdatingItem}
                 type="submit"
                 className={cn(
-                  "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-8 h-[54px] rounded-full text-lg font-semibold flex items-center gap-3 shadow-md",
+                  "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-full text-base sm:text-lg font-semibold flex items-center gap-3 shadow-md",
                   !isUpdate && "ml-auto"
                 )}
               >
