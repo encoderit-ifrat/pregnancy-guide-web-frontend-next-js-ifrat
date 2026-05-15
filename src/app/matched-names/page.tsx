@@ -106,7 +106,7 @@ function NameCard({ item }: { item: MatchingType }) {
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
-      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12">
+      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-4 sm:p-6 md:p-8 lg:p-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-9">
           {/* Left: name + meta */}
           <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
@@ -150,7 +150,7 @@ function NameCard({ item }: { item: MatchingType }) {
                     </button>
                   </DialogTrigger>
                 </div>
-                <DialogContent className="sm:max-w-xl text-center bg-white p-8">
+                <DialogContent className="w-[95vw] sm:max-w-xl text-center bg-white p-5 sm:p-8 max-h-[90vh] overflow-y-auto">
                   <DialogTitle className="sr-only">
                     {t("matchedNames.removeThisName")}
                   </DialogTitle>
@@ -237,7 +237,7 @@ function NameCard({ item }: { item: MatchingType }) {
       </Card>
 
       {/* Info dialog content */}
-      <DialogContent className="sm:max-w-xl bg-white p-8">
+      <DialogContent className="w-[95vw] sm:max-w-xl bg-white p-5 sm:p-8 max-h-[90vh] overflow-y-auto">
         <DialogTitle className="sr-only">{item.name}</DialogTitle>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold text-primary-color mb-2 border-b border-b-gray-200">
@@ -334,12 +334,12 @@ export default function MatchedName() {
         <p className="text-base mt-3 text-primary-color text-center mb-6 max-w-3xl mx-auto">
           {t("threads.subtitle")}
         </p>
-        <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">
+        <div className="w-full max-w-327 pb-20 mx-auto px-0 mt-16">
           <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 sm:px-9 pt-8 pb-8 shadow-sm">
             {/* Header */}
             <div className="mb-10">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-6">
-                <h2 className="text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
+                <h2 className="text-[28px] sm:text-[32px] md:text-[42px] font-semibold text-primary-color tracking-tight">
                   {t("matchedNames.title")}
                 </h2>
                 <Link
@@ -355,12 +355,12 @@ export default function MatchedName() {
               </div>
 
               {shareLink && (
-                <div className="flex items-center gap-2 line-clamp-1 whitespace-normal rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
-                  <Link2 />
-                  <span className="truncate flex-1">{shareLink}</span>
+                <div className="flex items-center gap-2 rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
+                  <Link2 className="shrink-0 size-5" />
+                  <span className="truncate flex-1 text-sm sm:text-base">{shareLink}</span>
                   <Copy
                     onClick={handleCopy}
-                    className="ml-auto cursor-pointer hover:opacity-70 transition-opacity shrink-0"
+                    className="ml-auto cursor-pointer hover:opacity-70 transition-opacity shrink-0 size-5"
                   />
                 </div>
               )}

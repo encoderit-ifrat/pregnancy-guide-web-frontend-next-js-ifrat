@@ -219,7 +219,7 @@ function ReplyCard({
           >
             {reply.content}
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <button
               onClick={() => handleAuthAction(() => setIsReplying(!isReplying))}
               className="flex items-center gap-1.5 text-[#5B5B5B] hover:text-[#A179F2] transition-colors"
@@ -662,16 +662,16 @@ export default function ThreadDetailPage({
   };
 
   return (
-    <div className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-y-auto bg-white">
+    <div className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-2xl lg:rounded-4xl border-none overflow-y-auto bg-white">
       {/* Thread Header */}
-      <div className="px-7 pt-11 pb-6">
-        <div className="flex justify-between items-start mb-6">
+      <div className="px-4 sm:px-7 pt-6 sm:pt-11 pb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6 mb-6">
           <div className="flex-1">
-            <div className="flex items-center gap-4 mb-3">
-              <h2 className="text-3xl font-bold text-[#4D2C82] tracking-tight">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#4D2C82] tracking-tight">
                 {title}
               </h2>
-              <Badge className="bg-[#EEE4FD] text-[#A179F2] px-3 py-0.5 rounded-full text-xs font-semibold border-none">
+              <Badge className="bg-[#EEE4FD] text-[#A179F2] px-2 sm:px-3 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold border-none">
                 {t("threads.createdBy")} {createdBy.name} · {createdBy.time}
               </Badge>
             </div>
@@ -685,11 +685,11 @@ export default function ThreadDetailPage({
 
           <div className="flex flex-col items-end gap-6 shrink-0">
             {lastReply && (
-              <div className="text-right">
-                <p className="text-[#4D2C82] text-sm font-semibold mb-1">
+              <div className="text-left sm:text-right">
+                <p className="text-[#4D2C82] text-xs sm:text-sm font-semibold mb-1">
                   {t("threads.lastReply")}:
                 </p>
-                <p className="text-[#4D2C82] text-sm opacity-80">
+                <p className="text-[#4D2C82] text-[10px] sm:text-sm opacity-80">
                   {t("threads.agoBy", {
                     time: lastReply.time,
                     user: lastReply.user,
@@ -711,7 +711,7 @@ export default function ThreadDetailPage({
         </div>
 
         {/* Stats Bar */}
-        <div className="flex items-center gap-7 pt-5 border-t border-[#F3EAFF]">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-7 pt-5 border-t border-[#F3EAFF]">
           <div
             className={cn(
               "flex items-center gap-2 cursor-pointer transition-colors",
@@ -767,7 +767,7 @@ export default function ThreadDetailPage({
       </div>
 
       {/* Reply Form */}
-      <div id="reply-form" className="px-7 py-6 border-t border-[#F3EAFF]">
+      <div id="reply-form" className="px-4 sm:px-7 py-6 border-t border-[#F3EAFF]">
         {thread && (
           <form onSubmit={handleReplySubmit} className="max-w-7xl mx-auto">
             <div className="relative mb-4">
@@ -806,8 +806,8 @@ export default function ThreadDetailPage({
       </div>
 
       {/* Scrollable Replies List */}
-      <div className="px-10 pb-10">
-        <h3 className="text-2xl font-bold text-[#4D2C82] mb-8">
+      <div className="px-4 sm:px-10 pb-10">
+        <h3 className="text-xl sm:text-2xl font-bold text-[#4D2C82] mb-6 sm:mb-8">
           {t("threads.repliesCount", { count: currentStats.replies }) ||
             `Replies (${currentStats.replies})`}
         </h3>
@@ -847,7 +847,7 @@ export default function ThreadDetailPage({
 
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
         <DialogContent
-          className="sm:max-w-xl text-center bg-white border-none"
+          className="w-[95vw] sm:max-w-xl text-center bg-white border-none p-5 sm:p-8"
           onClick={(e) => e.stopPropagation()}
         >
           <DialogTitle className="sr-only">

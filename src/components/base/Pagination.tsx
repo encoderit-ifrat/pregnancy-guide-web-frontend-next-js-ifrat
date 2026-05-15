@@ -46,34 +46,46 @@ export default function Pagination({
     if (onClickPage) onClickPage(page);
   };
 
-  const getPageNumbers = () => {
-    const pages: (number | string)[] = [];
-    const showEllipsis = totalPages > 7;
+    const getPageNumbers = () => {
+      const pages: (number | string)[] = [];
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+      const maxVisiblePages = isMobile ? 3 : 7;
+      const showEllipsis = totalPages > maxVisiblePages;
 
-    if (!showEllipsis) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 4) {
-        for (let i = 1; i <= 5; i++) pages.push(i);
-        pages.push("...");
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 3) {
-        pages.push(1);
-        pages.push("...");
-        for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+      if (!showEllipsis) {
+        for (let i = 1; i <= totalPages; i++) {
+          pages.push(i);
+        }
       } else {
-        pages.push(1);
-        pages.push("...");
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
-        pages.push("...");
-        pages.push(totalPages);
+        if (isMobile) {
+          if (currentPage === 1) {
+            pages.push(1, 2, "...", totalPages);
+          } else if (currentPage === totalPages) {
+            pages.push(1, "...", totalPages - 1, totalPages);
+          } else {
+            pages.push(1, "...", currentPage, "...", totalPages);
+          }
+        } else {
+          if (currentPage <= 4) {
+            for (let i = 1; i <= 5; i++) pages.push(i);
+            pages.push("...");
+            pages.push(totalPages);
+          } else if (currentPage >= totalPages - 3) {
+            pages.push(1);
+            pages.push("...");
+            for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+          } else {
+            pages.push(1);
+            pages.push("...");
+            for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+            pages.push("...");
+            pages.push(totalPages);
+          }
+        }
       }
-    }
 
-    return pages;
-  };
+      return pages;
+    };
 
   if (totalPages <= 1) return null;
 

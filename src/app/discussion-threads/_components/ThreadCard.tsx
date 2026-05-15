@@ -247,7 +247,7 @@ export default function ThreadCard({
         </div>
       </div>
       <Dialog open={openFlagDialog} onOpenChange={setOpenFlagDialog}>
-        <DialogContent className="sm:max-w-xl text-center bg-white">
+        <DialogContent className="w-[95vw] sm:max-w-xl text-center bg-white p-5 sm:p-8 max-h-[90vh] overflow-y-auto">
           <DialogTitle className="sr-only">
             {t("threads.flagTitle")}
           </DialogTitle>
@@ -289,7 +289,7 @@ export default function ThreadCard({
           }
         }}
       >
-        <DialogContent className="w-full lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-4xl border-none overflow-hidden bg-white">
+        <DialogContent className="w-[95vw] lg:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-2xl lg:rounded-4xl border-none overflow-hidden bg-white overflow-y-auto">
           <DialogTitle className="sr-only">{title}</DialogTitle>
           <ThreadDetailPage
             title={title}

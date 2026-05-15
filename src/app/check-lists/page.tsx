@@ -270,7 +270,7 @@ export default function CheckLists() {
           open={formData.type == "create"}
           onOpenChange={() => setFormData({ type: "default", id: "" })}
         >
-          <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
+          <DialogContent className="w-[95vw] sm:max-w-md md:max-w-2xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-left">
                 {t("checklists.addChecklist")}
@@ -289,7 +289,7 @@ export default function CheckLists() {
           open={formData.type == "update"}
           onOpenChange={() => setFormData({ type: "default", id: "" })}
         >
-          <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl">
+          <DialogContent className="w-[95vw] sm:max-w-md md:max-w-2xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-left">
                 {t("checklists.updateChecklist")}

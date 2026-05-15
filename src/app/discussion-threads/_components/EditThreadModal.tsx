@@ -83,26 +83,26 @@ export default function EditThreadModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="w-full lg:max-w-4xl flex flex-col p-0 rounded-[40px] border-none overflow-hidden bg-white"
+        className="w-[95vw] sm:max-w-md md:max-w-2xl lg:max-w-4xl flex flex-col p-0 rounded-2xl lg:rounded-[40px] border-none overflow-hidden bg-white max-h-[90vh] overflow-y-auto"
         showCloseButton={false}
       >
         <DialogTitle className="sr-only">
           {t("threads.editThreadTitle") || "Edit Thread"}
         </DialogTitle>
 
-        <DialogPrimitive.Close className="absolute top-8 right-8 size-8 bg-white rounded-full border-3 border-[#3D3177] flex items-center justify-center text-primary-color hover:bg-[#F6F0FF] transition-colors z-15 shadow-sm">
-          <X className="size-4 stroke-3" />
+        <DialogPrimitive.Close className="absolute top-4 right-4 lg:top-8 lg:right-8 size-8 bg-white rounded-full border-2 lg:border-3 border-[#3D3177] flex items-center justify-center text-primary-color hover:bg-[#F6F0FF] transition-colors z-15 shadow-sm">
+          <X className="size-4 stroke-2 lg:stroke-3" />
         </DialogPrimitive.Close>
 
         <form onSubmit={handleSubmit}>
-          <div className="p-8 lg:p-16">
-            <h2 className="text-[26px] lg:text-[45px] font-semibold font-poppins text-primary-color mb-9">
+          <div className="p-6 lg:p-16">
+            <h2 className="text-[24px] lg:text-[45px] font-semibold font-poppins text-primary-color mb-6 lg:mb-9">
               {t("threads.editThreadTitle") || "Edit Thread"}
             </h2>
 
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-3">
-                <label className="lg:text-3xl text-xl font-poppins font-semibold text-primary-color">
+                <label className="lg:text-3xl text-lg lg:text-xl font-poppins font-semibold text-primary-color">
                   {t("threads.inputTitleLabel") || "Title"}
                 </label>
                 <input
@@ -117,7 +117,7 @@ export default function EditThreadModal({
               </div>
 
               <div className="flex flex-col gap-3">
-                <label className="lg:text-3xl text-xl font-poppins font-semibold text-primary-color">
+                <label className="lg:text-3xl text-lg lg:text-xl font-poppins font-semibold text-primary-color">
                   {t("threads.inputDescriptionLabel") || "Description"}
                 </label>
                 <Textarea
