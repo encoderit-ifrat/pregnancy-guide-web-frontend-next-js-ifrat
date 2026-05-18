@@ -180,7 +180,7 @@ export default function TaskForm({
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex flex-wrap gap-2"
+                      className="grid grid-cols-3 gap-2"
                       disabled={readOnly}
                     >
                       {[
@@ -201,7 +201,7 @@ export default function TaskForm({
                         <label
                           key={item.value}
                           className={cn(
-                            "flex flex-1 items-center justify-center gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-sm border transition-all cursor-pointer font-medium text-sm sm:text-base min-w-[70px]",
+                            "flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-4 py-2 sm:py-3 rounded-sm border transition-all cursor-pointer font-medium text-xs sm:text-base",
                             field.value === item.value
                               ? "bg-white text-primary border-primary ring-1 ring-primary/20 shadow-sm"
                               : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
@@ -213,14 +213,14 @@ export default function TaskForm({
                           />
                           <div
                             className={cn(
-                              "size-5 rounded-full border flex items-center justify-center transition-all",
+                              "size-4 sm:size-5 shrink-0 rounded-full border flex items-center justify-center transition-all",
                               field.value === item.value
                                 ? "border-primary"
                                 : "border-gray-300"
                             )}
                           >
                             {field.value === item.value && (
-                              <div className="size-2.5 rounded-full bg-primary" />
+                              <div className="size-2 sm:size-2.5 rounded-full bg-primary" />
                             )}
                           </div>
                           <span>{item.label}</span>
@@ -289,7 +289,7 @@ export default function TaskForm({
                     {t("checklists.taskForm.assignedTo")}
                   </FormLabel>
                   <FormControl>
-                    <div className="flex gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       {[
                         {
                           label: t("checklists.taskForm.assignees.none"),
@@ -316,7 +316,7 @@ export default function TaskForm({
                           }
                           disabled={readOnly}
                           className={cn(
-                            "flex-1 flex items-center justify-center gap-3 px-3 py-3 rounded-sm border transition-all font-medium text-base h-[52px]",
+                            "flex items-center justify-center gap-1 sm:gap-3 px-1 sm:px-3 py-2 sm:py-3 rounded-sm border transition-all font-medium text-xs sm:text-base h-[52px]",
                             field.value === item.value
                               ? "border-primary text-primary ring-1 ring-primary/20 bg-white shadow-sm"
                               : "border-gray-100 text-[#6B7280] bg-white hover:border-gray-200"
@@ -334,7 +334,7 @@ export default function TaskForm({
                           )} */}
                           {item.value != "both" && (
                             <div
-                              className={cn("size-5 rounded-full", {
+                              className={cn("size-4 sm:size-5 shrink-0 rounded-full", {
                                 "bg-[#2DD4BF]": item.value === "partner",
                                 "bg-[#A855F7]": item.value === "me",
                               })}
