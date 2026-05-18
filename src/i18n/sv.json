@@ -42,12 +42,13 @@
     "profile": "Profil",
     "changePassword": "Byt lösenord",
     "search": "Sök ...",
-    "functions": "Funktioner",
+    "functions": "Mer",
     "language": "Språk",
     "english": "Engelska",
     "swedish": "Svenska",
-    "discussions": "Diskussioner",
-    "forNameTinder": "Namnswajp"
+    "discussions": "Forum",
+    "forNameTinder": "Namnswajp",
+    "checklist": "Checklistor"
   },
   "footer": {
     "quickLinks": "Graviditet och föräldraskap",
@@ -78,7 +79,7 @@
   "mission": {
     "label": "Därför finns vi",
     "title": "Vårt uppdrag",
-    "description": "Graviditet är en av livets största resor, men den behöver inte kännas ensam. Familj finns för att du, din partner och dina närstående ska kunna följa varje steg tillsammans, med trygg information och utrymme för det som är svårt att sätta ord på.",
+    "description": "Graviditet är en av livets största resor. En tid fylld av förväntan, förändringar, frågor och nya känslor. Men du behöver inte gå igenom den ensam. Familj finns för att du, din partner och dina närstående ska kunna följa varje steg tillsammans, med trygg information och utrymme för det som är svårt att sätta ord på.",
     "quote": "Hela familjen med, från första veckan."
   },
   "appShowcase": {

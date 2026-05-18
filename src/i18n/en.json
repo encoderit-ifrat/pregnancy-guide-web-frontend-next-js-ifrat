@@ -42,12 +42,13 @@
     "profile": "Profile",
     "changePassword": "Change Password",
     "search": "Search ...",
-    "functions": "Functions",
+    "functions": "More",
     "language": "Language",
     "english": "English",
     "swedish": "Swedish",
-    "discussions": "Discussions",
-    "forNameTinder": "Name Tinder"
+    "discussions": "Forum",
+    "forNameTinder": "Name Tinder",
+    "checklist": "Checklists"
   },
   "footer": {
     "quickLinks": "Quick Links",

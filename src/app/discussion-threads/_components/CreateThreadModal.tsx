@@ -103,7 +103,7 @@ export default function CreateThreadModal({
             <div className="flex flex-col gap-8">
               {/* Title Input */}
               <div className="flex flex-col gap-3">
-                <label className="lg:text-3xl text-lg lg:text-xl font-poppins font-semibold text-primary-color">
+                <label className="lg:text-3xl text-lg font-poppins font-semibold text-primary-color">
                   {t("threads.inputTitleLabel")}
                 </label>
                 <input
@@ -119,7 +119,7 @@ export default function CreateThreadModal({
 
               {/* Description Input */}
               <div className="flex flex-col gap-3">
-                <label className="lg:text-3xl text-lg lg:text-xl font-poppins font-semibold text-primary-color">
+                <label className="lg:text-3xl text-lg font-poppins font-semibold text-primary-color">
                   {t("threads.inputDescriptionLabel")}
                 </label>
                 <Textarea

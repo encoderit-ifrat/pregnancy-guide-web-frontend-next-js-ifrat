@@ -286,6 +286,21 @@ export function Header() {
                           )}
                           {t("header.forNameTinder")}
                         </Link>
+                        <Link
+                          href="/check-lists"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/check-lists"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/check-lists" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.checklist")}
+                        </Link>
                       </div>
                     </div>
                   )}
@@ -391,6 +406,18 @@ export function Header() {
                 )}
               >
                 {t("header.forNameTinder")}
+              </Link>
+              <Link
+                href="/check-lists"
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                  pathname === "/check-lists"
+                    ? "bg-primary-light text-primary font-semibold"
+                    : "hover:bg-primary-light/50 text-text-primary"
+                )}
+              >
+                {t("header.checklist")}
               </Link>
 
               {/* <div className="w-full">
