@@ -164,7 +164,7 @@ export function Header() {
       // calculate scrollbar width to avoid layout shift when hiding scrollbar
       const scrollbarWidth =
         window.innerWidth - document.documentElement.clientWidth;
-      if (scrollbarWidth > 0) {
+      if (scrollbarWidth > 0 && window.innerWidth >= 1024) {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
 
@@ -362,7 +362,7 @@ export function Header() {
           )}
           style={{
             top: headerHeight,
-            // height: `calc(100vh - ${headerHeight}px)`,
+            height: `calc(100dvh - ${headerHeight}px)`,
           }}
         >
           <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto h-full shadow-xl">
