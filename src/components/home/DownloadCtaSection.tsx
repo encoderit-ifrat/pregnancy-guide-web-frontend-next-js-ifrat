@@ -50,20 +50,20 @@ pointer-events-none
           <div className="flex gap-4 sm:flex-row">
             <Link href="#" className="transition-transform hover:scale-105">
               <Image
-                src="/images/hero/app-store2.png"
+                src="/images/hero/appstore.webp"
                 alt={t("hero.appStoreAlt")}
                 width={140}
                 height={46}
-                className="h-11 w-auto"
+                className="h-11 w-auto rounded-md"
               />
             </Link>
             <Link href="#" className="transition-transform hover:scale-105">
               <Image
-                src="/images/hero/google-play2.png"
+                src="/images/hero/google-play2.webp"
                 alt={t("hero.googlePlayAlt")}
                 width={140}
                 height={46}
-                className="h-11 w-auto"
+                className="h-11 w-auto rounded-md"
               />
             </Link>
           </div>

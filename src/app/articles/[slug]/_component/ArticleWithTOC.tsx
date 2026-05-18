@@ -104,7 +104,7 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
   return (
     <>
       {article?.cover_image && (
-        <div className="relative w-full h-[210px] sm:h-[320px] lg:h-[580px] mb-6 rounded-xl overflow-hidden">
+        <div className="relative w-full lg:max-w-[940px] mx-auto h-[210px] sm:h-[320px] lg:h-[580px] mb-6 rounded-xl overflow-hidden">
           <Image
             src={imageLinkGenerator(article?.cover_image)}
             alt={article.title}
@@ -127,7 +127,7 @@ export default function ArticleWithTOC({ article }: { article: Article }) {
             <TableOfContents headings={headings} />
           )}
           <div className="w-full min-w-0">
-            <h1 className="text-[40px] leading-[1.25] font-semibold text-[#1A1A1A] mb-8 text-wrap font-heading">
+            <h1 className="text-[40px] leading-tight font-semibold text-[#1A1A1A] mb-8 text-wrap font-heading">
               {article?.title}
             </h1>
             <ArticleContent

@@ -31,7 +31,7 @@ export function HeroSection() {
             <div className="flex items-center justify-center md:justify-start gap-4 lg:items-start">
               <Link href="#" className="transition-transform hover:scale-105">
                 <Image
-                  src="/images/hero/app-store2.png"
+                  src="/images/hero/appstore.webp"
                   alt={t("hero.appStoreAlt")}
                   width={140}
                   height={46}
@@ -40,7 +40,7 @@ export function HeroSection() {
               </Link>
               <Link href="#" className="transition-transform hover:scale-105">
                 <Image
-                  src="/images/hero/google-play2.png"
+                  src="/images/hero/google-play2.webp"
                   alt={t("hero.googlePlayAlt")}
                   width={140}
                   height={46}

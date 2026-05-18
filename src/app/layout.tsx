@@ -67,8 +67,11 @@ export const lora = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Familj",
-  description: "Familj project setup",
+  title: {
+    template: "%s | Familj.se",
+    default: "Familj.se | Följ din graviditet vecka för vecka",
+  },
+  description: "Följ din graviditet vecka för vecka tillsammans med din partner. Artiklar, checklistor, veckans fråga och namnväljare.",
 };
 
 export default function RootLayout({
@@ -76,7 +79,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // /pregnancy-overview
 
   return (
     <html lang="sv">
