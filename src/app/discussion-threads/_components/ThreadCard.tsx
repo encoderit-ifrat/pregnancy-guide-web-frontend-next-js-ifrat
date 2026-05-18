@@ -91,7 +91,7 @@ export default function ThreadCard({
       if (res.data?.data?.shares_count !== undefined) {
         setCurrentShares(res.data.data.shares_count);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const isFlagged = thread?.flags?.includes(user?._id) || false;
@@ -170,7 +170,7 @@ export default function ThreadCard({
                 });
               }}
             >
-              <IconLove className="size-3 sm:size-3.5 md:size-4" />
+              <IconLove className="size-3 sm:size-3.5 md:size-4 mr-1" />
               <span className="text-[10px] sm:text-xs md:text-sm font-medium">
                 {currentStats.likes} {t("threads.like")}
               </span>

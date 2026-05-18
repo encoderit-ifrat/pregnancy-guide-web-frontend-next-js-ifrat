@@ -134,7 +134,7 @@ export default function CheckLists() {
         >
           <div className="max-w-303.25 w-full mx-auto pt-6 px-4 pb-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
             <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-              <div className="">
+              <div className="sm:max-w-[400px]">
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
                   {t("checklists.title")}
                 </h3>

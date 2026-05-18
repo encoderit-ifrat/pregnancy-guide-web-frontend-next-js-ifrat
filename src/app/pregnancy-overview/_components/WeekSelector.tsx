@@ -21,23 +21,8 @@ export default function WeekSelector({
 }: WeekSelectorProps) {
   const { t } = useTranslation();
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
-  const [visibleWeekCount, setVisibleWeekCount] = useState(7);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastRequestedWeekRef = useRef(currentWeek);
-
-  useEffect(() => {
-    function updateVisibleWeekCount() {
-      if (typeof window !== "undefined" && window.innerWidth < 767) {
-        setVisibleWeekCount(3);
-      } else {
-        setVisibleWeekCount(7);
-      }
-    }
-
-    updateVisibleWeekCount();
-    window.addEventListener("resize", updateVisibleWeekCount);
-    return () => window.removeEventListener("resize", updateVisibleWeekCount);
-  }, []);
 
   // Sync internal state when the prop changes (e.g. URL query param updated)
   useEffect(() => {
@@ -59,16 +44,18 @@ export default function WeekSelector({
   const min = minWeek ?? 3;
   const max = maxWeek ?? 41;
 
-  // Calculate visible weeks (current week +/- 2 on each side)
-  const halfVisible = Math.floor(visibleWeekCount / 2);
-  const startWeek = Math.max(min, selectedWeek - halfVisible);
-  const endWeek = Math.min(max, startWeek + visibleWeekCount - 1);
-  const adjustedStartWeek = Math.max(min, endWeek - visibleWeekCount + 1);
+  // Calculate visible weeks dynamically for different breakpoints
+  const getVisibleWeeks = (count: number) => {
+    const halfVisible = Math.floor(count / 2);
+    const startWeek = Math.max(min, selectedWeek - halfVisible);
+    const endWeek = Math.min(max, startWeek + count - 1);
+    const adjustedStartWeek = Math.max(min, endWeek - count + 1);
 
-  const visibleWeeks = Array.from(
-    { length: endWeek - adjustedStartWeek + 1 },
-    (_, i) => adjustedStartWeek + i
-  );
+    return Array.from(
+      { length: endWeek - adjustedStartWeek + 1 },
+      (_, i) => adjustedStartWeek + i
+    );
+  };
 
   const handleWeekClick = (week: number) => {
     if (currentWeek === week) return;
@@ -121,22 +108,41 @@ export default function WeekSelector({
           <ChevronLeft className="w-5 h-5" />
         </button>
 
-        {/* Week Buttons */}
-        {visibleWeeks.map((week) => (
+        {/* Mobile Week Buttons */}
+        {getVisibleWeeks(3).map((week) => (
           <button
-            key={week}
+            key={`mobile-${week}`}
             onClick={() => handleWeekClick(week)}
             className={cn(
-              "flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit cursor-pointer",
+              "md:hidden flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit cursor-pointer",
               selectedWeek === week
                 ? "bg-primary text-white shadow-md"
                 : "bg-purple-soft text-primary-dark",
-              selectedWeek == week
-                ? "w-[50px] h-[50px] md:w-[72px] md:h-[72px]"
-                : "w-[50px] h-[50px] md:w-[60px] md:h-[60px]"
+              "w-[50px] h-[50px]"
             )}
           >
-            <span className="font-bold text-xs md:text-lg">
+            <span className="font-bold text-xs">
+              {week === 41 ? "41+" : week < 10 ? `0${week}` : week}
+            </span>
+          </button>
+        ))}
+
+        {/* Desktop Week Buttons */}
+        {getVisibleWeeks(7).map((week) => (
+          <button
+            key={`desktop-${week}`}
+            onClick={() => handleWeekClick(week)}
+            className={cn(
+              "hidden md:flex flex-col items-center justify-center rounded-full text-base font-medium font-outfit cursor-pointer",
+              selectedWeek === week
+                ? "bg-primary text-white shadow-md"
+                : "bg-purple-soft text-primary-dark",
+              selectedWeek === week
+                ? "w-[72px] h-[72px]"
+                : "w-[60px] h-[60px]"
+            )}
+          >
+            <span className="font-bold text-lg">
               {week === 41 ? "41+" : week < 10 ? `0${week}` : week}
             </span>
           </button>
