@@ -16,19 +16,19 @@ export default async function middleware(req: NextRequest) {
 
   // Check if current route is login or signup
   const isAuthPage =
-    pathname === "/login" ||
-    pathname === "/sign-up" ||
-    pathname === "/forgot-password" ||
+    pathname === "/logga-in" ||
+    pathname === "/skapa-konto" ||
+    pathname === "/glomt-losenord" ||
     pathname === "/";
 
   // If user is authenticated and trying to access auth pages, redirect away
   if (token && isAuthPage) {
-    return NextResponse.redirect(new URL("/pregnancy-overview", req.url));
+    return NextResponse.redirect(new URL("/gravid/vecka", req.url));
   }
 
   // If user is not authenticated and on protected route, redirect to login
   if (!token && !isAuthPage) {
-    const loginUrl = new URL("/login", req.url);
+    const loginUrl = new URL("/logga-in", req.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
@@ -38,15 +38,15 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/pregnancy-overview/:path*",
-    "/checklists/:path*",
-    "/profile/:path*",
+    "/gravid/:path*",
+    "/checklistor/:path*",
+    "/min-profil/:path*",
     "/articles/:path*",
-    "/weekly-question/:path*",
+    "/veckans-fraga/:path*",
     "/change-password/:path*",
-    "/login",
-    "/sign-up",
-    "/forgot-password",
+    "/logga-in",
+    "/skapa-konto",
+    "/glomt-losenord",
     "/",
   ],
 };

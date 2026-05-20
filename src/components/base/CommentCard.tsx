@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useQuestionLike } from "@/app/pregnancy-overview/_api/mutation/useQuestionLike";
-import { useQuestionDislike } from "@/app/pregnancy-overview/_api/mutation/useQuestionDislike";
+import { useQuestionLike } from "@/app/_pregnancy-overview/_api/mutation/useQuestionLike";
+import { useQuestionDislike } from "@/app/_pregnancy-overview/_api/mutation/useQuestionDislike";
 import { cn } from "@/lib/utils";
 // import {
 //   Accordion,

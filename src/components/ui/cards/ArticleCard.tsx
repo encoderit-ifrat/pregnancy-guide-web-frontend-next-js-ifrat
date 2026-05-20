@@ -43,7 +43,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <p className="font-semibold font-poppins text-xl! text-primary-dark! whitespace-nowrap truncate">
           <Link href={`/articles/${slug}`}> {title}</Link>
         </p>
-        <p className="flex-1">{description}</p>
+        <p className="line-clamp-5 overflow-hidden">{description}</p>
         <Link
           href={`/articles/${slug}`}
           className="text-primary font-semibold font-poppins text-sm"

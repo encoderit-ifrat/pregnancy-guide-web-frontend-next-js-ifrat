@@ -15,8 +15,23 @@ import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
 
 export const metadata: Metadata = {
-  title: "Home | Familij",
-  description: "Track and monitor your pregnancy journey",
+  title: "Familj.se | Följ din graviditet vecka för vecka",
+  description:
+    "Följ din graviditet vecka för vecka tillsammans med din partner och familj. Artiklar, checklistor, veckans fråga och barnnamn samlat på ett ställe.",
+  openGraph: {
+    title: "Familj.se, för dig, din partner och hela familjen",
+    description:
+      "Allt ni behöver under graviditeten. Bjud in partner och familj, läs veckovisa artiklar, hitta barnnamn tillsammans och förbered er i lugn och ro.",
+    type: "website",
+    locale: "sv_SE",
+    siteName: "Familj.se",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Familj.se | Följ din graviditet vecka för vecka",
+    description:
+      "Följ din graviditet vecka för vecka tillsammans med din partner och familj. Artiklar, checklistor, veckans fråga och barnnamn samlat på ett ställe.",
+  },
 };
 
 // Fetch articles data at build time

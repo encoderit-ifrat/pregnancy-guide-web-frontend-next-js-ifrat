@@ -61,7 +61,7 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
   return (
     <section className="bg-primary-light">
       <div className="relative section px-4 sm:pb-7 lg:pb-15 lg:text-start pb-10">
-        <div className="w-full text-center pb-6 md:pt-6 mb-7">
+        <div className="w-full text-center pb-6 md:pt-6 mb-1">
           <div>
             <IconHeading
               text={t("pregnancy.articles")}
@@ -75,58 +75,26 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
           <div className="py-4 h-[550px]">
             <Slider
               options={{
-                spaceBetween: 10,
-                slidesPerView: 1,
+                spaceBetween: 20,
+                slidesPerView: 1.2,
                 navigation: true,
                 pagination: {
                   ...pagination,
                   enabled: true,
                 },
-                grid: {
-                  rows: 1,
-                  fill: "row",
-                },
-                watchSlidesProgress: true,
                 breakpoints: {
-                  320: {
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                    grid: {
-                      rows: 1,
-                      fill: "row",
-                    },
-                  },
-                  321: {
-                    slidesPerView: 1.5,
-                    spaceBetween: 10,
-                  },
                   640: {
                     slidesPerView: 2,
                     spaceBetween: 20,
                   },
-                  768: {
-                    slidesPerView: 2.5,
-                    spaceBetween: 20,
-                    grid: {
-                      rows: 1,
-                      fill: "row",
-                    },
-                  },
                   1024: {
                     slidesPerView: 3,
                     spaceBetween: 20,
-                    grid: {
-                      rows: 2,
-                      fill: "row",
-                    },
-                    pagination: {
-                      enabled: true,
-                    },
                   },
                 },
               }}
               sideOverlayClassName="bg-transparent"
-              className="h-full overflow-visible! pt-14! md:pt-4! pb-10! [&_.swiper-pagination]:!bottom-2 [&_.swiper-pagination]:!top-auto md:[&_.swiper-pagination]:!bottom-4 [&_.swiper-button-prev]:!top-2 [&_.swiper-button-next]:!top-2 md:[&_.swiper-button-prev]:!top-1/2 md:[&_.swiper-button-next]:!top-1/2 [&_.swiper-button-next]:!z-50 [&_.swiper-button-prev]:!z-50 [&_.swiper-pagination]:!z-50"
+              className="h-full overflow-hidden! pt-16! md:pt-4! pb-10! [&_.swiper-pagination]:bottom-2! [&_.swiper-pagination]:top-auto! md:[&_.swiper-pagination]:bottom-4! [&_.swiper-button-prev]:top-6! [&_.swiper-button-next]:top-6! md:[&_.swiper-button-prev]:top-1/2! md:[&_.swiper-button-next]:top-1/2! [&_.swiper-button-next]:z-50! [&_.swiper-button-prev]:z-50! [&_.swiper-pagination]:z-50!"
             >
               {data.map(
                 (
@@ -147,7 +115,7 @@ const SpecialArticleSection = ({ data, weeklyDetails }: TProps) => {
             </Slider>
             <div className="justify-center hidden md:flex md:mt-8">
               <Link
-                href={`/search-article?page=1&tag=special&week=${weeklyDetails?.week}`}
+                href={`/sok?page=1&tag=special&week=${weeklyDetails?.week}`}
               >
                 <Button variant="default" className="px-8">
                   {t("pregnancy.viewAll")} <ChevronRight className="ml-2" />

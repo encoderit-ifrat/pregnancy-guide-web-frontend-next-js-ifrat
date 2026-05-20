@@ -94,7 +94,7 @@ api.interceptors.response.use(
           description: "Your session has expired. Please login again.",
         });
         await signOut({ redirect: false });
-        window.location.href = "/login";
+        window.location.href = "/logga-in";
         return Promise.reject({
           message: "Your session has expired. Please login again.",
           status: 401,

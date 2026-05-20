@@ -1,0 +1,103 @@
+import { Article } from "@/types/shared";
+
+export type Baby = {
+  upcoming: boolean;
+  start_week_date: string | null;
+  name: string | null;
+};
+
+export type UserProfile = {
+  _id: string;
+  name: string;
+  email: string;
+  mobile: string;
+  avatar?: string | null;
+  dob: string;
+  gender: "male" | "female" | "other";
+  roles?: {
+    name: string;
+  }[];
+  details?: {
+    current_pregnancy_week: number | null;
+    current_pregnancy_data?: {
+      week: number;
+      day: number;
+      percentage: number;
+    };
+    due_date: string | null;
+    last_period_date: string | null;
+    family_name?: string;
+    partner_name?: string;
+    babies?: Baby[];
+  };
+};
+
+export type WeeklyDetails = {
+  _id: string;
+  title: string;
+  description: string;
+  week: number;
+  image?: string;
+  description_one?: string;
+  description_two?: string;
+  description_three?: string;
+};
+
+export type Question = {
+  _id: string;
+  question: string;
+  answer?: string;
+  week: number;
+};
+
+import {
+  ChecklistItem,
+  ChecklistItemWithItems as Checklist,
+} from "@/app/checklistor/_types/checklist_item_types";
+
+export type { ChecklistItem, Checklist };
+
+export type ArticlesData = {
+  latest: Article[];
+  popularWeeks: Article[];
+  specialArticle: Article[];
+  bannerArticle: Article[];
+  weeklyArticles: Article[];
+};
+
+export type QuestionsData = {
+  data: Question[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+};
+
+export type ChecklistData = {
+  data: Checklist[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+};
+
+export type PregnancyOverviewData = {
+  articles: ArticlesData;
+  questions: QuestionsData;
+  checklist: ChecklistData;
+  weeklyDetails: WeeklyDetails;
+  userProfile: UserProfile;
+};
+
+export type PregnancyOverviewProps = {
+  pregnancyData: PregnancyOverviewData;
+  selectedWeek?: number;
+};
+
+export type PregnancyOverviewPageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};

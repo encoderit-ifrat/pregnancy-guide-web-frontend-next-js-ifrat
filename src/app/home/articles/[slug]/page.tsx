@@ -4,7 +4,7 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import ArticleWithTOC from "@/app/articles/[slug]/_component/ArticleWithTOC";
+import ArticleWithTOC from "@/app/_articles/[slug]/_component/ArticleWithTOC";
 import { API_V1 } from "@/consts";
 
 // Force SSR for authenticated content

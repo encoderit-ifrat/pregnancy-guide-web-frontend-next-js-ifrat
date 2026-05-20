@@ -36,14 +36,21 @@ export function Header() {
       const categoryData = categories.data.data as Category[];
       setNavigationLinks(
         categoryData.map((category) => ({
-          href: `/search-article?page=1&category=${category.slug}`,
+          href: `/${category.slug}`,
           label: category.name,
         }))
       );
     }
   }, [categories]);
 
-  const { isAuthenticated } = useCurrentUser();
+  const { user, isAuthenticated } = useCurrentUser();
+  const userWeek = user?.details?.current_pregnancy_data?.week;
+  const userDay = user?.details?.current_pregnancy_data?.day ?? 0;
+  const currentWeek = userWeek !== undefined ? (userDay > 0 ? userWeek + 1 : userWeek) : null;
+  const logoHref = isAuthenticated
+    ? (currentWeek !== null ? `/gravid/vecka/${currentWeek}` : "/gravid/vecka")
+    : "/";
+
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -121,11 +128,11 @@ export function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = () => {
     // if (onSearch) onSearch(searchTerm);
-    router.replace(`/search-article?page=1&search=${searchTerm}`);
+    router.replace(`/sok?page=1&search=${searchTerm}`);
   };
   const handleClear = () => {
     setSearchTerm("");
-    router.replace(`/search-article`);
+    router.replace(`/sok`);
 
     // if (onSearch) onSearch("");
   };
@@ -216,7 +223,7 @@ export function Header() {
             {/* Logo */}
             <div className={logoClassName}>
               <Link
-                href={isAuthenticated ? "/pregnancy-overview" : "/"}
+                href={logoHref}
                 className="shrink-0"
               >
                 <Logo dark={isSmallScreen || isSticky} />
@@ -255,48 +262,48 @@ export function Header() {
                     <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden">
                       <div className="flex flex-col gap-1">
                         <Link
-                          href="/discussion-threads"
+                          href="/forum"
                           onClick={() => setIsFunctionsOpen(false)}
                           className={cn(
                             "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                            pathname === "/discussion-threads" ||
-                              pathname === "/published-threads"
+                            pathname === "/forum" ||
+                              pathname === "/forum/mina-amnen"
                               ? "bg-[#F6F0FF] text-primary font-semibold"
                               : "hover:bg-gray-50 text-primary-dark"
                           )}
                         >
-                          {(pathname === "/discussion-threads" ||
-                            pathname === "/published-threads") && (
+                          {(pathname === "/forum" ||
+                            pathname === "/forum/mina-amnen") && (
                               <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
                             )}
                           {t("header.discussions")}
                         </Link>
                         <Link
-                          href="/for-name-tinder"
+                          href="/barnnamn/swajp"
                           onClick={() => setIsFunctionsOpen(false)}
                           className={cn(
                             "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                            pathname === "/for-name-tinder"
+                            pathname === "/barnnamn/swajp"
                               ? "bg-[#F6F0FF] text-primary font-semibold"
                               : "hover:bg-gray-50 text-primary-dark"
                           )}
                         >
-                          {pathname === "/for-name-tinder" && (
+                          {pathname === "/barnnamn/swajp" && (
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
                           )}
                           {t("header.forNameTinder")}
                         </Link>
                         <Link
-                          href="/check-lists"
+                          href="/checklistor"
                           onClick={() => setIsFunctionsOpen(false)}
                           className={cn(
                             "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                            pathname === "/check-lists"
+                            pathname === "/checklistor"
                               ? "bg-[#F6F0FF] text-primary font-semibold"
                               : "hover:bg-gray-50 text-primary-dark"
                           )}
                         >
-                          {pathname === "/check-lists" && (
+                          {pathname === "/checklistor" && (
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
                           )}
                           {t("header.checklist")}
@@ -323,7 +330,7 @@ export function Header() {
               {isAuthenticated ? (
                 <ProfileDropDown />
               ) : (
-                <Link href="/login" className="hidden lg:block">
+                <Link href="/logga-in" className="hidden lg:block">
                   <Button className="font-poppins h-9 font-semibold text-base text-white py-1.5 px-6">
                     {t("header.login")}
                   </Button>
@@ -384,23 +391,23 @@ export function Header() {
                 );
               })}
               <Link
-                href="/discussion-threads"
+                href="/forum"
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
                   "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/discussion-threads" ||
-                    pathname === "/published-threads"
+                  pathname === "/forum" ||
+                    pathname === "/forum/mina-amnen"
                     ? "bg-primary-light text-primary font-semibold"
                     : "hover:bg-primary-light/50 text-text-primary"
                 )}
               >
                 {t("header.discussions")}
               </Link> <Link
-                href="/for-name-tinder"
+                href="/barnnamn/swajp"
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
                   "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/for-name-tinder"
+                  pathname === "/barnnamn/swajp"
                     ? "bg-primary-light text-primary font-semibold"
                     : "hover:bg-primary-light/50 text-text-primary"
                 )}
@@ -408,11 +415,11 @@ export function Header() {
                 {t("header.forNameTinder")}
               </Link>
               <Link
-                href="/check-lists"
+                href="/checklistor"
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
                   "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/check-lists"
+                  pathname === "/checklistor"
                     ? "bg-primary-light text-primary font-semibold"
                     : "hover:bg-primary-light/50 text-text-primary"
                 )}
@@ -509,7 +516,7 @@ export function Header() {
                     {t("header.logout")}
                   </Button>
                 ) : (
-                  <Link href="/login">
+                  <Link href="/logga-in">
                     <Button className="w-full">{t("header.login")}</Button>
                   </Link>
                 )}

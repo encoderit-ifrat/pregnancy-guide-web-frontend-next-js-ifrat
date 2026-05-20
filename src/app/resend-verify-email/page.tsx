@@ -1,6 +1,16 @@
 import React from "react";
+import { Metadata } from "next";
 import ResendEmailForm from "./_component/ResendEmailForm";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Skicka verifieringslänk igen | Familj.se",
+  description: "Skicka verifieringslänk för e-post igen på Familj.se.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function page() {
   return (

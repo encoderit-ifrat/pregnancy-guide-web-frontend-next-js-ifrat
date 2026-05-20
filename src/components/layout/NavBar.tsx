@@ -29,7 +29,7 @@ export default function Navbar({
       const categoryData = categories.data.data as Category[];
       setNavigationLinks(
         categoryData.map((category) => ({
-          href: `/search-article?page=1&category=${category.slug}`,
+          href: `/${category.slug}`,
           label: category.name,
         }))
       );

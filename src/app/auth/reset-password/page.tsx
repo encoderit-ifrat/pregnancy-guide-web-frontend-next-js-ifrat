@@ -1,22 +1,16 @@
-"use client";
-
 import React from "react";
-import ChangePasswordForm from "./_component/ChangePasswordForm";
-import AuthCard from "@/components/ui/cards/AuthCard";
-import { useTranslation } from "@/hooks/useTranslation";
+import { Metadata } from "next";
+import ResetPasswordClientPage from "./ResetPasswordClientPage";
+
+export const metadata: Metadata = {
+  title: "Återställ lösenord | Familj.se",
+  description: "Återställ ditt lösenord på Familj.se.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function ResetPasswordPage() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      <AuthCard
-        title={t("changePassword.title")}
-        description={t("changePassword.description")}
-        image="/images/auth/change-password.png"
-      >
-        <ChangePasswordForm />
-      </AuthCard>
-    </div>
-  );
+  return <ResetPasswordClientPage />;
 }

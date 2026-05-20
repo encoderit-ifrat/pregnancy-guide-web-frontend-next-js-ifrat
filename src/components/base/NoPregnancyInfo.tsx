@@ -7,7 +7,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { Calendar } from "lucide-react";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { Button } from "@/components/ui/Button";
-import { useBabyCreate, babyRequestType } from "@/app/profile/_api/mutations/useBabyCreate";
+import { useBabyCreate, babyRequestType } from "@/app/min-profil/_api/mutations/useBabyCreate";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { toast } from "sonner";
 import { calculateDueDateFromLPD } from "@/utlis/calculateDate";
@@ -41,7 +41,7 @@ function NoPregnancyInfo() {
         toast.success(t("profile.updateSuccess"));
         refetch();
         router.refresh();
-        router.push("/profile");
+        router.push("/min-profil");
       },
       onError: () => {
         toast.error(t("profile.updateFailed"));

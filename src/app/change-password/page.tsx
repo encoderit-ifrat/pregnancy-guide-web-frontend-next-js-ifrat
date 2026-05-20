@@ -1,22 +1,16 @@
-"use client";
-
 import React from "react";
-import UpdatePasswordForm from "./_component/UpdatePasswordForm";
-import AuthCard from "@/components/ui/cards/AuthCard";
-import { useTranslation } from "@/hooks/useTranslation";
+import { Metadata } from "next";
+import ChangePasswordClientPage from "./ChangePasswordClientPage";
+
+export const metadata: Metadata = {
+  title: "Ändra lösenord | Familj.se",
+  description: "Ändra ditt lösenord på Familj.se.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function ChangePasswordPage() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      <AuthCard
-        title={t("changePassword.title")}
-        description={t("changePassword.description")}
-        image="/images/auth/change-password.png"
-      >
-        <UpdatePasswordForm />
-      </AuthCard>
-    </div>
-  );
+  return <ChangePasswordClientPage />;
 }

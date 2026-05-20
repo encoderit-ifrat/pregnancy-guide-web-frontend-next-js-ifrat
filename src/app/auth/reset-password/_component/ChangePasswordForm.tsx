@@ -51,7 +51,7 @@ export default function ChangePasswordForm() {
     const urlToken = new URLSearchParams(window.location.search).get("token");
     if (!urlToken) {
       toast.error(t("auth.resetPassword.invalidLink"));
-      router.push("/forgot-password");
+      router.push("/glomt-losenord");
     } else {
       setToken(urlToken);
     }
@@ -72,7 +72,7 @@ export default function ChangePasswordForm() {
         onSuccess: () => {
           toast.success(t("auth.resetPassword.success"));
           form.reset();
-          router.push("/login");
+          router.push("/logga-in");
         },
       }
     );
@@ -139,7 +139,7 @@ export default function ChangePasswordForm() {
         <div className="text-xs sm:text-sm md:text-base lg:text-xl leading-tight">
           <p className="text-center text-text-dark">
             {t("auth.resetPassword.alreadyHaveAccount")}{" "}
-            <Link href="/login" className="text-circle-border hover:underline">
+            <Link href="/logga-in" className="text-circle-border hover:underline">
               {t("auth.resetPassword.signIn")}
             </Link>
           </p>

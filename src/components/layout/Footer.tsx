@@ -13,16 +13,16 @@ export function Footer() {
 
   const companyLinks = Array.isArray(categoriesData?.data?.data)
     ? (categoriesData.data.data as Category[]).map((category) => ({
-        href: `/search-article?page=1&category=${category.slug}`,
+        href: `/${category.slug}`,
         label: category.name,
       }))
     : [];
 
   const footerLinks = {
     resources: [
-      { href: "/login", label: t("footer.home") },
-      { href: "/sign-up", label: t("footer.articles") },
-      { href: "/forgot-password", label: "Glömt lösenord" },
+      { href: "/logga-in", label: t("footer.home") },
+      { href: "/skapa-konto", label: t("footer.articles") },
+      { href: "/glomt-losenord", label: "Glömt lösenord" },
       // { href: "/feedback", label: t("footer.feedback") },
       // { href: "/settings", label: t("footer.settings") },
     ],
