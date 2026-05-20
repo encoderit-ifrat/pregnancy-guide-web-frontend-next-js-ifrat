@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { SharedMatchedNamesClient } from "./SharedMatchedNamesClient";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "En delad namnlista | Familj.se",
@@ -17,12 +18,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "sv_SE",
     siteName: "Familj.se",
+    images: [{ url: OG_DEFAULT_IMAGE }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rösta på vår barnnamnslista, vad tycker du?",
     description:
       "Vi har samlat våra favoritnamn på Familj.se. Rösta på dina favoriter och hjälp oss hitta det perfekta namnet till barnet.",
+    images: [{ url: OG_DEFAULT_IMAGE }],
   },
 };
 

@@ -1,11 +1,15 @@
 import React from "react";
 import { Metadata } from "next";
 import ForgotPasswordClientPage from "./ForgotPasswordClientPage";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Glömt lösenord | Familj.se",
   description:
     "Återställ ditt lösenord och kom tillbaka till ditt konto på Familj.se.",
+  alternates: {
+    canonical: canonicalUrl("/glomt-losenord"),
+  },
   robots: {
     index: false,
     follow: false,
@@ -17,12 +21,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "sv_SE",
     siteName: "Familj.se",
+    images: [{ url: OG_DEFAULT_IMAGE }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Glömt lösenord | Familj.se",
     description:
       "Återställ ditt lösenord och kom tillbaka till ditt konto på Familj.se.",
+    images: [{ url: OG_DEFAULT_IMAGE }],
   },
 };
 

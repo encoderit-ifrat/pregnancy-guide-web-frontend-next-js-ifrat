@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import ThreadDetailClient from "../../[id]/ThreadDetailClient";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -47,15 +48,20 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: {
+      canonical: canonicalUrl(`/forum/amne/${slugAndId}`),
+    },
     openGraph: {
       type: "article",
       title,
       description,
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
   };
 }

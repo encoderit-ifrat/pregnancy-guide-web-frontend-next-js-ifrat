@@ -5,6 +5,7 @@ import SearchArticle from "../sok/_component/SearchArticle";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 // Force SSR for dynamic content
 export const dynamic = "force-dynamic";
@@ -90,17 +91,22 @@ export async function generateMetadata({
   return {
     title: metadataInfo.title,
     description: metadataInfo.description,
+    alternates: {
+      canonical: canonicalUrl(`/${normalizedCategory}`),
+    },
     openGraph: {
       type: "website",
       title: metadataInfo.title,
       description: metadataInfo.description,
       locale: "sv_SE",
       siteName: "Familj.se",
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title: metadataInfo.title,
       description: metadataInfo.description,
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
   };
 }

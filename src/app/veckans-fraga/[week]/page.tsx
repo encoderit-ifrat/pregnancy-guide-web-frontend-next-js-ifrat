@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
 import PregnancyError from "@/components/base/PregnancyError";
 import WeeklyQuestionClientPage from "./WeeklyQuestionClientPage";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -22,6 +23,20 @@ export async function generateMetadata({
     robots: {
       index: false,
       follow: false,
+    },
+    openGraph: {
+      title: `Veckans fråga, vecka ${weekNumber} | Familj.se`,
+      description: `En reflekterande fråga att svara på tillsammans, för dig som är gravid och din partner. Spara era svar och se hur tankarna förändras.`,
+      type: "website",
+      locale: "sv_SE",
+      siteName: "Familj.se",
+      images: [{ url: OG_DEFAULT_IMAGE }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Veckans fråga, vecka ${weekNumber} | Familj.se`,
+      description: `En reflekterande fråga att svara på tillsammans, för dig som är gravid och din partner. Spara era svar och se hur tankarna förändras.`,
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
   };
 }

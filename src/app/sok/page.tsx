@@ -10,6 +10,7 @@ import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
 import { tr } from "date-fns/locale";
 import { redirect } from "next/navigation";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 // import { useRouter } from "next/navigation";
 
 // Force SSR for dynamic search queries
@@ -52,17 +53,22 @@ export async function generateMetadata({
   return {
     title: title,
     description: description,
+    alternates: {
+      canonical: canonicalUrl("/sok"),
+    },
     openGraph: {
       title: title,
       description: description,
       type: "website",
       locale: "sv_SE",
       siteName: "Familj.se",
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title: title,
       description: description,
+      images: [{ url: OG_DEFAULT_IMAGE }],
     },
     robots: {
       index: false,

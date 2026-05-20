@@ -8,6 +8,7 @@ import { notFound, redirect } from "next/navigation";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { API_V1 } from "@/consts";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -48,7 +49,7 @@ async function getArticle(
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { category, slug } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.token) {
@@ -68,15 +69,26 @@ export async function generateMetadata({
     };
   }
 
+  const ogImage = article.cover_image
+    ? `${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`
+    : OG_DEFAULT_IMAGE;
+
   return {
     title: `${article.title} | Familj`,
     description: article.excerpt || article.title,
+    alternates: {
+      canonical: canonicalUrl(`/${category}/${slug}`),
+    },
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      images: article.cover_image
-        ? [`${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`]
-        : [],
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [{ url: ogImage }],
     },
   };
 }

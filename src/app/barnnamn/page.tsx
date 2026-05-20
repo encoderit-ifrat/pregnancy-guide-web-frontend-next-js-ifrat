@@ -7,11 +7,19 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { PageContainer } from "@/components/layout/PageContainer";
 import Image from "next/image";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Barnnamn | Hitta barnets namn tillsammans | Familj.se",
   description:
     "Hitta barnets namn tillsammans med din partner. Swajpa er igenom tusentals namn, spara favoriter och se vilka ni båda gillar. Skapa konto gratis.",
+  alternates: {
+    canonical: canonicalUrl("/barnnamn"),
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "Barnnamn | Hitta barnets namn tillsammans | Familj.se",
     description:
@@ -19,12 +27,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "sv_SE",
     siteName: "Familj.se",
+    images: [{ url: OG_DEFAULT_IMAGE }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Barnnamn | Hitta barnets namn tillsammans | Familj.se",
     description:
       "Hitta barnets namn tillsammans med din partner. Swajpa er igenom tusentals namn, spara favoriter och se vilka ni båda gillar. Skapa konto gratis.",
+    images: [{ url: OG_DEFAULT_IMAGE }],
   },
 };
 
