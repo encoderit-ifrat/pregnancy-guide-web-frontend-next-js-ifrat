@@ -14,7 +14,7 @@ export async function generateMetadata({
   const lastHyphenIndex = slugAndId.lastIndexOf("-");
   const id = lastHyphenIndex !== -1 ? slugAndId.slice(lastHyphenIndex + 1) : slugAndId;
 
-  let title = "Tråd | Forum | Familj.se";
+  let title = "Tråd | Forum";
   let description = "Diskutera med andra blivande föräldrar på Familj.se.";
 
   try {
@@ -27,7 +27,7 @@ export async function generateMetadata({
     if (res.ok) {
       const json = await res.json();
       if (json?.data) {
-        title = `${json.data.title} | Forum | Familj.se`;
+        title = `${json.data.title} | Forum`;
         
         const rawDesc = json.data.description || "";
         let truncated = "";

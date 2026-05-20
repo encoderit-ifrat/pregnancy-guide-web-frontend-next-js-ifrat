@@ -4,7 +4,7 @@ import VerifyEmailClientPage from "./VerifyEmailClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Verifiera e-post | Familj.se",
+  title: "Verifiera e-post",
   description: "Verifiera din e-postadress på Familj.se.",
   alternates: {
     canonical: canonicalUrl("/auth/verify-email"),
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: "Verifiera e-post | Familj.se",
+    title: "Verifiera e-post",
     description: "Verifiera din e-postadress på Familj.se.",
     type: "website",
     locale: "sv_SE",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Verifiera e-post | Familj.se",
+    title: "Verifiera e-post",
     description: "Verifiera din e-postadress på Familj.se.",
     images: [{ url: OG_DEFAULT_IMAGE }],
   },

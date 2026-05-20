@@ -4,7 +4,7 @@ import ForgotPasswordClientPage from "./ForgotPasswordClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Glömt lösenord | Familj.se",
+  title: "Glömt lösenord",
   description:
     "Återställ ditt lösenord och kom tillbaka till ditt konto på Familj.se.",
   alternates: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: "Glömt lösenord | Familj.se",
+    title: "Glömt lösenord",
     description:
       "Återställ ditt lösenord och kom tillbaka till ditt konto på Familj.se.",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Glömt lösenord | Familj.se",
+    title: "Glömt lösenord",
     description:
       "Återställ ditt lösenord och kom tillbaka till ditt konto på Familj.se.",
     images: [{ url: OG_DEFAULT_IMAGE }],

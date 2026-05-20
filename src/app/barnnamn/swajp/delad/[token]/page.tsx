@@ -4,7 +4,7 @@ import { SharedMatchedNamesClient } from "./SharedMatchedNamesClient";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "En delad namnlista | Familj.se",
+  title: "En delad namnlista",
   description:
     "Någon har delat sin barnnamnslista med dig. Rösta på dina favoriter och hjälp dem hitta det perfekta namnet till barnet.",
   robots: {

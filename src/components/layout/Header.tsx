@@ -19,6 +19,7 @@ import Logo from "../ui/Logo";
 import Navbar from "./NavBar";
 import MultiLanguageDropDown from "./MultiLanguageDropDown";
 import { Input } from "../ui/Input";
+import { transliterateSlug } from "@/lib/seo";
 
 export function Header() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export function Header() {
       const categoryData = categories.data.data as Category[];
       setNavigationLinks(
         categoryData.map((category) => ({
-          href: `/${category.slug}`,
+          href: `/${transliterateSlug(category.slug)}`,
           label: category.name,
         }))
       );

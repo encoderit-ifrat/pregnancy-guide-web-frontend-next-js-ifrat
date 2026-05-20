@@ -4,7 +4,7 @@ import SwipeClientPage from "./SwipeClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Namnswajp | Välj barnnamn tillsammans | Familj.se",
+  title: "Namnswajp | Välj barnnamn tillsammans",
   description:
     "Swajpa er igenom tusentals barnnamn tillsammans med din partner. Spara matchningar automatiskt och se vilka namn ni båda gillar. Skapa konto gratis.",
   alternates: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Namnswajp | Välj barnnamn tillsammans | Familj.se",
+    title: "Namnswajp | Välj barnnamn tillsammans",
     description:
       "Swajpa er igenom tusentals barnnamn tillsammans med din partner. Spara matchningar automatiskt och se vilka namn ni båda gillar. Skapa konto gratis.",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Namnswajp | Välj barnnamn tillsammans | Familj.se",
+    title: "Namnswajp | Välj barnnamn tillsammans",
     description:
       "Swajpa er igenom tusentals barnnamn tillsammans med din partner. Spara matchningar automatiskt och se vilka namn ni båda gillar. Skapa konto gratis.",
     images: [{ url: OG_DEFAULT_IMAGE }],

@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Category } from "@/types/shared";
 import { useQueryGetAllCategories } from "../Navbar/api/queries/useQueryGetAllCategories";
 import { NavigationLink } from "../Navbar/_types/navbar_types";
+import { transliterateSlug } from "@/lib/seo";
 
 export default function Navbar({
   isSearchExpanded,
@@ -27,9 +28,11 @@ export default function Navbar({
       categories.data.data.length > 0
     ) {
       const categoryData = categories.data.data as Category[];
+      console.log("🚀 ~ Navbar ~ categoryData:", categoryData);
+
       setNavigationLinks(
         categoryData.map((category) => ({
-          href: `/${category.slug}`,
+          href: `/${transliterateSlug(category.slug)}`,
           label: category.name,
         }))
       );

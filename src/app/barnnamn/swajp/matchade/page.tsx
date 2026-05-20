@@ -4,7 +4,7 @@ import MatchedNamesClientPage from "./MatchedNamesClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Era matchade barnnamn | Familj.se",
+  title: "Era matchade barnnamn",
   description:
     "Namnen ni båda har gillat under namnswajpen. Spara, dela och bestäm tillsammans vilket namn som passar bäst.",
   alternates: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: "Era matchade barnnamn | Familj.se",
+    title: "Era matchade barnnamn",
     description:
       "Namnen ni båda har gillat under namnswajpen. Spara, dela och bestäm tillsammans vilket namn som passar bäst.",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Era matchade barnnamn | Familj.se",
+    title: "Era matchade barnnamn",
     description:
       "Namnen ni båda har gillat under namnswajpen. Spara, dela och bestäm tillsammans vilket namn som passar bäst.",
     images: [{ url: OG_DEFAULT_IMAGE }],

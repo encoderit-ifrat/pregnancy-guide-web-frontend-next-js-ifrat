@@ -5,76 +5,76 @@ import SearchArticle from "../sok/_component/SearchArticle";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
-import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
+import { OG_DEFAULT_IMAGE, canonicalUrl, transliterateSlug } from "@/lib/seo";
 
-// Force SSR for dynamic content
 export const dynamic = "force-dynamic";
 
-// Normalize slug: handle URL decoding and map Swedish/pretty variants to database slugs
+const CORRECT_CATEGORIES = [
+  "graviditet",
+  "infor-forlossning",
+  "mat-och-kostrad",
+  "efter-forlossning",
+];
+
+const BROKEN_TO_CORRECT: Record<string, string> = {
+  "frlossning": "infor-forlossning",
+  "mat-och-kostrd": "mat-och-kostrad",
+  "efter-frlossning": "efter-forlossning",
+  "inför-förlossning": "infor-forlossning",
+  "mat-och-kostråd": "mat-och-kostrad",
+  "efter-förlossning": "efter-forlossning",
+  "forlossning": "infor-forlossning",
+  "förlossning": "infor-forlossning",
+};
+
+const CORRECT_TO_BROKEN: Record<string, string> = {
+  "infor-forlossning": "frlossning",
+  "mat-och-kostrad": "mat-och-kostrd",
+  "efter-forlossning": "efter-frlossning",
+};
+
 function normalizeSlug(slug: string): string {
   let decoded = slug;
-  try {
-    decoded = decodeURIComponent(slug);
-  } catch (e) {
-    // ignore
-  }
-
+  try { decoded = decodeURIComponent(slug); } catch {}
   const lower = decoded.toLowerCase();
 
-  const mapping: Record<string, string> = {
-    "infor-forlossning": "frlossning",
-    "mat-och-kostrad": "mat-och-kostrd",
-    "efter-forlossning": "efter-frlossning",
-    "inför-förlossning": "frlossning",
-    "mat-och-kostråd": "mat-och-kostrd",
-    "efter-förlossning": "efter-frlossning",
-    "forlossning": "frlossning",
-    "förlossning": "frlossning",
-  };
+  if (CORRECT_CATEGORIES.includes(lower)) return lower;
+  if (BROKEN_TO_CORRECT[lower]) return BROKEN_TO_CORRECT[lower];
 
-  if (mapping[lower]) {
-    return mapping[lower];
-  }
-
-  // Fallback: strip Swedish characters just like the backend slugification did
-  return lower
-    .replace(/[åä]/g, "")
-    .replace(/[ö]/g, "");
+  const t = transliterateSlug(lower);
+  if (CORRECT_CATEGORIES.includes(t)) return t;
+  if (BROKEN_TO_CORRECT[t]) return BROKEN_TO_CORRECT[t];
+  return t;
 }
 
-// Valid category slugs (database slugs)
-const VALID_CATEGORIES = [
-  "graviditet",
-  "frlossning",
-  "mat-och-kostrd",
-  "efter-frlossning",
-];
+function getApiSlug(correctSlug: string): string {
+  return CORRECT_TO_BROKEN[correctSlug] || correctSlug;
+}
+
+const CATEGORY_METADATA: Record<string, { title: string; description: string }> = {
+  "graviditet": {
+    title: "Graviditet | Artiklar för dig som väntar barn",
+    description: "Läs om graviditet, kroppen, känslorna och vardagen för dig som väntar barn. Trygg och saklig läsning för dig som är gravid och för din partner.",
+  },
+  "infor-forlossning": {
+    title: "Inför förlossning | Förbered er tillsammans",
+    description: "Allt ni behöver veta inför förlossningen. Smärtlindring, sammandragningar, hinnsvepning, kejsarsnitt och partnerns roll under förlossningen.",
+  },
+  "mat-och-kostrad": {
+    title: "Mat och kostråd för gravida",
+    description: "Vad får man äta som gravid? Läs om listeria, fisk och skaldjur, ost, kosttillskott och vilka livsmedel du bör undvika under graviditeten.",
+  },
+  "efter-forlossning": {
+    title: "Efter förlossning | Återhämtning och bebistiden",
+    description: "Allt om tiden efter förlossningen. Återhämtning, amning, sömn med nyfött barn, känslor och vardagen med bebis. Stöd för hela familjen.",
+  },
+};
 
 type CategoryPageProps = {
   params: Promise<{ category: string }>;
   searchParams: Promise<{ page?: string; search?: string }>;
 };
 
-const CATEGORY_METADATA: Record<string, { title: string; description: string }> = {
-  "graviditet": {
-    title: "Graviditet | Artiklar för dig som väntar barn | Familj.se",
-    description: "Läs om graviditet, kroppen, känslorna och vardagen för dig som väntar barn. Trygg och saklig läsning för dig som är gravid och för din partner.",
-  },
-  "frlossning": {
-    title: "Inför förlossning | Förbered er tillsammans | Familj.se",
-    description: "Allt ni behöver veta inför förlossningen. Smärtlindring, sammandragningar, hinnsvepning, kejsarsnitt och partnerns roll under förlossningen.",
-  },
-  "mat-och-kostrd": {
-    title: "Mat och kostråd för gravida | Familj.se",
-    description: "Vad får man äta som gravid? Läs om listeria, fisk och skaldjur, ost, kosttillskott och vilka livsmedel du bör undvika under graviditeten.",
-  },
-  "efter-frlossning": {
-    title: "Efter förlossning | Återhämtning och bebistiden | Familj.se",
-    description: "Allt om tiden efter förlossningen. Återhämtning, amning, sömn med nyfött barn, känslor och vardagen med bebis. Stöd för hela familjen.",
-  },
-};
-
-// Generate metadata
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
@@ -83,9 +83,7 @@ export async function generateMetadata({
 
   const metadataInfo = CATEGORY_METADATA[normalizedCategory];
   if (!metadataInfo) {
-    return {
-      title: "Kategori hittades inte | Familj",
-    };
+    return { title: "Kategori hittades inte" };
   }
 
   return {
@@ -111,23 +109,40 @@ export async function generateMetadata({
   };
 }
 
-// Generate static params for known categories
 export async function generateStaticParams() {
-  return VALID_CATEGORIES.map((category) => ({ category }));
+  try {
+    const res = await fetch(`${API_V1}/categories`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const json = await res.json();
+      const apiCategories = json?.data ?? [];
+      const seen = new Set<string>();
+      return apiCategories
+        .map((c: any) => normalizeSlug(c.slug))
+        .filter((slug: string) => {
+          if (seen.has(slug)) return false;
+          seen.add(slug);
+          return CORRECT_CATEGORIES.includes(slug);
+        })
+        .map((category: string) => ({ category }));
+    }
+  } catch {}
+  return CORRECT_CATEGORIES.map((category) => ({ category }));
 }
 
-// Fetch category and articles data
 async function getCategoryData(
   category: string,
   searchParams: { page?: string; search?: string },
   lang: string = "sv"
 ) {
   try {
+    const apiSlug = getApiSlug(category);
     const params = new URLSearchParams({
       page: searchParams.page || "1",
       lang: lang,
       withCategory: "true",
-      category: category,
+      category: apiSlug,
       ...(searchParams.search && { search: searchParams.search }),
     });
 
@@ -159,16 +174,13 @@ export default async function CategoryPage({
   const category = normalizeSlug(rawCategory);
   const resolvedSearchParams = await searchParams;
 
-  // Validate category
-  if (!VALID_CATEGORIES.includes(category)) {
+  if (!CORRECT_CATEGORIES.includes(category)) {
     notFound();
   }
 
-  // Get locale from cookies
   const cookieStore = await cookies();
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
-  // Fetch data
   const articlesData = await getCategoryData(
     category,
     resolvedSearchParams,
@@ -179,7 +191,7 @@ export default async function CategoryPage({
   const pagination = articlesData?.data?.pagination ?? null;
 
   const categoryData = categories.find(
-    (c: any) => c.slug === category
+    (c: any) => normalizeSlug(c.slug) === category
   ) || categories[0] || null;
 
   return (

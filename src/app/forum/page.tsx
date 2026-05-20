@@ -4,7 +4,7 @@ import ForumClientPage from "./ForumClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Forum för blivande föräldrar | Familj.se",
+  title: "Forum för blivande föräldrar",
   description:
     "Diskutera graviditet, förlossning och föräldraliv i en trygg gemenskap. Dela erfarenheter, ställ frågor och få stöd av andra blivande föräldrar.",
   alternates: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Forum för blivande föräldrar | Familj.se",
+    title: "Forum för blivande föräldrar",
     description:
       "Diskutera graviditet, förlossning och föräldraliv i en trygg gemenskap. Dela erfarenheter, ställ frågor och få stöd av andra blivande föräldrar.",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Forum för blivande föräldrar | Familj.se",
+    title: "Forum för blivande föräldrar",
     description:
       "Diskutera graviditet, förlossning och föräldraliv i en trygg gemenskap. Dela erfarenheter, ställ frågor och få stöd av andra blivande föräldrar.",
     images: [{ url: OG_DEFAULT_IMAGE }],

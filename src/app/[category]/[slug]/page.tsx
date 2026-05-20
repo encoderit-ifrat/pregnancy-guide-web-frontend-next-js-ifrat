@@ -54,7 +54,7 @@ export async function generateMetadata({
 
   if (!session?.token) {
     return {
-      title: "Login Required | Familj",
+      title: "Login Required",
     };
   }
 
@@ -65,7 +65,7 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Article Not Found | Familj",
+      title: "Article Not Found",
     };
   }
 
@@ -74,7 +74,7 @@ export async function generateMetadata({
     : OG_DEFAULT_IMAGE;
 
   return {
-    title: `${article.title} | Familj`,
+    title: `${article.title}`,
     description: article.excerpt || article.title,
     alternates: {
       canonical: canonicalUrl(`/${category}/${slug}`),

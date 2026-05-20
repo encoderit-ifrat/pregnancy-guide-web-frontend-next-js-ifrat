@@ -4,7 +4,7 @@ import SignUpClientPage from "./SignUpClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Skapa konto | Familj.se",
+  title: "Skapa konto",
   description:
     "Skapa ett gratis konto och följ er graviditet tillsammans. Veckovisa artiklar, checklistor, veckans fråga och verktyg för att hitta barnnamn.",
   alternates: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: "Skapa konto | Familj.se",
+    title: "Skapa konto",
     description:
       "Skapa ett gratis konto och följ er graviditet tillsammans. Veckovisa artiklar, checklistor, veckans fråga och verktyg för att hitta barnnamn.",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Skapa konto | Familj.se",
+    title: "Skapa konto",
     description:
       "Skapa ett gratis konto och följ er graviditet tillsammans. Veckovisa artiklar, checklistor, veckans fråga och verktyg för att hitta barnnamn.",
     images: [{ url: OG_DEFAULT_IMAGE }],

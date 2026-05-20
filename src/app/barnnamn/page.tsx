@@ -10,7 +10,7 @@ import Image from "next/image";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Barnnamn | Hitta barnets namn tillsammans | Familj.se",
+  title: "Barnnamn | Hitta barnets namn tillsammans",
   description:
     "Hitta barnets namn tillsammans med din partner. Swajpa er igenom tusentals namn, spara favoriter och se vilka ni båda gillar. Skapa konto gratis.",
   alternates: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Barnnamn | Hitta barnets namn tillsammans | Familj.se",
+    title: "Barnnamn | Hitta barnets namn tillsammans",
     description:
       "Hitta barnets namn tillsammans med din partner. Swajpa er igenom tusentals namn, spara favoriter och se vilka ni båda gillar. Skapa konto gratis.",
     type: "website",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Barnnamn | Hitta barnets namn tillsammans | Familj.se",
+    title: "Barnnamn | Hitta barnets namn tillsammans",
     description:
       "Hitta barnets namn tillsammans med din partner. Swajpa er igenom tusentals namn, spara favoriter och se vilka ni båda gillar. Skapa konto gratis.",
     images: [{ url: OG_DEFAULT_IMAGE }],

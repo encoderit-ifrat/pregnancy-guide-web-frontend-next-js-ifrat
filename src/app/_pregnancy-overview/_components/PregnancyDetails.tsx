@@ -74,7 +74,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               width={700}
               height={700}
             />
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 h-full w-1/2 flex flex-col justify-center gap-2 ">
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 h-full w-1/2 flex flex-col justify-center gap-1 ">
               <h3 className="text-primary-dark text-center text-lg md:text-[22px] font-medium md:font-semibold">
                 {weeklyDetails?.description_one}
               </h3>
@@ -103,7 +103,7 @@ function Cards({
 }) {
   return (
     <div
-      className={`border-t-10 border-t-primary min-h-[220px] rounded-lg bg-white text-xl overflow-hidden ${className}`}
+      className={`border-t-10 border-t-primary min-h-[260px] rounded-lg bg-white text-xl overflow-hidden ${className}`}
     >
       {children}
     </div>

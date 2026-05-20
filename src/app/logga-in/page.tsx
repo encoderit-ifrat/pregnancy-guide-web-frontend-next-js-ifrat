@@ -4,7 +4,7 @@ import LoginClientPage from "./LoginClientPage";
 import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Logga in | Familj.se",
+  title: "Logga in",
   description:
     "Logga in på ditt konto för att följa din graviditet, läsa veckans fråga och se era matchade barnnamn.",
   alternates: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: "Logga in | Familj.se",
+    title: "Logga in",
     description:
       "Logga in på ditt konto för att följa din graviditet, läsa veckans fråga och se era matchade barnnamn.",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Logga in | Familj.se",
+    title: "Logga in",
     description:
       "Logga in på ditt konto för att följa din graviditet, läsa veckans fråga och se era matchade barnnamn.",
     images: [{ url: OG_DEFAULT_IMAGE }],

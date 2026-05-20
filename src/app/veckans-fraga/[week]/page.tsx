@@ -18,14 +18,14 @@ export async function generateMetadata({
   const weekNumber = parseInt(rawWeek.replace("vecka-", ""), 10) || 3;
 
   return {
-    title: `Veckans fråga, vecka ${weekNumber} | Familj.se`,
+    title: `Veckans fråga, vecka ${weekNumber}`,
     description: `En reflekterande fråga att svara på tillsammans, för dig som är gravid och din partner. Spara era svar och se hur tankarna förändras.`,
     robots: {
       index: false,
       follow: false,
     },
     openGraph: {
-      title: `Veckans fråga, vecka ${weekNumber} | Familj.se`,
+      title: `Veckans fråga, vecka ${weekNumber}`,
       description: `En reflekterande fråga att svara på tillsammans, för dig som är gravid och din partner. Spara era svar och se hur tankarna förändras.`,
       type: "website",
       locale: "sv_SE",
@@ -34,7 +34,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `Veckans fråga, vecka ${weekNumber} | Familj.se`,
+      title: `Veckans fråga, vecka ${weekNumber}`,
       description: `En reflekterande fråga att svara på tillsammans, för dig som är gravid och din partner. Spara era svar och se hur tankarna förändras.`,
       images: [{ url: OG_DEFAULT_IMAGE }],
     },

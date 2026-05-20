@@ -10,7 +10,7 @@ import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
 import { tr } from "date-fns/locale";
 import { redirect } from "next/navigation";
-import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
+import { OG_DEFAULT_IMAGE, canonicalUrl, transliterateSlug } from "@/lib/seo";
 // import { useRouter } from "next/navigation";
 
 // Force SSR for dynamic search queries
@@ -38,7 +38,7 @@ export async function generateMetadata({
   // Build dynamic title
   let title = "Sök på Familj.se";
   if (query) {
-    title = `Sökresultat för "${query}" | Familj.se`;
+    title = `Sökresultat för "${query}"`;
   }
   if (page !== "1") {
     title += ` - Sida ${page}`;
@@ -133,7 +133,9 @@ export default async function Page({
   const pagination = articlesData?.data?.pagination ?? null;
 
   if (articles.length === 1 && articles[0]?.slug) {
-    redirect(`/articles/${articles[0].slug}`);
+    const article = articles[0];
+    const catSlug = transliterateSlug(article.category?.slug || "graviditet");
+    redirect(`/${catSlug}/${article.slug}`);
   }
 
   const category = categories[0] || null;

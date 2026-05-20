@@ -6,6 +6,7 @@ import { Facebook, Instagram, Music2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryGetAllCategories } from "@/components/Navbar/api/queries/useQueryGetAllCategories";
 import { Category } from "@/types/shared";
+import { transliterateSlug } from "@/lib/seo";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ export function Footer() {
 
   const companyLinks = Array.isArray(categoriesData?.data?.data)
     ? (categoriesData.data.data as Category[]).map((category) => ({
-        href: `/${category.slug}`,
+        href: `/${transliterateSlug(category.slug)}`,
         label: category.name,
       }))
     : [];

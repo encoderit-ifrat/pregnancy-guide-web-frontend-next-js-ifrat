@@ -10,7 +10,7 @@ import { API_V1 } from "@/consts";
 
 // Metadata for the page title
 export const metadata: Metadata = {
-  title: "Gravid Vecka | Familj",
+  title: "Gravid Vecka",
   description: "Följ din graviditetsresa vecka för vecka",
 };
 
