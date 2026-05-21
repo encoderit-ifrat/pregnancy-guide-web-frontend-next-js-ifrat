@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CheckBox } from "@/components/ui/Checkbox";
 import { RegisterFormType, useSignUp } from "../_api/mutations/useSignUp";
@@ -26,6 +27,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export default function RegisterForm() {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
@@ -47,9 +49,8 @@ export default function RegisterForm() {
       confirm_password: values?.confirmPassword,
     };
     signUpMutation.mutate(formData, {
-      onSuccess(data) {
-        const successMessage = data?.data?.data?.message;
-        toast.success(successMessage || t("signUp.registrationSuccess"));
+      onSuccess() {
+        router.push("/verifiera-konto");
       },
       onError(error: unknown) {
         const axiosError = error as {

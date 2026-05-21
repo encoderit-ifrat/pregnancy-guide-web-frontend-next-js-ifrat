@@ -77,7 +77,7 @@ export default function ForumClientPage() {
       // We might want to refetch or update local state if needed,
       // but usually the mutation handles it or we rely on the next refresh.
       queryClient.invalidateQueries({ queryKey: ["get-threads"] });
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const { data, isLoading, refetch } = useQuery({
@@ -137,7 +137,6 @@ export default function ForumClientPage() {
 
   const paginationMeta = data?.data?.pagination;
 
-
   const handleLike = (threadId: string) => {
     likeMutation.mutate(threadId);
   };
@@ -157,9 +156,9 @@ export default function ForumClientPage() {
 
     const timeAgo = isValid(createdAtDate)
       ? formatDistanceToNow(createdAtDate, {
-        addSuffix: true,
-        locale: currentLocale,
-      })
+          addSuffix: true,
+          locale: currentLocale,
+        })
       : "";
 
     return {
@@ -273,6 +272,13 @@ export default function ForumClientPage() {
                     className="px-2 sm:px-6 text-xs sm:text-sm"
                   >
                     {t("threads.newest")}
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="thread_latest_have_reply"
+                    variant="pill"
+                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                  >
+                    {t("threads.threadLatestHaveReply")}
                   </TabsTrigger>
                 </TabsList>
               </div>

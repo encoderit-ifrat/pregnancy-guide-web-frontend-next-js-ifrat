@@ -134,6 +134,23 @@ export default async function Page({
 
   if (articles.length === 1 && articles[0]?.slug) {
     const article = articles[0];
+
+    const tagToTrack: Record<string, string> = {
+      Baby: "barn",
+      Mother: "mamma",
+      Partner: "partner",
+    };
+
+    const searchTag = params.tag || "";
+    const searchWeek = params.week ? parseInt(params.week, 10) : NaN;
+    const matchedTrack = tagToTrack[searchTag];
+
+    if (matchedTrack && searchWeek >= 1 && searchWeek <= 42) {
+      redirect(
+        `/gravid/vecka/${searchWeek}/${matchedTrack}/${article.slug}`
+      );
+    }
+
     const catSlug = transliterateSlug(article.category?.slug || "graviditet");
     redirect(`/${catSlug}/${article.slug}`);
   }

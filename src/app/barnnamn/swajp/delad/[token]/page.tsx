@@ -61,18 +61,28 @@ async function fetchInitialData(
 
 export default async function SharedMatchedNamesPage({
   searchParams,
+  params,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ [key: string]: string }>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const user_id =
-    typeof resolvedSearchParams.user_id === "string"
-      ? resolvedSearchParams.user_id
-      : undefined;
-  const partner_id =
-    typeof resolvedSearchParams.partner_id === "string"
-      ? resolvedSearchParams.partner_id
-      : undefined;
+  const resolvedParams = await params;
+  const id = resolvedParams.token;
+  const [user_id, partner_id] = id.split("-");
+  console.log(
+    "🚀 ~ SharedMatchedNamesPage ~ resolvedSearchParams:",
+    resolvedSearchParams
+  );
+  console.log("🚀 ~ SharedMatchedNamesPage ~ partner_id:", partner_id);
+  // const user_id =
+  //   typeof resolvedParams === "string"
+  //     ? resolvedParams.split("-")[0]
+  //     : undefined;
+  // const partner_id =
+  //   typeof resolvedParams === "string"
+  //     ? resolvedParams.split("-")[1]
+  //     : undefined;
   const filterParam =
     typeof resolvedSearchParams.filter === "string"
       ? resolvedSearchParams.filter

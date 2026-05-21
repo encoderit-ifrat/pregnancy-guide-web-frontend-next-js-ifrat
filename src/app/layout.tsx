@@ -16,6 +16,7 @@ import { UserProvider } from "@/providers/UserProvider";
 import { Header } from "@/components/layout/Header";
 import LayoutFooter from "@/components/layout/LayoutFooter";
 import { LayoutFooterVisibilityProvider } from "@/components/layout/LayoutFooterVisibility";
+import CookieConsentProvider from "@/components/cookie/CookieConsentProvider";
 
 import { I18nProvider } from "@/providers/I18nProvider";
 
@@ -97,8 +98,10 @@ export default function RootLayout({
                 <LayoutFooterVisibilityProvider>
                   <Header />
                   <UserProvider>
-                    {children}
-                    <Toaster richColors position="top-right" />
+                    <CookieConsentProvider>
+                      {children}
+                      <Toaster richColors position="top-right" />
+                    </CookieConsentProvider>
                   </UserProvider>
                   <LayoutFooter />
                 </LayoutFooterVisibilityProvider>

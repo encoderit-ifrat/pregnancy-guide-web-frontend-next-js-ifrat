@@ -28,7 +28,6 @@ export default function Navbar({
       categories.data.data.length > 0
     ) {
       const categoryData = categories.data.data as Category[];
-      console.log("🚀 ~ Navbar ~ categoryData:", categoryData);
 
       setNavigationLinks(
         categoryData.map((category) => ({
@@ -117,12 +116,12 @@ export default function Navbar({
         />
 
         {/* Scrollable Navigation Menu */}
-        <div>
+        <div className="w-[550px]">
           <NavigationMenu>
             <div
               ref={scrollRef}
               onScroll={checkScroll}
-              className="overflow-x-auto overflow-y-hidden max-w-sm lg:max-w-lg scrollbar-hide scroll-smooth "
+              className="overflow-x-auto overflow-y-hidden w-full scrollbar-hide scroll-smooth "
             >
               <NavigationMenuList className="gap-2 xl:gap-6">
                 {navigationLinks.map((link, index) => (

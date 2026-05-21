@@ -47,9 +47,12 @@ export function Header() {
   const { user, isAuthenticated } = useCurrentUser();
   const userWeek = user?.details?.current_pregnancy_data?.week;
   const userDay = user?.details?.current_pregnancy_data?.day ?? 0;
-  const currentWeek = userWeek !== undefined ? (userDay > 0 ? userWeek + 1 : userWeek) : null;
+  const currentWeek =
+    userWeek !== undefined ? (userDay > 0 ? userWeek + 1 : userWeek) : null;
   const logoHref = isAuthenticated
-    ? (currentWeek !== null ? `/gravid/vecka/${currentWeek}` : "/gravid/vecka")
+    ? currentWeek !== null
+      ? `/gravid/vecka/${currentWeek}`
+      : "/gravid/vecka"
     : "/";
 
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -223,19 +226,17 @@ export function Header() {
           <div className="flex items-center gap-4 md:gap-10">
             {/* Logo */}
             <div className={logoClassName}>
-              <Link
-                href={logoHref}
-                className="shrink-0"
-              >
+              <Link href={logoHref} className="shrink-0">
                 <Logo dark={isSmallScreen || isSticky} />
               </Link>
             </div>
 
             <div
-              className={`transition-all duration-300 ease-in-out ${isSearchExpanded
-                ? "max-w-0 opacity-0"
-                : "max-w-[680px] opacity-100"
-                }`}
+              className={`transition-all duration-300 ease-in-out ${
+                isSearchExpanded
+                  ? "max-w-0 opacity-0"
+                  : "max-w-[780px] opacity-100"
+              }`}
             >
               <div className="flex items-center gap-4">
                 <div className="overflow-hidden whitespace-nowrap">
@@ -275,8 +276,8 @@ export function Header() {
                         >
                           {(pathname === "/forum" ||
                             pathname === "/forum/mina-amnen") && (
-                              <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
-                            )}
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
                           {t("header.discussions")}
                         </Link>
                         <Link
@@ -381,10 +382,11 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${isActive
-                      ? "text-primary bg-primary-light"
-                      : "text-text-primary"
-                      }`}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
+                      isActive
+                        ? "text-primary bg-primary-light"
+                        : "text-text-primary"
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
@@ -396,14 +398,14 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
                   "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/forum" ||
-                    pathname === "/forum/mina-amnen"
+                  pathname === "/forum" || pathname === "/forum/mina-amnen"
                     ? "bg-primary-light text-primary font-semibold"
                     : "hover:bg-primary-light/50 text-text-primary"
                 )}
               >
                 {t("header.discussions")}
-              </Link> <Link
+              </Link>{" "}
+              <Link
                 href="/barnnamn/swajp"
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
@@ -427,7 +429,6 @@ export function Header() {
               >
                 {t("header.checklist")}
               </Link>
-
               {/* <div className="w-full">
                 <button
                   onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
@@ -475,7 +476,6 @@ export function Header() {
                 )}
               </div> */}
               {/* <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" /> */}
-
               <form
                 onSubmit={(e) => {
                   e.preventDefault();

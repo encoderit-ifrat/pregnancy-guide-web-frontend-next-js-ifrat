@@ -51,8 +51,8 @@ export default function PregnancyOverview({
   // Initial client redirect check
   const [isRedirecting, setIsRedirecting] = useState(
     selectedWeek !== undefined &&
-    selectedWeek !== currentWeek &&
-    sessionSelectedWeek === null
+      selectedWeek !== currentWeek &&
+      sessionSelectedWeek === null
   );
 
   // Use URL param if present, otherwise fall back to user's current week
@@ -136,7 +136,7 @@ export default function PregnancyOverview({
       {Boolean(questions?.data?.[0]?._id) &&
         userProfile?.roles?.[0].name !== "partner" && (
           <QuestionOfTheWeek
-            currentWeek={currentWeek}
+            currentWeek={initialWeek}
             question={questions?.data?.[0] as unknown as QuestionType}
           />
         )}

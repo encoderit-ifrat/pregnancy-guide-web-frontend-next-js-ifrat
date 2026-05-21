@@ -24,6 +24,8 @@ export type Article = {
   cover_image: string;
   thumbnail_image?: string;
   featured: boolean;
+  week?: number;
+  track?: string;
 };
 
 export type PaginationMeta = {

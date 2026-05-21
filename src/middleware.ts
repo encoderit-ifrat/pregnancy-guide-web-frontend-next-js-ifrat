@@ -38,6 +38,7 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/gravid/:path*",
     "/checklistor/:path*",
     "/min-profil/:path*",
@@ -47,6 +48,5 @@ export const config = {
     "/logga-in",
     "/skapa-konto",
     "/glomt-losenord",
-    "/",
   ],
 };
