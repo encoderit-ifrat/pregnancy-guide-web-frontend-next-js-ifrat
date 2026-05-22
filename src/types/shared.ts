@@ -1,9 +1,20 @@
 // Shared types used across multiple components
 
+export type MetaDetails = {
+  metaTitle?: string;
+  metaDescription?: string;
+  urlSlug?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  metaKeywords?: string[];
+};
+
 export type Category = {
   _id: string;
   slug: string;
   name: string;
+  metaDetails?: MetaDetails | null;
 };
 
 export type Tag = {
@@ -26,6 +37,7 @@ export type Article = {
   featured: boolean;
   week?: number;
   track?: string;
+  metaDetails?: MetaDetails | null;
 };
 
 export type PaginationMeta = {

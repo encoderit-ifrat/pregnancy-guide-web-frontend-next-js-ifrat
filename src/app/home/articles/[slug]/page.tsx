@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import ArticleWithTOC from "@/app/_articles/[slug]/_component/ArticleWithTOC";
 import { API_V1 } from "@/consts";
+import { buildMetadataFromMetaDetails, OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -52,17 +53,19 @@ export async function generateMetadata({
     };
   }
 
-  return {
-    title: `${article.title} | Familij`,
-    description: article.excerpt || article.title,
-    openGraph: {
-      title: article.title,
-      description: article.excerpt,
-      images: article.cover_image
-        ? [`${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`]
-        : [],
+  const fallbackOgImage = article.cover_image
+    ? `${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`
+    : OG_DEFAULT_IMAGE;
+
+  return buildMetadataFromMetaDetails(
+    article.metaDetails,
+    {
+      title: `${article.title} | Familij`,
+      description: article.excerpt || article.title,
+      ogImage: fallbackOgImage,
     },
-  };
+    `/home/articles/${slug}`
+  );
 }
 
 // Server Component - SSR (rendered on each request)

@@ -5,7 +5,12 @@ import SearchArticle from "../sok/_component/SearchArticle";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
-import { OG_DEFAULT_IMAGE, canonicalUrl, transliterateSlug } from "@/lib/seo";
+import {
+  OG_DEFAULT_IMAGE,
+  canonicalUrl,
+  transliterateSlug,
+  buildMetadataFromMetaDetails,
+} from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -89,29 +94,61 @@ export async function generateMetadata({
   const { category } = await params;
   const normalizedCategory = normalizeSlug(category);
 
-  const metadataInfo = CATEGORY_METADATA[normalizedCategory];
-  if (!metadataInfo) {
+  const staticMeta = CATEGORY_METADATA[normalizedCategory];
+  if (!staticMeta) {
     return { title: "Kategori hittades inte" };
   }
 
+  try {
+    const apiSlug = getApiSlug(normalizedCategory);
+    const catParams = new URLSearchParams({
+      page: "1",
+      lang: "sv",
+      withCategory: "true",
+      category: apiSlug,
+      limit: "1",
+    });
+    const res = await fetch(`${API_V1}/articles?${catParams}`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const json = await res.json();
+      const apiCategories = json?.data?.categories ?? [];
+      const matchedCategory = apiCategories.find(
+        (c: any) => normalizeSlug(c.slug) === normalizedCategory
+      );
+      if (matchedCategory?.metaDetails) {
+        return buildMetadataFromMetaDetails(
+          matchedCategory.metaDetails,
+          {
+            title: staticMeta.title,
+            description: staticMeta.description,
+            ogImage: OG_DEFAULT_IMAGE,
+          },
+          `/${normalizedCategory}`
+        );
+      }
+    }
+  } catch {}
+
   return {
-    title: metadataInfo.title,
-    description: metadataInfo.description,
+    title: staticMeta.title,
+    description: staticMeta.description,
     alternates: {
       canonical: canonicalUrl(`/${normalizedCategory}`),
     },
     openGraph: {
       type: "website",
-      title: metadataInfo.title,
-      description: metadataInfo.description,
+      title: staticMeta.title,
+      description: staticMeta.description,
       locale: "sv_SE",
       siteName: "Familj.se",
       images: [{ url: OG_DEFAULT_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
-      title: metadataInfo.title,
-      description: metadataInfo.description,
+      title: staticMeta.title,
+      description: staticMeta.description,
       images: [{ url: OG_DEFAULT_IMAGE }],
     },
   };
@@ -119,12 +156,18 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   try {
-    const res = await fetch(`${API_V1}/categories`, {
+    const catParams = new URLSearchParams({
+      page: "1",
+      lang: "sv",
+      withCategory: "true",
+      limit: "1",
+    });
+    const res = await fetch(`${API_V1}/articles?${catParams}`, {
       cache: "no-store",
     });
     if (res.ok) {
       const json = await res.json();
-      const apiCategories = json?.data ?? [];
+      const apiCategories = json?.data?.categories ?? [];
       const seen = new Set<string>();
       return apiCategories
         .map((c: any) => normalizeSlug(c.slug))
@@ -194,7 +237,6 @@ export default async function CategoryPage({
     resolvedSearchParams,
     locale
   );
-  console.log("🚀 ~ CategoryPage ~ articlesData:", articlesData);
 
   const articles = articlesData?.data?.data ?? [];
   const categories = articlesData?.data?.categories ?? [];

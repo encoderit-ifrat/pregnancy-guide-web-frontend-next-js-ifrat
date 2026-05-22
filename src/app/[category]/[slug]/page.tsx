@@ -8,7 +8,11 @@ import { notFound, redirect } from "next/navigation";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { API_V1 } from "@/consts";
-import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
+import {
+  OG_DEFAULT_IMAGE,
+  canonicalUrl,
+  buildMetadataFromMetaDetails,
+} from "@/lib/seo";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -65,28 +69,19 @@ export async function generateMetadata({
     };
   }
 
-  const ogImage = article.cover_image
+  const fallbackOgImage = article.cover_image
     ? `${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`
     : OG_DEFAULT_IMAGE;
 
-  return {
-    title: `${article.title}`,
-    description: article.excerpt || article.title,
-    alternates: {
-      canonical: canonicalUrl(`/${category}/${slug}`),
-    },
-    openGraph: {
+  return buildMetadataFromMetaDetails(
+    article.metaDetails,
+    {
       title: article.title,
-      description: article.excerpt,
-      images: [{ url: ogImage }],
+      description: article.excerpt || article.title,
+      ogImage: fallbackOgImage,
     },
-    twitter: {
-      card: "summary_large_image",
-      title: article.title,
-      description: article.excerpt,
-      images: [{ url: ogImage }],
-    },
-  };
+    `/${category}/${slug}`
+  );
 }
 
 // Server Component - SSR
@@ -103,7 +98,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, session.token, locale);
-  console.log("🚀 ~ ArticlePage ~ article:", article);
 
   if (!article) {
     notFound();

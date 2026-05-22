@@ -7,7 +7,7 @@ import { authOptions } from "@/utlis/authOptions";
 import { notFound, redirect } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { API_V1 } from "@/consts";
-import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
+import { OG_DEFAULT_IMAGE, canonicalUrl, buildMetadataFromMetaDetails } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -64,28 +64,19 @@ export async function generateWeeklyArticleMetadata({
     };
   }
 
-  const ogImage = article.cover_image
+  const fallbackOgImage = article.cover_image
     ? `${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`
     : OG_DEFAULT_IMAGE;
 
-  return {
-    title: `${article.title}`,
-    description: article.excerpt || article.title,
-    alternates: {
-      canonical: canonicalUrl(`/gravid/vecka/${week}/${track}/${slug}`),
-    },
-    openGraph: {
+  return buildMetadataFromMetaDetails(
+    article.metaDetails,
+    {
       title: article.title,
-      description: article.excerpt,
-      images: [{ url: ogImage }],
+      description: article.excerpt || article.title,
+      ogImage: fallbackOgImage,
     },
-    twitter: {
-      card: "summary_large_image",
-      title: article.title,
-      description: article.excerpt,
-      images: [{ url: ogImage }],
-    },
-  };
+    `/gravid/vecka/${week}/${track}/${slug}`
+  );
 }
 
 export async function WeeklyArticlePage({
