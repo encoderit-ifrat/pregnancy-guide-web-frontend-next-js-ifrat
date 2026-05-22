@@ -18,11 +18,7 @@ type ArticlePageProps = {
 };
 
 // Fetch article data with authentication
-async function getArticle(
-  slug: string,
-  token: string,
-  lang: string = "sv"
-) {
+async function getArticle(slug: string, token: string, lang: string = "sv") {
   try {
     const res = await fetch(`${API_V1}/articles/${slug}?lang=${lang}`, {
       headers: {
@@ -107,6 +103,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
   const article = await getArticle(slug, session.token, locale);
+  console.log("🚀 ~ ArticlePage ~ article:", article);
 
   if (!article) {
     notFound();

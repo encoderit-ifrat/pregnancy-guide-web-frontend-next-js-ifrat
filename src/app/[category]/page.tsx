@@ -17,14 +17,14 @@ const CORRECT_CATEGORIES = [
 ];
 
 const BROKEN_TO_CORRECT: Record<string, string> = {
-  "frlossning": "infor-forlossning",
+  frlossning: "infor-forlossning",
   "mat-och-kostrd": "mat-och-kostrad",
   "efter-frlossning": "efter-forlossning",
   "inför-förlossning": "infor-forlossning",
   "mat-och-kostråd": "mat-och-kostrad",
   "efter-förlossning": "efter-forlossning",
-  "forlossning": "infor-forlossning",
-  "förlossning": "infor-forlossning",
+  forlossning: "infor-forlossning",
+  förlossning: "infor-forlossning",
 };
 
 const CORRECT_TO_BROKEN: Record<string, string> = {
@@ -35,7 +35,9 @@ const CORRECT_TO_BROKEN: Record<string, string> = {
 
 function normalizeSlug(slug: string): string {
   let decoded = slug;
-  try { decoded = decodeURIComponent(slug); } catch {}
+  try {
+    decoded = decodeURIComponent(slug);
+  } catch {}
   const lower = decoded.toLowerCase();
 
   if (CORRECT_CATEGORIES.includes(lower)) return lower;
@@ -48,25 +50,31 @@ function normalizeSlug(slug: string): string {
 }
 
 function getApiSlug(correctSlug: string): string {
-  return CORRECT_TO_BROKEN[correctSlug] || correctSlug;
+  return correctSlug || CORRECT_TO_BROKEN[correctSlug];
 }
-
-const CATEGORY_METADATA: Record<string, { title: string; description: string }> = {
-  "graviditet": {
+const CATEGORY_METADATA: Record<
+  string,
+  { title: string; description: string }
+> = {
+  graviditet: {
     title: "Graviditet | Artiklar för dig som väntar barn",
-    description: "Läs om graviditet, kroppen, känslorna och vardagen för dig som väntar barn. Trygg och saklig läsning för dig som är gravid och för din partner.",
+    description:
+      "Läs om graviditet, kroppen, känslorna och vardagen för dig som väntar barn. Trygg och saklig läsning för dig som är gravid och för din partner.",
   },
   "infor-forlossning": {
     title: "Inför förlossning | Förbered er tillsammans",
-    description: "Allt ni behöver veta inför förlossningen. Smärtlindring, sammandragningar, hinnsvepning, kejsarsnitt och partnerns roll under förlossningen.",
+    description:
+      "Allt ni behöver veta inför förlossningen. Smärtlindring, sammandragningar, hinnsvepning, kejsarsnitt och partnerns roll under förlossningen.",
   },
   "mat-och-kostrad": {
     title: "Mat och kostråd för gravida",
-    description: "Vad får man äta som gravid? Läs om listeria, fisk och skaldjur, ost, kosttillskott och vilka livsmedel du bör undvika under graviditeten.",
+    description:
+      "Vad får man äta som gravid? Läs om listeria, fisk och skaldjur, ost, kosttillskott och vilka livsmedel du bör undvika under graviditeten.",
   },
   "efter-forlossning": {
     title: "Efter förlossning | Återhämtning och bebistiden",
-    description: "Allt om tiden efter förlossningen. Återhämtning, amning, sömn med nyfött barn, känslor och vardagen med bebis. Stöd för hela familjen.",
+    description:
+      "Allt om tiden efter förlossningen. Återhämtning, amning, sömn med nyfött barn, känslor och vardagen med bebis. Stöd för hela familjen.",
   },
 };
 
@@ -186,13 +194,16 @@ export default async function CategoryPage({
     resolvedSearchParams,
     locale
   );
+  console.log("🚀 ~ CategoryPage ~ articlesData:", articlesData);
+
   const articles = articlesData?.data?.data ?? [];
   const categories = articlesData?.data?.categories ?? [];
   const pagination = articlesData?.data?.pagination ?? null;
 
-  const categoryData = categories.find(
-    (c: any) => normalizeSlug(c.slug) === category
-  ) || categories[0] || null;
+  const categoryData =
+    categories.find((c: any) => normalizeSlug(c.slug) === category) ||
+    categories[0] ||
+    null;
 
   return (
     <div className="min-h-svh mb-6 md:pb-10">
