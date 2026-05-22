@@ -117,16 +117,48 @@ export async function generateMetadata({
       const matchedCategory = apiCategories.find(
         (c: any) => normalizeSlug(c.slug) === normalizedCategory
       );
-      if (matchedCategory?.metaDetails) {
-        return buildMetadataFromMetaDetails(
-          matchedCategory.metaDetails,
-          {
-            title: staticMeta.title,
-            description: staticMeta.description,
-            ogImage: OG_DEFAULT_IMAGE,
+      if (matchedCategory) {
+        const fallbackTitle =
+          matchedCategory.title || matchedCategory.name || staticMeta.title;
+        const fallbackDescription =
+          matchedCategory.description || staticMeta.description;
+        const ogImage = matchedCategory.image
+          ? `${process.env.NEXT_PUBLIC_API_URL}${matchedCategory.image}`
+          : OG_DEFAULT_IMAGE;
+
+        if (matchedCategory.metaDetails) {
+          return buildMetadataFromMetaDetails(
+            matchedCategory.metaDetails,
+            {
+              title: fallbackTitle,
+              description: fallbackDescription,
+              ogImage,
+            },
+            `/${normalizedCategory}`
+          );
+        }
+
+        return {
+          title: fallbackTitle,
+          description: fallbackDescription,
+          alternates: {
+            canonical: canonicalUrl(`/${normalizedCategory}`),
           },
-          `/${normalizedCategory}`
-        );
+          openGraph: {
+            type: "website",
+            title: fallbackTitle,
+            description: fallbackDescription,
+            locale: "sv_SE",
+            siteName: "Familj.se",
+            images: [{ url: ogImage }],
+          },
+          twitter: {
+            card: "summary_large_image",
+            title: fallbackTitle,
+            description: fallbackDescription,
+            images: [{ url: ogImage }],
+          },
+        };
       }
     }
   } catch {}
