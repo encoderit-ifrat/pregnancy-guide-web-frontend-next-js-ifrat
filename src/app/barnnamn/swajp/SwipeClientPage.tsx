@@ -130,7 +130,9 @@ export default function SwipeClientPage() {
 
   const [displayNames, setDisplayNames] = useState<TinderName[]>([]);
   const [matchedName, setMatchedName] = useState<string | null>(null);
-  const [pendingSwipeIds, setPendingSwipeIds] = useState<Set<string>>(new Set());
+  const [pendingSwipeIds, setPendingSwipeIds] = useState<Set<string>>(
+    new Set()
+  );
   const [isFetchingNewBatch, setIsFetchingNewBatch] = useState(false);
   // ref-based counter avoids stale closure issues when checking "all swiped"
   const swipedCountRef = useRef(0);
@@ -153,26 +155,21 @@ export default function SwipeClientPage() {
       setFetchEnabled(false);
       setMatchedName(null);
     }
-  }, [
-    tinderSuccess,
-    tinderFetching,
-    fetchEnabled,
-    apiCategories,
-    tinderData,
-  ]);
+  }, [tinderSuccess, tinderFetching, fetchEnabled, apiCategories, tinderData]);
   return (
     <PageContainer>
       <div className="thread-header mb-8 flex flex-col items-center text-center">
         <IconHeading
           text={t("forNameTinder.label")}
+          image="/images/icons/baby-gift2.png"
           className="text-primary justify-center"
         />
 
-        <SectionHeading className="m-0 text-center text-[20px] md:text-[26px] lg:text-[32px]">
+        <SectionHeading className="my-2 mb-6">
           {t("forNameTinder.title")}
         </SectionHeading>
 
-        <p className="text-sm mt-1.5 text-primary-color text-center mb-4 max-w-3xl mx-auto">
+        <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
           {t("forNameTinder.subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-2xl mx-auto px-6">
@@ -665,7 +662,9 @@ export default function SwipeClientPage() {
                           }
                         }}
                         disabled={
-                          pendingSwipeIds.has(itemId) || isFetchingNewBatch || !token
+                          pendingSwipeIds.has(itemId) ||
+                          isFetchingNewBatch ||
+                          !token
                         }
                         className="flex items-center gap-4 w-full"
                       >

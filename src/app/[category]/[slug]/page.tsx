@@ -8,11 +8,7 @@ import { notFound, redirect } from "next/navigation";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { API_V1 } from "@/consts";
-import {
-  OG_DEFAULT_IMAGE,
-  canonicalUrl,
-  buildMetadataFromMetaDetails,
-} from "@/lib/seo";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
 
 // Force SSR for authenticated content
 export const dynamic = "force-dynamic";
@@ -69,19 +65,39 @@ export async function generateMetadata({
     };
   }
 
-  const fallbackOgImage = article.cover_image
-    ? `${process.env.NEXT_PUBLIC_API_URL}${article.cover_image}`
+  const md = article.metaDetails;
+  const title = md?.metaTitle || article.title;
+  const description = md?.metaDescription || article.excerpt || article.title;
+  const ogTitle = md?.ogTitle || title;
+  const ogDescription = md?.ogDescription || description;
+  const rawOgImage = md?.ogImage || article.cover_image;
+  const ogImage = rawOgImage
+    ? rawOgImage.startsWith("http")
+      ? rawOgImage
+      : `${process.env.NEXT_PUBLIC_API_URL}${rawOgImage}`
     : OG_DEFAULT_IMAGE;
 
-  return buildMetadataFromMetaDetails(
-    article.metaDetails,
-    {
-      title: article.title,
-      description: article.excerpt || article.title,
-      ogImage: fallbackOgImage,
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl(`/${category}/${slug}`),
     },
-    `/${category}/${slug}`
-  );
+    openGraph: {
+      type: "website",
+      title: ogTitle,
+      description: ogDescription,
+      locale: "sv_SE",
+      siteName: "Familj.se",
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: ogDescription,
+      images: [{ url: ogImage }],
+    },
+  };
 }
 
 // Server Component - SSR
