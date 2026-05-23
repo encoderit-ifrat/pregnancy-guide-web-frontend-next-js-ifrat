@@ -14,10 +14,12 @@ export function DatePicker({
   value,
   onChange,
   placeholder,
+  disabled,
 }: {
   value?: Date;
   onChange: (date?: Date) => void;
   placeholder?: string;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -39,10 +41,11 @@ export function DatePicker({
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={disabled ? false : open} onOpenChange={disabled ? () => {} : setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="tertiary"
+          disabled={disabled}
           className="w-full justify-between rounded-full py-4 pl-10 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
         >
           {value ? value.toLocaleDateString() : placeholder}

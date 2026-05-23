@@ -1,62 +1,22 @@
 import React from "react";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+
 import SearchArticle from "../sok/_component/SearchArticle";
 import { HeroSection2 } from "@/components/home/HeroSection2";
 import { cookies } from "next/headers";
 import { API_V1 } from "@/consts";
-import {
-  OG_DEFAULT_IMAGE,
-  canonicalUrl,
-  transliterateSlug,
-  buildMetadataFromMetaDetails,
-} from "@/lib/seo";
+import { OG_DEFAULT_IMAGE, canonicalUrl, transliterateSlug } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
-
-const CORRECT_CATEGORIES = [
-  "graviditet",
-  "infor-forlossning",
-  "mat-och-kostrad",
-  "efter-forlossning",
-];
-
-const BROKEN_TO_CORRECT: Record<string, string> = {
-  frlossning: "infor-forlossning",
-  "mat-och-kostrd": "mat-och-kostrad",
-  "efter-frlossning": "efter-forlossning",
-  "inför-förlossning": "infor-forlossning",
-  "mat-och-kostråd": "mat-och-kostrad",
-  "efter-förlossning": "efter-forlossning",
-  forlossning: "infor-forlossning",
-  förlossning: "infor-forlossning",
-};
-
-const CORRECT_TO_BROKEN: Record<string, string> = {
-  "infor-forlossning": "frlossning",
-  "mat-och-kostrad": "mat-och-kostrd",
-  "efter-forlossning": "efter-frlossning",
-};
 
 function normalizeSlug(slug: string): string {
   let decoded = slug;
   try {
     decoded = decodeURIComponent(slug);
   } catch {}
-  const lower = decoded.toLowerCase();
-
-  if (CORRECT_CATEGORIES.includes(lower)) return lower;
-  if (BROKEN_TO_CORRECT[lower]) return BROKEN_TO_CORRECT[lower];
-
-  const t = transliterateSlug(lower);
-  if (CORRECT_CATEGORIES.includes(t)) return t;
-  if (BROKEN_TO_CORRECT[t]) return BROKEN_TO_CORRECT[t];
-  return t;
+  return transliterateSlug(decoded);
 }
 
-function getApiSlug(correctSlug: string): string {
-  return correctSlug || CORRECT_TO_BROKEN[correctSlug];
-}
 const CATEGORY_METADATA: Record<
   string,
   { title: string; description: string }
@@ -95,12 +55,9 @@ export async function generateMetadata({
   const normalizedCategory = normalizeSlug(category);
 
   const staticMeta = CATEGORY_METADATA[normalizedCategory];
-  if (!staticMeta) {
-    return { title: "Kategori hittades inte" };
-  }
 
   try {
-    const apiSlug = getApiSlug(normalizedCategory);
+    const apiSlug = normalizedCategory;
     const catParams = new URLSearchParams({
       page: "1",
       lang: "sv",
@@ -118,44 +75,45 @@ export async function generateMetadata({
         (c: any) => normalizeSlug(c.slug) === normalizedCategory
       );
       if (matchedCategory) {
-        const fallbackTitle =
-          matchedCategory.title || matchedCategory.name || staticMeta.title;
-        const fallbackDescription =
-          matchedCategory.description || staticMeta.description;
-        const ogImage = matchedCategory.image
-          ? `${process.env.NEXT_PUBLIC_API_URL}${matchedCategory.image}`
+        const md = matchedCategory.metaDetails;
+        const title =
+          md?.metaTitle ||
+          matchedCategory.title ||
+          matchedCategory.name ||
+          staticMeta?.title ||
+          normalizedCategory;
+        const description =
+          md?.metaDescription ||
+          matchedCategory.description ||
+          staticMeta?.description ||
+          `Artiklar om ${normalizedCategory}`;
+        const ogTitle = md?.ogTitle || title;
+        const ogDescription = md?.ogDescription || description;
+        const rawOgImage = md?.ogImage || matchedCategory.image;
+        const ogImage = rawOgImage
+          ? rawOgImage.startsWith("http")
+            ? rawOgImage
+            : `${process.env.NEXT_PUBLIC_API_URL}${rawOgImage}`
           : OG_DEFAULT_IMAGE;
 
-        if (matchedCategory.metaDetails) {
-          return buildMetadataFromMetaDetails(
-            matchedCategory.metaDetails,
-            {
-              title: fallbackTitle,
-              description: fallbackDescription,
-              ogImage,
-            },
-            `/${normalizedCategory}`
-          );
-        }
-
         return {
-          title: fallbackTitle,
-          description: fallbackDescription,
+          title,
+          description,
           alternates: {
             canonical: canonicalUrl(`/${normalizedCategory}`),
           },
           openGraph: {
             type: "website",
-            title: fallbackTitle,
-            description: fallbackDescription,
+            title: ogTitle,
+            description: ogDescription,
             locale: "sv_SE",
             siteName: "Familj.se",
             images: [{ url: ogImage }],
           },
           twitter: {
             card: "summary_large_image",
-            title: fallbackTitle,
-            description: fallbackDescription,
+            title: ogTitle,
+            description: ogDescription,
             images: [{ url: ogImage }],
           },
         };
@@ -163,24 +121,27 @@ export async function generateMetadata({
     }
   } catch {}
 
+  const fallbackTitle = staticMeta?.title || `${normalizedCategory} | Familj.se`;
+  const fallbackDesc = staticMeta?.description || `Artiklar om ${normalizedCategory}`;
+
   return {
-    title: staticMeta.title,
-    description: staticMeta.description,
+    title: fallbackTitle,
+    description: fallbackDesc,
     alternates: {
       canonical: canonicalUrl(`/${normalizedCategory}`),
     },
     openGraph: {
       type: "website",
-      title: staticMeta.title,
-      description: staticMeta.description,
+      title: fallbackTitle,
+      description: fallbackDesc,
       locale: "sv_SE",
       siteName: "Familj.se",
       images: [{ url: OG_DEFAULT_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
-      title: staticMeta.title,
-      description: staticMeta.description,
+      title: fallbackTitle,
+      description: fallbackDesc,
       images: [{ url: OG_DEFAULT_IMAGE }],
     },
   };
@@ -206,12 +167,12 @@ export async function generateStaticParams() {
         .filter((slug: string) => {
           if (seen.has(slug)) return false;
           seen.add(slug);
-          return CORRECT_CATEGORIES.includes(slug);
+          return true;
         })
         .map((category: string) => ({ category }));
     }
   } catch {}
-  return CORRECT_CATEGORIES.map((category) => ({ category }));
+  return [];
 }
 
 async function getCategoryData(
@@ -220,7 +181,7 @@ async function getCategoryData(
   lang: string = "sv"
 ) {
   try {
-    const apiSlug = getApiSlug(category);
+    const apiSlug = category;
     const params = new URLSearchParams({
       page: searchParams.page || "1",
       lang: lang,
@@ -228,7 +189,6 @@ async function getCategoryData(
       category: apiSlug,
       ...(searchParams.search && { search: searchParams.search }),
     });
-
     const res = await fetch(`${API_V1}/articles?${params}`, {
       cache: "no-store",
       headers: {
@@ -256,10 +216,6 @@ export default async function CategoryPage({
   const { category: rawCategory } = await params;
   const category = normalizeSlug(rawCategory);
   const resolvedSearchParams = await searchParams;
-
-  if (!CORRECT_CATEGORIES.includes(category)) {
-    notFound();
-  }
 
   const cookieStore = await cookies();
   const locale = cookieStore.get("familj-locale")?.value || "sv";

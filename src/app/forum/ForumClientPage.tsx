@@ -206,14 +206,15 @@ export default function ForumClientPage() {
           {/* Section Label */}
           <IconHeading
             text={t("threads.label")}
+            image="/images/icons/baby-gift2.png"
             className="text-primary justify-center"
           />
 
-          <SectionHeading className="m-0 text-center text-[20px] md:text-[26px] lg:text-[32px]">
+          <SectionHeading className="my-2 mb-6">
             {t("threads.title")}
           </SectionHeading>
 
-          <p className="text-sm mt-1.5 text-primary-color text-center mb-4 max-w-3xl mx-auto">
+          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("threads.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-2xl mx-auto px-6">

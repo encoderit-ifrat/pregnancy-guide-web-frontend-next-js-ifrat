@@ -382,7 +382,7 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors text-start hover:bg-primary-light hover:text-primary ${
                       isActive
                         ? "text-primary bg-primary-light"
                         : "text-text-primary"

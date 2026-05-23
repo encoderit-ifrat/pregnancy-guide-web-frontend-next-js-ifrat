@@ -183,6 +183,7 @@ const BabyProfileCard = ({
                 <DatePicker
                   key={String(localDueDate?.getTime() ?? "due-empty")}
                   value={localDueDate}
+                  disabled={user?.roles?.[0]?.name === "partner"}
                   onChange={handleDateChange("due_date")}
                   placeholder={t("formProfile.dueDatePlaceholder")}
                 />
@@ -201,6 +202,7 @@ const BabyProfileCard = ({
                 <DatePicker
                   key={String(localLastPeriodDate?.getTime() ?? "lpd-empty")}
                   value={localLastPeriodDate}
+                  disabled={user?.roles?.[0]?.name === "partner"}
                   onChange={handleDateChange("last_period_date")}
                   placeholder={t("formProfile.lastPeriodPlaceholder")}
                 />
