@@ -50,6 +50,7 @@ export default function RegisterForm() {
     };
     signUpMutation.mutate(formData, {
       onSuccess() {
+        form.reset();
         router.push("/verifiera-konto");
       },
       onError(error: unknown) {
@@ -59,9 +60,9 @@ export default function RegisterForm() {
         const errorMessage =
           axiosError.response?.data?.message ?? t("signUp.registrationFailed");
         toast.error(errorMessage);
+        form.reset();
       },
     });
-    form.reset();
   };
 
   return (
@@ -198,7 +199,10 @@ export default function RegisterForm() {
         <div className="leading-tight">
           <p className="text-center text-text-dark">
             {t("signUp.hasAccount")}{" "}
-            <Link href="/logga-in" className="text-circle-border hover:underline">
+            <Link
+              href="/logga-in"
+              className="text-circle-border hover:underline"
+            >
               {t("signUp.signIn")}
             </Link>
           </p>
