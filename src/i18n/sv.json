@@ -148,7 +148,12 @@
     "or": "ELLER",
     "noAccount": "Har du inget konto?",
     "createAccount": "Skapa konto",
-    "loggedInSuccess": "Inloggning lyckades"
+    "loggedInSuccess": "Inloggning lyckades",
+    "validation": {
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ange en giltig e-postadress",
+      "passwordRequired": "Lösenord krävs"
+    }
   },
   "signUp": {
     "title": "Registrera dig",
@@ -164,14 +169,34 @@
     "hasAccount": "Har du redan ett konto?",
     "signIn": "Logga in",
     "registrationSuccess": "Registrering lyckades",
-    "registrationFailed": "Registrering misslyckades"
+    "registrationFailed": "Registrering misslyckades",
+    "validation": {
+      "nameRequired": "Namn krävs",
+      "nameMin": "Namnet måste vara minst 2 tecken",
+      "nameMax": "Namnet får inte vara mer än 50 tecken",
+      "nameLettersSpaces": "Namnet får endast innehålla bokstäver och blanksteg",
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ange en giltig e-postadress",
+      "passwordMin": "Lösenordet måste vara minst 8 tecken",
+      "passwordUppercase": "Lösenordet måste innehålla minst en stor bokstav",
+      "passwordLowercase": "Lösenordet måste innehålla minst en liten bokstav",
+      "passwordNumber": "Lösenordet måste innehålla minst en siffra",
+      "passwordSpecial": "Lösenordet måste innehålla minst ett specialtecken",
+      "confirmPasswordRequired": "Vänligen bekräfta ditt lösenord",
+      "acceptTermsRequired": "Du måste acceptera villkor & policy",
+      "passwordsMatch": "Lösenorden matchar inte"
+    }
   },
   "forgotPassword": {
     "title": "Glömt lösenord",
     "description": "Ange din e-postadress nedan så skickar vi en länk för att återställa ditt lösenord.",
     "email": "E-post",
     "emailPlaceholder": "e-post",
-    "continueButton": "Fortsätt"
+    "continueButton": "Fortsätt",
+    "validation": {
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ange en giltig e-postadress"
+    }
   },
   "changePassword": {
     "title": "Byt Lösenord",

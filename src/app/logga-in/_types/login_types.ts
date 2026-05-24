@@ -6,10 +6,10 @@ import { FormType } from "@/types/global";
 export const LoginSchema = z.object({
   email: z
     .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
-  password: z.string().min(1, "Password is required"),
-  acceptTerms: z.boolean().optional(), // This allows both true and false values
+    .min(1, "login.validation.emailRequired")
+    .email("login.validation.emailInvalid"),
+  password: z.string().min(1, "login.validation.passwordRequired"),
+  acceptTerms: z.boolean().optional(),
 });
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;

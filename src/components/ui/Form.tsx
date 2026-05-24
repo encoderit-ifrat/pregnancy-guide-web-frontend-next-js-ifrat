@@ -15,6 +15,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/Label";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Form = FormProvider;
 
@@ -138,7 +139,9 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
 
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : props.children;
+  const { t } = useTranslation();
+  const rawBody = error ? String(error?.message ?? "") : props.children;
+  const body = typeof rawBody === "string" ? t(rawBody) : rawBody;
 
   if (!body) {
     return null;

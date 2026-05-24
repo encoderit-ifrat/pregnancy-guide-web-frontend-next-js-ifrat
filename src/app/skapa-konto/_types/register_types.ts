@@ -6,34 +6,34 @@ export const RegisterSchema = z
   .object({
     name: z
       .string()
-      .min(1, "Name is required")
-      .min(2, "Name must be at least 2 characters")
-      .max(50, "Name must be less than 50 characters")
-      .regex(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces"),
+      .min(1, "signUp.validation.nameRequired")
+      .min(2, "signUp.validation.nameMin")
+      .max(50, "signUp.validation.nameMax")
+      .regex(/^[a-zA-Z\s]+$/, "signUp.validation.nameLettersSpaces"),
     email: z
       .string()
-      .min(1, "Email is required")
-      .email("Please enter a valid email address")
+      .min(1, "signUp.validation.emailRequired")
+      .email("signUp.validation.emailInvalid")
       .toLowerCase()
       .trim(),
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number")
+      .min(8, "signUp.validation.passwordMin")
+      .regex(/[A-Z]/, "signUp.validation.passwordUppercase")
+      .regex(/[a-z]/, "signUp.validation.passwordLowercase")
+      .regex(/[0-9]/, "signUp.validation.passwordNumber")
       .regex(
         /[^A-Za-z0-9]/,
-        "Password must contain at least one special character"
+        "signUp.validation.passwordSpecial"
       ),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+    confirmPassword: z.string().min(1, "signUp.validation.confirmPasswordRequired"),
     acceptTerms: z.boolean().refine((value) => value === true, {
-      message: "You must accept the terms and conditions",
+      message: "signUp.validation.acceptTermsRequired",
       path: ["acceptTerms"],
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "signUp.validation.passwordsMatch",
     path: ["confirmPassword"],
   });
 
