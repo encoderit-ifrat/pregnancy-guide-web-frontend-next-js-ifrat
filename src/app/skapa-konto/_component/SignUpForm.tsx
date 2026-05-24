@@ -24,6 +24,7 @@ import * as React from "react";
 import { ChevronRight } from "lucide-react";
 import { PasswordInput } from "@/components/base/PasswordInput";
 import { useTranslation } from "@/hooks/useTranslation";
+import TermsModal from "./TermsModal";
 
 export default function RegisterForm() {
   const { t } = useTranslation();
@@ -161,14 +162,9 @@ export default function RegisterForm() {
                     ref={field.ref}
                   />
                 </FormControl>
-                <FormLabel className="text-xs sm:text-sm md:text-base lg:text-lg text-text-dark font-normal leading-tight m-0">
-                  {t("signUp.termsText")}{" "}
-                  <Link
-                    href="/terms"
-                    className="text-circle-border hover:underline"
-                  >
-                    {t("signUp.termsLink")}
-                  </Link>
+                <FormLabel className="text-xs sm:text-sm md:text-base lg:text-lg text-text-dark font-normal leading-tight m-0 flex items-center flex-wrap gap-1">
+                  <span>{t("signUp.termsText")}</span>
+                  <TermsModal />
                 </FormLabel>
               </FormItem>
             )}

@@ -167,8 +167,8 @@
     "registrationFailed": "Registrering misslyckades"
   },
   "forgotPassword": {
-    "title": "Glömt Lösenord",
-    "description": "Fyll i din e-postadress för att återställa lösenordet.",
+    "title": "Glömt lösenord",
+    "description": "Ange din e-postadress nedan så skickar vi en länk för att återställa ditt lösenord.",
     "email": "E-post",
     "emailPlaceholder": "e-post",
     "continueButton": "Fortsätt"

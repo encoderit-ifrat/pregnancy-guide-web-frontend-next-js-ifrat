@@ -72,7 +72,8 @@ export const metadata: Metadata = {
     template: "%s | Familj.se",
     default: "Familj.se | Följ din graviditet vecka för vecka",
   },
-  description: "Följ din graviditet vecka för vecka tillsammans med din partner. Artiklar, checklistor, veckans fråga och namnväljare.",
+  description:
+    "Följ din graviditet vecka för vecka tillsammans med din partner. Artiklar, checklistor, veckans fråga och namnväljare.",
 };
 
 export default function RootLayout({
@@ -80,7 +81,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="sv">
       <body
@@ -100,7 +100,12 @@ export default function RootLayout({
                   <UserProvider>
                     <CookieConsentProvider>
                       {children}
-                      <Toaster richColors position="top-right" />
+                      <Toaster
+                        richColors
+                        position="top-right"
+                        closeButton
+                        duration={3000}
+                      />
                     </CookieConsentProvider>
                   </UserProvider>
                   <LayoutFooter />
