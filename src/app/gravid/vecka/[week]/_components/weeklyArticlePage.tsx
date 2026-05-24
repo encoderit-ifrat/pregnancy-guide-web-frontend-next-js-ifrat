@@ -7,7 +7,7 @@ import { authOptions } from "@/utlis/authOptions";
 import { notFound, redirect } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { API_V1 } from "@/consts";
-import { OG_DEFAULT_IMAGE, canonicalUrl, buildMetadataFromMetaDetails } from "@/lib/seo";
+import { OG_DEFAULT_IMAGE, buildMetadataFromMetaDetails } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
