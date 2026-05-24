@@ -40,20 +40,20 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
   const handleSwipe = (action: "like" | "love" | null) => {
     if (!action) {
       if (!userAction) return;
-      if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
-      else setLovedCount((c) => Math.max(0, c - 1));
+      // if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
+      // else setLovedCount((c) => Math.max(0, c - 1));
       setUserAction(null);
       action = userAction;
     } else {
       if (userAction === action) return;
 
-      if (action === "like") {
-        setLikedCount((c) => c + 1);
-        if (userAction === "love") setLovedCount((c) => Math.max(0, c - 1));
-      } else {
-        setLovedCount((c) => c + 1);
-        if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
-      }
+      // if (action === "like") {
+      //   setLikedCount((c) => c + 1);
+      //   if (userAction === "love") setLovedCount((c) => Math.max(0, c - 1));
+      // } else {
+      //   setLovedCount((c) => c + 1);
+      //   if (userAction === "like") setLikedCount((c) => Math.max(0, c - 1));
+      // }
       setUserAction(action);
     }
 
@@ -111,7 +111,12 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                   >
                     <Heart className="size-4 group-data-[state=on]/toggle-group-item:fill-rose-500 group-data-[state=on]/toggle-group-item:stroke-rose-500" />
                   </ToggleGroupItem>
-                  <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-primary-color">
+                  <span
+                    className={cn(
+                      "text-[9px] sm:text-[10px] md:text-xs font-medium text-primary-color transition-opacity",
+                      isPending && "animate-pulse opacity-50"
+                    )}
+                  >
                     {lovedCount} {t("forNameTinder.love")}
                   </span>
                 </div>
@@ -128,7 +133,12 @@ export default function CommunityCard({ name, className }: CommunityCardProps) {
                   >
                     <ThumbsUp className="size-4 group-data-[state=on]/toggle-group-item:fill-primary group-data-[state=on]/toggle-group-item:stroke-primary" />
                   </ToggleGroupItem>
-                  <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-primary-color">
+                  <span
+                    className={cn(
+                      "text-[9px] sm:text-[10px] md:text-xs font-medium text-primary-color transition-opacity",
+                      isPending && "animate-pulse opacity-50"
+                    )}
+                  >
                     {likedCount} {t("threads.like")}
                   </span>
                 </div>
