@@ -395,6 +395,7 @@
   },
   "threads": {
     "active": "Active",
+    "anonymous": "Anonymous",
     "finalized": "Finalized",
     "addNewList": "Add New List",
     "addTemplate": "Add Template",

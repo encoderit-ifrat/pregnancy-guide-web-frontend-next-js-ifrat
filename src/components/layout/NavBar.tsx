@@ -116,14 +116,14 @@ export default function Navbar({
         />
 
         {/* Scrollable Navigation Menu */}
-        <div className="w-[550px]">
+        <div className="w-[560px]">
           <NavigationMenu>
             <div
               ref={scrollRef}
               onScroll={checkScroll}
               className="overflow-x-auto overflow-y-hidden w-full scrollbar-hide scroll-smooth "
             >
-              <NavigationMenuList className="gap-2 xl:gap-6">
+              <NavigationMenuList className="gap-5 xl:gap-6">
                 {navigationLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
                     <Link

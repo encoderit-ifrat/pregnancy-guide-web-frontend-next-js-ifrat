@@ -157,8 +157,8 @@
     "userEmail": "E-post",
     "password": "Lösenord",
     "confirmPassword": "Bekräfta lösenord",
-    "termsText": "Jag har förstått",
-    "termsLink": "villkor och policy",
+    "termsText": "Jag accepterar",
+    "termsLink": "villkor & policy",
     "signUpButton": "Registrera dig",
     "or": "ELLER",
     "hasAccount": "Har du redan ett konto?",
@@ -388,6 +388,7 @@
   },
   "threads": {
     "active": "aktiv",
+    "anonymous": "Anonym",
     "finalized": "slutförd",
     "addNewList": "Lägg till ny lista",
     "addTemplate": "Lägg till mall",

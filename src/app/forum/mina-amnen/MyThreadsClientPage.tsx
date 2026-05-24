@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import ShareModal from "../_components/ShareModal";
 import { useResetInfiniteScrollOnFocus } from "@/hooks/useResetInfiniteScrollOnFocus";
 
-const formatThreadForCard = (thread: Thread, currentLocale: any) => {
+const formatThreadForCard = (thread: Thread, currentLocale: any, t: any) => {
   const createdAtDate = thread.createdAt
     ? new Date(thread.createdAt)
     : new Date();
@@ -39,7 +39,7 @@ const formatThreadForCard = (thread: Thread, currentLocale: any) => {
     title: thread.title || "",
     description: thread.description || "",
     createdBy: {
-      name: thread.author?.name || "Anonymous",
+      name: thread.author?.name || t("threads.anonymous"),
       time: timeAgo,
     },
     stats: {
@@ -160,7 +160,7 @@ export default function MyThreadsClientPage() {
   }
 
   const formattedThreads = threads.map((thread) =>
-    formatThreadForCard(thread, currentLocale)
+    formatThreadForCard(thread, currentLocale, t)
   );
 
   return (

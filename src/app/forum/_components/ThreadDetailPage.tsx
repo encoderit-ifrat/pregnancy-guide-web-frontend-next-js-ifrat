@@ -161,9 +161,9 @@ function ReplyCard({
 
   const timeAgo = isValid(createdAtDate)
     ? formatDistanceToNow(createdAtDate, {
-      addSuffix: true,
-      locale: currentLocale,
-    })
+        addSuffix: true,
+        locale: currentLocale,
+      })
     : "";
 
   const isLiked =
@@ -197,15 +197,15 @@ function ReplyCard({
           {(reply.nested_replies_count ||
             nestedReplies.length > 0 ||
             isExpanded) && (
-              <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
-            )}
+            <div className="w-0.5 flex-1 bg-[#F3EAFF] mt-2 mb-2" />
+          )}
         </div>
 
         {/* Content */}
         <div className="flex-1 pb-4">
           <div className="flex items-center gap-3 mb-2">
             <span className="font-bold text-base text-[#4D2C82]">
-              {reply.author?.name || "Anonymous"}
+              {reply.author?.name || t("threads.anonymous")}
             </span>
             <span className="bg-[#EEE4FD] text-[#A179F2] px-2 py-0.5 rounded text-[10px] font-semibold">
               {timeAgo}
@@ -593,9 +593,9 @@ export default function ThreadDetailPage({
           data: Array.isArray(data.data)
             ? (updatedReplies as any)
             : {
-              ...(data.data as any),
-              data: updatedReplies,
-            },
+                ...(data.data as any),
+                data: updatedReplies,
+              },
         });
       });
     },
@@ -767,7 +767,10 @@ export default function ThreadDetailPage({
       </div>
 
       {/* Reply Form */}
-      <div id="reply-form" className="px-4 sm:px-7 py-6 border-t border-[#F3EAFF]">
+      <div
+        id="reply-form"
+        className="px-4 sm:px-7 py-6 border-t border-[#F3EAFF]"
+      >
         {thread && (
           <form onSubmit={handleReplySubmit} className="max-w-7xl mx-auto">
             <div className="relative mb-4">

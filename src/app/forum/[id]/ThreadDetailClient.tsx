@@ -76,7 +76,7 @@ export default function ThreadDetailClient({ threadId }: { threadId: string }) {
     : "";
 
   const createdBy = {
-    name: thread.author?.name || "Anonymous",
+    name: thread.author?.name || t("threads.anonymous"),
     time: timeAgo,
   };
 

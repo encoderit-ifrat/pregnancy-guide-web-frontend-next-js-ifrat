@@ -36,6 +36,7 @@ export default function RegisterForm() {
       email: "",
       password: "",
       confirmPassword: "",
+      acceptTerms: false,
     },
   });
 

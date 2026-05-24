@@ -27,8 +27,9 @@ export const RegisterSchema = z
         "Password must contain at least one special character"
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
-    acceptTerms: z.literal(true, {
+    acceptTerms: z.boolean().refine((value) => value === true, {
       message: "You must accept the terms and conditions",
+      path: ["acceptTerms"],
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {

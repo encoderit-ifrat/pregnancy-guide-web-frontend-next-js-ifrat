@@ -143,7 +143,7 @@ export function Header() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Tailwind md breakpoint is 768px -> use max-width: 767px to represent < md
-    const mql = window.matchMedia("(max-width: 1024px)");
+    const mql = window.matchMedia("(max-width: 1023px)");
     const onChange = (e: MediaQueryListEvent | MediaQueryList) =>
       setIsSmallScreen((e as MediaQueryListEvent | MediaQueryList).matches);
     // initial
@@ -235,7 +235,7 @@ export function Header() {
               className={`transition-all duration-300 ease-in-out ${
                 isSearchExpanded
                   ? "max-w-0 opacity-0"
-                  : "max-w-[780px] opacity-100"
+                  : "md:max-w-[680px] xl:max-w-[780px] opacity-100"
               }`}
             >
               <div className="flex items-center gap-4">

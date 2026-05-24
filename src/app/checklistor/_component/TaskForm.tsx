@@ -28,7 +28,7 @@ import { Calendar } from "@/components/ui/Calendar";
 import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutationCreateItem } from "../_api/mutations/UseMutationCreateItem";
 import { useMutationUpdateItem } from "../_api/mutations/UseMutationUpdateItem";
 import { useMutationDeleteItem } from "../_api/mutations/UseMutationDeleteItem";
@@ -85,6 +85,19 @@ export default function TaskForm({
     useMutationUpdateItem();
   const { mutateAsync: deleteItem, isPending: isDeletingItem } =
     useMutationDeleteItem();
+  const [isPartner, setIsPartner] = useState(false);
+
+  useEffect(() => {
+    if (typeof window != undefined) {
+      const user = localStorage.getItem("user");
+      if (user) {
+        const data = JSON.parse(user);
+        if (data?.roles[0]?.name == "partner") {
+          setIsPartner(true);
+        }
+      }
+    }
+  }, []);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -187,7 +200,8 @@ export default function TaskForm({
                         {
                           value: "low",
                           label: t("checklists.taskForm.priorities.low"),
-                        }, {
+                        },
+                        {
                           value: "medium",
                           label: t("checklists.taskForm.priorities.medium"),
                         },
@@ -195,8 +209,6 @@ export default function TaskForm({
                           value: "high",
                           label: t("checklists.taskForm.priorities.high"),
                         },
-
-
                       ].map((item) => (
                         <label
                           key={item.value}
@@ -334,10 +346,13 @@ export default function TaskForm({
                           )} */}
                           {item.value != "both" && (
                             <div
-                              className={cn("size-4 sm:size-5 shrink-0 rounded-full", {
-                                "bg-[#2DD4BF]": item.value === "partner",
-                                "bg-[#A855F7]": item.value === "me",
-                              })}
+                              className={cn(
+                                "size-4 sm:size-5 shrink-0 rounded-full",
+                                {
+                                  "bg-[#2DD4BF]": item.value === "partner",
+                                  "bg-[#A855F7]": item.value === "me",
+                                }
+                              )}
                             />
                           )}
                           {item.label}
@@ -368,7 +383,7 @@ export default function TaskForm({
                         "w-full h-[46px] justify-center gap-3 text-base items-center rounded-full font-outfit transition-all duration-300",
                         !field.value && "border-[#A855F7] text-[#A855F7]",
                         field.value &&
-                        "bg-[#A855F7] hover:bg-[#9333EA] text-white"
+                          "bg-[#A855F7] hover:bg-[#9333EA] text-white"
                       )}
                     >
                       <div
@@ -423,7 +438,7 @@ export default function TaskForm({
           {!readOnly && (
             <div className="flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 text-lg">
               {/* Delete */}
-              {isUpdate && (
+              {!isPartner && isUpdate && (
                 <button
                   type="button"
                   onClick={handleDelete}
@@ -438,25 +453,27 @@ export default function TaskForm({
               )}
 
               {/* Submit */}
-              <Button
-                disabled={isCreatingItem || isUpdatingItem}
-                type="submit"
-                className={cn(
-                  "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-full text-base sm:text-lg font-semibold flex items-center gap-3 shadow-md",
-                  !isUpdate && "ml-auto"
-                )}
-              >
-                {isUpdate
-                  ? t("checklists.taskForm.updateTask")
-                  : t("checklists.taskForm.createTask")}
-                <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                  {isCreatingItem || isUpdatingItem ? (
-                    <Loader2 className="size-5 text-[#A855F7] animate-spin" />
-                  ) : (
-                    <Save className="size-5 text-[#A855F7]" />
+              {!isPartner && (
+                <Button
+                  disabled={isCreatingItem || isUpdatingItem}
+                  type="submit"
+                  className={cn(
+                    "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-full text-base sm:text-lg font-semibold flex items-center gap-3 shadow-md",
+                    !isUpdate && "ml-auto"
                   )}
-                </div>
-              </Button>
+                >
+                  {isUpdate
+                    ? t("checklists.taskForm.updateTask")
+                    : t("checklists.taskForm.createTask")}
+                  <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
+                    {isCreatingItem || isUpdatingItem ? (
+                      <Loader2 className="size-5 text-[#A855F7] animate-spin" />
+                    ) : (
+                      <Save className="size-5 text-[#A855F7]" />
+                    )}
+                  </div>
+                </Button>
+              )}
             </div>
           )}
         </form>

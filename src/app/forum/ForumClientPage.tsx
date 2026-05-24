@@ -166,7 +166,7 @@ export default function ForumClientPage() {
       title: thread.title || "",
       description: thread.description || "",
       createdBy: {
-        name: thread.author?.name || "Anonymous",
+        name: thread.author?.name || t("threads.anonymous"),
         time: timeAgo,
       },
       stats: {

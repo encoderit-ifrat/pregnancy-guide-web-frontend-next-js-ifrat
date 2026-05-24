@@ -108,7 +108,7 @@ function ReplyCard({
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
             <span className="font-semibold text-xl text-primary-color">
-              {reply.author?.name || "Anonymous"}
+              {reply.author?.name || t("threads.anonymous")}
             </span>
             <Badge
               variant="outline"
