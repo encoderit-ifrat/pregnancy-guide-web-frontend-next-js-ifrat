@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import {
   useVerifyEmail,
   verifyEmailRequestType,
-} from "../auth/verify-email/_api/mutations/useVerifyEmail";
+} from "../auth/epost-verifierad/_api/mutations/useVerifyEmail";
 import AuthCard from "@/components/ui/cards/AuthCard";
 import LoginForm from "../logga-in/_component/LoginForm";
 import Link from "next/link";
@@ -40,9 +40,7 @@ export default function AccountCreatedClientPage() {
       },
       onError() {
         setStatus(STATUS.ERROR);
-        setMessage(
-          "Ett fel inträffade vid verifieringen. Försök igen senare."
-        );
+        setMessage("Ett fel inträffade vid verifieringen. Försök igen senare.");
       },
     });
   }, []);

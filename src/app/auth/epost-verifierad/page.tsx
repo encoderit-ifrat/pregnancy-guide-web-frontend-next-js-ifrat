@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Verifiera e-post",
   description: "Verifiera din e-postadress på Familj.se.",
   alternates: {
-    canonical: canonicalUrl("/auth/verify-email"),
+    canonical: canonicalUrl("/auth/epost-verifierad"),
   },
   robots: {
     index: false,

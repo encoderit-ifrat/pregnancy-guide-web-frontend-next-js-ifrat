@@ -9,6 +9,6 @@ export const useVerifyEmail = () => {
   return useMutation({
     mutationKey: ["/login"],
     mutationFn: (body: verifyEmailRequestType) =>
-      api.post("/auth/verify-email", body),
+      api.post("/auth/epost-verifierad", body),
   });
 };

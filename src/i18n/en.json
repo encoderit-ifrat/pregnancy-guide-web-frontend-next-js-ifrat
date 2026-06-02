@@ -14,7 +14,13 @@
     "edit": "Edit",
     "delete": "Delete",
     "save": "Save Changes",
-    "error": "An error occurred"
+    "error": "An error occurred",
+    "verifyingYourEmail": "Verifying Your Email",
+    "pleaseWait": "Please wait while we verify your email address...",
+    "emailVerified": "Email Verified!",
+    "goToLogin": "Go to Login",
+    "verificationFailed": "Verification Failed",
+    "resendVerificationEmail": "Resend Verification Email"
   },
   "auth": {
     "resetPassword": {

@@ -14,7 +14,13 @@
     "edit": "Redigera",
     "delete": "Ta bort",
     "save": "Spara ändringar",
-    "error": "Ett fel uppstod"
+    "error": "Ett fel uppstod",
+    "verifyingYourEmail": "Verifierar din e-post",
+    "pleaseWait": "Vänligen vänta medan vi verifierar din e-postadress...",
+    "emailVerified": "E-post verifierad!",
+    "goToLogin": "Gå till Logga in",
+    "verificationFailed": "Verifieringen misslyckades",
+    "resendVerificationEmail": "Skicka verifierings-e-post igen"
   },
   "auth": {
     "resetPassword": {

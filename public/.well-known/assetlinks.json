@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cmh.familj",
+      "sha256_cert_fingerprints": [
+        "8E:3A:BA:C9:91:D6:57:98:53:E5:83:CE:80:99:49:EC:B3:84:AB:2D:C2:AB:10:A4:4A:BE:2A:CE:C9:DF:8F:42"
+      ]
+    }
+  }
+]

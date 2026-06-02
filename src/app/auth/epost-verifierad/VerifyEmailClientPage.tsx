@@ -6,6 +6,7 @@ import {
   useVerifyEmail,
   verifyEmailRequestType,
 } from "./_api/mutations/useVerifyEmail";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const STATUS = {
   VERIFYING: "verifying",
@@ -17,26 +18,31 @@ const StatusContent = {
   [STATUS.VERIFYING]: {
     Icon: Loader2,
     iconClass: "w-16 h-16 text-primary animate-spin mx-auto mb-4",
-    title: "Verifying Your Email",
-    text: "Please wait while we verify your email address...",
+    title: "common.verifyingYourEmail",
+    text: "common.pleaseWait",
   },
   [STATUS.SUCCESS]: {
     Icon: CheckCircle,
     iconClass: "w-16 h-16 text-green-500 mx-auto mb-4",
-    title: "Email Verified!",
-    button: { href: "/logga-in", text: "Go to Login" },
+    title: "common.emailVerified",
+    button: { href: "/logga-in", text: "common.goToLogin" },
   },
   [STATUS.ERROR]: {
     Icon: XCircle,
     iconClass: "w-16 h-16 text-red-500 mx-auto mb-4",
-    title: "Verification Failed",
-    button: { href: "/resend-verify-email", text: "Resend Verification Email" },
+    title: "common.verificationFailed",
+    button: {
+      href: "/resend-verify-email",
+      text: "common.resendVerificationEmail",
+    },
   },
 };
 
 export default function VerifyEmailClientPage() {
   const [status, setStatus] = useState(STATUS.VERIFYING);
   const [message, setMessage] = useState("");
+
+  const { t } = useTranslation();
 
   const verifyEmailMutation = useVerifyEmail();
 
@@ -54,7 +60,9 @@ export default function VerifyEmailClientPage() {
     verifyEmailMutation.mutate(verifyData, {
       onSuccess: () => {
         setStatus(STATUS.SUCCESS);
-        setMessage("Email verified successfully!");
+        setMessage(
+          "Din e-postadress är nu bekräftad och du kan logga in. Välkommen till Familj.se"
+        );
       },
       onError() {
         setStatus(STATUS.ERROR);
@@ -71,14 +79,16 @@ export default function VerifyEmailClientPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
         <Icon className={iconClass} />
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">{title}</h1>
-        <p className="text-gray-600 mb-6">{text || message}</p>
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          {title ? t(title) : message}
+        </h1>
+        <p className="text-gray-600 mb-6">{text ? t(text) : message}</p>
         {button && (
           <a
             href={button.href}
             className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold  transition-colors"
           >
-            {button.text}
+            {t(button.text)}
           </a>
         )}
       </div>
