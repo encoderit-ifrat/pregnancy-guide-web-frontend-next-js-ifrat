@@ -78,7 +78,7 @@ export default function PregnancyOverview({
 
   // Sync state when URL changes (e.g., browser back/forward or reload)
   useEffect(() => {
-    if (selectedWeek !== undefined && selectedWeek !== pendingWeek) {
+    if (selectedWeek !== undefined) {
       setPendingWeek(selectedWeek);
     }
   }, [selectedWeek]);
@@ -104,7 +104,7 @@ export default function PregnancyOverview({
 
   // Push URL update only after debounce settles (only for manual session changes)
   useEffect(() => {
-    if (sessionSelectedWeek !== null && sessionSelectedWeek !== currentWeek) {
+    if (sessionSelectedWeek !== null) {
       const url = `/gravid/vecka/${debouncedWeek}`;
       startTransition(() => {
         router.push(url);
