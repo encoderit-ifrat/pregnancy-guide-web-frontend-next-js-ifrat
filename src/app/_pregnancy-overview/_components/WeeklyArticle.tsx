@@ -47,11 +47,11 @@ function WeeklyArticle({ articles }: TProps) {
         {articles?.length > 0 && (
           <Slider
             options={{
-              spaceBetween: 50,
+              spaceBetween: 15,
               slidesPerView: articles && articles?.length > 1 ? 1.1 : 1,
               // slidesPerView: "auto",
               pagination: pagination,
-              navigation: true,
+              // navigation: true,
               // autoplay: {
               //   delay: 4000,
               //   pauseOnMouseEnter: true,
@@ -61,10 +61,12 @@ function WeeklyArticle({ articles }: TProps) {
                 420: {
                   slidesPerView: articles && articles?.length > 1 ? 1.1 : 1,
                   spaceBetween: 20,
+                  navigation: true,
                 },
                 768: {
                   slidesPerView: 1,
                   spaceBetween: 40,
+                  navigation: true,
                 },
               },
             }}

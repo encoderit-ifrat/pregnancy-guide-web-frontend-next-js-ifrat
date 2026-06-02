@@ -244,44 +244,57 @@ export default function ForumClientPage() {
               value={activeTab}
               onValueChange={handleTabChange}
             >
-              <div className="flex flex-col lg:flex-row justify-between items-center mb-4 md:mb-7 gap-4 border-b border-[#F0F0F0] pb-6">
-                <SectionHeading className="text-[20px] md:text-[24px] lg:text-[32px] text-center lg:text-left">
+              <div className="flex flex-row justify-between items-center mb-4 md:mb-7 gap-4 border-b border-[#F0F0F0] pb-6">
+                <SectionHeading className="text-[20px] md:text-[24px] lg:text-[32px] text-center lg:text-left mb-0">
                   {t("threads.communityThreads")}
                 </SectionHeading>
 
                 <TabsList
                   variant="pill"
-                  className="bg-white shadow-sm border border-white text-primary-color w-full sm:w-fit grid grid-cols-3 sm:flex h-auto sm:h-11 p-1"
+                  className="hidden lg:flex bg-white shadow-sm border border-white text-primary-color w-fit h-11 p-1"
                 >
                   <TabsTrigger
                     value="most_liked"
                     variant="pill"
-                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                    className="px-6 text-sm"
                   >
                     {t("threads.mostLiked")}
                   </TabsTrigger>
                   <TabsTrigger
                     value="most_viewed"
                     variant="pill"
-                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                    className="px-6 text-sm"
                   >
                     {t("threads.mostViewed")}
                   </TabsTrigger>
                   <TabsTrigger
                     value="newest"
                     variant="pill"
-                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                    className="px-6 text-sm"
                   >
                     {t("threads.newest")}
                   </TabsTrigger>
                   <TabsTrigger
                     value="thread_latest_have_reply"
                     variant="pill"
-                    className="px-2 sm:px-6 text-xs sm:text-sm"
+                    className="px-6 text-sm"
                   >
                     {t("threads.threadLatestHaveReply")}
                   </TabsTrigger>
                 </TabsList>
+
+                <select
+                  className="flex lg:hidden w-full max-w-[200px] rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700"
+                  value={activeTab}
+                  onChange={(e) => handleTabChange(e.target.value)}
+                >
+                  <option value="most_liked">{t("threads.mostLiked")}</option>
+                  <option value="most_viewed">{t("threads.mostViewed")}</option>
+                  <option value="newest">{t("threads.newest")}</option>
+                  <option value="thread_latest_have_reply">
+                    {t("threads.threadLatestHaveReply")}
+                  </option>
+                </select>
               </div>
 
               <div className="m-0 flex flex-col gap-4">

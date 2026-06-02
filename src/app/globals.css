@@ -308,6 +308,26 @@ p {
   margin-top: 0 !important;
 }
 
+@media (max-width: 639px) {
+  .article-editorial {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .article-editorial h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 12px;
+  }
+
+  .article-editorial h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 8px;
+  }
+}
+
 /*.swiper {*/
 /*  width: 100%;*/
 /*  height: 100%;*/

@@ -91,10 +91,11 @@ export default function ChecklistsClientPage() {
           toast.warning(t("checklists.loginToAdd"));
         }
       }}
-      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${isAuthenticated
-        ? "cursor-pointer hover:bg-purple-50"
-        : "opacity-50 cursor-not-allowed"
-        }`}
+      className={`flex items-center border bg-soft-white border-gray rounded-full px-4 py-2 transition w-auto hover:opacity-90 ${
+        isAuthenticated
+          ? "cursor-pointer hover:bg-purple-50"
+          : "opacity-50 cursor-not-allowed"
+      }`}
     >
       <span className="pr-2 text-primary text-base lg:text-lg font-medium">
         {t("checklists.addNew")}
@@ -133,20 +134,31 @@ export default function ChecklistsClientPage() {
           onValueChange={(value) => setActiveTab(value)}
         >
           <div className="max-w-303.25 w-full mx-auto pt-6 px-4 pb-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
-            <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-              <div className="sm:max-w-[400px]">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
-                  {t("checklists.title")}
-                </h3>
-                <span className="font-outfit">
-                  {t("checklists.description")}
-                </span>
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
+              <div className="w-full lg:max-w-[400px] flex items-start justify-center gap-5">
+                <div className="sm:max-w-[400px]">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
+                    {t("checklists.title")}
+                  </h3>
+                  <span className="font-outfit text-sm md:text-base">
+                    {t("checklists.description")}
+                  </span>
+                </div>
+
+                <select
+                  className="flex lg:hidden w-full max-w-[180px] rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700"
+                  value={activeTab}
+                  onChange={(e) => setActiveTab(e.target.value)}
+                >
+                  <option value="active">{t("threads.active")}</option>
+                  <option value="finalized">{t("threads.finalized")}</option>
+                </select>
               </div>
 
-              <div className="flex items-center justify-start sm:justify-end flex-wrap gap-2 w-full sm:w-auto">
+              <div className="flex items-center justify-start sm:justify-end flex-wrap gap-2 w-full lg:w-auto">
                 <TabsList
                   variant="pill"
-                  className="bg-white shadow-sm border border-white text-primary"
+                  className="hidden lg:flex bg-white shadow-sm border border-white text-primary"
                 >
                   <TabsTrigger
                     value="active"
@@ -169,11 +181,12 @@ export default function ChecklistsClientPage() {
                     </div>
                   </TabsTrigger>
                 </TabsList>
+
                 {user?.roles?.[0]?.name !== "partner" && (
-                  <div className="flex items-center justify-between flex-wrap mt-2 lg:gap-2 lg:mt-0 w-full lg:w-auto">
+                  <div className="flex flex-col sm:flex-row items-center justify-between flex-wrap mt-2 gap-4 lg:gap-2 lg:mt-0 w-full lg:w-auto">
                     <Button
                       variant={"outline"}
-                      className="h-9 lg:h-12 w-[48%] lg:w-auto py-2 px-3 lg:px-4 rounded-full bg-white text-primary font-medium flex items-center gap-2 shadow-sm hover:bg-purple-50 hover:border-purple-100 transition-all font-outfit text-xs sm:text-sm lg:text-base"
+                      className="h-12 w-full sm:w-[48%] lg:w-auto py-2 px-3 lg:px-4 rounded-full bg-white text-primary font-medium flex items-center gap-2 shadow-sm hover:bg-purple-50 hover:border-purple-100 transition-all font-outfit text-sm lg:text-base"
                       onClick={() => setFormData({ type: "create", id: "" })}
                     >
                       {t("threads.addNewList")}
@@ -183,7 +196,7 @@ export default function ChecklistsClientPage() {
                     </Button>
                     <Button
                       variant={"ghost"}
-                      className="h-9 lg:h-12 w-[48%] lg:w-auto py-2 px-3 lg:px-4 rounded-full bg-[#FFFFFF66] text-[#A97AEC] font-medium flex items-center gap-2 hover:bg-[#FFFFFF99] transition-all font-outfit text-xs sm:text-sm lg:text-base border border-transparent hover:border-white"
+                      className="h-12 w-full sm:w-[48%] lg:w-auto py-2 px-3 lg:px-4 rounded-full bg-[#FFFFFF66] text-[#A97AEC] font-medium flex items-center gap-2 hover:bg-[#FFFFFF99] transition-all font-outfit text-sm lg:text-base border border-transparent hover:border-white"
                       onClick={() => setIsTemplateOpen(true)}
                     >
                       {t("threads.addTemplate")}

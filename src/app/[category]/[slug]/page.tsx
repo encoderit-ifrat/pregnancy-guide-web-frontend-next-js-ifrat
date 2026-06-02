@@ -126,7 +126,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         waaveClassName="text-article-bg"
         childClassName="bg-article-bg"
       >
-        <div className="w-full px-4 md:px-0 ">
+        <div className="w-full md:px-0 ">
           <ArticleWithTOC article={article} />
         </div>
       </PageContainer>

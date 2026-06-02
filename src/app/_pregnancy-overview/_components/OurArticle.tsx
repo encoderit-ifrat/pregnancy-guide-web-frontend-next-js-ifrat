@@ -81,7 +81,7 @@ function OurArticle({ data, weeklyDetails }: TProps) {
             <Link
               href={`/articles/${firstArticle?.slug || "article-not-found"}`}
             >
-              <div className="border border-gray-100 rounded-xl transition duration-300 hover:shadow-lg">
+              <div className="p-2 border border-gray-100 rounded-xl transition duration-300 hover:shadow-lg">
                 <Image
                   src={imageLinkGenerator(
                     firstArticle?.thumbnail || firstArticle?.cover_image
@@ -92,12 +92,25 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                   className="object-cover rounded-xl w-full h-full"
                   priority
                 />
-                <div className="p-4">
+                <div className="px-2 py-4">
                   <h4 className="text-primary-dark text-xl font-semibold line-clamp-2">
                     {firstArticle.title}
                   </h4>
                   <p>{firstArticle.excerpt}</p>
                 </div>
+                <Link
+                  href={`/articles/${firstArticle?.slug || "article-not-found"}`}
+                  className="w-full"
+                >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full h-11 sm:h-12 md:h-13 lg:h-14 "
+                  >
+                    {t("articles.readMore")}
+                    <ChevronRight className="h-5 w-5 text-purple-600" />
+                  </Button>
+                </Link>
               </div>
             </Link>
           )}
@@ -129,6 +142,19 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                     <p className="line-clamp-4">{article.excerpt}</p>
                   </div>
                 </div>
+                {/* <Link
+                  href={`/articles/${article?.slug || "article-not-found"}`}
+                  className="w-full"
+                >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full h-11 sm:h-12 md:h-13 lg:h-14 "
+                  >
+                    {t("articles.readMore")}
+                    <ChevronRight className="h-5 w-5 text-purple-600" />
+                  </Button>
+                </Link> */}
               </Link>
             ))}
           </div>

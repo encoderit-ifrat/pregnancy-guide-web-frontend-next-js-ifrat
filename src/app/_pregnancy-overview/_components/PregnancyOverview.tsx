@@ -142,9 +142,7 @@ export default function PregnancyOverview({
         )}
       {/*popular weekly articles section*/}
       {popularWeeks && popularWeeks?.length > 0 && (
-        <>
-          <WeeklyArticle articles={popularWeeks} />
-        </>
+        <WeeklyArticle articles={popularWeeks} />
       )}
       {/* Checklist Section */}
 

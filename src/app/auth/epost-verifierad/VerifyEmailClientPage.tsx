@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import {
   useVerifyEmail,
@@ -73,6 +73,23 @@ export default function VerifyEmailClientPage() {
     });
   }, []);
 
+  const handleGoToLogin = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (
+        /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        e.preventDefault();
+        window.location.href = "familj://logga-in";
+        setTimeout(() => {
+          window.location.href = "https://familj.se/logga-in";
+        }, 800);
+      }
+    },
+    []
+  );
+
   const { Icon, iconClass, title, text, button } = StatusContent[status];
 
   return (
@@ -86,6 +103,7 @@ export default function VerifyEmailClientPage() {
         {button && (
           <a
             href={button.href}
+            onClick={handleGoToLogin}
             className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold  transition-colors"
           >
             {t(button.text)}
