@@ -202,7 +202,7 @@ export const AnswerFormPercentage = ({
               <strong className="text-xl md:text-2xl font-medium">
                 {Math.round(percentage)}%
               </strong>{" "}
-              <span className="text-lg md:text-xl">{option.content}</span>
+              <span className="text-base md:text-xl line-clamp-1">{option.content}</span>
             </div>
             <div
               className="absolute bg-[#DCC3FF] h-full rounded-sm"
@@ -230,7 +230,7 @@ export const AnswerFormComment = () => {
         placeholder={t("weeklyQuestion.commentPlaceholder")}
         value={answerText}
         onChange={(e) => setAnswerText(e.target.value)}
-        className="bg-white mb-3 text-sm resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+        className="bg-white mb-3 text-sm min-h-[130px] resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
         rows={4}
       />
     </>
@@ -242,11 +242,24 @@ export const AnswerFormSeeAnswersButton = () => {
   const { data } = useAnswerFormContext();
   const { question } = data;
 
+  const getWeekNumber = () => {
+    if (question && typeof question.week === "number") {
+      return question.week;
+    }
+    if (typeof window !== "undefined") {
+      const match = window.location.pathname.match(/\/vecka[n]?-?(\d+)/i) || window.location.pathname.match(/\/vecka\/(\d+)/i);
+      if (match && match[1]) {
+        return parseInt(match[1], 10);
+      }
+    }
+    return 3;
+  };
+
   return (
     <Button
       variant="outline"
       onClick={() => {
-        router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
+        router.push(`/veckans-fraga/vecka-${getWeekNumber()}?t=${Date.now()}`);
       }}
       className="sm:px-10 md:px-12"
     >
@@ -268,6 +281,20 @@ export const AnswerFormSubmitButton = ({
     useAnswerFormContext();
   const { question } = data;
   const { mutate: mutateCreateAnswer, isPending } = useCreateAnswer();
+
+  const getWeekNumber = () => {
+    if (question && typeof question.week === "number") {
+      return question.week;
+    }
+    if (typeof window !== "undefined") {
+      const match = window.location.pathname.match(/\/vecka[n]?-?(\d+)/i) || window.location.pathname.match(/\/vecka\/(\d+)/i);
+      if (match && match[1]) {
+        return parseInt(match[1], 10);
+      }
+    }
+    return 3;
+  };
+
   const handleSubmit = () => {
     if (!Boolean(option)) {
       return toast.error(t("weeklyQuestion.selectOption"));
@@ -283,7 +310,7 @@ export const AnswerFormSubmitButton = ({
         onSuccess: () => {
           onAnswerSubmitted && onAnswerSubmitted();
           if (redirect) {
-            router.push(`/weekly-question/${question.id}?t=${Date.now()}`);
+            router.push(`/veckans-fraga/vecka-${getWeekNumber()}?t=${Date.now()}`);
           }
           toast.success(t("weeklyQuestion.answerSubmitted"));
           setAnswerText("");
@@ -299,9 +326,10 @@ export const AnswerFormSubmitButton = ({
       onClick={handleSubmit}
       isLoading={isPending}
       disabled={isPending}
-      className="w-full max-w-lg md:w-auto px-6 py-2"
+      className="w-full max-w-lg md:w-auto px-4 py-1.5 md:px-6 md:py-2"
     >
       {isPending ? t("weeklyQuestion.submitting") : buttonText}
     </Button>
   );
 };
+

@@ -1,22 +1,34 @@
-"use client";
-
 import React from "react";
-import ChangePasswordForm from "./_component/ChangePasswordForm";
-import AuthCard from "@/components/ui/cards/AuthCard";
-import { useTranslation } from "@/hooks/useTranslation";
+import { Metadata } from "next";
+import ResetPasswordClientPage from "./ResetPasswordClientPage";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Återställ lösenord",
+  description: "Återställ ditt lösenord på Familj.se.",
+  alternates: {
+    canonical: canonicalUrl("/auth/reset-password"),
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+  openGraph: {
+    title: "Återställ lösenord",
+    description: "Återställ ditt lösenord på Familj.se.",
+    type: "website",
+    locale: "sv_SE",
+    siteName: "Familj.se",
+    images: [{ url: OG_DEFAULT_IMAGE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Återställ lösenord",
+    description: "Återställ ditt lösenord på Familj.se.",
+    images: [{ url: OG_DEFAULT_IMAGE }],
+  },
+};
 
 export default function ResetPasswordPage() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      <AuthCard
-        title={t("changePassword.title")}
-        description={t("changePassword.description")}
-        image="/images/auth/change-password.png"
-      >
-        <ChangePasswordForm />
-      </AuthCard>
-    </div>
-  );
+  return <ResetPasswordClientPage />;
 }

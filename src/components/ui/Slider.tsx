@@ -46,13 +46,13 @@ export function Slider({
       {/*overlay to hide slide under next button*/}
       <div
         className={cn(
-          "h-full w-2.5 absolute top-0 z-1 right-0",
+          "h-full w-2.5 absolute top-0 z-1 right-0 pointer-events-none",
           sideOverlayClassName
         )}
       ></div>
       <div
         className={cn(
-          "h-full w-2.5 absolute top-0 z-1 left-0",
+          "h-full w-2.5 absolute top-0 z-1 left-0 pointer-events-none",
           sideOverlayClassName
         )}
       ></div>

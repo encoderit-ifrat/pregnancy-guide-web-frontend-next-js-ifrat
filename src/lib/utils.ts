@@ -29,3 +29,25 @@ export function omitEmpty<T extends Record<string, unknown>>(
 
   return result;
 }
+
+export function generateSlug(text: string): string {
+  const transliterationMap: Record<string, string> = {
+    å: "a",
+    ä: "a",
+    ö: "o",
+    é: "e",
+  };
+
+  let slug = text.toLowerCase();
+
+  // Transliterate specific Swedish characters
+  slug = slug.split("").map((char) => transliterationMap[char] || char).join("");
+
+  // Replace spaces with hyphens, remove non-alphanumeric characters (except hyphens)
+  slug = slug.replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+
+  // Collapse multiple hyphens and trim them from ends
+  slug = slug.replace(/-+/g, "-").replace(/^-+|-+$/g, "");
+
+  return slug;
+}

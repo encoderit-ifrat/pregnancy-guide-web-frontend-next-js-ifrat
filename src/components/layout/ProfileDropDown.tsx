@@ -29,7 +29,7 @@ export function ProfileDropDown() {
       <DropdownMenuContent>
         <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href="/profile">
+        <Link href="/min-profil">
           <DropdownMenuItem className="hover:bg-black/5">
             <User className="mr-2 size-4" />
             {t("header.profile")}

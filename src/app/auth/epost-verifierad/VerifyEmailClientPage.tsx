@@ -1,0 +1,115 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { CheckCircle, XCircle, Loader2 } from "lucide-react";
+import {
+  useVerifyEmail,
+  verifyEmailRequestType,
+} from "./_api/mutations/useVerifyEmail";
+import { useTranslation } from "@/hooks/useTranslation";
+
+const STATUS = {
+  VERIFYING: "verifying",
+  SUCCESS: "success",
+  ERROR: "error",
+};
+
+const StatusContent = {
+  [STATUS.VERIFYING]: {
+    Icon: Loader2,
+    iconClass: "w-16 h-16 text-primary animate-spin mx-auto mb-4",
+    title: "common.verifyingYourEmail",
+    text: "common.pleaseWait",
+  },
+  [STATUS.SUCCESS]: {
+    Icon: CheckCircle,
+    iconClass: "w-16 h-16 text-green-500 mx-auto mb-4",
+    title: "common.emailVerified",
+    button: { href: "/logga-in", text: "common.goToLogin" },
+  },
+  [STATUS.ERROR]: {
+    Icon: XCircle,
+    iconClass: "w-16 h-16 text-red-500 mx-auto mb-4",
+    title: "common.verificationFailed",
+    button: {
+      href: "/resend-verify-email",
+      text: "common.resendVerificationEmail",
+    },
+  },
+};
+
+export default function VerifyEmailClientPage() {
+  const [status, setStatus] = useState(STATUS.VERIFYING);
+  const [message, setMessage] = useState("");
+
+  const { t } = useTranslation();
+
+  const verifyEmailMutation = useVerifyEmail();
+
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get("token");
+
+    if (!token) {
+      setStatus(STATUS.ERROR);
+      setMessage("No verification token found in URL");
+      return;
+    }
+    const verifyData: verifyEmailRequestType = {
+      token: token,
+    };
+    verifyEmailMutation.mutate(verifyData, {
+      onSuccess: () => {
+        setStatus(STATUS.SUCCESS);
+        setMessage(
+          "Din e-postadress är nu bekräftad och du kan logga in. Välkommen till Familj.se"
+        );
+      },
+      onError() {
+        setStatus(STATUS.ERROR);
+        setMessage(
+          "An error occurred during verification. Please try again later."
+        );
+      },
+    });
+  }, []);
+
+  const handleGoToLogin = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (
+        /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        e.preventDefault();
+        window.location.href = "familj://logga-in";
+        setTimeout(() => {
+          window.location.href = "https://familj.se/logga-in";
+        }, 800);
+      }
+    },
+    []
+  );
+
+  const { Icon, iconClass, title, text, button } = StatusContent[status];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
+        <Icon className={iconClass} />
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          {title ? t(title) : message}
+        </h1>
+        <p className="text-gray-600 mb-6">{text ? t(text) : message}</p>
+        {button && (
+          <a
+            href={button.href}
+            onClick={handleGoToLogin}
+            className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold  transition-colors"
+          >
+            {t(button.text)}
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}

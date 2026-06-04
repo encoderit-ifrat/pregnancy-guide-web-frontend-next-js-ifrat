@@ -8,6 +8,13 @@ import { useTranslation } from "@/hooks/useTranslation";
 export function HeroSection() {
   const { t } = useTranslation();
 
+  const appStoreLink =
+    process.env.NEXT_PUBLIC_APP_STORE_LINK ||
+    "https://apps.apple.com/us/app/familj-se/id6765674291";
+  const googlePlayLink =
+    process.env.NEXT_PUBLIC_GOOGLE_PLAY_LINK ||
+    "https://play.google.com/store/apps/details?id=com.cmh.familj&hl=en";
+
   return (
     <section className="relative bg-[#F6F0FF] pt-2 pb-0 md:pb-16 lg:pb-0">
       <div className="container-xl md:mb-4">
@@ -29,18 +36,28 @@ export function HeroSection() {
 
             {/* App Store Badges */}
             <div className="flex items-center justify-center md:justify-start gap-4 lg:items-start">
-              <Link href="#" className="transition-transform hover:scale-105">
+              <Link
+                href={appStoreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-transform hover:scale-105"
+              >
                 <Image
-                  src="/images/hero/app-store2.png"
+                  src="/images/hero/appstore.webp"
                   alt={t("hero.appStoreAlt")}
                   width={140}
                   height={46}
                   className="h-11 w-auto"
                 />
               </Link>
-              <Link href="#" className="transition-transform hover:scale-105">
+              <Link
+                href={googlePlayLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-transform hover:scale-105"
+              >
                 <Image
-                  src="/images/hero/google-play2.png"
+                  src="/images/hero/google-play2.webp"
                   alt={t("hero.googlePlayAlt")}
                   width={140}
                   height={46}

@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         pathname: "/**", // allows all image paths from this domain
       },
       {
+        protocol: "https",
+        hostname: "api.familj.se",
+        pathname: "/**", // allows all image paths from this domain
+      },
+      {
         protocol: "http",
         hostname: "localhost",
         pathname: "/**", // allows all image paths from this domain

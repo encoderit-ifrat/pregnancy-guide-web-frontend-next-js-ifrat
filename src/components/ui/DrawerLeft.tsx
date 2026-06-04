@@ -100,7 +100,7 @@ export default function DrawerLeft({ links }: DrawerLeftProps) {
               </Button>
             ) : (
               <Button
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("/logga-in")}
                 variant="default"
                 size="sm"
                 className="w-full text-sm gap-1"

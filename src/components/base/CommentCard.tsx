@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useQuestionLike } from "@/app/pregnancy-overview/_api/mutation/useQuestionLike";
-import { useQuestionDislike } from "@/app/pregnancy-overview/_api/mutation/useQuestionDislike";
+import { useQuestionLike } from "@/app/_pregnancy-overview/_api/mutation/useQuestionLike";
+import { useQuestionDislike } from "@/app/_pregnancy-overview/_api/mutation/useQuestionDislike";
 import { cn } from "@/lib/utils";
 // import {
 //   Accordion,
@@ -173,10 +173,52 @@ export default function CommentCard({
           </div>
 
           {/* Comment Content */}
-          <p className="h-full text-gray-800 text-sm leading-relaxed mb-2">
-            {/* {content || "No answer"} */}
-            {comment || t("weeklyQuestion.noAnswer")}
-          </p>
+          <div className="flex flex-col md:flex-row justify-between my-2" >
+            <p className="h-full text-gray-800 text-sm leading-relaxed line-clamp-2">
+              {/* {content || "No answer"} */}
+              {comment || t("weeklyQuestion.noAnswer")}
+            </p>
+            <div>
+              {/* like / dislike */}
+              <div className="flex items-center gap-1.5 md:mr-2">
+                <div className="flex flex-col items-center">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleLike}
+                    disabled={isLikePending || isDislikePending}
+                    className={cn(
+                      "h-8 w-8 rounded-full",
+                      isLiked &&
+                      "bg-primary text-white border-primary hover:bg-primary/90"
+                    )}
+                  >
+                    <ThumbsUp
+                      className={cn("h-3.5 w-3.5", isLiked && "fill-current")}
+                    />
+                  </Button>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleDislike}
+                    disabled={isLikePending || isDislikePending}
+                    className={cn(
+                      "h-8 w-8 rounded-full",
+                      isDisliked &&
+                      "bg-primary text-white border-primary hover:bg-primary/90"
+                    )}
+                  >
+                    <FlagIcon
+                      className={cn("h-3.5 w-3.5", isDisliked && "fill-current")}
+                    />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             onClick={() => setIsOpen(!isOpen)}
             className="max-w-fit hover:no-underline hover:text-primary cursor-pointer"
@@ -194,46 +236,7 @@ export default function CommentCard({
             </div>
           </div>
         </div>
-        <div>
-          {/* like / dislike */}
-          <div className="flex items-center gap-1.5 md:mr-2">
-            <div className="flex flex-col items-center">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleLike}
-                disabled={isLikePending || isDislikePending}
-                className={cn(
-                  "h-8 w-8 rounded-full",
-                  isLiked &&
-                  "bg-primary text-white border-primary hover:bg-primary/90"
-                )}
-              >
-                <ThumbsUp
-                  className={cn("h-3.5 w-3.5", isLiked && "fill-current")}
-                />
-              </Button>
-            </div>
 
-            <div className="flex flex-col items-center">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleDislike}
-                disabled={isLikePending || isDislikePending}
-                className={cn(
-                  "h-8 w-8 rounded-full",
-                  isDisliked &&
-                  "bg-primary text-white border-primary hover:bg-primary/90"
-                )}
-              >
-                <FlagIcon
-                  className={cn("h-3.5 w-3.5", isDisliked && "fill-current")}
-                />
-              </Button>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Comments Section */}
@@ -284,7 +287,7 @@ export default function CommentCard({
                   placeholder={t("weeklyQuestion.commentPlaceholder")}
                   value={text}
                   onChange={(e) => setText(e.target.value)}
-                  className="mb-4 text-base resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
+                  className="mb-4 text-base min-h-[130px] resize-none focus:ring-2 focus:ring-purple-300 focus:border-transparent"
                   rows={3}
                   size="sm"
                 />
@@ -293,7 +296,7 @@ export default function CommentCard({
                     onClick={handleSubmit}
                     isLoading={isPending}
                     disabled={isPending}
-                    className="w-full max-w-lg md:w-auto px-8 py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
+                    className="w-full max-w-lg md:w-auto px-2 py-2 md:px-8 md:py-3 bg-soft hover:bg-soft/90 text-white rounded-full font-medium"
                   >
                     {t("weeklyQuestion.submitComment")}
                   </Button>

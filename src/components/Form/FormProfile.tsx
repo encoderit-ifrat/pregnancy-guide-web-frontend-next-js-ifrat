@@ -26,7 +26,7 @@ import { calculateWeeksFromDueDate } from "@/utlis/calculateWeeksFromDueDate";
 import {
   babyRequestType,
   useBabyCreate,
-} from "@/app/profile/_api/mutations/useBabyCreate";
+} from "@/app/min-profil/_api/mutations/useBabyCreate";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import {
   calculateDueDateFromLPD,
@@ -35,13 +35,13 @@ import {
 import {
   BabyProfile,
   FormProfileProps,
-} from "@/app/profile/_types.ts/profile_types";
+} from "@/app/min-profil/_types.ts/profile_types";
 import { toast } from "sonner";
-import { useBabyUpdate } from "@/app/profile/_api/mutations/useBabyUpdate";
+import { useBabyUpdate } from "@/app/min-profil/_api/mutations/useBabyUpdate";
 import {
   ProfileFormSchema,
   ProfileFormSchemaType,
-} from "@/app/profile/_types.ts/profile_form_schema";
+} from "@/app/min-profil/_types.ts/profile_form_schema";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const getPluralText = (locale: string, value: number, type: "week" | "day") => {

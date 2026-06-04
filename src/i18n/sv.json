@@ -14,7 +14,13 @@
     "edit": "Redigera",
     "delete": "Ta bort",
     "save": "Spara ändringar",
-    "error": "Ett fel uppstod"
+    "error": "Ett fel uppstod",
+    "verifyingYourEmail": "Verifierar din e-post",
+    "pleaseWait": "Vänligen vänta medan vi verifierar din e-postadress...",
+    "emailVerified": "E-post verifierad!",
+    "goToLogin": "Gå till Logga in",
+    "verificationFailed": "Verifieringen misslyckades",
+    "resendVerificationEmail": "Skicka verifierings-e-post igen"
   },
   "auth": {
     "resetPassword": {
@@ -42,12 +48,13 @@
     "profile": "Profil",
     "changePassword": "Byt lösenord",
     "search": "Sök ...",
-    "functions": "Funktioner",
+    "functions": "Mer",
     "language": "Språk",
     "english": "Engelska",
     "swedish": "Svenska",
-    "discussions": "Diskussioner",
-    "forNameTinder": "Namnswajp"
+    "discussions": "Forum",
+    "forNameTinder": "Namnswajp",
+    "checklist": "Checklistor"
   },
   "footer": {
     "quickLinks": "Graviditet och föräldraskap",
@@ -78,7 +85,7 @@
   "mission": {
     "label": "Därför finns vi",
     "title": "Vårt uppdrag",
-    "description": "Graviditet är en av livets största resor, men den behöver inte kännas ensam. Familj finns för att du, din partner och dina närstående ska kunna följa varje steg tillsammans, med trygg information och utrymme för det som är svårt att sätta ord på.",
+    "description": "Graviditet är en av livets största resor. En tid fylld av förväntan, förändringar, frågor och nya känslor. Men du behöver inte gå igenom den ensam. Familj finns för att du, din partner och dina närstående ska kunna följa varje steg tillsammans, med trygg information och utrymme för det som är svårt att sätta ord på.",
     "quote": "Hela familjen med, från första veckan."
   },
   "appShowcase": {
@@ -147,7 +154,12 @@
     "or": "ELLER",
     "noAccount": "Har du inget konto?",
     "createAccount": "Skapa konto",
-    "loggedInSuccess": "Inloggning lyckades"
+    "loggedInSuccess": "Inloggning lyckades",
+    "validation": {
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ange en giltig e-postadress",
+      "passwordRequired": "Lösenord krävs"
+    }
   },
   "signUp": {
     "title": "Registrera dig",
@@ -156,21 +168,41 @@
     "userEmail": "E-post",
     "password": "Lösenord",
     "confirmPassword": "Bekräfta lösenord",
-    "termsText": "Jag har förstått",
-    "termsLink": "villkor och policy",
+    "termsText": "Jag accepterar",
+    "termsLink": "villkor & policy",
     "signUpButton": "Registrera dig",
     "or": "ELLER",
     "hasAccount": "Har du redan ett konto?",
     "signIn": "Logga in",
     "registrationSuccess": "Registrering lyckades",
-    "registrationFailed": "Registrering misslyckades"
+    "registrationFailed": "Registrering misslyckades",
+    "validation": {
+      "nameRequired": "Namn krävs",
+      "nameMin": "Namnet måste vara minst 2 tecken",
+      "nameMax": "Namnet får inte vara mer än 50 tecken",
+      "nameLettersSpaces": "Namnet får endast innehålla bokstäver och blanksteg",
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ange en giltig e-postadress",
+      "passwordMin": "Lösenordet måste vara minst 8 tecken",
+      "passwordUppercase": "Lösenordet måste innehålla minst en stor bokstav",
+      "passwordLowercase": "Lösenordet måste innehålla minst en liten bokstav",
+      "passwordNumber": "Lösenordet måste innehålla minst en siffra",
+      "passwordSpecial": "Lösenordet måste innehålla minst ett specialtecken",
+      "confirmPasswordRequired": "Vänligen bekräfta ditt lösenord",
+      "acceptTermsRequired": "Du måste acceptera villkor & policy",
+      "passwordsMatch": "Lösenorden matchar inte"
+    }
   },
   "forgotPassword": {
-    "title": "Glömt Lösenord",
-    "description": "Fyll i din e-postadress för att återställa lösenordet.",
+    "title": "Glömt lösenord",
+    "description": "Ange din e-postadress nedan så skickar vi en länk för att återställa ditt lösenord.",
     "email": "E-post",
     "emailPlaceholder": "e-post",
-    "continueButton": "Fortsätt"
+    "continueButton": "Fortsätt",
+    "validation": {
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ange en giltig e-postadress"
+    }
   },
   "changePassword": {
     "title": "Byt Lösenord",
@@ -202,6 +234,7 @@
     "subtitle": "Skapa och hantera dina egna checklistor eller använd våra smarta mallar.",
     "addNew": "Lägg till ny",
     "addList": "Lägg till lista",
+    "deleteList": "Radera lista",
     "addTask": "Lägg till uppgift",
     "finalizedTasks": "Slutförda Uppgifter",
     "addChecklist": "Skapa Checklista",
@@ -333,7 +366,7 @@
     "addNewList": "Lägg till ny lista",
     "addTemplate": "Lägg till mall",
     "label": "Verktyg",
-    "title": "Diskussioner",
+    "title": "Forum",
     "subtitle": "Här hittar du de ämnen som du har publicerat",
     "startThread": "Nytt ämne",
     "myPublished": "Mina publicerade ämnen",
@@ -393,11 +426,12 @@
   },
   "threads": {
     "active": "aktiv",
+    "anonymous": "Anonym",
     "finalized": "slutförd",
     "addNewList": "Lägg till ny lista",
     "addTemplate": "Lägg till mall",
     "label": "Verktyg",
-    "title": "Diskussioner",
+    "title": "Forum",
     "subtitle": "Här kan du prata med människor i samma sits som dig, be om tips & råd eller bara uttrycka dina känslor",
     "startThread": "Nytt ämne",
     "myPublished": "Mina publicerade trådar",
@@ -406,6 +440,7 @@
     "mostViewed": "Mest Visade",
     "mostLoved": "Mest älskade",
     "newest": "Senaste",
+    "threadLatestHaveReply": "Senaste svar",
     "reply": "Svara",
     "like": "Gilla",
     "likes": "Gilla-markeringar",
@@ -486,7 +521,7 @@
     "addData": "Lägg till graviditetsdata",
     "privacySecure": "Din graviditetsdata är privat och säker 🔒",
     "articles": "Artiklar",
-    "articlesTitle": "Artiklar kring att vara gravid",
+    "articlesTitle": "Graviditet",
     "articlesSubtitle": "Expertråd, verkliga berättelser och användbara tips för att stödja dig och din familj i varje skede.",
     "weeklyDetails": "Veckans artikel",
     "weeklyDetailsUserLoggedOut": "Veckans artikel",

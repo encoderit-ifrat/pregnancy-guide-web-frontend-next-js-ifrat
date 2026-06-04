@@ -1,22 +1,34 @@
-"use client";
-
 import React from "react";
-import UpdatePasswordForm from "./_component/UpdatePasswordForm";
-import AuthCard from "@/components/ui/cards/AuthCard";
-import { useTranslation } from "@/hooks/useTranslation";
+import { Metadata } from "next";
+import ChangePasswordClientPage from "./ChangePasswordClientPage";
+import { OG_DEFAULT_IMAGE, canonicalUrl } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Ändra lösenord",
+  description: "Ändra ditt lösenord på Familj.se.",
+  alternates: {
+    canonical: canonicalUrl("/change-password"),
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+  openGraph: {
+    title: "Ändra lösenord",
+    description: "Ändra ditt lösenord på Familj.se.",
+    type: "website",
+    locale: "sv_SE",
+    siteName: "Familj.se",
+    images: [{ url: OG_DEFAULT_IMAGE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ändra lösenord",
+    description: "Ändra ditt lösenord på Familj.se.",
+    images: [{ url: OG_DEFAULT_IMAGE }],
+  },
+};
 
 export default function ChangePasswordPage() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      <AuthCard
-        title={t("changePassword.title")}
-        description={t("changePassword.description")}
-        image="/images/auth/change-password.png"
-      >
-        <UpdatePasswordForm />
-      </AuthCard>
-    </div>
-  );
+  return <ChangePasswordClientPage />;
 }

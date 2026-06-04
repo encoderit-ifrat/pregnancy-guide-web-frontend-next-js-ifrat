@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Category } from "@/types/shared";
 import { useQueryGetAllCategories } from "../Navbar/api/queries/useQueryGetAllCategories";
 import { NavigationLink } from "../Navbar/_types/navbar_types";
+import { transliterateSlug } from "@/lib/seo";
 
 export default function Navbar({
   isSearchExpanded,
@@ -27,9 +28,10 @@ export default function Navbar({
       categories.data.data.length > 0
     ) {
       const categoryData = categories.data.data as Category[];
+
       setNavigationLinks(
         categoryData.map((category) => ({
-          href: `/search-article?page=1&category=${category.slug}`,
+          href: `/${transliterateSlug(category.slug)}`,
           label: category.name,
         }))
       );
@@ -114,14 +116,14 @@ export default function Navbar({
         />
 
         {/* Scrollable Navigation Menu */}
-        <div>
+        <div className="w-[560px]">
           <NavigationMenu>
             <div
               ref={scrollRef}
               onScroll={checkScroll}
-              className="overflow-x-auto overflow-y-hidden max-w-sm lg:max-w-lg scrollbar-hide scroll-smooth "
+              className="overflow-x-auto overflow-y-hidden w-full scrollbar-hide scroll-smooth "
             >
-              <NavigationMenuList className="gap-2 xl:gap-6">
+              <NavigationMenuList className="gap-5 xl:gap-6">
                 {navigationLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
                     <Link

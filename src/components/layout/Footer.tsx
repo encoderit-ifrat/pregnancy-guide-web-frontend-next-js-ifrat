@@ -4,21 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Instagram, Music2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useQueryGetAllCategories } from "@/components/Navbar/api/queries/useQueryGetAllCategories";
+import { Category } from "@/types/shared";
+import { transliterateSlug } from "@/lib/seo";
 
 export function Footer() {
   const { t } = useTranslation();
+  const { data: categoriesData } = useQueryGetAllCategories();
+
+  const companyLinks = Array.isArray(categoriesData?.data?.data)
+    ? (categoriesData.data.data as Category[]).map((category) => ({
+        href: `/${transliterateSlug(category.slug)}`,
+        label: category.name,
+      }))
+    : [];
 
   const footerLinks = {
-    company: [
-      { href: "/articles", label: t("footer.delivery") },
-      { href: "/articles", label: t("footer.pregnancyHealth") },
-      { href: "/articles", label: t("footer.foodAndDiet") },
-      { href: "/articles", label: t("footer.pregnancy") },
-    ],
     resources: [
-      { href: "/login", label: t("footer.home") },
-      { href: "/sign-up", label: t("footer.articles") },
-      { href: "/forgot-password", label: "Glömt lösenord" },
+      { href: "/logga-in", label: t("footer.home") },
+      { href: "/skapa-konto", label: t("footer.articles") },
+      { href: "/glomt-losenord", label: "Glömt lösenord" },
       // { href: "/feedback", label: t("footer.feedback") },
       // { href: "/settings", label: t("footer.settings") },
     ],
@@ -65,15 +70,15 @@ export function Footer() {
 
           {/* Links Columns */}
           <div className="col-span-2 lg:col-span-1">
-            <h4 className="mb-4 text-[25px] tracking-wider text-white!">
+            <h4 className="mb-4 text-xl md:text-[25px] tracking-wider text-white!">
               {t("footer.quickLinks")}
             </h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
+            <ul className="md:space-y-3 space-y-1">
+              {companyLinks.map((link, index) => (
                 <li key={link.href + index}>
                   <Link
                     href={link.href}
-                    className="text-lg text-white/70 transition-colors hover:text-white"
+                    className="md:text-lg text-base text-white/70 transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -83,15 +88,15 @@ export function Footer() {
           </div>
 
           <div className="col-span-2 lg:col-span-1">
-            <h4 className="mb-4 text-[25px] tracking-wider text-white!">
+            <h4 className="mb-4 text-xl md:text-[25px] tracking-wider text-white!">
               {t("footer.additionalLink")}
             </h4>
-            <ul className="space-y-3">
+            <ul className="md:space-y-3 space-y-1">
               {footerLinks.resources.map((link, index) => (
                 <li key={link.href + index}>
                   <Link
                     href={link.href}
-                    className="text-lg text-white/70 transition-colors hover:text-white"
+                    className="md:text-lg text-base text-white/70 transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -101,10 +106,10 @@ export function Footer() {
           </div>
 
           <div className="col-span-4 lg:col-span-1">
-            <h4 className="mb-4 text-[25px] tracking-wider text-white!">
+            <h4 className="mb-4 text-xl md:text-[25px] tracking-wider text-white!">
               {t("footer.socialLink")}
             </h4>
-            <div className="flex gap-4">
+            <div className="flex md:gap-4 gap-2">
               {socialLinks.map((social, index) => (
                 <Link
                   key={social.href + index}

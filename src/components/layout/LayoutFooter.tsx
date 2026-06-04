@@ -10,7 +10,7 @@ export default function LayoutFooter() {
   const { searchArticleCount } = useLayoutFooterVisibility();
 
   const shouldHideFooterOnSearchArticle =
-    pathname === "/search-article" &&
+    pathname === "/sok" &&
     (searchArticleCount === null || searchArticleCount === 1);
 
   if (shouldHideFooterOnSearchArticle) {

@@ -74,6 +74,6 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET, // Make sure this is set!
   pages: {
-    signIn: "/login",
+    signIn: "/logga-in",
   },
 };

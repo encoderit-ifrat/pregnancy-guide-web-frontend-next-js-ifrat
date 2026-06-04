@@ -14,7 +14,7 @@ export default function SearchDrawer() {
             variant="outline"
             size="icon"
             className="border-none outline-none bg-transparent"
-            onClick={() => router.replace("/search-article")}
+            onClick={() => router.replace("/sok")}
             // onClick={() => setShowSearch(true)}
           >
             <div className="bg-purple-500/10 p-2 rounded-full">

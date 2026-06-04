@@ -16,6 +16,7 @@ import { UserProvider } from "@/providers/UserProvider";
 import { Header } from "@/components/layout/Header";
 import LayoutFooter from "@/components/layout/LayoutFooter";
 import { LayoutFooterVisibilityProvider } from "@/components/layout/LayoutFooterVisibility";
+import CookieConsentProvider from "@/components/cookie/CookieConsentProvider";
 
 import { I18nProvider } from "@/providers/I18nProvider";
 
@@ -67,8 +68,12 @@ export const lora = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Familj",
-  description: "Familj project setup",
+  title: {
+    template: "%s | Familj.se",
+    default: "Familj.se | Följ din graviditet vecka för vecka",
+  },
+  description:
+    "Följ din graviditet vecka för vecka tillsammans med din partner. Artiklar, checklistor, veckans fråga och namnväljare.",
 };
 
 export default function RootLayout({
@@ -76,8 +81,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // /pregnancy-overview
-
   return (
     <html lang="sv">
       <body
@@ -95,8 +98,15 @@ export default function RootLayout({
                 <LayoutFooterVisibilityProvider>
                   <Header />
                   <UserProvider>
-                    {children}
-                    <Toaster richColors position="top-right" />
+                    <CookieConsentProvider>
+                      {children}
+                      <Toaster
+                        richColors
+                        position="top-right"
+                        closeButton
+                        duration={3000}
+                      />
+                    </CookieConsentProvider>
                   </UserProvider>
                   <LayoutFooter />
                 </LayoutFooterVisibilityProvider>

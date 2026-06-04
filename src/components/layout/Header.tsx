@@ -19,6 +19,7 @@ import Logo from "../ui/Logo";
 import Navbar from "./NavBar";
 import MultiLanguageDropDown from "./MultiLanguageDropDown";
 import { Input } from "../ui/Input";
+import { transliterateSlug } from "@/lib/seo";
 
 export function Header() {
   const router = useRouter();
@@ -36,18 +37,29 @@ export function Header() {
       const categoryData = categories.data.data as Category[];
       setNavigationLinks(
         categoryData.map((category) => ({
-          href: `/search-article?page=1&category=${category.slug}`,
+          href: `/${transliterateSlug(category.slug)}`,
           label: category.name,
         }))
       );
     }
   }, [categories]);
 
-  const { isAuthenticated } = useCurrentUser();
+  const { user, isAuthenticated } = useCurrentUser();
+  const userWeek = user?.details?.current_pregnancy_data?.week;
+  const userDay = user?.details?.current_pregnancy_data?.day ?? 0;
+  const currentWeek =
+    userWeek !== undefined ? (userDay > 0 ? userWeek + 1 : userWeek) : null;
+  const logoHref = isAuthenticated
+    ? currentWeek !== null
+      ? `/gravid/vecka/${currentWeek}`
+      : "/gravid/vecka"
+    : "/";
+
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFunctionsOpen, setIsFunctionsOpen] = useState(false);
+  const [isMobileFunctionsOpen, setIsMobileFunctionsOpen] = useState(false);
   const functionsDropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -121,18 +133,18 @@ export function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = () => {
     // if (onSearch) onSearch(searchTerm);
-    router.replace(`/search-article?page=1&search=${searchTerm}`);
+    router.replace(`/sok?page=1&search=${searchTerm}`);
   };
   const handleClear = () => {
     setSearchTerm("");
-    router.replace(`/search-article`);
+    router.replace(`/sok`);
 
     // if (onSearch) onSearch("");
   };
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Tailwind md breakpoint is 768px -> use max-width: 767px to represent < md
-    const mql = window.matchMedia("(max-width: 1024px)");
+    const mql = window.matchMedia("(max-width: 1023px)");
     const onChange = (e: MediaQueryListEvent | MediaQueryList) =>
       setIsSmallScreen((e as MediaQueryListEvent | MediaQueryList).matches);
     // initial
@@ -164,7 +176,7 @@ export function Header() {
       // calculate scrollbar width to avoid layout shift when hiding scrollbar
       const scrollbarWidth =
         window.innerWidth - document.documentElement.clientWidth;
-      if (scrollbarWidth > 0) {
+      if (scrollbarWidth > 0 && window.innerWidth >= 1024) {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
 
@@ -215,10 +227,7 @@ export function Header() {
           <div className="flex items-center gap-4 md:gap-10">
             {/* Logo */}
             <div className={logoClassName}>
-              <Link
-                href={isAuthenticated ? "/pregnancy-overview" : "/"}
-                className="shrink-0"
-              >
+              <Link href={logoHref} className="shrink-0">
                 <Logo dark={isSmallScreen || isSticky} />
               </Link>
             </div>
@@ -227,7 +236,7 @@ export function Header() {
               className={`transition-all duration-300 ease-in-out ${
                 isSearchExpanded
                   ? "max-w-0 opacity-0"
-                  : "max-w-[680px] opacity-100"
+                  : "md:max-w-[680px] xl:max-w-[780px] opacity-100"
               }`}
             >
               <div className="flex items-center gap-4">
@@ -256,36 +265,51 @@ export function Header() {
                     <div className="absolute left-0 mt-0 w-48 bg-white shadow-xl rounded-lg py-2 z-50 overflow-hidden">
                       <div className="flex flex-col gap-1">
                         <Link
-                          href="/discussion-threads"
+                          href="/forum"
                           onClick={() => setIsFunctionsOpen(false)}
                           className={cn(
                             "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                            pathname === "/discussion-threads" ||
-                              pathname === "/published-threads"
+                            pathname === "/forum" ||
+                              pathname === "/forum/mina-amnen"
                               ? "bg-[#F6F0FF] text-primary font-semibold"
                               : "hover:bg-gray-50 text-primary-dark"
                           )}
                         >
-                          {(pathname === "/discussion-threads" ||
-                            pathname === "/published-threads") && (
+                          {(pathname === "/forum" ||
+                            pathname === "/forum/mina-amnen") && (
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
                           )}
                           {t("header.discussions")}
                         </Link>
                         <Link
-                          href="/for-name-tinder"
+                          href="/barnnamn/swajp"
                           onClick={() => setIsFunctionsOpen(false)}
                           className={cn(
                             "relative w-full text-left px-4 py-2 transition-colors text-sm",
-                            pathname === "/for-name-tinder"
+                            pathname === "/barnnamn/swajp"
                               ? "bg-[#F6F0FF] text-primary font-semibold"
                               : "hover:bg-gray-50 text-primary-dark"
                           )}
                         >
-                          {pathname === "/for-name-tinder" && (
+                          {pathname === "/barnnamn/swajp" && (
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
                           )}
                           {t("header.forNameTinder")}
+                        </Link>
+                        <Link
+                          href="/checklistor"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/checklistor"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/checklistor" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.checklist")}
                         </Link>
                       </div>
                     </div>
@@ -309,7 +333,7 @@ export function Header() {
               {isAuthenticated ? (
                 <ProfileDropDown />
               ) : (
-                <Link href="/login" className="hidden lg:block">
+                <Link href="/logga-in" className="hidden lg:block">
                   <Button className="font-poppins h-9 font-semibold text-base text-white py-1.5 px-6">
                     {t("header.login")}
                   </Button>
@@ -348,10 +372,10 @@ export function Header() {
           )}
           style={{
             top: headerHeight,
-            // height: `calc(100vh - ${headerHeight}px)`,
+            height: `calc(100dvh - ${headerHeight}px)`,
           }}
         >
-          <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto h-full shadow-xl">
+          <div className="border-t border-gray-100 bg-white w-full overflow-y-auto h-full shadow-xl">
             <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
               {navigationLinks.map((link) => {
                 const isActive = pathname === link.href;
@@ -359,7 +383,7 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary ${
+                    className={`w-full lg:w-auto rounded-lg px-4 py-3 text-sm font-medium transition-colors text-start hover:bg-primary-light hover:text-primary ${
                       isActive
                         ? "text-primary bg-primary-light"
                         : "text-text-primary"
@@ -370,32 +394,33 @@ export function Header() {
                   </Link>
                 );
               })}
-
-              <div className="w-full">
+              <div className="flex flex-col">
                 <button
-                  onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
-                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors focus:outline-none"
+                  onClick={() =>
+                    setIsMobileFunctionsOpen(!isMobileFunctionsOpen)
+                  }
+                  className="w-full flex items-center justify-between rounded-lg px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary transition-colors"
                 >
-                  <span className="flex items-center gap-2">
-                    {t("header.functions")}
-                  </span>
+                  {t("header.functions")}
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 transition-transform duration-200",
-                      isFunctionsOpen && "rotate-180"
+                      "w-4 h-4 transition-transform",
+                      isMobileFunctionsOpen && "rotate-180"
                     )}
                   />
                 </button>
-
-                {isFunctionsOpen && (
-                  <div className="flex flex-col gap-1 ml-6 mt-1 border-l-2 border-primary-light pl-4 py-2">
+                {isMobileFunctionsOpen && (
+                  <div className="flex flex-col gap-1 pl-4">
                     <Link
-                      href="/discussion-threads"
-                      onClick={() => setIsMenuOpen(false)}
+                      href="/forum"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
                       className={cn(
-                        "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
-                        pathname === "/discussion-threads" ||
-                          pathname === "/published-threads"
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/forum" ||
+                          pathname === "/forum/mina-amnen"
                           ? "bg-primary-light text-primary font-semibold"
                           : "hover:bg-primary-light/50 text-text-primary"
                       )}
@@ -403,22 +428,39 @@ export function Header() {
                       {t("header.discussions")}
                     </Link>
                     <Link
-                      href="/for-name-tinder"
-                      onClick={() => setIsMenuOpen(false)}
+                      href="/barnnamn/swajp"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
                       className={cn(
-                        "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
-                        pathname === "/for-name-tinder"
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/barnnamn/swajp"
                           ? "bg-primary-light text-primary font-semibold"
                           : "hover:bg-primary-light/50 text-text-primary"
                       )}
                     >
                       {t("header.forNameTinder")}
                     </Link>
+                    <Link
+                      href="/checklistor"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/checklistor"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.checklist")}
+                    </Link>
                   </div>
                 )}
               </div>
               {/* <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" /> */}
-
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -460,7 +502,7 @@ export function Header() {
                     {t("header.logout")}
                   </Button>
                 ) : (
-                  <Link href="/login">
+                  <Link href="/logga-in">
                     <Button className="w-full">{t("header.login")}</Button>
                   </Link>
                 )}

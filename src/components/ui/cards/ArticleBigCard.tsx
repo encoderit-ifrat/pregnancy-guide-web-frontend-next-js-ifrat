@@ -28,8 +28,13 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
       <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         {/* Left: text content */}
         <div className="h-full md:h-auto order-2 md:order-1 md:px-10 lg:px-16  flex flex-col justify-between md:max-w-lg">
-          <h3 className="text-xl md:text-3xl font-semibold mb-4 line-clamp-2" title={data?.title}>{data?.title}</h3>
-          <p className="flex-1 mb-6 max-w-xl line-clamp-5">{data?.excerpt}</p>
+          <h3
+            className="text-xl md:text-3xl font-semibold mb-4 line-clamp-2"
+            title={data?.title}
+          >
+            {data?.title}
+          </h3>
+          <p className="mb-6 max-w-xl line-clamp-5">{data?.excerpt}</p>
 
           <Link
             href={`/articles/${data?.slug || "article-not-found"}`}
@@ -43,13 +48,6 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
               {t("articles.readMore")}
               <ChevronRight className="h-5 w-5 text-purple-600" />
             </Button>
-            {/*<button*/}
-            {/*  type="button"*/}
-            {/*  className="block w-full px-6 py-3 rounded-full border-2 border-purple-300 text-purple-600 hover:bg-purple-50 transition-colors duration-200"*/}
-            {/*>*/}
-            {/*  Read More*/}
-            {/*  <ChevronRight className="h-5 w-5 text-purple-600" />*/}
-            {/*</button>*/}
           </Link>
         </div>
 

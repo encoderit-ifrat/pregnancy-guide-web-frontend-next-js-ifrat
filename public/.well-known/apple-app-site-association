@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "5Q6X8KAFRH.com.cmh.familj",
+        "paths": [
+          "NOT /auth/*",
+          "/logga-in",
+          "/logga-in/*"
+        ]
+      }
+    ]
+  }
+}

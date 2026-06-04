@@ -1,5 +1,15 @@
 // Shared types used across multiple components
 
+export type MetaDetails = {
+  metaTitle?: string;
+  metaDescription?: string;
+  urlSlug?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  metaKeywords?: string[];
+};
+
 export type Benefit = {
   _id: string;
   title: string;
@@ -13,6 +23,7 @@ export type Category = {
   _id: string;
   slug: string;
   name: string;
+  metaDetails?: MetaDetails | null;
 };
 
 export type Tag = {
@@ -33,6 +44,9 @@ export type Article = {
   cover_image: string;
   thumbnail_image?: string;
   featured: boolean;
+  week?: number;
+  track?: string;
+  metaDetails?: MetaDetails | null;
 };
 
 export type PaginationMeta = {

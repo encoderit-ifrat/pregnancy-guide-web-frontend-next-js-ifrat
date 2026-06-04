@@ -49,12 +49,12 @@ export default function ExpandableSearchBar({
 
   const handleSearch = () => {
     // if (onSearch) onSearch(searchTerm);
-    router.replace(`/search-article?page=1&search=${searchTerm}`);
+    router.replace(`/sok?page=1&q=${searchTerm}`);
   };
 
   const handleClear = () => {
     setSearchTerm("");
-    router.replace(`/search-article`);
+    router.replace(`/sok`);
 
     // if (onSearch) onSearch("");
   };

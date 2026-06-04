@@ -14,7 +14,13 @@
     "edit": "Edit",
     "delete": "Delete",
     "save": "Save Changes",
-    "error": "An error occurred"
+    "error": "An error occurred",
+    "verifyingYourEmail": "Verifying Your Email",
+    "pleaseWait": "Please wait while we verify your email address...",
+    "emailVerified": "Email Verified!",
+    "goToLogin": "Go to Login",
+    "verificationFailed": "Verification Failed",
+    "resendVerificationEmail": "Resend Verification Email"
   },
   "auth": {
     "resetPassword": {
@@ -42,12 +48,13 @@
     "profile": "Profile",
     "changePassword": "Change Password",
     "search": "Search ...",
-    "functions": "Functions",
+    "functions": "More",
     "language": "Language",
     "english": "English",
     "swedish": "Swedish",
-    "discussions": "Discussions",
-    "forNameTinder": "Name Tinder"
+    "discussions": "Forum",
+    "forNameTinder": "Name Tinder",
+    "checklist": "Checklists"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -147,7 +154,12 @@
     "or": "OR",
     "noAccount": "Don't have an account?",
     "createAccount": "Create account",
-    "loggedInSuccess": "Logged in Successfully"
+    "loggedInSuccess": "Logged in Successfully",
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Password is required"
+    }
   },
   "signUp": {
     "title": "Sign Up",
@@ -163,14 +175,34 @@
     "hasAccount": "Already have an account?",
     "signIn": "Sign In",
     "registrationSuccess": "Registration Successful",
-    "registrationFailed": "Registration failed"
+    "registrationFailed": "Registration failed",
+    "validation": {
+      "nameRequired": "Name is required",
+      "nameMin": "Name must be at least 2 characters",
+      "nameMax": "Name must be less than 50 characters",
+      "nameLettersSpaces": "Name can only contain letters and spaces",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordUppercase": "Password must contain at least one uppercase letter",
+      "passwordLowercase": "Password must contain at least one lowercase letter",
+      "passwordNumber": "Password must contain at least one number",
+      "passwordSpecial": "Password must contain at least one special character",
+      "confirmPasswordRequired": "Please confirm your password",
+      "acceptTermsRequired": "You must accept the terms and conditions",
+      "passwordsMatch": "Passwords do not match"
+    }
   },
   "forgotPassword": {
     "title": "Forgot Password",
     "description": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
     "email": "Email",
     "emailPlaceholder": "User Email",
-    "continueButton": "Continue"
+    "continueButton": "Continue",
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address"
+    }
   },
   "changePassword": {
     "title": "Change Password",
@@ -202,6 +234,7 @@
     "subtitle": "Expert advice, real stories, and helpful tips to support you and your family at every stage.",
     "addNew": "Add New",
     "addList": "Add List",
+    "deleteList": "Delete List",
     "addTask": "Add Task",
     "finalizedTasks": "Finalized Tasks",
     "addChecklist": "Add Checklist",
@@ -400,6 +433,7 @@
   },
   "threads": {
     "active": "Active",
+    "anonymous": "Anonymous",
     "finalized": "Finalized",
     "addNewList": "Add New List",
     "addTemplate": "Add Template",
@@ -412,6 +446,7 @@
     "mostLiked": "Most Liked",
     "mostViewed": "Most Viewed",
     "newest": "Newest",
+    "threadLatestHaveReply": "Latest answer",
     "reply": "Reply",
     "like": "Like",
     "likes": "Likes",
