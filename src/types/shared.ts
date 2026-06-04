@@ -1,5 +1,14 @@
 // Shared types used across multiple components
 
+export type Benefit = {
+  _id: string;
+  title: string;
+  slug: string;
+  image?: string;
+  content?: string;
+  status: "published" | "draft";
+};
+
 export type Category = {
   _id: string;
   slug: string;

@@ -189,6 +189,12 @@
     "confirm": "Confirm",
     "feedbackSuccess": "Feedback successfully created"
   },
+  "benefits": {
+    "label": "Benefits",
+    "title": "Benefits & offers",
+    "subtitle": "Here you'll find benefits, discounts and offers available to you.",
+    "readMore": "Read more"
+  },
   "checklists": {
     "label": "Our Checklist",
     "title": "Checklists",
