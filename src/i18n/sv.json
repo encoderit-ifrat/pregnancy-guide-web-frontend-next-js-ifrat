@@ -221,6 +221,12 @@
     "confirm": "Bekräfta",
     "feedbackSuccess": "Feedback har skapats"
   },
+  "benefits": {
+    "label": "Förmåner",
+    "title": "Förmåner & erbjudanden",
+    "subtitle": "Här hittar du förmåner, rabatter och erbjudanden som är tillgängliga för dig.",
+    "readMore": "Läs mer"
+  },
   "checklists": {
     "label": "Verktyg",
     "title": "Checklistor",
