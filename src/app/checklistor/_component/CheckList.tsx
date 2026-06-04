@@ -690,7 +690,7 @@ export default function CheckList({
           <DialogHeader>
             <DialogTitle className="text-left">
               {formData.type === "update"
-                ? t("checklists.updateChecklist")
+                ? "Ändra titeln"
                 : t("checklists.addChecklist")}
             </DialogTitle>
           </DialogHeader>

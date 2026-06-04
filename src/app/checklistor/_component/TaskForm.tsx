@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/Textarea";
-import { CalendarIcon, Bell, Trash2, Save, Loader2 } from "lucide-react";
+import { CalendarIcon, Bell, Trash2, Save, Loader2, Undo2 } from "lucide-react";
 
 import {
   Popover,
@@ -177,6 +177,31 @@ export default function TaskForm({
               </FormItem>
             )}
           />
+
+          {/* Notes */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base text-[#1B1343]">
+                  {t("checklists.taskForm.notes")}
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={t("checklists.taskForm.notesPlaceholder")}
+                    className="min-h-30 bg-purple-50 resize-none overflow-y-auto disabled:pointer-events-auto"
+                    disabled={readOnly}
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <p className="text-sm text-gray-500">
+            {t("checklists.taskForm.notesHelper")}
+          </p>
 
           {/* Priority + Due Date */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -409,34 +434,9 @@ export default function TaskForm({
             />
           </div>
 
-          {/* Notes */}
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base text-[#1B1343]">
-                  {t("checklists.taskForm.notes")}
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder={t("checklists.taskForm.notesPlaceholder")}
-                    className="min-h-30 bg-purple-50 resize-none overflow-y-auto disabled:pointer-events-auto"
-                    disabled={readOnly}
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <p className="text-sm text-gray-500">
-            {t("checklists.taskForm.notesHelper")}
-          </p>
-
           {/* Footer */}
           {!readOnly && (
-            <div className="flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 text-lg">
+            <div className="flex flex-col-reverse sm:flex-row justify-end items-center sm:items-center gap-3 pt-4 text-lg">
               {/* Delete */}
               {!isPartner && isUpdate && (
                 <button
@@ -454,25 +454,46 @@ export default function TaskForm({
 
               {/* Submit */}
               {!isPartner && (
-                <Button
-                  disabled={isCreatingItem || isUpdatingItem}
-                  type="submit"
-                  className={cn(
-                    "bg-[#A97AEC] hover:bg-[#A97AEC] text-white px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-full text-base sm:text-lg font-semibold flex items-center gap-3 shadow-md",
-                    !isUpdate && "ml-auto"
-                  )}
-                >
-                  {isUpdate
-                    ? t("checklists.taskForm.updateTask")
-                    : t("checklists.taskForm.createTask")}
-                  <div className="size-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                    {isCreatingItem || isUpdatingItem ? (
-                      <Loader2 className="size-5 text-[#A855F7] animate-spin" />
-                    ) : (
-                      <Save className="size-5 text-[#A855F7]" />
+                <div className="flex items-center gap-4">
+                  <Button
+                    disabled={isCreatingItem || isUpdatingItem}
+                    type="submit"
+                    className={cn(
+                      "bg-[#E7DDF9] hover:bg-[#A97AEC] text-[#3D3177] px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-[5px] border border-[#BAA8EA] text-base font-medium flex items-center gap-3 shadow-md",
+                      !isUpdate && "ml-auto"
                     )}
-                  </div>
-                </Button>
+                  >
+                    {isUpdate
+                      ? t("checklists.taskForm.updateTask")
+                      : t("checklists.taskForm.createTask")}
+                    <div className="size-8 rounded-full bg-[#3D3177] flex items-center justify-center shrink-0">
+                      {isCreatingItem || isUpdatingItem ? (
+                        <Loader2 className="size-5 text-white animate-spin" />
+                      ) : (
+                        <Save className="size-5 text-white" />
+                      )}
+                    </div>
+                  </Button>
+                  <Button
+                    disabled={isCreatingItem || isUpdatingItem}
+                    onClick={() => {
+                      onClose?.();
+                    }}
+                    className={cn(
+                      "bg-[#F6F6FA] hover:bg-[#e3d6ff] text-[#7D7D91] px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-[5px] border border-[#DFDEEA] text-base font-medium flex items-center gap-3 shadow-md",
+                      !isUpdate && "ml-auto"
+                    )}
+                  >
+                    Avbryt
+                    <div className="size-8 rounded-full bg-[#716F87] flex items-center justify-center shrink-0">
+                      {isCreatingItem || isUpdatingItem ? (
+                        <Loader2 className="size-5 text-white animate-spin" />
+                      ) : (
+                        <Undo2 className="size-5 text-white" />
+                      )}
+                    </div>
+                  </Button>
+                </div>
               )}
             </div>
           )}
