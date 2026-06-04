@@ -54,7 +54,8 @@
     "swedish": "Swedish",
     "discussions": "Forum",
     "forNameTinder": "Name Tinder",
-    "checklist": "Checklists"
+    "checklist": "Checklists",
+    "benefits": "Benefits"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -225,7 +226,7 @@
     "label": "Benefits",
     "title": "Benefits & offers",
     "subtitle": "Here you'll find benefits, discounts and offers available to you.",
-    "readMore": "Read more"
+    "viewAll": "View all"
   },
   "checklists": {
     "label": "Our Checklist",

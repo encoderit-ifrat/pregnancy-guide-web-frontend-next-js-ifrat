@@ -25,6 +25,7 @@ import {
 import { useMutationToggleChecklist } from "../_api/mutations/UseMutationToggleChecklist";
 import { useMutationDeleteChecklist } from "../_api/mutations/UseMutationDeleteChecklist";
 import { useMutationUpdateItem } from "../_api/mutations/UseMutationUpdateItem";
+import { useMutationDeleteItem } from "../_api/mutations/UseMutationDeleteItem";
 import { Spinner } from "@/components/ui/Spinner";
 import { useRouter } from "next/navigation";
 import {
@@ -130,8 +131,24 @@ export default function CheckList({
     checklist_id: string;
     owned: boolean;
   } | null>(null);
+  const [isDeleteTaskOpen, setIsDeleteTaskOpen] = useState(false);
+  const [isPartner, setIsPartner] = useState(false);
+
+  useEffect(() => {
+    if (typeof window != undefined) {
+      const user = localStorage.getItem("user");
+      if (user) {
+        const data = JSON.parse(user);
+        if (data?.roles[0]?.name == "partner") {
+          setIsPartner(true);
+        }
+      }
+    }
+  }, []);
 
   const { mutate: updateItem } = useMutationUpdateItem();
+  const { mutate: deleteItem, isPending: isDeletingItem } =
+    useMutationDeleteItem();
 
   function handleToggleReminder() {
     if (!isDetailOpen || readOnly || isDetailOpen.owned === false) return;
@@ -643,18 +660,19 @@ export default function CheckList({
                       <SquarePen className="size-5 text-white" />
                     </div>
                   </Button>
-                  <Button
-                    onClick={() => {
-                      setDeleteId(isDetailOpen.checklist_id);
-                      setIsDetailOpen(null);
-                    }}
-                    className="w-full s:w-auto py-1.5 flex-1 rounded-[5px] bg-[#FEF2F2] border border-[#F99F9D] text-[#F14B4C] font-semibold hover:bg-[#FDE5E5]"
-                  >
-                    Radera
-                    <div className="w-[28px] h-[28px] bg-[#E7000B] rounded-full flex items-center justify-center">
-                      <Trash2 className="size-5 text-white" />
-                    </div>
-                  </Button>
+                  {!isPartner && (
+                    <Button
+                      onClick={() => {
+                        setIsDeleteTaskOpen(true);
+                      }}
+                      className="w-full s:w-auto py-1.5 flex-1 rounded-[5px] bg-[#FEF2F2] border border-[#F99F9D] text-[#F14B4C] font-semibold hover:bg-[#FDE5E5]"
+                    >
+                      Radera
+                      <div className="w-[28px] h-[28px] bg-[#E7000B] rounded-full flex items-center justify-center">
+                        <Trash2 className="size-5 text-white" />
+                      </div>
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
@@ -743,6 +761,44 @@ export default function CheckList({
               {isPendingDelete
                 ? t("common.loading")
                 : t("common.delete") || "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={isDeleteTaskOpen} onOpenChange={setIsDeleteTaskOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("checklists.taskForm.deleteConfirm.title")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("checklists.taskForm.deleteConfirm.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeletingItem}>
+              {t("checklists.taskForm.deleteConfirm.cancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 hover:bg-red-600 text-white border-none"
+              onClick={(e) => {
+                e.preventDefault();
+                if (isDetailOpen?.task.id) {
+                  deleteItem(isDetailOpen.task.id, {
+                    onSuccess: () => {
+                      setIsDeleteTaskOpen(false);
+                      setIsDetailOpen(null);
+                      refetch?.();
+                    },
+                  });
+                }
+              }}
+              disabled={isDeletingItem}
+            >
+              {isDeletingItem
+                ? t("common.loading")
+                : t("checklists.taskForm.deleteConfirm.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

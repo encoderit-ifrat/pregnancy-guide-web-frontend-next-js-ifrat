@@ -54,7 +54,8 @@
     "swedish": "Svenska",
     "discussions": "Forum",
     "forNameTinder": "Namnswajp",
-    "checklist": "Checklistor"
+    "checklist": "Checklistor",
+    "benefits": "Förmåner"
   },
   "footer": {
     "quickLinks": "Graviditet och föräldraskap",
@@ -222,10 +223,10 @@
     "feedbackSuccess": "Feedback har skapats"
   },
   "benefits": {
-    "label": "Förmåner",
-    "title": "Förmåner & erbjudanden",
-    "subtitle": "Här hittar du förmåner, rabatter och erbjudanden som är tillgängliga för dig.",
-    "readMore": "Läs mer"
+    "label": "Med omtanke",
+    "title": "Förmåner",
+    "subtitle": "En samling fina erbjudanden från partners som delar vår omtanke om familjelivets början.",
+    "viewAll": "Visa allt"
   },
   "checklists": {
     "label": "Verktyg",

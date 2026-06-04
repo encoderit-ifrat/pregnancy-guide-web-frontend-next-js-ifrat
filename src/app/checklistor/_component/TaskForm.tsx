@@ -438,7 +438,7 @@ export default function TaskForm({
           {!readOnly && (
             <div className="flex flex-col-reverse sm:flex-row justify-end items-center sm:items-center gap-3 pt-4 text-lg">
               {/* Delete */}
-              {!isPartner && isUpdate && (
+              {/* {!isPartner && isUpdate && (
                 <button
                   type="button"
                   onClick={handleDelete}
@@ -450,7 +450,7 @@ export default function TaskForm({
                     <Trash2 className="w-4 h-4" />
                   </span>
                 </button>
-              )}
+              )} */}
 
               {/* Submit */}
               {!isPartner && (

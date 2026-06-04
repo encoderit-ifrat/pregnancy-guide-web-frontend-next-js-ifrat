@@ -311,6 +311,21 @@ export function Header() {
                           )}
                           {t("header.checklist")}
                         </Link>
+                        <Link
+                          href="/formaner"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/formaner"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/formaner" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.benefits")}
+                        </Link>
                       </div>
                     </div>
                   )}
@@ -410,7 +425,7 @@ export function Header() {
                   />
                 </button>
                 {isMobileFunctionsOpen && (
-                  <div className="flex flex-col gap-1 pl-4">
+                  <div className="w-full flex flex-col gap-1 pl-4">
                     <Link
                       href="/forum"
                       onClick={() => {
@@ -457,6 +472,21 @@ export function Header() {
                     >
                       {t("header.checklist")}
                     </Link>
+                    <Link
+                      href="/formaner"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/formaner"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.benefits")}
+                    </Link>
                   </div>
                 )}
               </div>
@@ -467,6 +497,7 @@ export function Header() {
                   if (!searchTerm) return;
                   handleSearch();
                 }}
+                className="w-full"
               >
                 <Input
                   placeholder={"Sök"}

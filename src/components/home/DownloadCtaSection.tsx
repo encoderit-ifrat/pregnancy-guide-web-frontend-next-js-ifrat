@@ -10,6 +10,13 @@ import { useTranslation } from "@/hooks/useTranslation";
 export function DownloadCtaSection() {
   const { t } = useTranslation();
 
+  const appStoreLink =
+    process.env.NEXT_PUBLIC_APP_STORE_LINK ||
+    "https://apps.apple.com/us/app/familj-se/id6765674291";
+  const googlePlayLink =
+    process.env.NEXT_PUBLIC_GOOGLE_PLAY_LINK ||
+    "https://play.google.com/store/apps/details?id=com.cmh.familj&hl=en";
+
   return (
     <section className="bg-black relative overflow-hidden pb-10 pt-36 md:py-15">
       {/* Right-side Background Image (absolute) */}
@@ -40,7 +47,9 @@ pointer-events-none
             image="/images/icons/mothers-love2.png"
             className="text-white"
           />
-          <SectionHeading className="text-white">{t("downloadCta.title")}</SectionHeading>
+          <SectionHeading className="text-white">
+            {t("downloadCta.title")}
+          </SectionHeading>
 
           <p className="mb-8 max-w-xl text-white!">
             {t("downloadCta.description")}
@@ -48,7 +57,10 @@ pointer-events-none
 
           {/* App Store Badges */}
           <div className="flex gap-4 sm:flex-row">
-            <Link href="#" className="transition-transform hover:scale-105">
+            <Link
+              href={appStoreLink}
+              className="transition-transform hover:scale-105"
+            >
               <Image
                 src="/images/hero/appstore.webp"
                 alt={t("hero.appStoreAlt")}
@@ -57,7 +69,10 @@ pointer-events-none
                 className="h-11 w-auto rounded-md"
               />
             </Link>
-            <Link href="#" className="transition-transform hover:scale-105">
+            <Link
+              href={googlePlayLink}
+              className="transition-transform hover:scale-105"
+            >
               <Image
                 src="/images/hero/google-play2.webp"
                 alt={t("hero.googlePlayAlt")}
