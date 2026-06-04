@@ -12,19 +12,22 @@ export default function OverallProgress({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="w-full font-inter space-y-6">
+    <div className="w-full font-inter space-y-6 bg-bg-checklist px-5 py-4 rounded-2xl">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3">
-          <div className="text-lg font-medium text-[#1B1343] font-[Outfit] align-middle">
+          <div className="text-base md:text-lg font-medium text-[#1B1343] font-[Outfit] align-middle">
             {t("checklists.progress.title")}
           </div>
 
-          <div className="flex items-center gap-1 text-sm leading-[15.02px] text-[#1B1343] mt-1 font-normal">
+          <div className="flex items-center gap-1 text-xs leading-[15.02px] text-[#1B1343] mt-1 font-normal">
             <div className="size-1 rounded-full bg-primary"></div>
-            {t("checklists.progress.status", { done: tasksDone, total: totalTasks })}
+            {t("checklists.progress.status", {
+              done: tasksDone,
+              total: totalTasks,
+            })}
           </div>
         </div>
-        <div className="text-[22.53px] leading-[30.04px] font-bold text-primary">
+        <div className="text-lg md:text-[22.53px] leading-[30.04px] font-bold text-primary">
           {value}%
         </div>
       </div>

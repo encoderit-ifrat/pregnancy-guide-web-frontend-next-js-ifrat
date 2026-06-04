@@ -7,7 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/Button";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import Link from "next/link";
@@ -283,18 +283,23 @@ export default function ForumClientPage() {
                   </TabsTrigger>
                 </TabsList>
 
-                <select
-                  className="flex lg:hidden w-full max-w-[200px] rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700"
-                  value={activeTab}
-                  onChange={(e) => handleTabChange(e.target.value)}
-                >
-                  <option value="most_liked">{t("threads.mostLiked")}</option>
-                  <option value="most_viewed">{t("threads.mostViewed")}</option>
-                  <option value="newest">{t("threads.newest")}</option>
-                  <option value="thread_latest_have_reply">
-                    {t("threads.threadLatestHaveReply")}
-                  </option>
-                </select>
+                <div className="relative flex lg:hidden">
+                  <select
+                    className="rounded-lg border border-gray-300 bg-white px-3 py-2.5 pr-8 text-sm text-gray-700 appearance-none"
+                    value={activeTab}
+                    onChange={(e) => handleTabChange(e.target.value)}
+                  >
+                    <option value="most_liked">{t("threads.mostLiked")}</option>
+                    <option value="most_viewed">
+                      {t("threads.mostViewed")}
+                    </option>
+                    <option value="newest">{t("threads.newest")}</option>
+                    <option value="thread_latest_have_reply">
+                      {t("threads.threadLatestHaveReply")}
+                    </option>
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-400 pointer-events-none" />
+                </div>
               </div>
 
               <div className="m-0 flex flex-col gap-4">

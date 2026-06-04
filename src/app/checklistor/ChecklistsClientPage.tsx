@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import {
+  ChevronDown,
   ChevronRight,
   CircleCheck,
   CircleQuestionMark,
@@ -135,7 +136,7 @@ export default function ChecklistsClientPage() {
         >
           <div className="max-w-303.25 w-full mx-auto pt-6 px-4 pb-6 md:p-10 lg:p-12 bg-soft-white shadow-2xl rounded-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
-              <div className="w-full lg:max-w-[400px] flex items-start justify-center gap-5">
+              <div className="w-full lg:max-w-[400px] flex items-start justify-between lg:justify-center gap-5">
                 <div className="sm:max-w-[400px]">
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
                     {t("checklists.title")}
@@ -145,14 +146,17 @@ export default function ChecklistsClientPage() {
                   </span>
                 </div>
 
-                <select
-                  className="flex lg:hidden w-full max-w-[180px] rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700"
-                  value={activeTab}
-                  onChange={(e) => setActiveTab(e.target.value)}
-                >
-                  <option value="active">{t("threads.active")}</option>
-                  <option value="finalized">{t("threads.finalized")}</option>
-                </select>
+                <div className="relative w-full max-w-[180px] flex lg:hidden">
+                  <select
+                    className="w-full max-w-[180px] rounded-lg border border-gray-300 bg-white px-3 py-2.5 pr-8 text-sm text-gray-700 appearance-none"
+                    value={activeTab}
+                    onChange={(e) => setActiveTab(e.target.value)}
+                  >
+                    <option value="active">{t("threads.active")}</option>
+                    <option value="finalized">{t("threads.finalized")}</option>
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-400 pointer-events-none" />
+                </div>
               </div>
 
               <div className="flex items-center justify-start sm:justify-end flex-wrap gap-2 w-full lg:w-auto">

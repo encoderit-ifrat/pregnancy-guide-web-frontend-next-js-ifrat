@@ -134,6 +134,8 @@ div.no-tailwind p span {
 
   /* === Background Colors === */
   --color-bg-light-purple: #f5f0ff;
+  --color-bg-checklist: #f8f7fc;
+  --color-checklist-border: #e8e4f8;
   --color-bg-section: #b8a8d2;
   --color-bg-shadow: rgba(0, 0, 0, 0.52);
 

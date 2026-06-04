@@ -59,6 +59,7 @@ export function Header() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFunctionsOpen, setIsFunctionsOpen] = useState(false);
+  const [isMobileFunctionsOpen, setIsMobileFunctionsOpen] = useState(false);
   const functionsDropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -374,7 +375,7 @@ export function Header() {
             height: `calc(100dvh - ${headerHeight}px)`,
           }}
         >
-          <div className="border-t border-gray-100 bg-white w-full max-w-sm overflow-y-auto h-full shadow-xl">
+          <div className="border-t border-gray-100 bg-white w-full overflow-y-auto h-full shadow-xl">
             <nav className="container mx-auto flex flex-col gap-2 px-4 py-4">
               {navigationLinks.map((link) => {
                 const isActive = pathname === link.href;
@@ -393,67 +394,33 @@ export function Header() {
                   </Link>
                 );
               })}
-              <Link
-                href="/forum"
-                onClick={() => setIsMenuOpen(false)}
-                className={cn(
-                  "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/forum" || pathname === "/forum/mina-amnen"
-                    ? "bg-primary-light text-primary font-semibold"
-                    : "hover:bg-primary-light/50 text-text-primary"
-                )}
-              >
-                {t("header.discussions")}
-              </Link>{" "}
-              <Link
-                href="/barnnamn/swajp"
-                onClick={() => setIsMenuOpen(false)}
-                className={cn(
-                  "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/barnnamn/swajp"
-                    ? "bg-primary-light text-primary font-semibold"
-                    : "hover:bg-primary-light/50 text-text-primary"
-                )}
-              >
-                {t("header.forNameTinder")}
-              </Link>
-              <Link
-                href="/checklistor"
-                onClick={() => setIsMenuOpen(false)}
-                className={cn(
-                  "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
-                  pathname === "/checklistor"
-                    ? "bg-primary-light text-primary font-semibold"
-                    : "hover:bg-primary-light/50 text-text-primary"
-                )}
-              >
-                {t("header.checklist")}
-              </Link>
-              {/* <div className="w-full">
+              <div className="flex flex-col">
                 <button
-                  onClick={() => setIsFunctionsOpen(!isFunctionsOpen)}
-                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors focus:outline-none"
+                  onClick={() =>
+                    setIsMobileFunctionsOpen(!isMobileFunctionsOpen)
+                  }
+                  className="w-full flex items-center justify-between rounded-lg px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary transition-colors"
                 >
-                  <span className="flex items-center gap-2">
-                    {t("header.functions")}
-                  </span>
+                  {t("header.functions")}
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 transition-transform duration-200",
-                      isFunctionsOpen && "rotate-180"
+                      "w-4 h-4 transition-transform",
+                      isMobileFunctionsOpen && "rotate-180"
                     )}
                   />
                 </button>
-
-                {isFunctionsOpen && (
-                  <div className="flex flex-col gap-1 ml-6 mt-1 border-l-2 border-primary-light pl-4 py-2">
+                {isMobileFunctionsOpen && (
+                  <div className="flex flex-col gap-1 pl-4">
                     <Link
-                      href="/discussion-threads"
-                      onClick={() => setTimeout(() => { setIsMenuOpen(false); setIsFunctionsOpen(false); }, 0)}
+                      href="/forum"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
                       className={cn(
-                        "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
-                        pathname === "/discussion-threads" ||
-                          pathname === "/published-threads"
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/forum" ||
+                          pathname === "/forum/mina-amnen"
                           ? "bg-primary-light text-primary font-semibold"
                           : "hover:bg-primary-light/50 text-text-primary"
                       )}
@@ -461,20 +428,38 @@ export function Header() {
                       {t("header.discussions")}
                     </Link>
                     <Link
-                      href="/for-name-tinder"
-                      onClick={() => setTimeout(() => { setIsMenuOpen(false); setIsFunctionsOpen(false); }, 0)}
+                      href="/barnnamn/swajp"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
                       className={cn(
-                        "w-full text-left px-4 py-2 transition-colors text-sm rounded-md",
-                        pathname === "/for-name-tinder"
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/barnnamn/swajp"
                           ? "bg-primary-light text-primary font-semibold"
                           : "hover:bg-primary-light/50 text-text-primary"
                       )}
                     >
                       {t("header.forNameTinder")}
                     </Link>
+                    <Link
+                      href="/checklistor"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/checklistor"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.checklist")}
+                    </Link>
                   </div>
                 )}
-              </div> */}
+              </div>
               {/* <MultiLanguageDropDown className="w-full px-4 py-3 text-sm font-medium text-text-primary hover:bg-primary-light hover:text-primary rounded-lg transition-colors" /> */}
               <form
                 onSubmit={(e) => {

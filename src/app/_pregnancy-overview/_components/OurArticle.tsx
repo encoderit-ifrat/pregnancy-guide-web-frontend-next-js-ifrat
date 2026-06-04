@@ -78,9 +78,7 @@ function OurArticle({ data, weeklyDetails }: TProps) {
 
         <div className="grid grid-cols-1 gap-4 md:gap-10 md:grid-cols-2">
           {firstArticle?.slug && (
-            <Link
-              href={`/articles/${firstArticle?.slug || "article-not-found"}`}
-            >
+            <div>
               <div className="p-2 border border-gray-100 rounded-xl transition duration-300 hover:shadow-lg">
                 <Image
                   src={imageLinkGenerator(
@@ -112,16 +110,16 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                   </Button>
                 </Link>
               </div>
-            </Link>
+            </div>
           )}
           <div className="">
             {(otherArticles || []).map((article) => (
-              <Link
+              <div
                 key={article?.slug}
-                href={`/articles/${article?.slug || "article-not-found"}`}
+                className="border border-gray-100 rounded-xl p-2 mb-2 transition duration-300 hover:shadow-lg"
               >
                 <div
-                  className="w-full flex gap-4 p-2 md:p-0 mb-4 items-center border border-gray-100 rounded-xl transition duration-300 hover:shadow-lg"
+                  className="w-full flex gap-4 mb-2 items-center  "
                   key={article._id}
                 >
                   <div className="hidden md:block shrink-0">
@@ -142,7 +140,7 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                     <p className="line-clamp-4">{article.excerpt}</p>
                   </div>
                 </div>
-                {/* <Link
+                <Link
                   href={`/articles/${article?.slug || "article-not-found"}`}
                   className="w-full"
                 >
@@ -154,8 +152,8 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                     {t("articles.readMore")}
                     <ChevronRight className="h-5 w-5 text-purple-600" />
                   </Button>
-                </Link> */}
-              </Link>
+                </Link>
+              </div>
             ))}
           </div>
         </div>

@@ -59,7 +59,7 @@ export default function LoginForm() {
           const result = await signIn("credentials", {
             redirect: false,
             token: data?.data?.data?.access_token,
-            callbackUrl: "/gravid/vecka/1",
+            callbackUrl: "/gravid/vecka",
           });
           if (result?.error) {
             setLoading(false);
@@ -68,7 +68,7 @@ export default function LoginForm() {
             await update();
             await currentUser.refetch();
             toast.success(t("login.loggedInSuccess"));
-            window.location.href = "/gravid/vecka/1";
+            window.location.href = "/gravid/vecka";
           }
         }
       },

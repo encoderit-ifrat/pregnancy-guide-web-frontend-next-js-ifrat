@@ -74,7 +74,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
               width={700}
               height={700}
             />
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 h-full w-1/2 flex flex-col justify-center gap-1 ">
+            <div className="absolute top-1/2 right-0 -translate-y-[45%] h-full w-1/2 flex flex-col justify-center gap-1 ">
               <h3 className="text-primary-dark text-center text-lg md:text-[22px] font-medium md:font-semibold">
                 {weeklyDetails?.description_one}
               </h3>
