@@ -450,7 +450,7 @@ export default function CheckList({
         >
           <DialogContent
             showCloseButton={false}
-            className="w-full sm:max-w-5xl p-0 border-none bg-white rounded-2xl shadow-none max-h-[95vh] overflow-y-auto"
+            className="w-full sm:max-w-5xl p-0 border-none bg-white rounded-2xl shadow-none max-h-[90vh] overflow-y-auto"
           >
             <div className="px-5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
               <DialogTitle asChild>

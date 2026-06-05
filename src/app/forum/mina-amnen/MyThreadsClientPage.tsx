@@ -189,7 +189,7 @@ export default function MyThreadsClientPage() {
             </h1>
             <Button
               variant="outline"
-              className="rounded-full border-[#DED7F1] text-primary-color hover:bg-[#F6F0FF] px-6 sm:px-7 h-10 sm:h-11 border-2 w-full sm:w-auto"
+              className="rounded-full border-[#DED7F1] justify-center text-primary-color hover:bg-[#F6F0FF] px-6 sm:px-7 h-10 sm:h-11 border-2 w-full sm:w-auto"
               onClick={() => router.back()}
             >
               <ChevronLeft className="size-4 sm:size-5 mr-1 text-[#DED7F1]" />

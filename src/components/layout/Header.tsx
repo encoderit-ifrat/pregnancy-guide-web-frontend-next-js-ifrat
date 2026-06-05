@@ -389,7 +389,7 @@ export function Header() {
                   </Link>
                 );
               })}
-              <div className="flex flex-col">
+              <div className="w-full flex flex-col">
                 <button
                   onClick={() =>
                     setIsMobileFunctionsOpen(!isMobileFunctionsOpen)

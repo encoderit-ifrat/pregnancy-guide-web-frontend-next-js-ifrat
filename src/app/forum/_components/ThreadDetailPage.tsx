@@ -177,7 +177,7 @@ function ReplyCard({
 
   return (
     <div className={cn("flex flex-col w-full", !isNested && "mb-4")}>
-      <div className="flex gap-4">
+      <div className="flex gap-2 md:gap-4">
         {/* Avatar and vertical line */}
         <div className="flex flex-col items-center shrink-0">
           <div
@@ -204,7 +204,7 @@ function ReplyCard({
         {/* Content */}
         <div className="flex-1 pb-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="font-bold text-base text-[#4D2C82]">
+            <span className="font-bold text-base w-full max-w-[120px] md:max-w-[200px] truncate text-[#4D2C82]">
               {reply.author?.name || t("threads.anonymous")}
             </span>
             <span className="bg-[#EEE4FD] text-[#A179F2] px-2 py-0.5 rounded text-[10px] font-semibold">
@@ -301,8 +301,9 @@ function ReplyCard({
                 >
                   {isSubmittingReply ? (
                     <Loader2 className="size-4 animate-spin mr-2" />
-                  ) : null}
-                  {t("threads.postReply") || "Post Reply"}
+                  ) : (
+                    t("threads.postReply") || "Post Reply"
+                  )}
                 </Button>
               </div>
             </form>
@@ -316,7 +317,7 @@ function ReplyCard({
             <div
               className={cn(
                 "mt-4 flex flex-col gap-4 relative",
-                depth < 4 ? "ml-4" : "ml-2"
+                depth < 4 ? "ml-1.5 md:ml-4" : "ml-1 md:ml-2"
               )}
             >
               <div
@@ -800,8 +801,9 @@ export default function ThreadDetailPage({
               >
                 {isSubmittingReply ? (
                   <Loader2 className="size-5 animate-spin mr-2" />
-                ) : null}
-                {t("threads.postReply") || "Post Reply"}
+                ) : (
+                  t("threads.postReply") || "Post Reply"
+                )}
               </Button>
             </div>
           </form>
