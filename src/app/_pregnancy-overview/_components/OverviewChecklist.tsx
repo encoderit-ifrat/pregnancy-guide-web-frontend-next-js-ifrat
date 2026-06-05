@@ -562,9 +562,11 @@ export default function OverviewChecklist({
           {isDetailOpen && (
             <div>
               <div className="px-5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
-                <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold">
-                  {isDetailOpen.task.name}
-                </h3>
+                <DialogTitle asChild>
+                  <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold">
+                    {isDetailOpen.task.name}
+                  </h3>
+                </DialogTitle>
                 <CircleX
                   className="shrink-0 size-8 cursor-pointer text-black"
                   onClick={() => setIsDetailOpen(null)}
@@ -601,7 +603,7 @@ export default function OverviewChecklist({
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_4022_3329)">
+                        <g clipPath="url(#clip0_4022_3329)">
                           <path
                             d="M7.8125 13.5417C6.8854 13.5417 5.97912 13.2668 5.20826 12.7517C4.43741 12.2366 3.8366 11.5045 3.48181 10.648C3.12703 9.79147 3.0342 8.84897 3.21507 7.93968C3.39594 7.0304 3.84238 6.19516 4.49794 5.53961C5.1535 4.88405 5.98873 4.43761 6.89801 4.25674C7.8073 4.07587 8.7498 4.1687 9.60633 4.52348C10.4629 4.87827 11.1949 5.47908 11.71 6.24993C12.2251 7.02079 12.5 7.92707 12.5 8.85417C12.4986 10.0969 12.0043 11.2884 11.1255 12.1672C10.2468 13.046 9.05528 13.5403 7.8125 13.5417ZM15.625 20.8333C15.6233 19.4525 15.0741 18.1287 14.0977 17.1523C13.1213 16.1759 11.7975 15.6267 10.4167 15.625H5.20833C3.82751 15.6267 2.50371 16.1759 1.52731 17.1523C0.550919 18.1287 0.00165402 19.4525 0 20.8333L0 25H15.625V20.8333ZM18.2292 9.375C17.3021 9.375 16.3958 9.10008 15.6249 8.58502C14.8541 8.06995 14.2533 7.33786 13.8985 6.48133C13.5437 5.6248 13.4509 4.6823 13.6317 3.77302C13.8126 2.86373 14.259 2.0285 14.9146 1.37294C15.5702 0.71738 16.4054 0.270939 17.3147 0.0900711C18.224 -0.0907971 19.1665 0.00203103 20.023 0.356817C20.8795 0.711603 21.6116 1.31241 22.1267 2.08327C22.6417 2.85412 22.9167 3.7604 22.9167 4.6875C22.9153 5.93028 22.421 7.12176 21.5422 8.00054C20.6634 8.87932 19.4719 9.37362 18.2292 9.375ZM19.7917 11.4583H14.5833C14.4005 11.4667 14.2183 11.4852 14.0375 11.5135C13.6588 12.3899 13.0994 13.1765 12.3958 13.8219C13.9232 14.2541 15.2682 15.1723 16.2268 16.4375C17.1854 17.7028 17.7056 19.246 17.7083 20.8333H25V16.6667C24.9983 15.2858 24.4491 13.962 23.4727 12.9856C22.4963 12.0093 21.1725 11.46 19.7917 11.4583Z"
                             fill="#A97AEC"
@@ -626,8 +628,8 @@ export default function OverviewChecklist({
                           )}
                         >
                           {isDetailOpen.task.assignedTo === "me"
-                            ? t("common.me")
-                            : t("common.partner")}
+                            ? "Mig"
+                            : "Partner"}
                         </Badge>
                       ) : (
                         <Badge
@@ -635,7 +637,7 @@ export default function OverviewChecklist({
                             "capitalize hover:opacity-100 flex items-center gap-1.5 px-3 py-1 rounded-full font-medium border shadow-none bg-[#E6DBFD] text-base text-[#3D3177]"
                           )}
                         >
-                          {t("common.both")}
+                          Både
                         </Badge>
                       )
                     ) : (
@@ -807,9 +809,11 @@ export default function OverviewChecklist({
           {isListTaskOpen && (
             <div>
               <div className="px-5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
-                <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold">
-                  {isListTaskOpen.task.name}
-                </h3>
+                <DialogTitle asChild>
+                  <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold">
+                    {isListTaskOpen.task.name}
+                  </h3>
+                </DialogTitle>
                 <CircleX
                   className="shrink-0 size-8 cursor-pointer text-black"
                   onClick={() => setIsListTaskOpen(null)}

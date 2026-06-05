@@ -8,6 +8,7 @@ import { ChevronLeft } from "lucide-react";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { API_V1 } from "@/consts";
 import BenefitContent from "./BenefitContent";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 type BenefitData = {
   _id: string;
@@ -95,22 +96,27 @@ export default function BenefitDetailClient() {
 
   return (
     <div className="bg-article-bg min-h-svh py-6">
-      {benefit.image && (
-        <div className="w-full px-4 lg:px-0 max-w-[780px] mx-auto mb-6">
-          <div className="relative h-[210px] sm:h-[320px] lg:h-[400px] rounded-xl overflow-hidden">
-            <Image
-              src={imageLinkGenerator(benefit.image) ?? ""}
-              alt={benefit.title}
-              fill
-              className="object-cover"
-              priority
-            />
+      <PageContainer
+        className="z-20"
+        waaveClassName="text-article-bg"
+        childClassName="bg-article-bg"
+      >
+        {benefit.image && (
+          <div className="w-full px-4 lg:px-0 max-w-[780px] mx-auto mb-6">
+            <div className="relative h-[210px] sm:h-[320px] lg:h-[400px] rounded-xl overflow-hidden">
+              <Image
+                src={imageLinkGenerator(benefit.image) ?? ""}
+                alt={benefit.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
           </div>
-        </div>
-      )}
-      <div className="min-h-screen w-full px-4 md:px-0 max-w-[680px] mx-auto">
-        <div className="pb-6 pt-3">
-          {/* <Link
+        )}
+        <div className="min-h-screen w-full px-4 md:px-0 max-w-[680px] mx-auto">
+          <div className="pb-6 pt-3">
+            {/* <Link
             href="/formaner"
             className="inline-flex items-center gap-2 text-primary hover:text-primary-dark transition-colors mb-6"
           >
@@ -118,13 +124,14 @@ export default function BenefitDetailClient() {
             Tillbaka till förmåner
           </Link> */}
 
-          <h1 className="text-[40px] leading-[1.25] font-semibold text-[#1A1A1A] mb-8 text-wrap font-heading">
-            {benefit.title}
-          </h1>
+            <h1 className="text-[40px] leading-[1.25] font-semibold text-[#1A1A1A] mb-8 text-wrap font-heading">
+              {benefit.title}
+            </h1>
 
-          {safeContent && <BenefitContent content={safeContent} />}
+            {safeContent && <BenefitContent content={safeContent} />}
+          </div>
         </div>
-      </div>
+      </PageContainer>
     </div>
   );
 }

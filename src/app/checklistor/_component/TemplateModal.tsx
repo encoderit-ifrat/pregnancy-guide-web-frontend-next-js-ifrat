@@ -117,7 +117,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-screen md:max-h-[90vh] flex flex-col overflow-y-auto md:overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
+      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-[95vh] md:max-h-[90vh] flex flex-col overflow-y-auto md:overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
         <DialogTitle className="sr-only">
           {t("checklists.templateModal.title")}
         </DialogTitle>
@@ -233,7 +233,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                     </h4>
                     {selectedTemplates.length === 1 &&
                       selectedTemplates[0].description && (
-                      <p className="text-[#1B1343] text-sm sm:text-base font-outfit mb-2 sm:mb-4 leading-relaxed line-clamp-2">
+                        <p className="text-[#1B1343] text-sm sm:text-base font-outfit mb-2 sm:mb-4 leading-relaxed line-clamp-2">
                           {selectedTemplates[0].description}
                         </p>
                       )}
