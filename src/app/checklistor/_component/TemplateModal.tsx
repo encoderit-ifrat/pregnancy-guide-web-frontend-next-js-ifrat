@@ -117,7 +117,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-[95vh] md:max-h-[90vh] flex flex-col overflow-y-auto md:overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
+      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-[90vh] md:max-h-[90vh] flex flex-col overflow-y-auto md:overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
         <DialogTitle className="sr-only">
           {t("checklists.templateModal.title")}
         </DialogTitle>
@@ -125,10 +125,10 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
         <div className="bg-[#A97AEC] p-5 sm:p-8 relative shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors"
+            className="absolute top-5 md:top-6 right-6 text-white/80 hover:text-white transition-colors"
           >
-            <div className="size-8 rounded-full border-2 border-white flex items-center justify-center">
-              <X className="size-5" />
+            <div className="size-7 md:size-8 rounded-full border-2 border-white flex items-center justify-center">
+              <X className="size-4 md:size-5" />
             </div>
           </button>
           <div className="space-y-1">

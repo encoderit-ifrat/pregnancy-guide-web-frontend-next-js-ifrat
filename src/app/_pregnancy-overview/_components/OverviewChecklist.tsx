@@ -56,6 +56,7 @@ import {
 import { CheckBox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import Image from "next/image";
 
 export default function OverviewChecklist({
   checkLists,
@@ -646,7 +647,13 @@ export default function OverviewChecklist({
                   </div>
                   <div className="w-full px-4 py-[17px] flex items-center justify-between gap-3 rounded-[5px] border border-[#F3EAFF]">
                     <div className="flex items-center gap-1.5">
-                      <Flag className="text-[#A97AEC]" />
+                      <Image
+                        src="/flag.png"
+                        width={700}
+                        height={700}
+                        alt="flag"
+                        className="h-5 w-5 object-cover"
+                      />
                       <span className="text-sm md:text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
                         {t("checklists.taskForm.priority")}
                       </span>
@@ -663,92 +670,95 @@ export default function OverviewChecklist({
                       <span className="text-sm text-gray-400">{t("none")}</span>
                     )}
                   </div>
-                  <div className="w-full flex items-center justify-center gap-3">
-                    <button
-                      type="button"
-                      disabled={isDetailOpen.owned === false}
-                      onClick={() => {
-                        if (!isDetailOpen || isDetailOpen.owned === false)
-                          return;
-                        const newReminder = !isDetailOpen.task.reminder;
-                        updateItem(
-                          {
-                            id: isDetailOpen.task.id,
-                            data: {
-                              checklist_id: isDetailOpen.checklist_id,
-                              title: isDetailOpen.task.name,
-                              priority: isDetailOpen.task.priority || "high",
-                              assigned_to:
-                                isDetailOpen.task.assignedTo === "none"
-                                  ? "both"
-                                  : isDetailOpen.task.assignedTo,
-                              due_date: isDetailOpen.task.date
-                                ? new Date(isDetailOpen.task.date)
-                                : new Date(),
-                              description: isDetailOpen.task.description || "",
-                              reminder: newReminder,
-                            } as any,
-                          },
-                          {
-                            onSuccess: () => {
-                              setIsDetailOpen((prev) =>
-                                prev
-                                  ? {
-                                      ...prev,
-                                      task: {
-                                        ...prev.task,
-                                        reminder: newReminder,
-                                      },
-                                    }
-                                  : null
-                              );
+                  {!isDetailOpen.task.checked && (
+                    <div className="w-full flex items-center justify-center gap-3">
+                      <button
+                        type="button"
+                        disabled={isDetailOpen.owned === false}
+                        onClick={() => {
+                          if (!isDetailOpen || isDetailOpen.owned === false)
+                            return;
+                          const newReminder = !isDetailOpen.task.reminder;
+                          updateItem(
+                            {
+                              id: isDetailOpen.task.id,
+                              data: {
+                                checklist_id: isDetailOpen.checklist_id,
+                                title: isDetailOpen.task.name,
+                                priority: isDetailOpen.task.priority || "high",
+                                assigned_to:
+                                  isDetailOpen.task.assignedTo === "none"
+                                    ? "both"
+                                    : isDetailOpen.task.assignedTo,
+                                due_date: isDetailOpen.task.date
+                                  ? new Date(isDetailOpen.task.date)
+                                  : new Date(),
+                                description:
+                                  isDetailOpen.task.description || "",
+                                reminder: newReminder,
+                              } as any,
                             },
-                            onError: () => {
-                              toast.error(t("checklists.failedToUpdate"));
-                            },
-                          }
-                        );
-                      }}
-                      className={cn(
-                        "w-full sm:max-w-[360px] flex items-center justify-center gap-3.5 border border-[#A97AEC] py-2 md:py-3 rounded-md transition-all",
-                        isDetailOpen.task.reminder
-                          ? "bg-[#A855F7] text-white hover:bg-[#9333EA] border-[#A855F7]"
-                          : "bg-white text-[#A97AEC] hover:bg-purple-50",
-                        isDetailOpen.owned === false &&
-                          "opacity-60 cursor-not-allowed pointer-events-none"
-                      )}
-                    >
-                      <div
+                            {
+                              onSuccess: () => {
+                                setIsDetailOpen((prev) =>
+                                  prev
+                                    ? {
+                                        ...prev,
+                                        task: {
+                                          ...prev.task,
+                                          reminder: newReminder,
+                                        },
+                                      }
+                                    : null
+                                );
+                              },
+                              onError: () => {
+                                toast.error(t("checklists.failedToUpdate"));
+                              },
+                            }
+                          );
+                        }}
                         className={cn(
-                          "size-7 md:size-8 rounded-full flex items-center justify-center shrink-0",
+                          "w-full sm:max-w-[360px] flex items-center justify-center gap-3.5 border border-[#A97AEC] py-2 md:py-3 rounded-md transition-all",
                           isDetailOpen.task.reminder
-                            ? "bg-white/20 text-white"
-                            : "border-[#A855F7] text-[#A855F7]"
+                            ? "bg-[#A855F7] text-white hover:bg-[#9333EA] border-[#A855F7]"
+                            : "bg-white text-[#A97AEC] hover:bg-purple-50",
+                          isDetailOpen.owned === false &&
+                            "opacity-60 cursor-not-allowed pointer-events-none"
                         )}
                       >
-                        <Bell
+                        <div
                           className={cn(
-                            "size-5 md:size-6",
+                            "size-7 md:size-8 rounded-full flex items-center justify-center shrink-0",
+                            isDetailOpen.task.reminder
+                              ? "bg-white/20 text-white"
+                              : "border-[#A855F7] text-[#A855F7]"
+                          )}
+                        >
+                          <Bell
+                            className={cn(
+                              "size-5 md:size-6",
+                              isDetailOpen.task.reminder
+                                ? "text-white"
+                                : "text-[#A855F7]"
+                            )}
+                          />
+                        </div>
+                        <span
+                          className={cn(
+                            "text-base md:text-lg font-normal w-fit shrink-0",
                             isDetailOpen.task.reminder
                               ? "text-white"
-                              : "text-[#A855F7]"
+                              : "text-[#A97AEC]"
                           )}
-                        />
-                      </div>
-                      <span
-                        className={cn(
-                          "text-base md:text-lg font-normal w-fit shrink-0",
-                          isDetailOpen.task.reminder
-                            ? "text-white"
-                            : "text-[#A97AEC]"
-                        )}
-                      >
-                        {isDetailOpen.task.reminder
-                          ? t("checklists.taskForm.reminderSet")
-                          : t("checklists.taskForm.setReminder")}
-                      </span>
-                    </button>
-                  </div>
+                        >
+                          {isDetailOpen.task.reminder
+                            ? t("checklists.taskForm.reminderSet")
+                            : t("checklists.taskForm.setReminder")}
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
               {!isDetailOpen.task.checked && (
@@ -847,7 +857,10 @@ export default function OverviewChecklist({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isPendingDelete}>
+            <AlertDialogCancel
+              className="justify-center"
+              disabled={isPendingDelete}
+            >
               {t("common.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
@@ -886,7 +899,10 @@ export default function OverviewChecklist({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeletingItem}>
+            <AlertDialogCancel
+              className="justify-center"
+              disabled={isDeletingItem}
+            >
               {t("checklists.taskForm.deleteConfirm.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction

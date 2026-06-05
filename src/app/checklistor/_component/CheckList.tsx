@@ -60,6 +60,7 @@ import TaskForm from "./TaskForm";
 import ChecklistForm from "./CheckListForm";
 import { ChecklistFormData } from "../_types/checklist_page_types";
 import api from "@/lib/axios";
+import Image from "next/image";
 
 // Interceptor to strip validation-blocking fields from checklist PATCH body payloads
 api.interceptors.request.use((config) => {
@@ -579,7 +580,13 @@ export default function CheckList({
                   </div>
                   <div className="w-full px-4 py-[17px] flex items-center justify-between gap-3 rounded-[5px] border border-[#F3EAFF]">
                     <div className="flex items-center gap-1.5">
-                      <Flag className="text-[#A97AEC]" />
+                      <Image
+                        src="/flag.png"
+                        width={700}
+                        height={700}
+                        alt="flag"
+                        className="h-5 w-5 object-cover"
+                      />
                       <span className="text-sm md:text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
                         Prioritet
                       </span>
@@ -606,51 +613,53 @@ export default function CheckList({
                       <span className="text-sm text-gray-400">{t("none")}</span>
                     )}
                   </div>
-                  <div className="w-full flex items-center justify-center gap-3">
-                    <button
-                      type="button"
-                      disabled={readOnly || isDetailOpen.owned === false}
-                      onClick={handleToggleReminder}
-                      className={cn(
-                        "w-full sm:max-w-[360px] flex items-center justify-center gap-3.5 border border-[#A97AEC] py-2 md:py-3 rounded-md transition-all",
-                        isDetailOpen.task.reminder
-                          ? "bg-[#A855F7] text-white hover:bg-[#9333EA] border-[#A855F7]"
-                          : "bg-white text-[#A97AEC] hover:bg-purple-50",
-                        (readOnly || isDetailOpen.owned === false) &&
-                          "opacity-60 cursor-not-allowed pointer-events-none"
-                      )}
-                    >
-                      <div
+                  {!isDetailOpen.task.checked && (
+                    <div className="w-full flex items-center justify-center gap-3">
+                      <button
+                        type="button"
+                        disabled={readOnly || isDetailOpen.owned === false}
+                        onClick={handleToggleReminder}
                         className={cn(
-                          "size-7 md:size-8 rounded-full flex items-center justify-center shrink-0",
+                          "w-full sm:max-w-[360px] flex items-center justify-center gap-3.5 border border-[#A97AEC] py-2 md:py-3 rounded-md transition-all",
                           isDetailOpen.task.reminder
-                            ? "bg-white/20 text-white"
-                            : "border-[#A855F7] text-[#A855F7]"
+                            ? "bg-[#A855F7] text-white hover:bg-[#9333EA] border-[#A855F7]"
+                            : "bg-white text-[#A97AEC] hover:bg-purple-50",
+                          (readOnly || isDetailOpen.owned === false) &&
+                            "opacity-60 cursor-not-allowed pointer-events-none"
                         )}
                       >
-                        <Bell
+                        <div
                           className={cn(
-                            "size-5 md:size-6",
+                            "size-7 md:size-8 rounded-full flex items-center justify-center shrink-0",
+                            isDetailOpen.task.reminder
+                              ? "bg-white/20 text-white"
+                              : "border-[#A855F7] text-[#A855F7]"
+                          )}
+                        >
+                          <Bell
+                            className={cn(
+                              "size-5 md:size-6",
+                              isDetailOpen.task.reminder
+                                ? "text-white"
+                                : "text-[#A855F7]"
+                            )}
+                          />
+                        </div>
+                        <span
+                          className={cn(
+                            "text-base md:text-lg font-normal w-fit shrink-0",
                             isDetailOpen.task.reminder
                               ? "text-white"
-                              : "text-[#A855F7]"
+                              : "text-[#A97AEC]"
                           )}
-                        />
-                      </div>
-                      <span
-                        className={cn(
-                          "text-base md:text-lg font-normal w-fit shrink-0",
-                          isDetailOpen.task.reminder
-                            ? "text-white"
-                            : "text-[#A97AEC]"
-                        )}
-                      >
-                        {isDetailOpen.task.reminder
-                          ? t("checklists.taskForm.reminderSet")
-                          : t("checklists.taskForm.setReminder")}
-                      </span>
-                    </button>
-                  </div>
+                        >
+                          {isDetailOpen.task.reminder
+                            ? t("checklists.taskForm.reminderSet")
+                            : t("checklists.taskForm.setReminder")}
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
               {!isDetailOpen.task.checked && (
@@ -773,7 +782,10 @@ export default function CheckList({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isPendingDelete}>
+            <AlertDialogCancel
+              className="justify-center"
+              disabled={isPendingDelete}
+            >
               {t("common.cancel") || "Cancel"}
             </AlertDialogCancel>
             <AlertDialogAction
@@ -813,7 +825,10 @@ export default function CheckList({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeletingItem}>
+            <AlertDialogCancel
+              className="justify-center"
+              disabled={isDeletingItem}
+            >
               {t("checklists.taskForm.deleteConfirm.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
