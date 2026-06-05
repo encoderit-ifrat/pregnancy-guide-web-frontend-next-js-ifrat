@@ -147,10 +147,10 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full h-11 sm:h-12 md:h-13 lg:h-14 "
+                    className="w-full h-11 border-0 shadow-none font-semibold text-base sm:h-12 md:h-13 lg:h-14 "
                   >
                     {t("articles.readMore")}
-                    <ChevronRight className="h-5 w-5 text-purple-600" />
+                    {/* <ChevronRight className="h-5 w-5 text-purple-600" /> */}
                   </Button>
                 </Link>
               </div>

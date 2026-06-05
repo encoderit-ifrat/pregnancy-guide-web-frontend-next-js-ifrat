@@ -81,7 +81,6 @@ export function Header() {
   const lastScrollY = useRef(0);
   const [isSticky, setIsSticky] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [headerHeight, setHeaderHeight] = useState(0);
   // Detect small screens (Tailwind's md breakpoint = 768px). On screens < md we always show the dark logo.
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -90,29 +89,18 @@ export function Header() {
   const bodyPaddingRightRef = useRef<string | null>(null);
 
   useEffect(() => {
-    // Update header height on mount, on resize and when sticky state changes (header height changes between states)
-    const updateHeaderHeight = () => {
-      if (headerRef.current) setHeaderHeight(headerRef.current.offsetHeight);
-    };
-
-    updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-    return () => window.removeEventListener("resize", updateHeaderHeight);
-  }, [isSticky]);
-
-  useEffect(() => {
     if (typeof window === "undefined") return;
 
     const handleScroll = () => {
       const current = window.scrollY || 0;
-      const willStick = current > 400;
 
-      // Update sticky state
+      // Header becomes sticky (shadow/blur active) after scrolling past 80px
+      const willStick = current > 80;
       setIsSticky(willStick);
 
-      // Only apply slide behavior when sticky
-      if (willStick) {
-        if (current > lastScrollY.current && current > 100) {
+      // Only hide the header on scroll down if we have scrolled past 400px
+      if (current > 200) {
+        if (current > lastScrollY.current) {
           // Scrolling down -> hide
           setIsVisible(false);
         } else {
@@ -120,7 +108,7 @@ export function Header() {
           setIsVisible(true);
         }
       } else {
-        // Not sticky -> always visible
+        // Always visible near the top of the page
         setIsVisible(true);
       }
 
@@ -205,25 +193,18 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const logoClassName = `h-32 min-w-[92px] p-4 rounded-b-full flex items-center ${isSticky ? "" : "lg:bg-primary"}`;
+  const logoClassName = `h-32 min-w-[92px] p-4 rounded-b-full flex items-center transition-colors duration-300 ${isSticky ? "" : "lg:bg-primary"}`;
   return (
     <>
       <header
         ref={headerRef}
         className={cn(
-          "w-full z-50 transition-transform duration-300 ease-in-out bg-purple-soft",
-          isSticky
-            ? "fixed top-0 left-0 right-0 backdrop-blur-md shadow-2xl shadow-primary/50"
-            : "relative",
+          "w-full z-50 transition-all duration-300 ease-in-out bg-purple-soft sticky top-0",
+          isSticky ? "backdrop-blur-md shadow-2xl shadow-primary/50" : "",
           isSticky && !isVisible ? "-translate-y-full" : "translate-y-0"
         )}
       >
-        <div
-          className={cn(
-            "container-xl flex items-center justify-between",
-            isSticky ? "h-20" : "h-28 lg:h-20"
-          )}
-        >
+        <div className="container-xl flex items-center justify-between h-20">
           <div className="flex items-center gap-4 md:gap-10">
             {/* Logo */}
             <div className={logoClassName}>
@@ -380,14 +361,13 @@ export function Header() {
         {/* Mobile Navigation */}
         <div
           className={cn(
-            "fixed z-50 left-0 w-full lg:hidden transition-transform duration-300 ease-in-out",
+            "absolute z-50 left-0 w-full lg:hidden transition-transform duration-300 ease-in-out top-full",
             isMenuOpen
               ? "translate-y-0 opacity-100"
               : "-translate-y-full opacity-0 pointer-events-none"
           )}
           style={{
-            top: headerHeight,
-            height: `calc(100dvh - ${headerHeight}px)`,
+            height: "calc(100dvh - 100%)",
           }}
         >
           <div className="border-t border-gray-100 bg-white w-full overflow-y-auto h-full shadow-xl">
@@ -543,10 +523,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* spacer to avoid layout jump when header becomes fixed */}
-      {isSticky && (
-        <div style={{ height: headerHeight }} aria-hidden className="w-full" />
-      )}
       {/*overlay*/}
       {isMenuOpen && (
         <div
