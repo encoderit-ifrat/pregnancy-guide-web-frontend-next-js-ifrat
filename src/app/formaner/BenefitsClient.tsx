@@ -74,7 +74,7 @@ export default function BenefitsClient() {
                   key={benefit._id}
                   className="bg-white shadow-week-details p-2.5 rounded-[13px]"
                 >
-                  <div className="relative w-full h-[300px] rounded-[8px] overflow-hidden">
+                  <div className="relative w-full h-[200px] lg:h-[300px] rounded-[8px] overflow-hidden">
                     <Link
                       href={`/formaner/${benefit.slug || "article-not-found"}`}
                     >
@@ -88,7 +88,7 @@ export default function BenefitsClient() {
                         priority
                       />
                     </Link>
-                    <div className="absolute bottom-0 left-0 right-0 bg-primary-dark/74 py-4 px-3 md:py-5 md:px-[18px] rounded-b-[8px]">
+                    <div className="absolute bottom-0 left-0 right-0 bg-primary-dark/74 py-2 px-3 md:py-[14px] md:px-[18px] rounded-b-[8px]">
                       <div className="flex items-center justify-between">
                         <h3 className="text-[20px]! md:text-[25px]! font-medium md:font-semibold text-white line-clamp-1">
                           {benefit.title}
@@ -96,7 +96,7 @@ export default function BenefitsClient() {
                         <Link
                           href={`/formaner/${benefit.slug || "article-not-found"}`}
                         >
-                          <IconRightArrow />
+                          <IconRightArrow className="w-7 h-7! md:w-10! md:h-10! text-white" />
                         </Link>
                       </div>
                     </div>

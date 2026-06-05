@@ -326,6 +326,9 @@
       "deleteTask": "Delete Task",
       "updateTask": "Update Task",
       "createTask": "Create Task",
+      "markComplete": "Complete",
+      "markEdit": "Edit",
+      "markDelete": "Delete",
       "validation": {
         "titleRequired": "Task title is required"
       },

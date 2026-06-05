@@ -7,6 +7,7 @@ import {
   Check,
   ChevronDownIcon,
   Circle,
+  CircleX,
   Eye,
   Flag,
   Pencil,
@@ -414,31 +415,27 @@ export default function CheckList({
               ))}
 
               {!readOnly && group.owned !== false && (
-                <div className="w-full bg-bg-checklist px-[18px] py-[15px] flex items-center justify-end gap-1 sm:gap-2 shrink-0 ">
+                <div className="w-full bg-bg-checklist px-3 md:px-[18px] py-[15px] flex items-center justify-between md:justify-end gap-1 sm:gap-2 shrink-0 ">
                   <Button
                     variant={"ghost"}
-                    className="shadow-none bg-[#F4EEFC] text-[#6035C1] font-semibold hover:bg-transparent text-sm sm:text-lg px-2 sm:py-[14px] sm:px-6 border border-[#BAA8EA] rounded-[5px]"
+                    className="flex-1 md:flex-none md:shrink-0 shadow-none bg-[#F4EEFC] text-[#6035C1] font-medium md:font-semibold hover:bg-transparent text-sm sm:text-lg px-2 sm:py-[14px] sm:px-6 border border-[#BAA8EA] rounded-[5px]"
                     onClick={() => setIsAddTaskOpen(group.id)}
                   >
-                    <span className="hidden sm:inline">
-                      {t("checklists.addTask")}
-                    </span>
+                    <span className="">{t("checklists.addTask")}</span>
                     <PlusIcon
-                      className="bg-primary size-7 p-1.5 rounded-full text-white sm:ml-2"
+                      className="bg-primary size-5 md:size-7 p-1.5 rounded-full text-white sm:ml-2"
                       stroke="white"
                       strokeWidth={3}
                     />
                   </Button>
                   <Button
                     variant="ghost"
-                    className=" hover:bg-red-50 shadow-none bg-[#F6F6FA] text-[#8F8DAB] font-semibold text-sm sm:text-lg px-2 sm:py-[14px] sm:px-6 border border-[#DFDEEA] rounded-[5px]"
+                    className="flex-1 md:flex-none md:shrink-0 hover:bg-red-50 shadow-none bg-[#F6F6FA] text-[#8F8DAB] font-medium md:font-semibold text-sm sm:text-lg px-2 sm:py-[14px] sm:px-6 border border-[#DFDEEA] rounded-[5px]"
                     onClick={() => setDeleteId(group.id)}
                     disabled={isPendingDelete}
                   >
-                    <span className="hidden sm:inline">
-                      {t("checklists.deleteList")}
-                    </span>
-                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-[#8F8DAB]">
+                    <span className="">{t("checklists.deleteList")}</span>
+                    <div className="size-5 md:w-6 md:h-6 flex items-center justify-center rounded-full bg-[#8F8DAB]">
                       <Trash2 className="size-3 text-white" />
                     </div>
                   </Button>
@@ -451,10 +448,19 @@ export default function CheckList({
           open={!!isAddTaskOpen}
           onOpenChange={() => setIsAddTaskOpen(null)}
         >
-          <DialogContent className="w-full sm:max-w-5xl p-0 border-none bg-transparent shadow-none max-h-[95vh] overflow-y-auto">
-            <DialogTitle className="sr-only">
-              {t("checklists.addTask")}
-            </DialogTitle>
+          <DialogContent
+            showCloseButton={false}
+            className="w-full sm:max-w-5xl p-0 border-none bg-white rounded-2xl shadow-none max-h-[95vh] overflow-y-auto"
+          >
+            <div className="px-5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
+              <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold ">
+                {t("checklists.taskForm.createTask")}
+              </h3>
+              <CircleX
+                className="shrink-0 size-8 cursor-pointer text-black"
+                onClick={() => setIsAddTaskOpen(null)}
+              />
+            </div>
             <TaskForm
               checklist_id={isAddTaskOpen || ""}
               onClose={() => setIsAddTaskOpen(null)}
@@ -465,23 +471,32 @@ export default function CheckList({
       </Accordion>
       {/* details dialouge */}
       <Dialog open={!!isDetailOpen} onOpenChange={() => setIsDetailOpen(null)}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-[672px] rounded-2xl bg-white p-0">
+        <DialogContent
+          showCloseButton={false}
+          className="max-h-[90vh] overflow-y-auto w-full lg:max-w-[672px] rounded-2xl bg-white p-0"
+        >
           {isDetailOpen && (
             <div className="">
-              <div className="px-5 sm:px-[30px] py-5 border-b border-b-[#F0EDF8]">
+              <div className="px-5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
                 <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold ">
                   {isDetailOpen.task.name}
                 </h3>
+                <CircleX
+                  className="shrink-0 size-8 cursor-pointer text-black"
+                  onClick={() => setIsDetailOpen(null)}
+                />
               </div>
               <div className="px-5 sm:px-8 py-6">
-                <p className="text-base font-normal text-[#1B1343] mb-6">
-                  {isDetailOpen.task?.description || "no description"}
-                </p>
+                {isDetailOpen.task?.description && (
+                  <p className="text-base font-normal text-[#1B1343] mb-6">
+                    {isDetailOpen.task?.description}
+                  </p>
+                )}
                 <div className="space-y-3">
                   <div className="w-full px-4 py-[17px] flex items-center justify-between gap-3 rounded-[5px] border border-[#F3EAFF]">
                     <div className="flex items-center gap-1.5">
                       <Calendar className="text-[#A97AEC] shrink-0" />
-                      <span className="text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
+                      <span className="text-sm md:text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
                         Förfallodatum
                       </span>
                     </div>
@@ -517,7 +532,7 @@ export default function CheckList({
                           </clipPath>
                         </defs>
                       </svg>
-                      <span className="text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
+                      <span className="text-sm md:text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
                         Tilldelad till
                       </span>
                     </div>
@@ -561,7 +576,7 @@ export default function CheckList({
                   <div className="w-full px-4 py-[17px] flex items-center justify-between gap-3 rounded-[5px] border border-[#F3EAFF]">
                     <div className="flex items-center gap-1.5">
                       <Flag className="text-[#A97AEC]" />
-                      <span className="text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
+                      <span className="text-sm md:text-base font-normal text-[#3D3177] w-20 sm:w-24 shrink-0">
                         Prioritet
                       </span>
                     </div>
@@ -593,7 +608,7 @@ export default function CheckList({
                       disabled={readOnly || isDetailOpen.owned === false}
                       onClick={handleToggleReminder}
                       className={cn(
-                        "w-full sm:max-w-[360px] flex items-center justify-center gap-3.5 border border-[#A97AEC] py-3 rounded-md transition-all",
+                        "w-full sm:max-w-[360px] flex items-center justify-center gap-3.5 border border-[#A97AEC] py-2 md:py-3 rounded-md transition-all",
                         isDetailOpen.task.reminder
                           ? "bg-[#A855F7] text-white hover:bg-[#9333EA] border-[#A855F7]"
                           : "bg-white text-[#A97AEC] hover:bg-purple-50",
@@ -603,7 +618,7 @@ export default function CheckList({
                     >
                       <div
                         className={cn(
-                          "size-8 rounded-full flex items-center justify-center shrink-0",
+                          "size-7 md:size-8 rounded-full flex items-center justify-center shrink-0",
                           isDetailOpen.task.reminder
                             ? "bg-white/20 text-white"
                             : "border-[#A855F7] text-[#A855F7]"
@@ -611,7 +626,7 @@ export default function CheckList({
                       >
                         <Bell
                           className={cn(
-                            "size-6",
+                            "size-5 md:size-6",
                             isDetailOpen.task.reminder
                               ? "text-white"
                               : "text-[#A855F7]"
@@ -620,7 +635,7 @@ export default function CheckList({
                       </div>
                       <span
                         className={cn(
-                          "text-lg font-normal w-fit shrink-0",
+                          "text-base md:text-lg font-normal w-fit shrink-0",
                           isDetailOpen.task.reminder
                             ? "text-white"
                             : "text-[#A97AEC]"
@@ -635,17 +650,17 @@ export default function CheckList({
                 </div>
               </div>
               {!isDetailOpen.task.checked && (
-                <div className="w-full flex flex-col sm:flex-row items-center gap-2.5 px-5 sm:px-8 py-6 border-t border-[#F0EDF8]">
+                <div className="w-full flex flex-row items-center gap-1 md:gap-2.5 px-2 sm:px-5 lg:px-8 py-4 md:py-6 border-t border-[#F0EDF8]">
                   <Button
                     onClick={() => {
                       handleChecklistToggle(isDetailOpen.task.id);
                       setIsDetailOpen(null);
                     }}
-                    className="w-full s:w-auto py-1.5 flex-1 rounded-[5px] bg-[#F2FCF6] border border-[#82CDA8] text-[#0FBD23] font-semibold hover:bg-[#E6F9ED]"
+                    className="w-auto px-1 py-1.5 flex-1 rounded-[5px] bg-[#F2FCF6] border border-[#82CDA8] text-[#0FBD23] text-xs md:text-lg font-medium hover:bg-[#E6F9ED]"
                   >
-                    Slutförd
-                    <div className="w-[28px] h-[28px] bg-[#0FBD23] rounded-full flex items-center justify-center">
-                      <Check className="size-5 text-white" />
+                    {t("checklists.taskForm.markComplete")}
+                    <div className="size-5 sm:w-[28px] sm:h-[28px] bg-[#0FBD23] rounded-full flex items-center justify-center">
+                      <Check className="size-3 sm:size-5 text-white" />
                     </div>
                   </Button>
                   <Button
@@ -653,11 +668,11 @@ export default function CheckList({
                       setIsListTaskOpen(isDetailOpen);
                       setIsDetailOpen(null);
                     }}
-                    className="w-full s:w-auto py-1.5 flex-1 rounded-[5px] bg-[rgb(244,238,252)] border border-[#BAA8EA] text-[#6035C1] font-semibold hover:bg-[#EBE0F9]"
+                    className="w-auto px-1 py-1.5 flex-1 rounded-[5px] bg-[rgb(244,238,252)] border border-[#BAA8EA] text-[#6035C1] text-xs md:text-lg font-medium hover:bg-[#EBE0F9]"
                   >
-                    Redigera
-                    <div className="w-[28px] h-[28px] bg-[#6035C1] rounded-full flex items-center justify-center">
-                      <SquarePen className="size-5 text-white" />
+                    {t("checklists.taskForm.markEdit")}
+                    <div className="size-5 sm:w-[28px] sm:h-[28px] bg-[#6035C1] rounded-full flex items-center justify-center">
+                      <SquarePen className="size-3 sm:size-5 text-white" />
                     </div>
                   </Button>
                   {!isPartner && (
@@ -665,11 +680,11 @@ export default function CheckList({
                       onClick={() => {
                         setIsDeleteTaskOpen(true);
                       }}
-                      className="w-full s:w-auto py-1.5 flex-1 rounded-[5px] bg-[#FEF2F2] border border-[#F99F9D] text-[#F14B4C] font-semibold hover:bg-[#FDE5E5]"
+                      className="w-auto px-1 py-1.5 flex-1 rounded-[5px] bg-[#FEF2F2] border border-[#F99F9D] text-[#F14B4C] text-xs md:text-lg font-medium hover:bg-[#FDE5E5]"
                     >
-                      Radera
-                      <div className="w-[28px] h-[28px] bg-[#E7000B] rounded-full flex items-center justify-center">
-                        <Trash2 className="size-5 text-white" />
+                      {t("checklists.taskForm.markDelete")}
+                      <div className="size-5 sm:w-[28px] sm:h-[28px] bg-[#E7000B] rounded-full flex items-center justify-center">
+                        <Trash2 className="size-3 sm:size-5 text-white" />
                       </div>
                     </Button>
                   )}
@@ -684,18 +699,33 @@ export default function CheckList({
         open={!!isListTaskOpen}
         onOpenChange={() => setIsListTaskOpen(null)}
       >
-        <DialogContent className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-transparent shadow-none">
-          <DialogTitle className="sr-only">
+        <DialogContent
+          showCloseButton={false}
+          className="max-h-[90vh] overflow-y-auto w-full lg:max-w-4xl p-0 border-none bg-white rounded-2xl shadow-none"
+        >
+          {/* <DialogTitle className="sr-only">
             {t("checklists.taskForm.updateTask")}
-          </DialogTitle>
+          </DialogTitle> */}
+
           {isListTaskOpen && (
-            <TaskForm
-              checklist_id={isListTaskOpen.checklist_id}
-              task={isListTaskOpen.task}
-              onClose={() => setIsListTaskOpen(null)}
-              refetch={refetch}
-              readOnly={readOnly || isListTaskOpen.owned === false}
-            />
+            <div>
+              <div className="px-5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
+                <h3 className="text-xl sm:text-[30px] text-[#3D3177] font-semibold ">
+                  {isListTaskOpen.task.name}
+                </h3>
+                <CircleX
+                  className="shrink-0 size-8 cursor-pointer text-black"
+                  onClick={() => setIsListTaskOpen(null)}
+                />
+              </div>
+              <TaskForm
+                checklist_id={isListTaskOpen.checklist_id}
+                task={isListTaskOpen.task}
+                onClose={() => setIsListTaskOpen(null)}
+                refetch={refetch}
+                readOnly={readOnly || isListTaskOpen.owned === false}
+              />
+            </div>
           )}
         </DialogContent>
       </Dialog>

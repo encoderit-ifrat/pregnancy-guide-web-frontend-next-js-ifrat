@@ -179,29 +179,31 @@ export default function TaskForm({
           />
 
           {/* Notes */}
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-base text-[#1B1343]">
-                  {t("checklists.taskForm.notes")}
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder={t("checklists.taskForm.notesPlaceholder")}
-                    className="min-h-30 bg-purple-50 resize-none overflow-y-auto disabled:pointer-events-auto"
-                    disabled={readOnly}
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <div>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base text-[#1B1343]">
+                    {t("checklists.taskForm.notes")}
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={t("checklists.taskForm.notesPlaceholder")}
+                      className="min-h-30 bg-purple-50 resize-none overflow-y-auto disabled:pointer-events-auto"
+                      disabled={readOnly}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-          <p className="text-sm text-gray-500">
-            {t("checklists.taskForm.notesHelper")}
-          </p>
+            <p className="text-xs md:text-sm mt-2 leading-none text-gray-500">
+              {t("checklists.taskForm.notesHelper")}
+            </p>
+          </div>
 
           {/* Priority + Due Date */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -454,23 +456,23 @@ export default function TaskForm({
 
               {/* Submit */}
               {!isPartner && (
-                <div className="flex items-center gap-4">
+                <div className="w-full flex items-center gap-4">
                   <Button
                     disabled={isCreatingItem || isUpdatingItem}
                     type="submit"
                     className={cn(
-                      "bg-[#E7DDF9] hover:bg-[#A97AEC] text-[#3D3177] px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-[5px] border border-[#BAA8EA] text-base font-medium flex items-center gap-3 shadow-md",
+                      "flex-1 bg-[#E7DDF9] hover:bg-[#A97AEC] text-[#3D3177] px-2 sm:px-8 h-[46px] sm:h-[54px] rounded-[5px] border border-[#BAA8EA] text-sm md:text-base font-medium flex items-center gap-1 md:gap-3 shadow-md",
                       !isUpdate && "ml-auto"
                     )}
                   >
                     {isUpdate
                       ? t("checklists.taskForm.updateTask")
-                      : t("checklists.taskForm.createTask")}
-                    <div className="size-8 rounded-full bg-[#3D3177] flex items-center justify-center shrink-0">
+                      : t("checklists.taskForm.saveTask")}
+                    <div className="size-6 md:size-8 rounded-full bg-[#3D3177] flex items-center justify-center shrink-0">
                       {isCreatingItem || isUpdatingItem ? (
-                        <Loader2 className="size-5 text-white animate-spin" />
+                        <Loader2 className="size-3 md:size-5 text-white animate-spin" />
                       ) : (
-                        <Save className="size-5 text-white" />
+                        <Save className="size-3 md:size-5 text-white" />
                       )}
                     </div>
                   </Button>
@@ -480,16 +482,16 @@ export default function TaskForm({
                       onClose?.();
                     }}
                     className={cn(
-                      "bg-[#F6F6FA] hover:bg-[#e3d6ff] text-[#7D7D91] px-6 sm:px-8 h-[46px] sm:h-[54px] rounded-[5px] border border-[#DFDEEA] text-base font-medium flex items-center gap-3 shadow-md",
+                      "flex-1 bg-[#F6F6FA] hover:bg-[#e3d6ff] text-[#7D7D91] px-2 sm:px-8 h-[46px] sm:h-[54px] rounded-[5px] border border-[#DFDEEA] text-sm md:text-base font-medium flex items-center gap-3 shadow-md",
                       !isUpdate && "ml-auto"
                     )}
                   >
                     Avbryt
-                    <div className="size-8 rounded-full bg-[#716F87] flex items-center justify-center shrink-0">
+                    <div className="size-6 md:size-8 rounded-full bg-[#716F87] flex items-center justify-center shrink-0">
                       {isCreatingItem || isUpdatingItem ? (
-                        <Loader2 className="size-5 text-white animate-spin" />
+                        <Loader2 className="size-3 md:size-5 text-white animate-spin" />
                       ) : (
-                        <Undo2 className="size-5 text-white" />
+                        <Undo2 className="size-3 md:size-5 text-white" />
                       )}
                     </div>
                   </Button>

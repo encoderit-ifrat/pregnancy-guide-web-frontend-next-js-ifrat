@@ -324,8 +324,12 @@
       "notesPlaceholder": "Lägg till ytterligare anteckningar...",
       "notesHelper": "Dessa anteckningar visas endast när uppgiften är expanderad",
       "deleteTask": "Ta bort uppgift",
-      "updateTask": "Uppdatera uppgift",
-      "createTask": "Skapa uppgift",
+      "updateTask": "Spara",
+      "saveTask": "Spara",
+      "createTask": "Skapa ny uppgift",
+      "markComplete": " Slutförd",
+      "markEdit": "Redigera",
+      "markDelete": "Radera",
       "validation": {
         "titleRequired": "Uppgiftstitel krävs"
       },

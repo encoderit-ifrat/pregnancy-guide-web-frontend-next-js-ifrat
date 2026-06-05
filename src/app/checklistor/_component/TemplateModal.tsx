@@ -61,7 +61,11 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
   const { mutateAsync: createTemplate, isPending: isCreatingTemplate } =
     useMutationCreateTemplate();
   const [limit, setLimit] = useState(10);
-  const { data: apiResponse, isLoading, isFetching } = useQueryGetAllTemplate(limit);
+  const {
+    data: apiResponse,
+    isLoading,
+    isFetching,
+  } = useQueryGetAllTemplate(limit);
 
   const templates: Template[] = apiResponse?.data?.data || [];
   const pagination = apiResponse?.data?.pagination;
@@ -113,7 +117,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-[90vh] flex flex-col overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
+      <DialogContent className="sm:max-w-5xl w-full p-0 max-h-screen md:max-h-[90vh] flex flex-col overflow-y-auto md:overflow-hidden border-none bg-white shadow-2xl rounded-2xl [&>button:last-child]:hidden">
         <DialogTitle className="sr-only">
           {t("checklists.templateModal.title")}
         </DialogTitle>
@@ -128,19 +132,19 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
             </div>
           </button>
           <div className="space-y-1">
-            <h2 className="text-2xl sm:text-[36px] md:text-[45px] font-semibold text-white font-poppins tracking-tight">
+            <h2 className="text-xl sm:text-[36px] md:text-[45px] font-semibold text-white font-poppins tracking-tight">
               {t("checklists.templateModal.title")}
             </h2>
-            <p className="!text-white text-base  font-outfit max-w-2xl">
+            <p className="!text-white text-sm md:text-base  font-outfit max-w-2xl">
               {t("checklists.templateModal.description")}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
+        <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
           {/* Left Column: List */}
           <div
-            className="w-full md:w-[40%] border-b md:border-b-0 md:border-r border-gray-100 p-4 sm:p-6 overflow-y-auto max-h-[30vh] md:max-h-none shrink-0"
+            className="w-full md:w-[40%] border-b md:border-b-0 md:border-r border-gray-100 p-4 sm:p-6 md:overflow-y-auto shrink-0"
             onScroll={handleScroll}
           >
             <h3 className="text-xl sm:text-3xl font-medium text-[#1B1343] font-outfit mb-4 sm:mb-6">
@@ -161,7 +165,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                     key={template._id}
                     onClick={() => toggleSelection(template._id)}
                     className={cn(
-                      "p-5 rounded-xl border transition-all cursor-pointer group relative",
+                      "p-3 sm:p-5 rounded-xl border transition-all cursor-pointer group relative",
                       selectedIds.includes(template._id)
                         ? "border-[#A97AEC] bg-[#A97AEC0D]"
                         : "border-gray-100 hover:border-[#A97AEC]/30 hover:bg-gray-50/50"
@@ -210,7 +214,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
           </div>
 
           {/* Right Column: Preview */}
-          <div className="flex-1 bg-gray-50/30 p-4 sm:p-6 overflow-y-auto">
+          <div className="flex-1 bg-gray-50/30 p-4 sm:p-6 overflow-y-auto min-h-[30vh] md:min-h-0 max-h-[40vh] md:max-h-none">
             <h3 className="text-xl sm:text-3xl font-medium text-[#1B1343] font-outfit mb-4 sm:mb-6">
               {t("checklists.templateModal.templatePreview")}
             </h3>
@@ -219,17 +223,17 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
               {selectedTemplates.length > 0 ? (
                 <>
                   {/* Preview Header Card */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                  <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100">
                     <h4 className="text-[#101828] font-poppins text-base font-semibold">
                       {selectedTemplates.length === 1
                         ? selectedTemplates[0].title
                         : t("checklists.templateModal.templatesSelected", {
-                          count: selectedTemplates.length,
-                        })}
+                            count: selectedTemplates.length,
+                          })}
                     </h4>
                     {selectedTemplates.length === 1 &&
                       selectedTemplates[0].description && (
-                        <p className="text-[#1B1343] text-base font-outfit mb-4 leading-relaxed line-clamp-2">
+                      <p className="text-[#1B1343] text-sm sm:text-base font-outfit mb-2 sm:mb-4 leading-relaxed line-clamp-2">
                           {selectedTemplates[0].description}
                         </p>
                       )}
@@ -247,7 +251,7 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
                   {allTasks.map((task, index) => (
                     <div
                       key={`${task._id}-${index}`}
-                      className="bg-white p-4 rounded-xl border border-gray-100 flex items-start gap-4 shadow-sm"
+                      className="bg-white p-3 sm:p-4 rounded-xl border border-gray-100 flex items-start gap-3 sm:gap-4 shadow-sm"
                     >
                       <div className="size-6 rounded-full border-2 border-gray-200 mt-1 flex-shrink-0" />
                       <div className="flex-1 space-y-1">
@@ -299,28 +303,28 @@ export default function TemplateModal({ isOpen, onClose }: TemplateModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="p-4 sm:p-6 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white shrink-0">
+        <div className="p-3 sm:p-6 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white shrink-0">
           <p className="text-primary-dark/80 font-outfit text-sm sm:text-base line-clamp-2">
             {selectedTemplates.length === 1
               ? t("checklists.templateModal.footerText.addOne", {
-                title: selectedTemplates[0].title,
-              })
+                  title: selectedTemplates[0].title,
+                })
               : t("checklists.templateModal.footerText.addMany", {
-                count: selectedTemplates.length,
-              })}
+                  count: selectedTemplates.length,
+                })}
           </p>
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <Button
               variant="outline"
               onClick={onClose}
-              className="h-10 sm:h-12 px-4 sm:px-8 rounded-full border-primary/20 text-primary hover:bg-primary/5 font-outfit font-bold text-sm sm:text-lg"
+              className="h-9 sm:h-12 px-4 sm:px-8 rounded-full border-primary/20 text-primary hover:bg-primary/5 font-outfit font-bold text-sm sm:text-lg"
             >
               {t("checklists.templateModal.cancel")}
             </Button>
             <Button
               onClick={handleAddTemplates}
               disabled={isCreatingTemplate || selectedIds.length === 0}
-              className="h-10 sm:h-12 px-4 sm:px-8 rounded-full bg-[#A97AEC] hover:bg-[#9333EA] text-white flex items-center gap-2 sm:gap-3 font-outfit font-bold text-sm sm:text-lg shadow-lg shadow-purple-200"
+              className="h-9 sm:h-12 px-4 sm:px-8 rounded-full bg-[#A97AEC] hover:bg-[#9333EA] text-white flex items-center gap-2 sm:gap-3 font-outfit font-bold text-sm sm:text-lg shadow-lg shadow-purple-200"
             >
               {isCreatingTemplate
                 ? t("checklists.templateModal.adding")

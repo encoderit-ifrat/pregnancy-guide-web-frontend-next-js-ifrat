@@ -34,7 +34,7 @@ export default function ChecklistForm({
   const hasAddedInitialItem = useRef(false);
   useEffect(() => { }, [formData]);
   const { type, data } = formData ?? {};
-  const { user, refetch } = useCurrentUser();
+  const { user, refetch, isLoading } = useCurrentUser();
 
   const last_period_date = user?.details?.last_period_date;
   const due_date = user?.details?.due_date;
@@ -98,64 +98,70 @@ export default function ChecklistForm({
     }
   };
 
-  if (shouldShowChecklist) {
+  if (isLoading) {
     return (
-      <Form {...form}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6 overflow-hidden  px-4 py-6 bg-soft-white rounded-md shadow-md"
-        >
-          <FormField
-            control={control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    label={t("checklists.form.title")}
-                    placeholder={t("checklists.form.titlePlaceholder")}
-                    required={true}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea
-                    label={t("checklists.form.description")}
-                    placeholder={t("checklists.form.descriptionPlaceholder")}
-                    {...field}
-                    rows={3}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="space-y-2"></div>
-          <Button
-            type="submit"
-            disabled={checklistMutation.isPending || isPendingUpdateChecklist}
-            className="w-full"
-          >
-            {checklistMutation.isPending || isPendingUpdateChecklist ? (
-              <Spinner variant="circle" />
-            ) : type === "update" ? (
-              t("checklists.form.update")
-            ) : (
-              t("checklists.form.save")
-            )}
-          </Button>
-        </form>
-      </Form>
+      <div className="flex items-center justify-center py-10">
+        <Spinner variant="circle" />
+      </div>
     );
   }
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 overflow-hidden  px-4 py-6 bg-soft-white rounded-md shadow-md"
+      >
+        <FormField
+          control={control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  label={t("checklists.form.title")}
+                  placeholder={t("checklists.form.titlePlaceholder")}
+                  required={true}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea
+                  label={t("checklists.form.description")}
+                  placeholder={t("checklists.form.descriptionPlaceholder")}
+                  {...field}
+                  rows={3}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="space-y-2"></div>
+        <Button
+          type="submit"
+          disabled={checklistMutation.isPending || isPendingUpdateChecklist}
+          className="w-full"
+        >
+          {checklistMutation.isPending || isPendingUpdateChecklist ? (
+            <Spinner variant="circle" />
+          ) : type === "update" ? (
+            t("checklists.form.update")
+          ) : (
+            t("checklists.form.save")
+          )}
+        </Button>
+      </form>
+    </Form>
+  );
 }
