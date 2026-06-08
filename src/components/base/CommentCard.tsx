@@ -163,17 +163,17 @@ export default function CommentCard({
         </div>
 
         <div className="flex-1 h-full">
-          <div className="flex items-center gap-3">
-            <h4 className="text-base font-bold text-foreground mb-0 pb-0">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-0 md:gap-3">
+            <h4 className="w-full max-w-[150px] md:max-w-[180px] truncate text-sm md:text-base font-bold text-foreground mb-0 pb-0">
               {created_by.name}
             </h4>
-            <p className="bg-primary-light text-primary-dark rounded-full px-3 py-0.5 text-[10px] font-medium">
+            <p className="bg-primary-light text-primary-dark rounded-full px-3 py-0 sm:py-0.5 text-[10px] font-normal md:font-medium">
               {new Date(updatedAt || createdAt).toLocaleDateString()}
             </p>
           </div>
 
           {/* Comment Content */}
-          <div className="flex flex-col md:flex-row justify-between my-2" >
+          <div className="flex flex-col md:flex-row justify-between my-2">
             <p className="h-full text-gray-800 text-sm leading-relaxed line-clamp-2">
               {/* {content || "No answer"} */}
               {comment || t("weeklyQuestion.noAnswer")}
@@ -190,7 +190,7 @@ export default function CommentCard({
                     className={cn(
                       "h-8 w-8 rounded-full",
                       isLiked &&
-                      "bg-primary text-white border-primary hover:bg-primary/90"
+                        "bg-primary text-white border-primary hover:bg-primary/90"
                     )}
                   >
                     <ThumbsUp
@@ -208,11 +208,14 @@ export default function CommentCard({
                     className={cn(
                       "h-8 w-8 rounded-full",
                       isDisliked &&
-                      "bg-primary text-white border-primary hover:bg-primary/90"
+                        "bg-primary text-white border-primary hover:bg-primary/90"
                     )}
                   >
                     <FlagIcon
-                      className={cn("h-3.5 w-3.5", isDisliked && "fill-current")}
+                      className={cn(
+                        "h-3.5 w-3.5",
+                        isDisliked && "fill-current"
+                      )}
                     />
                   </Button>
                 </div>
@@ -236,7 +239,6 @@ export default function CommentCard({
             </div>
           </div>
         </div>
-
       </div>
 
       {/* Comments Section */}

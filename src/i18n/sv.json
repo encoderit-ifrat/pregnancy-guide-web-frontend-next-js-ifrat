@@ -330,6 +330,7 @@
       "markComplete": " Slutförd",
       "markEdit": "Redigera",
       "markDelete": "Radera",
+      "none": "Ingen",
       "validation": {
         "titleRequired": "Uppgiftstitel krävs"
       },

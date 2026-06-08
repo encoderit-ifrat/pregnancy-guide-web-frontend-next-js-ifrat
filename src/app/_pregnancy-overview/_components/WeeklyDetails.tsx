@@ -50,7 +50,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
         </div>
 
         <div className="bg-white shadow-week-details p-0 md:p-7 rounded-2xl">
-          <div className="relative w-full h-[366px] md:h-145 overflow-hidden">
+          <div className="relative w-full h-[216px] md:h-145 overflow-hidden">
             <Link href={`/articles/${slug || "article-not-found"}`}>
               <Image
                 src={imageLinkGenerator(cover_image || thumbnail_image)}
@@ -62,13 +62,13 @@ function WeeklyDetails({ data = initialData }: TProps) {
                 priority
               />
             </Link>
-            <div className="absolute bottom-0 left-0 right-0 bg-primary-dark/74 py-4 px-4 md:py-7 md:px-[52px] rounded-b-lg">
+            <div className="absolute bottom-0 left-0 right-0 bg-primary-dark/74 py-2 px-3 md:py-7 md:px-[52px] rounded-b-lg">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl! md:text-3xl! font-medium md:font-semibold text-white">
                   {title}
                 </h3>
                 <Link href={`/articles/${slug || "article-not-found"}`}>
-                  <IconRightArrow />
+                  <IconRightArrow className="w-8 h-8! md:w-10! md:h-10! text-white" />
                 </Link>
               </div>
             </div>

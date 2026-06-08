@@ -488,11 +488,7 @@ export default function TaskForm({
                   >
                     Avbryt
                     <div className="size-6 md:size-8 rounded-full bg-[#716F87] flex items-center justify-center shrink-0">
-                      {isCreatingItem || isUpdatingItem ? (
-                        <Loader2 className="size-3 md:size-5 text-white animate-spin" />
-                      ) : (
-                        <Undo2 className="size-3 md:size-5 text-white" />
-                      )}
+                      <Undo2 className="size-3 md:size-5 text-white" />
                     </div>
                   </Button>
                 </div>

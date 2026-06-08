@@ -196,8 +196,8 @@ export default function SwipeClientPage() {
           </Link>
         </div>
 
-        <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-8">
-          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-3 sm:px-6 pt-6 pb-6 shadow-sm">
+        <div className="w-full max-w-327 pb-20 mx-auto px-0 mt-8">
+          <div className="bg-white border border-[#E5E7EB] rounded-2xl px-2.5 sm:px-6 pt-6 pb-6 shadow-sm">
             <Tabs
               value={activeTab}
               onValueChange={handleTabChange}

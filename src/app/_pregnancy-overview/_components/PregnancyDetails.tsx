@@ -55,7 +55,7 @@ function PregnancyDetails({ userData, weeklyDetails }: PregnancyDetailsProps) {
           </h3>
         </Cards>
         <Cards className="px-6 py-6">
-          <h3 className="text-primary-dark text-center font-medium md:font-semibold mb-4 block">
+          <h3 className="text-primary-dark text-lg md:text-[22px] text-center font-medium md:font-semibold mb-4 block">
             {titledHtml || t("checklists.form.description")}
           </h3>
           {weeklyDetails?.description && (

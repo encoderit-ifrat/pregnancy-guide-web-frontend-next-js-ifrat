@@ -513,7 +513,9 @@ export default function CheckList({
                         {format(isDetailOpen.task.date, "io LLL RRR")}
                       </p>
                     ) : (
-                      <span className="text-sm text-gray-400">{t("none")}</span>
+                      <span className="text-sm text-gray-400">
+                        {t("checklists.taskForm.none")}
+                      </span>
                     )}
                   </div>
                   <div className="w-full px-4 py-[17px] flex items-center justify-between gap-3 rounded-[5px] border border-[#F3EAFF]">
@@ -575,7 +577,9 @@ export default function CheckList({
                         </Badge>
                       )
                     ) : (
-                      <span className="text-sm text-gray-400">{t("none")}</span>
+                      <span className="text-sm text-gray-400">
+                        {t("checklists.taskForm.none")}
+                      </span>
                     )}
                   </div>
                   <div className="w-full px-4 py-[17px] flex items-center justify-between gap-3 rounded-[5px] border border-[#F3EAFF]">
@@ -610,7 +614,9 @@ export default function CheckList({
                         {t(isDetailOpen.task.priority)}
                       </Badge>
                     ) : (
-                      <span className="text-sm text-gray-400">{t("none")}</span>
+                      <span className="text-sm text-gray-400">
+                        {t("checklists.taskForm.none")}
+                      </span>
                     )}
                   </div>
                   {!isDetailOpen.task.checked && (

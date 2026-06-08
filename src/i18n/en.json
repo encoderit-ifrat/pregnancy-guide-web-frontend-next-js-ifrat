@@ -329,6 +329,7 @@
       "markComplete": "Complete",
       "markEdit": "Edit",
       "markDelete": "Delete",
+      "none": "None",
       "validation": {
         "titleRequired": "Task title is required"
       },
