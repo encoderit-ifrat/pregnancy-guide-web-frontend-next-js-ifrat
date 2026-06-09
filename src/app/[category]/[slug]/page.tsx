@@ -18,17 +18,24 @@ type ArticlePageProps = {
 };
 
 // Fetch article data with authentication
-async function getArticle(slug: string, token: string, lang: string = "sv") {
+async function getArticle(
+  slug: string,
+  token: string | null,
+  lang: string = "sv"
+) {
   try {
-    const res = await fetch(`${API_V1}/articles/${slug}?lang=${lang}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept-Language": lang,
-        "x-lang": lang,
-      },
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${API_V1}/articles${token ? "/" : "/public/"}${slug}?lang=${lang}`,
+      {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+          "Content-Type": "application/json",
+          "Accept-Language": lang,
+          "x-lang": lang,
+        },
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) {
       return null;
@@ -106,15 +113,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const session = await getServerSession(authOptions);
 
   // Redirect to login if not authenticated
-  if (!session || !session.token) {
-    redirect("/logga-in");
-  }
+  // if (!session || !session.token) {
+  //   redirect("/logga-in");
+  // }
 
   const cookieStore = await cookies();
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
-  const article = await getArticle(slug, session.token, locale);
-
+  const article = await getArticle(
+    slug,
+    session ? session.token : null,
+    locale
+  );
   if (!article) {
     notFound();
   }

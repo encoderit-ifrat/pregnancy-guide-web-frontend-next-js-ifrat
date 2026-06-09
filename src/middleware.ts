@@ -42,7 +42,6 @@ export const config = {
     "/gravid/:path*",
     "/checklistor/:path*",
     "/min-profil/:path*",
-    "/articles/:path*",
     "/veckans-fraga/:path*",
     "/change-password/:path*",
     "/logga-in",
