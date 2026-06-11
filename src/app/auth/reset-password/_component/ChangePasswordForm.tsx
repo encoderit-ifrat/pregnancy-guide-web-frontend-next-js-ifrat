@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/Input";
 import Header from "@/components/ui/SectionHeader";
 import { useResetPassword } from "../_api/mutations/useResetPassword";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import {
@@ -26,7 +26,6 @@ import {
   ResetPasswordSchemaType,
 } from "../_types/change_password_types";
 import { PasswordInput } from "@/components/base/PasswordInput";
-import * as React from "react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -37,6 +36,19 @@ export default function ChangePasswordForm() {
   const [token, setToken] = useState<string | null>(null);
   const { mutate: resetPassword, isPending } = useResetPassword();
   const router = useRouter();
+
+  const handleDeepLink = useCallback(() => {
+    if (
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      window.location.href = "familj://logga-in";
+      setTimeout(() => {
+        window.location.href = "https://familj.se/logga-in";
+      }, 800);
+    }
+  }, []);
 
   const form = useForm<ResetPasswordSchemaType>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -72,6 +84,7 @@ export default function ChangePasswordForm() {
         onSuccess: () => {
           toast.success(t("auth.resetPassword.success"));
           form.reset();
+          handleDeepLink();
           router.push("/logga-in");
         },
       }

@@ -18,12 +18,25 @@ import {
 } from "../_types/change_password_types";
 import { useChangePassword } from "../_api/mutations/useChangePassword";
 import { PasswordInput } from "@/components/base/PasswordInput";
-import * as React from "react";
+import { useCallback } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function UpdatePasswordForm() {
   const { t } = useTranslation();
   const { mutate: changePassword, isPending } = useChangePassword();
+
+  const handleDeepLink = useCallback(() => {
+    if (
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      window.location.href = "familj://logga-in";
+      setTimeout(() => {
+        window.location.href = "https://familj.se/logga-in";
+      }, 800);
+    }
+  }, []);
 
   const form = useForm<ChangePasswordSchemaType>({
     resolver: zodResolver(ChangePasswordSchema),
@@ -44,6 +57,7 @@ export default function UpdatePasswordForm() {
         onSuccess: () => {
           toast.success(t("auth.changePassword.success"));
           form.reset();
+          handleDeepLink();
         },
       }
     );
