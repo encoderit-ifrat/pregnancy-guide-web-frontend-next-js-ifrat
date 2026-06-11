@@ -55,16 +55,20 @@ export async function generateMetadata({
   const { category, slug } = await params;
   const session = await getServerSession(authOptions);
 
-  if (!session?.token) {
-    return {
-      title: "Login Required",
-    };
-  }
+  // if (!session?.token) {
+  //   return {
+  //     title: "Login Required",
+  //   };
+  // }
 
   const cookieStore = await cookies();
   const locale = cookieStore.get("familj-locale")?.value || "sv";
 
-  const article = await getArticle(slug, session.token, locale);
+  const article = await getArticle(
+    slug,
+    session ? session.token : null,
+    locale
+  );
 
   if (!article) {
     return {
