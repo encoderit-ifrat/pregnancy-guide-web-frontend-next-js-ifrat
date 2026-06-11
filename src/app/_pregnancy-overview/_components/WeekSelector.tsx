@@ -20,16 +20,23 @@ export default function WeekSelector({
   isLoading = false,
 }: WeekSelectorProps) {
   const { t } = useTranslation();
-  const [selectedWeek, setSelectedWeek] = useState(currentWeek);
+  const [selectedWeek, setSelectedWeek] = useState(
+    Math.min(Math.max(currentWeek, minWeek ?? 3), maxWeek ?? 41)
+  );
+  // Ensure minWeek and maxWeek are defined numbers
+  const min = minWeek ?? 3;
+  const max = maxWeek ?? 41;
+
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastRequestedWeekRef = useRef(currentWeek);
 
   // Sync internal state when the prop changes (e.g. URL query param updated)
   useEffect(() => {
     if (currentWeek === lastRequestedWeekRef.current) {
-      setSelectedWeek(currentWeek);
+      const clamped = Math.min(Math.max(currentWeek, min), max);
+      setSelectedWeek(clamped);
     }
-  }, [currentWeek]);
+  }, [currentWeek, min, max]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -39,10 +46,6 @@ export default function WeekSelector({
       }
     };
   }, []);
-
-  // Ensure minWeek and maxWeek are defined numbers
-  const min = minWeek ?? 3;
-  const max = maxWeek ?? 41;
 
   // Calculate visible weeks dynamically for different breakpoints
   const getVisibleWeeks = (count: number) => {
