@@ -17,7 +17,7 @@ export default function FooterWaveDivider({
   const bgClassName =
     pathname === "/gravid" || pathname.startsWith("/gravid/")
       ? "bg-primary-light"
-      : pathname.includes("/articles/")
+      : pathname.includes("/artiklar/")
         ? "bg-article-bg"
         : "bg-transparent";
   return (

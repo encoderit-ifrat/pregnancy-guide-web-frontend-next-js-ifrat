@@ -30,7 +30,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <div className="relative overflow-hidden group bg-white p-2 md:p-3 rounded-2xl shadow h-full flex flex-col">
       <div className="shrink-0 relative overflow-hidden rounded min-w-full min-h-[138px] sm:min-h-[196px] md:min-w-2/6">
-        <Link href={`/articles/${slug}`}>
+        <Link href={`/artiklar/${slug}`}>
           <Image
             src={imageLinkGenerator(image)}
             alt={title}
@@ -41,11 +41,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       </div>
       <div className="p-4 flex flex-col justify-between gap-2 flex-1">
         <p className="font-semibold font-poppins text-xl! text-primary-dark! whitespace-nowrap truncate">
-          <Link href={`/articles/${slug}`}> {title}</Link>
+          <Link href={`/artiklar/${slug}`}> {title}</Link>
         </p>
         <p className="line-clamp-5 overflow-hidden">{description}</p>
         <Link
-          href={`/articles/${slug}`}
+          href={`/artiklar/${slug}`}
           className="text-primary font-semibold font-poppins text-sm"
         >
           {t("articles.readMore")}
@@ -60,7 +60,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       </div>
       {showButton && (
         <div className="absolute -bottom-11 -right-11 transition-transform duration-300 group-hover:scale-130">
-          <Link href={`/articles/${slug || "article-not-found"}`}>
+          <Link href={`/artiklar/${slug || "article-not-found"}`}>
             <button className="size-20 bg-primary text-white transition rounded-full relative cursor-pointer">
               <ChevronRight className="h-5 w-5 text-white absolute top-[16px] left-[10px]" />
             </button>

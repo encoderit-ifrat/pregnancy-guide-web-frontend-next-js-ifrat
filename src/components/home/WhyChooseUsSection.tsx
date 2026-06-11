@@ -91,7 +91,7 @@ export function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
           {data.map((d: Article, index: number) => (
             <SwiperSlide key={index} className="h-auto flex">
               <div className="group relative overflow-hidden rounded-2xl shadow-lg">
-                <Link href={`/articles/${d?.slug || "article-not-found"}`}>
+                <Link href={`/artiklar/${d?.slug || "article-not-found"}`}>
                   {/* Image */}
                   <div className="relative h-77.5">
                     <Image

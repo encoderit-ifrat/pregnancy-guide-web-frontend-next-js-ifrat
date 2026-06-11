@@ -51,7 +51,7 @@ function WeeklyDetails({ data = initialData }: TProps) {
 
         <div className="bg-white shadow-week-details p-0 md:p-7 rounded-2xl">
           <div className="relative w-full h-[216px] md:h-145 overflow-hidden">
-            <Link href={`/articles/${slug || "article-not-found"}`}>
+            <Link href={`/artiklar/${slug || "article-not-found"}`}>
               <Image
                 src={imageLinkGenerator(cover_image || thumbnail_image)}
                 alt={title}
@@ -67,18 +67,18 @@ function WeeklyDetails({ data = initialData }: TProps) {
                 <h3 className="text-xl! md:text-3xl! font-medium md:font-semibold text-white">
                   {title}
                 </h3>
-                <Link href={`/articles/${slug || "article-not-found"}`}>
+                <Link href={`/artiklar/${slug || "article-not-found"}`}>
                   <IconRightArrow className="w-8 h-8! md:w-10! md:h-10! text-white" />
                 </Link>
               </div>
             </div>
           </div>
           {/* <div className="px-4 py-4 w-full lg:w-1/2 space-y-4 text-center lg:text-left popover-foreground order-1 lg:order-2">
-            <Link href={`/articles/${slug || "article-not-found"}`}>
+            <Link href={`/artiklar/${slug || "article-not-found"}`}>
             </Link>
             <p className="mt-3 mb-6">{excerpt}</p>
             <div className="pt-2">
-              <Link href={`/articles/${slug || "article-not-found"}`}>
+              <Link href={`/artiklar/${slug || "article-not-found"}`}>
                 <Button
                   variant="outline"
                   className="px-12 md:px-20 font-poppins font-semibold text-lg"

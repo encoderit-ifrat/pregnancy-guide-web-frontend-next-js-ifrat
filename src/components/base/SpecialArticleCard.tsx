@@ -23,7 +23,7 @@ const SpecialArticleCard: React.FC<SpecialArticleCardProps> = ({
     //
     <div className="bg-light-purple  flex  flex-col lg:items-center gap-2 w-full min-w-xs flex-1 shrink-0">
       {/* Image at the top */}
-      <Link href={`/articles/${slug}`} className=" w-full">
+      <Link href={`/artiklar/${slug}`} className=" w-full">
         <div className="shrink-0 relative w-full h-64">
           <Image
             // src={BASE_URL + image}
@@ -36,7 +36,7 @@ const SpecialArticleCard: React.FC<SpecialArticleCardProps> = ({
       </Link>
 
       <div className="flex flex-col  sm:items-start  sm:text-left p-4 space-y-4 flex-1">
-        <Link href={`/articles/${slug}`}>
+        <Link href={`/artiklar/${slug}`}>
           <p className="text-xl lg:text-2xl leading-6 lg:leading-10 text-foreground line-clamp-1">
             {title}
           </p>
@@ -47,7 +47,7 @@ const SpecialArticleCard: React.FC<SpecialArticleCardProps> = ({
           </p>
         </div>
         <Link
-          href={`/articles/${slug}`}
+          href={`/artiklar/${slug}`}
           className="inline-flex text-lg leading-20px   text-text-accent-purple gap-1"
         >
           More Details

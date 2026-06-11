@@ -33,7 +33,7 @@ function ContentCard({ article }: { article?: Article }) {
   return (
     <div className="bg-white w-full max-w-[1200px] p-6 mx-auto rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col lg:flex-row items-center justify-between gap-6 border border-gray-100">
       <div className="relative w-full lg:w-1/2 h-[300px] md:h-[350px] rounded-xl overflow-hidden">
-        <Link href={`/articles/${data.slug}`}>
+        <Link href={`/artiklar/${data.slug}`}>
           <Image
             src={imageLinkGenerator(data.cover_image)}
             alt={data.title}
@@ -45,11 +45,11 @@ function ContentCard({ article }: { article?: Article }) {
 
       <div className="w-full lg:w-1/2 space-y-4 text-foreground px-4 lg:px-10">
         <p className="text-2xl md:text-3xl font-semibold leading-snug">
-          <Link href={`/articles/${data.slug}`}>{data.title}</Link>
+          <Link href={`/artiklar/${data.slug}`}>{data.title}</Link>
         </p>
         <p className="text-sm text-text-mid leading-relaxed">{data.excerpt}</p>
         <div className="pt-2">
-          <Link href={`/articles/${data.slug}`}>
+          <Link href={`/artiklar/${data.slug}`}>
             <Button
               variant="softPurple"
               size="default"

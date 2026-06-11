@@ -37,7 +37,7 @@ export default function ArticleBigCard({ data = {} }: BigSliderCardProps) {
           <p className="mb-6 max-w-xl line-clamp-5">{data?.excerpt}</p>
 
           <Link
-            href={`/articles/${data?.slug || "article-not-found"}`}
+            href={`/artiklar/${data?.slug || "article-not-found"}`}
             className="w-full"
           >
             <Button

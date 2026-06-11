@@ -97,7 +97,7 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                   <p>{firstArticle.excerpt}</p>
                 </div>
                 <Link
-                  href={`/articles/${firstArticle?.slug || "article-not-found"}`}
+                  href={`/artiklar/${firstArticle?.slug || "article-not-found"}`}
                   className="w-full"
                 >
                   <Button
@@ -141,7 +141,7 @@ function OurArticle({ data, weeklyDetails }: TProps) {
                   </div>
                 </div>
                 <Link
-                  href={`/articles/${article?.slug || "article-not-found"}`}
+                  href={`/artiklar/${article?.slug || "article-not-found"}`}
                   className="w-full"
                 >
                   <Button
