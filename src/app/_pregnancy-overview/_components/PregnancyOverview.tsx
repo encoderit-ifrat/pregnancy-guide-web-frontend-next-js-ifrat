@@ -67,15 +67,9 @@ export default function PregnancyOverview({
   useEffect(() => {
     if (sessionSelectedWeek === null) {
       if (selectedWeek !== currentWeek) {
-        if (selectedWeek !== undefined && (selectedWeek > 41 || selectedWeek < 3)) {
-          sessionSelectedWeek = currentWeek;
-          setPendingWeek(currentWeek);
-          router.replace(`/gravid/vecka/${currentWeek}`);
-        } else {
-          sessionSelectedWeek = selectedWeek ?? currentWeek;
-          setPendingWeek(selectedWeek ?? currentWeek);
-          router.replace(`/gravid/vecka/${selectedWeek ?? currentWeek}`);
-        }
+        sessionSelectedWeek = selectedWeek ?? currentWeek;
+        setPendingWeek(selectedWeek ?? currentWeek);
+        router.replace(`/gravid/vecka/${selectedWeek ?? currentWeek}`);
         setIsRedirecting(false);
       } else {
         sessionSelectedWeek = currentWeek;
@@ -87,6 +81,7 @@ export default function PregnancyOverview({
   useEffect(() => {
     if (selectedWeek !== undefined) {
       setPendingWeek(selectedWeek);
+      setIsRedirecting(false);
     }
   }, [selectedWeek]);
 
@@ -123,12 +118,13 @@ export default function PregnancyOverview({
     return <Loading />;
   }
 
-  console.log("initialWeek", initialWeek);
-  console.log("selectedWeek", selectedWeek);
-  console.log("currentWeek", currentWeek);
-  console.log("debouncedWeek", debouncedWeek);
-  console.log("pendingWeek", pendingWeek);
-  console.log("isRedirecting", isRedirecting);
+  // console.log("initialWeek", initialWeek);
+  // console.log("selectedWeek", selectedWeek);
+  // console.log("currentWeek", currentWeek);
+  // console.log("debouncedWeek", debouncedWeek);
+  // console.log("pendingWeek", pendingWeek);
+  // console.log("isRedirecting", isRedirecting);
+  // console.log("data", pregnancyData);
 
   return (
     <div className="bg-[#F6F0FF]">
