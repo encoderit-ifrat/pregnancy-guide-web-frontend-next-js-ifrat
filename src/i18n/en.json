@@ -55,7 +55,11 @@
     "discussions": "Forum",
     "forNameTinder": "Name Tinder",
     "checklist": "Checklists",
-    "benefits": "Benefits"
+    "benefits": "Benefits",
+    "invitations": "Invitations",
+    "wishlists": "Wishlists",
+    "kickCounter": "Kick Counter",
+    "contractionCounter": "Contraction Counter"
   },
   "footer": {
     "quickLinks": "Quick Links",

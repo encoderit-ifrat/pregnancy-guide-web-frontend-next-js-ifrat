@@ -307,6 +307,66 @@ export function Header() {
                           )}
                           {t("header.benefits")}
                         </Link>
+                        <Link
+                          href="/invitations"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/invitations"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/invitations" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.invitations")}
+                        </Link>
+                        <Link
+                          href="/wishlists"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/wishlists"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/wishlists" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.wishlists")}
+                        </Link>
+                        <Link
+                          href="/kick-counter"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/kick-counter"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/kick-counter" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.kickCounter")}
+                        </Link>
+                        <Link
+                          href="/contraction-counter"
+                          onClick={() => setIsFunctionsOpen(false)}
+                          className={cn(
+                            "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                            pathname === "/contraction-counter"
+                              ? "bg-[#F6F0FF] text-primary font-semibold"
+                              : "hover:bg-gray-50 text-primary-dark"
+                          )}
+                        >
+                          {pathname === "/contraction-counter" && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-dark rounded-r-full" />
+                          )}
+                          {t("header.contractionCounter")}
+                        </Link>
                       </div>
                     </div>
                   )}
@@ -466,6 +526,66 @@ export function Header() {
                       )}
                     >
                       {t("header.benefits")}
+                    </Link>
+                    <Link
+                      href="/invitations"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/invitations"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.invitations")}
+                    </Link>
+                    <Link
+                      href="/wishlists"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/wishlists"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.wishlists")}
+                    </Link>
+                    <Link
+                      href="/kick-counter"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/kick-counter"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.kickCounter")}
+                    </Link>
+                    <Link
+                      href="/contraction-counter"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsMobileFunctionsOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                        pathname === "/contraction-counter"
+                          ? "bg-primary-light text-primary font-semibold"
+                          : "hover:bg-primary-light/50 text-text-primary"
+                      )}
+                    >
+                      {t("header.contractionCounter")}
                     </Link>
                   </div>
                 )}

@@ -55,7 +55,11 @@
     "discussions": "Forum",
     "forNameTinder": "Namnswajp",
     "checklist": "Checklistor",
-    "benefits": "Förmåner"
+    "benefits": "Förmåner",
+    "invitations": "Inbjudningar",
+    "wishlists": "Önskelistor",
+    "kickCounter": "Sparkräknare",
+    "contractionCounter": "Värk-räknare"
   },
   "footer": {
     "quickLinks": "Graviditet och föräldraskap",
