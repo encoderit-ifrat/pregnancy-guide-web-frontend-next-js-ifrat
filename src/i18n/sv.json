@@ -726,6 +726,26 @@
     "likedCount": "Gillade:",
     "noNamesYetShared": "Inga matchade namn ännu."
   },
+  "invitations": {
+    "label": "Inbjudningar",
+    "title": "Vackra Digitala Inbjudningar",
+    "subtitle": "Skapa fantastiska inbjudningar till din babyshower, könsavslöjande eller familjehögtid. Dela med dina nära och kära och följ OSA enkelt."
+  },
+  "wishlists": {
+    "label": "Önskelistor",
+    "title": "Baby Registry & Wishlists",
+    "subtitle": "Skapa och dela din baby-önskelista med familj och vänner. Låt dina nära och kära veta exakt vad du behöver för ditt lilla underbarn."
+  },
+  "kick": {
+    "label": "Sparkräknare",
+    "title": "Spåra ditt barns rörelser",
+    "subtitle": "Övervaka ditt barns sparkar och rörelser under hela graviditeten. Håll koll på mönster och håll kontakten med ditt lilla underbarn."
+  },
+  "contraction": {
+    "label": "Värk-räknare",
+    "title": "Värk-räknare",
+    "subtitle": "Spåra dina värkar för att veta när det är dags att åka till sjukhuset."
+  },
   "low": "Låg",
   "medium": "Medel",
   "high": "Hög"

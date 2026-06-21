@@ -739,6 +739,26 @@
     "likedCount": "Liked:",
     "noNamesYetShared": "No matched names yet."
   },
+  "invitations": {
+    "label": "Invitations",
+    "title": "Beautiful Digital Invitations",
+    "subtitle": "Create stunning invitations for your baby shower, gender reveal, or family celebration. Share with loved ones and track RSVPs effortlessly."
+  },
+  "wishlists": {
+    "label": "Gift Wishlists",
+    "title": "Baby Registry & Wishlists",
+    "subtitle": "Create and share your baby registry with family and friends. Let loved ones know exactly what you need for your little one."
+  },
+  "kick": {
+    "label": "Kick Counter",
+    "title": "Track Your Baby's Movements",
+    "subtitle": "Monitor your baby's kicks and movements throughout your pregnancy. Keep track of patterns and stay connected with your little one."
+  },
+  "contraction": {
+    "label": "Tracking Active",
+    "title": "Contraction Timer",
+    "subtitle": "Track your contractions to know when it's time to go to the hospital"
+  },
   "low": "Low",
   "medium": "Medium",
   "high": "High"

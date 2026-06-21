@@ -1,5 +1,7 @@
+import ContractionClientPage from "./ContractionClientPage";
+
 type pageProps = object;
 
 export default function page({}: pageProps) {
-  return <div>page</div>;
+  return <ContractionClientPage />;
 }
