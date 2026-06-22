@@ -7,13 +7,15 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
-import { Gift, Heart, Mail, Plus } from "lucide-react";
+import { Heart, Mail, Plus } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryWishlists } from "./_api/queries/useQueryWishlists";
 import CreateWishlistModal from "./_component/CreateWishlistModal";
 import { WishlistListItem } from "./_types/wishlist_types";
 
 export default function WishlistsClientPage() {
+  const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const [createOpen, setCreateOpen] = useState(false);
   const { data, isLoading } = useQueryWishlists();
@@ -25,25 +27,24 @@ export default function WishlistsClientPage() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center">
           <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Heart className="size-4" /> Gift Wishlists
+            <Heart className="size-4" /> {t("wishlists.badge")}
           </span>
           <h1 className="mt-2 text-3xl font-bold text-primary-dark">
-            Baby Registry &amp; Wishlists
+            {t("wishlists.title")}
           </h1>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
-            Create and share your baby registry with family and friends. Let
-            loved ones know exactly what you need for your little one.
+            {t("wishlists.subtitle")}
           </p>
         </div>
 
         <Card className="p-6">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-primary-dark">
-              Your Wishlists
+              {t("wishlists.yourWishlists")}
             </h2>
             {isAuthenticated && (
               <Button onClick={() => setCreateOpen(true)}>
-                Create Wishlist <Plus className="size-4" />
+                {t("wishlists.createWishlist")} <Plus className="size-4" />
               </Button>
             )}
           </div>
@@ -54,18 +55,18 @@ export default function WishlistsClientPage() {
             </div>
           ) : !isAuthenticated ? (
             <EmptyState
-              title="Please log in"
-              desc="Log in to create and manage your wishlists"
+              title={t("wishlists.loginTitle")}
+              desc={t("wishlists.loginDesc")}
               action={
                 <Button asChild className="mt-4">
-                  <Link href="/logga-in">Log in</Link>
+                  <Link href="/logga-in">{t("wishlists.login")}</Link>
                 </Button>
               }
             />
           ) : wishlists.length === 0 ? (
             <EmptyState
-              title="No Wishlists yet"
-              desc="Create your first wishlist to get started"
+              title={t("wishlists.noWishlistsTitle")}
+              desc={t("wishlists.noWishlistsDesc")}
             />
           ) : (
             <div className="grid gap-6 md:grid-cols-2">
@@ -83,22 +84,17 @@ export default function WishlistsClientPage() {
 }
 
 function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
+  const { t } = useTranslation();
   const { progress } = wishlist;
   return (
     <Card className="overflow-hidden">
       <div className="relative h-44 w-full bg-primary-light">
-        {wishlist.cover_image ? (
-          <Image
-            src={wishlist.cover_image}
-            alt={wishlist.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center">
-            <Gift className="size-12 text-primary/50" />
-          </div>
-        )}
+        <Image
+          src={wishlist.cover_image || "/default_wishlist_image.png"}
+          alt={wishlist.title}
+          fill
+          className="object-cover"
+        />
       </div>
       <div className="p-5">
         <h3 className="text-lg font-semibold text-primary-dark">
@@ -112,9 +108,14 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
 
         <div className="mt-4">
           <div className="mb-1 flex justify-between text-sm">
-            <span className="text-text-secondary">Progress</span>
+            <span className="text-text-secondary">
+              {t("wishlists.progress")}
+            </span>
             <span className="font-medium text-primary">
-              {progress.claimed} / {progress.total} items claimed
+              {t("wishlists.itemsClaimed", {
+                claimed: progress.claimed,
+                total: progress.total,
+              })}
             </span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-primary-light">
@@ -126,7 +127,9 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
         </div>
 
         <Button asChild variant="outline" className="mt-4 w-full justify-center">
-          <Link href={`/onskelistor/${wishlist._id}`}>View Details</Link>
+          <Link href={`/onskelistor/${wishlist._id}`}>
+            {t("wishlists.viewDetails")}
+          </Link>
         </Button>
       </div>
     </Card>

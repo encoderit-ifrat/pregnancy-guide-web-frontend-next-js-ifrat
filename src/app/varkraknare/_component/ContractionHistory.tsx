@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { ArrowLeft, Droplet, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryContractionSessions } from "../_api/queries/useQueryContraction";
@@ -17,6 +18,7 @@ export default function ContractionHistory({
   onBack: () => void;
   onViewStats: () => void;
 }) {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const { data, isLoading } = useQueryContractionSessions(page);
   const del = useDeleteContractionSession();
@@ -30,17 +32,17 @@ export default function ContractionHistory({
         onClick={onBack}
         className="flex items-center gap-1 text-sm text-primary hover:underline"
       >
-        <ArrowLeft className="size-4" /> Back to Contraction Counter
+        <ArrowLeft className="size-4" /> {t("contractionCounter.history.back")}
       </button>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
           <div>
             <h2 className="text-xl font-semibold text-primary-dark">
-              Session History
+              {t("contractionCounter.history.title")}
             </h2>
             <p className="text-sm text-text-secondary">
-              Review all your past contraction-tracking sessions
+              {t("contractionCounter.history.subtitle")}
             </p>
           </div>
 
@@ -50,7 +52,7 @@ export default function ContractionHistory({
             </div>
           ) : sessions.length === 0 ? (
             <Card className="p-10 text-center text-sm text-text-secondary">
-              No sessions recorded yet.
+              {t("contractionCounter.history.noSessions")}
             </Card>
           ) : (
             sessions.map((s) => (
@@ -62,7 +64,9 @@ export default function ContractionHistory({
                     </span>
                     <div>
                       <p className="font-semibold text-primary-dark">
-                        {s.total_count} Contractions
+                        {t("contractionCounter.history.contractionsCount", {
+                          count: s.total_count,
+                        })}
                       </p>
                       <p className="text-xs text-text-secondary">
                         {new Date(s.started_at).toLocaleString("sv-SE", {
@@ -78,7 +82,10 @@ export default function ContractionHistory({
                   <button
                     onClick={() =>
                       del.mutate(s._id, {
-                        onSuccess: () => toast.success("Session deleted"),
+                        onSuccess: () =>
+                          toast.success(
+                            t("contractionCounter.history.sessionDeleted")
+                          ),
                       })
                     }
                     className="text-text-secondary hover:text-destructive"
@@ -87,9 +94,18 @@ export default function ContractionHistory({
                   </button>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3 border-t pt-4 text-center">
-                  <Mini label="Avg Duration" value={fmtDuration(s.avg_duration_sec)} />
-                  <Mini label="Avg Interval" value={fmtDuration(s.avg_interval_sec)} />
-                  <Mini label="Total Count" value={String(s.total_count)} />
+                  <Mini
+                    label={t("contractionCounter.history.avgDuration")}
+                    value={fmtDuration(s.avg_duration_sec)}
+                  />
+                  <Mini
+                    label={t("contractionCounter.history.avgInterval")}
+                    value={fmtDuration(s.avg_interval_sec)}
+                  />
+                  <Mini
+                    label={t("contractionCounter.history.totalCount")}
+                    value={String(s.total_count)}
+                  />
                 </div>
               </Card>
             ))
@@ -103,7 +119,7 @@ export default function ContractionHistory({
                 disabled={page <= 1}
                 onClick={() => setPage((p) => p - 1)}
               >
-                Previous
+                {t("contractionCounter.history.previous")}
               </Button>
               <Button
                 variant="outline"
@@ -111,7 +127,7 @@ export default function ContractionHistory({
                 disabled={page >= (data?.pagination.last_page ?? 1)}
                 onClick={() => setPage((p) => p + 1)}
               >
-                Next
+                {t("contractionCounter.history.next")}
               </Button>
             </div>
           )}
@@ -119,16 +135,21 @@ export default function ContractionHistory({
 
         <div className="space-y-6">
           <Card className="p-6">
-            <h3 className="mb-4 font-semibold text-primary-dark">Summary</h3>
+            <h3 className="mb-4 font-semibold text-primary-dark">
+              {t("contractionCounter.history.summary")}
+            </h3>
             <div className="space-y-3 text-sm">
-              <Row label="Total Sessions" value={total} />
               <Row
-                label="Total Contractions"
+                label={t("contractionCounter.history.totalSessions")}
+                value={total}
+              />
+              <Row
+                label={t("contractionCounter.history.totalContractions")}
                 value={sessions.reduce((a, s) => a + s.total_count, 0)}
               />
             </div>
             <Button onClick={onViewStats} className="mt-5 w-full justify-center">
-              View Full Stats
+              {t("contractionCounter.history.viewFullStats")}
             </Button>
           </Card>
         </div>

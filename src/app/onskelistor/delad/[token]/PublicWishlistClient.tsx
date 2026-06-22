@@ -7,12 +7,14 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
-import { ExternalLink, Gift, Heart } from "lucide-react";
+import { ExternalLink, Heart } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryPublicWishlist } from "../../_api/queries/useQueryWishlists";
 import ClaimModal from "./_component/ClaimModal";
 import { PublicWishlistItem } from "../../_types/wishlist_types";
 
 export default function PublicWishlistClient() {
+  const { t } = useTranslation();
   const { token } = useParams<{ token: string }>();
   const { data: wishlist, isLoading, isError } = useQueryPublicWishlist(token);
 
@@ -23,7 +25,7 @@ export default function PublicWishlistClient() {
       <div className="mx-auto max-w-5xl">
         <div className="mb-6 text-center">
           <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Heart className="size-4" /> Gift Wishlist
+            <Heart className="size-4" /> {t("wishlists.public.heading")}
           </span>
         </div>
 
@@ -33,24 +35,18 @@ export default function PublicWishlistClient() {
           </div>
         ) : isError || !wishlist ? (
           <Card className="mx-auto max-w-md p-10 text-center text-text-secondary">
-            This wishlist could not be found or is no longer available.
+            {t("wishlists.public.notFound")}
           </Card>
         ) : (
           <>
             <Card className="overflow-hidden">
               <div className="relative h-56 w-full bg-primary-light">
-                {wishlist.cover_image ? (
-                  <Image
-                    src={wishlist.cover_image}
-                    alt={wishlist.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <Gift className="size-14 text-primary/50" />
-                  </div>
-                )}
+                <Image
+                  src={wishlist.cover_image || "/default_wishlist_image.png"}
+                  alt={wishlist.title}
+                  fill
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 <div className="absolute bottom-4 left-6 text-white">
                   <h1 className="text-2xl font-bold">{wishlist.title}</h1>
@@ -61,8 +57,9 @@ export default function PublicWishlistClient() {
               </div>
               {wishlist.reply_by && (
                 <p className="px-6 py-3 text-sm text-text-secondary">
-                  Latest day to purchase:{" "}
-                  {new Date(wishlist.reply_by).toLocaleDateString("sv-SE")}
+                  {t("wishlists.public.latestPurchase", {
+                    date: new Date(wishlist.reply_by).toLocaleDateString("sv-SE"),
+                  })}
                 </p>
               )}
             </Card>
@@ -71,11 +68,21 @@ export default function PublicWishlistClient() {
               <table className="w-full min-w-[640px] text-sm">
                 <thead>
                   <tr className="border-b text-left text-text-secondary">
-                    <th className="px-5 py-3 font-medium">Items Name</th>
-                    <th className="px-5 py-3 font-medium">Price</th>
-                    <th className="px-5 py-3 font-medium">Pcs</th>
-                    <th className="px-5 py-3 font-medium">Claim Status</th>
-                    <th className="px-5 py-3 font-medium">Product Link</th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.public.itemsName")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.public.price")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.public.pcs")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.public.claimStatus")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.public.productLink")}
+                    </th>
                     <th className="px-5 py-3 font-medium"></th>
                   </tr>
                 </thead>
@@ -96,11 +103,11 @@ export default function PublicWishlistClient() {
                         <td className="px-5 py-3">
                           {claimed ? (
                             <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-500">
-                              Claimed
+                              {t("wishlists.public.claimed")}
                             </span>
                           ) : (
                             <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
-                              Available
+                              {t("wishlists.public.available")}
                             </span>
                           )}
                         </td>
@@ -112,7 +119,8 @@ export default function PublicWishlistClient() {
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-primary hover:underline"
                             >
-                              View Product <ExternalLink className="size-3.5" />
+                              {t("wishlists.public.viewProduct")}{" "}
+                              <ExternalLink className="size-3.5" />
                             </a>
                           ) : (
                             <span className="text-text-secondary">—</span>
@@ -124,7 +132,9 @@ export default function PublicWishlistClient() {
                             disabled={claimed}
                             onClick={() => setClaimItem(item)}
                           >
-                            {claimed ? "Claimed" : "Claim the gift"}
+                            {claimed
+                              ? t("wishlists.public.claimedBtn")
+                              : t("wishlists.public.claimGift")}
                           </Button>
                         </td>
                       </tr>

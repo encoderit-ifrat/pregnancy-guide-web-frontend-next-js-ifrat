@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { Gift, Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useCreateWishlist } from "../_api/mutations/useWishlistMutations";
 import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
 
@@ -23,6 +24,7 @@ export default function CreateWishlistModal({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [coverImage, setCoverImage] = useState<string | undefined>();
@@ -44,14 +46,14 @@ export default function CreateWishlistModal({
       { file },
       {
         onSuccess: (res) => setCoverImage(res?.data?.data?.file),
-        onError: () => toast.error("Image upload failed"),
+        onError: () => toast.error(t("wishlists.create.uploadFailed")),
       }
     );
   };
 
   const handleSubmit = () => {
     if (!title.trim()) {
-      toast.error("Please enter a wishlist title");
+      toast.error(t("wishlists.create.titleRequired"));
       return;
     }
     create.mutate(
@@ -63,7 +65,7 @@ export default function CreateWishlistModal({
       },
       {
         onSuccess: () => {
-          toast.success("Wishlist created");
+          toast.success(t("wishlists.create.created"));
           reset();
           onOpenChange(false);
         },
@@ -73,42 +75,46 @@ export default function CreateWishlistModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg bg-white">
         <DialogHeader>
-          <DialogTitle>Create New Wishlist</DialogTitle>
+          <DialogTitle>{t("wishlists.create.title")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <Field label="Wishlist Title">
+          <Field label={t("wishlists.create.wishlistTitle")}>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Emma's Baby Registry"
+              placeholder={t("wishlists.create.titlePlaceholder")}
             />
           </Field>
 
-          <Field label="Description">
+          <Field label={t("wishlists.create.description")}>
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Everything we need to welcome our little one…"
+              placeholder={t("wishlists.create.descriptionPlaceholder")}
+              className="text-sm placeholder:text-sm"
             />
           </Field>
 
-          <Field label="Cover Image">
+          <Field label={t("wishlists.create.coverImage")}>
             <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/40 bg-primary-light/20 py-8 text-center">
               {upload.isPending ? (
                 <Loader2 className="size-6 animate-spin text-primary" />
               ) : coverImage ? (
-                <span className="text-sm text-primary">Image uploaded ✓</span>
+                <span className="text-sm text-primary">
+                  {t("wishlists.create.imageUploaded")}
+                </span>
               ) : (
                 <>
                   <Gift className="size-7 text-primary" />
                   <span className="flex items-center gap-1 text-sm text-primary">
-                    <Upload className="size-4" /> Click to upload
+                    <Upload className="size-4" />{" "}
+                    {t("wishlists.create.clickUpload")}
                   </span>
                   <span className="text-xs text-text-secondary">
-                    PNG, JPG up to 10MB
+                    {t("wishlists.create.uploadHint")}
                   </span>
                 </>
               )}
@@ -119,10 +125,12 @@ export default function CreateWishlistModal({
                 onChange={(e) => handleUpload(e.target.files?.[0])}
               />
             </label>
-            <p className="mt-1 text-xs text-text-secondary">Image is optional</p>
+            <p className="mt-1 text-xs text-text-secondary">
+              {t("wishlists.create.imageOptional")}
+            </p>
           </Field>
 
-          <Field label="Latest Time to Reply">
+          <Field label={t("wishlists.create.latestReply")}>
             <DatePicker value={replyBy} onChange={setReplyBy} />
           </Field>
         </div>
@@ -133,7 +141,7 @@ export default function CreateWishlistModal({
             className="flex-1 justify-center"
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            {t("wishlists.create.cancel")}
           </Button>
           <Button
             className="flex-1 justify-center"
@@ -141,7 +149,7 @@ export default function CreateWishlistModal({
             disabled={create.isPending}
           >
             {create.isPending && <Loader2 className="size-4 animate-spin" />}
-            Create Wishlist
+            {t("wishlists.create.submit")}
           </Button>
         </div>
       </DialogContent>

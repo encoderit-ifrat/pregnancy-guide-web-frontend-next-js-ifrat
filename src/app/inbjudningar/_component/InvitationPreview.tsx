@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 import { InvitationTemplate } from "../_types/invitation_types";
 import { TEMPLATE_STYLES } from "../_lib/templates";
 
@@ -29,6 +30,7 @@ export default function InvitationPreview({
   template = "scandinavian_minimal",
   coverImage,
 }: Props) {
+  const { t } = useTranslation();
   const style = TEMPLATE_STYLES[template] ?? TEMPLATE_STYLES.scandinavian_minimal;
   const fmtDate = date
     ? new Date(date).toLocaleDateString("sv-SE", {
@@ -54,7 +56,7 @@ export default function InvitationPreview({
       </div>
       <div className="space-y-3 p-6 text-center">
         <h3 className="text-xl font-bold text-primary-dark">
-          {title || "Event Title"}
+          {title || t("invitations.preview.eventTitle")}
         </h3>
         {subtitle && <p className="text-sm text-primary">{subtitle}</p>}
         {message && (
@@ -81,8 +83,9 @@ export default function InvitationPreview({
         </div>
         {replyBy && (
           <p className="pt-1 text-xs font-medium text-primary">
-            Latest Time to Reply:{" "}
-            {new Date(replyBy).toLocaleDateString("sv-SE")}
+            {t("invitations.preview.latestReply", {
+              date: new Date(replyBy).toLocaleDateString("sv-SE"),
+            })}
           </p>
         )}
       </div>

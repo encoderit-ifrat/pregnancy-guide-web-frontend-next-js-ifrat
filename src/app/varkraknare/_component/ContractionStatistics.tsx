@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Spinner } from "@/components/ui/Spinner";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   ArrowLeft,
   Clock,
@@ -27,21 +28,22 @@ import { useQueryContractionStatistics } from "../_api/queries/useQueryContracti
 import { fmtDuration } from "../_lib/format";
 import { LaborProgress } from "../_types/contraction_types";
 
-const PROGRESS_STEPS: { key: LaborProgress; label: string }[] = [
-  { key: "early", label: "Early Labor" },
-  { key: "active", label: "Active Labor" },
-  { key: "transition", label: "Transition" },
-];
-
 export default function ContractionStatistics({
   onBack,
 }: {
   onBack: () => void;
 }) {
+  const { t } = useTranslation();
   const [view, setView] = useState<"frequency" | "duration" | "interval">(
     "frequency"
   );
   const { data: stats, isLoading } = useQueryContractionStatistics("week", view);
+
+  const progressSteps: { key: LaborProgress; label: string }[] = [
+    { key: "early", label: t("contractionCounter.stats.earlyLabor") },
+    { key: "active", label: t("contractionCounter.stats.activeLabor") },
+    { key: "transition", label: t("contractionCounter.stats.transition") },
+  ];
 
   if (isLoading || !stats) {
     return (
@@ -57,7 +59,7 @@ export default function ContractionStatistics({
   }));
 
   const cta = stats.call_to_action;
-  const currentStep = PROGRESS_STEPS.findIndex(
+  const currentStep = progressSteps.findIndex(
     (s) => s.key === stats.labor_progress
   );
 
@@ -67,17 +69,17 @@ export default function ContractionStatistics({
         onClick={onBack}
         className="flex items-center gap-1 text-sm text-primary hover:underline"
       >
-        <ArrowLeft className="size-4" /> Back to Contraction Counter
+        <ArrowLeft className="size-4" /> {t("contractionCounter.stats.back")}
       </button>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <div>
             <h2 className="text-xl font-semibold text-primary-dark">
-              Contraction Statistics
+              {t("contractionCounter.stats.title")}
             </h2>
             <p className="text-sm text-text-secondary">
-              Monitor your contraction patterns and trends over time
+              {t("contractionCounter.stats.subtitle")}
             </p>
           </div>
 
@@ -85,30 +87,36 @@ export default function ContractionStatistics({
             <StatCard
               icon={<Timer className="size-5 text-primary" />}
               value={String(stats.totals.total_this_week)}
-              label="Total This Week"
+              label={t("contractionCounter.stats.totalThisWeek")}
             />
             <StatCard
               icon={<Hourglass className="size-5 text-primary" />}
               value={fmtDuration(stats.totals.avg_duration_sec)}
-              label="Avg Duration"
+              label={t("contractionCounter.stats.avgDuration")}
             />
             <StatCard
               icon={<Clock className="size-5 text-primary" />}
               value={fmtDuration(stats.totals.avg_interval_sec)}
-              label="Avg Interval"
+              label={t("contractionCounter.stats.avgInterval")}
             />
           </div>
 
           <Card className="p-6">
             <Tabs value={view} onValueChange={(v) => setView(v as typeof view)}>
               <TabsList>
-                <TabsTrigger value="frequency">Frequency Trend</TabsTrigger>
-                <TabsTrigger value="duration">Duration Analysis</TabsTrigger>
-                <TabsTrigger value="interval">Interval Pattern</TabsTrigger>
+                <TabsTrigger value="frequency">
+                  {t("contractionCounter.stats.frequencyTrend")}
+                </TabsTrigger>
+                <TabsTrigger value="duration">
+                  {t("contractionCounter.stats.durationAnalysis")}
+                </TabsTrigger>
+                <TabsTrigger value="interval">
+                  {t("contractionCounter.stats.intervalPattern")}
+                </TabsTrigger>
               </TabsList>
             </Tabs>
             <p className="mb-2 mt-4 text-sm font-medium text-primary-dark">
-              Daily Contraction Count
+              {t("contractionCounter.stats.dailyCount")}
             </p>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={daily}>
@@ -123,11 +131,13 @@ export default function ContractionStatistics({
 
           <Card className="p-6">
             <h3 className="mb-4 font-semibold text-primary-dark">
-              Recent Sessions
+              {t("contractionCounter.stats.recentSessions")}
             </h3>
             <div className="space-y-2">
               {stats.recent_sessions.length === 0 && (
-                <p className="text-sm text-text-secondary">No sessions yet.</p>
+                <p className="text-sm text-text-secondary">
+                  {t("contractionCounter.stats.noSessions")}
+                </p>
               )}
               {stats.recent_sessions.map((s) => (
                 <div
@@ -135,11 +145,15 @@ export default function ContractionStatistics({
                   className="flex items-center justify-between rounded-lg bg-primary-light/30 px-4 py-3 text-sm"
                 >
                   <span className="font-medium text-primary-dark">
-                    {s.count} contractions
+                    {t("contractionCounter.stats.contractionsCount", {
+                      count: s.count,
+                    })}
                   </span>
                   <span className="text-text-secondary">
-                    Avg {fmtDuration(s.avg_duration_sec)} ·{" "}
-                    {fmtDuration(s.avg_interval_sec)} apart
+                    {t("contractionCounter.stats.avgApart", {
+                      duration: fmtDuration(s.avg_duration_sec),
+                      interval: fmtDuration(s.avg_interval_sec),
+                    })}
                   </span>
                 </div>
               ))}
@@ -150,10 +164,10 @@ export default function ContractionStatistics({
         <div className="space-y-6">
           <Card className="p-6">
             <h3 className="mb-4 font-semibold text-primary-dark">
-              Labor Progress
+              {t("contractionCounter.stats.laborProgress")}
             </h3>
             <div className="space-y-3">
-              {PROGRESS_STEPS.map((step, idx) => (
+              {progressSteps.map((step, idx) => (
                 <div key={step.key} className="flex items-center gap-3">
                   <span
                     className={cn(
@@ -174,7 +188,8 @@ export default function ContractionStatistics({
                     )}
                   >
                     {step.label}
-                    {idx === currentStep && " (Current)"}
+                    {idx === currentStep &&
+                      ` ${t("contractionCounter.stats.current")}`}
                   </span>
                 </div>
               ))}
@@ -182,7 +197,9 @@ export default function ContractionStatistics({
           </Card>
 
           <Card className="p-6">
-            <h3 className="font-semibold text-primary-dark">Pattern Analysis</h3>
+            <h3 className="font-semibold text-primary-dark">
+              {t("contractionCounter.stats.patternAnalysis")}
+            </h3>
             <ul className="mt-2 space-y-2 text-sm text-text-secondary">
               {stats.pattern_analysis.map((p, i) => (
                 <li key={i} className="flex gap-2">
@@ -210,7 +227,9 @@ export default function ContractionStatistics({
                   cta.level === "urgent" ? "text-destructive" : "text-primary"
                 )}
               />
-              <h3 className="font-semibold text-primary-dark">Time to Go?</h3>
+              <h3 className="font-semibold text-primary-dark">
+                {t("contractionCounter.stats.timeToGo")}
+              </h3>
             </div>
             <p className="mt-2 text-sm text-text-secondary">{cta.message}</p>
             {cta.show_call_hospital && (
@@ -219,7 +238,8 @@ export default function ContractionStatistics({
                 className="mt-4 w-full justify-center bg-destructive hover:bg-destructive/90"
               >
                 <a href="tel:112">
-                  <Phone className="size-4" /> Call Hospital
+                  <Phone className="size-4" />{" "}
+                  {t("contractionCounter.stats.callHospital")}
                 </a>
               </Button>
             )}

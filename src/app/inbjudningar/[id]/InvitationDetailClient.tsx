@@ -21,6 +21,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 import InvitationPreview from "../_component/InvitationPreview";
 import { useQueryInvitationDetail } from "../_api/queries/useQueryInvitations";
 import {
@@ -38,6 +39,7 @@ const STATUS_STYLE: Record<RsvpStatus, string> = {
 };
 
 export default function InvitationDetailClient() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data: inv, isLoading } = useQueryInvitationDetail(id);
   const addRecipients = useAddRecipients();
@@ -47,22 +49,25 @@ export default function InvitationDetailClient() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  const statusLabel = (s: RsvpStatus) => t(`invitations.status.${s}`);
+
   const handleShare = () => {
     if (!inv) return;
     const url = `${window.location.origin}/inbjudningar/rsvp/${inv.share_token}`;
     navigator.clipboard.writeText(url).then(
-      () => toast.success("Share link copied"),
-      () => toast.error("Could not copy link")
+      () => toast.success(t("invitations.detail.linkCopied")),
+      () => toast.error(t("invitations.detail.copyFailed"))
     );
   };
 
   const handleAddGuest = () => {
-    if (!name.trim() || !email.trim()) return toast.error("Enter name and email");
+    if (!name.trim() || !email.trim())
+      return toast.error(t("invitations.detail.enterNameEmail"));
     addRecipients.mutate(
       { id, recipients: [{ name: name.trim(), email: email.trim() }] },
       {
         onSuccess: () => {
-          toast.success("Guest added");
+          toast.success(t("invitations.detail.guestAdded"));
           setName("");
           setEmail("");
         },
@@ -73,7 +78,7 @@ export default function InvitationDetailClient() {
   const handleSend = () => {
     send.mutate(
       { id },
-      { onSuccess: () => toast.success("Invitation sent") }
+      { onSuccess: () => toast.success(t("invitations.detail.invitationSent")) }
     );
   };
 
@@ -84,7 +89,7 @@ export default function InvitationDetailClient() {
           href="/inbjudningar"
           className="mb-4 inline-flex items-center gap-1 text-sm text-primary hover:underline"
         >
-          <ArrowLeft className="size-4" /> Back to Invitations
+          <ArrowLeft className="size-4" /> {t("invitations.detail.back")}
         </Link>
 
         {isLoading || !inv ? (
@@ -108,7 +113,7 @@ export default function InvitationDetailClient() {
 
               <Card className="p-6">
                 <h3 className="mb-3 font-semibold text-primary-dark">
-                  Event Details
+                  {t("invitations.detail.eventDetails")}
                 </h3>
                 <div className="space-y-2 text-sm text-text-secondary">
                   {inv.event_date && (
@@ -130,7 +135,8 @@ export default function InvitationDetailClient() {
                   )}
                   {inv.wishlist && (
                     <p className="flex items-center gap-2 text-primary">
-                      <Gift className="size-4" /> Wishlist attached
+                      <Gift className="size-4" />{" "}
+                      {t("invitations.detail.wishlistAttached")}
                     </p>
                   )}
                 </div>
@@ -139,28 +145,33 @@ export default function InvitationDetailClient() {
               <Card className="p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="font-semibold text-primary-dark">
-                    Guest List ({inv.guests.length})
+                    {t("invitations.detail.guestList", {
+                      count: inv.guests.length,
+                    })}
                   </h3>
                 </div>
                 <div className="mb-4 flex flex-col gap-2 sm:flex-row">
                   <Input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Guest name"
+                    placeholder={t("invitations.detail.guestName")}
                   />
                   <Input
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
+                    placeholder={t("invitations.detail.email")}
                   />
-                  <Button onClick={handleAddGuest} disabled={addRecipients.isPending}>
-                    <Plus className="size-4" /> Add
+                  <Button
+                    onClick={handleAddGuest}
+                    disabled={addRecipients.isPending}
+                  >
+                    <Plus className="size-4" /> {t("invitations.detail.add")}
                   </Button>
                 </div>
                 <div className="space-y-2">
                   {inv.guests.length === 0 && (
                     <p className="py-4 text-center text-sm text-text-secondary">
-                      No guests added yet.
+                      {t("invitations.detail.noGuests")}
                     </p>
                   )}
                   {inv.guests.map((g) => (
@@ -177,17 +188,22 @@ export default function InvitationDetailClient() {
                       <div className="flex items-center gap-3">
                         <span
                           className={cn(
-                            "rounded-full px-2.5 py-0.5 text-xs font-medium capitalize",
+                            "rounded-full px-2.5 py-0.5 text-xs font-medium",
                             STATUS_STYLE[g.rsvp_status]
                           )}
                         >
-                          {g.rsvp_status}
+                          {statusLabel(g.rsvp_status)}
                         </span>
                         <button
                           onClick={() =>
                             removeRecipient.mutate(
                               { id, guestId: g._id },
-                              { onSuccess: () => toast.success("Guest removed") }
+                              {
+                                onSuccess: () =>
+                                  toast.success(
+                                    t("invitations.detail.guestRemoved")
+                                  ),
+                              }
                             )
                           }
                           className="text-text-secondary hover:text-destructive"
@@ -203,7 +219,9 @@ export default function InvitationDetailClient() {
 
             <div className="space-y-6">
               <Card className="p-6">
-                <h3 className="mb-3 font-semibold text-primary-dark">Actions</h3>
+                <h3 className="mb-3 font-semibold text-primary-dark">
+                  {t("invitations.detail.actions")}
+                </h3>
                 <div className="space-y-2">
                   {inv.status !== "sent" && (
                     <Button
@@ -211,7 +229,8 @@ export default function InvitationDetailClient() {
                       disabled={send.isPending}
                       className="w-full justify-center"
                     >
-                      <Send className="size-4" /> Send Invitation
+                      <Send className="size-4" />{" "}
+                      {t("invitations.detail.sendInvitation")}
                     </Button>
                   )}
                   <Button
@@ -219,20 +238,33 @@ export default function InvitationDetailClient() {
                     onClick={handleShare}
                     className="w-full justify-center"
                   >
-                    <Share2 className="size-4" /> Share Link
+                    <Share2 className="size-4" />{" "}
+                    {t("invitations.detail.shareLink")}
                   </Button>
                 </div>
               </Card>
 
               <Card className="p-6">
                 <h3 className="mb-4 font-semibold text-primary-dark">
-                  Statistics
+                  {t("invitations.detail.statistics")}
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <StatBox label="Total Sent" value={inv.statistics.total_sent} />
-                  <StatBox label="Viewed" value={inv.statistics.viewed} />
-                  <StatBox label="Accepted" value={inv.statistics.accepted} />
-                  <StatBox label="Pending" value={inv.statistics.pending} />
+                  <StatBox
+                    label={t("invitations.detail.totalSent")}
+                    value={inv.statistics.total_sent}
+                  />
+                  <StatBox
+                    label={t("invitations.detail.viewed")}
+                    value={inv.statistics.viewed}
+                  />
+                  <StatBox
+                    label={t("invitations.detail.accepted")}
+                    value={inv.statistics.accepted}
+                  />
+                  <StatBox
+                    label={t("invitations.detail.pending")}
+                    value={inv.statistics.pending}
+                  />
                 </div>
               </Card>
             </div>

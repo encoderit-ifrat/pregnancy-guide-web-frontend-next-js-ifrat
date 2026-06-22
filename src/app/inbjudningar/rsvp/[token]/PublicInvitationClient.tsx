@@ -6,18 +6,17 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/Dialog";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import { CheckCircle2, Gift, Loader2, Mail, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
+import { useTranslation } from "@/hooks/useTranslation";
 import InvitationPreview from "../../_component/InvitationPreview";
 import { useQueryPublicInvitation } from "../../_api/queries/useQueryInvitations";
 import { useRespondInvitation } from "../../_api/mutations/useInvitationMutations";
 
 export default function PublicInvitationClient() {
+  const { t } = useTranslation();
   const { token } = useParams<{ token: string }>();
   const router = useRouter();
   const { data, isLoading, isError } = useQueryPublicInvitation(token);
@@ -35,7 +34,7 @@ export default function PublicInvitationClient() {
       {
         onSuccess: () => {
           if (status === "accepted") setAcceptedOpen(true);
-          else toast.success("Response recorded");
+          else toast.success(t("invitations.public.responseRecorded"));
         },
       }
     );
@@ -46,9 +45,9 @@ export default function PublicInvitationClient() {
       const res = await api.get(`/public/event-invitations/${token}/wishlist`);
       const shareToken = res.data?.data?.share_token;
       if (shareToken) router.push(`/onskelistor/delad/${shareToken}`);
-      else toast.error("No wishlist attached");
+      else toast.error(t("invitations.public.noWishlist"));
     } catch {
-      toast.error("Could not open wishlist");
+      toast.error(t("invitations.public.wishlistError"));
     }
   };
 
@@ -57,13 +56,13 @@ export default function PublicInvitationClient() {
       <div className="mx-auto max-w-2xl">
         <div className="mb-6 text-center">
           <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Mail className="size-4" /> Invitations
+            <Mail className="size-4" /> {t("invitations.public.heading")}
           </span>
           <h1 className="mt-2 text-3xl font-bold text-primary-dark">
-            You are Invited
+            {t("invitations.public.title")}
           </h1>
           <p className="mt-1 text-sm text-text-secondary">
-            You have been invited to a special celebration.
+            {t("invitations.public.subtitle")}
           </p>
         </div>
 
@@ -73,7 +72,7 @@ export default function PublicInvitationClient() {
           </div>
         ) : isError || !data ? (
           <Card className="p-10 text-center text-text-secondary">
-            This invitation could not be found or is no longer available.
+            {t("invitations.public.notFound")}
           </Card>
         ) : (
           <>
@@ -91,11 +90,9 @@ export default function PublicInvitationClient() {
 
             {alreadyResponded ? (
               <Card className="mt-6 p-5 text-center text-sm text-primary-dark">
-                You have already{" "}
-                <span className="font-semibold">
-                  {data.guest?.rsvp_status}
-                </span>{" "}
-                this invitation.
+                {t("invitations.public.alreadyResponded", {
+                  status: t(`invitations.status.${data.guest!.rsvp_status}`),
+                })}
               </Card>
             ) : (
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -104,7 +101,7 @@ export default function PublicInvitationClient() {
                   onClick={() => handleRespond("declined")}
                   disabled={respond.isPending}
                 >
-                  Deny Invitation
+                  {t("invitations.public.deny")}
                 </Button>
                 <Button
                   onClick={() => handleRespond("accepted")}
@@ -113,18 +110,19 @@ export default function PublicInvitationClient() {
                   {respond.isPending && (
                     <Loader2 className="size-4 animate-spin" />
                   )}
-                  Accept Invitation
+                  {t("invitations.public.accept")}
                 </Button>
                 {data.invitation.has_wishlist && (
                   <Button variant="purple" onClick={handleSeeWishlist}>
-                    <Gift className="size-4" /> See Wishlist
+                    <Gift className="size-4" />{" "}
+                    {t("invitations.public.seeWishlist")}
                   </Button>
                 )}
               </div>
             )}
             <p className="mt-3 flex items-center justify-center gap-1 text-xs text-text-secondary">
-              <ShieldCheck className="size-3.5" /> Your response is private and
-              secure.
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("invitations.public.privateSecure")}
             </p>
           </>
         )}
@@ -136,17 +134,17 @@ export default function PublicInvitationClient() {
             <CheckCircle2 className="size-8 text-primary" />
           </div>
           <h2 className="text-xl font-bold text-primary-dark">
-            Invitation Accepted!
+            {t("invitations.public.acceptedTitle")}
           </h2>
           <p className="mx-auto max-w-xs text-sm text-text-secondary">
-            Thank you for your response. We look forward to celebrating with you!
+            {t("invitations.public.acceptedDesc")}
           </p>
           {data?.invitation.has_wishlist && (
             <Button
               className="mt-4 w-full justify-center"
               onClick={handleSeeWishlist}
             >
-              <Gift className="size-4" /> View Wishlist
+              <Gift className="size-4" /> {t("invitations.public.viewWishlist")}
             </Button>
           )}
         </DialogContent>

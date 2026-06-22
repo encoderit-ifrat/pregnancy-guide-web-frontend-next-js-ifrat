@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useTranslation } from "@/hooks/useTranslation";
 import { ArrowLeft, BarChart3, Clock, Footprints, Lightbulb } from "lucide-react";
 import {
   Bar,
@@ -25,6 +26,7 @@ export default function KickStatistics({
   onBack: () => void;
   onStart: () => void;
 }) {
+  const { t } = useTranslation();
   const { data: stats, isLoading } = useQueryKickStatistics("week");
 
   if (isLoading || !stats) {
@@ -50,17 +52,17 @@ export default function KickStatistics({
         onClick={onBack}
         className="flex items-center gap-1 text-sm text-primary hover:underline"
       >
-        <ArrowLeft className="size-4" /> Back to Kick Counter
+        <ArrowLeft className="size-4" /> {t("kickCounter.stats.back")}
       </button>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <div>
             <h2 className="text-xl font-semibold text-primary-dark">
-              Kick Counter Statistics
+              {t("kickCounter.stats.title")}
             </h2>
             <p className="text-sm text-text-secondary">
-              Track your baby&apos;s movement patterns over time
+              {t("kickCounter.stats.subtitle")}
             </p>
           </div>
 
@@ -68,29 +70,33 @@ export default function KickStatistics({
             <StatCard
               icon={<Footprints className="size-5 text-primary" />}
               value={stats.totals.total_this_week}
-              label="Total This Week"
+              label={t("kickCounter.stats.totalThisWeek")}
             />
             <StatCard
               icon={<BarChart3 className="size-5 text-primary" />}
               value={stats.totals.daily_average}
-              label="Daily Average"
+              label={t("kickCounter.stats.dailyAverage")}
             />
             <StatCard
               icon={<Clock className="size-5 text-primary" />}
               value={stats.totals.peak_hour}
-              label="Peak Hour"
+              label={t("kickCounter.stats.peakHour")}
             />
           </div>
 
           <Card className="p-6">
             <Tabs defaultValue="daily">
               <TabsList>
-                <TabsTrigger value="daily">Daily Trend</TabsTrigger>
-                <TabsTrigger value="hourly">Hourly Pattern</TabsTrigger>
+                <TabsTrigger value="daily">
+                  {t("kickCounter.stats.dailyTrend")}
+                </TabsTrigger>
+                <TabsTrigger value="hourly">
+                  {t("kickCounter.stats.hourlyPattern")}
+                </TabsTrigger>
               </TabsList>
               <TabsContent value="daily" className="pt-4">
                 <p className="mb-2 text-sm font-medium text-primary-dark">
-                  Weekly Kick Count
+                  {t("kickCounter.stats.weeklyKickCount")}
                 </p>
                 <ResponsiveContainer width="100%" height={260}>
                   <LineChart data={trend}>
@@ -110,7 +116,7 @@ export default function KickStatistics({
               </TabsContent>
               <TabsContent value="hourly" className="pt-4">
                 <p className="mb-2 text-sm font-medium text-primary-dark">
-                  Hourly Activity Pattern
+                  {t("kickCounter.stats.hourlyActivity")}
                 </p>
                 <ResponsiveContainer width="100%" height={260}>
                   <BarChart data={hourly}>
@@ -127,11 +133,13 @@ export default function KickStatistics({
 
           <Card className="p-6">
             <h3 className="mb-4 font-semibold text-primary-dark">
-              Session History
+              {t("kickCounter.stats.sessionHistory")}
             </h3>
             <div className="space-y-2">
               {stats.session_history.length === 0 && (
-                <p className="text-sm text-text-secondary">No sessions yet.</p>
+                <p className="text-sm text-text-secondary">
+                  {t("kickCounter.stats.noSessions")}
+                </p>
               )}
               {stats.session_history.map((s) => (
                 <div
@@ -140,7 +148,7 @@ export default function KickStatistics({
                 >
                   <div>
                     <p className="font-medium text-primary-dark">
-                      {s.count} kicks
+                      {t("kickCounter.stats.kicksCount", { count: s.count })}
                     </p>
                     <p className="text-xs text-text-secondary">
                       {new Date(s.started_at).toLocaleString("sv-SE", {
@@ -164,18 +172,31 @@ export default function KickStatistics({
 
         <div className="space-y-6">
           <Card className="p-6">
-            <h3 className="font-semibold text-primary-dark">This Week</h3>
+            <h3 className="font-semibold text-primary-dark">
+              {t("kickCounter.stats.thisWeek")}
+            </h3>
             <div className="mt-4 space-y-4">
-              <BreakdownBar label="Soft Kicks" value={stats.this_week_breakdown.soft} />
-              <BreakdownBar label="Hard Kicks" value={stats.this_week_breakdown.hard} />
-              <BreakdownBar label="Unsure" value={stats.this_week_breakdown.unsure} />
+              <BreakdownBar
+                label={t("kickCounter.stats.softKicks")}
+                value={stats.this_week_breakdown.soft}
+              />
+              <BreakdownBar
+                label={t("kickCounter.stats.hardKicks")}
+                value={stats.this_week_breakdown.hard}
+              />
+              <BreakdownBar
+                label={t("kickCounter.stats.unsure")}
+                value={stats.this_week_breakdown.unsure}
+              />
             </div>
           </Card>
 
           <Card className="p-6 bg-primary-light/40">
             <div className="flex items-center gap-2">
               <Lightbulb className="size-5 text-primary" />
-              <h3 className="font-semibold text-primary-dark">Insights</h3>
+              <h3 className="font-semibold text-primary-dark">
+                {t("kickCounter.stats.insights")}
+              </h3>
             </div>
             <ul className="mt-3 space-y-2 text-sm text-text-secondary">
               {stats.insights.map((i, idx) => (
@@ -188,7 +209,7 @@ export default function KickStatistics({
           </Card>
 
           <Button onClick={onStart} className="w-full justify-center">
-            Start New Session
+            {t("kickCounter.stats.startNew")}
           </Button>
         </div>
       </div>
@@ -216,7 +237,6 @@ function StatCard({
   );
 }
 
-// Progress bar for the per-type breakdown (ratio 0..1).
 function BreakdownBar({ label, value }: { label: string; value: number }) {
   const pct = Math.round((value ?? 0) * 100);
   return (

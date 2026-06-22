@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   Activity,
   BarChart3,
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export default function KickLanding({ onStart, starting, onViewStats }: Props) {
+  const { t } = useTranslation();
   const { user } = useCurrentUser();
   const { data: stats } = useQueryKickStatistics("week");
 
@@ -47,11 +49,10 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
           <div className="relative z-10 flex min-h-[280px] items-center justify-end p-5 sm:p-6">
             <div className="w-full max-w-md p-6 text-center sm:p-8">
               <h2 className="text-xl font-semibold text-primary-dark">
-                Ready to Start Tracking
+                {t("kickCounter.landing.ready")}
               </h2>
               <p className="mx-auto mt-2 max-w-md text-sm text-text-secondary">
-                Find a comfortable position and start a new kick-counting
-                session. We&apos;ll help you track every movement.
+                {t("kickCounter.landing.readyDesc")}
               </p>
               <Button
                 onClick={onStart}
@@ -64,7 +65,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
                 ) : (
                   <Activity className="size-5" />
                 )}
-                Start Kick Count
+                {t("kickCounter.landing.start")}
               </Button>
             </div>
           </div>
@@ -73,18 +74,18 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
         <div className="grid gap-4 sm:grid-cols-3">
           <FeatureCard
             icon={<Footprints className="size-5 text-primary" />}
-            title="Track Kicks"
-            desc="Record every movement"
+            title={t("kickCounter.landing.trackKicks")}
+            desc={t("kickCounter.landing.trackKicksDesc")}
           />
           <FeatureCard
             icon={<Clock className="size-5 text-primary" />}
-            title="Monitor Time"
-            desc="See patterns over time"
+            title={t("kickCounter.landing.monitorTime")}
+            desc={t("kickCounter.landing.monitorTimeDesc")}
           />
           <FeatureCard
             icon={<BarChart3 className="size-5 text-primary" />}
-            title="View Stats"
-            desc="Track your progress"
+            title={t("kickCounter.landing.viewStats")}
+            desc={t("kickCounter.landing.viewStatsDesc")}
             onClick={onViewStats}
           />
         </div>
@@ -92,18 +93,32 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
 
       <div className="space-y-6">
         <Card className="p-6">
-          <h3 className="font-semibold text-primary-dark">Pregnancy Info</h3>
+          <h3 className="font-semibold text-primary-dark">
+            {t("kickCounter.landing.pregnancyInfo")}
+          </h3>
           <div className="mt-4 space-y-3 text-sm">
-            <Row label="Current Week" value={week ? `Week ${week}` : "—"} />
-            <Row label="Due Date" value={dueDate} />
+            <Row
+              label={t("kickCounter.landing.currentWeek")}
+              value={week ? t("kickCounter.landing.week", { week }) : "—"}
+            />
+            <Row label={t("kickCounter.landing.dueDate")} value={dueDate} />
           </div>
           <div className="mt-5 border-t pt-4">
             <p className="mb-3 text-sm font-medium text-primary-dark">
-              This Week
+              {t("kickCounter.landing.thisWeek")}
             </p>
-            <Row label="Soft Kicks" value={pct(breakdown?.soft)} />
-            <Row label="Hard Kicks" value={pct(breakdown?.hard)} />
-            <Row label="Unsure" value={pct(breakdown?.unsure)} />
+            <Row
+              label={t("kickCounter.landing.softKicks")}
+              value={pct(breakdown?.soft)}
+            />
+            <Row
+              label={t("kickCounter.landing.hardKicks")}
+              value={pct(breakdown?.hard)}
+            />
+            <Row
+              label={t("kickCounter.landing.unsure")}
+              value={pct(breakdown?.unsure)}
+            />
           </div>
         </Card>
 
@@ -117,11 +132,12 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
           <div className="relative z-10 max-w-[64%] p-6 pb-20">
             <div className="flex items-center gap-2">
               <Lightbulb className="size-5 text-primary" />
-              <h3 className="font-semibold text-primary-dark">Tracking Tip</h3>
+              <h3 className="font-semibold text-primary-dark">
+                {t("kickCounter.landing.trackingTip")}
+              </h3>
             </div>
             <p className="mt-2 text-sm text-text-secondary">
-              The best time to count kicks is after meals or when lying on your
-              side. Aim to feel at least 10 movements within 2 hours.
+              {t("kickCounter.landing.trackingTipText")}
             </p>
           </div>
         </Card>

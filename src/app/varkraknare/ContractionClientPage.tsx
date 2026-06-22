@@ -9,6 +9,7 @@ import { Spinner } from "@/components/ui/Spinner";
 import { Loader2, Play, Timer } from "lucide-react";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryActiveContractionSession } from "./_api/queries/useQueryContraction";
 import { useStartContractionSession } from "./_api/mutations/useContractionMutations";
 import ContractionCounter from "./_component/ContractionCounter";
@@ -18,6 +19,7 @@ import ContractionHistory from "./_component/ContractionHistory";
 type View = "auto" | "stats" | "history";
 
 export default function ContractionClientPage() {
+  const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const [view, setView] = useState<View>("auto");
 
@@ -28,7 +30,10 @@ export default function ContractionClientPage() {
     setView("auto");
     start.mutate(undefined, {
       onError: (e: unknown) =>
-        toast.error((e as { message?: string })?.message ?? "Could not start"),
+        toast.error(
+          (e as { message?: string })?.message ??
+            t("contractionCounter.startError")
+        ),
     });
   };
 
@@ -37,14 +42,13 @@ export default function ContractionClientPage() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center">
           <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Timer className="size-4" /> Contraction Counter
+            <Timer className="size-4" /> {t("contractionCounter.badge")}
           </span>
           <h1 className="mt-2 text-3xl font-bold text-primary-dark">
-            Time Your Contractions
+            {t("contractionCounter.title")}
           </h1>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
-            Track the duration and frequency of your contractions and know when
-            it&apos;s time to head to the hospital.
+            {t("contractionCounter.subtitle")}
           </p>
         </div>
 
@@ -55,10 +59,10 @@ export default function ContractionClientPage() {
         ) : !isAuthenticated ? (
           <Card className="mx-auto max-w-md p-8 text-center">
             <p className="text-primary-dark">
-              Please log in to use the Contraction Counter.
+              {t("contractionCounter.loginPrompt")}
             </p>
             <Button asChild className="mt-4">
-              <Link href="/logga-in">Log in</Link>
+              <Link href="/logga-in">{t("contractionCounter.login")}</Link>
             </Button>
           </Card>
         ) : view === "stats" ? (
@@ -80,11 +84,10 @@ export default function ContractionClientPage() {
               <Timer className="size-10 text-primary" />
             </div>
             <h2 className="text-xl font-semibold text-primary-dark">
-              Ready to track contractions?
+              {t("contractionCounter.readyTitle")}
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-text-secondary">
-              Start a new session when your contractions begin. We&apos;ll time
-              each one and track the intervals for you.
+              {t("contractionCounter.readyDesc")}
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button onClick={handleStart} disabled={start.isPending} size="lg">
@@ -93,14 +96,14 @@ export default function ContractionClientPage() {
                 ) : (
                   <Play className="size-5" />
                 )}
-                Start Session
+                {t("contractionCounter.startSession")}
               </Button>
               <Button
                 variant="outline"
                 size="lg"
                 onClick={() => setView("history")}
               >
-                View History
+                {t("contractionCounter.viewHistory")}
               </Button>
             </div>
           </Card>

@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   useAddWishlistItem,
   useUpdateWishlistItem,
@@ -29,6 +30,7 @@ export default function AddEditItemModal({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const isEdit = !!item;
   const [title, setTitle] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -51,10 +53,10 @@ export default function AddEditItemModal({
   }, [open, item]);
 
   const handleSubmit = () => {
-    if (!title.trim()) return toast.error("Please enter a product title");
+    if (!title.trim()) return toast.error(t("wishlists.item.titleRequired"));
     const priceNum = Number(price);
     if (Number.isNaN(priceNum) || priceNum < 0)
-      return toast.error("Please enter a valid price");
+      return toast.error(t("wishlists.item.priceInvalid"));
 
     const body = {
       title: title.trim(),
@@ -66,7 +68,7 @@ export default function AddEditItemModal({
     };
 
     const onSuccess = () => {
-      toast.success(isEdit ? "Item updated" : "Item added");
+      toast.success(isEdit ? t("wishlists.item.updated") : t("wishlists.item.added"));
       onOpenChange(false);
     };
 
@@ -82,21 +84,21 @@ export default function AddEditItemModal({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? "Edit Wishlist Item" : "Add Item to Wishlist"}
+            {isEdit ? t("wishlists.item.editTitle") : t("wishlists.item.addTitle")}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <Field label="Product Title">
+          <Field label={t("wishlists.item.productTitle")}>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Organic Cotton Baby Blanket"
+              placeholder={t("wishlists.item.productTitlePlaceholder")}
             />
           </Field>
 
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Quantity (PCS) *">
+            <Field label={t("wishlists.item.quantity")}>
               <div className="flex items-center rounded-md border">
                 <button
                   type="button"
@@ -117,17 +119,17 @@ export default function AddEditItemModal({
                 </button>
               </div>
             </Field>
-            <Field label="Price (SEK) *">
+            <Field label={t("wishlists.item.price")}>
               <Input
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                placeholder="e.g. 599.00"
+                placeholder={t("wishlists.item.pricePlaceholder")}
               />
             </Field>
           </div>
 
-          <Field label="Product URL">
+          <Field label={t("wishlists.item.productUrl")}>
             <Input
               value={productUrl}
               onChange={(e) => setProductUrl(e.target.value)}
@@ -135,11 +137,11 @@ export default function AddEditItemModal({
             />
           </Field>
 
-          <Field label="Description">
+          <Field label={t("wishlists.item.description")}>
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe the product…"
+              placeholder={t("wishlists.item.descriptionPlaceholder")}
             />
           </Field>
         </div>
@@ -150,7 +152,7 @@ export default function AddEditItemModal({
             className="flex-1 justify-center"
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            {t("wishlists.item.cancel")}
           </Button>
           <Button
             className="flex-1 justify-center"
@@ -158,7 +160,7 @@ export default function AddEditItemModal({
             disabled={pending}
           >
             {pending && <Loader2 className="size-4 animate-spin" />}
-            {isEdit ? "Save Changes" : "Add Item"}
+            {isEdit ? t("wishlists.item.save") : t("wishlists.item.add")}
           </Button>
         </div>
       </DialogContent>

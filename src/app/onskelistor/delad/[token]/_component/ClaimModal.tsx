@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { CheckCircle2, Gift, Loader2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useClaimWishlistItem } from "../../../_api/mutations/useWishlistMutations";
 import { PublicWishlistItem } from "../../../_types/wishlist_types";
 
@@ -26,6 +27,7 @@ export default function ClaimModal({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -45,8 +47,8 @@ export default function ClaimModal({
 
   const handleSubmit = () => {
     if (!item) return;
-    if (!name.trim()) return toast.error("Please enter your name");
-    if (!email.trim()) return toast.error("Please enter your email address");
+    if (!name.trim()) return toast.error(t("wishlists.claim.nameRequired"));
+    if (!email.trim()) return toast.error(t("wishlists.claim.emailRequired"));
 
     claim.mutate(
       {
@@ -58,9 +60,7 @@ export default function ClaimModal({
           message: message.trim() || undefined,
         },
       },
-      {
-        onSuccess: () => setDone(true),
-      }
+      { onSuccess: () => setDone(true) }
     );
   };
 
@@ -72,13 +72,17 @@ export default function ClaimModal({
             <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-primary-light">
               <CheckCircle2 className="size-8 text-primary" />
             </div>
-            <h2 className="text-xl font-bold text-primary-dark">Gift Claimed</h2>
+            <h2 className="text-xl font-bold text-primary-dark">
+              {t("wishlists.claim.claimedTitle")}
+            </h2>
             <p className="mx-auto mt-2 max-w-xs text-sm text-text-secondary">
-              Thank you for your kindness. The family will be notified that your
-              gift has been claimed.
+              {t("wishlists.claim.claimedDesc")}
             </p>
-            <Button className="mt-5 w-full justify-center" onClick={() => close(false)}>
-              Done
+            <Button
+              className="mt-5 w-full justify-center"
+              onClick={() => close(false)}
+            >
+              {t("wishlists.claim.done")}
             </Button>
           </div>
         ) : (
@@ -87,33 +91,35 @@ export default function ClaimModal({
               <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-primary-light">
                 <Gift className="size-6 text-primary" />
               </div>
-              <DialogTitle className="text-center">Claim the gift</DialogTitle>
+              <DialogTitle className="text-center">
+                {t("wishlists.claim.title")}
+              </DialogTitle>
             </DialogHeader>
             <p className="-mt-1 mb-2 text-center text-sm text-text-secondary">
-              Please provide your details to claim this gift.
+              {t("wishlists.claim.subtitle")}
             </p>
 
             <div className="space-y-4">
-              <Field label="Your Name *">
+              <Field label={t("wishlists.claim.yourName")}>
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your full name"
+                  placeholder={t("wishlists.claim.namePlaceholder")}
                 />
               </Field>
-              <Field label="Email Address *">
+              <Field label={t("wishlists.claim.emailAddress")}>
                 <Input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
+                  placeholder={t("wishlists.claim.emailPlaceholder")}
                 />
               </Field>
-              <Field label="Optional Message">
+              <Field label={t("wishlists.claim.optionalMessage")}>
                 <Textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Add a little note (optional)"
+                  placeholder={t("wishlists.claim.messagePlaceholder")}
                 />
               </Field>
             </div>
@@ -124,11 +130,10 @@ export default function ClaimModal({
               disabled={claim.isPending}
             >
               {claim.isPending && <Loader2 className="size-4 animate-spin" />}
-              <Gift className="size-4" /> Claim Gift
+              <Gift className="size-4" /> {t("wishlists.claim.claimGift")}
             </Button>
             <p className="mt-3 flex items-center justify-center gap-1 text-xs text-text-secondary">
-              <ShieldCheck className="size-3.5" /> Your information is safe and
-              will not be shared.
+              <ShieldCheck className="size-3.5" /> {t("wishlists.claim.safe")}
             </p>
           </>
         )}

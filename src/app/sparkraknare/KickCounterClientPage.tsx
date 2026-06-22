@@ -6,6 +6,7 @@ import { Footprints } from "lucide-react";
 import { Spinner } from "@/components/ui/Spinner";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import Link from "next/link";
@@ -18,6 +19,7 @@ import KickStatistics from "./_component/KickStatistics";
 type View = "auto" | "stats";
 
 export default function KickCounterClientPage() {
+  const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const [view, setView] = useState<View>("auto");
 
@@ -29,7 +31,7 @@ export default function KickCounterClientPage() {
     start.mutate(undefined, {
       onError: (e: unknown) => {
         const msg =
-          (e as { message?: string })?.message ?? "Could not start session";
+          (e as { message?: string })?.message ?? t("kickCounter.startError");
         toast.error(msg);
       },
     });
@@ -40,15 +42,13 @@ export default function KickCounterClientPage() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center">
           <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Footprints className="size-4" /> Kick Counter
+            <Footprints className="size-4" /> {t("kickCounter.badge")}
           </span>
           <h1 className="mt-2 text-3xl font-bold text-primary-dark">
-            Track Your Baby&apos;s Movements
+            {t("kickCounter.title")}
           </h1>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
-            Monitor your baby&apos;s kicks and movements throughout your
-            pregnancy. Keep track of patterns and stay connected with your
-            little one.
+            {t("kickCounter.subtitle")}
           </p>
         </div>
 
@@ -58,11 +58,9 @@ export default function KickCounterClientPage() {
           </div>
         ) : !isAuthenticated ? (
           <Card className="mx-auto max-w-md p-8 text-center">
-            <p className="text-primary-dark">
-              Please log in to use the Kick Counter.
-            </p>
+            <p className="text-primary-dark">{t("kickCounter.loginPrompt")}</p>
             <Button asChild className="mt-4">
-              <Link href="/logga-in">Log in</Link>
+              <Link href="/logga-in">{t("kickCounter.login")}</Link>
             </Button>
           </Card>
         ) : view === "stats" ? (

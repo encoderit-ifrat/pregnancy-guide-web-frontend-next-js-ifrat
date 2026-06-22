@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   BarChart3,
   History,
@@ -33,6 +34,7 @@ export default function ContractionCounter({
   onViewStats,
   onViewHistory,
 }: Props) {
+  const { t } = useTranslation();
   const { data: summary } = useQueryContractionSummary();
   const startContraction = useStartContraction();
   const stopContraction = useStopContraction();
@@ -43,7 +45,6 @@ export default function ContractionCounter({
     [session.contractions]
   );
 
-  // Live ticking timer while a contraction is in progress.
   const [elapsed, setElapsed] = useState(0);
   useEffect(() => {
     if (!running) {
@@ -61,11 +62,11 @@ export default function ContractionCounter({
     if (running) {
       stopContraction.mutate(
         { sessionId: session._id, contractionId: running._id },
-        { onError: () => toast.error("Could not stop contraction") }
+        { onError: () => toast.error(t("contractionCounter.counter.stopError")) }
       );
     } else {
       startContraction.mutate(session._id, {
-        onError: () => toast.error("Could not start contraction"),
+        onError: () => toast.error(t("contractionCounter.counter.startError")),
       });
     }
   };
@@ -84,13 +85,13 @@ export default function ContractionCounter({
       <div className="space-y-6 lg:col-span-2">
         <Card className="p-8 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary">
-            <Timer className="size-3.5" /> Tracking Active
+            <Timer className="size-3.5" /> {t("contractionCounter.counter.active")}
           </span>
           <h2 className="mt-3 text-xl font-semibold text-primary-dark">
-            Contraction Timer
+            {t("contractionCounter.counter.timerTitle")}
           </h2>
           <p className="mt-1 text-sm text-text-secondary">
-            Track your contractions to know when it&apos;s time for the hospital
+            {t("contractionCounter.counter.timerDesc")}
           </p>
 
           <div className="my-8">
@@ -100,7 +101,7 @@ export default function ContractionCounter({
               </p>
             ) : (
               <p className="text-sm text-text-secondary">
-                Ready to track next contraction?
+                {t("contractionCounter.counter.readyNext")}
               </p>
             )}
           </div>
@@ -119,30 +120,39 @@ export default function ContractionCounter({
             ) : (
               <Play className="size-5" />
             )}
-            {running ? "Stop Contraction" : "Start Contraction"}
+            {running
+              ? t("contractionCounter.counter.stop")
+              : t("contractionCounter.counter.start")}
           </Button>
 
           <div className="mt-8 grid grid-cols-3 gap-4 border-t pt-6">
-            <Stat label="Total Count" value={String(session.total_count)} />
             <Stat
-              label="Avg Interval"
-              value={fmtDuration(summary?.avg_interval_sec ?? session.avg_interval_sec)}
+              label={t("contractionCounter.counter.totalCount")}
+              value={String(session.total_count)}
             />
             <Stat
-              label="Avg Duration"
-              value={fmtDuration(summary?.avg_duration_sec ?? session.avg_duration_sec)}
+              label={t("contractionCounter.counter.avgInterval")}
+              value={fmtDuration(
+                summary?.avg_interval_sec ?? session.avg_interval_sec
+              )}
+            />
+            <Stat
+              label={t("contractionCounter.counter.avgDuration")}
+              value={fmtDuration(
+                summary?.avg_duration_sec ?? session.avg_duration_sec
+              )}
             />
           </div>
         </Card>
 
         <Card className="p-6">
           <h3 className="mb-4 font-semibold text-primary-dark">
-            Session Timeline
+            {t("contractionCounter.counter.timeline")}
           </h3>
           <div className="space-y-2">
             {completed.length === 0 && (
               <p className="py-6 text-center text-sm text-text-secondary">
-                No contractions recorded yet.
+                {t("contractionCounter.counter.noContractions")}
               </p>
             )}
             {completed.map((c, idx) => (
@@ -172,21 +182,25 @@ export default function ContractionCounter({
 
       <div className="space-y-6">
         <Card className="p-6">
-          <h3 className="mb-3 font-semibold text-primary-dark">Quick Actions</h3>
+          <h3 className="mb-3 font-semibold text-primary-dark">
+            {t("contractionCounter.counter.quickActions")}
+          </h3>
           <div className="space-y-2">
             <Button
               variant="purple"
               onClick={onViewStats}
               className="w-full justify-center"
             >
-              <BarChart3 className="size-4" /> View Statistics
+              <BarChart3 className="size-4" />{" "}
+              {t("contractionCounter.counter.viewStatistics")}
             </Button>
             <Button
               variant="outline"
               onClick={onViewHistory}
               className="w-full justify-center"
             >
-              <History className="size-4" /> View History
+              <History className="size-4" />{" "}
+              {t("contractionCounter.counter.viewHistory")}
             </Button>
             <Button
               variant="outline"
@@ -194,18 +208,21 @@ export default function ContractionCounter({
               className="w-full justify-center border-destructive text-destructive"
             >
               <a href="tel:112">
-                <Phone className="size-4" /> Emergency Contact
+                <Phone className="size-4" />{" "}
+                {t("contractionCounter.counter.emergencyContact")}
               </a>
             </Button>
           </div>
         </Card>
 
         <Card className="p-6 bg-primary-light/40">
-          <h3 className="font-semibold text-primary-dark">Tracking Tips</h3>
+          <h3 className="font-semibold text-primary-dark">
+            {t("contractionCounter.counter.trackingTips")}
+          </h3>
           <ul className="mt-2 space-y-2 text-sm text-text-secondary">
-            <li>• Track from the start of one contraction to the start of the next</li>
-            <li>• Note the duration of each contraction</li>
-            <li>• Rest between contractions</li>
+            <li>• {t("contractionCounter.counter.tip1")}</li>
+            <li>• {t("contractionCounter.counter.tip2")}</li>
+            <li>• {t("contractionCounter.counter.tip3")}</li>
           </ul>
         </Card>
 
@@ -213,13 +230,14 @@ export default function ContractionCounter({
           variant="ghost"
           onClick={() =>
             endSession.mutate(session._id, {
-              onSuccess: () => toast.success("Session ended"),
+              onSuccess: () =>
+                toast.success(t("contractionCounter.counter.sessionEnded")),
             })
           }
           disabled={endSession.isPending}
           className="w-full justify-center"
         >
-          End Session
+          {t("contractionCounter.counter.endSession")}
         </Button>
       </div>
     </div>

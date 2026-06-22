@@ -9,17 +9,19 @@ import { Spinner } from "@/components/ui/Spinner";
 import { cn } from "@/lib/utils";
 import { Calendar, Clock, Gift, Mail, MapPin, Plus, Users } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryInvitations } from "./_api/queries/useQueryInvitations";
 import { EventInvitationListItem } from "./_types/invitation_types";
 
 const TABS = [
-  { key: "all", label: "All" },
-  { key: "draft", label: "Draft" },
-  { key: "sent", label: "Sent" },
-  { key: "scheduled", label: "Scheduled" },
+  { key: "all", labelKey: "invitations.all" },
+  { key: "draft", labelKey: "invitations.draft" },
+  { key: "sent", labelKey: "invitations.sent" },
+  { key: "scheduled", labelKey: "invitations.scheduled" },
 ];
 
 export default function InvitationsClientPage() {
+  const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const [tab, setTab] = useState("all");
   const { data, isLoading } = useQueryInvitations(tab);
@@ -31,40 +33,38 @@ export default function InvitationsClientPage() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center">
           <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Mail className="size-4" /> Invitations
+            <Mail className="size-4" /> {t("invitations.badge")}
           </span>
           <h1 className="mt-2 text-3xl font-bold text-primary-dark">
-            Beautiful Digital Invitations
+            {t("invitations.title")}
           </h1>
           <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
-            Create stunning invitations for your baby shower, gender reveal, or
-            family celebration. Share with loved ones and track RSVPs
-            effortlessly.
+            {t("invitations.subtitle")}
           </p>
         </div>
 
         <Card className="p-6">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <div className="inline-flex rounded-full bg-primary-light/50 p-1">
-              {TABS.map((t) => (
+              {TABS.map((tabItem) => (
                 <button
-                  key={t.key}
-                  onClick={() => setTab(t.key)}
+                  key={tabItem.key}
+                  onClick={() => setTab(tabItem.key)}
                   className={cn(
                     "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                    tab === t.key
+                    tab === tabItem.key
                       ? "bg-primary text-white"
                       : "text-primary-dark hover:text-primary"
                   )}
                 >
-                  {t.label}
+                  {t(tabItem.labelKey)}
                 </button>
               ))}
             </div>
             {isAuthenticated && (
               <Button asChild>
                 <Link href="/inbjudningar/skapa">
-                  Create Invitation <Plus className="size-4" />
+                  {t("invitations.createInvitation")} <Plus className="size-4" />
                 </Link>
               </Button>
             )}
@@ -76,18 +76,18 @@ export default function InvitationsClientPage() {
             </div>
           ) : !isAuthenticated ? (
             <EmptyState
-              title="Please log in"
-              desc="Log in to create and manage invitations"
+              title={t("invitations.loginTitle")}
+              desc={t("invitations.loginDesc")}
               action={
                 <Button asChild className="mt-4">
-                  <Link href="/logga-in">Log in</Link>
+                  <Link href="/logga-in">{t("invitations.login")}</Link>
                 </Button>
               }
             />
           ) : invitations.length === 0 ? (
             <EmptyState
-              title="No invitations yet"
-              desc="Create your first beautiful invitation to get started"
+              title={t("invitations.noInvitationsTitle")}
+              desc={t("invitations.noInvitationsDesc")}
             />
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -103,12 +103,19 @@ export default function InvitationsClientPage() {
 }
 
 function InvitationCard({ invitation }: { invitation: EventInvitationListItem }) {
+  const { t } = useTranslation();
   const badge =
     invitation.status === "draft"
       ? "bg-gray-100 text-gray-600"
       : invitation.status === "scheduled"
         ? "bg-amber-100 text-amber-700"
         : "bg-green-100 text-green-700";
+  const statusLabel =
+    invitation.status === "draft"
+      ? t("invitations.statusDraft")
+      : invitation.status === "scheduled"
+        ? t("invitations.statusScheduled")
+        : t("invitations.statusSent");
 
   return (
     <Card className="flex flex-col p-5">
@@ -116,11 +123,11 @@ function InvitationCard({ invitation }: { invitation: EventInvitationListItem })
         <h3 className="font-semibold text-primary-dark">{invitation.title}</h3>
         <span
           className={cn(
-            "rounded-full px-2.5 py-0.5 text-xs font-medium capitalize",
+            "rounded-full px-2.5 py-0.5 text-xs font-medium",
             badge
           )}
         >
-          {invitation.status}
+          {statusLabel}
         </span>
       </div>
       {invitation.subtitle && (
@@ -146,21 +153,22 @@ function InvitationCard({ invitation }: { invitation: EventInvitationListItem })
         )}
         <p className="flex items-center gap-2">
           <Users className="size-4 text-primary" />
-          {invitation.statistics.accepted}/{invitation.statistics.total_sent}{" "}
-          RSVPs ({invitation.rsvp_rate}%)
+          {t("invitations.rsvps", {
+            accepted: invitation.statistics.accepted,
+            total: invitation.statistics.total_sent,
+            rate: invitation.rsvp_rate,
+          })}
         </p>
         {invitation.wishlist_attached && (
           <p className="flex items-center gap-2 text-primary">
-            <Gift className="size-4" /> Wishlist attached
+            <Gift className="size-4" /> {t("invitations.wishlistAttached")}
           </p>
         )}
       </div>
-      <Button
-        asChild
-        variant="outline"
-        className="mt-4 w-full justify-center"
-      >
-        <Link href={`/inbjudningar/${invitation._id}`}>View Details</Link>
+      <Button asChild variant="outline" className="mt-4 w-full justify-center">
+        <Link href={`/inbjudningar/${invitation._id}`}>
+          {t("invitations.viewDetails")}
+        </Link>
       </Button>
     </Card>
   );

@@ -9,10 +9,7 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { DatePicker } from "@/components/ui/DatePicker";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/Dialog";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import { cn } from "@/lib/utils";
 import {
   ArrowLeft,
@@ -20,10 +17,10 @@ import {
   CheckCircle2,
   Gift,
   Loader2,
-  Plus,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 import InvitationPreview from "../_component/InvitationPreview";
 import { TEMPLATE_STYLES } from "../_lib/templates";
 import {
@@ -37,7 +34,6 @@ import {
 } from "../_api/mutations/useInvitationMutations";
 import { useQueryWishlists } from "@/app/onskelistor/_api/queries/useQueryWishlists";
 
-const STEPS = ["Event Info", "Template", "Wishlist", "Recipients", "Preview & Send"];
 const TEMPLATE_IDS: InvitationTemplate[] = [
   "scandinavian_minimal",
   "baby_pink",
@@ -46,11 +42,19 @@ const TEMPLATE_IDS: InvitationTemplate[] = [
 ];
 
 export default function CreateInvitationClient() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [sentOpen, setSentOpen] = useState(false);
 
-  // form state
+  const STEPS = [
+    t("invitations.builder.stepEventInfo"),
+    t("invitations.builder.stepTemplate"),
+    t("invitations.builder.stepWishlist"),
+    t("invitations.builder.stepRecipients"),
+    t("invitations.builder.stepPreview"),
+  ];
+
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [date, setDate] = useState<Date | undefined>();
@@ -78,11 +82,11 @@ export default function CreateInvitationClient() {
 
   const next = () => {
     if (step === 0 && !title.trim()) {
-      toast.error("Please enter an event title");
+      toast.error(t("invitations.builder.titleRequired"));
       return;
     }
     if (step === 3 && recipients.length === 0) {
-      toast.error("Add at least one recipient");
+      toast.error(t("invitations.builder.recipientRequired"));
       return;
     }
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
@@ -91,7 +95,7 @@ export default function CreateInvitationClient() {
 
   const addRecipient = () => {
     if (!guestName.trim() || !guestEmail.trim()) {
-      toast.error("Enter both name and email");
+      toast.error(t("invitations.builder.enterNameEmail"));
       return;
     }
     setRecipients((r) => [
@@ -109,7 +113,7 @@ export default function CreateInvitationClient() {
 
   const handleSubmit = () => {
     if (!date) {
-      toast.error("Event date is required to send");
+      toast.error(t("invitations.builder.dateRequired"));
       setStep(0);
       return;
     }
@@ -139,7 +143,7 @@ export default function CreateInvitationClient() {
             {
               onSuccess: () => setSentOpen(true),
               onError: () => {
-                toast.success("Invitation saved as draft");
+                toast.success(t("invitations.builder.savedDraft"));
                 router.push("/inbjudningar");
               },
             }
@@ -156,18 +160,17 @@ export default function CreateInvitationClient() {
           href="/inbjudningar"
           className="mb-4 inline-flex items-center gap-1 text-sm text-primary hover:underline"
         >
-          <ArrowLeft className="size-4" /> Back to Invitations
+          <ArrowLeft className="size-4" /> {t("invitations.builder.back")}
         </Link>
 
         <Card className="p-6 lg:p-8">
           <h1 className="text-2xl font-bold text-primary-dark">
-            Create your Invitation
+            {t("invitations.builder.title")}
           </h1>
           <p className="text-sm text-text-secondary">
-            Design and share a beautiful invitation for your celebration
+            {t("invitations.builder.subtitle")}
           </p>
 
-          {/* Stepper */}
           <div className="mt-6 flex items-center justify-between gap-2">
             {STEPS.map((label, i) => (
               <div key={label} className="flex flex-1 items-center">
@@ -199,32 +202,31 @@ export default function CreateInvitationClient() {
           </div>
 
           <div className="mt-8 grid gap-8 lg:grid-cols-2">
-            {/* Step content */}
             <div className="space-y-4">
               {step === 0 && (
                 <>
                   <h2 className="font-semibold text-primary-dark">
-                    Event Information
+                    {t("invitations.builder.eventInformation")}
                   </h2>
-                  <Field label="Event Title">
+                  <Field label={t("invitations.builder.eventTitle")}>
                     <Input
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Baby Shower Celebration"
+                      placeholder={t("invitations.builder.eventTitlePlaceholder")}
                     />
                   </Field>
-                  <Field label="Event Subtitle (Optional)">
+                  <Field label={t("invitations.builder.subtitleLabel")}>
                     <Input
                       value={subtitle}
                       onChange={(e) => setSubtitle(e.target.value)}
-                      placeholder="Baby Shower"
+                      placeholder={t("invitations.builder.subtitlePlaceholder")}
                     />
                   </Field>
                   <div className="grid grid-cols-2 gap-4">
-                    <Field label="Date">
+                    <Field label={t("invitations.builder.date")}>
                       <DatePicker value={date} onChange={setDate} />
                     </Field>
-                    <Field label="Time">
+                    <Field label={t("invitations.builder.time")}>
                       <Input
                         type="time"
                         value={time}
@@ -232,21 +234,23 @@ export default function CreateInvitationClient() {
                       />
                     </Field>
                   </div>
-                  <Field label="Latest Time to Reply">
+                  <Field label={t("invitations.builder.latestReply")}>
                     <DatePicker value={replyBy} onChange={setReplyBy} />
                   </Field>
-                  <Field label="Location">
+                  <Field label={t("invitations.builder.location")}>
                     <Input
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
-                      placeholder="Rosendal Garden, Stockholm"
+                      placeholder={t("invitations.builder.locationPlaceholder")}
                     />
                   </Field>
-                  <Field label="Custom Message">
+                  <Field label={t("invitations.builder.customMessage")}>
                     <Textarea
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="We are excited to celebrate this special journey…"
+                      placeholder={t(
+                        "invitations.builder.customMessagePlaceholder"
+                      )}
                     />
                   </Field>
                 </>
@@ -255,7 +259,7 @@ export default function CreateInvitationClient() {
               {step === 1 && (
                 <>
                   <h2 className="font-semibold text-primary-dark">
-                    Choose Invitation Template
+                    {t("invitations.builder.chooseTemplate")}
                   </h2>
                   <div className="grid grid-cols-2 gap-4">
                     {TEMPLATE_IDS.map((id) => (
@@ -289,10 +293,10 @@ export default function CreateInvitationClient() {
               {step === 2 && (
                 <>
                   <h2 className="font-semibold text-primary-dark">
-                    Attach Wishlist
+                    {t("invitations.builder.attachWishlist")}
                   </h2>
                   <p className="text-sm text-text-secondary">
-                    Help your guests know exactly what you need for your baby.
+                    {t("invitations.builder.attachWishlistDesc")}
                   </p>
                   <div className="space-y-2">
                     <button
@@ -304,7 +308,7 @@ export default function CreateInvitationClient() {
                     >
                       <X className="size-5 text-primary" />
                       <span className="text-sm font-medium text-primary-dark">
-                        No wishlist (skip)
+                        {t("invitations.builder.noWishlist")}
                       </span>
                     </button>
                     {wishlists.map((w) => (
@@ -324,7 +328,9 @@ export default function CreateInvitationClient() {
                             {w.title}
                           </span>
                           <span className="text-xs text-text-secondary">
-                            {w.progress.total} items
+                            {t("invitations.builder.itemsCount", {
+                              count: w.progress.total,
+                            })}
                           </span>
                         </span>
                         {wishlistId === w._id && (
@@ -339,25 +345,25 @@ export default function CreateInvitationClient() {
               {step === 3 && (
                 <>
                   <h2 className="font-semibold text-primary-dark">
-                    Add Recipients
+                    {t("invitations.builder.addRecipients")}
                   </h2>
-                  <Field label="Guest Name">
+                  <Field label={t("invitations.builder.guestName")}>
                     <Input
                       value={guestName}
                       onChange={(e) => setGuestName(e.target.value)}
-                      placeholder="Enter guest name"
+                      placeholder={t("invitations.builder.guestNamePlaceholder")}
                     />
                   </Field>
-                  <Field label="Email">
+                  <Field label={t("invitations.builder.email")}>
                     <div className="flex gap-2">
                       <Input
                         value={guestEmail}
                         onChange={(e) => setGuestEmail(e.target.value)}
-                        placeholder="Enter email address"
+                        placeholder={t("invitations.builder.emailPlaceholder")}
                         onKeyDown={(e) => e.key === "Enter" && addRecipient()}
                       />
                       <Button onClick={addRecipient} type="button">
-                        Add
+                        {t("invitations.builder.add")}
                       </Button>
                     </div>
                   </Field>
@@ -384,27 +390,34 @@ export default function CreateInvitationClient() {
               {step === 4 && (
                 <>
                   <h2 className="font-semibold text-primary-dark">
-                    Preview &amp; Send
+                    {t("invitations.builder.stepPreview")}
                   </h2>
                   <div className="space-y-2 rounded-xl bg-primary-light/30 p-4 text-sm">
-                    <SummaryRow label="Total Guests" value={String(recipients.length)} />
                     <SummaryRow
-                      label="Wishlist Attached"
-                      value={wishlistId ? "Yes" : "No"}
+                      label={t("invitations.builder.totalGuests")}
+                      value={String(recipients.length)}
                     />
                     <SummaryRow
-                      label="Selected Template"
+                      label={t("invitations.builder.wishlistAttached")}
+                      value={
+                        wishlistId
+                          ? t("invitations.builder.yes")
+                          : t("invitations.builder.no")
+                      }
+                    />
+                    <SummaryRow
+                      label={t("invitations.builder.selectedTemplate")}
                       value={TEMPLATE_STYLES[template].name}
                     />
                   </div>
 
-                  <Field label="Delivery Options">
+                  <Field label={t("invitations.builder.deliveryOptions")}>
                     <div className="flex flex-wrap gap-2">
                       {(
                         [
-                          ["email", "Email Invitation"],
-                          ["share_link", "Share Link"],
-                          ["download_card", "Download Card"],
+                          ["email", t("invitations.builder.emailInvitation")],
+                          ["share_link", t("invitations.builder.shareLink")],
+                          ["download_card", t("invitations.builder.downloadCard")],
                         ] as [DeliveryOption, string][]
                       ).map(([opt, label]) => (
                         <button
@@ -424,7 +437,7 @@ export default function CreateInvitationClient() {
                     </div>
                   </Field>
 
-                  <Field label="Schedule Send">
+                  <Field label={t("invitations.builder.scheduleSend")}>
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -436,7 +449,7 @@ export default function CreateInvitationClient() {
                             : "text-text-secondary"
                         )}
                       >
-                        Send Now
+                        {t("invitations.builder.sendNow")}
                       </button>
                       <button
                         type="button"
@@ -448,12 +461,15 @@ export default function CreateInvitationClient() {
                             : "text-text-secondary"
                         )}
                       >
-                        Send Later
+                        {t("invitations.builder.sendLater")}
                       </button>
                     </div>
                     {sendLater && (
                       <div className="mt-2">
-                        <DatePicker value={scheduleAt} onChange={setScheduleAt} />
+                        <DatePicker
+                          value={scheduleAt}
+                          onChange={setScheduleAt}
+                        />
                       </div>
                     )}
                   </Field>
@@ -461,28 +477,27 @@ export default function CreateInvitationClient() {
               )}
 
               <div className="flex justify-between pt-4">
-                <Button
-                  variant="outline"
-                  onClick={back}
-                  disabled={step === 0}
-                >
-                  Back
+                <Button variant="outline" onClick={back} disabled={step === 0}>
+                  {t("invitations.builder.backBtn")}
                 </Button>
                 {step < STEPS.length - 1 ? (
-                  <Button onClick={next}>Continue</Button>
+                  <Button onClick={next}>
+                    {t("invitations.builder.continue")}
+                  </Button>
                 ) : (
                   <Button onClick={handleSubmit} disabled={submitting}>
                     {submitting && <Loader2 className="size-4 animate-spin" />}
-                    {sendLater ? "Schedule" : "Send Invitation"}
+                    {sendLater
+                      ? t("invitations.builder.schedule")
+                      : t("invitations.builder.sendInvitation")}
                   </Button>
                 )}
               </div>
             </div>
 
-            {/* Live preview */}
             <div className="lg:sticky lg:top-24 lg:self-start">
               <p className="mb-2 text-sm font-medium text-primary-dark">
-                Live Preview
+                {t("invitations.builder.livePreview")}
               </p>
               <InvitationPreview
                 title={title}
@@ -505,17 +520,18 @@ export default function CreateInvitationClient() {
             <CheckCircle2 className="size-8 text-primary" />
           </div>
           <h2 className="text-xl font-bold text-primary-dark">
-            {sendLater ? "Invitation Scheduled!" : "Invitation Sent Successfully!"}
+            {sendLater
+              ? t("invitations.builder.scheduledTitle")
+              : t("invitations.builder.sentTitle")}
           </h2>
           <p className="mx-auto max-w-xs text-sm text-text-secondary">
-            Your invitation has been sent to your guests. They&apos;ll receive an
-            email with all the event details.
+            {t("invitations.builder.sentDesc")}
           </p>
           <Button
             className="mt-4 w-full justify-center"
             onClick={() => router.push("/inbjudningar")}
           >
-            Go to Invitations
+            {t("invitations.builder.goToInvitations")}
           </Button>
         </DialogContent>
       </Dialog>

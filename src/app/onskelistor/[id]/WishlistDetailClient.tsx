@@ -21,19 +21,20 @@ import {
 import {
   ArrowLeft,
   ExternalLink,
-  Gift,
   Pencil,
   Plus,
   Share2,
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryWishlistDetail } from "../_api/queries/useQueryWishlists";
 import { useDeleteWishlistItem } from "../_api/mutations/useWishlistMutations";
 import AddEditItemModal from "../_component/AddEditItemModal";
 import { WishlistItem } from "../_types/wishlist_types";
 
 export default function WishlistDetailClient() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data: wishlist, isLoading } = useQueryWishlistDetail(id);
   const del = useDeleteWishlistItem();
@@ -46,8 +47,8 @@ export default function WishlistDetailClient() {
     if (!wishlist) return;
     const url = `${window.location.origin}/onskelistor/delad/${wishlist.share_token}`;
     navigator.clipboard.writeText(url).then(
-      () => toast.success("Share link copied to clipboard"),
-      () => toast.error("Could not copy link")
+      () => toast.success(t("wishlists.detail.linkCopied")),
+      () => toast.error(t("wishlists.detail.copyFailed"))
     );
   };
 
@@ -67,7 +68,7 @@ export default function WishlistDetailClient() {
           href="/onskelistor"
           className="mb-4 inline-flex items-center gap-1 text-sm text-primary hover:underline"
         >
-          <ArrowLeft className="size-4" /> Back to Wishlists
+          <ArrowLeft className="size-4" /> {t("wishlists.detail.back")}
         </Link>
 
         {isLoading || !wishlist ? (
@@ -78,18 +79,12 @@ export default function WishlistDetailClient() {
           <>
             <Card className="overflow-hidden">
               <div className="relative h-52 w-full bg-primary-light">
-                {wishlist.cover_image ? (
-                  <Image
-                    src={wishlist.cover_image}
-                    alt={wishlist.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <Gift className="size-14 text-primary/50" />
-                  </div>
-                )}
+                <Image
+                  src={wishlist.cover_image || "/default_wishlist_image.png"}
+                  alt={wishlist.title}
+                  fill
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 <div className="absolute bottom-4 left-6 text-white">
                   <h1 className="text-2xl font-bold">{wishlist.title}</h1>
@@ -103,13 +98,18 @@ export default function WishlistDetailClient() {
                 <div className="min-w-52 flex-1">
                   <div className="mb-1 flex justify-between text-sm">
                     <span className="text-text-secondary">
-                      {wishlist.progress.claimed} / {wishlist.progress.total}{" "}
-                      items claimed
+                      {t("wishlists.detail.itemsClaimed", {
+                        claimed: wishlist.progress.claimed,
+                        total: wishlist.progress.total,
+                      })}
                     </span>
                     {wishlist.reply_by && (
                       <span className="text-text-secondary">
-                        Latest day to purchase:{" "}
-                        {new Date(wishlist.reply_by).toLocaleDateString("sv-SE")}
+                        {t("wishlists.detail.latestPurchase", {
+                          date: new Date(wishlist.reply_by).toLocaleDateString(
+                            "sv-SE"
+                          ),
+                        })}
                       </span>
                     )}
                   </div>
@@ -122,10 +122,11 @@ export default function WishlistDetailClient() {
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" onClick={handleShare}>
-                    <Share2 className="size-4" /> Share Wishlist
+                    <Share2 className="size-4" />{" "}
+                    {t("wishlists.detail.shareWishlist")}
                   </Button>
                   <Button onClick={openAdd}>
-                    <Plus className="size-4" /> Add Item
+                    <Plus className="size-4" /> {t("wishlists.detail.addItem")}
                   </Button>
                 </div>
               </div>
@@ -135,12 +136,24 @@ export default function WishlistDetailClient() {
               <table className="w-full min-w-[720px] text-sm">
                 <thead>
                   <tr className="border-b text-left text-text-secondary">
-                    <th className="px-5 py-3 font-medium">Items Name</th>
-                    <th className="px-5 py-3 font-medium">Claim Status</th>
-                    <th className="px-5 py-3 font-medium">Price</th>
-                    <th className="px-5 py-3 font-medium">Pcs</th>
-                    <th className="px-5 py-3 font-medium">Product Link</th>
-                    <th className="px-5 py-3 font-medium">Action</th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.detail.itemsName")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.detail.claimStatus")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.detail.price")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.detail.pcs")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.detail.productLink")}
+                    </th>
+                    <th className="px-5 py-3 font-medium">
+                      {t("wishlists.detail.action")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,7 +163,7 @@ export default function WishlistDetailClient() {
                         colSpan={6}
                         className="px-5 py-10 text-center text-text-secondary"
                       >
-                        No items yet. Add your first item.
+                        {t("wishlists.detail.noItems")}
                       </td>
                     </tr>
                   )}
@@ -163,12 +176,14 @@ export default function WishlistDetailClient() {
                         {item.claim_status === "claimed" ? (
                           <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
                             {item.claimed_by
-                              ? `Claimed by ${item.claimed_by}`
-                              : "Claimed"}
+                              ? t("wishlists.detail.claimedBy", {
+                                  name: item.claimed_by,
+                                })
+                              : t("wishlists.detail.claimed")}
                           </span>
                         ) : (
                           <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
-                            Available
+                            {t("wishlists.detail.available")}
                           </span>
                         )}
                       </td>
@@ -186,7 +201,8 @@ export default function WishlistDetailClient() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 text-primary hover:underline"
                           >
-                            View Product <ExternalLink className="size-3.5" />
+                            {t("wishlists.detail.viewProduct")}{" "}
+                            <ExternalLink className="size-3.5" />
                           </a>
                         ) : (
                           <span className="text-text-secondary">—</span>
@@ -230,26 +246,28 @@ export default function WishlistDetailClient() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove this item?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("wishlists.detail.removeTitle")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently remove the item from your wishlist.
+              {t("wishlists.detail.removeDesc")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("wishlists.detail.cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 if (!deleteId) return;
                 del.mutate(
                   { id, itemId: deleteId },
-                  {
-                    onSuccess: () => toast.success("Item removed"),
-                  }
+                  { onSuccess: () => toast.success(t("wishlists.detail.itemRemoved")) }
                 );
                 setDeleteId(null);
               }}
             >
-              Remove
+              {t("wishlists.detail.remove")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
