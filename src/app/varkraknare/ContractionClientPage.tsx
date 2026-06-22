@@ -15,6 +15,8 @@ import { useStartContractionSession } from "./_api/mutations/useContractionMutat
 import ContractionCounter from "./_component/ContractionCounter";
 import ContractionStatistics from "./_component/ContractionStatistics";
 import ContractionHistory from "./_component/ContractionHistory";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 type View = "auto" | "stats" | "history";
 
@@ -40,14 +42,17 @@ export default function ContractionClientPage() {
   return (
     <PageContainer>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Timer className="size-4" /> {t("contractionCounter.badge")}
-          </span>
-          <h1 className="mt-2 text-3xl font-bold text-primary-dark">
+        <div className="thread-header mb-8 flex flex-col items-center text-center">
+          <IconHeading
+            text={t("contractionCounter.badge")}
+            image="/images/icons/track-01.png"
+            className="text-primary justify-center"
+          />
+          <SectionHeading className="my-2 mb-6">
             {t("contractionCounter.title")}
-          </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
+          </SectionHeading>
+
+          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("contractionCounter.subtitle")}
           </p>
         </div>
@@ -90,7 +95,11 @@ export default function ContractionClientPage() {
               {t("contractionCounter.readyDesc")}
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Button onClick={handleStart} disabled={start.isPending} size="lg">
+              <Button
+                onClick={handleStart}
+                disabled={start.isPending}
+                size="lg"
+              >
                 {start.isPending ? (
                   <Loader2 className="size-5 animate-spin" />
                 ) : (

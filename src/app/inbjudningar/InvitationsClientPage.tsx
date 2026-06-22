@@ -20,7 +20,7 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
     <PageContainer>
       <div className="thread-header mb-8 flex flex-col items-center text-center">
         <IconHeading
-          text={t("invitations.label")}
+          text={t("invitations.badge")}
           image="/images/icons/inv-01.png"
           className="text-primary justify-center"
         />
@@ -59,7 +59,7 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                 </TabsTrigger>
               </TabsList>
               <Link
-                href="/invitations/create-invitation"
+                href="/inbjudningar/skapa"
                 className="font-semibold text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center gap-2"
               >
                 {t("invitations.createInvitation")}
@@ -95,10 +95,10 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                   alt={t("invitations.all")}
                 />
                 <p className="text-[25px]! font-semibold mt-6 mb-3">
-                  {t("invitations.noInvitations")}
+                  {t("invitations.noInvitationsTitle")}
                 </p>
                 <p className="text-base font-normal">
-                  {t("invitations.noInvitationsSubtitle")}
+                  {t("invitations.noInvitationsDesc")}
                 </p>
               </div>
 

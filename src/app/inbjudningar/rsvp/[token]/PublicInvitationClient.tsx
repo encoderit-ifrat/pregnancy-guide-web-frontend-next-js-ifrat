@@ -14,6 +14,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import InvitationPreview from "../../_component/InvitationPreview";
 import { useQueryPublicInvitation } from "../../_api/queries/useQueryInvitations";
 import { useRespondInvitation } from "../../_api/mutations/useInvitationMutations";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function PublicInvitationClient() {
   const { t } = useTranslation();
@@ -54,14 +56,17 @@ export default function PublicInvitationClient() {
   return (
     <PageContainer>
       <div className="mx-auto max-w-2xl">
-        <div className="mb-6 text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Mail className="size-4" /> {t("invitations.public.heading")}
-          </span>
-          <h1 className="mt-2 text-3xl font-bold text-primary-dark">
+        <div className="thread-header mb-8 flex flex-col items-center text-center">
+          <IconHeading
+            text={t("invitations.public.heading")}
+            image="/images/icons/inv-01.png"
+            className="text-primary justify-center"
+          />
+          <SectionHeading className="my-2 mb-6">
             {t("invitations.public.title")}
-          </h1>
-          <p className="mt-1 text-sm text-text-secondary">
+          </SectionHeading>
+
+          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("invitations.public.subtitle")}
           </p>
         </div>

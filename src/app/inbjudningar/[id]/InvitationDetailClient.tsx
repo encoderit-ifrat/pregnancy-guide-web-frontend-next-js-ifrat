@@ -163,21 +163,21 @@ export default function page({}: pageProps) {
                 </Button>
                 <Button
                   variant={"outline"}
-                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80"
+                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
                   <Share2 />
                   Share Link
                 </Button>
                 <Button
                   variant={"outline"}
-                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80"
+                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
                   <Download />
                   Download Image
                 </Button>
                 <Button
                   variant={"outline"}
-                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80"
+                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
                   <SquarePen />
                   Edit Invitation

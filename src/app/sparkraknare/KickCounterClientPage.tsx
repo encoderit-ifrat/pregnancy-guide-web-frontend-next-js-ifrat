@@ -15,6 +15,8 @@ import { useStartKickSession } from "./_api/mutations/useKickMutations";
 import KickLanding from "./_component/KickLanding";
 import KickSession from "./_component/KickSession";
 import KickStatistics from "./_component/KickStatistics";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 type View = "auto" | "stats";
 
@@ -40,14 +42,17 @@ export default function KickCounterClientPage() {
   return (
     <PageContainer>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Footprints className="size-4" /> {t("kickCounter.badge")}
-          </span>
-          <h1 className="mt-2 text-3xl font-bold text-primary-dark">
+        <div className="thread-header mb-8 flex flex-col items-center text-center">
+          <IconHeading
+            text={t("kickCounter.badge")}
+            image="/images/icons/kick-01.png"
+            className="text-primary justify-center"
+          />
+          <SectionHeading className="my-2 mb-6">
             {t("kickCounter.title")}
-          </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
+          </SectionHeading>
+
+          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("kickCounter.subtitle")}
           </p>
         </div>

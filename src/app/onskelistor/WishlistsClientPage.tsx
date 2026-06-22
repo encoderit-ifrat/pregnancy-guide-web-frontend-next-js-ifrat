@@ -13,6 +13,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryWishlists } from "./_api/queries/useQueryWishlists";
 import CreateWishlistModal from "./_component/CreateWishlistModal";
 import { WishlistListItem } from "./_types/wishlist_types";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function WishlistsClientPage() {
   const { t } = useTranslation();
@@ -25,14 +27,17 @@ export default function WishlistsClientPage() {
   return (
     <PageContainer>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Heart className="size-4" /> {t("wishlists.badge")}
-          </span>
-          <h1 className="mt-2 text-3xl font-bold text-primary-dark">
+        <div className="thread-header mb-8 flex flex-col items-center text-center">
+          <IconHeading
+            text={t("wishlists.badge")}
+            image="/images/icons/wish-01.png"
+            className="text-primary justify-center"
+          />
+          <SectionHeading className="my-2 mb-6">
             {t("wishlists.title")}
-          </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
+          </SectionHeading>
+
+          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("wishlists.subtitle")}
           </p>
         </div>
@@ -126,7 +131,11 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
           </div>
         </div>
 
-        <Button asChild variant="outline" className="mt-4 w-full justify-center">
+        <Button
+          asChild
+          variant="outline"
+          className="mt-4 w-full justify-center"
+        >
           <Link href={`/onskelistor/${wishlist._id}`}>
             {t("wishlists.viewDetails")}
           </Link>
