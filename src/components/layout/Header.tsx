@@ -21,6 +21,14 @@ import MultiLanguageDropDown from "./MultiLanguageDropDown";
 import { Input } from "../ui/Input";
 import { transliterateSlug } from "@/lib/seo";
 
+// New feature modules surfaced under the "Mer" (Functions) dropdown.
+const NEW_MODULE_LINKS: { href: string; labelKey: string }[] = [
+  { href: "/sparkraknare", labelKey: "header.kickCounter" },
+  { href: "/varkraknare", labelKey: "header.contractionCounter" },
+  { href: "/onskelistor", labelKey: "header.wishlists" },
+  { href: "/inbjudningar", labelKey: "header.invitations" },
+];
+
 export function Header() {
   const router = useRouter();
 
@@ -307,6 +315,29 @@ export function Header() {
                           )}
                           {t("header.benefits")}
                         </Link>
+                        {NEW_MODULE_LINKS.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={() => setIsFunctionsOpen(false)}
+                            className={cn(
+                              "relative w-full text-left px-4 py-2 transition-colors text-sm",
+                              pathname.startsWith(item.href)
+                                ? "bg-[#F6F0FF] text-primary font-semibold"
+                                : "hover:bg-gray-50 text-primary-dark"
+                            )}
+                          >
+                            <span
+                              className={cn(
+                                "absolute left-0 top-0 bottom-0 w-1 rounded-r-full",
+                                pathname.startsWith(item.href)
+                                  ? "bg-primary-dark"
+                                  : "bg-transparent"
+                              )}
+                            />
+                            {t(item.labelKey)}
+                          </Link>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -467,6 +498,24 @@ export function Header() {
                     >
                       {t("header.benefits")}
                     </Link>
+                    {NEW_MODULE_LINKS.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setIsMobileFunctionsOpen(false);
+                        }}
+                        className={cn(
+                          "w-full text-left px-4 py-2 transition-colors text-sm font-medium rounded-md",
+                          pathname.startsWith(item.href)
+                            ? "bg-primary-light text-primary font-semibold"
+                            : "hover:bg-primary-light/50 text-text-primary"
+                        )}
+                      >
+                        {t(item.labelKey)}
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>

@@ -1,0 +1,155 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Spinner } from "@/components/ui/Spinner";
+import { Gift, Heart, Mail, Plus } from "lucide-react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useQueryWishlists } from "./_api/queries/useQueryWishlists";
+import CreateWishlistModal from "./_component/CreateWishlistModal";
+import { WishlistListItem } from "./_types/wishlist_types";
+
+export default function WishlistsClientPage() {
+  const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
+  const [createOpen, setCreateOpen] = useState(false);
+  const { data, isLoading } = useQueryWishlists();
+
+  const wishlists = data?.data ?? [];
+
+  return (
+    <PageContainer>
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 text-center">
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+            <Heart className="size-4" /> Gift Wishlists
+          </span>
+          <h1 className="mt-2 text-3xl font-bold text-primary-dark">
+            Baby Registry &amp; Wishlists
+          </h1>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
+            Create and share your baby registry with family and friends. Let
+            loved ones know exactly what you need for your little one.
+          </p>
+        </div>
+
+        <Card className="p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-primary-dark">
+              Your Wishlists
+            </h2>
+            {isAuthenticated && (
+              <Button onClick={() => setCreateOpen(true)}>
+                Create Wishlist <Plus className="size-4" />
+              </Button>
+            )}
+          </div>
+
+          {userLoading || isLoading ? (
+            <div className="flex justify-center py-16">
+              <Spinner />
+            </div>
+          ) : !isAuthenticated ? (
+            <EmptyState
+              title="Please log in"
+              desc="Log in to create and manage your wishlists"
+              action={
+                <Button asChild className="mt-4">
+                  <Link href="/logga-in">Log in</Link>
+                </Button>
+              }
+            />
+          ) : wishlists.length === 0 ? (
+            <EmptyState
+              title="No Wishlists yet"
+              desc="Create your first wishlist to get started"
+            />
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2">
+              {wishlists.map((w) => (
+                <WishlistCard key={w._id} wishlist={w} />
+              ))}
+            </div>
+          )}
+        </Card>
+      </div>
+
+      <CreateWishlistModal open={createOpen} onOpenChange={setCreateOpen} />
+    </PageContainer>
+  );
+}
+
+function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
+  const { progress } = wishlist;
+  return (
+    <Card className="overflow-hidden">
+      <div className="relative h-44 w-full bg-primary-light">
+        {wishlist.cover_image ? (
+          <Image
+            src={wishlist.cover_image}
+            alt={wishlist.title}
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <Gift className="size-12 text-primary/50" />
+          </div>
+        )}
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-semibold text-primary-dark">
+          {wishlist.title}
+        </h3>
+        {wishlist.description && (
+          <p className="mt-1 line-clamp-2 text-sm text-text-secondary">
+            {wishlist.description}
+          </p>
+        )}
+
+        <div className="mt-4">
+          <div className="mb-1 flex justify-between text-sm">
+            <span className="text-text-secondary">Progress</span>
+            <span className="font-medium text-primary">
+              {progress.claimed} / {progress.total} items claimed
+            </span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-primary-light">
+            <div
+              className="h-full rounded-full bg-primary"
+              style={{ width: `${progress.percentage}%` }}
+            />
+          </div>
+        </div>
+
+        <Button asChild variant="outline" className="mt-4 w-full justify-center">
+          <Link href={`/onskelistor/${wishlist._id}`}>View Details</Link>
+        </Button>
+      </div>
+    </Card>
+  );
+}
+
+function EmptyState({
+  title,
+  desc,
+  action,
+}: {
+  title: string;
+  desc: string;
+  action?: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="flex size-16 items-center justify-center rounded-full bg-primary-light">
+        <Mail className="size-7 text-primary" />
+      </div>
+      <h3 className="mt-4 text-lg font-bold text-primary-dark">{title}</h3>
+      <p className="mt-1 text-sm text-text-secondary">{desc}</p>
+      {action}
+    </div>
+  );
+}
