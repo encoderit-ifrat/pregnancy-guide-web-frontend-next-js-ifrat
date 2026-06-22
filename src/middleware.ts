@@ -21,13 +21,18 @@ export default async function middleware(req: NextRequest) {
     pathname === "/glomt-losenord" ||
     pathname === "/";
 
+  // Define public routes - no auth needed
+  const publicRoutes = ["/inbjudningar/rsvp", "/onskelistor/delad"];
+
+  const isPublicPage = publicRoutes.some((route) => pathname.startsWith(route));
+
   // If user is authenticated and trying to access auth pages, redirect away
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/gravid/vecka", req.url));
   }
 
   // If user is not authenticated and on protected route, redirect to login
-  if (!token && !isAuthPage) {
+  if (!token && !isAuthPage && !isPublicPage) {
     const loginUrl = new URL("/logga-in", req.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
@@ -44,6 +49,8 @@ export const config = {
     "/min-profil/:path*",
     "/veckans-fraga/:path*",
     "/change-password/:path*",
+    "/inbjudningar/:path*",
+    "/onskelistor/:path*",
     "/logga-in",
     "/skapa-konto",
     "/glomt-losenord",

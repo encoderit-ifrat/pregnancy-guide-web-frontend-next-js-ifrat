@@ -1,196 +1,124 @@
 "use client";
-
-import { useState } from "react";
-import Link from "next/link";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Spinner } from "@/components/ui/Spinner";
-import { cn } from "@/lib/utils";
-import { Calendar, Clock, Gift, Mail, MapPin, Plus, Users } from "lucide-react";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useQueryInvitations } from "./_api/queries/useQueryInvitations";
-import { EventInvitationListItem } from "./_types/invitation_types";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
+import { useState } from "react";
+import Image from "next/image";
+import InvitationCard from "./_component/InvitationCard";
 
-const TABS = [
-  { key: "all", labelKey: "invitations.all" },
-  { key: "draft", labelKey: "invitations.draft" },
-  { key: "sent", labelKey: "invitations.sent" },
-  { key: "scheduled", labelKey: "invitations.scheduled" },
-];
+type InvitatioinsClientPageProps = object;
 
-export default function InvitationsClientPage() {
+export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) {
   const { t } = useTranslation();
-  const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
-  const [tab, setTab] = useState("all");
-  const { data, isLoading } = useQueryInvitations(tab);
-
-  const invitations = data?.data ?? [];
+  const [activeTab, setActiveTab] = useState("all");
 
   return (
     <PageContainer>
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Mail className="size-4" /> {t("invitations.badge")}
-          </span>
-          <h1 className="mt-2 text-3xl font-bold text-primary-dark">
-            {t("invitations.title")}
-          </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
-            {t("invitations.subtitle")}
-          </p>
+      <div className="thread-header mb-8 flex flex-col items-center text-center">
+        <IconHeading
+          text={t("invitations.label")}
+          image="/images/icons/inv-01.png"
+          className="text-primary justify-center"
+        />
+        <SectionHeading className="my-2 mb-6">
+          {t("invitations.title")}
+        </SectionHeading>
+
+        <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
+          {t("invitations.subtitle")}
+        </p>
+      </div>
+
+      <div className="w-full max-w-327 pb-20 mx-auto px-0 mt-8">
+        <div className="bg-white border border-[#E5E7EB] rounded-2xl px-2.5 sm:px-6 pt-6 pb-6 shadow-sm">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full lg:px-[66px] lg:py-[65px]"
+          >
+            <div className="flex flex-col lg:flex-row justify-between items-center gap-3 pb-4 mb-4">
+              <TabsList
+                variant="default"
+                className="bg-white shadow-invitation-box rounded-[10px] px-2 py-[7px] text-primary-color"
+              >
+                <TabsTrigger value="all" className="" variant="inv">
+                  {t("invitations.all")}
+                </TabsTrigger>
+                <TabsTrigger value="draft" variant="inv">
+                  {t("invitations.draft")}
+                </TabsTrigger>
+                <TabsTrigger value="sent" variant="inv">
+                  {t("invitations.sent")}
+                </TabsTrigger>
+                <TabsTrigger value="scheduled" variant="inv">
+                  {t("invitations.scheduled")}
+                </TabsTrigger>
+              </TabsList>
+              <Link
+                href="/invitations/create-invitation"
+                className="font-semibold text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center gap-2"
+              >
+                {t("invitations.createInvitation")}
+                <PlusIcon className="bg-primary text-white p-2 rounded-full w-9 h-9" />
+              </Link>
+            </div>
+            <TabsContent value="all" className="m-0 flex flex-col gap-2">
+              {/* {namesLoading && (
+                  <>
+                    <SkeletonCommunityCard />
+                    <SkeletonCommunityCard />
+                    <SkeletonCommunityCard />
+                  </>
+                )} */}
+              {/* {namesError && (
+                  <p className="text-center text-red-500 py-4">
+                    {t("forNameTinder.failedLoadNames")}
+                  </p>
+                )}
+                {!namesLoading &&
+                  !namesError &&
+                  communityNames.length === 0 && (
+                    <p className="text-center text-primary-color py-4">
+                      {t("forNameTinder.noNamesFound")}
+                    </p>
+                  )} */}
+              <div className="h-[373px] w-full flex flex-col items-center justify-center">
+                <Image
+                  src={"/images/icons/no-inv.png"}
+                  width={700}
+                  height={700}
+                  className="w-20 h-20"
+                  alt={t("invitations.all")}
+                />
+                <p className="text-[25px]! font-semibold mt-6 mb-3">
+                  {t("invitations.noInvitations")}
+                </p>
+                <p className="text-base font-normal">
+                  {t("invitations.noInvitationsSubtitle")}
+                </p>
+              </div>
+
+              {/* <Pagination
+                  meta={paginationMeta}
+                  onPageChange={handlePageChange}
+                /> */}
+            </TabsContent>
+            <TabsContent value="draft" className="m-0 flex flex-col gap-2">
+              <InvitationCard />
+            </TabsContent>
+            <TabsContent value="sent" className="m-0 flex flex-col gap-2">
+              <InvitationCard />
+            </TabsContent>
+            <TabsContent value="scheduled" className="m-0 flex flex-col gap-2">
+              <h1>Hellow 3</h1>
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <Card className="p-6">
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-            <div className="inline-flex rounded-full bg-primary-light/50 p-1">
-              {TABS.map((tabItem) => (
-                <button
-                  key={tabItem.key}
-                  onClick={() => setTab(tabItem.key)}
-                  className={cn(
-                    "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                    tab === tabItem.key
-                      ? "bg-primary text-white"
-                      : "text-primary-dark hover:text-primary"
-                  )}
-                >
-                  {t(tabItem.labelKey)}
-                </button>
-              ))}
-            </div>
-            {isAuthenticated && (
-              <Button asChild>
-                <Link href="/inbjudningar/skapa">
-                  {t("invitations.createInvitation")} <Plus className="size-4" />
-                </Link>
-              </Button>
-            )}
-          </div>
-
-          {userLoading || isLoading ? (
-            <div className="flex justify-center py-16">
-              <Spinner />
-            </div>
-          ) : !isAuthenticated ? (
-            <EmptyState
-              title={t("invitations.loginTitle")}
-              desc={t("invitations.loginDesc")}
-              action={
-                <Button asChild className="mt-4">
-                  <Link href="/logga-in">{t("invitations.login")}</Link>
-                </Button>
-              }
-            />
-          ) : invitations.length === 0 ? (
-            <EmptyState
-              title={t("invitations.noInvitationsTitle")}
-              desc={t("invitations.noInvitationsDesc")}
-            />
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {invitations.map((inv) => (
-                <InvitationCard key={inv._id} invitation={inv} />
-              ))}
-            </div>
-          )}
-        </Card>
       </div>
     </PageContainer>
-  );
-}
-
-function InvitationCard({ invitation }: { invitation: EventInvitationListItem }) {
-  const { t } = useTranslation();
-  const badge =
-    invitation.status === "draft"
-      ? "bg-gray-100 text-gray-600"
-      : invitation.status === "scheduled"
-        ? "bg-amber-100 text-amber-700"
-        : "bg-green-100 text-green-700";
-  const statusLabel =
-    invitation.status === "draft"
-      ? t("invitations.statusDraft")
-      : invitation.status === "scheduled"
-        ? t("invitations.statusScheduled")
-        : t("invitations.statusSent");
-
-  return (
-    <Card className="flex flex-col p-5">
-      <div className="mb-3 flex items-start justify-between">
-        <h3 className="font-semibold text-primary-dark">{invitation.title}</h3>
-        <span
-          className={cn(
-            "rounded-full px-2.5 py-0.5 text-xs font-medium",
-            badge
-          )}
-        >
-          {statusLabel}
-        </span>
-      </div>
-      {invitation.subtitle && (
-        <p className="mb-3 text-sm text-text-secondary">{invitation.subtitle}</p>
-      )}
-      <div className="space-y-1.5 text-sm text-text-secondary">
-        {invitation.event_date && (
-          <p className="flex items-center gap-2">
-            <Calendar className="size-4 text-primary" />
-            {new Date(invitation.event_date).toLocaleDateString("sv-SE")}
-            {invitation.event_time && (
-              <>
-                <Clock className="ml-1 size-4 text-primary" />
-                {invitation.event_time}
-              </>
-            )}
-          </p>
-        )}
-        {invitation.location && (
-          <p className="flex items-center gap-2">
-            <MapPin className="size-4 text-primary" /> {invitation.location}
-          </p>
-        )}
-        <p className="flex items-center gap-2">
-          <Users className="size-4 text-primary" />
-          {t("invitations.rsvps", {
-            accepted: invitation.statistics.accepted,
-            total: invitation.statistics.total_sent,
-            rate: invitation.rsvp_rate,
-          })}
-        </p>
-        {invitation.wishlist_attached && (
-          <p className="flex items-center gap-2 text-primary">
-            <Gift className="size-4" /> {t("invitations.wishlistAttached")}
-          </p>
-        )}
-      </div>
-      <Button asChild variant="outline" className="mt-4 w-full justify-center">
-        <Link href={`/inbjudningar/${invitation._id}`}>
-          {t("invitations.viewDetails")}
-        </Link>
-      </Button>
-    </Card>
-  );
-}
-
-function EmptyState({
-  title,
-  desc,
-  action,
-}: {
-  title: string;
-  desc: string;
-  action?: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="flex size-16 items-center justify-center rounded-full bg-primary-light">
-        <Mail className="size-7 text-primary" />
-      </div>
-      <h3 className="mt-4 text-lg font-bold text-primary-dark">{title}</h3>
-      <p className="mt-1 text-sm text-text-secondary">{desc}</p>
-      {action}
-    </div>
   );
 }
