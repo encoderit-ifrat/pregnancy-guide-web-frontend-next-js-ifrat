@@ -96,7 +96,7 @@ export default function ContractionClientPage() {
                 ) : (
                   <Play className="size-5" />
                 )}
-                {t("contractionCounter.startSession")}
+                <span>{t("contractionCounter.startSession")}</span>
               </Button>
               <Button
                 variant="outline"

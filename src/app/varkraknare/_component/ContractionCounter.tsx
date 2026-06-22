@@ -120,9 +120,11 @@ export default function ContractionCounter({
             ) : (
               <Play className="size-5" />
             )}
-            {running
-              ? t("contractionCounter.counter.stop")
-              : t("contractionCounter.counter.start")}
+            <span>
+              {running
+                ? t("contractionCounter.counter.stop")
+                : t("contractionCounter.counter.start")}
+            </span>
           </Button>
 
           <div className="mt-8 grid grid-cols-3 gap-4 border-t pt-6">

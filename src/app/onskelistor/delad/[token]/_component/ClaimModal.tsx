@@ -130,7 +130,8 @@ export default function ClaimModal({
               disabled={claim.isPending}
             >
               {claim.isPending && <Loader2 className="size-4 animate-spin" />}
-              <Gift className="size-4" /> {t("wishlists.claim.claimGift")}
+              <Gift className="size-4" />
+              <span>{t("wishlists.claim.claimGift")}</span>
             </Button>
             <p className="mt-3 flex items-center justify-center gap-1 text-xs text-text-secondary">
               <ShieldCheck className="size-3.5" /> {t("wishlists.claim.safe")}

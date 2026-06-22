@@ -149,7 +149,7 @@ export default function CreateWishlistModal({
             disabled={create.isPending}
           >
             {create.isPending && <Loader2 className="size-4 animate-spin" />}
-            {t("wishlists.create.submit")}
+            <span>{t("wishlists.create.submit")}</span>
           </Button>
         </div>
       </DialogContent>

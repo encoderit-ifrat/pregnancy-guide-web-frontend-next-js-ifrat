@@ -139,7 +139,7 @@ export default function KickSession({
             ) : (
               <Square className="size-4" />
             )}
-            {t("kickCounter.session.stopSave")}
+            <span>{t("kickCounter.session.stopSave")}</span>
           </Button>
         </Card>
       </div>

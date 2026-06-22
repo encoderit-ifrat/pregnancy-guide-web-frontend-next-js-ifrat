@@ -160,7 +160,9 @@ export default function AddEditItemModal({
             disabled={pending}
           >
             {pending && <Loader2 className="size-4 animate-spin" />}
-            {isEdit ? t("wishlists.item.save") : t("wishlists.item.add")}
+            <span>
+              {isEdit ? t("wishlists.item.save") : t("wishlists.item.add")}
+            </span>
           </Button>
         </div>
       </DialogContent>

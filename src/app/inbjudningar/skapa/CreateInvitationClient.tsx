@@ -487,9 +487,11 @@ export default function CreateInvitationClient() {
                 ) : (
                   <Button onClick={handleSubmit} disabled={submitting}>
                     {submitting && <Loader2 className="size-4 animate-spin" />}
-                    {sendLater
-                      ? t("invitations.builder.schedule")
-                      : t("invitations.builder.sendInvitation")}
+                    <span>
+                      {sendLater
+                        ? t("invitations.builder.schedule")
+                        : t("invitations.builder.sendInvitation")}
+                    </span>
                   </Button>
                 )}
               </div>

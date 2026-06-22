@@ -65,7 +65,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
                 ) : (
                   <Activity className="size-5" />
                 )}
-                {t("kickCounter.landing.start")}
+                <span>{t("kickCounter.landing.start")}</span>
               </Button>
             </div>
           </div>

@@ -110,7 +110,7 @@ export default function PublicInvitationClient() {
                   {respond.isPending && (
                     <Loader2 className="size-4 animate-spin" />
                   )}
-                  {t("invitations.public.accept")}
+                  <span>{t("invitations.public.accept")}</span>
                 </Button>
                 {data.invitation.has_wishlist && (
                   <Button variant="purple" onClick={handleSeeWishlist}>
