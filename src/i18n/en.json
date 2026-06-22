@@ -742,7 +742,21 @@
   "invitations": {
     "label": "Invitations",
     "title": "Beautiful Digital Invitations",
-    "subtitle": "Create stunning invitations for your baby shower, gender reveal, or family celebration. Share with loved ones and track RSVPs effortlessly."
+    "subtitle": "Create stunning invitations for your baby shower, gender reveal, or family celebration. Share with loved ones and track RSVPs effortlessly.",
+    "all": "All",
+    "draft": "Draft",
+    "sent": "Sent",
+    "scheduled": "Scheduled",
+    "createInvitation": "Create Invitation",
+    "viewDetails": "View Details",
+    "wishlistAttached": "Wishlist Attached",
+    "edit": "Edit",
+    "delete": "Delete",
+    "noInvitations": "No invitations yet",
+    "noInvitationsSubtitle": "Create your first beautiful invitation to get started",
+    "noInvitationsDraft": "No draft invitations found.",
+    "noInvitationsSent": "No sent invitations found.",
+    "noInvitationsScheduled": "No scheduled invitations found."
   },
   "wishlists": {
     "label": "Gift Wishlists",

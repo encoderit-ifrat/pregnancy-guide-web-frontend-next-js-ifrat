@@ -33,6 +33,7 @@ const tabsListVariants = cva(
         default: "bg-muted",
         line: "gap-1 bg-transparent",
         pill: "bg-transparent border border-[#E5E7EB] rounded-full p-1 gap-0",
+        inv: "bg-primary rounded-full p-1 gap-0",
       },
     },
     defaultVariants: {
@@ -45,6 +46,7 @@ const tabsTriggerVariants = cva(" flex items-center  gap-2 capitalize", {
   variants: {
     variant: {
       default: "",
+      inv: "",
       pill: "bg-white shadow-sm border border-white text-primary-color rounded-full px-6 h-full bg-transparent shadow-none data-[state=active]:bg-[#A97AEC] data-[state=active]:!text-white data-[state=active]:shadow-none text-primary-color font-medium text-sm transition-all",
     },
   },
@@ -87,6 +89,10 @@ function TabsTrigger({
           "data-[state=active]:bg-background dark:data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 data-[state=active]:text-foreground",
         variant !== "pill" &&
           "after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:-bottom-1.25 group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
+        variant == "inv" &&
+          "after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:-bottom-1.25 group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
+        variant == "inv" &&
+          "data-[state=active]:bg-primary dark:data-[state=active]:text-white text-primary-dark text-lg font-medium rounded-[10px] py-[7px] px-11 border-0 dark:data-[state=active]:border-0 dark:data-[state=active]:bg-primary data-[state=active]:text-white",
         tabsTriggerVariants({ variant }),
         className
       )}

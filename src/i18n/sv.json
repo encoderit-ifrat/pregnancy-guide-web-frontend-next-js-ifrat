@@ -729,7 +729,21 @@
   "invitations": {
     "label": "Inbjudningar",
     "title": "Vackra Digitala Inbjudningar",
-    "subtitle": "Skapa fantastiska inbjudningar till din babyshower, könsavslöjande eller familjehögtid. Dela med dina nära och kära och följ OSA enkelt."
+    "subtitle": "Skapa fantastiska inbjudningar till din babyshower, könsavslöjande eller familjehögtid. Dela med dina nära och kära och följ OSA enkelt.",
+    "all": "Alla",
+    "draft": "Utkast",
+    "sent": "Skickade",
+    "scheduled": "Schemalagda",
+    "createInvitation": "Skapa inbjudan",
+    "viewDetails": "Visa detaljer",
+    "wishlistAttached": "Önskelista bifogad",
+    "edit": "Redigera",
+    "delete": "Radera",
+    "noInvitations": "Inga inbjudningar hittades",
+    "noInvitationsSubtitle": "Skapa din första vackra inbjudan för att komma igång",
+    "noInvitationsDraft": "Inga utkast till inbjudningar hittades.",
+    "noInvitationsSent": "Inga skickade inbjudningar hittades.",
+    "noInvitationsScheduled": "Inga schemalagda inbjudningar hittades."
   },
   "wishlists": {
     "label": "Önskelistor",
