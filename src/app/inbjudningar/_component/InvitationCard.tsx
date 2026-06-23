@@ -17,16 +17,20 @@ import {
 } from "@/components/ui/Popover";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
+import { EventInvitation } from "../_types/invitation_types";
+import { formatDate } from "date-fns";
 
-function InvitationCard() {
+function InvitationCard({ inv }: { inv: EventInvitation }) {
   const { t } = useTranslation();
   return (
     <div className="relative w-[348px] h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col">
-      <div className="absolute top-[14px] right-3 flex items-center justify-center py-1 px-2.5 bg-primary rounded-[5px]">
-        <p className="text-xs! font-medium! text-white!">Scheduled</p>
-      </div>
+      {inv.status === "scheduled" && (
+        <div className="absolute top-[14px] right-3 flex items-center justify-center py-1 px-2.5 bg-primary rounded-[5px]">
+          <p className="text-xs! font-medium! text-white!">Scheduled</p>
+        </div>
+      )}
       <Image
-        src={"/images/baby-shower.jpg"}
+        src={inv.cover_image ? inv.cover_image : "/images/default.png"}
         width={700}
         height={700}
         className="w-full h-[176px] object-cover rounded-[10px] shrink-0"
@@ -36,9 +40,9 @@ function InvitationCard() {
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-xl font-bold text-primary-dark!">
-              Baby Shower Celebration
+              {inv.title}
             </h3>
-            <p className="text-base font-normal">Emma</p>
+            <p className="text-base font-normal">{inv.subtitle}</p>
           </div>
           <Popover>
             <PopoverTrigger asChild className="cursor-pointer">
@@ -62,15 +66,17 @@ function InvitationCard() {
         </div>
         <div className="flex items-center gap-2 mt-[15px] mb-2">
           <Calendar size={16} className="text-primary" />
-          <p>6/15/2026 at 14:00</p>
+          <p>
+            {formatDate(inv.event_date || "", "P")} at {inv.event_time}
+          </p>
         </div>
         <div className="flex items-center gap-2 mb-2">
           <MapPin size={16} className="text-primary" />
-          <p>Rosendal Garden, Stockholm</p>
+          <p>{inv.location}</p>
         </div>
         <div className="flex items-center gap-2">
           <Users size={16} className="text-primary" />
-          <p>24 RSVPs</p>
+          <p>{inv.rsvp_rate || 0} RSVPs</p>
         </div>
         <Link
           href="/wishlists"
@@ -81,7 +87,7 @@ function InvitationCard() {
         </Link>
         <div className="flex items-center w-full gap-2 mt-auto">
           <Link
-            href="/invitations/invitation/22"
+            href={`/inbjudningar/${inv._id}`}
             className="flex-1 font-semibold bg-[#F6F0FB] border border-primary text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center justify-center gap-2"
           >
             {t("invitations.viewDetails")}

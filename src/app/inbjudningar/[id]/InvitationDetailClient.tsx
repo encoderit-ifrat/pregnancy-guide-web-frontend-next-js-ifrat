@@ -1,9 +1,14 @@
+"use client";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Input } from "@/components/ui/Input";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   ArrowLeft,
   Calendar,
   CircleCheckBig,
+  Clock,
   Download,
   Gift,
   MapPin,
@@ -12,26 +17,81 @@ import {
   Share2,
   SquarePen,
   UserRound,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import BackToInv from "../_component/BackToInv";
+import { useParams } from "next/navigation";
+import { useQueryInvitationDetail } from "../_api/queries/useQueryInvitations";
+import {
+  useAddRecipients,
+  useRemoveRecipient,
+  useSendInvitation,
+} from "../_api/mutations/useInvitationMutations";
+import { useState } from "react";
+import { RsvpStatus } from "../_types/invitation_types";
+import { toast } from "sonner";
+import { formatDate } from "date-fns";
 
 type pageProps = object;
 
 export default function page({}: pageProps) {
+  const { t } = useTranslation();
+  const { id } = useParams<{ id: string }>();
+  const { data: inv, isLoading } = useQueryInvitationDetail(id);
+  const addRecipients = useAddRecipients();
+  const removeRecipient = useRemoveRecipient();
+  const send = useSendInvitation();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [addOpen, setAddOpen] = useState(false);
+
+  const statusLabel = (s: RsvpStatus) => t(`invitations.status.${s}`);
+
+  const handleShare = () => {
+    if (!inv) return;
+    const url = `${window.location.origin}/inbjudningar/rsvp/${inv.share_token}`;
+    navigator.clipboard.writeText(url).then(
+      () => toast.success(t("invitations.detail.linkCopied")),
+      () => toast.error(t("invitations.detail.copyFailed"))
+    );
+  };
+
+  const handleAddGuest = () => {
+    if (!name.trim() || !email.trim())
+      return toast.error(t("invitations.detail.enterNameEmail"));
+    addRecipients.mutate(
+      { id, recipients: [{ name: name.trim(), email: email.trim() }] },
+      {
+        onSuccess: () => {
+          toast.success(t("invitations.detail.guestAdded"));
+          setName("");
+          setEmail("");
+          setAddOpen(false);
+        },
+      }
+    );
+  };
+
+  const handleSend = () => {
+    send.mutate(
+      { id },
+      { onSuccess: () => toast.success(t("invitations.detail.invitationSent")) }
+    );
+  };
+  // console.log("invitation", inv);
   return (
     <PageContainer>
       <div className="w-full max-w-327 pb-20 mx-auto px-0 mt-8">
-        <Link href={"/invitations"} className="flex items-center gap-2">
-          <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
-          <p className="text-base font-normal">Back to invitations</p>
-        </Link>
+        <BackToInv />
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5 mt-[35px] md:mt-[60px]">
           <div>
             <div className="p-3 bg-white border border-[#F3E8FF] rounded-[25px]">
               <div className="relative w-full h-[146px] md:h-[476px] rounded-[15px] overflow-hidden">
                 <Image
-                  src={"/images/baby-shower.jpg"}
+                  src={inv?.cover_image || "/images/default.png"}
                   width={700}
                   height={700}
                   alt={"baby-shower"}
@@ -40,10 +100,10 @@ export default function page({}: pageProps) {
                 <div className="absolute inset-0 bg-linear-to-b to-[#00000059] from-transparent">
                   <div className="absolute md:bottom-[27px] bottom-2 left-4 md:left-8 ">
                     <h3 className="text-xl! md:text-[35px]! font-semibold! text-white!">
-                      Baby Shower Celebration
+                      {inv?.title}
                     </h3>
                     <p className="text-base! md:text-xl! font-normal text-white!">
-                      Celebrating Emma
+                      {inv?.subtitle}
                     </p>
                   </div>
                 </div>
@@ -56,9 +116,11 @@ export default function page({}: pageProps) {
                   <div>
                     <p className="text-base font-normal">Date & Time</p>
                     <p className="text-base font-semibold!">
-                      Saturday, 12 December, 2025
+                      {inv?.event_date
+                        ? formatDate(inv.event_date, "PPPP")
+                        : ""}
                     </p>
-                    <p className="text-base font-normal">11:00 AM - 3:00 PM</p>
+                    <p className="text-base font-normal">{inv?.event_time}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-[40px_200px] gap-4">
@@ -67,9 +129,7 @@ export default function page({}: pageProps) {
                   </div>
                   <div>
                     <p className="text-base font-normal">Location</p>
-                    <p className="text-base font-semibold!">
-                      1428 Center Par Street, New York, 10038
-                    </p>
+                    <p className="text-base font-semibold!">{inv?.location}</p>
                   </div>
                 </div>
               </div>
@@ -78,11 +138,7 @@ export default function page({}: pageProps) {
                   Message
                 </h3>
                 <p className="text-base! font-normal mt-3 text-primary-dark!">
-                  Join us for a special day as we celebrate the upcoming arrival
-                  of our little one. Your presence will make it even more
-                  memorable!Join us for a special day as we celebrate the
-                  upcoming arrival of our little one. Your presence will make it
-                  even more memorable!
+                  {inv?.message}
                 </p>
               </div>
               <div className="px-5 py-[15px] mx-0 md:mx-6 mb-0 md:mb-5 bg-primary-light2 rounded-[15px]">
@@ -92,7 +148,7 @@ export default function page({}: pageProps) {
                   </div>
                   <div>
                     <p className="text-xl! font-semibold! text-primary-dark!">
-                      Wishlist Attached
+                      {t("invitations.detail.wishlistAttached")}
                     </p>
                     <p className="text-base! font-normal text-primary-dark!">
                       View gift ideas for Emma
@@ -100,7 +156,7 @@ export default function page({}: pageProps) {
                   </div>
                 </div>
                 <Link
-                  href={"/wishlists"}
+                  href={`/onskelistor/${inv?.wishlist}`}
                   className="w-full bg-white flex items-center justify-center rounded-full border text-primary font-semibold! mt-3 py-[7px]"
                 >
                   View Wishlist
@@ -118,55 +174,80 @@ export default function page({}: pageProps) {
                     size={"sm"}
                     className="text-base! font-medium bg-primary-light2 hover:bg-primary-light2/80"
                   >
-                    3 / 4 Accepted
+                    {inv?.statistics.accepted} / {inv?.statistics.total_sent}{" "}
+                    Accepted
                   </Button>
                   <Button
                     variant={"default"}
                     size={"sm"}
                     className="text-base! font-medium"
+                    onClick={() => setAddOpen(true)}
                   >
                     Add guest
                     <Plus className="w-10 h-10 bg-white rounded-full text-primary!" />
                   </Button>
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <div className="px-5 py-[15px] mx-0 md:mx-6 mb-0 md:mb-5 flex flex-col md:flex-row items-start md:items-center justify-between bg-primary-light2 rounded-[15px]">
-                  <div className="grid grid-cols-[48px_1fr] gap-4">
-                    <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
-                      <UserRound className=" text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-xl! font-semibold! text-primary-dark!">
-                        Anna Svensson
-                      </p>
-                      <p className="text-base! font-normal text-primary-dark!">
-                        anna@example.com
-                      </p>
+              {inv?.guests.length && inv?.guests.length > 0 ? (
+                inv.guests.map((guest) => (
+                  <div className="flex flex-col gap-3" key={guest._id}>
+                    <div className="px-5 py-[15px] mx-0 md:mx-6 mb-0 md:mb-5 flex flex-col md:flex-row items-start md:items-center justify-between bg-[#FCFAFF] rounded-[15px]">
+                      <div className="grid grid-cols-[48px_1fr] gap-4">
+                        <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
+                          <UserRound className=" text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-xl! font-semibold! text-primary-dark!">
+                            {guest.name}
+                          </p>
+                          <p className="text-base! font-normal text-primary-dark!">
+                            {guest.email}
+                          </p>
+                        </div>
+                      </div>
+                      {guest.rsvp_status === "accepted" ? (
+                        <div className="w-fit px-5 bg-[#DCFCE7] flex items-center justify-center gap-2.5 rounded-full border-0 text-[#00A63E] font-semibold! mt-3 md:mt-0 py-[7px]">
+                          <CircleCheckBig />
+                          Accepted
+                        </div>
+                      ) : (
+                        <div className="w-fit px-5 bg-[#F2F2F2] flex items-center justify-center gap-2.5 rounded-full border border-[#D1D5DC] text-[#4A5565] font-semibold! mt-3 md:mt-0 py-[7px]">
+                          <Clock size={16} />
+                          Pending
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="w-fit px-5 bg-[#DCFCE7] flex items-center justify-center gap-2.5 rounded-full border-0 text-[#00A63E] font-semibold! mt-3 md:mt-0 py-[7px]">
-                    <CircleCheckBig />
-                    Accepted
-                  </div>
+                ))
+              ) : (
+                <div className="flex items-center justify-center">
+                  No guests found
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className="px-2.5 h-max bg-white border border-[#F3E8FF] rounded-[25px]">
             <div className="px-2 md:px-7 py-[25px] border-b border-b-[#F3E8FF]">
-              <p className="text-[25px]! font-semibold mb-5">Action</p>
+              <p className="text-[25px]! font-semibold mb-5">
+                {t("invitations.detail.actions")}
+              </p>
               <div className="flex flex-col gap-[13px] w-full">
-                <Button variant={"default"} className="text-lg font-semibold">
+                <Button
+                  variant={"default"}
+                  onClick={handleSend}
+                  disabled={send.isPending}
+                  className="text-lg font-semibold"
+                >
                   <Send />
-                  send invitation
+                  {t("invitations.detail.sendInvitation")}
                 </Button>
                 <Button
                   variant={"outline"}
+                  onClick={handleShare}
                   className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
                   <Share2 />
-                  Share Link
+                  {t("invitations.detail.shareLink")}
                 </Button>
                 <Button
                   variant={"outline"}
@@ -185,28 +266,68 @@ export default function page({}: pageProps) {
               </div>
             </div>
             <div className="px-2 md:px-7 py-[25px]">
-              <p className="text-[25px]! font-semibold mb-5">Statistics</p>
+              <p className="text-[25px]! font-semibold mb-5">
+                {t("invitations.detail.statistics")}
+              </p>
               <div className="flex flex-col gap-[13px]">
                 <div className="flex items-center justify-between">
-                  <p>Total Sent</p>
-                  <p className="font-semibold!">100</p>
+                  <p>{t("invitations.detail.totalSent")}</p>
+                  <p className="font-semibold!">{inv?.statistics.total_sent}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Viewed</p>
-                  <p className="font-semibold!">100</p>
+                  <p>{t("invitations.detail.viewed")}</p>
+                  <p className="font-semibold!">{inv?.statistics.viewed}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Accepted</p>
-                  <p className="text-[#00A63E]! font-semibold!">100</p>
+                  <p>{t("invitations.detail.accepted")}</p>
+                  <p className="text-[#00A63E]! font-semibold!">
+                    {inv?.statistics.accepted}
+                  </p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Pending</p>
-                  <p className="font-semibold!">100</p>
+                  <p>{t("invitations.detail.pending")}</p>
+                  <p className="font-semibold!">{inv?.statistics.pending}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <Dialog open={addOpen} onOpenChange={setAddOpen}>
+          <DialogContent className="max-w-xs md:max-w-sm bg-[#FCFAFF] rounded-[15px] border border-[#F3E8FF]">
+            <h2 className="font-outfit! text-xl font-bold text-primary-dark mb-4">
+              Add Guest
+            </h2>
+            <div className="space-y-3">
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={t("invitations.detail.guestName")}
+              />
+              <Input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("invitations.detail.email")}
+              />
+              <div className="flex gap-2 pt-2">
+                <Button
+                  variant="outline"
+                  className="flex-1 justify-center"
+                  onClick={() => setAddOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="flex-1 justify-center"
+                  onClick={handleAddGuest}
+                  disabled={addRecipients.isPending}
+                >
+                  {t("invitations.detail.add")}
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </PageContainer>
   );

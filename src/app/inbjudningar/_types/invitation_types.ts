@@ -36,6 +36,7 @@ export interface EventInvitation {
   title: string;
   subtitle: string | null;
   message: string | null;
+  rsvp_rate?: number | string;
   event_date: string | null;
   event_time: string | null;
   reply_by: string | null;

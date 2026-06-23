@@ -1007,6 +1007,7 @@
     "sent": "Sent",
     "scheduled": "Scheduled",
     "createInvitation": "Create Invitation",
+    "backToInvitations": "Back to Invitations",
     "loginTitle": "Please log in",
     "loginDesc": "Log in to create and manage invitations",
     "login": "Log in",
@@ -1022,12 +1023,28 @@
       "back": "Back to Invitations",
       "title": "Create your Invitation",
       "subtitle": "Design and share a beautiful invitation for your celebration",
-      "stepEventInfo": "Event Info",
-      "stepTemplate": "Template",
-      "stepWishlist": "Wishlist",
-      "stepRecipients": "Recipients",
-      "stepPreview": "Preview & Send",
+      "stepEventInfo": {
+        "title": "Event Info",
+        "subtitle": "Basic Detail"
+      },
+      "stepTemplate": {
+        "title": "Template",
+        "subtitle": "Choose design"
+      },
+      "stepWishlist": {
+        "title": "Wishlist",
+        "subtitle": "Attach wishlist"
+      },
+      "stepRecipients": {
+        "title": "Recipients",
+        "subtitle": "Add guest list"
+      },
+      "stepPreview": {
+        "title": "Preview & Send",
+        "subtitle": "Review & send"
+      },
       "eventInformation": "Event Information",
+      "InvitationDeatilsBelow": "Tell us about your celebration",
       "eventTitle": "Event Title",
       "eventTitlePlaceholder": "Baby Shower Celebration",
       "subtitleLabel": "Event Subtitle (Optional)",
@@ -1040,6 +1057,7 @@
       "customMessage": "Custom Message",
       "customMessagePlaceholder": "We are excited to celebrate this special journey…",
       "chooseTemplate": "Choose Invitation Template",
+      "chooseTemplateBelow": "Select a design style for your invitation.",
       "attachWishlist": "Attach Wishlist",
       "attachWishlistDesc": "Help your guests know exactly what you need for your baby.",
       "noWishlist": "No wishlist (skip)",
@@ -1055,6 +1073,7 @@
       "yes": "Yes",
       "no": "No",
       "selectedTemplate": "Selected Template",
+      "stepPreviewDes": "Review all details and send your beautiful invitation to guests.",
       "deliveryOptions": "Delivery Options",
       "emailInvitation": "Email Invitation",
       "shareLink": "Share Link",
@@ -1063,10 +1082,12 @@
       "sendNow": "Send Now",
       "sendLater": "Send Later",
       "backBtn": "Back",
+      "cancel": "Cancel",
       "continue": "Continue",
       "sendInvitation": "Send Invitation",
       "schedule": "Schedule",
       "livePreview": "Live Preview",
+      "livePreviewsub": "See how your invitation will look",
       "scheduledTitle": "Invitation Scheduled!",
       "sentTitle": "Invitation Sent Successfully!",
       "sentDesc": "Your invitation has been sent to your guests. They'll receive an email with all the event details.",
@@ -1075,10 +1096,25 @@
       "recipientRequired": "Add at least one recipient",
       "enterNameEmail": "Enter both name and email",
       "dateRequired": "Event date is required to send",
-      "savedDraft": "Invitation saved as draft"
+      "savedDraft": "Invitation saved as draft",
+      "eventDetails": "Event Details",
+      "emailStatus": "Email Status",
+      "readyToSend": "Ready to Send",
+      "createWishlist": "Create new wishlist",
+      "createWishlistDesc": "Create a new wishlist to share with your guests.",
+      "uploadCoverImage": "Upload your own image",
+      "confirmLeaveTitle": "Leave this page?",
+      "confirmLeaveDesc": "You have unsaved progress. If you leave, your current invitation details will be lost.",
+      "confirmLeaveAction": "Leave",
+      "confirmLeaveCancel": "Stay"
     },
     "preview": {
       "eventTitle": "Event Title",
+      "eventSubtitle": "Event Subtitle",
+      "defaultdate": "May 28, 2026",
+      "defaulttime": "03:00 PM",
+      "defaultlocation": "Rosendal Garden, Stockholm",
+      "defaultMessage": "We're so excited to celebrate this special milestone with you.",
       "latestReply": "Latest Time to Reply: {date}"
     },
     "detail": {

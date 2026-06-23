@@ -994,6 +994,7 @@
     "sent": "Skickade",
     "scheduled": "Schemalagda",
     "createInvitation": "Skapa inbjudan",
+    "backToInvitations": "Tillbaka till inbjudningar",
     "loginTitle": "Logga in",
     "loginDesc": "Logga in för att skapa och hantera inbjudningar",
     "login": "Logga in",
@@ -1009,12 +1010,28 @@
       "back": "Tillbaka till inbjudningar",
       "title": "Skapa din inbjudan",
       "subtitle": "Designa och dela en vacker inbjudan till din fest",
-      "stepEventInfo": "Eventinfo",
-      "stepTemplate": "Mall",
-      "stepWishlist": "Önskelista",
-      "stepRecipients": "Mottagare",
-      "stepPreview": "Förhandsgranska & skicka",
+      "stepEventInfo": {
+        "title": "Eventinfo",
+        "subtitle": "Basala uppgifter"
+      },
+      "stepTemplate": {
+        "title": "Mall",
+        "subtitle": "Välj design"
+      },
+      "stepWishlist": {
+        "title": "Önskelista",
+        "subtitle": "Bifoga önskelista"
+      },
+      "stepRecipients": {
+        "title": "Mottagare",
+        "subtitle": "Lägg till gästlista"
+      },
+      "stepPreview": {
+        "title": "Förhandsgranska & skicka",
+        "subtitle": "Granska och skicka"
+      },
       "eventInformation": "Eventinformation",
+      "InvitationDeatilsBelow": "Berätta om din fest",
       "eventTitle": "Eventtitel",
       "eventTitlePlaceholder": "Babyshower",
       "subtitleLabel": "Underrubrik (valfritt)",
@@ -1027,6 +1044,8 @@
       "customMessage": "Eget meddelande",
       "customMessagePlaceholder": "Vi är glada att få fira denna speciella resa…",
       "chooseTemplate": "Välj inbjudningsmall",
+      "chooseTemplateBelow": "Välj designstil för din inbjudan",
+      "stepPreviewDes": "Review all details and send your beautiful invitation to guests.",
       "attachWishlist": "Bifoga önskelista",
       "attachWishlistDesc": "Hjälp dina gäster att veta exakt vad ni behöver till er bebis.",
       "noWishlist": "Ingen önskelista (hoppa över)",
@@ -1050,10 +1069,12 @@
       "sendNow": "Skicka nu",
       "sendLater": "Skicka senare",
       "backBtn": "Tillbaka",
+      "cancel": "Avbryt",
       "continue": "Fortsätt",
       "sendInvitation": "Skicka inbjudan",
       "schedule": "Schemalägg",
       "livePreview": "Live-förhandsgranskning",
+      "livePreviewsub": "Live-förhandsgranskning ff",
       "scheduledTitle": "Inbjudan schemalagd!",
       "sentTitle": "Inbjudan skickad!",
       "sentDesc": "Din inbjudan har skickats till dina gäster. De får ett e-postmeddelande med alla eventdetaljer.",
@@ -1062,10 +1083,25 @@
       "recipientRequired": "Lägg till minst en mottagare",
       "enterNameEmail": "Ange både namn och e-post",
       "dateRequired": "Eventdatum krävs för att skicka",
-      "savedDraft": "Inbjudan sparad som utkast"
+      "savedDraft": "Inbjudan sparad som utkast",
+      "eventDetails": "Event Details",
+      "emailStatus": "E-poststatus",
+      "readyToSend": "Redo att skicka",
+      "createWishlist": "Skapa ny önskelista",
+      "createWishlistDesc": "Skapa en ny önskelista att dela med dina gäster.",
+      "uploadCoverImage": "Ladda upp din egen bild",
+      "confirmLeaveTitle": "Lämna sidan?",
+      "confirmLeaveDesc": "Du har osparade ändringar. Om du lämnar förlorar du dina inbjudningsdetaljer.",
+      "confirmLeaveAction": "Lämna",
+      "confirmLeaveCancel": "Stanna"
     },
     "preview": {
       "eventTitle": "Eventtitel",
+      "eventSubtitle": "Event Subtitle",
+      "defaultdate": "28 maj 2026",
+      "defaulttime": "03:00 PM",
+      "defaultlocation": "Rosendals trädgård",
+      "defaultMessage": "Vi är så glada att få fira denna speciella resa med dig.",
       "latestReply": "Senaste svarsdatum: {date}"
     },
     "detail": {

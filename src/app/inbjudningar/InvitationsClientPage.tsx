@@ -9,12 +9,17 @@ import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import InvitationCard from "./_component/InvitationCard";
+import { useQueryInvitations } from "./_api/queries/useQueryInvitations";
 
 type InvitatioinsClientPageProps = object;
 
 export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("all");
+  const { data, isLoading } = useQueryInvitations(activeTab);
+
+  const invitations = data?.data ?? [];
+  // console.log("invitations", invitations);
 
   return (
     <PageContainer>
@@ -66,7 +71,7 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                 <PlusIcon className="bg-primary text-white p-2 rounded-full w-9 h-9" />
               </Link>
             </div>
-            <TabsContent value="all" className="m-0 flex flex-col gap-2">
+            <TabsContent value="all" className="m-0 grid grid-cols-3 gap-6">
               {/* {namesLoading && (
                   <>
                     <SkeletonCommunityCard />
@@ -86,35 +91,104 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                       {t("forNameTinder.noNamesFound")}
                     </p>
                   )} */}
-              <div className="h-[373px] w-full flex flex-col items-center justify-center">
-                <Image
-                  src={"/images/icons/no-inv.png"}
-                  width={700}
-                  height={700}
-                  className="w-20 h-20"
-                  alt={t("invitations.all")}
-                />
-                <p className="text-[25px]! font-semibold mt-6 mb-3">
-                  {t("invitations.noInvitationsTitle")}
-                </p>
-                <p className="text-base font-normal">
-                  {t("invitations.noInvitationsDesc")}
-                </p>
-              </div>
+              {invitations.length > 0 ? (
+                invitations.map((inv) => (
+                  <InvitationCard key={inv._id} inv={inv} />
+                ))
+              ) : (
+                <div className="h-[373px] col-span-3 w-full flex flex-col items-center justify-center">
+                  <Image
+                    src={"/images/icons/no-inv.png"}
+                    width={700}
+                    height={700}
+                    className="w-20 h-20"
+                    alt={t("invitations.all")}
+                  />
+                  <p className="text-[25px]! font-semibold mt-6 mb-3">
+                    {t("invitations.noInvitationsTitle")}
+                  </p>
+                  <p className="text-base font-normal">
+                    {t("invitations.noInvitationsDesc")}
+                  </p>
+                </div>
+              )}
 
               {/* <Pagination
                   meta={paginationMeta}
                   onPageChange={handlePageChange}
                 /> */}
             </TabsContent>
-            <TabsContent value="draft" className="m-0 flex flex-col gap-2">
-              <InvitationCard />
+            <TabsContent value="draft" className="m-0 grid grid-cols-3 gap-6">
+              {invitations.length > 0 ? (
+                invitations.map((inv) => (
+                  <InvitationCard key={inv._id} inv={inv} />
+                ))
+              ) : (
+                <div className="h-[373px] col-span-3 w-full flex flex-col items-center justify-center">
+                  <Image
+                    src={"/images/icons/no-inv.png"}
+                    width={700}
+                    height={700}
+                    className="w-20 h-20"
+                    alt={t("invitations.all")}
+                  />
+                  <p className="text-[25px]! font-semibold mt-6 mb-3">
+                    {t("invitations.noInvitationsTitle")}
+                  </p>
+                  <p className="text-base font-normal">
+                    {t("invitations.noInvitationsDesc")}
+                  </p>
+                </div>
+              )}
             </TabsContent>
-            <TabsContent value="sent" className="m-0 flex flex-col gap-2">
-              <InvitationCard />
+            <TabsContent value="sent" className="m-0 grid grid-cols-3 gap-6">
+              {invitations.length > 0 ? (
+                invitations.map((inv) => (
+                  <InvitationCard key={inv._id} inv={inv} />
+                ))
+              ) : (
+                <div className="h-[373px] col-span-3 w-full flex flex-col items-center justify-center">
+                  <Image
+                    src={"/images/icons/no-inv.png"}
+                    width={700}
+                    height={700}
+                    className="w-20 h-20"
+                    alt={t("invitations.all")}
+                  />
+                  <p className="text-[25px]! font-semibold mt-6 mb-3">
+                    {t("invitations.noInvitationsTitle")}
+                  </p>
+                  <p className="text-base font-normal">
+                    {t("invitations.noInvitationsDesc")}
+                  </p>
+                </div>
+              )}
             </TabsContent>
-            <TabsContent value="scheduled" className="m-0 flex flex-col gap-2">
-              <h1>Hellow 3</h1>
+            <TabsContent
+              value="scheduled"
+              className="m-0 grid grid-cols-3 gap-6"
+            >
+              {invitations.length > 0 ? (
+                invitations.map((inv) => (
+                  <InvitationCard key={inv._id} inv={inv} />
+                ))
+              ) : (
+                <div className="h-[373px] col-span-3 w-full flex flex-col items-center justify-center">
+                  <Image
+                    src={"/images/icons/no-inv.png"}
+                    width={700}
+                    height={700}
+                    className="w-20 h-20"
+                    alt={t("invitations.all")}
+                  />
+                  <p className="text-[25px]! font-semibold mt-6 mb-3">
+                    {t("invitations.noInvitationsTitle")}
+                  </p>
+                  <p className="text-base font-normal">
+                    {t("invitations.noInvitationsDesc")}
+                  </p>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

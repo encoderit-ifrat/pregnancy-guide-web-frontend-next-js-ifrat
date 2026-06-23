@@ -9,17 +9,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import { cn } from "@/lib/utils";
 
 export function DatePicker({
   value,
   onChange,
   placeholder,
   disabled,
+  inputClassName,
 }: {
   value?: Date;
   onChange: (date?: Date) => void;
   placeholder?: string;
   disabled?: boolean;
+  inputClassName?: string;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -41,12 +44,19 @@ export function DatePicker({
   };
 
   return (
-    <Popover open={disabled ? false : open} onOpenChange={disabled ? () => {} : setOpen}>
+    <Popover
+      open={disabled ? false : open}
+      onOpenChange={disabled ? () => {} : setOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           variant="tertiary"
           disabled={disabled}
-          className="w-full justify-between rounded-full py-4 pl-10 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+          className={cn(
+            "w-full justify-between rounded-full py-4 pl-4 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+            placeholder && !value && "placeholder:text-[#445B6A]",
+            inputClassName
+          )}
         >
           {value ? value.toLocaleDateString() : placeholder}
           <ChevronDownIcon />
