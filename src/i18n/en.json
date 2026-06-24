@@ -744,8 +744,11 @@
   "high": "High",
   "kickCounter": {
     "badge": "Kick Counter",
+    "badge01": "Session Active",
     "title": "Track Your Baby's Movements",
+    "title01": "Tracking Baby's Kicks",
     "subtitle": "Monitor your baby's kicks and movements throughout your pregnancy. Keep track of patterns and stay connected with your little one.",
+    "subtitle01": "Record each movement you feel",
     "loginPrompt": "Please log in to use the Kick Counter.",
     "login": "Log in",
     "startError": "Could not start session",
@@ -772,8 +775,8 @@
     },
     "session": {
       "active": "Session Active",
-      "title": "Tracking Baby's Kicks",
-      "desc": "Record each movement you feel",
+      "title": "Kick Session",
+      "desc": "Track your baby's movements",
       "softKick": "Soft Kick",
       "hardKick": "Hard Kick",
       "unsureKick": "Unsure",
@@ -943,7 +946,7 @@
     "detail": {
       "back": "Back to Wishlists",
       "latestPurchase": "Latest day to purchase: {date}",
-      "itemsClaimed": "{claimed} / {total} items claimed",
+      "itemsClaimed": "items claimed",
       "shareWishlist": "Share Wishlist",
       "addItem": "Add Item",
       "itemsName": "Items Name",

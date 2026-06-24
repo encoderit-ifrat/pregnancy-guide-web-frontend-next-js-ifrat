@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -7,11 +6,13 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
-import { ExternalLink, Heart } from "lucide-react";
+import { ExternalLink, Heart, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryPublicWishlist } from "../../_api/queries/useQueryWishlists";
 import ClaimModal from "./_component/ClaimModal";
 import { PublicWishlistItem } from "../../_types/wishlist_types";
+import IconHeading from "@/components/ui/text/IconHeading";
+import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
 export default function PublicWishlistClient() {
   const { t } = useTranslation();
@@ -23,10 +24,19 @@ export default function PublicWishlistClient() {
   return (
     <PageContainer>
       <div className="mx-auto max-w-5xl">
-        <div className="mb-6 text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
-            <Heart className="size-4" /> {t("wishlists.public.heading")}
-          </span>
+        <div className="thread-header mb-8 flex flex-col items-center text-center">
+          <IconHeading
+            text={t("wishlists.badge")}
+            image="/images/icons/wish-01.png"
+            className="text-primary justify-center"
+          />
+          <SectionHeading className="my-2 md:my-0 mb-6 md:mb-[15px]!">
+            {t("wishlists.title")}
+          </SectionHeading>
+
+          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
+            {t("wishlists.subtitle")}
+          </p>
         </div>
 
         {isLoading ? (
@@ -39,33 +49,40 @@ export default function PublicWishlistClient() {
           </Card>
         ) : (
           <>
-            <Card className="overflow-hidden">
-              <div className="relative h-56 w-full bg-primary-light">
+            <Card className="overflow-hidden px-2.5 py-3 lg:p-[17px] border border-[#F3E8FF] rounded-[8px]!">
+              <div className="relative overflow-hidden h-44 md:h-[483px] w-full rounded-[10px]! bg-primary-light">
                 <Image
                   src={wishlist.cover_image || "/default_wishlist_image.png"}
                   alt={wishlist.title}
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute bottom-4 left-6 text-white">
-                  <h1 className="text-2xl font-bold">{wishlist.title}</h1>
-                  {wishlist.description && (
-                    <p className="text-sm opacity-90">{wishlist.description}</p>
-                  )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-1.5 md:py-[18px] md:px-6 w-full flex flex-col justify-end">
+                  <div className="w-full md:max-w-[468px] bg-[#3D3177A1] rounded-[10px]! text-white px-2.5 py-1 md:py-[14px] md:px-5">
+                    <h1 className="text-xl! font-semibold! mb-0! truncate">
+                      {wishlist.title}
+                    </h1>
+                    {wishlist.description && (
+                      <p className="text-base! font-normal! text-white! truncate">
+                        {wishlist.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-              {wishlist.reply_by && (
+              {/* {wishlist.reply_by && (
                 <p className="px-6 py-3 text-sm text-text-secondary">
                   {t("wishlists.public.latestPurchase", {
-                    date: new Date(wishlist.reply_by).toLocaleDateString("sv-SE"),
+                    date: new Date(wishlist.reply_by).toLocaleDateString(
+                      "sv-SE"
+                    ),
                   })}
                 </p>
-              )}
+              )} */}
             </Card>
 
-            <Card className="mt-6 overflow-x-auto p-0">
-              <table className="w-full min-w-[640px] text-sm">
+            <Card className="mt-6 overflow-x-auto py-[25px] px-2.5">
+              <table className="hidden md:table w-full min-w-[720px] text-sm">
                 <thead>
                   <tr className="border-b text-left text-text-secondary">
                     <th className="px-5 py-3 font-medium">
@@ -142,6 +159,73 @@ export default function PublicWishlistClient() {
                   })}
                 </tbody>
               </table>
+              <div className="md:hidden space-y-4">
+                {wishlist.items.map((item) => (
+                  <div
+                    key={item._id}
+                    className="flex flex-col gap-4 border border-[#F3E8FF] rounded-[15px] py-[11px] px-[13px]"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="text-xl font-bold text-primary-dark!">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <div
+                        onClick={() => setClaimItem(item)}
+                        className="size-8 hover:bg-primary/10 border border-primary rounded-[5px] flex items-center justify-center cursor-pointer"
+                      >
+                        <Info size={18} className="text-primary-dark" />{" "}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-base text-primary-dark! font-semibold! mb-1">
+                        Status:{" "}
+                        {item.claim_status === "claimed" ? (
+                          <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
+                            {item.claim_status
+                              ? t("wishlists.detail.claimedBy", {
+                                  name: item.claim_status,
+                                })
+                              : t("wishlists.detail.claimed")}
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                            {t("wishlists.detail.available")}
+                          </span>
+                        )}
+                      </p>
+                      <div className="flex items-center gap-3">
+                        <p className="text-base text-primary-dark! font-semibold!">
+                          Price:{" "}
+                          <span className="font-normal!">
+                            {item.price} {item.currency}
+                          </span>
+                        </p>
+                        <p className="text-base text-primary-dark! font-semibold!">
+                          Quantity:{" "}
+                          <span className="font-normal!">
+                            {String(item.quantity).padStart(2, "0")}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    {item.product_url ? (
+                      <a
+                        href={item.product_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary-dark! hover:underline"
+                      >
+                        {t("wishlists.detail.viewProduct")}{" "}
+                        <ExternalLink className="size-3.5 text-primary" />
+                      </a>
+                    ) : (
+                      <span className="text-text-secondary">—</span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </Card>
           </>
         )}

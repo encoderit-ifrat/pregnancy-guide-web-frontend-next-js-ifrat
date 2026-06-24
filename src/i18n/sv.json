@@ -731,8 +731,11 @@
   "high": "Hög",
   "kickCounter": {
     "badge": "Sparkräknare",
+    "badge01": "Session Aktiv",
     "title": "Spåra din bebis rörelser",
+    "title01": "Följer bebisens sparkar",
     "subtitle": "Följ din bebis sparkar och rörelser under graviditeten. Håll koll på mönster och känn dig nära din lilla.",
+    "subtitle01": "Registrera varje rörelse du känner",
     "loginPrompt": "Logga in för att använda Sparkräknaren.",
     "login": "Logga in",
     "startError": "Kunde inte starta sessionen",
@@ -930,7 +933,7 @@
     "detail": {
       "back": "Tillbaka till önskelistor",
       "latestPurchase": "Senaste inköpsdag: {date}",
-      "itemsClaimed": "{claimed} / {total} föremål reserverade",
+      "itemsClaimed": "föremål reserverade",
       "shareWishlist": "Dela önskelista",
       "addItem": "Lägg till föremål",
       "itemsName": "Föremål",

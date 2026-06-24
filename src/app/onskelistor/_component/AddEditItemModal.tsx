@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
-import { Loader2, Minus, Plus } from "lucide-react";
+import { CircleX, Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
@@ -68,7 +68,9 @@ export default function AddEditItemModal({
     };
 
     const onSuccess = () => {
-      toast.success(isEdit ? t("wishlists.item.updated") : t("wishlists.item.added"));
+      toast.success(
+        isEdit ? t("wishlists.item.updated") : t("wishlists.item.added")
+      );
       onOpenChange(false);
     };
 
@@ -81,89 +83,105 @@ export default function AddEditItemModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            {isEdit ? t("wishlists.item.editTitle") : t("wishlists.item.addTitle")}
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-[350px] md:max-w-lg bg-white p-0 gap-0"
+      >
+        <div className="px-2.5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
+          <DialogTitle asChild>
+            <h3 className="text-[25px]! sm:text-[30px]! text-[#3D3177] font-semibold!">
+              {isEdit
+                ? t("wishlists.item.editTitle")
+                : t("wishlists.item.addTitle")}
+            </h3>
           </DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <Field label={t("wishlists.item.productTitle")}>
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder={t("wishlists.item.productTitlePlaceholder")}
-            />
-          </Field>
-
-          <div className="grid grid-cols-2 gap-4">
-            <Field label={t("wishlists.item.quantity")}>
-              <div className="flex items-center rounded-md border">
-                <button
-                  type="button"
-                  className="px-3 py-2 text-primary"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                >
-                  <Minus className="size-4" />
-                </button>
-                <span className="flex-1 text-center text-sm">
-                  {String(quantity).padStart(2, "0")}
-                </span>
-                <button
-                  type="button"
-                  className="px-3 py-2 text-primary"
-                  onClick={() => setQuantity((q) => q + 1)}
-                >
-                  <Plus className="size-4" />
-                </button>
-              </div>
-            </Field>
-            <Field label={t("wishlists.item.price")}>
+          <CircleX
+            className="shrink-0 size-8 cursor-pointer text-black"
+            onClick={() => onOpenChange(false)}
+          />
+        </div>
+        <div className="px-2.5 sm:px-[30px] py-5">
+          <div className="space-y-4">
+            <Field label={t("wishlists.item.productTitle")}>
               <Input
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder={t("wishlists.item.pricePlaceholder")}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="rounded-[5px]"
+                placeholder={t("wishlists.item.productTitlePlaceholder")}
+              />
+            </Field>
+
+            <div className="grid grid-cols-2 gap-4">
+              <Field label={t("wishlists.item.quantity")}>
+                <div className="flex items-center h-12 rounded-[5px] border! border-[#F3EAFF]! bg-[#FBF8FF]">
+                  <button
+                    type="button"
+                    className="px-3 py-2 text-primary"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  >
+                    <Minus className="size-4" />
+                  </button>
+                  <span className="flex-1 text-center text-sm">
+                    {String(quantity).padStart(2, "0")}
+                  </span>
+                  <button
+                    type="button"
+                    className="px-3 py-2 text-primary"
+                    onClick={() => setQuantity((q) => q + 1)}
+                  >
+                    <Plus className="size-4" />
+                  </button>
+                </div>
+              </Field>
+              <Field label={t("wishlists.item.price")}>
+                <Input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  className="rounded-[5px]"
+                  placeholder={t("wishlists.item.pricePlaceholder")}
+                />
+              </Field>
+            </div>
+
+            <Field label={t("wishlists.item.productUrl")}>
+              <Input
+                value={productUrl}
+                onChange={(e) => setProductUrl(e.target.value)}
+                className="rounded-[5px]"
+                placeholder="https://…"
+              />
+            </Field>
+
+            <Field label={t("wishlists.item.description")}>
+              <Textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="rounded-[5px] px-4! h-[74px] bg-[#FBF8FF] border! border-[#F3EAFF]!"
+                placeholder={t("wishlists.item.descriptionPlaceholder")}
               />
             </Field>
           </div>
 
-          <Field label={t("wishlists.item.productUrl")}>
-            <Input
-              value={productUrl}
-              onChange={(e) => setProductUrl(e.target.value)}
-              placeholder="https://…"
-            />
-          </Field>
-
-          <Field label={t("wishlists.item.description")}>
-            <Textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder={t("wishlists.item.descriptionPlaceholder")}
-            />
-          </Field>
-        </div>
-
-        <div className="mt-2 flex gap-3">
-          <Button
-            variant="outline"
-            className="flex-1 justify-center"
-            onClick={() => onOpenChange(false)}
-          >
-            {t("wishlists.item.cancel")}
-          </Button>
-          <Button
-            className="flex-1 justify-center"
-            onClick={handleSubmit}
-            disabled={pending}
-          >
-            {pending && <Loader2 className="size-4 animate-spin" />}
-            <span>
-              {isEdit ? t("wishlists.item.save") : t("wishlists.item.add")}
-            </span>
-          </Button>
+          <div className="mt-[30px] flex flex-col md:flex-row w-full gap-3">
+            <Button
+              variant="outline"
+              className="flex-1 justify-center py-2.5 bg-primary-light2!"
+              onClick={() => onOpenChange(false)}
+            >
+              {t("wishlists.item.cancel")}
+            </Button>
+            <Button
+              className="flex-1 justify-center py-2.5"
+              onClick={handleSubmit}
+              disabled={pending}
+            >
+              {pending && <Loader2 className="size-4 animate-spin" />}
+              <span>
+                {isEdit ? t("wishlists.item.save") : t("wishlists.item.add")}
+              </span>
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
@@ -179,7 +197,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-primary-dark">
+      <label className="mb-1.5 block text-lg font-medium text-primary-dark">
         {label}
       </label>
       {children}

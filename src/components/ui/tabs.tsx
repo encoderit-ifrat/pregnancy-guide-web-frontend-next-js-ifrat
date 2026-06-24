@@ -92,7 +92,7 @@ function TabsTrigger({
         variant == "inv" &&
           "after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:-bottom-1.25 group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
         variant == "inv" &&
-          "data-[state=active]:bg-primary dark:data-[state=active]:text-white text-primary-dark text-lg font-medium rounded-[10px] py-[7px] px-11 border-0 dark:data-[state=active]:border-0 dark:data-[state=active]:bg-primary data-[state=active]:text-white",
+          "data-[state=active]:bg-primary dark:data-[state=active]:text-white text-primary-dark text-base md:text-lg font-medium rounded-[10px] py-[7px] px-2 md:px-11 border-0 dark:data-[state=active]:border-0 dark:data-[state=active]:bg-primary data-[state=active]:text-white",
         tabsTriggerVariants({ variant }),
         className
       )}

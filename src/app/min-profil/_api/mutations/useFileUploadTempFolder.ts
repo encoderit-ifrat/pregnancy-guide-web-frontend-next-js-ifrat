@@ -1,20 +1,18 @@
 import api from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-import { serialize } from "object-to-formdata";
 
 export type FileTypeForTemp = {
-  file?: File | string;
+  file?: File;
 };
 
 export const useFileUploadTempFolder = () => {
   return useMutation({
     mutationKey: ["/file-upload/single"],
     mutationFn: (body: FileTypeForTemp) => {
-      const formData = serialize(body, {
-        indices: true, // Use indices for arrays: babies[0], babies[1]
-        nullsAsUndefineds: false, // Keep nulls as nulls
-      });
-
+      const formData = new FormData();
+      if (body.file instanceof File) {
+        formData.append("file", body.file);
+      }
       return api.post("/file-upload/single", formData, {
         headers: {
           "Content-Type": "multipart/form-data",

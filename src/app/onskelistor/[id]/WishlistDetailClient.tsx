@@ -20,12 +20,20 @@ import {
 } from "@/components/ui/AlertDialog";
 import {
   ArrowLeft,
+  EllipsisVertical,
   ExternalLink,
+  Info,
+  Pen,
   Pencil,
   Plus,
   Share2,
   Trash2,
 } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryWishlistDetail } from "../_api/queries/useQueryWishlists";
@@ -65,10 +73,11 @@ export default function WishlistDetailClient() {
     <PageContainer>
       <div className="mx-auto max-w-6xl">
         <Link
-          href="/onskelistor"
-          className="mb-4 inline-flex items-center gap-1 text-sm text-primary hover:underline"
+          href={"/onskelistor"}
+          className="flex items-center gap-2 mb-[35px]"
         >
-          <ArrowLeft className="size-4" /> {t("wishlists.detail.back")}
+          <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
+          <p className="text-base font-normal">{t("wishlists.detail.back")}</p>
         </Link>
 
         {isLoading || !wishlist ? (
@@ -77,41 +86,37 @@ export default function WishlistDetailClient() {
           </div>
         ) : (
           <>
-            <Card className="overflow-hidden">
-              <div className="relative h-52 w-full bg-primary-light">
+            <Card className="overflow-hidden px-2.5 py-3 lg:p-[17px] border border-[#F3E8FF] rounded-[8px]!">
+              <div className="relative overflow-hidden h-44 md:h-[483px] w-full rounded-[10px]! bg-primary-light">
                 <Image
                   src={wishlist.cover_image || "/default_wishlist_image.png"}
                   alt={wishlist.title}
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute bottom-4 left-6 text-white">
-                  <h1 className="text-2xl font-bold">{wishlist.title}</h1>
-                  {wishlist.description && (
-                    <p className="text-sm opacity-90">{wishlist.description}</p>
-                  )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-1.5 md:py-[18px] md:px-6 w-full flex flex-col justify-end">
+                  <div className="w-full md:max-w-[468px] bg-[#3D3177A1] rounded-[10px]! text-white px-2.5 py-1 md:py-[14px] md:px-5">
+                    <h1 className="text-xl! font-semibold! mb-0! truncate">
+                      {wishlist.title}
+                    </h1>
+                    {wishlist.description && (
+                      <p className="text-base! font-normal! text-white! truncate">
+                        {wishlist.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-4 p-6">
-                <div className="min-w-52 flex-1">
-                  <div className="mb-1 flex justify-between text-sm">
-                    <span className="text-text-secondary">
-                      {t("wishlists.detail.itemsClaimed", {
-                        claimed: wishlist.progress.claimed,
-                        total: wishlist.progress.total,
-                      })}
+              <div className="flex flex-col lg:flex-row justify-between lg:mt-[35px] lg:mb-[30px]">
+                <div className="flex-1 w-full lg:max-w-[360px] my-[15px] lg:my-0">
+                  <div className="mb-1 lg:mb-2.5 text-sm">
+                    <span className="text-primary-text font-medium! text-xl! mr-2.5">
+                      {`${wishlist.progress.claimed}/${wishlist.progress.total}`}
                     </span>
-                    {wishlist.reply_by && (
-                      <span className="text-text-secondary">
-                        {t("wishlists.detail.latestPurchase", {
-                          date: new Date(wishlist.reply_by).toLocaleDateString(
-                            "sv-SE"
-                          ),
-                        })}
-                      </span>
-                    )}
+                    <span className="text-primary text-base!">
+                      {t("wishlists.detail.itemsClaimed")}
+                    </span>
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded-full bg-primary-light">
                     <div
@@ -120,20 +125,38 @@ export default function WishlistDetailClient() {
                     />
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" onClick={handleShare}>
-                    <Share2 className="size-4" />{" "}
+                <div className="flex flex-col md:flex-row w-full lg:w-auto gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={handleShare}
+                    className="bg-primary-light2 py-2.5 justify-center"
+                  >
+                    <span className="size-6 bg-primary text-white rounded-full flex items-center justify-center">
+                      <Share2 className="size-3" />{" "}
+                    </span>
                     {t("wishlists.detail.shareWishlist")}
                   </Button>
-                  <Button onClick={openAdd}>
-                    <Plus className="size-4" /> {t("wishlists.detail.addItem")}
+                  <Button onClick={openAdd} className="py-2.5">
+                    {t("wishlists.detail.addItem")}
+                    <Plus className="size-6 p-1 bg-white text-primary rounded-full" />
                   </Button>
                 </div>
               </div>
             </Card>
 
-            <Card className="mt-6 overflow-x-auto p-0">
-              <table className="w-full min-w-[720px] text-sm">
+            <Card className="mt-6 overflow-x-auto py-[25px] px-2.5">
+              <div className="flex flex-col mb-[35px]">
+                <p className="text-[25px]! font-semibold!"> {wishlist.title}</p>
+                {wishlist.reply_by && (
+                  <p className="text-[#3D3177] font-bold">
+                    {t("wishlists.detail.latestPurchase", { date: "" })}
+                    <span className="text-black font-normal">
+                      {new Date(wishlist.reply_by).toLocaleDateString("sv-SE")}
+                    </span>
+                  </p>
+                )}
+              </div>
+              <table className="hidden md:table w-full min-w-[720px] text-sm">
                 <thead>
                   <tr className="border-b text-left text-text-secondary">
                     <th className="px-5 py-3 font-medium">
@@ -228,6 +251,95 @@ export default function WishlistDetailClient() {
                   ))}
                 </tbody>
               </table>
+              <div className="md:hidden space-y-4">
+                {wishlist.items.map((item) => (
+                  <div
+                    key={item._id}
+                    className="flex flex-col gap-4 border border-[#F3E8FF] rounded-[15px] py-[11px] px-[13px]"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="text-xl font-bold text-primary-dark!">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <Popover>
+                        <PopoverTrigger asChild className="cursor-pointer">
+                          <EllipsisVertical size={20} />
+                        </PopoverTrigger>
+                        <PopoverContent
+                          align="end"
+                          className="w-[100px] rounded-[5px] p-0"
+                        >
+                          <div
+                            onClick={() => openEdit(item)}
+                            className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+                          >
+                            <Pen size={18} className="text-primary" />{" "}
+                            <p className="text-sm font-normal">Edit</p>
+                          </div>
+                          <div className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer">
+                            <Info size={18} className="text-primary" />{" "}
+                            <p className="text-sm font-normal">Info</p>
+                          </div>
+                          <div
+                            onClick={() => setDeleteId(item._id)}
+                            className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
+                          >
+                            <Trash2 size={18} className="text-primary" />{" "}
+                            <p className="text-sm font-normal">Delete</p>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-3 mb-1">
+                        <p className="text-base text-primary-dark! font-semibold!">
+                          Price:{" "}
+                          <span className="font-normal!">
+                            {item.price} {item.currency}
+                          </span>
+                        </p>
+                        <p className="text-base text-primary-dark! font-semibold!">
+                          Quantity:{" "}
+                          <span className="font-normal!">
+                            {String(item.quantity).padStart(2, "0")}
+                          </span>
+                        </p>
+                      </div>
+                      <p className="text-base text-primary-dark! font-semibold!">
+                        Status:{" "}
+                        {item.claim_status === "claimed" ? (
+                          <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
+                            {item.claimed_by
+                              ? t("wishlists.detail.claimedBy", {
+                                  name: item.claimed_by,
+                                })
+                              : t("wishlists.detail.claimed")}
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                            {t("wishlists.detail.available")}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                    {item.product_url ? (
+                      <a
+                        href={item.product_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary-dark! hover:underline"
+                      >
+                        {t("wishlists.detail.viewProduct")}{" "}
+                        <ExternalLink className="size-3.5 text-primary" />
+                      </a>
+                    ) : (
+                      <span className="text-text-secondary">—</span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </Card>
           </>
         )}
@@ -262,7 +374,10 @@ export default function WishlistDetailClient() {
                 if (!deleteId) return;
                 del.mutate(
                   { id, itemId: deleteId },
-                  { onSuccess: () => toast.success(t("wishlists.detail.itemRemoved")) }
+                  {
+                    onSuccess: () =>
+                      toast.success(t("wishlists.detail.itemRemoved")),
+                  }
                 );
                 setDeleteId(null);
               }}

@@ -15,11 +15,12 @@ export const kickKeys = {
   statistics: (range: string) => ["kick-counter", "statistics", range] as const,
 };
 
-export const useQueryActiveKickSession = () =>
+export const useQueryActiveKickSession = (enabled = false) =>
   useQuery({
     queryKey: kickKeys.active,
     staleTime: 0,
     refetchOnWindowFocus: false,
+    enabled,
     queryFn: async () => {
       const res = await api.get("/kick-counter/sessions/active");
       return res.data.data as ActiveKickSession | null;

@@ -10,8 +10,19 @@ export const useCreateWishlist = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationKey: ["wishlists", "create"],
-    mutationFn: (body: WishlistFormValues) =>
-      api.post("/wishlists", omitEmpty(body)),
+    mutationFn: (body: WishlistFormValues) => {
+      if (body.cover_image instanceof File) {
+        const formData = new FormData();
+        formData.append("title", body.title);
+        if (body.description) formData.append("description", body.description);
+        if (body.reply_by) formData.append("reply_by", body.reply_by);
+        formData.append("cover_image", body.cover_image);
+        return api.post("/wishlists", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+      return api.post("/wishlists", omitEmpty(body));
+    },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["wishlists", "list"] }),
   });
 };

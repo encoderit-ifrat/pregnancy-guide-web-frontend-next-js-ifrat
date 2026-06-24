@@ -4,16 +4,28 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Activity, Heart, HelpCircle, Loader2, Square } from "lucide-react";
+import {
+  Activity,
+  Feather,
+  Heart,
+  HelpCircle,
+  Loader2,
+  Square,
+} from "lucide-react";
 import { toast } from "sonner";
 import { ActiveKickSession, KickType } from "../_types/kick_types";
 import { useQueryKickTodaySummary } from "../_api/queries/useQueryKickCounter";
-import { useAddKick, useStopKickSession } from "../_api/mutations/useKickMutations";
+import {
+  useAddKick,
+  useStopKickSession,
+} from "../_api/mutations/useKickMutations";
+import Image from "next/image";
+import { formatDate } from "date-fns";
 
 const TYPE_ICON: Record<KickType, React.ReactNode> = {
-  soft: <Activity className="size-4 text-primary" />,
-  hard: <Heart className="size-4 text-primary" />,
-  unsure: <HelpCircle className="size-4 text-primary" />,
+  soft: <Feather className="size-4 text-primary" />,
+  hard: <Activity className="size-4 text-primary" />,
+  unsure: <Heart className="size-4 text-[#4A5565]" />,
 };
 
 const TYPE_KEY: Record<KickType, string> = {
@@ -24,9 +36,11 @@ const TYPE_KEY: Record<KickType, string> = {
 
 export default function KickSession({
   session,
+  onStop,
   onViewStats,
 }: {
   session: ActiveKickSession;
+  onStop?: () => void;
   onViewStats: () => void;
 }) {
   const { t } = useTranslation();
@@ -34,10 +48,10 @@ export default function KickSession({
   const addKick = useAddKick();
   const stop = useStopKickSession();
 
-  const buttons: { type: KickType; icon: React.ReactNode }[] = [
-    { type: "soft", icon: <Activity className="size-7" /> },
-    { type: "hard", icon: <Heart className="size-7" /> },
-    { type: "unsure", icon: <HelpCircle className="size-7" /> },
+  const buttons: { type: KickType; image: string }[] = [
+    { type: "soft", image: "/images/icons/soft-kick.png" },
+    { type: "hard", image: "/images/icons/hard-kick.png" },
+    { type: "unsure", image: "/images/icons/unsure-kick.png" },
   ];
 
   const handleKick = (type: KickType) => {
@@ -49,23 +63,26 @@ export default function KickSession({
 
   const handleStop = () => {
     stop.mutate(session._id, {
-      onSuccess: () => toast.success(t("kickCounter.session.saved")),
+      onSuccess: () => {
+        toast.success(t("kickCounter.session.saved"));
+        onStop?.();
+      },
     });
   };
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
-        <Card className="p-8">
-          <div className="text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary">
+        <Card className="p-8 border border-primary-light3">
+          <div className="text-start">
+            {/* <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary">
               <span className="size-2 animate-pulse rounded-full bg-primary" />
               {t("kickCounter.session.active")}
-            </span>
-            <h2 className="mt-3 text-xl font-semibold text-primary-dark">
+            </span> */}
+            <h2 className="mt-3 text-[25px] md:text-[30px] font-semibold text-primary-dark">
               {t("kickCounter.session.title")}
             </h2>
-            <p className="mt-1 text-sm text-text-secondary">
+            <p className="mt-1 text-sm! font-normal! text-text-secondary">
               {t("kickCounter.session.desc")}
             </p>
           </div>
@@ -77,21 +94,26 @@ export default function KickSession({
                 onClick={() => handleKick(b.type)}
                 disabled={addKick.isPending}
                 className={cn(
-                  "flex flex-col items-center gap-3 rounded-2xl border-2 border-transparent bg-primary-light/50 py-6 transition-all",
-                  "hover:border-primary hover:bg-primary-light disabled:opacity-60"
+                  "flex flex-col items-center gap-3 rounded-2xl border-2 border-transparent  py-6 transition-all",
+                  "hover:border-primary hover:bg-primary-light disabled:opacity-60 cursor-pointer"
                 )}
               >
-                <span className="flex size-16 items-center justify-center rounded-full bg-primary text-white">
-                  {b.icon}
-                </span>
+                <Image
+                  src={b.image}
+                  alt={b.type}
+                  width={500}
+                  height={500}
+                  className="size-[70px] md:size-[150px] object-contain"
+                />
                 <span className="font-medium text-primary-dark">
                   {t(TYPE_KEY[b.type])}
                 </span>
               </button>
             ))}
           </div>
-
-          <div className="mt-8">
+        </Card>
+        <Card className="p-8 border border-primary-light3">
+          <div className="">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-semibold text-primary-dark">
                 {t("kickCounter.session.latestKicks")}
@@ -100,7 +122,7 @@ export default function KickSession({
                 {t("kickCounter.session.total", { count: session.total_kicks })}
               </span>
             </div>
-            <div className="max-h-80 space-y-1 overflow-y-auto">
+            <div className="max-h-80 space-y-2.5 overflow-y-auto">
               {session.kicks.length === 0 && (
                 <p className="py-8 text-center text-sm text-text-secondary">
                   {t("kickCounter.session.empty")}
@@ -109,20 +131,20 @@ export default function KickSession({
               {session.kicks.map((k) => (
                 <div
                   key={k._id}
-                  className="flex items-center justify-between rounded-lg px-3 py-2 odd:bg-primary-light/30"
+                  className="flex items-center justify-between rounded-[15px] px-3 py-2 bg-[#FCFAFF]"
                 >
-                  <span className="flex items-center gap-2 text-sm text-primary-dark">
+                  <span className="flex items-center gap-2 text-lg! font-semibold! text-primary-dark">
                     {TYPE_ICON[k.type]}
                     {t(TYPE_KEY[k.type])}
                   </span>
-                  <span className="text-sm text-text-secondary">
-                    {new Date(k.occurred_at).toLocaleString("sv-SE", {
-                      day: "2-digit",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
+                  <p className="flex flex-col items-end">
+                    <span className="text-sm font-semibold text-primary-dark">
+                      {formatDate(k.occurred_at, "PP")}
+                    </span>
+                    <span className="text-sm font-normal! text-primary-dark">
+                      {formatDate(k.occurred_at, "p")}
+                    </span>
+                  </p>
                 </div>
               ))}
             </div>

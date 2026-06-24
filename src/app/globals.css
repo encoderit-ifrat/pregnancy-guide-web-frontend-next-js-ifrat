@@ -76,6 +76,7 @@ div.no-tailwind p span {
   --color-primary-light: var(--primary-light);
   --color-primary-muted: var(--primary-muted);
   --color-primary-light2: #f6f0fb;
+  --color-primary-light3: #faf5ff;
   --color-primary-dark: var(--primary-dark);
   --color-background: var(--background);
   --color-background-alt: var(--background-alt);

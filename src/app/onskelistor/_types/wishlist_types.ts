@@ -69,7 +69,7 @@ export interface PublicWishlist {
 export type WishlistFormValues = {
   title: string;
   description?: string;
-  cover_image?: string;
+  cover_image?: string | File;
   reply_by?: string;
 };
 

@@ -4,7 +4,16 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ArrowLeft, BarChart3, Clock, Footprints, Lightbulb } from "lucide-react";
+import {
+  Activity,
+  ArrowLeft,
+  BarChart3,
+  Clock,
+  Clock4,
+  Footprints,
+  Lightbulb,
+  TrendingUp,
+} from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -18,6 +27,7 @@ import {
 } from "recharts";
 import { useQueryKickStatistics } from "../_api/queries/useQueryKickCounter";
 import { Spinner } from "@/components/ui/Spinner";
+import Link from "next/link";
 
 export default function KickStatistics({
   onBack,
@@ -48,12 +58,13 @@ export default function KickStatistics({
 
   return (
     <div className="space-y-6">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-1 text-sm text-primary hover:underline"
+      <Link
+        href={"/sparkraknare"}
+        className="flex items-center gap-2 mb-[35px]"
       >
-        <ArrowLeft className="size-4" /> {t("kickCounter.stats.back")}
-      </button>
+        <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
+        <p className="text-base font-normal"> {t("kickCounter.stats.back")}</p>
+      </Link>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
@@ -68,17 +79,17 @@ export default function KickStatistics({
 
           <div className="grid gap-4 sm:grid-cols-3">
             <StatCard
-              icon={<Footprints className="size-5 text-primary" />}
+              icon={<Activity className="size-5 text-primary" />}
               value={stats.totals.total_this_week}
               label={t("kickCounter.stats.totalThisWeek")}
             />
             <StatCard
-              icon={<BarChart3 className="size-5 text-primary" />}
+              icon={<TrendingUp className="size-5 text-primary" />}
               value={stats.totals.daily_average}
               label={t("kickCounter.stats.dailyAverage")}
             />
             <StatCard
-              icon={<Clock className="size-5 text-primary" />}
+              icon={<Clock4 className="size-5 text-primary" />}
               value={stats.totals.peak_hour}
               label={t("kickCounter.stats.peakHour")}
             />
@@ -228,11 +239,15 @@ function StatCard({
 }) {
   return (
     <Card className="p-5">
-      <div className="flex size-9 items-center justify-center rounded-full bg-primary-light">
-        {icon}
+      <div className="flex w-full items-center gap-2">
+        <div className="flex size-9 items-center justify-center rounded-full bg-primary-light">
+          {icon}
+        </div>
+        <div>
+          <p className="text-sm! text-primary-dark!">{label}</p>
+          <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
+        </div>
       </div>
-      <p className="mt-3 text-2xl font-bold text-primary-dark">{value}</p>
-      <p className="text-xs text-text-secondary">{label}</p>
     </Card>
   );
 }

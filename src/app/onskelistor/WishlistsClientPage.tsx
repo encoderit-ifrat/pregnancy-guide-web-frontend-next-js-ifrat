@@ -7,7 +7,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
-import { Heart, Mail, Plus } from "lucide-react";
+import { Heart, Mail, Plus, Share2 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useQueryWishlists } from "./_api/queries/useQueryWishlists";
@@ -15,6 +15,8 @@ import CreateWishlistModal from "./_component/CreateWishlistModal";
 import { WishlistListItem } from "./_types/wishlist_types";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { Slider } from "@/components/ui/Slider";
+import { SwiperSlide } from "swiper/react";
 
 export default function WishlistsClientPage() {
   const { t } = useTranslation();
@@ -23,6 +25,13 @@ export default function WishlistsClientPage() {
   const { data, isLoading } = useQueryWishlists();
 
   const wishlists = data?.data ?? [];
+
+  const pagination = {
+    clickable: true,
+    renderBullet: function (index: number, className: string) {
+      return '<span class="' + className + '"></span>';
+    },
+  };
 
   return (
     <PageContainer>
@@ -40,6 +49,15 @@ export default function WishlistsClientPage() {
           <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
             {t("wishlists.subtitle")}
           </p>
+          {isAuthenticated && (
+            <Button
+              onClick={() => setCreateOpen(true)}
+              className="md:hidden bg-primary w-full"
+            >
+              {t("wishlists.createWishlist")}{" "}
+              <Plus className="size-4 bg-white text-primary rounded-full p-1 w-6 h-6" />
+            </Button>
+          )}
         </div>
 
         <Card className="p-6">
@@ -48,7 +66,10 @@ export default function WishlistsClientPage() {
               {t("wishlists.yourWishlists")}
             </h2>
             {isAuthenticated && (
-              <Button onClick={() => setCreateOpen(true)}>
+              <Button
+                onClick={() => setCreateOpen(true)}
+                className="hidden md:flex"
+              >
                 {t("wishlists.createWishlist")} <Plus className="size-4" />
               </Button>
             )}
@@ -74,11 +95,30 @@ export default function WishlistsClientPage() {
               desc={t("wishlists.noWishlistsDesc")}
             />
           ) : (
-            <div className="grid gap-6 md:grid-cols-2">
-              {wishlists.map((w) => (
-                <WishlistCard key={w._id} wishlist={w} />
-              ))}
-            </div>
+            <>
+              <div className="md:hidden">
+                <Slider
+                  options={{
+                    spaceBetween: 15,
+                    slidesPerView: 1,
+                    pagination: pagination,
+                  }}
+                  sideOverlayClassName="bg-transparent"
+                  className="px-0! pb-12!"
+                >
+                  {wishlists.map((w) => (
+                    <SwiperSlide key={w._id}>
+                      <WishlistCard wishlist={w} />
+                    </SwiperSlide>
+                  ))}
+                </Slider>
+              </div>
+              <div className="hidden md:grid gap-6 md:grid-cols-2">
+                {wishlists.map((w) => (
+                  <WishlistCard key={w._id} wishlist={w} />
+                ))}
+              </div>
+            </>
           )}
         </Card>
       </div>
@@ -92,8 +132,8 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
   const { t } = useTranslation();
   const { progress } = wishlist;
   return (
-    <Card className="overflow-hidden">
-      <div className="relative h-44 w-full bg-primary-light">
+    <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] rounded-[8px]!">
+      <div className="relative h-[152px] md:h-[255px] w-full bg-primary-light rounded-[6px] overflow-hidden">
         <Image
           src={wishlist.cover_image || "/default_wishlist_image.png"}
           alt={wishlist.title}
@@ -101,7 +141,7 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
           className="object-cover"
         />
       </div>
-      <div className="p-5">
+      <div className="py-[14px] px-2">
         <h3 className="text-lg font-semibold text-primary-dark">
           {wishlist.title}
         </h3>
@@ -111,12 +151,12 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
           </p>
         )}
 
-        <div className="mt-4">
-          <div className="mb-1 flex justify-between text-sm">
-            <span className="text-text-secondary">
+        <div className="mt-4 mb-[14px] px-3 py-1.5 rounded-[10px] bg-[#F8F7FC]">
+          <div className="mb-2 flex justify-between">
+            <span className="text-primary-dark font-medium text-xs">
               {t("wishlists.progress")}
             </span>
-            <span className="font-medium text-primary">
+            <span className="font-medium text-xs text-primary">
               {t("wishlists.itemsClaimed", {
                 claimed: progress.claimed,
                 total: progress.total,
@@ -131,15 +171,17 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
           </div>
         </div>
 
-        <Button
-          asChild
-          variant="outline"
-          className="mt-4 w-full justify-center"
-        >
-          <Link href={`/onskelistor/${wishlist._id}`}>
+        <div className=" flex items-center w-full gap-2 mt-auto">
+          <Link
+            href={`/onskelistor/${wishlist._id}`}
+            className="flex-1 font-semibold bg-[#F6F0FB] border border-primary text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center justify-center gap-2"
+          >
             {t("wishlists.viewDetails")}
           </Link>
-        </Button>
+          <div className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center">
+            <Share2 className="w-6 h-6 text-primary " />
+          </div>
+        </div>
       </div>
     </Card>
   );
