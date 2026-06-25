@@ -8,37 +8,19 @@ import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useQueryActiveContractionSession } from "./_api/queries/useQueryContraction";
-import ContractionCounter from "./_component/ContractionCounter";
+import ContractionHistory from "../_component/ContractionHistory";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 
-export default function ContractionClientPage() {
+export default function HistoryClientPage() {
   const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const router = useRouter();
 
-  const { data: active, isLoading } = useQueryActiveContractionSession();
-
   return (
     <PageContainer>
       <div className="mx-auto max-w-6xl">
-        <div className="thread-header mb-8 flex flex-col items-center text-center">
-          <IconHeading
-            text={t("contractionCounter.badge")}
-            image="/images/icons/track-01.png"
-            className="text-primary justify-center"
-          />
-          <SectionHeading className="my-2 mb-6">
-            {t("contractionCounter.title")}
-          </SectionHeading>
-
-          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
-            {t("contractionCounter.subtitle")}
-          </p>
-        </div>
-
-        {userLoading || isLoading ? (
+        {userLoading ? (
           <div className="flex justify-center py-20">
             <Spinner />
           </div>
@@ -52,10 +34,8 @@ export default function ContractionClientPage() {
             </Button>
           </Card>
         ) : (
-          <ContractionCounter
-            session={active ?? null}
+          <ContractionHistory
             onViewStats={() => router.push("/varkraknare/statistik")}
-            onViewHistory={() => router.push("/varkraknare/historik")}
           />
         )}
       </div>

@@ -53,9 +53,19 @@ api.interceptors.request.use(
   }
 );
 
+let serverTimeOffset = 0;
+export const getServerTimeOffset = () => serverTimeOffset;
+
 // Response interceptor
 api.interceptors.response.use(
   (response) => {
+    const serverDate = response.headers["date"];
+    if (serverDate) {
+      const serverTime = new Date(serverDate).getTime();
+      if (!isNaN(serverTime)) {
+        serverTimeOffset = serverTime - Date.now();
+      }
+    }
     return response;
   },
   async (error) => {

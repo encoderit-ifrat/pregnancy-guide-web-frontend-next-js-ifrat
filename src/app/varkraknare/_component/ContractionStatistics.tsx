@@ -13,6 +13,7 @@ import {
   Hourglass,
   Phone,
   Timer,
+  TrendingUp,
   TriangleAlert,
 } from "lucide-react";
 import {
@@ -27,17 +28,18 @@ import {
 import { useQueryContractionStatistics } from "../_api/queries/useQueryContraction";
 import { fmtDuration } from "../_lib/format";
 import { LaborProgress } from "../_types/contraction_types";
+import { useRouter } from "next/navigation";
 
-export default function ContractionStatistics({
-  onBack,
-}: {
-  onBack: () => void;
-}) {
+export default function ContractionStatistics() {
   const { t } = useTranslation();
   const [view, setView] = useState<"frequency" | "duration" | "interval">(
     "frequency"
   );
-  const { data: stats, isLoading } = useQueryContractionStatistics("week", view);
+  const { data: stats, isLoading } = useQueryContractionStatistics(
+    "week",
+    view
+  );
+  const router = useRouter();
 
   const progressSteps: { key: LaborProgress; label: string }[] = [
     { key: "early", label: t("contractionCounter.stats.earlyLabor") },
@@ -65,45 +67,40 @@ export default function ContractionStatistics({
 
   return (
     <div className="space-y-6">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-1 text-sm text-primary hover:underline"
-      >
-        <ArrowLeft className="size-4" /> {t("contractionCounter.stats.back")}
-      </button>
-
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
-          <div>
-            <h2 className="text-xl font-semibold text-primary-dark">
-              {t("contractionCounter.stats.title")}
-            </h2>
-            <p className="text-sm text-text-secondary">
-              {t("contractionCounter.stats.subtitle")}
-            </p>
+        <div className="space-y-6 lg:col-span-2 ">
+          <div className="space-y-6 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px]">
+            <div>
+              <h2 className="text-xl font-semibold text-primary-dark">
+                {t("contractionCounter.stats.title")}
+              </h2>
+              <p className="text-sm text-text-secondary">
+                {t("contractionCounter.stats.subtitle")}
+              </p>
+            </div>
+
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+              <StatCard
+                icon={<Timer className="size-5 text-primary" />}
+                value={String(stats.totals.total_this_week)}
+                label={t("contractionCounter.stats.totalThisWeek")}
+              />
+              <StatCard
+                icon={<Hourglass className="size-5 text-primary" />}
+                value={fmtDuration(stats.totals.avg_duration_sec)}
+                label={t("contractionCounter.stats.avgDuration")}
+              />
+              <StatCard
+                icon={<Clock className="size-5 text-primary" />}
+                value={fmtDuration(stats.totals.avg_interval_sec)}
+                label={t("contractionCounter.stats.avgInterval")}
+              />
+            </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            <StatCard
-              icon={<Timer className="size-5 text-primary" />}
-              value={String(stats.totals.total_this_week)}
-              label={t("contractionCounter.stats.totalThisWeek")}
-            />
-            <StatCard
-              icon={<Hourglass className="size-5 text-primary" />}
-              value={fmtDuration(stats.totals.avg_duration_sec)}
-              label={t("contractionCounter.stats.avgDuration")}
-            />
-            <StatCard
-              icon={<Clock className="size-5 text-primary" />}
-              value={fmtDuration(stats.totals.avg_interval_sec)}
-              label={t("contractionCounter.stats.avgInterval")}
-            />
-          </div>
-
-          <Card className="p-6">
+          <Card className="px-2 py-[25px] md:p-6 border border-[#F3E8FF] shadow-none bg-white rounded-2xl ">
             <Tabs value={view} onValueChange={(v) => setView(v as typeof view)}>
-              <TabsList>
+              <TabsList className="max-sm:w-full max-sm:flex-wrap px-2 py-[5px] border border-[#F3E8FF] bg-white rounded-2xl shadow-week-details">
                 <TabsTrigger value="frequency">
                   {t("contractionCounter.stats.frequencyTrend")}
                 </TabsTrigger>
@@ -129,7 +126,7 @@ export default function ContractionStatistics({
             </ResponsiveContainer>
           </Card>
 
-          <Card className="p-6">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl ">
             <h3 className="mb-4 font-semibold text-primary-dark">
               {t("contractionCounter.stats.recentSessions")}
             </h3>
@@ -142,19 +139,36 @@ export default function ContractionStatistics({
               {stats.recent_sessions.map((s) => (
                 <div
                   key={s.id}
-                  className="flex items-center justify-between rounded-lg bg-primary-light/30 px-4 py-3 text-sm"
+                  className="flex items-start gap-2 rounded-lg bg-[#FCFAFF] px-4 py-3 text-sm"
                 >
-                  <span className="font-medium text-primary-dark">
-                    {t("contractionCounter.stats.contractionsCount", {
-                      count: s.count,
-                    })}
-                  </span>
-                  <span className="text-text-secondary">
-                    {t("contractionCounter.stats.avgApart", {
-                      duration: fmtDuration(s.avg_duration_sec),
-                      interval: fmtDuration(s.avg_interval_sec),
-                    })}
-                  </span>
+                  <div className="bg-white rounded-full w-10 h-10 shrink-0 flex items-center justify-center">
+                    <Timer className="text-primary size-7" />
+                  </div>
+                  <div className="flex-1 flex flex-col">
+                    <span className="text-lg! font-semibold! text-primary-dark!">
+                      {t("contractionCounter.stats.contractionsCount", {
+                        count: s.count,
+                      })}
+                    </span>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <div className="flex flex-col items-start">
+                        <p className="text-lg! font-normal! text-primary-dark!">
+                          {t("contractionCounter.stats.avgDuration")}
+                        </p>
+                        <p className="text-lg! font-semibold! text-primary-dark!">
+                          {fmtDuration(s.avg_duration_sec)}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-start">
+                        <p className="text-lg! font-normal! text-primary-dark!">
+                          {t("contractionCounter.stats.avgInterval")}
+                        </p>
+                        <p className="text-lg! font-semibold! text-primary-dark!">
+                          {fmtDuration(s.avg_interval_sec)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -162,7 +176,7 @@ export default function ContractionStatistics({
         </div>
 
         <div className="space-y-6">
-          <Card className="p-6">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
             <h3 className="mb-4 font-semibold text-primary-dark">
               {t("contractionCounter.stats.laborProgress")}
             </h3>
@@ -196,7 +210,7 @@ export default function ContractionStatistics({
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
             <h3 className="font-semibold text-primary-dark">
               {t("contractionCounter.stats.patternAnalysis")}
             </h3>
@@ -212,7 +226,7 @@ export default function ContractionStatistics({
 
           <Card
             className={cn(
-              "p-6",
+              "p-6 md:p-6 px-2 py-[25px]  shadow-none bg-white rounded-2xl",
               cta.level === "urgent"
                 ? "border-destructive bg-destructive/5"
                 : cta.level === "warning"
@@ -244,6 +258,25 @@ export default function ContractionStatistics({
               </Button>
             )}
           </Card>
+
+          <div className="space-y-2">
+            <Button
+              variant="default"
+              onClick={() => router.push("/varkraknare/statistik")}
+              className="w-full justify-center"
+            >
+              <TrendingUp className="size-4" />{" "}
+              {t("contractionCounter.counter.viewStatistics")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => router.push("/varkraknare/historik")}
+              className="w-full justify-center"
+            >
+              <Clock className="size-4" />{" "}
+              {t("contractionCounter.counter.viewHistory")}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
@@ -260,12 +293,16 @@ function StatCard({
   label: string;
 }) {
   return (
-    <Card className="p-5">
-      <div className="flex size-9 items-center justify-center rounded-full bg-primary-light">
-        {icon}
+    <Card className="p-5 border border-[#F3E8FF] ">
+      <div className="flex w-full items-center gap-2">
+        <div className="flex size-9 items-center justify-center rounded-full bg-primary-light">
+          {icon}
+        </div>
+        <div>
+          <p className="text-sm! text-primary-dark!">{label}</p>
+          <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
+        </div>
       </div>
-      <p className="mt-3 text-2xl font-bold text-primary-dark">{value}</p>
-      <p className="text-xs text-text-secondary">{label}</p>
     </Card>
   );
 }

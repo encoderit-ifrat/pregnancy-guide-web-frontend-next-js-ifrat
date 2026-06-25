@@ -99,10 +99,7 @@ export default function KickCounterClientPage() {
             </Button>
           </Card>
         ) : view === "stats" ? (
-          <KickStatistics
-            onBack={() => setView("auto")}
-            onStart={handleStart}
-          />
+          <KickStatistics onBack={() => setView("")} onStart={handleStart} />
         ) : active ? (
           <KickSession
             session={active}

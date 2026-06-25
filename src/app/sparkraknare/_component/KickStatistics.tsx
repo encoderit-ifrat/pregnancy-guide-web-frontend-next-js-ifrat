@@ -58,13 +58,13 @@ export default function KickStatistics({
 
   return (
     <div className="space-y-6">
-      <Link
-        href={"/sparkraknare"}
-        className="flex items-center gap-2 mb-[35px]"
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 cursor-pointer my-[35px]"
       >
         <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
         <p className="text-base font-normal"> {t("kickCounter.stats.back")}</p>
-      </Link>
+      </button>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
@@ -238,7 +238,7 @@ function StatCard({
   label: string;
 }) {
   return (
-    <Card className="p-5">
+    <Card className="p-5 border border-[#F3E8FF] ">
       <div className="flex w-full items-center gap-2">
         <div className="flex size-9 items-center justify-center rounded-full bg-primary-light">
           {icon}

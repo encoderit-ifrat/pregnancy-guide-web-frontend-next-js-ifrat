@@ -828,7 +828,7 @@
     "counter": {
       "active": "Tracking Active",
       "timerTitle": "Contraction Timer",
-      "timerDesc": "Track your contractions to know when it's time for the hospital",
+      "timerDesc": "Ready to track next contraction?",
       "readyNext": "Ready to track next contraction?",
       "start": "Start Contraction",
       "stop": "Stop Contraction",
@@ -845,6 +845,9 @@
       "tip1": "Track from the start of one contraction to the start of the next",
       "tip2": "Note the duration of each contraction",
       "tip3": "Rest between contractions",
+      "tip4": "Your baby is most active in the evening",
+      "tip5": "Kick count is consistent and healthy",
+      "tip6": "Average session duration: 42 minutes",
       "endSession": "End Session",
       "stopError": "Could not stop contraction",
       "startError": "Could not start contraction",

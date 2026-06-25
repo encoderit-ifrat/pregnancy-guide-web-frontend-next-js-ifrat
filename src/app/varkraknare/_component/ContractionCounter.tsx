@@ -6,12 +6,14 @@ import { Card } from "@/components/ui/Card";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
   BarChart3,
+  Clock,
   History,
   Loader2,
   Phone,
   Play,
   Square,
   Timer,
+  TrendingUp,
 } from "lucide-react";
 import { toast } from "sonner";
 import { ActiveContractionSession } from "../_types/contraction_types";
@@ -19,12 +21,15 @@ import { useQueryContractionSummary } from "../_api/queries/useQueryContraction"
 import {
   useEndContractionSession,
   useStartContraction,
+  useStartContractionSession,
   useStopContraction,
 } from "../_api/mutations/useContractionMutations";
 import { fmtDuration, fmtClock } from "../_lib/format";
+import { cn } from "@/lib/utils";
+import { getServerTimeOffset } from "@/lib/axios";
 
 interface Props {
-  session: ActiveContractionSession;
+  session: ActiveContractionSession | null;
   onViewStats: () => void;
   onViewHistory: () => void;
 }
@@ -38,11 +43,12 @@ export default function ContractionCounter({
   const { data: summary } = useQueryContractionSummary();
   const startContraction = useStartContraction();
   const stopContraction = useStopContraction();
+  const startSession = useStartContractionSession();
   const endSession = useEndContractionSession();
 
   const running = useMemo(
-    () => session.contractions.find((c) => !c.end_time) ?? null,
-    [session.contractions]
+    () => session?.contractions.find((c) => !c.end_time) ?? null,
+    [session?.contractions]
   );
 
   const [elapsed, setElapsed] = useState(0);
@@ -52,65 +58,85 @@ export default function ContractionCounter({
       return;
     }
     const startedAt = new Date(running.start_time).getTime();
-    const tick = () => setElapsed(Math.floor((Date.now() - startedAt) / 1000));
-    tick();
-    const id = setInterval(tick, 1000);
+    const serverTimeOffset = getServerTimeOffset();
+    const initial = Math.max(
+      0,
+      Math.floor((Date.now() + serverTimeOffset - startedAt) / 1000)
+    );
+    setElapsed(initial);
+
+    const id = setInterval(() => {
+      setElapsed((prev) => prev + 1);
+    }, 1000);
     return () => clearInterval(id);
   }, [running]);
 
   const handleToggle = () => {
     if (running) {
       stopContraction.mutate(
-        { sessionId: session._id, contractionId: running._id },
-        { onError: () => toast.error(t("contractionCounter.counter.stopError")) }
+        { sessionId: session!._id, contractionId: running._id },
+        {
+          onError: () => toast.error(t("contractionCounter.counter.stopError")),
+        }
       );
-    } else {
+    } else if (session) {
       startContraction.mutate(session._id, {
+        onError: () => toast.error(t("contractionCounter.counter.startError")),
+      });
+    } else {
+      startSession.mutate(undefined, {
+        onSuccess: (res) => {
+          const newSession = res as { _id: string };
+          startContraction.mutate(newSession._id, {
+            onError: () =>
+              toast.error(t("contractionCounter.counter.startError")),
+          });
+        },
         onError: () => toast.error(t("contractionCounter.counter.startError")),
       });
     }
   };
 
-  const completed = session.contractions
+  const completed = (session?.contractions ?? [])
     .filter((c) => c.end_time)
     .sort(
       (a, b) =>
         new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
     );
 
-  const busy = startContraction.isPending || stopContraction.isPending;
+  const busy =
+    startContraction.isPending ||
+    stopContraction.isPending ||
+    startSession.isPending;
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="space-y-6 lg:col-span-2">
-        <Card className="p-8 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary">
-            <Timer className="size-3.5" /> {t("contractionCounter.counter.active")}
-          </span>
-          <h2 className="mt-3 text-xl font-semibold text-primary-dark">
-            {t("contractionCounter.counter.timerTitle")}
-          </h2>
-          <p className="mt-1 text-sm text-text-secondary">
-            {t("contractionCounter.counter.timerDesc")}
+        <Card className="px-[9px] py-[25px] md:p-8 text-center shadow-none border border-[#EEE4F9]">
+          <p className="mt-1 text-sm! text-primary-dark!">
+            {t("contractionCounter.counter.readyNext")}
           </p>
+          <span className="size-[88px] inline-flex items-center justify-center mt-[25px] rounded-full bg-primary-light text-xs font-medium text-primary">
+            <Clock className="size-8" />{" "}
+          </span>
 
           <div className="my-8">
             {running ? (
-              <p className="font-mono text-5xl font-bold text-primary">
+              <p className="font-poppins text-[50px]! font-bold! text-primary!">
                 {fmtClock(elapsed)}
               </p>
-            ) : (
-              <p className="text-sm text-text-secondary">
-                {t("contractionCounter.counter.readyNext")}
-              </p>
-            )}
+            ) : busy && !running ? (
+              <div className="flex justify-center items-center h-[75px]">
+                <Loader2 className="size-10 animate-spin text-primary" />
+              </div>
+            ) : null}
           </div>
 
           <Button
             onClick={handleToggle}
             disabled={busy}
             size="lg"
-            variant={running ? "outline" : "default"}
+            variant={"default"}
             className="min-w-52 justify-center"
           >
             {busy ? (
@@ -127,27 +153,29 @@ export default function ContractionCounter({
             </span>
           </Button>
 
-          <div className="mt-8 grid grid-cols-3 gap-4 border-t pt-6">
+          <div className="mt-8 grid grid-cols-3 gap-4 border-y border-y-[#EEE4F9] py-3">
             <Stat
               label={t("contractionCounter.counter.totalCount")}
-              value={String(session.total_count)}
+              value={String(session?.total_count ?? 0)}
+              className="border-r border-r-[#EEE4F9]"
             />
             <Stat
               label={t("contractionCounter.counter.avgInterval")}
+              className="border-r border-r-[#EEE4F9]"
               value={fmtDuration(
-                summary?.avg_interval_sec ?? session.avg_interval_sec
+                summary?.avg_interval_sec ?? session?.avg_interval_sec ?? 0
               )}
             />
             <Stat
               label={t("contractionCounter.counter.avgDuration")}
               value={fmtDuration(
-                summary?.avg_duration_sec ?? session.avg_duration_sec
+                summary?.avg_duration_sec ?? session?.avg_duration_sec ?? 0
               )}
             />
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="px-3 py-6 md:p-6 shadow-none border border-[#EEE4F9]">
           <h3 className="mb-4 font-semibold text-primary-dark">
             {t("contractionCounter.counter.timeline")}
           </h3>
@@ -160,20 +188,25 @@ export default function ContractionCounter({
             {completed.map((c, idx) => (
               <div
                 key={c._id}
-                className="flex items-center justify-between rounded-lg bg-primary-light/30 px-4 py-3"
+                className="flex items-center justify-between rounded-lg bg-[#FCFAFF] px-4 py-3"
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex size-8 items-center justify-center rounded-full bg-primary-light text-xs font-semibold text-primary">
-                    #{completed.length - idx}
+                  <span className="flex size-8 items-center justify-center rounded-full bg-white text-primary">
+                    <Timer size={18} />
                   </span>
-                  <span className="text-sm text-text-secondary">
-                    {new Date(c.start_time).toLocaleTimeString("sv-SE", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
+                  <div>
+                    <p className="text-lg! font-semibold! text-primary-dark!">
+                      Contraction #{completed.length - idx}
+                    </p>
+                    <p className="text-base! font-normal! text-primary-dark!">
+                      {new Date(c.start_time).toLocaleTimeString("sv-SE", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
                 </div>
-                <span className="text-sm font-medium text-primary-dark">
+                <span className="text-base! font-medium! text-primary-dark!">
                   {fmtDuration(c.duration_sec ?? 0)}
                 </span>
               </div>
@@ -182,18 +215,18 @@ export default function ContractionCounter({
         </Card>
       </div>
 
-      <div className="space-y-6">
-        <Card className="p-6">
-          <h3 className="mb-3 font-semibold text-primary-dark">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+        <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
+          <h3 className="mb-3 text-[25px]! font-semibold text-primary-dark">
             {t("contractionCounter.counter.quickActions")}
           </h3>
           <div className="space-y-2">
             <Button
-              variant="purple"
+              variant="default"
               onClick={onViewStats}
               className="w-full justify-center"
             >
-              <BarChart3 className="size-4" />{" "}
+              <TrendingUp className="size-4" />{" "}
               {t("contractionCounter.counter.viewStatistics")}
             </Button>
             <Button
@@ -201,10 +234,27 @@ export default function ContractionCounter({
               onClick={onViewHistory}
               className="w-full justify-center"
             >
-              <History className="size-4" />{" "}
+              <Clock className="size-4" />{" "}
               {t("contractionCounter.counter.viewHistory")}
             </Button>
-            <Button
+            {session && (
+              <Button
+                variant="ghost"
+                onClick={() =>
+                  endSession.mutate(session._id, {
+                    onSuccess: () =>
+                      toast.success(
+                        t("contractionCounter.counter.sessionEnded")
+                      ),
+                  })
+                }
+                disabled={endSession.isPending}
+                className="w-full justify-center"
+              >
+                {t("contractionCounter.counter.endSession")}
+              </Button>
+            )}
+            {/* <Button
               variant="outline"
               asChild
               className="w-full justify-center border-destructive text-destructive"
@@ -213,42 +263,55 @@ export default function ContractionCounter({
                 <Phone className="size-4" />{" "}
                 {t("contractionCounter.counter.emergencyContact")}
               </a>
-            </Button>
+            </Button> */}
           </div>
         </Card>
 
-        <Card className="p-6 bg-primary-light/40">
-          <h3 className="font-semibold text-primary-dark">
-            {t("contractionCounter.counter.trackingTips")}
+        <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
+          <h3 className="font-semibold text-[25px]! text-[#E7000B]! flex items-center gap-2.5">
+            <Phone /> {t("contractionCounter.counter.trackingTips")}
           </h3>
-          <ul className="mt-2 space-y-2 text-sm text-text-secondary">
+          <ul className="mt-2 space-y-2 text-base! text-primary-dark!">
+            <li>• {t("contractionCounter.counter.tip4")}</li>
+            <li>• {t("contractionCounter.counter.tip5")}</li>
+            <li>• {t("contractionCounter.counter.tip6")}</li>
+          </ul>
+
+          <Button
+            variant="default"
+            className="w-full bg-[#E7000B]! text-white! justify-center mt-4"
+          >
+            <Phone className="size-4" />{" "}
+            {t("contractionCounter.counter.emergencyContact")}
+          </Button>
+        </Card>
+
+        <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
+          <h3 className="font-semibold text-[25px]! text-primary-dark!">
+            💡 {t("contractionCounter.counter.trackingTips")}
+          </h3>
+          <ul className="mt-2 space-y-2 text-base! text-primary-dark!">
             <li>• {t("contractionCounter.counter.tip1")}</li>
             <li>• {t("contractionCounter.counter.tip2")}</li>
             <li>• {t("contractionCounter.counter.tip3")}</li>
           </ul>
         </Card>
-
-        <Button
-          variant="ghost"
-          onClick={() =>
-            endSession.mutate(session._id, {
-              onSuccess: () =>
-                toast.success(t("contractionCounter.counter.sessionEnded")),
-            })
-          }
-          disabled={endSession.isPending}
-          className="w-full justify-center"
-        >
-          {t("contractionCounter.counter.endSession")}
-        </Button>
       </div>
     </div>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  value,
+  className,
+}: {
+  label: string;
+  value: string;
+  className?: string;
+}) {
   return (
-    <div>
+    <div className={cn("", className)}>
       <p className="text-xl font-bold text-primary-dark">{value}</p>
       <p className="text-xs text-text-secondary">{label}</p>
     </div>

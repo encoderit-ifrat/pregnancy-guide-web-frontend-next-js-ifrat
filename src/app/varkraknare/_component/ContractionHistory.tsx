@@ -5,17 +5,16 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ArrowLeft, Droplet, Trash2 } from "lucide-react";
+import { ArrowLeft, Droplet, Timer, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryContractionSessions } from "../_api/queries/useQueryContraction";
 import { useDeleteContractionSession } from "../_api/mutations/useContractionMutations";
-import { fmtDuration } from "../_lib/format";
+import Link from "next/link";
+import { fmtDuration, fmtFullDuration } from "../_lib/format";
 
 export default function ContractionHistory({
-  onBack,
   onViewStats,
 }: {
-  onBack: () => void;
   onViewStats: () => void;
 }) {
   const { t } = useTranslation();
@@ -28,15 +27,15 @@ export default function ContractionHistory({
 
   return (
     <div className="space-y-6">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-1 text-sm text-primary hover:underline"
-      >
-        <ArrowLeft className="size-4" /> {t("contractionCounter.history.back")}
-      </button>
+      <Link href={"/varkraknare"} className="flex items-center gap-2 my-[35px]">
+        <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
+        <p className="text-base font-normal">
+          {t("contractionCounter.history.back")}
+        </p>
+      </Link>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-4 lg:col-span-2">
+        <div className="space-y-4 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px]">
           <div>
             <h2 className="text-xl font-semibold text-primary-dark">
               {t("contractionCounter.history.title")}
@@ -56,17 +55,31 @@ export default function ContractionHistory({
             </Card>
           ) : (
             sessions.map((s) => (
-              <Card key={s._id} className="p-5">
+              <Card
+                key={s._id}
+                className="p-2 md:p-5 border border-[#F3E8FF] shadow-none bg-white rounded-2xl"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <span className="flex size-9 items-center justify-center rounded-full bg-primary-light">
-                      <Droplet className="size-4 text-primary" />
+                      <Timer className="size-4 text-primary" />
                     </span>
                     <div>
                       <p className="font-semibold text-primary-dark">
                         {t("contractionCounter.history.contractionsCount", {
                           count: s.total_count,
                         })}
+                        <span className="bg-primary-light2 text-xs! px-2 py-0.5 rounded-full !text-primary ml-1">
+                          {fmtFullDuration(
+                            s.ended_at
+                              ? Math.floor(
+                                  (new Date(s.ended_at).getTime() -
+                                    new Date(s.started_at).getTime()) /
+                                    1000
+                                )
+                              : 0
+                          )}
+                        </span>
                       </p>
                       <p className="text-xs text-text-secondary">
                         {new Date(s.started_at).toLocaleString("sv-SE", {
@@ -93,7 +106,7 @@ export default function ContractionHistory({
                     <Trash2 className="size-4" />
                   </button>
                 </div>
-                <div className="mt-4 grid grid-cols-3 gap-3 border-t pt-4 text-center">
+                <div className="mt-4 grid grid-cols-3 gap-2 pt-4 text-center">
                   <Mini
                     label={t("contractionCounter.history.avgDuration")}
                     value={fmtDuration(s.avg_duration_sec)}
@@ -148,7 +161,10 @@ export default function ContractionHistory({
                 value={sessions.reduce((a, s) => a + s.total_count, 0)}
               />
             </div>
-            <Button onClick={onViewStats} className="mt-5 w-full justify-center">
+            <Button
+              onClick={onViewStats}
+              className="mt-5 w-full justify-center"
+            >
               {t("contractionCounter.history.viewFullStats")}
             </Button>
           </Card>
@@ -160,9 +176,9 @@ export default function ContractionHistory({
 
 function Mini({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="font-semibold text-primary-dark">{value}</p>
-      <p className="text-xs text-text-secondary">{label}</p>
+    <div className="flex flex-col items-center justify-center bg-white rounded-[10px] border border-[#F3E8FF] shadow-week-details px-2.5 py-2">
+      <p className="text-sm! font-normal! text-primary-dark!">{label}</p>
+      <p className="text-xl! font-semibold! text-primary-dark!">{value}</p>
     </div>
   );
 }
