@@ -826,6 +826,7 @@
       "noContractions": "Inga sammandragningar registrerade ännu.",
       "quickActions": "Snabbåtgärder",
       "viewStatistics": "Visa statistik",
+      "continueTracking": "Fortsätt att spåra",
       "viewHistory": "Visa historik",
       "emergencyContact": "Nödkontakt",
       "trackingTips": "Spårningstips",
@@ -851,6 +852,7 @@
       "durationAnalysis": "Längdanalys",
       "intervalPattern": "Intervallmönster",
       "dailyCount": "Antal sammandragningar per dag",
+      "dailyCountDes": "Antal sammandragningar registrerade varje dag",
       "recentSessions": "Senaste sessionerna",
       "noSessions": "Inga sessioner ännu.",
       "contractionsCount": "{count} sammandragningar",
@@ -875,11 +877,15 @@
       "totalCount": "Totalt antal",
       "summary": "Sammanfattning",
       "totalSessions": "Totalt antal sessioner",
+      "thisWeek": "Denna vecka",
       "totalContractions": "Totalt antal sammandragningar",
       "viewFullStats": "Visa fullständig statistik",
       "previous": "Föregående",
       "next": "Nästa",
-      "sessionDeleted": "Sessionen raderad"
+      "sessionDeleted": "Sessionen raderad",
+      "newSession": "Ny session",
+      "noteTitle": "Note",
+      "noteDesc": "All session data is stored locally on your device. Export your history before clearing your browser data."
     }
   },
   "wishlists": {

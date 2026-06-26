@@ -17,6 +17,7 @@ import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 export default function WishlistsClientPage() {
   const { t } = useTranslation();
@@ -135,7 +136,10 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
     <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] rounded-[8px]!">
       <div className="relative h-[152px] md:h-[255px] w-full bg-primary-light rounded-[6px] overflow-hidden">
         <Image
-          src={wishlist.cover_image || "/default_wishlist_image.png"}
+          src={
+            imageLinkGenerator(wishlist.cover_image) ||
+            "/default_wishlist_image.png"
+          }
           alt={wishlist.title}
           fill
           className="object-cover"

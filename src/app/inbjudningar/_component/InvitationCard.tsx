@@ -19,6 +19,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { EventInvitation } from "../_types/invitation_types";
 import { formatDate } from "date-fns";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 function InvitationCard({ inv }: { inv: EventInvitation }) {
   const { t } = useTranslation();
@@ -30,7 +31,11 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
         </div>
       )}
       <Image
-        src={inv.cover_image ? inv.cover_image : "/images/default.png"}
+        src={
+          inv.cover_image
+            ? imageLinkGenerator(inv.cover_image)
+            : "/images/default.png"
+        }
         width={700}
         height={700}
         className="w-full h-[176px] object-cover rounded-[10px] shrink-0"

@@ -15,7 +15,8 @@ import { CircleX, Gift, Info, Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useCreateWishlist } from "../_api/mutations/useWishlistMutations";
-// import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
+import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Image from "next/image";
 
 export default function CreateWishlistModal({
@@ -28,39 +29,40 @@ export default function CreateWishlistModal({
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  // const [coverImage, setCoverImage] = useState<string | undefined>();
-  const [coverFile, setCoverFile] = useState<File | undefined>();
+  const [coverImage, setCoverImage] = useState<string | undefined>();
   const [coverPreview, setCoverPreview] = useState<string | undefined>();
   const [replyBy, setReplyBy] = useState<Date | undefined>();
 
   const create = useCreateWishlist();
-  // const upload = useFileUploadTempFolder();
+  const upload = useFileUploadTempFolder();
 
   const reset = () => {
     setTitle("");
     setDescription("");
-    // setCoverImage(undefined);
-    if (coverPreview) URL.revokeObjectURL(coverPreview);
-    setCoverFile(undefined);
+    setCoverImage(undefined);
     setCoverPreview(undefined);
     setReplyBy(undefined);
   };
 
-  // const handleUpload = (file?: File) => {
-  //   if (!file) return;
-  //   upload.mutate(
-  //     { file },
-  //     {
-  //       onSuccess: (res) => setCoverImage(res?.data?.data?.file),
-  //       onError: () => toast.error(t("wishlists.create.uploadFailed")),
-  //     }
-  //   );
-  // };
-
   const handleFileSelect = (file?: File) => {
     if (!file) return;
-    setCoverFile(file);
-    setCoverPreview(URL.createObjectURL(file));
+    upload.mutate(
+      { file },
+      {
+        onSuccess: (res) => {
+          const filePath = res?.data?.file;
+          if (filePath) {
+            setCoverImage(filePath);
+            setCoverPreview(imageLinkGenerator(filePath));
+          } else {
+            toast.error("Failed to get uploaded file path");
+          }
+        },
+        onError: () => {
+          toast.error(t("wishlists.create.uploadFailed"));
+        },
+      }
+    );
   };
 
   const handleSubmit = () => {
@@ -68,11 +70,11 @@ export default function CreateWishlistModal({
       toast.error(t("wishlists.create.titleRequired"));
       return;
     }
-      create.mutate(
+    create.mutate(
       {
         title: title.trim(),
         description: description.trim() || undefined,
-        cover_image: coverFile,
+        cover_image: coverImage,
         reply_by: replyBy ? replyBy.toISOString() : undefined,
       },
       {
@@ -134,14 +136,20 @@ export default function CreateWishlistModal({
                   <button
                     type="button"
                     onClick={() => {
-                      if (coverPreview) URL.revokeObjectURL(coverPreview);
-                      setCoverFile(undefined);
+                      setCoverImage(undefined);
                       setCoverPreview(undefined);
                     }}
                     className="absolute top-2 right-2 bg-white/80 rounded-full p-1 hover:bg-white transition-colors"
                   >
                     <CircleX className="size-5 text-black" />
                   </button>
+                </div>
+              ) : upload.isPending ? (
+                <div className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/40 bg-primary-light/20 py-8 text-center">
+                  <Loader2 className="size-7 text-primary animate-spin" />
+                  <span className="text-sm text-primary font-medium">
+                    Uploading...
+                  </span>
                 </div>
               ) : (
                 <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/40 bg-primary-light/20 py-8 text-center">
@@ -157,6 +165,7 @@ export default function CreateWishlistModal({
                     type="file"
                     accept="image/*"
                     className="hidden"
+                    disabled={upload.isPending}
                     onChange={(e) => handleFileSelect(e.target.files?.[0])}
                   />
                 </label>
@@ -188,9 +197,9 @@ export default function CreateWishlistModal({
             <Button
               className="flex-1 justify-center py-2.5"
               onClick={handleSubmit}
-              disabled={create.isPending}
+              disabled={create.isPending || upload.isPending}
             >
-              {create.isPending && <Loader2 className="size-4 animate-spin" />}
+              {(create.isPending || upload.isPending) && <Loader2 className="size-4 animate-spin" />}
               <span>{t("wishlists.create.submit")}</span>
             </Button>
           </div>

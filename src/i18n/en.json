@@ -839,6 +839,7 @@
       "noContractions": "No contractions recorded yet.",
       "quickActions": "Quick Actions",
       "viewStatistics": "View Statistics",
+      "continueTracking": "Continue Tracking",
       "viewHistory": "View History",
       "emergencyContact": "Emergency Contact",
       "trackingTips": "Tracking Tips",
@@ -864,6 +865,7 @@
       "durationAnalysis": "Duration Analysis",
       "intervalPattern": "Interval Pattern",
       "dailyCount": "Daily Contraction Count",
+      "dailyCountDes": "Number of contractions recorded each day",
       "recentSessions": "Recent Sessions",
       "noSessions": "No sessions yet.",
       "contractionsCount": "{count} contractions",
@@ -888,11 +890,15 @@
       "totalCount": "Total Count",
       "summary": "Summary",
       "totalSessions": "Total Sessions",
+      "thisWeek": "This Week",
       "totalContractions": "Total Contractions",
       "viewFullStats": "View Full Stats",
       "previous": "Previous",
       "next": "Next",
-      "sessionDeleted": "Session deleted"
+      "sessionDeleted": "Session deleted",
+      "newSession": "New Session",
+      "noteTitle": "Note",
+      "noteDesc": "All session data is stored locally on your device. Export your history before clearing your browser data."
     }
   },
   "wishlists": {

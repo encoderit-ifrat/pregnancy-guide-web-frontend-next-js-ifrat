@@ -36,6 +36,7 @@ export default function HistoryClientPage() {
         ) : (
           <ContractionHistory
             onViewStats={() => router.push("/varkraknare/statistik")}
+            onViewSession={() => router.push("/varkraknare")}
           />
         )}
       </div>

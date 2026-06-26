@@ -71,6 +71,34 @@ export default function ContractionCounter({
     return () => clearInterval(id);
   }, [running]);
 
+  const handleViewStats = () => {
+    if (running) {
+      stopContraction.mutate(
+        { sessionId: session!._id, contractionId: running._id },
+        {
+          onSuccess: () => onViewStats(),
+          onError: () => toast.error(t("contractionCounter.counter.stopError")),
+        }
+      );
+    } else {
+      onViewStats();
+    }
+  };
+
+  const handleViewHistory = () => {
+    if (running) {
+      stopContraction.mutate(
+        { sessionId: session!._id, contractionId: running._id },
+        {
+          onSuccess: () => onViewHistory(),
+          onError: () => toast.error(t("contractionCounter.counter.stopError")),
+        }
+      );
+    } else {
+      onViewHistory();
+    }
+  };
+
   const handleToggle = () => {
     if (running) {
       stopContraction.mutate(
@@ -116,9 +144,6 @@ export default function ContractionCounter({
           <p className="mt-1 text-sm! text-primary-dark!">
             {t("contractionCounter.counter.readyNext")}
           </p>
-          <span className="size-[88px] inline-flex items-center justify-center mt-[25px] rounded-full bg-primary-light text-xs font-medium text-primary">
-            <Clock className="size-8" />{" "}
-          </span>
 
           <div className="my-8">
             {running ? (
@@ -129,7 +154,11 @@ export default function ContractionCounter({
               <div className="flex justify-center items-center h-[75px]">
                 <Loader2 className="size-10 animate-spin text-primary" />
               </div>
-            ) : null}
+            ) : (
+              <span className="size-[88px] inline-flex items-center justify-center rounded-full bg-primary-light text-xs font-medium text-primary">
+                <Clock className="size-8" />{" "}
+              </span>
+            )}
           </div>
 
           <Button
@@ -223,7 +252,7 @@ export default function ContractionCounter({
           <div className="space-y-2">
             <Button
               variant="default"
-              onClick={onViewStats}
+              onClick={handleViewStats}
               className="w-full justify-center"
             >
               <TrendingUp className="size-4" />{" "}
@@ -231,7 +260,7 @@ export default function ContractionCounter({
             </Button>
             <Button
               variant="outline"
-              onClick={onViewHistory}
+              onClick={handleViewHistory}
               className="w-full justify-center"
             >
               <Clock className="size-4" />{" "}
@@ -268,7 +297,7 @@ export default function ContractionCounter({
         </Card>
 
         <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
-          <h3 className="font-semibold text-[25px]! text-[#E7000B]! flex items-center gap-2.5">
+          <h3 className="font-semibold text-[25px]! text-[#E7000B]! flex items-center gap-2.5 mb-5!">
             <Phone /> {t("contractionCounter.counter.trackingTips")}
           </h3>
           <ul className="mt-2 space-y-2 text-base! text-primary-dark!">
@@ -287,7 +316,7 @@ export default function ContractionCounter({
         </Card>
 
         <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
-          <h3 className="font-semibold text-[25px]! text-primary-dark!">
+          <h3 className="font-semibold text-[25px]! text-primary-dark! mb-5!">
             💡 {t("contractionCounter.counter.trackingTips")}
           </h3>
           <ul className="mt-2 space-y-2 text-base! text-primary-dark!">

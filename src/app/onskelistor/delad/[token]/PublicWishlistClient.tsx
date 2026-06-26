@@ -13,6 +13,7 @@ import ClaimModal from "./_component/ClaimModal";
 import { PublicWishlistItem } from "../../_types/wishlist_types";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 export default function PublicWishlistClient() {
   const { t } = useTranslation();
@@ -52,7 +53,10 @@ export default function PublicWishlistClient() {
             <Card className="overflow-hidden px-2.5 py-3 lg:p-[17px] border border-[#F3E8FF] rounded-[8px]!">
               <div className="relative overflow-hidden h-44 md:h-[483px] w-full rounded-[10px]! bg-primary-light">
                 <Image
-                  src={wishlist.cover_image || "/default_wishlist_image.png"}
+                  src={
+                    imageLinkGenerator(wishlist.cover_image) ||
+                    "/default_wishlist_image.png"
+                  }
                   alt={wishlist.title}
                   fill
                   className="object-cover"

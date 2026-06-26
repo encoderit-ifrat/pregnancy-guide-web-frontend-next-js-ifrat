@@ -5,17 +5,27 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ArrowLeft, Droplet, Timer, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  Droplet,
+  Timer,
+  Trash2,
+} from "lucide-react";
 import { toast } from "sonner";
 import { useQueryContractionSessions } from "../_api/queries/useQueryContraction";
 import { useDeleteContractionSession } from "../_api/mutations/useContractionMutations";
 import Link from "next/link";
 import { fmtDuration, fmtFullDuration } from "../_lib/format";
+import { formatDate } from "date-fns";
 
 export default function ContractionHistory({
   onViewStats,
+  onViewSession,
 }: {
   onViewStats: () => void;
+  onViewSession: () => void;
 }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
@@ -23,6 +33,7 @@ export default function ContractionHistory({
   const del = useDeleteContractionSession();
 
   const sessions = data?.data ?? [];
+  const summary = data?.summary ?? [];
   const total = data?.pagination.total ?? 0;
 
   return (
@@ -35,12 +46,12 @@ export default function ContractionHistory({
       </Link>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-4 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px]">
+        <div className="space-y-4 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] md:px-[35px] py-[25px]">
           <div>
-            <h2 className="text-xl font-semibold text-primary-dark">
+            <h2 className="text-[25px]! md:text-[30px]! font-semibold text-primary-dark!">
               {t("contractionCounter.history.title")}
             </h2>
-            <p className="text-sm text-text-secondary">
+            <p className="text-base! font-normal! text-primary-dark!">
               {t("contractionCounter.history.subtitle")}
             </p>
           </div>
@@ -65,7 +76,7 @@ export default function ContractionHistory({
                       <Timer className="size-4 text-primary" />
                     </span>
                     <div>
-                      <p className="font-semibold text-primary-dark">
+                      <p className="text-[20px]! font-semibold! text-primary-dark!">
                         {t("contractionCounter.history.contractionsCount", {
                           count: s.total_count,
                         })}
@@ -81,15 +92,17 @@ export default function ContractionHistory({
                           )}
                         </span>
                       </p>
-                      <p className="text-xs text-text-secondary">
-                        {new Date(s.started_at).toLocaleString("sv-SE", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
+                      <div className="flex flex-col md:flex-row gap-1 md:gap-2.5">
+                        <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
+                          <Calendar className="size-3" />
+                          {formatDate(s.started_at, "PP")}
+                        </p>
+                        <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
+                          <Clock className="size-3" />
+                          {formatDate(s.started_at, "p")}-
+                          {s.ended_at ? formatDate(s.ended_at, "p") : "..."}
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <button
@@ -101,12 +114,12 @@ export default function ContractionHistory({
                           ),
                       })
                     }
-                    className="text-text-secondary hover:text-destructive"
+                    className="text-destructive cursor-pointer w-9 h-9 rounded-[10px] border border-[#f3e8ff] flex items-center justify-center"
                   >
                     <Trash2 className="size-4" />
                   </button>
                 </div>
-                <div className="mt-4 grid grid-cols-3 gap-2 pt-4 text-center">
+                <div className="grid grid-cols-3 gap-2 pt-4 text-center">
                   <Mini
                     label={t("contractionCounter.history.avgDuration")}
                     value={fmtDuration(s.avg_duration_sec)}
@@ -147,26 +160,46 @@ export default function ContractionHistory({
         </div>
 
         <div className="space-y-6">
-          <Card className="p-6">
-            <h3 className="mb-4 font-semibold text-primary-dark">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
+            <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
               {t("contractionCounter.history.summary")}
             </h3>
-            <div className="space-y-3 text-sm">
+            <div className="grid grid-cols-2 gap-[13px]">
               <Row
                 label={t("contractionCounter.history.totalSessions")}
-                value={total}
+                value={summary.total_sessions}
+              />
+              <Row
+                label={t("contractionCounter.history.thisWeek")}
+                value={summary.this_week}
               />
               <Row
                 label={t("contractionCounter.history.totalContractions")}
-                value={sessions.reduce((a, s) => a + s.total_count, 0)}
+                value={summary.total_contractions}
               />
             </div>
             <Button
+              onClick={onViewSession}
+              className="mt-5 w-full justify-center"
+            >
+              <Timer className="size-4 mr-2" />{" "}
+              {t("contractionCounter.history.newSession")}
+            </Button>
+            <Button
               onClick={onViewStats}
+              variant="outline"
               className="mt-5 w-full justify-center"
             >
               {t("contractionCounter.history.viewFullStats")}
             </Button>
+          </Card>
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
+            <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
+              💡 {t("contractionCounter.history.noteTitle")}
+            </h3>
+            <p className="text-base! font-normal! text-primary-dark!">
+              {t("contractionCounter.history.noteDesc")}
+            </p>
           </Card>
         </div>
       </div>
@@ -177,7 +210,7 @@ export default function ContractionHistory({
 function Mini({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col items-center justify-center bg-white rounded-[10px] border border-[#F3E8FF] shadow-week-details px-2.5 py-2">
-      <p className="text-sm! font-normal! text-primary-dark!">{label}</p>
+      <p className="text-base! font-normal! text-primary-dark!">{label}</p>
       <p className="text-xl! font-semibold! text-primary-dark!">{value}</p>
     </div>
   );
@@ -185,9 +218,13 @@ function Mini({ label, value }: { label: string; value: string }) {
 
 function Row({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex items-center justify-between">
-      <span className="text-text-secondary">{label}</span>
-      <span className="text-lg font-semibold text-primary-dark">{value}</span>
-    </div>
+    <Card className="py-[18px] px-[25px] md:px-2 border border-[#F3E8FF] shadow-invitation-box bg-white rounded-[10px] flex flex-col items-center justify-center">
+      <span className="text-primary-dark! font-normal! text-lg! text-center! hyphens-auto">
+        {label}
+      </span>
+      <span className="text-lg! font-semibold! text-primary-dark! ">
+        {value}
+      </span>
+    </Card>
   );
 }

@@ -11,7 +11,11 @@ export const useCreateInvitation = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationKey: ["event-invitations", "create"],
-    mutationFn: async (body: CreateInvitationPayload) => {
+    mutationFn: async (body: CreateInvitationPayload | FormData) => {
+      if (body instanceof FormData) {
+        const res = await api.post("/event-invitations", body);
+        return res.data.data;
+      }
       const res = await api.post("/event-invitations", omitEmpty(body));
       return res.data.data;
     },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
@@ -40,7 +40,6 @@ import {
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import InvitationPreview from "../_component/InvitationPreview";
-import { TEMPLATE_STYLES } from "../_lib/templates";
 import {
   DeliveryOption,
   InvitationTemplate,
@@ -50,20 +49,17 @@ import {
   useCreateInvitation,
   useSendInvitation,
 } from "../_api/mutations/useInvitationMutations";
+import { useQueryInvitationTemplates } from "../_api/queries/useQueryInvitations";
 import { useQueryWishlists } from "@/app/onskelistor/_api/queries/useQueryWishlists";
 import BackToInv from "../_component/BackToInv";
 import Image from "next/image";
-
-const TEMPLATE_IDS: InvitationTemplate[] = [
-  "scandinavian_minimal",
-  "baby_pink",
-  "neutral_beige",
-  "elegant_lavender",
-];
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
 
 export default function CreateInvitationClient() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { data: templatesData } = useQueryInvitationTemplates();
   const [step, setStep] = useState(0);
   const [sentOpen, setSentOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
@@ -98,9 +94,7 @@ export default function CreateInvitationClient() {
   const [replyBy, setReplyBy] = useState<Date | undefined>();
   const [location, setLocation] = useState("");
   const [message, setMessage] = useState("");
-  const [template, setTemplate] = useState<InvitationTemplate>(
-    "scandinavian_minimal"
-  );
+  const [template, setTemplate] = useState<string | null>(null);
   const [wishlistId, setWishlistId] = useState<string | undefined>();
   const [recipients, setRecipients] = useState<Recipient[]>([]);
   const [guestName, setGuestName] = useState("");
@@ -108,16 +102,28 @@ export default function CreateInvitationClient() {
   const [delivery, setDelivery] = useState<DeliveryOption[]>(["email"]);
   const [scheduleAt, setScheduleAt] = useState<Date | undefined>();
   const [sendLater, setSendLater] = useState(false);
-  const [coverImage, setCoverImage] = useState<File | undefined>();
+  const [coverImage, setCoverImage] = useState<string | undefined>();
+  const [coverImageName, setCoverImageName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const coverPreviewUrl = coverImage ? URL.createObjectURL(coverImage) : undefined;
+  const templateInitialized = useRef(false);
+  const coverPreviewUrl = coverImage;
 
   const { data: wishlistsData } = useQueryWishlists();
   const wishlists = wishlistsData?.data ?? [];
 
+  const templates = templatesData ?? [];
+
+  useEffect(() => {
+    if (templates?.length && !templateInitialized.current) {
+      setTemplate(templates[0]?._id);
+      templateInitialized.current = true;
+    }
+  }, [templatesData]);
+
   const create = useCreateInvitation();
   const send = useSendInvitation();
-  const submitting = create.isPending || send.isPending;
+  const uploadTemp = useFileUploadTempFolder();
+  const submitting = create.isPending || send.isPending || uploadTemp.isPending;
 
   const next = () => {
     if (step === 0 && !title.trim()) {
@@ -156,47 +162,62 @@ export default function CreateInvitationClient() {
       setStep(0);
       return;
     }
-    create.mutate(
-      {
-        title: title.trim(),
-        subtitle: subtitle.trim() || undefined,
-        message: message.trim() || undefined,
-        event_date: date.toISOString(),
-        event_time: time || undefined,
-        reply_by: replyBy ? replyBy.toISOString() : undefined,
-        location: location.trim() || undefined,
-        template,
-        // TODO: upload coverImage as File via FormData when API supports it
-        // if (coverImage) {
-        //   const fd = new FormData();
-        //   Object.entries(body).forEach(([k, v]) => { if (v !== undefined) fd.append(k, v); });
-        //   fd.append("cover_image", coverImage);
-        //   // api.post("/event-invitations", fd)
-        // }
-        wishlist: wishlistId,
-        delivery_options: delivery,
-        recipients,
-      },
-      {
-        onSuccess: (created: { _id: string }) => {
-          send.mutate(
-            {
-              id: created._id,
-              schedule_at:
-                sendLater && scheduleAt ? scheduleAt.toISOString() : undefined,
-              delivery_options: delivery,
-            },
-            {
-              onSuccess: () => setSentOpen(true),
-              onError: () => {
-                toast.success(t("invitations.builder.savedDraft"));
-                router.push("/inbjudningar");
-              },
-            }
-          );
+
+    const onSuccess = (created: { _id: string }) => {
+      send.mutate(
+        {
+          id: created._id,
+          schedule_at:
+            sendLater && scheduleAt ? scheduleAt.toISOString() : undefined,
+          delivery_options: delivery,
         },
-      }
-    );
+        {
+          onSuccess: () => setSentOpen(true),
+          onError: () => {
+            toast.success(t("invitations.builder.savedDraft"));
+            router.push("/inbjudningar");
+          },
+        }
+      );
+    };
+
+    if (template) {
+      create.mutate(
+        {
+          title: title.trim(),
+          subtitle: subtitle.trim() || undefined,
+          message: message.trim() || undefined,
+          event_date: date.toISOString(),
+          event_time: time || undefined,
+          reply_by: replyBy ? replyBy.toISOString() : undefined,
+          location: location.trim() || undefined,
+          template: templates.find((t) => t._id === template)?.slug,
+          cover_image: templates.find((t) => t._id === template)?.preview_url,
+          wishlist: wishlistId,
+          delivery_options: delivery,
+          recipients,
+        },
+        { onSuccess }
+      );
+    } else if (coverImage) {
+      create.mutate(
+        {
+          title: title.trim(),
+          subtitle: subtitle.trim() || undefined,
+          message: message.trim() || undefined,
+          event_date: date.toISOString(),
+          event_time: time || undefined,
+          reply_by: replyBy ? replyBy.toISOString() : undefined,
+          location: location.trim() || undefined,
+          template: "custom",
+          cover_image: coverImage,
+          wishlist: wishlistId,
+          delivery_options: delivery,
+          recipients,
+        },
+        { onSuccess }
+      );
+    }
   };
 
   return (
@@ -341,25 +362,33 @@ export default function CreateInvitationClient() {
                   <div className="flex items-center gap-2 mb-4">
                     <button
                       type="button"
+                      disabled={uploadTemp.isPending}
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex items-center gap-2 border-2 border-dashed border-primary bg-[#FAF9FF] rounded-[5px] py-2.5 px-4 flex-1 text-sm font-medium text-primary-dark hover:bg-primary-light/20 transition-colors"
+                      className="flex items-center gap-2 border-2 border-dashed border-primary bg-[#FAF9FF] rounded-[5px] py-2.5 px-4 flex-1 text-sm font-medium text-primary-dark hover:bg-primary-light/20 transition-colors disabled:opacity-50"
                     >
-                      <Upload className="size-4" />
+                      {uploadTemp.isPending ? (
+                        <Loader2 className="size-4 animate-spin" />
+                      ) : (
+                        <Upload className="size-4" />
+                      )}
                       <div>
                         <p className="text-start">
-                          {coverImage?.name ||
-                            t("invitations.builder.uploadCoverImage")}
+                          {uploadTemp.isPending
+                            ? "Uploading..."
+                            : coverImageName || t("invitations.builder.uploadCoverImage")}
                         </p>
                         <p className="text-start text-[10px]! font-normal!">
                           JPG, PNG, or SVG (Max. 5MB)
                         </p>
                       </div>
                     </button>
-                    {coverImage ? (
+                    {coverImage && !uploadTemp.isPending ? (
                       <button
                         type="button"
                         onClick={() => {
                           setCoverImage(undefined);
+                          setCoverImageName("");
+                          setTemplate(templates[0]?._id);
                           if (fileInputRef.current)
                             fileInputRef.current.value = "";
                         }}
@@ -383,23 +412,52 @@ export default function CreateInvitationClient() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        setCoverImage(file);
+                        setCoverImageName(file.name);
+                        setTemplate(null);
+                        uploadTemp.mutate(
+                          { file },
+                          {
+                            onSuccess: (res) => {
+                              const filePath = res?.data?.file;
+                              if (filePath) {
+                                setCoverImage(filePath);
+                              } else {
+                                toast.error("Failed to get uploaded file path");
+                                setCoverImageName("");
+                              }
+                            },
+                            onError: (err) => {
+                              toast.error("Failed to upload image");
+                              setCoverImageName("");
+                              if (fileInputRef.current)
+                                fileInputRef.current.value = "";
+                            },
+                          }
+                        );
                       }}
                     />
                   </div>
                   <div className="grid grid-cols-3 gap-2">
-                    {TEMPLATE_IDS.map((id) => (
+                    {templates.map((t, idx) => (
                       <button
-                        key={id}
-                        onClick={() => setTemplate(id)}
+                        key={idx}
+                        disabled={uploadTemp.isPending}
+                        onClick={() => {
+                          setTemplate(t._id);
+                          setCoverImage(undefined);
+                          setCoverImageName("");
+                          if (fileInputRef.current)
+                            fileInputRef.current.value = "";
+                        }}
                         className={cn(
                           "overflow-hidden relative p-1 rounded-[5px] border  text-left transition-all",
-                          template === id
+                          template === t._id
                             ? "border-primary"
-                            : "border-primary-light2 hover:border-primary/40"
+                            : "border-primary-light2 hover:border-primary/40",
+                          uploadTemp.isPending && "opacity-50 cursor-not-allowed"
                         )}
                       >
-                        {template === id && (
+                        {template === t._id && (
                           <span className="absolute right-1 top-1 rounded-full bg-primary p-1">
                             <Check
                               strokeWidth={3}
@@ -408,17 +466,17 @@ export default function CreateInvitationClient() {
                           </span>
                         )}
                         <Image
-                          src={"/images/preview-01.png"}
+                          src={imageLinkGenerator(t.preview_url)}
                           width={700}
                           height={700}
                           alt=""
                           className="h-[76px] w-full object-cover rounded-[5px]"
                         />
                         <span className="font-outfit! block text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5!">
-                          {TEMPLATE_STYLES[id].name}
+                          {t.name}
                         </span>
                         <span className="font-outfit! block text-[10px]! text-center! font-medium! text-primary-dark">
-                          {TEMPLATE_STYLES[id].des}
+                          {""}
                         </span>
                       </button>
                     ))}
@@ -456,7 +514,11 @@ export default function CreateInvitationClient() {
                             </span>
                           )}
                           <Image
-                            src={w.cover_image || "/images/preview-01.png"}
+                            src={
+                              w.cover_image
+                                ? imageLinkGenerator(w.cover_image)
+                                : "/images/preview-01.png"
+                            }
                             width={700}
                             height={700}
                             alt=""
@@ -599,7 +661,10 @@ export default function CreateInvitationClient() {
                     />
                     <SummaryRow
                       label={t("invitations.builder.selectedTemplate")}
-                      value={TEMPLATE_STYLES[template].name}
+                      value={
+                        templates.find((t) => t._id === template)?.name ??
+                        template
+                      }
                       icon={<FileText className="size-3.5 text-primary" />}
                     />
                   </div>
@@ -704,6 +769,11 @@ export default function CreateInvitationClient() {
                 replyBy={replyBy?.toISOString()}
                 template={template}
                 coverImage={coverPreviewUrl}
+                templatePreviewUrl={
+                  step !== 0 && template
+                    ? templates.find((t) => t._id === template)?.preview_url
+                    : undefined
+                }
               />
             </div>
             <div className="flex w-full flex-col items-center gap-2 sm:flex-row sm:justify-between">
@@ -716,7 +786,7 @@ export default function CreateInvitationClient() {
                 {t("invitations.builder.cancel")}
               </Button>
               {step < STEPS.length - 1 ? (
-                <Button onClick={next} className="flex-1 w-full py-2.5">
+                <Button onClick={next} disabled={uploadTemp.isPending} className="flex-1 w-full py-2.5">
                   {t("invitations.builder.continue")}
                 </Button>
               ) : (
@@ -739,16 +809,22 @@ export default function CreateInvitationClient() {
       </div>
 
       <Dialog open={sentOpen} onOpenChange={setSentOpen}>
-        <DialogContent className="max-w-md text-center">
-          <div className="mx-auto mb-2 flex size-16 items-center justify-center rounded-full bg-primary-light">
-            <CheckCircle2 className="size-8 text-primary" />
+        <DialogContent className="max-w-[350px] md:max-w-md bg-white rounded-[8px]!">
+          <div className="mx-auto mb-2 flex items-center justify-center rounded-full ">
+            <Image
+              src="/images/icons/gift_claimed.png"
+              alt="check"
+              width={500}
+              height={500}
+              className="size-[68px] object-cover mb-2"
+            />
           </div>
-          <h2 className="font-outfit! text-xl font-bold text-primary-dark">
+          <h2 className="font-outfit! text-[25px]! font-bold text-primary-dark! text-center!">
             {sendLater
               ? t("invitations.builder.scheduledTitle")
               : t("invitations.builder.sentTitle")}
           </h2>
-          <p className="font-outfit! mx-auto max-w-xs text-sm text-text-secondary">
+          <p className="font-outfit! mx-auto max-w-xs text-base! font-normal! text-primary-dark! text-center!">
             {t("invitations.builder.sentDesc")}
           </p>
           <Button
@@ -786,7 +862,7 @@ function SummaryRow({
   icon,
 }: {
   label: string;
-  value: string;
+  value: string | null;
   icon: React.ReactNode;
 }) {
   return (
@@ -796,7 +872,7 @@ function SummaryRow({
         <span className="font-outfit! text-text-secondary">{label}</span>
       </div>
       <span className="font-outfit! font-medium text-primary-dark">
-        {value}
+        {value || "custom"}
       </span>
     </div>
   );

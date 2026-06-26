@@ -40,6 +40,7 @@ import { useQueryWishlistDetail } from "../_api/queries/useQueryWishlists";
 import { useDeleteWishlistItem } from "../_api/mutations/useWishlistMutations";
 import AddEditItemModal from "../_component/AddEditItemModal";
 import { WishlistItem } from "../_types/wishlist_types";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 export default function WishlistDetailClient() {
   const { t } = useTranslation();
@@ -89,7 +90,10 @@ export default function WishlistDetailClient() {
             <Card className="overflow-hidden px-2.5 py-3 lg:p-[17px] border border-[#F3E8FF] rounded-[8px]!">
               <div className="relative overflow-hidden h-44 md:h-[483px] w-full rounded-[10px]! bg-primary-light">
                 <Image
-                  src={wishlist.cover_image || "/default_wishlist_image.png"}
+                  src={
+                    imageLinkGenerator(wishlist.cover_image) ||
+                    "/default_wishlist_image.png"
+                  }
                   alt={wishlist.title}
                   fill
                   className="object-cover"

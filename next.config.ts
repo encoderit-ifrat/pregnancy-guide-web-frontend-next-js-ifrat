@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "encoder-test-vpn.space",
+        hostname: "example.com",
         pathname: "/**", // allows all image paths from this domain
       },
       {

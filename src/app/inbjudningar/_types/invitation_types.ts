@@ -1,4 +1,5 @@
 export type InvitationTemplate =
+  | string
   | "scandinavian_minimal"
   | "baby_pink"
   | "neutral_beige"
@@ -64,9 +65,11 @@ export interface EventInvitationDetail extends EventInvitation {
 }
 
 export interface InvitationTemplateMeta {
-  id: InvitationTemplate;
+  _id: InvitationTemplate;
   name: string;
   preview_url: string;
+  slug: string;
+  description: string;
 }
 
 export type Recipient = {

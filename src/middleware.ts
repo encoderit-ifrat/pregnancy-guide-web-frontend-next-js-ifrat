@@ -51,6 +51,8 @@ export const config = {
     "/change-password/:path*",
     "/inbjudningar/:path*",
     "/onskelistor/:path*",
+    "/sparkraknare/:path*",
+    "/varkraknare/:path*",
     "/logga-in",
     "/skapa-konto",
     "/glomt-losenord",

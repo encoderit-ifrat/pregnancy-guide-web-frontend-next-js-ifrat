@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import { Calendar, CalendarDays, Clock, MapPin, MapPinned } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 import { InvitationTemplate } from "../_types/invitation_types";
-import { TEMPLATE_STYLES } from "../_lib/templates";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 interface Props {
   title?: string;
@@ -15,8 +14,9 @@ interface Props {
   time?: string | null;
   location?: string | null;
   replyBy?: string | null;
-  template?: InvitationTemplate;
+  template?: InvitationTemplate | null;
   coverImage?: string | null;
+  templatePreviewUrl?: string | null;
 }
 
 export default function InvitationPreview({
@@ -27,12 +27,11 @@ export default function InvitationPreview({
   time,
   location,
   replyBy,
-  template = "scandinavian_minimal",
+  template = null,
   coverImage,
+  templatePreviewUrl,
 }: Props) {
   const { t } = useTranslation();
-  const style =
-    TEMPLATE_STYLES[template] ?? TEMPLATE_STYLES.scandinavian_minimal;
   const fmtDate = date
     ? new Date(date).toLocaleDateString("sv-SE", {
         day: "numeric",
@@ -40,17 +39,30 @@ export default function InvitationPreview({
         year: "numeric",
       })
     : null;
+  // console.log("templatePreviewUrl", templatePreviewUrl);
+  // console.log("coverImage", coverImage);
+  // console.log("template", template);
 
   return (
     <div className="relative overflow-hidden h-[433px] lg:h-[755px] rounded-[8px] border bg-white shadow-week-details">
-      {/* <div
-        className={cn(
-          "flex h-44 items-center justify-center bg-gradient-to-br",
-          style.gradient
-        )}
-      > */}
       {coverImage ? (
-        <Image src={coverImage} alt="" fill className="object-cover" />
+        <Image
+          src={
+            coverImage.startsWith("blob")
+              ? coverImage
+              : imageLinkGenerator(coverImage)
+          }
+          alt=""
+          fill
+          className="object-fill"
+        />
+      ) : templatePreviewUrl ? (
+        <Image
+          src={imageLinkGenerator(templatePreviewUrl)}
+          fill
+          alt=""
+          className="object-fill"
+        />
       ) : (
         <div className="p-2">
           <div className="bg-primary-light2 border border-dashed border-primary rounded-[6px] w-full h-[190px] lg:h-[300px] flex items-center justify-center flex-col">
@@ -70,7 +82,6 @@ export default function InvitationPreview({
           </div>
         </div>
       )}
-      {/* </div> */}
       <div className="absolute bottom-0 left-0 w-full p-4 text-center">
         <h3 className="font-outfit! text-sm! md:text-[22px]! font-semibold! text-primary-dark">
           {title || t("invitations.preview.eventTitle")}

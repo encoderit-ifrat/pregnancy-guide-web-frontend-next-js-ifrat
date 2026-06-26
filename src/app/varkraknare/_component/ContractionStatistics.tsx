@@ -69,7 +69,7 @@ export default function ContractionStatistics() {
     <div className="space-y-6">
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2 ">
-          <div className="space-y-6 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px]">
+          <div className="space-y-6 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px] md:p-[35px]">
             <div>
               <h2 className="text-xl font-semibold text-primary-dark">
                 {t("contractionCounter.stats.title")}
@@ -100,20 +100,23 @@ export default function ContractionStatistics() {
 
           <Card className="px-2 py-[25px] md:p-6 border border-[#F3E8FF] shadow-none bg-white rounded-2xl ">
             <Tabs value={view} onValueChange={(v) => setView(v as typeof view)}>
-              <TabsList className="max-sm:w-full max-sm:flex-wrap px-2 py-[5px] border border-[#F3E8FF] bg-white rounded-2xl shadow-week-details">
-                <TabsTrigger value="frequency">
+              <TabsList className="max-sm:w-full max-sm:flex-wrap px-2 py-[5px] md:py-[7px] border border-[#F3E8FF] bg-white rounded-[10px] shadow-week-details">
+                <TabsTrigger variant={"inv"} value="frequency">
                   {t("contractionCounter.stats.frequencyTrend")}
                 </TabsTrigger>
-                <TabsTrigger value="duration">
+                <TabsTrigger variant={"inv"} value="duration">
                   {t("contractionCounter.stats.durationAnalysis")}
                 </TabsTrigger>
-                <TabsTrigger value="interval">
+                <TabsTrigger variant={"inv"} value="interval">
                   {t("contractionCounter.stats.intervalPattern")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <p className="mb-2 mt-4 text-sm font-medium text-primary-dark">
+            <p className="mb-0! mt-4 text-[30px]! font-semibold! text-primary-dark!">
               {t("contractionCounter.stats.dailyCount")}
+            </p>
+            <p className="mb-2 mt-0! text-base! font-normal! text-primary-dark!">
+              {t("contractionCounter.stats.dailyCountDes")}
             </p>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={daily}>
@@ -211,10 +214,10 @@ export default function ContractionStatistics() {
           </Card>
 
           <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
-            <h3 className="font-semibold text-primary-dark">
-              {t("contractionCounter.stats.patternAnalysis")}
+            <h3 className="font-semibold text-xl! text-primary-dark!">
+              📊 {t("contractionCounter.stats.patternAnalysis")}
             </h3>
-            <ul className="mt-2 space-y-2 text-sm text-text-secondary">
+            <ul className="mt-2 space-y-2 text-base! font-normal! text-primary-dark!">
               {stats.pattern_analysis.map((p, i) => (
                 <li key={i} className="flex gap-2">
                   <span className="text-primary">•</span>
@@ -228,10 +231,10 @@ export default function ContractionStatistics() {
             className={cn(
               "p-6 md:p-6 px-2 py-[25px]  shadow-none bg-white rounded-2xl",
               cta.level === "urgent"
-                ? "border-destructive bg-destructive/5"
+                ? "border border-destructive "
                 : cta.level === "warning"
-                  ? "border-primary bg-primary-light/40"
-                  : "bg-primary-light/30"
+                  ? "border "
+                  : ""
             )}
           >
             <div className="flex items-center gap-2">
@@ -262,11 +265,11 @@ export default function ContractionStatistics() {
           <div className="space-y-2">
             <Button
               variant="default"
-              onClick={() => router.push("/varkraknare/statistik")}
+              onClick={() => router.push("/varkraknare")}
               className="w-full justify-center"
             >
-              <TrendingUp className="size-4" />{" "}
-              {t("contractionCounter.counter.viewStatistics")}
+              <Timer className="size-4" />{" "}
+              {t("contractionCounter.counter.continueTracking")}
             </Button>
             <Button
               variant="outline"

@@ -19,4 +19,5 @@ export interface LaravelPagination {
 export interface Paginated<T> {
   data: T[];
   pagination: LaravelPagination;
+  summary?: any;
 }

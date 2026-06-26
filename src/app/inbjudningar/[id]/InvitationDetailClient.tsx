@@ -33,6 +33,7 @@ import { useState } from "react";
 import { RsvpStatus } from "../_types/invitation_types";
 import { toast } from "sonner";
 import { formatDate } from "date-fns";
+import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 type pageProps = object;
 
@@ -91,7 +92,10 @@ export default function page({}: pageProps) {
             <div className="p-3 bg-white border border-[#F3E8FF] rounded-[25px]">
               <div className="relative w-full h-[146px] md:h-[476px] rounded-[15px] overflow-hidden">
                 <Image
-                  src={inv?.cover_image || "/images/default.png"}
+                  src={
+                    imageLinkGenerator(inv?.cover_image) ||
+                    "/images/default.png"
+                  }
                   width={700}
                   height={700}
                   alt={"baby-shower"}
