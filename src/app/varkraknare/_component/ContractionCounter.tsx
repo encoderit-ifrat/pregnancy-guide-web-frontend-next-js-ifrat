@@ -17,7 +17,10 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { ActiveContractionSession } from "../_types/contraction_types";
-import { useQueryContractionSummary } from "../_api/queries/useQueryContraction";
+import {
+  useQueryContractionSettings,
+  useQueryContractionSummary,
+} from "../_api/queries/useQueryContraction";
 import {
   useEndContractionSession,
   useStartContraction,
@@ -41,6 +44,7 @@ export default function ContractionCounter({
 }: Props) {
   const { t } = useTranslation();
   const { data: summary } = useQueryContractionSummary();
+  const { data: settings } = useQueryContractionSettings();
   const startContraction = useStartContraction();
   const stopContraction = useStopContraction();
   const startSession = useStartContractionSession();
@@ -300,18 +304,21 @@ export default function ContractionCounter({
           <h3 className="font-semibold text-[25px]! text-[#E7000B]! flex items-center gap-2.5 mb-5!">
             <Phone /> {t("contractionCounter.counter.trackingTips")}
           </h3>
-          <ul className="mt-2 space-y-2 text-base! text-primary-dark!">
-            <li>• {t("contractionCounter.counter.tip4")}</li>
-            <li>• {t("contractionCounter.counter.tip5")}</li>
-            <li>• {t("contractionCounter.counter.tip6")}</li>
-          </ul>
+          <div
+            className="mt-2 space-y-2 text-base! text-primary-dark!"
+            dangerouslySetInnerHTML={{
+              __html: settings?.contractionCounter?.whenToCallDescription,
+            }}
+          />
 
           <Button
             variant="default"
             className="w-full bg-[#E7000B]! text-white! justify-center mt-4"
           >
-            <Phone className="size-4" />{" "}
-            {t("contractionCounter.counter.emergencyContact")}
+            <a href={`tel:${settings?.emergencyContactNumber}`}>
+              <Phone className="size-4" />{" "}
+              {t("contractionCounter.counter.emergencyContact")}
+            </a>
           </Button>
         </Card>
 
@@ -319,11 +326,12 @@ export default function ContractionCounter({
           <h3 className="font-semibold text-[25px]! text-primary-dark! mb-5!">
             💡 {t("contractionCounter.counter.trackingTips")}
           </h3>
-          <ul className="mt-2 space-y-2 text-base! text-primary-dark!">
-            <li>• {t("contractionCounter.counter.tip1")}</li>
-            <li>• {t("contractionCounter.counter.tip2")}</li>
-            <li>• {t("contractionCounter.counter.tip3")}</li>
-          </ul>
+          <div
+            className="mt-2 space-y-2 text-base! text-primary-dark!"
+            dangerouslySetInnerHTML={{
+              __html: settings?.contractionCounter?.trackingTips,
+            }}
+          />
         </Card>
       </div>
     </div>

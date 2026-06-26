@@ -160,7 +160,7 @@ export default function ContractionHistory({
         </div>
 
         <div className="space-y-6">
-          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-[10px]">
             <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
               {t("contractionCounter.history.summary")}
             </h3>
@@ -193,7 +193,7 @@ export default function ContractionHistory({
               {t("contractionCounter.history.viewFullStats")}
             </Button>
           </Card>
-          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-[10px]">
             <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
               💡 {t("contractionCounter.history.noteTitle")}
             </h3>

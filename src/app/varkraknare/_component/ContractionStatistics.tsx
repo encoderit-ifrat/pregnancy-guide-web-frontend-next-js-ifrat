@@ -25,13 +25,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useQueryContractionStatistics } from "../_api/queries/useQueryContraction";
+import {
+  useQueryContractionSettings,
+  useQueryContractionStatistics,
+} from "../_api/queries/useQueryContraction";
 import { fmtDuration } from "../_lib/format";
 import { LaborProgress } from "../_types/contraction_types";
 import { useRouter } from "next/navigation";
 
 export default function ContractionStatistics() {
   const { t } = useTranslation();
+  const { data: settings } = useQueryContractionSettings();
   const [view, setView] = useState<"frequency" | "duration" | "interval">(
     "frequency"
   );
@@ -254,7 +258,7 @@ export default function ContractionStatistics() {
                 asChild
                 className="mt-4 w-full justify-center bg-destructive hover:bg-destructive/90"
               >
-                <a href="tel:112">
+                <a href={`tel:${settings?.emergencyContactNumber}`}>
                   <Phone className="size-4" />{" "}
                   {t("contractionCounter.stats.callHospital")}
                 </a>

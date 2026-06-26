@@ -48,6 +48,15 @@ export const useQueryContractionSummary = () =>
     },
   });
 
+export const useQueryContractionSettings = () =>
+  useQuery({
+    queryKey: ["contraction-settings"],
+    queryFn: async () => {
+      const res = await api.get("/counter-settings");
+      return res.data.data;
+    },
+  });
+
 export const useQueryContractionStatistics = (
   range: "week" | "month" = "week",
   view: "frequency" | "duration" | "interval" = "frequency"

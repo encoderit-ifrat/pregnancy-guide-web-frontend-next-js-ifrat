@@ -28,6 +28,7 @@ import {
 import { useQueryKickStatistics } from "../_api/queries/useQueryKickCounter";
 import { Spinner } from "@/components/ui/Spinner";
 import Link from "next/link";
+import { useQueryContractionSettings } from "@/app/varkraknare/_api/queries/useQueryContraction";
 
 export default function KickStatistics({
   onBack,
@@ -38,6 +39,7 @@ export default function KickStatistics({
 }) {
   const { t } = useTranslation();
   const { data: stats, isLoading } = useQueryKickStatistics("week");
+  const { data: settings } = useQueryContractionSettings();
 
   if (isLoading || !stats) {
     return (
@@ -202,21 +204,33 @@ export default function KickStatistics({
             </div>
           </Card>
 
-          <Card className="p-6 bg-primary-light/40">
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-[10px]">
             <div className="flex items-center gap-2">
-              <Lightbulb className="size-5 text-primary" />
-              <h3 className="font-semibold text-primary-dark">
+              📊
+              <h3 className="text-[25px]! font-semibold! text-primary-dark!">
                 {t("kickCounter.stats.insights")}
               </h3>
             </div>
-            <ul className="mt-3 space-y-2 text-sm text-text-secondary">
-              {stats.insights.map((i, idx) => (
-                <li key={idx} className="flex gap-2">
-                  <span className="text-primary">•</span>
-                  {i}
-                </li>
-              ))}
-            </ul>
+            <div
+              className="mt-3 space-y-2 text-sm text-text-secondary"
+              dangerouslySetInnerHTML={{
+                __html: settings?.kickCounter?.trackingTips,
+              }}
+            />
+          </Card>
+          <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-[10px]">
+            <div className="flex items-center gap-2">
+              💡
+              <h3 className="text-[25px]! font-semibold! text-primary-dark!">
+                {t("kickCounter.stats.whenToCall")}
+              </h3>
+            </div>
+            <div
+              className="mt-3 space-y-2 text-sm text-text-secondary"
+              dangerouslySetInnerHTML={{
+                __html: settings?.kickCounter?.whenToCallDescription,
+              }}
+            />
           </Card>
 
           <Button onClick={onStart} className="w-full justify-center">
