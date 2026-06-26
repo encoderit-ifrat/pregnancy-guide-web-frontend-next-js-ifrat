@@ -37,7 +37,7 @@ import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 
 type pageProps = object;
 
-export default function page({}: pageProps) {
+export default function InvitationDetailClient({}: pageProps) {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data: inv, isLoading } = useQueryInvitationDetail(id);
