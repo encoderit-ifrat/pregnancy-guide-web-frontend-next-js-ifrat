@@ -75,7 +75,7 @@ export default function WishlistDetailClient() {
       <div className="mx-auto max-w-6xl">
         <Link
           href={"/onskelistor"}
-          className="flex items-center gap-2 mb-[35px]"
+          className="flex items-center gap-2 my-[35px] md:my-[53px]"
         >
           <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
           <p className="text-base font-normal">{t("wishlists.detail.back")}</p>
@@ -87,7 +87,7 @@ export default function WishlistDetailClient() {
           </div>
         ) : (
           <>
-            <Card className="overflow-hidden px-2.5 py-3 lg:p-[17px] border border-[#F3E8FF] rounded-[8px]!">
+            <Card className="overflow-hidden px-2.5 py-3 lg:p-[17px] rounded-[10px]! shadow-week-details border-0">
               <div className="relative overflow-hidden h-44 md:h-[483px] w-full rounded-[10px]! bg-primary-light">
                 <Image
                   src={
@@ -148,113 +148,121 @@ export default function WishlistDetailClient() {
               </div>
             </Card>
 
-            <Card className="mt-6 overflow-x-auto py-[25px] px-2.5">
+            <Card className="mt-6 overflow-x-auto py-[25px] px-2.5 lg:px-[35px] xl:px-[62px] lg:py-10 shadow-week-details border-0">
               <div className="flex flex-col mb-[35px]">
-                <p className="text-[25px]! font-semibold!"> {wishlist.title}</p>
+                <p className="text-[25px]! md:text-[30px]! text-primary-dark! font-semibold!">
+                  {" "}
+                  {wishlist.title}
+                </p>
                 {wishlist.reply_by && (
-                  <p className="text-[#3D3177] font-bold">
+                  <p className="text-primary-dark! text-base! md:text-[22px]! font-bold">
                     {t("wishlists.detail.latestPurchase", { date: "" })}
-                    <span className="text-black font-normal">
+                    <span className="text-primary-dark! text-base! font-normal!">
                       {new Date(wishlist.reply_by).toLocaleDateString("sv-SE")}
                     </span>
                   </p>
                 )}
               </div>
-              <table className="hidden md:table w-full min-w-[720px] text-sm">
-                <thead>
-                  <tr className="border-b text-left text-text-secondary">
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.detail.itemsName")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.detail.claimStatus")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.detail.price")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.detail.pcs")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.detail.productLink")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.detail.action")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {wishlist.items.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={6}
-                        className="px-5 py-10 text-center text-text-secondary"
+              <div className="overflow-hidden rounded-2xl border border-[#F3E8FF]">
+                <table className="hidden md:table w-full min-w-[720px] text-sm">
+                  <thead className=" bg-[#F5F1FB] ">
+                    <tr className="border-b text-left text-primary-dark border-b-[#F3E8FF]">
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.detail.itemsName")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.detail.claimStatus")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.detail.price")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.detail.pcs")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.detail.productLink")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.detail.action")}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {wishlist.items.length === 0 && (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="px-5 py-10 text-center text-text-secondary"
+                        >
+                          {t("wishlists.detail.noItems")}
+                        </td>
+                      </tr>
+                    )}
+                    {wishlist.items.map((item) => (
+                      <tr
+                        key={item._id}
+                        className="border-b  border-b-[#F3E8FF] last:border-0"
                       >
-                        {t("wishlists.detail.noItems")}
-                      </td>
-                    </tr>
-                  )}
-                  {wishlist.items.map((item) => (
-                    <tr key={item._id} className="border-b last:border-0">
-                      <td className="px-5 py-3 font-medium text-primary-dark">
-                        {item.title}
-                      </td>
-                      <td className="px-5 py-3">
-                        {item.claim_status === "claimed" ? (
-                          <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
-                            {item.claimed_by
-                              ? t("wishlists.detail.claimedBy", {
-                                  name: item.claimed_by,
-                                })
-                              : t("wishlists.detail.claimed")}
-                          </span>
-                        ) : (
-                          <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
-                            {t("wishlists.detail.available")}
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-5 py-3 text-text-secondary">
-                        {item.price} {item.currency}
-                      </td>
-                      <td className="px-5 py-3 text-text-secondary">
-                        {String(item.quantity).padStart(2, "0")}
-                      </td>
-                      <td className="px-5 py-3">
-                        {item.product_url ? (
-                          <a
-                            href={item.product_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-primary hover:underline"
-                          >
-                            {t("wishlists.detail.viewProduct")}{" "}
-                            <ExternalLink className="size-3.5" />
-                          </a>
-                        ) : (
-                          <span className="text-text-secondary">—</span>
-                        )}
-                      </td>
-                      <td className="px-5 py-3">
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={() => openEdit(item)}
-                            className="text-text-secondary hover:text-primary"
-                          >
-                            <Pencil className="size-4" />
-                          </button>
-                          <button
-                            onClick={() => setDeleteId(item._id)}
-                            className="text-text-secondary hover:text-destructive"
-                          >
-                            <Trash2 className="size-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        <td className="px-5 py-3 font-medium text-primary-dark">
+                          {item.title}
+                        </td>
+                        <td className="px-5 py-3">
+                          {item.claim_status === "claimed" ? (
+                            <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
+                              {item.claimed_by
+                                ? t("wishlists.detail.claimedBy", {
+                                    name: item.claimed_by,
+                                  })
+                                : t("wishlists.detail.claimed")}
+                            </span>
+                          ) : (
+                            <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                              {t("wishlists.detail.available")}
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-5 py-3 text-text-secondary">
+                          {item.price} {item.currency}
+                        </td>
+                        <td className="px-5 py-3 text-text-secondary">
+                          {String(item.quantity).padStart(2, "0")}
+                        </td>
+                        <td className="px-5 py-3">
+                          {item.product_url ? (
+                            <a
+                              href={item.product_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-primary hover:underline"
+                            >
+                              {t("wishlists.detail.viewProduct")}{" "}
+                              <ExternalLink className="size-3.5" />
+                            </a>
+                          ) : (
+                            <span className="text-text-secondary">—</span>
+                          )}
+                        </td>
+                        <td className="px-5 py-3">
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() => openEdit(item)}
+                              className="text-text-secondary hover:text-primary"
+                            >
+                              <Pencil className="size-4" />
+                            </button>
+                            <button
+                              onClick={() => setDeleteId(item._id)}
+                              className="text-text-secondary hover:text-destructive"
+                            >
+                              <Trash2 className="size-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <div className="md:hidden space-y-4">
                 {wishlist.items.map((item) => (
                   <div

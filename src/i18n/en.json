@@ -802,6 +802,7 @@
       "dailyTrend": "Daily Trend",
       "hourlyPattern": "Hourly Pattern",
       "weeklyKickCount": "Weekly Kick Count",
+      "weeklyKickCountDes": "Number of kicks recorded each day this week",
       "hourlyActivity": "Hourly Activity Pattern",
       "sessionHistory": "Session History",
       "noSessions": "No sessions yet.",

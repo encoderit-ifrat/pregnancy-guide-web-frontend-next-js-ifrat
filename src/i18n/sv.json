@@ -789,6 +789,7 @@
       "dailyTrend": "Daglig trend",
       "hourlyPattern": "Timmönster",
       "weeklyKickCount": "Veckans sparkantal",
+      "weeklyKickCountDes": "Antal sparkar registrerade varje dag den här veckan",
       "hourlyActivity": "Aktivitetsmönster per timme",
       "sessionHistory": "Sessionshistorik",
       "noSessions": "Inga sessioner ännu.",

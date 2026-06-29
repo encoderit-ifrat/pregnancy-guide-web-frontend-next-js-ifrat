@@ -87,7 +87,7 @@ export default function InvitationDetailClient({}: pageProps) {
     <PageContainer>
       <div className="w-full max-w-327 pb-20 mx-auto px-0 mt-8">
         <BackToInv />
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5 mt-[35px] md:mt-[60px]">
+        <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-5 mt-[35px] md:mt-[60px]">
           <div>
             <div className="p-3 bg-white border border-[#F3E8FF] rounded-[25px]">
               <div className="relative w-full h-[146px] md:h-[476px] rounded-[15px] overflow-hidden">
@@ -113,27 +113,27 @@ export default function InvitationDetailClient({}: pageProps) {
                 </div>
               </div>
               <div className="w-full py-[25px] mx-0 md:mx-6 border-b border-b-[#F3E8FF] flex flex-col md:flex-row gap-[15px] md:gap-5 lg:gap-10">
-                <div className="grid grid-cols-[40px_200px] gap-4">
+                <div className="grid grid-cols-[40px_200px] md:grid-cols-[40px_280px] gap-4">
                   <div className="h-10 w-10 bg-primary-light2 rounded-full p-2">
                     <Calendar className=" text-primary" />
                   </div>
                   <div>
-                    <p className="text-base font-normal">Date & Time</p>
-                    <p className="text-base font-semibold!">
+                    <p className="text-base! font-normal!">Date & Time</p>
+                    <p className="text-base! font-semibold!">
                       {inv?.event_date
                         ? formatDate(inv.event_date, "PPPP")
                         : ""}
                     </p>
-                    <p className="text-base font-normal">{inv?.event_time}</p>
+                    <p className="text-base! font-normal!">{inv?.event_time}</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-[40px_200px] gap-4">
+                <div className="grid grid-cols-[40px_200px] md:grid-cols-[40px_280px] gap-4">
                   <div className="h-10 w-10 bg-primary-light2 rounded-full p-2">
                     <MapPin className=" text-primary" />
                   </div>
                   <div>
-                    <p className="text-base font-normal">Location</p>
-                    <p className="text-base font-semibold!">{inv?.location}</p>
+                    <p className="text-base! font-normal!">Location</p>
+                    <p className="text-base! font-semibold!">{inv?.location}</p>
                   </div>
                 </div>
               </div>
@@ -145,7 +145,7 @@ export default function InvitationDetailClient({}: pageProps) {
                   {inv?.message}
                 </p>
               </div>
-              <div className="px-5 py-[15px] mx-0 md:mx-6 mb-0 md:mb-5 bg-primary-light2 rounded-[15px]">
+              <div className="px-5 py-[15px] flex flex-col lg:flex-row justify-between items-start lg:items-center mx-0 md:mx-6 mb-0 md:mb-5 bg-primary-light2 rounded-[15px]">
                 <div className="grid grid-cols-[48px_1fr] gap-4">
                   <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
                     <Gift className=" text-primary" />
@@ -161,7 +161,7 @@ export default function InvitationDetailClient({}: pageProps) {
                 </div>
                 <Link
                   href={`/onskelistor/${inv?.wishlist}`}
-                  className="w-full bg-white flex items-center justify-center rounded-full border text-primary font-semibold! mt-3 py-[7px]"
+                  className="w-full lg:w-[150px] bg-white flex items-center justify-center rounded-full border text-primary font-semibold! mt-3 lg:mt-0 py-[7px]"
                 >
                   View Wishlist
                 </Link>

@@ -60,7 +60,7 @@ export default function CreateInvitationClient() {
   const { t } = useTranslation();
   const router = useRouter();
   const { data: templatesData } = useQueryInvitationTemplates();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [sentOpen, setSentOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
 
@@ -225,7 +225,7 @@ export default function CreateInvitationClient() {
       <div className="mx-auto max-w-6xl ">
         <BackToInv />
 
-        <Card className="px-[9px] py-[25px] lg:px-[66px] lg:py-10 mt-[35px] md:mt-[60px] font-outfit">
+        <Card className="px-[9px] py-[25px] lg:px-[35px] xl:px-[66px] lg:py-10 mt-[35px] md:mt-[60px] font-outfit">
           <h1 className="font-outfit! text-2xl md:text-[30px]! font-bold text-primary-dark">
             {t("invitations.builder.title")}
           </h1>
@@ -375,7 +375,8 @@ export default function CreateInvitationClient() {
                         <p className="text-start">
                           {uploadTemp.isPending
                             ? "Uploading..."
-                            : coverImageName || t("invitations.builder.uploadCoverImage")}
+                            : coverImageName ||
+                              t("invitations.builder.uploadCoverImage")}
                         </p>
                         <p className="text-start text-[10px]! font-normal!">
                           JPG, PNG, or SVG (Max. 5MB)
@@ -454,7 +455,8 @@ export default function CreateInvitationClient() {
                           template === t._id
                             ? "border-primary"
                             : "border-primary-light2 hover:border-primary/40",
-                          uploadTemp.isPending && "opacity-50 cursor-not-allowed"
+                          uploadTemp.isPending &&
+                            "opacity-50 cursor-not-allowed"
                         )}
                       >
                         {template === t._id && (
@@ -786,7 +788,11 @@ export default function CreateInvitationClient() {
                 {t("invitations.builder.cancel")}
               </Button>
               {step < STEPS.length - 1 ? (
-                <Button onClick={next} disabled={uploadTemp.isPending} className="flex-1 w-full py-2.5">
+                <Button
+                  onClick={next}
+                  disabled={uploadTemp.isPending}
+                  className="flex-1 w-full py-2.5"
+                >
                   {t("invitations.builder.continue")}
                 </Button>
               ) : (

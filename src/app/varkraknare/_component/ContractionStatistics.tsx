@@ -75,10 +75,10 @@ export default function ContractionStatistics() {
         <div className="space-y-6 lg:col-span-2 ">
           <div className="space-y-6 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px] md:p-[35px]">
             <div>
-              <h2 className="text-xl font-semibold text-primary-dark">
+              <h2 className="text-xl! font-semibold! text-primary-dark!">
                 {t("contractionCounter.stats.title")}
               </h2>
-              <p className="text-sm text-text-secondary">
+              <p className="text-base! font-normal! text-primary-dark!">
                 {t("contractionCounter.stats.subtitle")}
               </p>
             </div>
@@ -188,32 +188,49 @@ export default function ContractionStatistics() {
               {t("contractionCounter.stats.laborProgress")}
             </h3>
             <div className="space-y-3">
-              {progressSteps.map((step, idx) => (
-                <div key={step.key} className="flex items-center gap-3">
-                  <span
-                    className={cn(
-                      "flex size-6 items-center justify-center rounded-full text-xs font-semibold",
-                      idx <= currentStep
-                        ? "bg-primary text-white"
-                        : "bg-primary-light text-primary"
-                    )}
-                  >
-                    {idx + 1}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-sm",
-                      idx === currentStep
-                        ? "font-semibold text-primary-dark"
-                        : "text-text-secondary"
-                    )}
-                  >
-                    {step.label}
-                    {idx === currentStep &&
-                      ` ${t("contractionCounter.stats.current")}`}
-                  </span>
+              {stats.labor_progress == "early" ? (
+                <div className="space-y-2">
+                  <Row
+                    label={t("contractionCounter.stats.earlyLabor")}
+                    value={"Past"}
+                  />
+
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-[#F3F4F6]">
+                    <div
+                      className="h-full rounded-full bg-[#B9F8CF]"
+                      style={{ width: `${100}` }}
+                    />
+                  </div>
                 </div>
-              ))}
+              ) : stats.labor_progress == "active" ? (
+                <div className="space-y-2">
+                  <Row
+                    label={t("contractionCounter.stats.activeLabor")}
+                    value={"Current"}
+                  />
+
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-[#F3F4F6]">
+                    <div
+                      className="h-full rounded-full bg-[#FFD6A8]"
+                      style={{ width: `${100}` }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Row
+                    label={t("contractionCounter.stats.transition")}
+                    value={"Upcoming"}
+                  />
+
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-[#F3F4F6]">
+                    <div
+                      className="h-full rounded-full bg-[#99A1AF]"
+                      style={{ width: `${100}` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </Card>
 
@@ -221,44 +238,39 @@ export default function ContractionStatistics() {
             <h3 className="font-semibold text-xl! text-primary-dark!">
               📊 {t("contractionCounter.stats.patternAnalysis")}
             </h3>
-            <ul className="mt-2 space-y-2 text-base! font-normal! text-primary-dark!">
-              {stats.pattern_analysis.map((p, i) => (
-                <li key={i} className="flex gap-2">
-                  <span className="text-primary">•</span>
-                  {p}
-                </li>
-              ))}
-            </ul>
+            <div
+              className="mt-2 space-y-2 text-base! text-primary-dark!"
+              dangerouslySetInnerHTML={{
+                __html: settings?.contractionCounter?.trackingTips,
+              }}
+            />
           </Card>
 
           <Card
             className={cn(
-              "p-6 md:p-6 px-2 py-[25px]  shadow-none bg-white rounded-2xl",
-              cta.level === "urgent"
-                ? "border border-destructive "
-                : cta.level === "warning"
-                  ? "border "
-                  : ""
+              "p-6 md:p-6 px-2 py-[25px]  shadow-none bg-white rounded-2xl border border-[#F3E8FF]"
             )}
           >
             <div className="flex items-center gap-2">
-              <TriangleAlert
-                className={cn(
-                  "size-5",
-                  cta.level === "urgent" ? "text-destructive" : "text-primary"
-                )}
-              />
+              <TriangleAlert className={cn("size-5", "text-destructive")} />
               <h3 className="font-semibold text-primary-dark">
                 {t("contractionCounter.stats.timeToGo")}
               </h3>
             </div>
-            <p className="mt-2 text-sm text-text-secondary">{cta.message}</p>
-            {cta.show_call_hospital && (
+            <p
+              className="mt-2 text-sm text-primary-dark!"
+              dangerouslySetInnerHTML={{
+                __html: settings?.contractionCounter?.timeToGoDescription || "",
+              }}
+            ></p>
+            {settings?.contractionCounter?.hospitalContactNumber && (
               <Button
                 asChild
                 className="mt-4 w-full justify-center bg-destructive hover:bg-destructive/90"
               >
-                <a href={`tel:${settings?.emergencyContactNumber}`}>
+                <a
+                  href={`tel:${settings?.contractionCounter?.hospitalContactNumber}`}
+                >
                   <Phone className="size-4" />{" "}
                   {t("contractionCounter.stats.callHospital")}
                 </a>
@@ -300,8 +312,8 @@ function StatCard({
   label: string;
 }) {
   return (
-    <Card className="p-5 border border-[#F3E8FF] ">
-      <div className="flex w-full items-center gap-2">
+    <Card className="p-5 border-0 shadow-week-details">
+      <div className="flex flex-row md:flex-col w-full items-center md:items-start gap-2">
         <div className="flex size-9 items-center justify-center rounded-full bg-primary-light">
           {icon}
         </div>
@@ -311,5 +323,14 @@ function StatCard({
         </div>
       </div>
     </Card>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-text-secondary">{label}</span>
+      <span className="font-medium text-primary-dark">{value}</span>
+    </div>
   );
 }

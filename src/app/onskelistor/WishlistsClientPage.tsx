@@ -61,7 +61,7 @@ export default function WishlistsClientPage() {
           )}
         </div>
 
-        <Card className="p-6">
+        <Card className="px-[9px] py-[25px] lg:px-[35px] xl:px-[66px] lg:py-[63px] shadow-week-details border-none rounded-2xl">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-primary-dark">
               {t("wishlists.yourWishlists")}
@@ -133,12 +133,11 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
   const { t } = useTranslation();
   const { progress } = wishlist;
   return (
-    <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] rounded-[8px]!">
-      <div className="relative h-[152px] md:h-[255px] w-full bg-primary-light rounded-[6px] overflow-hidden">
+    <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] shadow-none rounded-[15px]!">
+      <div className="relative h-[152px] md:h-[255px] w-full bg-primary-light rounded-[10px] overflow-hidden">
         <Image
           src={
-            imageLinkGenerator(wishlist.cover_image) ||
-            "/default_wishlist_image.png"
+            imageLinkGenerator(wishlist.cover_image) || "/images/default.png"
           }
           alt={wishlist.title}
           fill
