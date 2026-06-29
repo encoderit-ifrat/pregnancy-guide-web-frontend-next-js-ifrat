@@ -85,84 +85,86 @@ export default function PublicWishlistClient() {
               )} */}
             </Card>
 
-            <Card className="mt-6 overflow-x-auto py-[25px] px-2.5">
-              <table className="hidden md:table w-full min-w-[720px] text-sm">
-                <thead>
-                  <tr className="border-b text-left text-text-secondary">
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.public.itemsName")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.public.price")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.public.pcs")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.public.claimStatus")}
-                    </th>
-                    <th className="px-5 py-3 font-medium">
-                      {t("wishlists.public.productLink")}
-                    </th>
-                    <th className="px-5 py-3 font-medium"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {wishlist.items.map((item) => {
-                    const claimed = item.claim_status === "claimed";
-                    return (
-                      <tr key={item._id} className="border-b last:border-0">
-                        <td className="px-5 py-3 font-medium text-primary-dark">
-                          {item.title}
-                        </td>
-                        <td className="px-5 py-3 text-text-secondary">
-                          {item.price} {item.currency}
-                        </td>
-                        <td className="px-5 py-3 text-text-secondary">
-                          {String(item.quantity).padStart(2, "0")}
-                        </td>
-                        <td className="px-5 py-3">
-                          {claimed ? (
-                            <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-500">
-                              {t("wishlists.public.claimed")}
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
-                              {t("wishlists.public.available")}
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-5 py-3">
-                          {item.product_url ? (
-                            <a
-                              href={item.product_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-primary hover:underline"
+            <Card className="mt-6 overflow-x-auto py-[25px] px-2.5 lg:px-[35px] xl:px-[62px] lg:py-10 shadow-week-details border-0">
+              <div className="overflow-hidden rounded-2xl border border-[#F3E8FF]">
+                <table className="hidden md:table w-full min-w-[720px] text-sm">
+                  <thead className=" bg-[#F5F1FB] ">
+                    <tr className="border-b text-left text-primary-dark border-b-[#F3E8FF]">
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.public.itemsName")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.public.price")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.public.pcs")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.public.claimStatus")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
+                        {t("wishlists.public.productLink")}
+                      </th>
+                      <th className="px-5 py-3 md:py-[23px] font-semibold text-xl"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {wishlist.items.map((item) => {
+                      const claimed = item.claim_status === "claimed";
+                      return (
+                        <tr key={item._id} className="border-b last:border-0">
+                          <td className="px-5 py-3 font-medium text-primary-dark">
+                            {item.title}
+                          </td>
+                          <td className="px-5 py-3 text-text-secondary">
+                            {item.price} {item.currency}
+                          </td>
+                          <td className="px-5 py-3 text-text-secondary">
+                            {String(item.quantity).padStart(2, "0")}
+                          </td>
+                          <td className="px-5 py-3">
+                            {claimed ? (
+                              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-500">
+                                {t("wishlists.public.claimed")}
+                              </span>
+                            ) : (
+                              <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                                {t("wishlists.public.available")}
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-5 py-3">
+                            {item.product_url ? (
+                              <a
+                                href={item.product_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-primary hover:underline"
+                              >
+                                {t("wishlists.public.viewProduct")}{" "}
+                                <ExternalLink className="size-3.5" />
+                              </a>
+                            ) : (
+                              <span className="text-text-secondary">—</span>
+                            )}
+                          </td>
+                          <td className="px-5 py-3">
+                            <Button
+                              size="sm"
+                              disabled={claimed}
+                              onClick={() => setClaimItem(item)}
                             >
-                              {t("wishlists.public.viewProduct")}{" "}
-                              <ExternalLink className="size-3.5" />
-                            </a>
-                          ) : (
-                            <span className="text-text-secondary">—</span>
-                          )}
-                        </td>
-                        <td className="px-5 py-3">
-                          <Button
-                            size="sm"
-                            disabled={claimed}
-                            onClick={() => setClaimItem(item)}
-                          >
-                            {claimed
-                              ? t("wishlists.public.claimedBtn")
-                              : t("wishlists.public.claimGift")}
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                              {claimed
+                                ? t("wishlists.public.claimedBtn")
+                                : t("wishlists.public.claimGift")}
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
               <div className="md:hidden space-y-4">
                 {wishlist.items.map((item) => (
                   <div

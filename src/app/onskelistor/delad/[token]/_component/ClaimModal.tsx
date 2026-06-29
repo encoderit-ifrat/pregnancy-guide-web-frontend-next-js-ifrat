@@ -77,7 +77,7 @@ export default function ClaimModal({
 
   return (
     <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="max-w-[350px] md:max-w-md bg-white rounded-[8px]!">
+      <DialogContent className="max-w-[350px] md:max-w-[650px] bg-white rounded-[8px]!">
         <div className="absolute top-2 right-2">
           <CircleX
             className="shrink-0 size-8 cursor-pointer text-black"
@@ -126,23 +126,25 @@ export default function ClaimModal({
             </p>
 
             <div className="space-y-4">
-              <Field label={t("wishlists.claim.yourName")}>
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="rounded-[5px]!"
-                  placeholder={t("wishlists.claim.namePlaceholder")}
-                />
-              </Field>
-              <Field label={t("wishlists.claim.emailAddress")}>
-                <Input
-                  type="email"
-                  value={email}
-                  className="rounded-[5px]!"
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("wishlists.claim.emailPlaceholder")}
-                />
-              </Field>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Field label={t("wishlists.claim.yourName")}>
+                  <Input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="rounded-[5px]!"
+                    placeholder={t("wishlists.claim.namePlaceholder")}
+                  />
+                </Field>
+                <Field label={t("wishlists.claim.emailAddress")}>
+                  <Input
+                    type="email"
+                    value={email}
+                    className="rounded-[5px]!"
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={t("wishlists.claim.emailPlaceholder")}
+                  />
+                </Field>
+              </div>
               <Field label={t("wishlists.claim.optionalMessage")}>
                 <Textarea
                   value={message}

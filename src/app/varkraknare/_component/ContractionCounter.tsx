@@ -50,6 +50,8 @@ export default function ContractionCounter({
   const stopContraction = useStopContraction();
   const startSession = useStartContractionSession();
   const endSession = useEndContractionSession();
+  const [historyBtnLoader, setHistoryBtnLoader] = useState(false);
+  const [statsBtnLoader, setStatsBtnLoader] = useState(false);
 
   const running = useMemo(
     () => session?.contractions.find((c) => !c.end_time) ?? null,
@@ -77,28 +79,72 @@ export default function ContractionCounter({
   }, [running]);
 
   const handleViewStats = () => {
-    if (running) {
-      stopContraction.mutate(
-        { sessionId: session!._id, contractionId: running._id },
-        {
-          onSuccess: () => onViewStats(),
-          onError: () => toast.error(t("contractionCounter.counter.stopError")),
-        }
-      );
+    if (session) {
+      setStatsBtnLoader(true);
+
+      const endSessionAndNavigate = () => {
+        endSession.mutate(session._id, {
+          onSuccess: () => {
+            onViewStats();
+            setStatsBtnLoader(false);
+          },
+          onError: () => {
+            toast.error(t("contractionCounter.counter.stopError"));
+            setStatsBtnLoader(false);
+          },
+        });
+      };
+
+      if (running) {
+        stopContraction.mutate(
+          { sessionId: session._id, contractionId: running._id },
+          {
+            onSuccess: endSessionAndNavigate,
+            onError: () => {
+              toast.error(t("contractionCounter.counter.stopError"));
+              setStatsBtnLoader(false);
+            },
+          }
+        );
+      } else {
+        endSessionAndNavigate();
+      }
     } else {
       onViewStats();
     }
   };
 
   const handleViewHistory = () => {
-    if (running) {
-      stopContraction.mutate(
-        { sessionId: session!._id, contractionId: running._id },
-        {
-          onSuccess: () => onViewHistory(),
-          onError: () => toast.error(t("contractionCounter.counter.stopError")),
-        }
-      );
+    if (session) {
+      setHistoryBtnLoader(true);
+
+      const endSessionAndNavigate = () => {
+        endSession.mutate(session._id, {
+          onSuccess: () => {
+            onViewHistory();
+            setHistoryBtnLoader(false);
+          },
+          onError: () => {
+            toast.error(t("contractionCounter.counter.stopError"));
+            setHistoryBtnLoader(false);
+          },
+        });
+      };
+
+      if (running) {
+        stopContraction.mutate(
+          { sessionId: session._id, contractionId: running._id },
+          {
+            onSuccess: endSessionAndNavigate,
+            onError: () => {
+              toast.error(t("contractionCounter.counter.stopError"));
+              setHistoryBtnLoader(false);
+            },
+          }
+        );
+      } else {
+        endSessionAndNavigate();
+      }
     } else {
       onViewHistory();
     }
@@ -187,7 +233,7 @@ export default function ContractionCounter({
             </span>
           </Button>
 
-          <div className="mt-8 grid grid-cols-3 gap-4 border-y border-y-[#EEE4F9] py-3">
+          <div className="mt-8 grid grid-cols-3 gap-4 border-y border-y-[#EEE4F9] py-3 md:py-6">
             <Stat
               label={t("contractionCounter.counter.totalCount")}
               value={String(session?.total_count ?? 0)}
@@ -210,7 +256,7 @@ export default function ContractionCounter({
         </Card>
 
         <Card className="px-3 py-6 md:p-6 shadow-none border border-[#EEE4F9]">
-          <h3 className="mb-4 font-semibold text-primary-dark">
+          <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
             {t("contractionCounter.counter.timeline")}
           </h3>
           <div className="space-y-2">
@@ -255,17 +301,27 @@ export default function ContractionCounter({
             <Button
               variant="default"
               onClick={handleViewStats}
+              disabled={statsBtnLoader}
               className="w-full justify-center"
             >
-              <TrendingUp className="size-4" />{" "}
+              {statsBtnLoader ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <TrendingUp className="size-4" />
+              )}
               {t("contractionCounter.counter.viewStatistics")}
             </Button>
             <Button
               variant="outline"
+              disabled={historyBtnLoader}
               onClick={handleViewHistory}
               className="w-full justify-center"
             >
-              <Clock className="size-4" />{" "}
+              {historyBtnLoader ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Clock className="size-4" />
+              )}{" "}
               {t("contractionCounter.counter.viewHistory")}
             </Button>
             {session && (
@@ -350,8 +406,8 @@ function Stat({
 }) {
   return (
     <div className={cn("", className)}>
-      <p className="text-xl font-bold text-primary-dark">{value}</p>
-      <p className="text-xs text-text-secondary">{label}</p>
+      <p className="text-base! font-normal! text-primary-dark!">{label}</p>
+      <p className="text-[25px]! font-semibold! text-primary-dark!">{value}</p>
     </div>
   );
 }

@@ -164,7 +164,7 @@ export default function ContractionHistory({
             <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
               {t("contractionCounter.history.summary")}
             </h3>
-            <div className="grid grid-cols-2 gap-[13px]">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-[13px]">
               <Row
                 label={t("contractionCounter.history.totalSessions")}
                 value={summary.total_sessions}
@@ -210,7 +210,9 @@ export default function ContractionHistory({
 function Mini({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col items-center justify-center bg-white rounded-[10px] border border-[#F3E8FF] shadow-week-details px-2.5 py-2">
-      <p className="text-base! font-normal! text-primary-dark!">{label}</p>
+      <p className="text-sm! md:text-base! font-normal! text-primary-dark!">
+        {label}
+      </p>
       <p className="text-xl! font-semibold! text-primary-dark!">{value}</p>
     </div>
   );
@@ -218,8 +220,8 @@ function Mini({ label, value }: { label: string; value: string }) {
 
 function Row({ label, value }: { label: string; value: number }) {
   return (
-    <Card className="py-[18px] px-[25px] md:px-2 border border-[#F3E8FF] shadow-invitation-box bg-white rounded-[10px] flex flex-col items-center justify-center">
-      <span className="text-primary-dark! font-normal! text-lg! text-center! hyphens-auto">
+    <Card className="py-[18px] px-[25px] md:p-0 border-0 shadow-week-details md:shadow-none bg-white rounded-[10px] flex flex-col md:flex-row items-center justify-center md:justify-between">
+      <span className="text-primary-dark! font-normal! text-lg! md:text-base! text-center! md:max-w-[220px] md:truncate hyphens-auto">
         {label}
       </span>
       <span className="text-lg! font-semibold! text-primary-dark! ">

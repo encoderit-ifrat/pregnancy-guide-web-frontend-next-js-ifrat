@@ -18,6 +18,7 @@ import { SectionHeading } from "@/components/ui/text/SectionHeading";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { toast } from "sonner";
 
 export default function WishlistsClientPage() {
   const { t } = useTranslation();
@@ -132,6 +133,14 @@ export default function WishlistsClientPage() {
 function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
   const { t } = useTranslation();
   const { progress } = wishlist;
+  const handleShare = (token: string | null) => {
+    if (!token) return;
+    const url = `${window.location.origin}/onskelistor/delad/${token}`;
+    navigator.clipboard.writeText(url).then(
+      () => toast.success(t("wishlists.detail.linkCopied")),
+      () => toast.error(t("wishlists.detail.copyFailed"))
+    );
+  };
   return (
     <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] shadow-none rounded-[15px]!">
       <div className="relative h-[152px] md:h-[255px] w-full bg-primary-light rounded-[10px] overflow-hidden">
@@ -181,9 +190,17 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
           >
             {t("wishlists.viewDetails")}
           </Link>
-          <div className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center">
-            <Share2 className="w-6 h-6 text-primary " />
-          </div>
+          <Button
+            variant="outline"
+            onClick={() =>
+              handleShare(wishlist.share_token ? wishlist.share_token : null)
+            }
+            className="bg-primary-light2 p-0 overflow-hidden justify-center"
+          >
+            <div className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center">
+              <Share2 className="w-6 h-6 text-primary " />
+            </div>
+          </Button>
         </div>
       </div>
     </Card>

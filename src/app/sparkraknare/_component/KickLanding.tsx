@@ -29,7 +29,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
   const { user } = useCurrentUser();
   const { data: stats } = useQueryKickStatistics("week");
 
-  const week = user?.details?.current_pregnancy_data?.week;
+  const week = user?.details?.current_pregnancy_data?.running_week;
   const dueDate = user?.details?.due_date
     ? new Date(user.details.due_date).toLocaleDateString("sv-SE")
     : "—";

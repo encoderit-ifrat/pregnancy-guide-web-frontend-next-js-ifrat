@@ -102,16 +102,28 @@ export default function ContractionStatistics() {
             </div>
           </div>
 
-          <Card className="px-2 py-[25px] md:p-6 border border-[#F3E8FF] shadow-none bg-white rounded-2xl ">
+          <Card className="px-2 py-[25px] md:p-3 lg:p-6 border border-[#F3E8FF] shadow-none bg-white rounded-2xl overflow-hidden">
             <Tabs value={view} onValueChange={(v) => setView(v as typeof view)}>
-              <TabsList className="max-sm:w-full max-sm:flex-wrap px-2 py-[5px] md:py-[7px] border border-[#F3E8FF] bg-white rounded-[10px] shadow-week-details">
-                <TabsTrigger variant={"inv"} value="frequency">
+              <TabsList className="max-xl:w-full max-[450px]:max-w-[330px] max-xl:flex max-xl:overflow-x-auto max-xl:flex-nowrap max-xl:justify-start max-xl:[&::-webkit-scrollbar]:hidden max-xl:[scrollbar-width:none] px-2 py-[5px] md:py-[7px] border border-[#F3E8FF] bg-white rounded-[10px] shadow-week-details">
+                <TabsTrigger
+                  variant={"inv"}
+                  value="frequency"
+                  className="shrink-0"
+                >
                   {t("contractionCounter.stats.frequencyTrend")}
                 </TabsTrigger>
-                <TabsTrigger variant={"inv"} value="duration">
+                <TabsTrigger
+                  variant={"inv"}
+                  value="duration"
+                  className="shrink-0"
+                >
                   {t("contractionCounter.stats.durationAnalysis")}
                 </TabsTrigger>
-                <TabsTrigger variant={"inv"} value="interval">
+                <TabsTrigger
+                  variant={"inv"}
+                  value="interval"
+                  className="shrink-0"
+                >
                   {t("contractionCounter.stats.intervalPattern")}
                 </TabsTrigger>
               </TabsList>
