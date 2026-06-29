@@ -70,6 +70,14 @@ export default function KickSession({
     });
   };
 
+  const handleViewStatsClick = () => {
+    stop.mutate(session._id, {
+      onSuccess: () => {
+        onViewStats();
+      },
+    });
+  };
+
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
@@ -115,12 +123,21 @@ export default function KickSession({
         <Card className="p-8 border border-primary-light3">
           <div className="">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="font-semibold text-primary-dark">
+              <h3 className="text-[25px]! font-semibold! text-primary-dark!">
                 {t("kickCounter.session.latestKicks")}
               </h3>
-              <span className="text-sm text-text-secondary">
+              <Button
+                variant="outline"
+                onClick={handleViewStatsClick}
+                disabled={stop.isPending}
+                className="w-fit justify-center bg-[#F6F0FB]! border border-primary! text-lg! text-primary!"
+              >
+                {stop.isPending && <Loader2 className="size-4 animate-spin" />}
+                {t("kickCounter.session.viewAll")}
+              </Button>
+              {/* <span className="text-sm text-text-secondary">
                 {t("kickCounter.session.total", { count: session.total_kicks })}
-              </span>
+              </span> */}
             </div>
             <div className="max-h-80 space-y-2.5 overflow-y-auto">
               {session.kicks.length === 0 && (
@@ -139,7 +156,7 @@ export default function KickSession({
                   </span>
                   <p className="flex flex-col items-end">
                     <span className="text-sm font-semibold text-primary-dark">
-                      {formatDate(k.occurred_at, "PP")}
+                      {formatDate(k.occurred_at, "MMMM M, yyyy")}
                     </span>
                     <span className="text-sm font-normal! text-primary-dark">
                       {formatDate(k.occurred_at, "p")}
@@ -150,7 +167,7 @@ export default function KickSession({
             </div>
           </div>
 
-          <Button
+          {/* <Button
             variant="outline"
             onClick={handleStop}
             disabled={stop.isPending}
@@ -162,7 +179,7 @@ export default function KickSession({
               <Square className="size-4" />
             )}
             <span>{t("kickCounter.session.stopSave")}</span>
-          </Button>
+          </Button> */}
         </Card>
       </div>
 
@@ -186,10 +203,12 @@ export default function KickSession({
             />
           </div>
           <Button
-            variant="ghost"
-            onClick={onViewStats}
-            className="mt-5 w-full justify-center"
+            variant="outline"
+            onClick={handleViewStatsClick}
+            disabled={stop.isPending}
+            className="mt-5 w-full justify-center bg-[#F6F0FB]! border border-primary! text-lg! text-primary!"
           >
+            {stop.isPending && <Loader2 className="size-4 animate-spin" />}
             {t("kickCounter.session.viewFullStats")}
           </Button>
         </Card>

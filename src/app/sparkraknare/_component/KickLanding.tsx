@@ -98,7 +98,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
       </div>
 
       <div className="space-y-6">
-        <Card className="p-6">
+        <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
           <h3 className="font-semibold text-primary-dark">
             {t("kickCounter.landing.pregnancyInfo")}
           </h3>
@@ -154,7 +154,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
           </div>
         </Card>
 
-        <Card className="relative min-h-[190px] overflow-hidden p-0">
+        <Card className="relative min-h-[256px] overflow-hidden p-0 shadow-none">
           <Image
             src="/kick_counter_tips_tracking_bg.png"
             alt=""

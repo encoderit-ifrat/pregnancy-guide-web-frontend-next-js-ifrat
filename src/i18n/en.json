@@ -790,7 +790,8 @@
       "avgPerHour": "Avg per Hour",
       "viewFullStats": "View Full Stats",
       "recordError": "Could not record the movement",
-      "saved": "Session saved"
+      "saved": "Session saved",
+      "viewAll": "View All"
     },
     "stats": {
       "back": "Back to Kick Counter",

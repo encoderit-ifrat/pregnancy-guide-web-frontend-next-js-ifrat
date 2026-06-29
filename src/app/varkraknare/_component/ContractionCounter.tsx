@@ -30,6 +30,7 @@ import {
 import { fmtDuration, fmtClock } from "../_lib/format";
 import { cn } from "@/lib/utils";
 import { getServerTimeOffset } from "@/lib/axios";
+import { formatDate } from "date-fns";
 
 interface Props {
   session: ActiveContractionSession | null;
@@ -232,10 +233,7 @@ export default function ContractionCounter({
                       Contraction #{completed.length - idx}
                     </p>
                     <p className="text-base! font-normal! text-primary-dark!">
-                      {new Date(c.start_time).toLocaleTimeString("sv-SE", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {formatDate(c.start_time, "pp")}
                     </p>
                   </div>
                 </div>
@@ -315,7 +313,10 @@ export default function ContractionCounter({
             variant="default"
             className="w-full bg-[#E7000B]! text-white! justify-center mt-4"
           >
-            <a href={`tel:${settings?.emergencyContactNumber}`}>
+            <a
+              href={`tel:${settings?.emergencyContactNumber}`}
+              className="flex items-center gap-2"
+            >
               <Phone className="size-4" />{" "}
               {t("contractionCounter.counter.emergencyContact")}
             </a>

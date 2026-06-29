@@ -777,7 +777,8 @@
       "avgPerHour": "Snitt per timme",
       "viewFullStats": "Visa fullständig statistik",
       "recordError": "Kunde inte registrera rörelsen",
-      "saved": "Sessionen sparad"
+      "saved": "Sessionen sparad",
+      "viewAll": "Visa Alla"
     },
     "stats": {
       "back": "Tillbaka till Sparkräknaren",
