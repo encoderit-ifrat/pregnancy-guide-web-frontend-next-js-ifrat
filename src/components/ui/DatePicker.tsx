@@ -54,11 +54,14 @@ export function DatePicker({
           disabled={disabled}
           className={cn(
             "w-full justify-between rounded-full py-4 pl-4 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-            placeholder && !value && "placeholder:text-[#445B6A]",
             inputClassName
           )}
         >
-          {value ? value.toLocaleDateString() : placeholder}
+          {value ? (
+            value.toLocaleDateString()
+          ) : (
+            <span className="text-[#445B6A]">{placeholder}</span>
+          )}
           <ChevronDownIcon />
         </Button>
       </PopoverTrigger>

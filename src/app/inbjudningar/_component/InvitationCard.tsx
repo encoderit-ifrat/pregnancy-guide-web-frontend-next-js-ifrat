@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import {
   Calendar,
@@ -15,14 +16,37 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/AlertDialog";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { EventInvitation } from "../_types/invitation_types";
 import { formatDate } from "date-fns";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { useRouter } from "next/navigation";
+import {
+  useDeleteInvitation,
+  useDuplicateInvitation,
+} from "../_api/mutations/useInvitationMutations";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/Spinner";
 
 function InvitationCard({ inv }: { inv: EventInvitation }) {
   const { t } = useTranslation();
+  const router = useRouter();
+  const { mutate: deleteInvitation, isPending } = useDeleteInvitation();
+  const { mutate: duplicateInvitation, isPending: isDuplicatePending } =
+    useDuplicateInvitation();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   return (
     <div className="relative w-full max-w-[316px] md:max-w-[348px] mx-auto min-h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col">
       {inv.status === "scheduled" && (
@@ -47,22 +71,41 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
             <h3 className="text-xl font-bold text-primary-dark!">
               {inv.title}
             </h3>
-            <p className="text-base font-normal">{inv.subtitle}</p>
+            <p className="text-base font-normal line-clamp-2">{inv.subtitle}</p>
           </div>
           <Popover>
             <PopoverTrigger asChild className="cursor-pointer">
               <EllipsisVertical size={20} />
             </PopoverTrigger>
             <PopoverContent align="end" className="w-[169px] rounded-[5px] p-0">
-              <div className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer">
+              <Link
+                href={`/inbjudningar/edit/${inv._id}`}
+                className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+              >
                 <Pen size={18} className="text-primary" />{" "}
                 <p className="text-sm font-normal">Edit</p>
-              </div>
-              <div className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer">
-                <Copy size={18} className="text-primary" />{" "}
+              </Link>
+              <div
+                onClick={() =>
+                  duplicateInvitation(inv._id, {
+                    onSuccess: () => {
+                      toast.success("Invitation duplicated");
+                    },
+                  })
+                }
+                className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+              >
+                {isDuplicatePending ? (
+                  <Spinner />
+                ) : (
+                  <Copy size={18} className="text-primary" />
+                )}
                 <p className="text-sm font-normal">Duplicate</p>
               </div>
-              <div className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer">
+              <div
+                onClick={() => setIsDeleteOpen(true)}
+                className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
+              >
                 <Trash2 size={18} className="text-primary" />{" "}
                 <p className="text-sm font-normal">Delete</p>
               </div>
@@ -102,6 +145,34 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
           </div>
         </div>
       </div>
+      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <AlertDialogContent className="bg-white border border-[#E8E4F8] rounded-[15px] p-6">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Invitation</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this invitation? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-white hover:bg-destructive/90"
+              onClick={(e) => {
+                e.preventDefault();
+                deleteInvitation(inv._id, {
+                  onSuccess: () => {
+                    toast.success(t("invitations.deleted"));
+                    setIsDeleteOpen(false);
+                  },
+                });
+              }}
+            >
+              {isPending ? <Spinner /> : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

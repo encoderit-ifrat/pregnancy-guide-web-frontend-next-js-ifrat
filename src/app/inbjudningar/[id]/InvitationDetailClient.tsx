@@ -260,13 +260,13 @@ export default function InvitationDetailClient({}: pageProps) {
                   <Download />
                   Download Image
                 </Button>
-                <Button
-                  variant={"outline"}
-                  className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
+                <Link
+                  href={`/inbjudningar/edit/${inv?._id}`}
+                  className="text-lg font-semibold w-full flex items-center text-primary py-2 rounded-full border border-primary bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
                   <SquarePen />
                   Edit Invitation
-                </Button>
+                </Link>
               </div>
             </div>
             <div className="px-2 md:px-7 py-[25px]">

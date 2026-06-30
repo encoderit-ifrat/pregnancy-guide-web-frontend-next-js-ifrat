@@ -49,6 +49,16 @@ export const useDeleteInvitation = () => {
   });
 };
 
+export const useDuplicateInvitation = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationKey: ["event-invitations", "duplicate"],
+    mutationFn: (id: string) => api.post(`/invitations/${id}/resend`),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["event-invitations", "list"] }),
+  });
+};
+
 export const useAddRecipients = () => {
   const qc = useQueryClient();
   return useMutation({
@@ -105,6 +115,8 @@ export const useRespondInvitation = () => {
     }) =>
       api.post(`/public/event-invitations/guest/${token}/respond`, { status }),
     onSuccess: (_d, v) =>
-      qc.invalidateQueries({ queryKey: ["event-invitations", "public", v.token] }),
+      qc.invalidateQueries({
+        queryKey: ["event-invitations", "public", v.token],
+      }),
   });
 };

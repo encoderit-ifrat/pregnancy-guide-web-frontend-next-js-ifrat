@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -39,28 +39,35 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
-import InvitationPreview from "../_component/InvitationPreview";
 import {
   DeliveryOption,
   InvitationTemplate,
   Recipient,
-} from "../_types/invitation_types";
+} from "../../_types/invitation_types";
 import {
-  useCreateInvitation,
+  useUpdateInvitation,
   useSendInvitation,
-} from "../_api/mutations/useInvitationMutations";
-import { useQueryInvitationTemplates } from "../_api/queries/useQueryInvitations";
+} from "../../_api/mutations/useInvitationMutations";
+import {
+  useQueryInvitationTemplates,
+  useQueryInvitationDetail,
+} from "../../_api/queries/useQueryInvitations";
 import { useQueryWishlists } from "@/app/onskelistor/_api/queries/useQueryWishlists";
-import BackToInv from "../_component/BackToInv";
 import Image from "next/image";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
 import { formatDate } from "date-fns";
+import BackToInv from "../../_component/BackToInv";
+import InvitationPreview from "../../_component/InvitationPreview";
 
-export default function CreateInvitationClient() {
+export default function EditInvitationClient() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { id } = useParams<{ id: string }>();
+
+  const { data: invitationDetail } = useQueryInvitationDetail(id);
   const { data: templatesData } = useQueryInvitationTemplates();
+
   const [step, setStep] = useState(0);
   const [sentOpen, setSentOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
@@ -111,20 +118,58 @@ export default function CreateInvitationClient() {
 
   const { data: wishlistsData } = useQueryWishlists();
   const wishlists = wishlistsData?.data ?? [];
-
   const templates = templatesData ?? [];
 
   useEffect(() => {
-    if (templates?.length && !templateInitialized.current) {
+    if (invitationDetail) {
+      const inv = invitationDetail;
+      setTitle(inv.title || "");
+      setSubtitle(inv.subtitle || "");
+      setMessage(inv.message || "");
+      setLocation(inv.location || "");
+      setTime(inv.event_time || "");
+      setTemplate(inv.template || null);
+      setWishlistId(inv.wishlist || undefined);
+      setDelivery(inv.delivery_options || ["email"]);
+      setSendLater(!!inv.scheduled_at);
+      if (inv.scheduled_at) {
+        setScheduleAt(new Date(inv.scheduled_at));
+      }
+      if (inv.event_date) {
+        setDate(new Date(inv.event_date));
+      }
+      if (inv.reply_by) {
+        setReplyBy(new Date(inv.reply_by));
+      }
+      if (inv.cover_image) {
+        setCoverImage(inv.cover_image);
+      }
+      if (inv.guests) {
+        setRecipients(
+          inv.guests.map((g) => ({
+            name: g.name,
+            email: g.email,
+          }))
+        );
+      }
+    }
+  }, [invitationDetail]);
+
+  useEffect(() => {
+    if (
+      templates?.length &&
+      !templateInitialized.current &&
+      !invitationDetail?.template
+    ) {
       setTemplate(templates[0]?._id);
       templateInitialized.current = true;
     }
-  }, [templatesData]);
+  }, [templatesData, invitationDetail]);
 
-  const create = useCreateInvitation();
+  const update = useUpdateInvitation();
   const send = useSendInvitation();
   const uploadTemp = useFileUploadTempFolder();
-  const submitting = create.isPending || send.isPending || uploadTemp.isPending;
+  const submitting = update.isPending || send.isPending || uploadTemp.isPending;
 
   const next = () => {
     if (step === 0 && !title.trim()) {
@@ -164,10 +209,10 @@ export default function CreateInvitationClient() {
       return;
     }
 
-    const onSuccess = (created: { _id: string }) => {
+    const onSuccess = () => {
       send.mutate(
         {
-          id: created._id,
+          id: id,
           schedule_at:
             sendLater && scheduleAt ? scheduleAt.toISOString() : undefined,
           delivery_options: delivery,
@@ -182,43 +227,36 @@ export default function CreateInvitationClient() {
       );
     };
 
-    if (template) {
-      create.mutate(
-        {
-          title: title.trim(),
-          subtitle: subtitle.trim() || undefined,
-          message: message.trim() || undefined,
-          event_date: date.toISOString(),
-          event_time: time || undefined,
-          reply_by: replyBy ? replyBy.toISOString() : undefined,
-          location: location.trim() || undefined,
-          template: templates.find((t) => t._id === template)?.slug,
-          cover_image: templates.find((t) => t._id === template)?.preview_url,
-          wishlist: wishlistId,
-          delivery_options: delivery,
-          recipients,
-        },
-        { onSuccess }
-      );
-    } else if (coverImage) {
-      create.mutate(
-        {
-          title: title.trim(),
-          subtitle: subtitle.trim() || undefined,
-          message: message.trim() || undefined,
-          event_date: date.toISOString(),
-          event_time: time || undefined,
-          reply_by: replyBy ? replyBy.toISOString() : undefined,
-          location: location.trim() || undefined,
-          template: "custom",
-          cover_image: coverImage,
-          wishlist: wishlistId,
-          delivery_options: delivery,
-          recipients,
-        },
-        { onSuccess }
-      );
+    const originalRecipients = invitationDetail?.guests?.map((g) => ({
+      name: g.name,
+      email: g.email,
+    })) || [];
+
+    const body: any = {
+      title: title.trim(),
+      subtitle: subtitle.trim() || undefined,
+      message: message.trim() || undefined,
+      event_date: date.toISOString(),
+      event_time: time || undefined,
+      reply_by: replyBy ? replyBy.toISOString() : undefined,
+      location: location.trim() || undefined,
+      wishlist: wishlistId,
+      delivery_options: delivery,
+    };
+
+    if (JSON.stringify(recipients) !== JSON.stringify(originalRecipients)) {
+      body.recipients = recipients;
     }
+
+    if (template) {
+      body.template = templates.find((t) => t._id === template)?.slug;
+      body.cover_image = templates.find((t) => t._id === template)?.preview_url;
+    } else if (coverImage) {
+      body.template = "custom";
+      body.cover_image = coverImage;
+    }
+
+    update.mutate({ id: id, body }, { onSuccess });
   };
 
   return (
@@ -500,7 +538,7 @@ export default function CreateInvitationClient() {
                       {wishlists.map((w) => (
                         <button
                           key={w._id}
-                          onClick={() => setWishlistId(wishlistId === w._id ? undefined : w._id)}
+                          onClick={() => setWishlistId(w._id)}
                           className={cn(
                             "overflow-hidden relative p-1 rounded-[5px] border  text-left transition-all",
                             wishlistId === w._id
