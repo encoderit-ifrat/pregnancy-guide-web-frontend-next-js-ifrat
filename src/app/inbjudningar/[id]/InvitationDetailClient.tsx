@@ -95,14 +95,13 @@ export default function InvitationDetailClient({}: pageProps) {
     const images = Array.from(element.querySelectorAll("img"));
 
     return Promise.all(
-      images.map(
-        (img) =>
-          img.complete
-            ? Promise.resolve()
-            : new Promise<void>((resolve) => {
-                img.onload = () => resolve();
-                img.onerror = () => resolve();
-              })
+      images.map((img) =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+            })
       )
     );
   };
@@ -434,7 +433,8 @@ export default function InvitationDetailClient({}: pageProps) {
                         Template preview
                       </p>
                       <p className="text-sm! font-normal! font-outfit! text-center!">
-                        Choose a template in the next step to see your invitation design
+                        Choose a template in the next step to see your
+                        invitation design
                       </p>
                     </div>
                   </div>
@@ -445,11 +445,13 @@ export default function InvitationDetailClient({}: pageProps) {
                   </h3>
 
                   <p className="font-outfit! text-base! text-primary">
-                    {captureInv.subtitle || t("invitations.preview.eventSubtitle")}
+                    {captureInv.subtitle ||
+                      t("invitations.preview.eventSubtitle")}
                   </p>
 
                   <p className="font-outfit! mx-auto max-w-sm text-base! text-text-secondary mt-2 mb-[9px] line-clamp-2">
-                    {captureInv.message || t("invitations.preview.defaultMessage")}
+                    {captureInv.message ||
+                      t("invitations.preview.defaultMessage")}
                   </p>
 
                   <div className="grid grid-cols-3 border-y border-y-[#ECE8F5] gap-3 py-2 text-primary-dark">
@@ -464,13 +466,17 @@ export default function InvitationDetailClient({}: pageProps) {
 
                     <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold! border-r border-r-[#ECE8F5]!">
                       <Clock className="size-3.5 text-primary shrink-0" />{" "}
-                      <span>{captureInv.event_time || t("invitations.preview.defaulttime")}</span>
+                      <span>
+                        {captureInv.event_time ||
+                          t("invitations.preview.defaulttime")}
+                      </span>
                     </p>
 
                     <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold!">
                       <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
                       <span className="leading-[24px]">
-                        {captureInv.location || t("invitations.preview.defaultlocation")}
+                        {captureInv.location ||
+                          t("invitations.preview.defaultlocation")}
                       </span>
                     </p>
                   </div>
@@ -478,7 +484,9 @@ export default function InvitationDetailClient({}: pageProps) {
                   <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
                     <CalendarDays className="size-3.5 text-primary shrink-0" />
                     {t("invitations.preview.latestReply", {
-                      date: captureInv.reply_by ? formatDate(captureInv.reply_by, "MMMM MM,yyyy") : "",
+                      date: captureInv.reply_by
+                        ? formatDate(captureInv.reply_by, "MMMM MM,yyyy")
+                        : "",
                     })}
                   </p>
                 </div>
