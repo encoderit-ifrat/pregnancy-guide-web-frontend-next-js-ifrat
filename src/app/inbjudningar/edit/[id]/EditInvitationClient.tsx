@@ -109,6 +109,7 @@ export default function EditInvitationClient() {
   const [guestEmail, setGuestEmail] = useState("");
   const [delivery, setDelivery] = useState<DeliveryOption[]>(["email"]);
   const [scheduleAt, setScheduleAt] = useState<Date | undefined>();
+  const [scheduleTime, setScheduleTime] = useState("");
   const [sendLater, setSendLater] = useState(false);
   const [coverImage, setCoverImage] = useState<string | undefined>();
   const [coverImageName, setCoverImageName] = useState<string>("");
@@ -133,7 +134,11 @@ export default function EditInvitationClient() {
       setDelivery(inv.delivery_options || ["email"]);
       setSendLater(!!inv.scheduled_at);
       if (inv.scheduled_at) {
-        setScheduleAt(new Date(inv.scheduled_at));
+        const d = new Date(inv.scheduled_at);
+        setScheduleAt(d);
+        setScheduleTime(
+          `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`
+        );
       }
       if (inv.event_date) {
         setDate(new Date(inv.event_date));
@@ -217,8 +222,8 @@ export default function EditInvitationClient() {
             sendLater && scheduleAt
               ? (() => {
                   const d = new Date(scheduleAt);
-                  if (time) {
-                    const [hours, minutes] = time.split(":");
+                  if (scheduleTime) {
+                    const [hours, minutes] = scheduleTime.split(":");
                     d.setHours(
                       parseInt(hours, 10),
                       parseInt(minutes, 10),
@@ -226,7 +231,7 @@ export default function EditInvitationClient() {
                       0
                     );
                   }
-                  return formatDate(d, "yyyy-MM-dd HH:mm:ss.SSS");
+                  return d.toISOString();
                 })()
               : undefined,
           delivery_options: delivery,
@@ -796,9 +801,9 @@ export default function EditInvitationClient() {
                         <Field label={t("invitations.builder.time")}>
                           <Input
                             type="time"
-                            value={time}
+                            value={scheduleTime}
                             className="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]! h-11!"
-                            onChange={(e) => setTime(e.target.value)}
+                            onChange={(e) => setScheduleTime(e.target.value)}
                           />
                         </Field>
                       </div>
