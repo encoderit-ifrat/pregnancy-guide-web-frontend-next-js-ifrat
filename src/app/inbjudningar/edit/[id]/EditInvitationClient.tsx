@@ -214,7 +214,21 @@ export default function EditInvitationClient() {
         {
           id: id,
           schedule_at:
-            sendLater && scheduleAt ? scheduleAt.toISOString() : undefined,
+            sendLater && scheduleAt
+              ? (() => {
+                  const d = new Date(scheduleAt);
+                  if (time) {
+                    const [hours, minutes] = time.split(":");
+                    d.setHours(
+                      parseInt(hours, 10),
+                      parseInt(minutes, 10),
+                      0,
+                      0
+                    );
+                  }
+                  return formatDate(d, "yyyy-MM-dd HH:mm:ss.SSS");
+                })()
+              : undefined,
           delivery_options: delivery,
         },
         {
@@ -227,10 +241,11 @@ export default function EditInvitationClient() {
       );
     };
 
-    const originalRecipients = invitationDetail?.guests?.map((g) => ({
-      name: g.name,
-      email: g.email,
-    })) || [];
+    const originalRecipients =
+      invitationDetail?.guests?.map((g) => ({
+        name: g.name,
+        email: g.email,
+      })) || [];
 
     const body: any = {
       title: title.trim(),
@@ -817,20 +832,42 @@ export default function EditInvitationClient() {
                 }
               />
             </div>
-            <div className="flex w-full flex-col items-center gap-2 sm:flex-row sm:justify-between">
+            <div
+              className={cn(
+                "flex w-full flex-col items-center gap-2 sm:flex-row sm:justify-between",
+                step !== 0 && "lg:col-span-2"
+              )}
+            >
               <Button
                 variant="outline"
                 onClick={back}
                 disabled={step === 0}
-                className="flex-1 w-full py-2.5 justify-center"
+                className="flex-1 w-full md:max-w-[243px] py-2.5 justify-center"
               >
                 {t("invitations.builder.cancel")}
               </Button>
-              {step < STEPS.length - 1 ? (
+              {step === 2 ? (
+                <div className="flex w-full flex-1 gap-2 sm:justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => setStep(3)}
+                    className="flex-1 sm:flex-none w-full md:max-w-[243px] py-2.5 justify-center"
+                  >
+                    Skip
+                  </Button>
+                  <Button
+                    onClick={next}
+                    disabled={uploadTemp.isPending}
+                    className="flex-1 sm:flex-none w-full md:max-w-[243px] py-2.5"
+                  >
+                    {t("invitations.builder.continue")}
+                  </Button>
+                </div>
+              ) : step < STEPS.length - 1 ? (
                 <Button
                   onClick={next}
                   disabled={uploadTemp.isPending}
-                  className="flex-1 w-full py-2.5"
+                  className="flex-1 w-full md:max-w-[243px] py-2.5"
                 >
                   {t("invitations.builder.continue")}
                 </Button>
@@ -838,7 +875,7 @@ export default function EditInvitationClient() {
                 <Button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="flex-1"
+                  className="flex-1 w-full md:max-w-[243px] py-2.5"
                 >
                   {submitting && <Loader2 className="size-4 animate-spin" />}
                   <span>

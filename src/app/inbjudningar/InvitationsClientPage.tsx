@@ -17,7 +17,7 @@ type InvitatioinsClientPageProps = object;
 
 function SkeletonInvitationCard() {
   return (
-    <div className="w-full max-w-[316px] md:max-w-[348px] mx-auto min-h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col animate-pulse">
+    <div className="w-full max-w-[316px] md:max-w-[348px] mx-auto h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col animate-pulse overflow-hidden">
       <div className="w-full h-[176px] rounded-[10px] bg-primary/10 shrink-0" />
       <div className="py-[15px] px-2 flex flex-col flex-1">
         <div className="space-y-2">

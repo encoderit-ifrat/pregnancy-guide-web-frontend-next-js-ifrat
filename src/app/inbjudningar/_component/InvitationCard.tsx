@@ -46,32 +46,41 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
   const { mutate: duplicateInvitation, isPending: isDuplicatePending } =
     useDuplicateInvitation();
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const handleShare = () => {
+    if (!inv) return;
+    const url = `${window.location.origin}/inbjudningar/rsvp/${inv.share_token}`;
+    navigator.clipboard.writeText(url).then(
+      () => toast.success(t("invitations.detail.linkCopied")),
+      () => toast.error(t("invitations.detail.copyFailed"))
+    );
+  };
 
   return (
-    <div className="relative w-full max-w-[316px] md:max-w-[348px] mx-auto min-h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col">
+    <div className="relative w-full max-w-[316px] md:max-w-[348px] mx-auto h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col overflow-hidden">
       {inv.status === "scheduled" && (
         <div className="absolute top-[14px] right-3 flex items-center justify-center py-1 px-2.5 bg-primary rounded-[5px]">
           <p className="text-xs! font-medium! text-white!">Scheduled</p>
         </div>
       )}
-      <Image
-        src={
-          inv.cover_image
-            ? imageLinkGenerator(inv.cover_image)
-            : "/images/default.png"
-        }
-        width={700}
-        height={700}
-        className="w-full h-[176px] object-cover rounded-[10px] shrink-0"
-        alt={t("invitations.all")}
-      />
+      <div className="h-[176px] w-full relative shrink-0 overflow-hidden rounded-[10px]">
+        <Image
+          src={
+            inv.cover_image
+              ? imageLinkGenerator(inv.cover_image)
+              : "/images/default.png"
+          }
+          fill
+          className="object-cover"
+          alt={t("invitations.all")}
+        />
+      </div>
       <div className="py-[15px] px-2 flex flex-col flex-1">
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-xl font-bold text-primary-dark!">
               {inv.title}
             </h3>
-            <p className="text-base font-normal line-clamp-2">{inv.subtitle}</p>
+            <p className="text-base font-normal line-clamp-1">{inv.subtitle}</p>
           </div>
           <Popover>
             <PopoverTrigger asChild className="cursor-pointer">
@@ -140,7 +149,10 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
           >
             {t("invitations.viewDetails")}
           </Link>
-          <div className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center">
+          <div
+            onClick={handleShare}
+            className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center cursor-pointer"
+          >
             <Share2 className="w-6 h-6 text-primary " />
           </div>
         </div>
