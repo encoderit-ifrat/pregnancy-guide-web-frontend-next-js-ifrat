@@ -37,6 +37,7 @@ export interface KickStatistics {
     total_this_week: number;
     daily_average: number;
     peak_hour: string;
+    percentage_change: number;
   };
   this_week_breakdown: { soft: number; hard: number; unsure: number };
   daily_trend: { date: string; count: number }[];

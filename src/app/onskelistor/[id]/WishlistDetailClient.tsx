@@ -57,6 +57,7 @@ export default function WishlistDetailClient() {
   const [itemModalOpen, setItemModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<WishlistItem | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [infoOpenId, setInfoOpenId] = useState<string | null>(null);
 
   const handleShare = () => {
     if (!wishlist) return;
@@ -174,8 +175,8 @@ export default function WishlistDetailClient() {
                     </p>
                   )}
                 </div>
-                <div className="overflow-hidden rounded-2xl border border-[#F3E8FF]">
-                  <table className="hidden md:table w-full min-w-[720px] text-sm">
+                <div className="overflow-hidden rounded-2xl lg:border border-[#F3E8FF]">
+                  <table className="hidden lg:table w-full min-w-[720px] text-sm">
                     <thead className=" bg-[#F5F1FB] ">
                       <tr className="border-b text-left text-primary-dark border-b-[#F3E8FF]">
                         <th className="px-5 py-3 md:py-[23px] font-semibold text-xl">
@@ -300,7 +301,7 @@ export default function WishlistDetailClient() {
                     </tbody>
                   </table>
                 </div>
-                <div className="md:hidden space-y-4">
+                <div className="lg:hidden space-y-4">
                   {wishlist.items.map((item) => (
                     <div
                       key={item._id}
@@ -327,14 +328,28 @@ export default function WishlistDetailClient() {
                               <Pen size={18} className="text-primary" />{" "}
                               <p className="text-sm font-normal">Edit</p>
                             </div>
-                            <Tooltip>
+                            <Tooltip
+                              open={infoOpenId === item._id}
+                              onOpenChange={(v) => !v && setInfoOpenId(null)}
+                            >
                               <TooltipTrigger asChild>
-                                <div className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer">
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setInfoOpenId(
+                                      infoOpenId === item._id ? null : item._id
+                                    );
+                                  }}
+                                  className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+                                >
                                   <Info size={18} className="text-primary" />{" "}
                                   <p className="text-sm font-normal">Info</p>
                                 </div>
                               </TooltipTrigger>
-                              <TooltipContent side="left">
+                              <TooltipContent
+                                side="left"
+                                className="bg-white border border-[#F3E8FF]"
+                              >
                                 <p>{item.description || "—"}</p>
                               </TooltipContent>
                             </Tooltip>

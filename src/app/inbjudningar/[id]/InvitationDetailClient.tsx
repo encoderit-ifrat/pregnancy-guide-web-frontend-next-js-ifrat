@@ -29,11 +29,13 @@ import {
   useRemoveRecipient,
   useSendInvitation,
 } from "../_api/mutations/useInvitationMutations";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import html2canvas from "html2canvas";
 import { RsvpStatus } from "../_types/invitation_types";
 import { toast } from "sonner";
 import { formatDate } from "date-fns";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import InvitationPreview from "../_component/InvitationPreview";
 
 type pageProps = object;
 
@@ -48,6 +50,8 @@ export default function InvitationDetailClient({}: pageProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [addOpen, setAddOpen] = useState(false);
+  const downloadRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const statusLabel = (s: RsvpStatus) => t(`invitations.status.${s}`);
 
@@ -81,6 +85,38 @@ export default function InvitationDetailClient({}: pageProps) {
       { id },
       { onSuccess: () => toast.success(t("invitations.detail.invitationSent")) }
     );
+  };
+
+  const handleDownloadImage = async () => {
+    if (!downloadRef.current) return;
+
+    setDownloading(true);
+
+    try {
+      await document.fonts.ready;
+
+      const canvas = await html2canvas(downloadRef.current, {
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        scale: 2,
+
+        // Force desktop Tailwind styles like lg:h-[755px]
+        windowWidth: 1024,
+        windowHeight: 900,
+      });
+
+      const image = canvas.toDataURL("image/png");
+
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `${inv?.title || "invitation"}-preview.png`;
+      link.click();
+    } catch (error) {
+      console.error("Download image failed:", error);
+      toast.error("Failed to download image");
+    } finally {
+      setDownloading(false);
+    }
   };
   // console.log("invitation", inv);
   return (
@@ -145,27 +181,29 @@ export default function InvitationDetailClient({}: pageProps) {
                   {inv?.message}
                 </p>
               </div>
-              <div className="px-5 py-[15px] flex flex-col lg:flex-row justify-between items-start lg:items-center mx-0 md:mx-6 mb-0 md:mb-5 bg-primary-light2 rounded-[15px]">
-                <div className="grid grid-cols-[48px_1fr] gap-4">
-                  <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
-                    <Gift className=" text-primary" />
+              {inv?.wishlist && (
+                <div className="px-5 py-[15px] flex flex-col lg:flex-row justify-between items-start lg:items-center mx-0 md:mx-6 mb-0 md:mb-5 bg-primary-light2 rounded-[15px]">
+                  <div className="grid grid-cols-[48px_1fr] gap-4">
+                    <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
+                      <Gift className=" text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-xl! font-semibold! text-primary-dark!">
+                        {t("invitations.detail.wishlistAttached")}
+                      </p>
+                      <p className="text-base! font-normal text-primary-dark!">
+                        {inv?.title}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xl! font-semibold! text-primary-dark!">
-                      {t("invitations.detail.wishlistAttached")}
-                    </p>
-                    <p className="text-base! font-normal text-primary-dark!">
-                      View gift ideas for Emma
-                    </p>
-                  </div>
+                  <Link
+                    href={`/onskelistor/${inv?.wishlist}`}
+                    className="w-full lg:w-[150px] bg-white flex items-center justify-center rounded-full border text-primary font-semibold! mt-3 lg:mt-0 py-[7px]"
+                  >
+                    View Wishlist
+                  </Link>
                 </div>
-                <Link
-                  href={`/onskelistor/${inv?.wishlist}`}
-                  className="w-full lg:w-[150px] bg-white flex items-center justify-center rounded-full border text-primary font-semibold! mt-3 lg:mt-0 py-[7px]"
-                >
-                  View Wishlist
-                </Link>
-              </div>
+              )}
             </div>
             <div className="p-3 bg-white border border-[#F3E8FF] rounded-[25px] mt-5">
               <div className="py-[15px] mx-0 md:mx-6 mb-0 md:mb-5 flex flex-col md:flex-row items-start md:items-center justify-between">
@@ -201,10 +239,10 @@ export default function InvitationDetailClient({}: pageProps) {
                           <UserRound className=" text-primary" />
                         </div>
                         <div>
-                          <p className="text-xl! font-semibold! text-primary-dark!">
+                          <p className="text-xl! font-semibold! text-primary-dark! line-clamp-1!">
                             {guest.name}
                           </p>
-                          <p className="text-base! font-normal text-primary-dark!">
+                          <p className="text-base! font-normal text-primary-dark! line-clamp-1!">
                             {guest.email}
                           </p>
                         </div>
@@ -255,10 +293,12 @@ export default function InvitationDetailClient({}: pageProps) {
                 </Button>
                 <Button
                   variant={"outline"}
+                  onClick={handleDownloadImage}
+                  disabled={downloading || !inv}
                   className="text-lg font-semibold bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
                   <Download />
-                  Download Image
+                  {downloading ? "Downloading..." : "Download Image"}
                 </Button>
                 <Link
                   href={`/inbjudningar/edit/${inv?._id}`}
@@ -332,6 +372,25 @@ export default function InvitationDetailClient({}: pageProps) {
             </div>
           </DialogContent>
         </Dialog>
+        <div
+          ref={downloadRef}
+          className="fixed top-0 left-[-9999px] w-[520px] h-[755px] bg-white overflow-hidden"
+        >
+          {inv && (
+            <InvitationPreview
+              title={inv.title}
+              subtitle={inv.subtitle}
+              message={inv.message}
+              date={inv.event_date}
+              time={inv.event_time}
+              location={inv.location}
+              replyBy={inv.reply_by}
+              coverImage={inv.cover_image}
+              template={inv.template}
+              // templatePreviewUrl={inv.template?.preview_image}
+            />
+          )}
+        </div>
       </div>
     </PageContainer>
   );

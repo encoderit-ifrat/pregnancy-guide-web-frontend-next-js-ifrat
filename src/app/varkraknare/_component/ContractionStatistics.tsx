@@ -88,16 +88,22 @@ export default function ContractionStatistics() {
                 icon={<Timer className="size-5 text-primary" />}
                 value={String(stats.totals.total_this_week)}
                 label={t("contractionCounter.stats.totalThisWeek")}
+                changes={`${stats?.totals.percentage_change > 0 ? "↑ ↑ Increasing frequency" : "↓ Decreasing frequency"}`}
+                color={
+                  stats?.totals.percentage_change > 0 ? "success" : "error"
+                }
               />
               <StatCard
                 icon={<Hourglass className="size-5 text-primary" />}
                 value={fmtDuration(stats.totals.avg_duration_sec)}
                 label={t("contractionCounter.stats.avgDuration")}
+                changes="per contraction"
               />
               <StatCard
                 icon={<Clock className="size-5 text-primary" />}
                 value={fmtDuration(stats.totals.avg_interval_sec)}
                 label={t("contractionCounter.stats.avgInterval")}
+                changes="between contractions"
               />
             </div>
           </div>
@@ -318,10 +324,14 @@ function StatCard({
   icon,
   value,
   label,
+  changes,
+  color = "default",
 }: {
   icon: React.ReactNode;
   value: string;
   label: string;
+  changes: string;
+  color?: "default" | "success" | "error";
 }) {
   return (
     <Card className="p-5 border-0 shadow-week-details">
@@ -332,6 +342,11 @@ function StatCard({
         <div>
           <p className="text-sm! text-primary-dark!">{label}</p>
           <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
+          <span
+            className={`text-base! font-normal! ${color === "default" ? "text-[#3D3177]" : color === "success" ? "text-[#00A63E]" : "text-error"}`}
+          >
+            {changes}
+          </span>
         </div>
       </div>
     </Card>

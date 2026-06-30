@@ -7,7 +7,15 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
-import { CheckCircle2, Gift, Loader2, Mail, ShieldCheck } from "lucide-react";
+import {
+  CheckCircle2,
+  CircleCheck,
+  CircleX,
+  Gift,
+  Loader2,
+  Mail,
+  ShieldCheck,
+} from "lucide-react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -106,19 +114,22 @@ export default function PublicInvitationClient() {
                   onClick={() => handleRespond("declined")}
                   disabled={respond.isPending}
                 >
+                  <CircleX />
                   {t("invitations.public.deny")}
                 </Button>
                 <Button
                   onClick={() => handleRespond("accepted")}
                   disabled={respond.isPending}
                 >
-                  {respond.isPending && (
-                    <Loader2 className="size-4 animate-spin" />
-                  )}
                   <span>{t("invitations.public.accept")}</span>
+                  {respond.isPending ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <CircleCheck />
+                  )}
                 </Button>
                 {data.invitation.has_wishlist && (
-                  <Button variant="purple" onClick={handleSeeWishlist}>
+                  <Button onClick={handleSeeWishlist}>
                     <Gift className="size-4" />{" "}
                     {t("invitations.public.seeWishlist")}
                   </Button>

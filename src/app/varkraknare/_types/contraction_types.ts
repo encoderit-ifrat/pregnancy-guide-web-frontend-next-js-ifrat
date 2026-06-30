@@ -37,6 +37,13 @@ export interface ContractionStatistics {
     total_this_week: number;
     avg_duration_sec: number;
     avg_interval_sec: number;
+    previous_period_total: number;
+    percentage_change: number;
+    avg_duration_min: number;
+    avg_interval_min: number;
+    prev_avg_duration_sec: number;
+    prev_avg_interval_sec: number;
+    interval_trend: string;
   };
   labor_progress: LaborProgress;
   daily_counts: { date: string; count: number }[];

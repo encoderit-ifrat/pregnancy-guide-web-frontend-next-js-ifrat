@@ -113,6 +113,7 @@ export default function EditInvitationClient() {
   const [sendLater, setSendLater] = useState(false);
   const [coverImage, setCoverImage] = useState<string | undefined>();
   const [coverImageName, setCoverImageName] = useState<string>("");
+  const [emailError, setEmailError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const templateInitialized = useRef(false);
   const coverPreviewUrl = coverImage;
@@ -192,6 +193,10 @@ export default function EditInvitationClient() {
   const addRecipient = () => {
     if (!guestName.trim() || !guestEmail.trim()) {
       toast.error(t("invitations.builder.enterNameEmail"));
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail.trim())) {
+      setEmailError(true);
       return;
     }
     setRecipients((r) => [
@@ -657,8 +662,11 @@ export default function EditInvitationClient() {
                     <div className="flex gap-2">
                       <Input
                         value={guestEmail}
-                        onChange={(e) => setGuestEmail(e.target.value)}
-                        className="rounded-[5px]"
+                        onChange={(e) => {
+                          setGuestEmail(e.target.value);
+                          setEmailError(false);
+                        }}
+                        className={cn("rounded-[5px]", emailError && "border-destructive!")}
                         placeholder={t("invitations.builder.emailPlaceholder")}
                         onKeyDown={(e) => e.key === "Enter" && addRecipient()}
                       />
@@ -666,6 +674,9 @@ export default function EditInvitationClient() {
                         {t("invitations.builder.add")}
                       </Button>
                     </div>
+                    {emailError && (
+                      <p className="text-destructive text-xs mt-1">Invalid email format</p>
+                    )}
                   </Field>
                   <div className="flex flex-wrap gap-2">
                     {recipients.map((r, i) => (

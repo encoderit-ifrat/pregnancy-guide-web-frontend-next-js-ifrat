@@ -85,16 +85,22 @@ export default function KickStatistics({
                 icon={<Activity className="size-5 text-primary" />}
                 value={stats.totals.total_this_week}
                 label={t("kickCounter.stats.totalThisWeek")}
+                changes={`${stats?.totals.percentage_change > 0 ? "↑ " : "↓ "}${stats?.totals.percentage_change}% from last week`}
+                color={
+                  stats?.totals.percentage_change > 0 ? "success" : "error"
+                }
               />
               <StatCard
                 icon={<TrendingUp className="size-5 text-primary" />}
                 value={stats.totals.daily_average}
                 label={t("kickCounter.stats.dailyAverage")}
+                changes="kicks per day"
               />
               <StatCard
                 icon={<Clock4 className="size-5 text-primary" />}
                 value={stats.totals.peak_hour}
                 label={t("kickCounter.stats.peakHour")}
+                changes="Most active time"
               />
             </div>
           </div>
@@ -301,10 +307,14 @@ function StatCard({
   icon,
   value,
   label,
+  changes,
+  color = "default",
 }: {
   icon: React.ReactNode;
   value: number | string;
   label: string;
+  changes?: string;
+  color?: "default" | "success" | "error";
 }) {
   return (
     <Card className="p-5 border-0 shadow-week-details">
@@ -315,6 +325,11 @@ function StatCard({
         <div>
           <p className="text-sm! text-primary-dark!">{label}</p>
           <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
+          <span
+            className={`text-base! font-normal! ${color === "default" ? "text-[#3D3177]" : color === "success" ? "text-[#00A63E]" : "text-error"}`}
+          >
+            {changes}
+          </span>
         </div>
       </div>
     </Card>

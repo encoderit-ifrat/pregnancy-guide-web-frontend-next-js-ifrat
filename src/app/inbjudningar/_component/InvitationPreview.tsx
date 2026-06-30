@@ -5,6 +5,7 @@ import { Calendar, CalendarDays, Clock, MapPin, MapPinned } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { InvitationTemplate } from "../_types/invitation_types";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { formatDate } from "date-fns";
 
 interface Props {
   title?: string;
@@ -32,19 +33,13 @@ export default function InvitationPreview({
   templatePreviewUrl,
 }: Props) {
   const { t } = useTranslation();
-  const fmtDate = date
-    ? new Date(date).toLocaleDateString("sv-SE", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-    : null;
+  const fmtDate = date ? formatDate(date, "MMMM MM,yyyy") : null;
   // console.log("templatePreviewUrl", templatePreviewUrl);
   // console.log("coverImage", coverImage);
   // console.log("template", template);
 
   return (
-    <div className="relative overflow-hidden h-[433px] lg:h-[755px] rounded-[8px] border bg-white shadow-week-details">
+    <div className="relative overflow-hidden h-[433px] md:h-[755px] rounded-[8px] border bg-white shadow-week-details">
       {coverImage ? (
         <Image
           src={
@@ -65,7 +60,7 @@ export default function InvitationPreview({
         />
       ) : (
         <div className="p-2">
-          <div className="bg-primary-light2 border border-dashed border-primary rounded-[6px] w-full h-[190px] lg:h-[300px] flex items-center justify-center flex-col">
+          <div className="bg-primary-light2 border border-dashed border-primary rounded-[6px] w-full h-[190px] md:h-[300px] flex items-center justify-center flex-col">
             <Image
               src={"/images/icons/inv-01.png"}
               width={700}
@@ -91,31 +86,33 @@ export default function InvitationPreview({
           {subtitle || t("invitations.preview.eventSubtitle")}
         </p>
 
-        <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! text-text-secondary mt-2 mb-[9px]">
+        <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! text-text-secondary mt-2 mb-[9px] line-clamp-2">
           {message || t("invitations.preview.defaultMessage")}
         </p>
 
         <div className="grid grid-cols-3 border-y border-y-[#ECE8F5] gap-3 py-2 text-primary-dark">
-          <span className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! border-r border-r-[#ECE8F5]! font-semibold!">
+          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! border-r border-r-[#ECE8F5]! font-semibold!">
             <CalendarDays className="size-3.5 text-primary shrink-0" />{" "}
-            {fmtDate || t("invitations.preview.defaultdate")}
-          </span>
+            <span>{fmtDate || t("invitations.preview.defaultdate")}</span>
+          </p>
 
-          <span className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold! border-r border-r-[#ECE8F5]!">
+          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold! border-r border-r-[#ECE8F5]!">
             <Clock className="size-3.5 text-primary shrink-0" />{" "}
-            {time || t("invitations.preview.defaulttime")}
-          </span>
+            <span>{time || t("invitations.preview.defaulttime")}</span>
+          </p>
 
-          <span className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
+          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
             <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
-            {location || t("invitations.preview.defaultlocation")}
-          </span>
+            <span className="leading-[24px]">
+              {location || t("invitations.preview.defaultlocation")}
+            </span>
+          </p>
         </div>
 
-        <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! font-semibold! text-primary-dark! mt-2">
+        <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
           <CalendarDays className="size-3.5 text-primary shrink-0" />
           {t("invitations.preview.latestReply", {
-            date: replyBy ? new Date(replyBy).toLocaleDateString("sv-SE") : "",
+            date: replyBy ? formatDate(replyBy, "MMMM MM,yyyy") : "",
           })}
         </p>
       </div>
