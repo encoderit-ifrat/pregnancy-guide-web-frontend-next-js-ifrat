@@ -39,7 +39,6 @@ import { RsvpStatus } from "../_types/invitation_types";
 import { toast } from "sonner";
 import { formatDate } from "date-fns";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
-import InvitationPreview from "../_component/InvitationPreview";
 
 type pageProps = object;
 
@@ -57,7 +56,6 @@ export default function InvitationDetailClient({}: pageProps) {
   const downloadRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [captureInv, setCaptureInv] = useState<typeof inv | null>(null);
-  const [captureKey, setCaptureKey] = useState(0);
 
   const statusLabel = (s: RsvpStatus) => t(`invitations.status.${s}`);
 
@@ -93,51 +91,19 @@ export default function InvitationDetailClient({}: pageProps) {
     );
   };
 
-  const waitForImages = async (element: HTMLElement) => {
+  const waitForImages = (element: HTMLElement) => {
     const images = Array.from(element.querySelectorAll("img"));
 
-    images.forEach((img) => {
-      img.removeAttribute("loading");
-      img.removeAttribute("srcset"); // Remove srcset to avoid complex srcset caching bugs in html-to-image
-      img.loading = "eager";
-
-      if (img.src && !img.src.startsWith("data:") && !img.src.startsWith("blob:")) {
-        try {
-          const urlObj = new URL(img.src, window.location.origin);
-          const rawUrl = urlObj.searchParams.get("url");
-
-          if (rawUrl) {
-            // 1. Nest-level cache busting (forces Next.js backend optimizer to fetch fresh image from API)
-            try {
-              const nestedUrlObj = new URL(decodeURIComponent(rawUrl), window.location.origin);
-              nestedUrlObj.searchParams.set("t", Date.now().toString());
-              urlObj.searchParams.set("url", nestedUrlObj.toString());
-            } catch (e) {
-              const separator = rawUrl.includes("?") ? "&" : "?";
-              urlObj.searchParams.set("url", `${rawUrl}${separator}t=${Date.now()}`);
-            }
-          }
-
-          // 2. Outer-level cache busting (forces browser and html-to-image to bypass local caching)
-          urlObj.searchParams.set("t", Date.now().toString());
-          img.src = urlObj.toString();
-        } catch (e) {
-          // Fallback if URL parsing fails
-          const separator = img.src.includes("?") ? "&" : "?";
-          img.src = `${img.src}${separator}t=${Date.now()}`;
-        }
-      }
-    });
-
-    await Promise.all(
-      images.map((img) => {
-        if (img.complete) return Promise.resolve();
-
-        return new Promise<void>((resolve) => {
-          img.onload = () => resolve();
-          img.onerror = () => resolve();
-        });
-      })
+    return Promise.all(
+      images.map(
+        (img) =>
+          img.complete
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                img.onload = () => resolve();
+                img.onerror = () => resolve();
+              })
+      )
     );
   };
 
@@ -155,12 +121,7 @@ export default function InvitationDetailClient({}: pageProps) {
     setDownloading(true);
 
     try {
-      const nextKey = Date.now();
-
-      flushSync(() => {
-        setCaptureKey(nextKey);
-        setCaptureInv(inv);
-      });
+      flushSync(() => setCaptureInv(inv));
 
       await waitForPaint();
 
@@ -174,7 +135,7 @@ export default function InvitationDetailClient({}: pageProps) {
       const blob = await toBlob(node, {
         backgroundColor: "#ffffff",
         pixelRatio: 2,
-        cacheBust: true,
+        includeQueryParams: true,
         width: 520,
         height: 755,
       });
@@ -455,10 +416,9 @@ export default function InvitationDetailClient({}: pageProps) {
               className="download-preview-card w-[520px] h-[755px] bg-white overflow-hidden"
             >
               <div className="relative overflow-hidden h-[755px] rounded-[8px] border bg-white shadow-week-details">
-                {/* Cover Image or Template Preview using standard HTML <img> to bypass Next.js optimizer caching */}
                 {captureInv.cover_image ? (
                   <img
-                    src={`/_next/image?url=${encodeURIComponent(imageLinkGenerator(captureInv.cover_image))}&w=1080&q=75&t=${captureKey}`}
+                    src={`/_next/image?url=${encodeURIComponent(imageLinkGenerator(captureInv.cover_image))}&w=1080&q=75`}
                     alt=""
                     className="absolute inset-0 w-full h-full object-fill"
                   />
