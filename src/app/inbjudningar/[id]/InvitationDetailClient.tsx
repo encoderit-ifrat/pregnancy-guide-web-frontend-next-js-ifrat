@@ -4,14 +4,18 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import { useTranslation } from "@/hooks/useTranslation";
+import { toBlob } from "html-to-image";
+import { saveAs } from "file-saver";
 import {
   ArrowLeft,
   Calendar,
+  CalendarDays,
   CircleCheckBig,
   Clock,
   Download,
   Gift,
   MapPin,
+  MapPinned,
   Plus,
   Send,
   Share2,
@@ -30,7 +34,7 @@ import {
   useSendInvitation,
 } from "../_api/mutations/useInvitationMutations";
 import { useRef, useState } from "react";
-import html2canvas from "html2canvas";
+import { flushSync } from "react-dom";
 import { RsvpStatus } from "../_types/invitation_types";
 import { toast } from "sonner";
 import { formatDate } from "date-fns";
@@ -52,6 +56,8 @@ export default function InvitationDetailClient({}: pageProps) {
   const [addOpen, setAddOpen] = useState(false);
   const downloadRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
+  const [captureInv, setCaptureInv] = useState<typeof inv | null>(null);
+  const [captureKey, setCaptureKey] = useState(0);
 
   const statusLabel = (s: RsvpStatus) => t(`invitations.status.${s}`);
 
@@ -87,34 +93,100 @@ export default function InvitationDetailClient({}: pageProps) {
     );
   };
 
+  const waitForImages = async (element: HTMLElement) => {
+    const images = Array.from(element.querySelectorAll("img"));
+
+    images.forEach((img) => {
+      img.removeAttribute("loading");
+      img.removeAttribute("srcset"); // Remove srcset to avoid complex srcset caching bugs in html-to-image
+      img.loading = "eager";
+
+      if (img.src && !img.src.startsWith("data:") && !img.src.startsWith("blob:")) {
+        try {
+          const urlObj = new URL(img.src, window.location.origin);
+          const rawUrl = urlObj.searchParams.get("url");
+
+          if (rawUrl) {
+            // 1. Nest-level cache busting (forces Next.js backend optimizer to fetch fresh image from API)
+            try {
+              const nestedUrlObj = new URL(decodeURIComponent(rawUrl), window.location.origin);
+              nestedUrlObj.searchParams.set("t", Date.now().toString());
+              urlObj.searchParams.set("url", nestedUrlObj.toString());
+            } catch (e) {
+              const separator = rawUrl.includes("?") ? "&" : "?";
+              urlObj.searchParams.set("url", `${rawUrl}${separator}t=${Date.now()}`);
+            }
+          }
+
+          // 2. Outer-level cache busting (forces browser and html-to-image to bypass local caching)
+          urlObj.searchParams.set("t", Date.now().toString());
+          img.src = urlObj.toString();
+        } catch (e) {
+          // Fallback if URL parsing fails
+          const separator = img.src.includes("?") ? "&" : "?";
+          img.src = `${img.src}${separator}t=${Date.now()}`;
+        }
+      }
+    });
+
+    await Promise.all(
+      images.map((img) => {
+        if (img.complete) return Promise.resolve();
+
+        return new Promise<void>((resolve) => {
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+        });
+      })
+    );
+  };
+
+  const waitForPaint = () =>
+    new Promise<void>((resolve) => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => resolve());
+      });
+    });
+
   const handleDownloadImage = async () => {
-    if (!downloadRef.current) return;
+    // Safety guard: ensure query data matches the current page ID to avoid downloading stale/previous invitation data
+    if (!inv || isLoading || inv._id !== id) return;
 
     setDownloading(true);
 
     try {
-      await document.fonts.ready;
+      const nextKey = Date.now();
 
-      const canvas = await html2canvas(downloadRef.current, {
-        backgroundColor: "#ffffff",
-        useCORS: true,
-        scale: 2,
-
-        // Force desktop Tailwind styles like lg:h-[755px]
-        windowWidth: 1024,
-        windowHeight: 900,
+      flushSync(() => {
+        setCaptureKey(nextKey);
+        setCaptureInv(inv);
       });
 
-      const image = canvas.toDataURL("image/png");
+      await waitForPaint();
 
-      const link = document.createElement("a");
-      link.href = image;
-      link.download = `${inv?.title || "invitation"}-preview.png`;
-      link.click();
+      const node = downloadRef.current;
+      if (!node) throw new Error("Download preview is not ready");
+
+      await document.fonts.ready;
+      await waitForImages(node);
+      await waitForPaint();
+
+      const blob = await toBlob(node, {
+        backgroundColor: "#ffffff",
+        pixelRatio: 2,
+        cacheBust: true,
+        width: 520,
+        height: 755,
+      });
+
+      if (!blob) throw new Error("Could not generate image");
+
+      saveAs(blob, `${inv.title || "invitation"}-preview.png`);
     } catch (error) {
       console.error("Download image failed:", error);
       toast.error("Failed to download image");
     } finally {
+      setCaptureInv(null);
       setDownloading(false);
     }
   };
@@ -372,25 +444,88 @@ export default function InvitationDetailClient({}: pageProps) {
             </div>
           </DialogContent>
         </Dialog>
-        <div
-          ref={downloadRef}
-          className="fixed top-0 left-[-9999px] w-[520px] h-[755px] bg-white overflow-hidden"
-        >
-          {inv && (
-            <InvitationPreview
-              title={inv.title}
-              subtitle={inv.subtitle}
-              message={inv.message}
-              date={inv.event_date}
-              time={inv.event_time}
-              location={inv.location}
-              replyBy={inv.reply_by}
-              coverImage={inv.cover_image}
-              template={inv.template}
-              // templatePreviewUrl={inv.template?.preview_image}
-            />
-          )}
-        </div>
+        {captureInv && (
+          <div
+            aria-hidden="true"
+            className="fixed top-0 left-0 w-0 h-0 overflow-hidden pointer-events-none"
+            style={{ zIndex: -100 }}
+          >
+            <div
+              ref={downloadRef}
+              className="download-preview-card w-[520px] h-[755px] bg-white overflow-hidden"
+            >
+              <div className="relative overflow-hidden h-[755px] rounded-[8px] border bg-white shadow-week-details">
+                {/* Cover Image or Template Preview using standard HTML <img> to bypass Next.js optimizer caching */}
+                {captureInv.cover_image ? (
+                  <img
+                    src={`/_next/image?url=${encodeURIComponent(imageLinkGenerator(captureInv.cover_image))}&w=1080&q=75&t=${captureKey}`}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-fill"
+                  />
+                ) : (
+                  <div className="p-2">
+                    <div className="bg-primary-light2 border border-dashed border-primary rounded-[6px] w-full h-[300px] flex items-center justify-center flex-col">
+                      <img
+                        src="/images/icons/inv-01.png"
+                        alt=""
+                        className="w-14 h-14 object-cover"
+                      />
+                      <p className="text-base! font-semibold! font-outfit!">
+                        Template preview
+                      </p>
+                      <p className="text-sm! font-normal! font-outfit! text-center!">
+                        Choose a template in the next step to see your invitation design
+                      </p>
+                    </div>
+                  </div>
+                )}
+                <div className="absolute bottom-0 left-0 w-full p-4 text-center">
+                  <h3 className="font-outfit! text-[22px]! font-semibold! text-primary-dark">
+                    {captureInv.title || t("invitations.preview.eventTitle")}
+                  </h3>
+
+                  <p className="font-outfit! text-base! text-primary">
+                    {captureInv.subtitle || t("invitations.preview.eventSubtitle")}
+                  </p>
+
+                  <p className="font-outfit! mx-auto max-w-sm text-base! text-text-secondary mt-2 mb-[9px] line-clamp-2">
+                    {captureInv.message || t("invitations.preview.defaultMessage")}
+                  </p>
+
+                  <div className="grid grid-cols-3 border-y border-y-[#ECE8F5] gap-3 py-2 text-primary-dark">
+                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! border-r border-r-[#ECE8F5]! font-semibold!">
+                      <CalendarDays className="size-3.5 text-primary shrink-0" />{" "}
+                      <span>
+                        {captureInv.event_date
+                          ? formatDate(captureInv.event_date, "MMMM MM,yyyy")
+                          : t("invitations.preview.defaultdate")}
+                      </span>
+                    </p>
+
+                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold! border-r border-r-[#ECE8F5]!">
+                      <Clock className="size-3.5 text-primary shrink-0" />{" "}
+                      <span>{captureInv.event_time || t("invitations.preview.defaulttime")}</span>
+                    </p>
+
+                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold!">
+                      <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
+                      <span className="leading-[24px]">
+                        {captureInv.location || t("invitations.preview.defaultlocation")}
+                      </span>
+                    </p>
+                  </div>
+
+                  <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
+                    <CalendarDays className="size-3.5 text-primary shrink-0" />
+                    {t("invitations.preview.latestReply", {
+                      date: captureInv.reply_by ? formatDate(captureInv.reply_by, "MMMM MM,yyyy") : "",
+                    })}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </PageContainer>
   );
