@@ -60,7 +60,9 @@ export function DatePicker({
           {value ? (
             value.toLocaleDateString()
           ) : (
-            <span className="text-[#445B6A]">{placeholder}</span>
+            <p className="text-[#445B6A]! font-normal! text-sm!">
+              {placeholder}
+            </p>
           )}
           <ChevronDownIcon />
         </Button>

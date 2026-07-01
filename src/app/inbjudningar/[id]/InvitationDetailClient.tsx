@@ -135,8 +135,8 @@ export default function InvitationDetailClient({}: pageProps) {
         backgroundColor: "#ffffff",
         pixelRatio: 2,
         includeQueryParams: true,
-        width: 520,
-        height: 755,
+        width: 540,
+        height: 810,
       });
 
       if (!blob) throw new Error("Could not generate image");
@@ -412,9 +412,9 @@ export default function InvitationDetailClient({}: pageProps) {
           >
             <div
               ref={downloadRef}
-              className="download-preview-card w-[520px] h-[755px] bg-white overflow-hidden"
+              className="download-preview-card w-[540px] h-[810px] bg-white overflow-hidden"
             >
-              <div className="relative overflow-hidden h-[755px] rounded-[8px] border bg-white shadow-week-details">
+              <div className="relative overflow-hidden h-[810px] rounded-[8px] border bg-white shadow-week-details">
                 {captureInv.cover_image ? (
                   <img
                     src={`/_next/image?url=${encodeURIComponent(imageLinkGenerator(captureInv.cover_image))}&w=1080&q=75`}
