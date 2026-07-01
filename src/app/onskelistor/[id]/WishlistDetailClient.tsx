@@ -83,7 +83,7 @@ export default function WishlistDetailClient() {
         <div className="mx-auto max-w-6xl">
           <Link
             href={"/onskelistor"}
-            className="flex items-center gap-2 my-[35px] md:my-[53px]"
+            className="flex items-center gap-2 mb-[35px] md:my-[53px]"
           >
             <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
             <p className="text-base font-normal">

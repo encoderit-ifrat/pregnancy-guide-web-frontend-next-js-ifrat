@@ -55,7 +55,7 @@ export default function AddEditItemModal({
   const handleSubmit = () => {
     if (!title.trim()) return toast.error(t("wishlists.item.titleRequired"));
     const priceNum = Number(price);
-    if (Number.isNaN(priceNum) || priceNum < 0)
+    if (Number.isNaN(priceNum) || priceNum <= 0)
       return toast.error(t("wishlists.item.priceInvalid"));
 
     const body = {

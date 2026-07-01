@@ -154,12 +154,12 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
           </div>
         </Card>
 
-        <Card className="relative min-h-[256px] overflow-hidden p-0 shadow-none">
+        <Card className="relative min-h-[256px] md:min-h-[350px] lg:min-h-[256px] overflow-hidden p-0 shadow-none">
           <Image
             src="/kick_counter_tips_tracking_bg.png"
             alt=""
             fill
-            className="object-cover"
+            className="object-cover object-bottom-right"
           />
           <div className="relative z-10 max-w-[70%] p-6 pb-20">
             <div className="flex items-center gap-2">

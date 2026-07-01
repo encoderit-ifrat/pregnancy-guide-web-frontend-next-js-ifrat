@@ -88,7 +88,7 @@ export default function ContractionStatistics() {
                 icon={<Timer className="size-5 text-primary" />}
                 value={String(stats.totals.total_this_week)}
                 label={t("contractionCounter.stats.totalThisWeek")}
-                changes={`${stats?.totals.percentage_change > 0 ? "↑ ↑ Increasing frequency" : "↓ Decreasing frequency"}`}
+                changes={`${stats?.totals.percentage_change > 0 ? "↑ Increasing frequency" : "↓ Decreasing frequency"}`}
                 color={
                   stats?.totals.percentage_change > 0 ? "success" : "error"
                 }

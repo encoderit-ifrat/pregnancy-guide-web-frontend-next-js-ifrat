@@ -29,6 +29,7 @@ import { useQueryKickStatistics } from "../_api/queries/useQueryKickCounter";
 import { Spinner } from "@/components/ui/Spinner";
 import Link from "next/link";
 import { useQueryContractionSettings } from "@/app/varkraknare/_api/queries/useQueryContraction";
+import { formatDate } from "date-fns";
 
 export default function KickStatistics({
   onBack,
@@ -224,12 +225,7 @@ export default function KickStatistics({
                         {t("kickCounter.stats.kicksCount", { count: s.count })}
                       </p>
                       <p className="text-base! font-normal! text-primary-dark!">
-                        {new Date(s.started_at).toLocaleString("sv-SE", {
-                          day: "2-digit",
-                          month: "short",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
+                        {formatDate(s.started_at, "MMMM d, yyyy 'at' h:mm a")}
                       </p>
                     </div>
                   </div>

@@ -154,11 +154,11 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
         />
       </div>
       <div className="py-[14px] px-2">
-        <h3 className="text-lg font-semibold text-primary-dark">
+        <h3 className="text-lg font-semibold text-primary-dark line-clamp-1">
           {wishlist.title}
         </h3>
         {wishlist.description && (
-          <p className="mt-1 line-clamp-2 text-sm text-text-secondary">
+          <p className="mt-1 text-sm text-text-secondary line-clamp-1">
             {wishlist.description}
           </p>
         )}
