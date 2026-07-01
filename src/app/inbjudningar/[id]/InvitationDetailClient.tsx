@@ -282,12 +282,17 @@ export default function InvitationDetailClient({}: pageProps) {
                       {guest.rsvp_status === "accepted" ? (
                         <div className="w-fit px-5 bg-[#DCFCE7] flex items-center justify-center gap-2.5 rounded-full border-0 text-[#00A63E] font-semibold! mt-3 md:mt-0 py-[7px]">
                           <CircleCheckBig />
-                          Accepted
+                          {statusLabel("accepted")}
+                        </div>
+                      ) : guest.rsvp_status === "declined" ? (
+                        <div className="w-fit px-5 bg-[#FEE2E2] flex items-center justify-center gap-2.5 rounded-full border-0 text-[#E7000B] font-semibold! mt-3 md:mt-0 py-[7px]">
+                          <X size={16} />
+                          {statusLabel("declined")}
                         </div>
                       ) : (
                         <div className="w-fit px-5 bg-[#F2F2F2] flex items-center justify-center gap-2.5 rounded-full border border-[#D1D5DC] text-[#4A5565] font-semibold! mt-3 md:mt-0 py-[7px]">
                           <Clock size={16} />
-                          Pending
+                          {statusLabel("pending")}
                         </div>
                       )}
                     </div>
@@ -358,6 +363,12 @@ export default function InvitationDetailClient({}: pageProps) {
                   <p>{t("invitations.detail.accepted")}</p>
                   <p className="text-[#00A63E]! font-semibold!">
                     {inv?.statistics.accepted}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p>{t("invitations.detail.declined")}</p>
+                  <p className="text-[#E7000B]! font-semibold!">
+                    {inv?.statistics.declined}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
