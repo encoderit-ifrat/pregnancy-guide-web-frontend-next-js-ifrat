@@ -77,7 +77,7 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
       <div className="py-[15px] px-2 flex flex-col flex-1">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-xl font-bold text-primary-dark!">
+            <h3 className="text-xl font-bold text-primary-dark! line-clamp-1">
               {inv.title}
             </h3>
             <p className="text-base font-normal line-clamp-1">{inv.subtitle}</p>
