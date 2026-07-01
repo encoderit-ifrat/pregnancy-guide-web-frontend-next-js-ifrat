@@ -158,7 +158,7 @@ export default function InvitationDetailClient({}: pageProps) {
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-5 mt-[35px] md:mt-[60px]">
           <div>
             <div className="p-3 bg-white border border-[#F3E8FF] rounded-[25px]">
-              <div className="relative w-full h-[146px] md:h-[476px] rounded-[15px] overflow-hidden">
+              <div className="relative w-full h-[174px] md:h-[476px] rounded-[15px] overflow-hidden">
                 <Image
                   src={
                     imageLinkGenerator(inv?.cover_image) ||
@@ -271,10 +271,10 @@ export default function InvitationDetailClient({}: pageProps) {
                           <UserRound className=" text-primary" />
                         </div>
                         <div>
-                          <p className="text-xl! font-semibold! text-primary-dark! line-clamp-1!">
+                          <p className="text-xl! font-semibold! text-primary-dark! max-w-52 md:max-w-2xs truncate">
                             {guest.name}
                           </p>
-                          <p className="text-base! font-normal text-primary-dark! line-clamp-1!">
+                          <p className="text-base! font-normal text-primary-dark! max-w-52 md:max-w-2xs truncate">
                             {guest.email}
                           </p>
                         </div>

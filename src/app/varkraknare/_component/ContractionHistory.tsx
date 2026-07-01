@@ -1,6 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/Accordion";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
@@ -8,6 +14,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import {
   ArrowLeft,
   Calendar,
+  ChevronUp,
   Clock,
   Droplet,
   Timer,
@@ -65,76 +72,96 @@ export default function ContractionHistory({
               {t("contractionCounter.history.noSessions")}
             </Card>
           ) : (
-            sessions.map((s) => (
-              <Card
-                key={s._id}
-                className="p-2 md:p-5 border border-[#F3E8FF] shadow-none bg-white rounded-2xl"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="flex size-9 items-center justify-center rounded-full bg-primary-light">
-                      <Timer className="size-4 text-primary" />
-                    </span>
-                    <div>
-                      <p className="text-[20px]! font-semibold! text-primary-dark!">
-                        {t("contractionCounter.history.contractionsCount", {
-                          count: s.total_count,
-                        })}
-                        <span className="bg-primary-light2 text-xs! px-2 py-0.5 rounded-full !text-primary ml-1">
-                          {fmtFullDuration(
-                            s.ended_at
-                              ? Math.floor(
-                                  (new Date(s.ended_at).getTime() -
-                                    new Date(s.started_at).getTime()) /
-                                    1000
-                                )
-                              : 0
-                          )}
+            <Accordion
+              type="multiple"
+              defaultValue={sessions.map((s) => s._id)}
+            >
+              {sessions.map((s) => (
+                <AccordionItem
+                  key={s._id}
+                  value={s._id}
+                  className="border-0 mb-4"
+                >
+                  <Card className="p-2 md:p-5 border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start md:items-center gap-1 md:gap-3">
+                        <span className="flex size-9 items-center justify-center rounded-full bg-primary-light">
+                          <Timer className="size-4 text-primary" />
                         </span>
-                      </p>
-                      <div className="flex flex-col md:flex-row gap-1 md:gap-2.5">
-                        <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
-                          <Calendar className="size-3" />
-                          {formatDate(s.started_at, "PP")}
-                        </p>
-                        <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
-                          <Clock className="size-3" />
-                          {formatDate(s.started_at, "p")}-
-                          {s.ended_at ? formatDate(s.ended_at, "p") : "..."}
-                        </p>
+                        <div>
+                          <p className="text-base! md:text-[20px]! font-semibold! text-primary-dark! flex items-center gap-1">
+                            <span className="w-[140px] md:w-auto truncate">
+                              {t(
+                                "contractionCounter.history.contractionsCount",
+                                {
+                                  count: s.total_count,
+                                }
+                              )}
+                            </span>
+                            <span className="bg-primary-light2 text-xs! px-2 py-0.5 rounded-full !text-primary ml-1 whitespace-nowrap">
+                              {fmtFullDuration(
+                                s.ended_at
+                                  ? Math.floor(
+                                      (new Date(s.ended_at).getTime() -
+                                        new Date(s.started_at).getTime()) /
+                                        1000
+                                    )
+                                  : 0
+                              )}
+                            </span>
+                          </p>
+                          <div className="flex flex-col md:flex-row gap-1 md:gap-2.5">
+                            <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
+                              <Calendar className="size-3" />
+                              {formatDate(s.started_at, "PP")}
+                            </p>
+                            <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
+                              <Clock className="size-3" />
+                              {formatDate(s.started_at, "p")}-
+                              {s.ended_at ? formatDate(s.ended_at, "p") : "..."}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-around gap-1 md:gap-2">
+                        <button
+                          onClick={() =>
+                            del.mutate(s._id, {
+                              onSuccess: () =>
+                                toast.success(
+                                  t("contractionCounter.history.sessionDeleted")
+                                ),
+                            })
+                          }
+                          className="text-destructive cursor-pointer p-1 md:p-2 rounded-[5px] border border-[#f3e8ff] flex items-center justify-center"
+                        >
+                          <Trash2 className="size-4" />
+                        </button>
+                        <AccordionTrigger className="text-primary bg-primary-light2 rounded-full p-1.5 border border-[#f3e8ff] flex items-center justify-center flex-none gap-0 hover:no-underline w-auto">
+                          <ChevronUp className="size-4" />
+                        </AccordionTrigger>
                       </div>
                     </div>
-                  </div>
-                  <button
-                    onClick={() =>
-                      del.mutate(s._id, {
-                        onSuccess: () =>
-                          toast.success(
-                            t("contractionCounter.history.sessionDeleted")
-                          ),
-                      })
-                    }
-                    className="text-destructive cursor-pointer w-9 h-9 rounded-[10px] border border-[#f3e8ff] flex items-center justify-center"
-                  >
-                    <Trash2 className="size-4" />
-                  </button>
-                </div>
-                <div className="grid grid-cols-3 gap-2 pt-4 text-center">
-                  <Mini
-                    label={t("contractionCounter.history.avgDuration")}
-                    value={fmtDuration(s.avg_duration_sec)}
-                  />
-                  <Mini
-                    label={t("contractionCounter.history.avgInterval")}
-                    value={fmtDuration(s.avg_interval_sec)}
-                  />
-                  <Mini
-                    label={t("contractionCounter.history.totalCount")}
-                    value={String(s.total_count)}
-                  />
-                </div>
-              </Card>
-            ))
+                    <AccordionContent className="py-5 px-1 text-base! font-normal! [&>div]:pt-0">
+                      <div className="grid grid-cols-3 gap-2 pt-4 text-center">
+                        <Mini
+                          label={t("contractionCounter.history.avgDuration")}
+                          value={fmtDuration(s.avg_duration_sec)}
+                        />
+                        <Mini
+                          label={t("contractionCounter.history.avgInterval")}
+                          value={fmtDuration(s.avg_interval_sec)}
+                        />
+                        <Mini
+                          label={t("contractionCounter.history.totalCount")}
+                          value={String(s.total_count)}
+                        />
+                      </div>
+                    </AccordionContent>
+                  </Card>
+                </AccordionItem>
+              ))}
+            </Accordion>
           )}
 
           {(data?.pagination.last_page ?? 1) > 1 && (

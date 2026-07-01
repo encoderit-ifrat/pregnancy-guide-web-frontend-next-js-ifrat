@@ -26,6 +26,7 @@ function TooltipTrigger({
 function TooltipContent({
   className,
   sideOffset = 4,
+  children,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) {
   return (
@@ -38,7 +39,10 @@ function TooltipContent({
           className
         )}
         {...props}
-      />
+      >
+        {children}
+        <TooltipPrimitive.Arrow className="-translate-y-px fill-white stroke-[#F3E8FF] stroke-1" />
+      </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   );
 }

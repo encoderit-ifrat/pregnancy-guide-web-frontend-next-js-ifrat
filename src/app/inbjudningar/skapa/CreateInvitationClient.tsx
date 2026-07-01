@@ -552,12 +552,12 @@ export default function CreateInvitationClient() {
                             alt=""
                             className="h-[76px] w-full object-cover rounded-[5px]"
                           />
-                          <span className="font-outfit! block text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5! line-clamp-1">
+                          <p className="font-outfit! block text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5! line-clamp-1">
                             {w.title}
-                          </span>
-                          <span className="font-outfit! block text-[10px]! text-center! font-medium! text-primary-dark line-clamp-1">
+                          </p>
+                          <p className="font-outfit! block text-[10px]! text-center! font-medium! text-primary-dark line-clamp-2">
                             {w.description}
-                          </span>
+                          </p>
                         </button>
                       ))}
                     </div>

@@ -590,12 +590,12 @@ export default function EditInvitationClient() {
                             alt=""
                             className="h-[76px] w-full object-cover rounded-[5px]"
                           />
-                          <span className="font-outfit! block text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5!">
+                          <p className="font-outfit! block text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5! line-clamp-1!">
                             {w.title}
-                          </span>
-                          <span className="font-outfit! block text-[10px]! text-center! font-medium! text-primary-dark">
+                          </p>
+                          <p className="font-outfit! block text-[10px]! text-center! font-medium! text-primary-dark line-clamp-2!">
                             {w.description}
-                          </span>
+                          </p>
                         </button>
                       ))}
                     </div>
@@ -666,7 +666,10 @@ export default function EditInvitationClient() {
                           setGuestEmail(e.target.value);
                           setEmailError(false);
                         }}
-                        className={cn("rounded-[5px]", emailError && "border-destructive!")}
+                        className={cn(
+                          "rounded-[5px]",
+                          emailError && "border-destructive!"
+                        )}
                         placeholder={t("invitations.builder.emailPlaceholder")}
                         onKeyDown={(e) => e.key === "Enter" && addRecipient()}
                       />
@@ -675,7 +678,9 @@ export default function EditInvitationClient() {
                       </Button>
                     </div>
                     {emailError && (
-                      <p className="text-destructive text-xs mt-1">Invalid email format</p>
+                      <p className="text-destructive text-xs mt-1">
+                        Invalid email format
+                      </p>
                     )}
                   </Field>
                   <div className="flex flex-wrap gap-2">

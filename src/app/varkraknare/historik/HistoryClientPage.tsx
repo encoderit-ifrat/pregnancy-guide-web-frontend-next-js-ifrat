@@ -18,7 +18,7 @@ export default function HistoryClientPage() {
   const router = useRouter();
 
   return (
-    <PageContainer>
+    <PageContainer childClassName="px-2 md:px-4">
       <div className="mx-auto max-w-6xl">
         {userLoading ? (
           <div className="flex justify-center py-20">
