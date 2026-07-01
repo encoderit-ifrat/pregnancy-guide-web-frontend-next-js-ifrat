@@ -33,7 +33,7 @@ export default function InvitationPreview({
   templatePreviewUrl,
 }: Props) {
   const { t } = useTranslation();
-  const fmtDate = date ? formatDate(date, "MMMM MM,yyyy") : null;
+  const fmtDate = date ? formatDate(date, "MMMM dd,yyyy") : null;
   // console.log("templatePreviewUrl", templatePreviewUrl);
   // console.log("coverImage", coverImage);
   // console.log("template", template);
@@ -112,7 +112,7 @@ export default function InvitationPreview({
         <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
           <CalendarDays className="size-3.5 text-primary shrink-0" />
           {t("invitations.preview.latestReply", {
-            date: replyBy ? formatDate(replyBy, "MMMM MM,yyyy") : "",
+            date: replyBy ? formatDate(replyBy, "MMMM dd,yyyy") : "",
           })}
         </p>
       </div>

@@ -56,7 +56,7 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
   };
 
   return (
-    <div className="relative w-full max-w-[316px] md:max-w-[348px] mx-auto h-[483px] bg-white border border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col overflow-hidden">
+    <div className="relative w-full max-w-[316px] md:max-w-[348px] mx-auto h-[483px] bg-white border-1 border-[#F3E8FF] rounded-[15px] p-[5px] shadow-week-details flex flex-col overflow-hidden group transition-all duration-300 hover:border-transparent hover:[background:linear-gradient(white,white)_padding-box,linear-gradient(180deg,rgba(169,122,236,0)_0%,#A97AEC_100%)_border-box]">
       {inv.status === "scheduled" && (
         <div className="absolute z-10 top-[14px] right-3 flex items-center justify-center py-1 px-2.5 bg-primary rounded-[5px]">
           <p className="text-xs! font-medium! text-white!">Scheduled</p>
