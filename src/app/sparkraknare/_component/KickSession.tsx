@@ -1,17 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-import {
-  Activity,
-  Feather,
-  Heart,
-  HelpCircle,
-  Loader2,
-  Square,
-} from "lucide-react";
+import { Activity, Feather, Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ActiveKickSession, KickType } from "../_types/kick_types";
 import { useQueryKickTodaySummary } from "../_api/queries/useQueryKickCounter";
@@ -38,15 +32,18 @@ export default function KickSession({
   session,
   onStop,
   onViewStats,
+  onFirstKick,
 }: {
-  session: ActiveKickSession;
+  session: ActiveKickSession | null;
   onStop?: () => void;
   onViewStats: () => void;
+  onFirstKick?: (type: KickType) => void;
 }) {
   const { t } = useTranslation();
   const { data: summary } = useQueryKickTodaySummary();
   const addKick = useAddKick();
   const stop = useStopKickSession();
+  const [pendingType, setPendingType] = useState<KickType | null>(null);
 
   const buttons: { type: KickType; image: string }[] = [
     { type: "soft", image: "/images/icons/soft-kick.png" },
@@ -55,6 +52,11 @@ export default function KickSession({
   ];
 
   const handleKick = (type: KickType) => {
+    if (!session) {
+      setPendingType(type);
+      onFirstKick?.(type);
+      return;
+    }
     addKick.mutate(
       { sessionId: session._id, type },
       { onError: () => toast.error(t("kickCounter.session.recordError")) }
@@ -62,6 +64,7 @@ export default function KickSession({
   };
 
   const handleStop = () => {
+    if (!session?._id || session?.kicks.length === 0) return;
     stop.mutate(session._id, {
       onSuccess: () => {
         toast.success(t("kickCounter.session.saved"));
@@ -70,7 +73,18 @@ export default function KickSession({
     });
   };
 
+  useEffect(() => {
+    if (pendingType && session?._id) {
+      addKick.mutate(
+        { sessionId: session._id, type: pendingType },
+        { onError: () => toast.error(t("kickCounter.session.recordError")) }
+      );
+      setPendingType(null);
+    }
+  }, [session?._id, pendingType]);
+
   const handleViewStatsClick = () => {
+    if (!session?._id || session?.kicks.length === 0) return;
     stop.mutate(session._id, {
       onSuccess: () => {
         onViewStats();
@@ -100,7 +114,7 @@ export default function KickSession({
               <button
                 key={b.type}
                 onClick={() => handleKick(b.type)}
-                disabled={addKick.isPending}
+                disabled={addKick.isPending || !!pendingType}
                 className={cn(
                   "flex flex-col items-center gap-3 rounded-2xl border-2 border-transparent  py-6 transition-all",
                   "hover:border-primary hover:bg-primary-light disabled:opacity-60 cursor-pointer"
@@ -129,7 +143,7 @@ export default function KickSession({
               <Button
                 variant="outline"
                 onClick={handleViewStatsClick}
-                disabled={stop.isPending}
+                disabled={stop.isPending || (session?.kicks.length ?? 0) === 0}
                 className="w-fit justify-center bg-[#F6F0FB]! border border-primary! text-lg! text-primary!"
               >
                 {stop.isPending && <Loader2 className="size-4 animate-spin" />}
@@ -140,12 +154,12 @@ export default function KickSession({
               </span> */}
             </div>
             <div className="max-h-80 space-y-2.5 overflow-y-auto">
-              {session.kicks.length === 0 && (
+              {(session === null || session?.kicks.length === 0) && (
                 <p className="py-8 text-center text-sm text-text-secondary">
                   {t("kickCounter.session.empty")}
                 </p>
               )}
-              {session.kicks.map((k) => (
+              {session?.kicks.map((k) => (
                 <div
                   key={k._id}
                   className="flex items-center justify-between rounded-[15px] px-3 py-2 bg-[#FCFAFF]"
@@ -156,7 +170,7 @@ export default function KickSession({
                   </span>
                   <p className="flex flex-col items-end">
                     <span className="text-sm font-semibold text-primary-dark">
-                      {formatDate(k.occurred_at, "MMMM M, yyyy")}
+                      {formatDate(k.occurred_at, "MMMM dd, yyyy")}
                     </span>
                     <span className="text-sm font-normal! text-primary-dark">
                       {formatDate(k.occurred_at, "p")}
@@ -205,7 +219,7 @@ export default function KickSession({
           <Button
             variant="outline"
             onClick={handleViewStatsClick}
-            disabled={stop.isPending}
+            disabled={stop.isPending || (session?.kicks.length ?? 0) === 0}
             className="mt-5 w-full justify-center bg-[#F6F0FB]! border border-primary! text-lg! text-primary!"
           >
             {stop.isPending && <Loader2 className="size-4 animate-spin" />}

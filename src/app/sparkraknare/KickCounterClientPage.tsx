@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Footprints } from "lucide-react";
 import { Spinner } from "@/components/ui/Spinner";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
@@ -13,9 +11,9 @@ import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 import {
   useQueryActiveKickSession,
-  kickKeys,
 } from "./_api/queries/useQueryKickCounter";
 import { useStartKickSession } from "./_api/mutations/useKickMutations";
+import { KickType } from "./_types/kick_types";
 import KickLanding from "./_component/KickLanding";
 import KickSession from "./_component/KickSession";
 import KickStatistics from "./_component/KickStatistics";
@@ -28,28 +26,22 @@ export default function KickCounterClientPage() {
   const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const [view, setView] = useState<View>("");
-  const [started, setStarted] = useState(() =>
-    typeof window !== "undefined"
-      ? localStorage.getItem("kickStarted") === "true"
-      : false
-  );
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [showKickSession, setShowKickSession] = useState(false);
 
   const {
-    data: active,
+    data: session,
     isLoading,
     isFetching,
-  } = useQueryActiveKickSession(started);
+  } = useQueryActiveKickSession(!!sessionId);
   const start = useStartKickSession();
-  const qc = useQueryClient();
 
-  const handleStart = () => {
-    localStorage.setItem("kickStarted", "true");
-    setStarted(true);
-    setView("auto");
+  const handleFirstKick = (type: KickType) => {
     start.mutate(undefined, {
+      onSuccess: (newSession) => {
+        setSessionId(newSession._id);
+      },
       onError: (e: unknown) => {
-        localStorage.removeItem("kickStarted");
-        setStarted(false);
         const msg =
           (e as { message?: string })?.message ?? t("kickCounter.startError");
         toast.error(msg);
@@ -58,9 +50,8 @@ export default function KickCounterClientPage() {
   };
 
   const handleStop = () => {
-    localStorage.removeItem("kickStarted");
-    setStarted(false);
-    qc.removeQueries({ queryKey: kickKeys.active });
+    setSessionId(null);
+    setShowKickSession(false);
   };
 
   return (
@@ -69,20 +60,20 @@ export default function KickCounterClientPage() {
         {view != "stats" && (
           <div className="thread-header mb-8 flex flex-col items-center text-center">
             <IconHeading
-              text={active ? t("kickCounter.badge01") : t("kickCounter.badge")}
+              text={showKickSession || session ? t("kickCounter.badge01") : t("kickCounter.badge")}
               image={
-                active
+                showKickSession || session
                   ? "/images/icons/kick-02.png"
                   : "/images/icons/kick-01.png"
               }
               className="text-primary justify-center"
             />
             <SectionHeading className="my-2 mb-6">
-              {active ? t("kickCounter.title01") : t("kickCounter.title")}
+              {showKickSession || session ? t("kickCounter.title01") : t("kickCounter.title")}
             </SectionHeading>
 
             <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
-              {active ? t("kickCounter.subtitle01") : t("kickCounter.subtitle")}
+              {showKickSession || session ? t("kickCounter.subtitle01") : t("kickCounter.subtitle")}
             </p>
           </div>
         )}
@@ -99,12 +90,13 @@ export default function KickCounterClientPage() {
             </Button>
           </Card>
         ) : view === "stats" ? (
-          <KickStatistics onBack={() => setView("")} onStart={handleStart} />
-        ) : active ? (
+          <KickStatistics onBack={() => setView("")} onStart={() => setShowKickSession(true)} />
+        ) : showKickSession || session ? (
           <KickSession
-            session={active}
+            session={session ?? null}
             onStop={handleStop}
             onViewStats={() => setView("stats")}
+            onFirstKick={handleFirstKick}
           />
         ) : start.isPending || isFetching ? (
           <div className="flex justify-center py-20">
@@ -112,8 +104,8 @@ export default function KickCounterClientPage() {
           </div>
         ) : (
           <KickLanding
-            onStart={handleStart}
-            starting={start.isPending}
+            onStart={() => setShowKickSession(true)}
+            starting={false}
             onViewStats={() => setView("stats")}
           />
         )}
