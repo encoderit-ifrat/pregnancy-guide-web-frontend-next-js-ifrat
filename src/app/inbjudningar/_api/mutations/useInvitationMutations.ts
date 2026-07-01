@@ -53,7 +53,7 @@ export const useDuplicateInvitation = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationKey: ["event-invitations", "duplicate"],
-    mutationFn: (id: string) => api.post(`/invitations/${id}/resend`),
+    mutationFn: (id: string) => api.post(`/event-invitations/${id}/duplicate`),
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: ["event-invitations", "list"] }),
   });

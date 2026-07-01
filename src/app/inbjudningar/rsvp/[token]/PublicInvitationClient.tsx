@@ -33,12 +33,17 @@ export default function PublicInvitationClient() {
   const respond = useRespondInvitation();
   const [acceptedOpen, setAcceptedOpen] = useState(false);
 
-  const guestToken = data?.guest?.token ?? token;
+  // RSVP is only possible for personally invited guests (their email link
+  // carries a per-guest token). A generic share link resolves the invitation
+  // but has no guest attached, so it is view-only.
+  const guestToken = data?.guest?.token;
+  const canRespond = !!guestToken;
   const alreadyResponded =
     data?.guest?.rsvp_status === "accepted" ||
     data?.guest?.rsvp_status === "declined";
 
   const handleRespond = (status: "accepted" | "declined") => {
+    if (!guestToken) return;
     respond.mutate(
       { token: guestToken, status },
       {
@@ -101,7 +106,19 @@ export default function PublicInvitationClient() {
               coverImage={data.invitation.cover_image}
             />
 
-            {alreadyResponded ? (
+            {!canRespond ? (
+              <div className="mt-6 flex flex-col items-center gap-3">
+                <Card className="w-full p-5 text-center text-sm text-primary-dark">
+                  {t("invitations.public.viewOnly")}
+                </Card>
+                {data.invitation.has_wishlist && (
+                  <Button onClick={handleSeeWishlist}>
+                    <Gift className="size-4" />{" "}
+                    {t("invitations.public.seeWishlist")}
+                  </Button>
+                )}
+              </div>
+            ) : alreadyResponded ? (
               <Card className="mt-6 p-5 text-center text-sm text-primary-dark">
                 {t("invitations.public.alreadyResponded", {
                   status: t(`invitations.status.${data.guest!.rsvp_status}`),
