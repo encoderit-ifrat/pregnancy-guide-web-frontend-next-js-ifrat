@@ -331,7 +331,7 @@ export default function CreateInvitationClient() {
                       <DatePicker
                         value={date}
                         onChange={setDate}
-                        placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
+                        placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                       />
                     </Field>
@@ -348,7 +348,7 @@ export default function CreateInvitationClient() {
                     <DatePicker
                       value={replyBy}
                       onChange={setReplyBy}
-                      placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
+                      placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                       inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                     />
                   </Field>
@@ -802,7 +802,7 @@ export default function CreateInvitationClient() {
                 title={title}
                 subtitle={subtitle}
                 message={message}
-                date={date?.toISOString()}
+                date={date?.toISOString() || null}
                 time={time}
                 location={location}
                 replyBy={replyBy?.toISOString()}

@@ -89,7 +89,7 @@ export default function ContractionHistory({
                           <Timer className="size-4 text-primary" />
                         </span>
                         <div>
-                          <p className="text-base! md:text-[20px]! font-semibold! text-primary-dark! flex items-center gap-1">
+                          <p className="text-sm! md:text-[20px]! font-semibold! text-primary-dark! flex items-center gap-1">
                             <span className="w-[140px] md:w-auto truncate">
                               {t(
                                 "contractionCounter.history.contractionsCount",

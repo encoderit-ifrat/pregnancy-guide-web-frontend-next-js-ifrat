@@ -33,7 +33,7 @@ export default function InvitationPreview({
   templatePreviewUrl,
 }: Props) {
   const { t } = useTranslation();
-  const fmtDate = date ? formatDate(date, "MMMM dd,yyyy") : null;
+  const fmtDate = date ? formatDate(date, "MMMM dd,yyyy") : "";
   // console.log("templatePreviewUrl", templatePreviewUrl);
   // console.log("coverImage", coverImage);
   // console.log("template", template);
@@ -103,9 +103,9 @@ export default function InvitationPreview({
 
           <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
             <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
-            <span className="leading-[24px]">
+            <p className="leading-[24px] line-clamp-2">
               {location || t("invitations.preview.defaultlocation")}
-            </span>
+            </p>
           </p>
         </div>
 

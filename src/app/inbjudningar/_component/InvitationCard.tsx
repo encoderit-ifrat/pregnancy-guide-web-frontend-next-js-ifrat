@@ -82,44 +82,49 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
             </h3>
             <p className="text-base font-normal line-clamp-1">{inv.subtitle}</p>
           </div>
-          <Popover>
-            <PopoverTrigger asChild className="cursor-pointer">
-              <EllipsisVertical size={20} />
-            </PopoverTrigger>
-            <PopoverContent align="end" className="w-[169px] rounded-[5px] p-0">
-              <Link
-                href={`/inbjudningar/edit/${inv._id}`}
-                className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+          <div className="shrink-0">
+            <Popover>
+              <PopoverTrigger asChild className="cursor-pointer">
+                <EllipsisVertical size={20} />
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="w-[169px] rounded-[5px] p-0"
               >
-                <Pen size={18} className="text-primary" />{" "}
-                <p className="text-sm font-normal">Edit</p>
-              </Link>
-              <div
-                onClick={() =>
-                  duplicateInvitation(inv._id, {
-                    onSuccess: () => {
-                      toast.success("Invitation duplicated");
-                    },
-                  })
-                }
-                className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
-              >
-                {isDuplicatePending ? (
-                  <Spinner />
-                ) : (
-                  <Copy size={18} className="text-primary" />
-                )}
-                <p className="text-sm font-normal">Duplicate</p>
-              </div>
-              <div
-                onClick={() => setIsDeleteOpen(true)}
-                className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
-              >
-                <Trash2 size={18} className="text-primary" />{" "}
-                <p className="text-sm font-normal">Delete</p>
-              </div>
-            </PopoverContent>
-          </Popover>
+                <Link
+                  href={`/inbjudningar/edit/${inv._id}`}
+                  className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+                >
+                  <Pen size={18} className="text-primary" />{" "}
+                  <p className="text-sm font-normal">Edit</p>
+                </Link>
+                <div
+                  onClick={() =>
+                    duplicateInvitation(inv._id, {
+                      onSuccess: () => {
+                        toast.success("Invitation duplicated");
+                      },
+                    })
+                  }
+                  className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+                >
+                  {isDuplicatePending ? (
+                    <Spinner />
+                  ) : (
+                    <Copy size={18} className="text-primary" />
+                  )}
+                  <p className="text-sm font-normal">Duplicate</p>
+                </div>
+                <div
+                  onClick={() => setIsDeleteOpen(true)}
+                  className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
+                >
+                  <Trash2 size={18} className="text-primary" />{" "}
+                  <p className="text-sm font-normal">Delete</p>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
         <div className="flex items-center gap-2 mt-[15px] mb-2">
           <Calendar size={16} className="text-primary" />
@@ -127,9 +132,9 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
             {formatDate(inv.event_date || "", "P")} at {inv.event_time}
           </p>
         </div>
-        <div className="flex items-center gap-2 mb-2 line-clamp-1">
-          <MapPin size={16} className="text-primary" />
-          <p>{inv.location}</p>
+        <div className="flex items-center gap-2 mb-2 ">
+          <MapPin size={16} className="text-primary shrink-0" />
+          <p className="line-clamp-1">{inv.location}</p>
         </div>
         <div className="flex items-center gap-2">
           <Users size={16} className="text-primary" />
