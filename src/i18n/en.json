@@ -1167,8 +1167,6 @@
       "subtitle": "You have been invited to a special celebration.",
       "notFound": "This invitation could not be found or is no longer available.",
       "viewOnly": "This is a shared preview of the invitation. To RSVP, please use the personal invitation link sent to your email.",
-      "rsvpCta": "Respond to invitation (RSVP)",
-      "emailGatePrompt": "To RSVP, please confirm your email address and we'll match you against the guest list.",
       "emailGateTitle": "Confirm your email",
       "emailGateDesc": "Enter the email address you were invited with and we'll match you against the guest list.",
       "emailPlaceholder": "you@email.com",

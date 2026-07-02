@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
@@ -55,54 +55,67 @@ export default function PublicInvitationClient() {
     rsvp_status: RsvpStatus;
     token: string;
   } | null>(null);
+  // The Accept/Decline choice the visitor clicked before being asked for
+  // their email; recorded automatically once the email matches.
+  const [pendingStatus, setPendingStatus] = useState<
+    "accepted" | "declined" | null
+  >(null);
 
-  // RSVP is only possible for personally invited guests (their email link
-  // carries a per-guest token). A generic share link resolves the invitation
-  // but has no guest attached — such visitors must confirm their email against
-  // the guest list before they can respond.
+  // Personally invited guests (their email link carries a per-guest token)
+  // can respond directly. Share-link visitors have no guest attached — when
+  // they click Accept/Decline, an email popup matches them against the guest
+  // list before their response is recorded.
   const guest = data?.guest ?? matchedGuest;
   const guestToken = guest?.token;
   const replyExpired = data?.invitation?.reply_by
     ? data?.invitation?.reply_by < new Date().toISOString()
     : false;
-  const canRespond = !!guestToken && !replyExpired;
   const alreadyResponded =
     guest?.rsvp_status === "accepted" || guest?.rsvp_status === "declined";
 
-  const handleRespond = (status: "accepted" | "declined") => {
-    if (!guestToken) return;
+  const recordResponse = (
+    token: string,
+    status: "accepted" | "declined",
+    fromEmailGate: boolean
+  ) => {
     respond.mutate(
-      { token: guestToken, status },
+      { token, status },
       {
-        onSuccess: () => {
-          if (status === "accepted") setAcceptedOpen(true);
-          else toast.success(t("invitations.public.responseRecorded"));
+        onSuccess: (res) => {
           setMatchedGuest((prev) =>
             prev ? { ...prev, rsvp_status: status } : prev
           );
+          setEmailGateOpen(false);
+          setEmail("");
+          setPendingStatus(null);
+          const wishlistToken = res.data?.data?.wishlist_token;
+          if (fromEmailGate && status === "accepted" && wishlistToken) {
+            // Requirement: after a successful gated accept, go straight to
+            // the shared wishlist.
+            router.push(`/onskelistor/delad/${wishlistToken}`);
+            return;
+          }
+          if (status === "accepted") setAcceptedOpen(true);
+          else toast.success(t("invitations.public.responseRecorded"));
+        },
+        onError: () => {
+          if (fromEmailGate) setEmailError(t("invitations.public.matchError"));
         },
       }
     );
   };
 
-  // Client requirement: when a visitor arrives via the generic share link
-  // (untrackable — no per-guest token), automatically show the email popup so
-  // they can be matched against the guest list before responding. Only once —
-  // if dismissed, the RSVP button below the invitation reopens it.
-  const autoOpenedRef = useRef(false);
-  useEffect(() => {
-    if (
-      !autoOpenedRef.current &&
-      !isLoading &&
-      data &&
-      !data.guest &&
-      !matchedGuest &&
-      !replyExpired
-    ) {
-      autoOpenedRef.current = true;
+  const handleRespond = (status: "accepted" | "declined") => {
+    if (!guestToken) {
+      // Untracked share-link visitor: ask for their email first, then record
+      // the choice they just clicked.
+      setPendingStatus(status);
+      setEmailError(null);
       setEmailGateOpen(true);
+      return;
     }
-  }, [isLoading, data, matchedGuest, replyExpired]);
+    recordResponse(guestToken, status, false);
+  };
 
   const handleMatchGuest = () => {
     const trimmed = email.trim();
@@ -116,12 +129,22 @@ export default function PublicInvitationClient() {
       {
         onSuccess: (resolved) => {
           setMatchedGuest(resolved);
-          setEmailGateOpen(false);
-          setEmail("");
-          // Swap the share-token URL for the guest's personal link so a
-          // reload keeps them matched instead of re-asking for their email.
-          if (resolved.token !== token) {
-            router.replace(`/inbjudningar/rsvp/${resolved.token}`);
+          if (
+            resolved.rsvp_status === "accepted" ||
+            resolved.rsvp_status === "declined"
+          ) {
+            // Guest already responded earlier — show that instead of
+            // recording a second response.
+            setEmailGateOpen(false);
+            setEmail("");
+            setPendingStatus(null);
+            return;
+          }
+          if (pendingStatus) {
+            recordResponse(resolved.token, pendingStatus, true);
+          } else {
+            setEmailGateOpen(false);
+            setEmail("");
           }
         },
         onError: (err) => {
@@ -187,29 +210,12 @@ export default function PublicInvitationClient() {
               coverImage={data.invitation.cover_image}
             />
 
-            {!canRespond ? (
-              replyExpired ? (
-                <div className="mt-6 flex flex-col items-center gap-3">
-                  <Card className="w-full p-5 text-center text-sm text-primary-dark">
-                    {t("invitations.public.viewOnly")}
-                  </Card>
-                </div>
-              ) : (
-                <div className="mt-6 flex flex-col items-center gap-3">
-                  <Card className="w-full p-5 text-center text-sm text-primary-dark">
-                    {t("invitations.public.emailGatePrompt")}
-                  </Card>
-                  <Button
-                    onClick={() => {
-                      setEmailError(null);
-                      setEmailGateOpen(true);
-                    }}
-                  >
-                    <Mail className="size-4" />
-                    {t("invitations.public.rsvpCta")}
-                  </Button>
-                </div>
-              )
+            {replyExpired ? (
+              <div className="mt-6 flex flex-col items-center gap-3">
+                <Card className="w-full p-5 text-center text-sm text-primary-dark">
+                  {t("invitations.public.viewOnly")}
+                </Card>
+              </div>
             ) : alreadyResponded ? (
               <Card className="mt-6 p-5 text-center text-sm text-primary-dark">
                 {t("invitations.public.alreadyResponded", {
@@ -257,7 +263,10 @@ export default function PublicInvitationClient() {
         open={emailGateOpen}
         onOpenChange={(open) => {
           setEmailGateOpen(open);
-          if (!open) setEmailError(null);
+          if (!open) {
+            setEmailError(null);
+            setPendingStatus(null);
+          }
         }}
       >
         <DialogContent className="max-w-md">
@@ -293,9 +302,9 @@ export default function PublicInvitationClient() {
             <Button
               type="submit"
               className="w-full justify-center"
-              disabled={matchGuest.isPending}
+              disabled={matchGuest.isPending || respond.isPending}
             >
-              {matchGuest.isPending ? (
+              {matchGuest.isPending || respond.isPending ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
                 t("invitations.public.emailSubmit")

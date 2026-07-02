@@ -1154,8 +1154,6 @@
       "subtitle": "Du har blivit inbjuden till en speciell fest.",
       "notFound": "Denna inbjudan kunde inte hittas eller är inte längre tillgänglig.",
       "viewOnly": "Detta är en delad förhandsvisning av inbjudan. För att svara (OSA), använd den personliga inbjudningslänken som skickats till din e-post.",
-      "rsvpCta": "Svara på inbjudan (OSA)",
-      "emailGatePrompt": "För att svara (OSA), bekräfta din e-postadress så matchar vi dig mot gästlistan.",
       "emailGateTitle": "Bekräfta din e-post",
       "emailGateDesc": "Ange e-postadressen du blev inbjuden med så matchar vi dig mot gästlistan.",
       "emailPlaceholder": "din@epost.se",
