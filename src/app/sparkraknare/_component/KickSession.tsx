@@ -33,11 +33,13 @@ export default function KickSession({
   onStop,
   onViewStats,
   onFirstKick,
+  isStarting = false,
 }: {
   session: ActiveKickSession | null;
   onStop?: () => void;
   onViewStats: () => void;
   onFirstKick?: (type: KickType) => void;
+  isStarting?: boolean;
 }) {
   const { t } = useTranslation();
   const { data: summary } = useQueryKickTodaySummary();
@@ -74,17 +76,16 @@ export default function KickSession({
   };
 
   useEffect(() => {
-    if (pendingType && session?._id) {
-      addKick.mutate(
-        { sessionId: session._id, type: pendingType },
-        { onError: () => toast.error(t("kickCounter.session.recordError")) }
-      );
+    if (session?._id && pendingType) {
       setPendingType(null);
     }
   }, [session?._id, pendingType]);
 
   const handleViewStatsClick = () => {
-    if (!session?._id || session?.kicks.length === 0) return;
+    if (!session?._id || session?.kicks.length === 0) {
+      onViewStats();
+      return;
+    }
     stop.mutate(session._id, {
       onSuccess: () => {
         onViewStats();
@@ -114,7 +115,7 @@ export default function KickSession({
               <button
                 key={b.type}
                 onClick={() => handleKick(b.type)}
-                disabled={addKick.isPending || !!pendingType}
+                disabled={addKick.isPending || !!pendingType || isStarting}
                 className={cn(
                   "flex flex-col items-center gap-3 rounded-2xl border-2 border-transparent  py-6 transition-all",
                   "hover:border-primary hover:bg-primary-light disabled:opacity-60 cursor-pointer"
@@ -143,7 +144,7 @@ export default function KickSession({
               <Button
                 variant="outline"
                 onClick={handleViewStatsClick}
-                disabled={stop.isPending || (session?.kicks.length ?? 0) === 0}
+                disabled={stop.isPending}
                 className="w-fit justify-center bg-[#F6F0FB]! border border-primary! text-lg! text-primary!"
               >
                 {stop.isPending && <Loader2 className="size-4 animate-spin" />}
@@ -219,7 +220,7 @@ export default function KickSession({
           <Button
             variant="outline"
             onClick={handleViewStatsClick}
-            disabled={stop.isPending || (session?.kicks.length ?? 0) === 0}
+            disabled={stop.isPending}
             className="mt-5 w-full justify-center bg-[#F6F0FB]! border border-primary! text-lg! text-primary!"
           >
             {stop.isPending && <Loader2 className="size-4 animate-spin" />}

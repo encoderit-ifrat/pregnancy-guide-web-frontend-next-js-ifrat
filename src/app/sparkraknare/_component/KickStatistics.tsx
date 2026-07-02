@@ -229,11 +229,10 @@ export default function KickStatistics({
                       </p>
                     </div>
                   </div>
-                  {s.label && (
-                    <span className=" px-3 py-1 text-xl! font-semibold! capitalize text-primary-dark!">
-                      {s.label}
-                    </span>
-                  )}
+
+                  <span className=" px-3 py-1 text-xl! font-semibold! capitalize text-primary-dark!">
+                    {s.label || t("kickCounter.stats.unknown")}
+                  </span>
                 </div>
               ))}
             </div>

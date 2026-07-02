@@ -12,7 +12,7 @@ import Link from "next/link";
 import {
   useQueryActiveKickSession,
 } from "./_api/queries/useQueryKickCounter";
-import { useStartKickSession } from "./_api/mutations/useKickMutations";
+import { useAddKick, useStartKickSession } from "./_api/mutations/useKickMutations";
 import { KickType } from "./_types/kick_types";
 import KickLanding from "./_component/KickLanding";
 import KickSession from "./_component/KickSession";
@@ -35,11 +35,16 @@ export default function KickCounterClientPage() {
     isFetching,
   } = useQueryActiveKickSession(!!sessionId);
   const start = useStartKickSession();
+  const addKick = useAddKick();
 
   const handleFirstKick = (type: KickType) => {
     start.mutate(undefined, {
       onSuccess: (newSession) => {
         setSessionId(newSession._id);
+        addKick.mutate(
+          { sessionId: newSession._id, type },
+          { onError: () => toast.error(t("kickCounter.startError")) }
+        );
       },
       onError: (e: unknown) => {
         const msg =
@@ -78,7 +83,7 @@ export default function KickCounterClientPage() {
           </div>
         )}
 
-        {userLoading || isLoading ? (
+        {userLoading || (isLoading && !showKickSession) ? (
           <div className="flex justify-center py-20">
             <Spinner />
           </div>
@@ -90,13 +95,14 @@ export default function KickCounterClientPage() {
             </Button>
           </Card>
         ) : view === "stats" ? (
-          <KickStatistics onBack={() => setView("")} onStart={() => setShowKickSession(true)} />
+          <KickStatistics onBack={() => setView("")} onStart={() => { setShowKickSession(true); setView(""); }} />
         ) : showKickSession || session ? (
           <KickSession
             session={session ?? null}
             onStop={handleStop}
             onViewStats={() => setView("stats")}
             onFirstKick={handleFirstKick}
+            isStarting={start.isPending || isFetching}
           />
         ) : start.isPending || isFetching ? (
           <div className="flex justify-center py-20">

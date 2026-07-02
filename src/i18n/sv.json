@@ -801,7 +801,8 @@
       "unsure": "Osäker",
       "insights": "Insikter",
       "whenToCall": "When to call your doctor",
-      "startNew": "Starta ny session"
+      "startNew": "Starta ny session",
+      "unknown": "Okänd"
     }
   },
   "contractionCounter": {
