@@ -5,8 +5,15 @@ import { useParams, useRouter } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 import { Spinner } from "@/components/ui/Spinner";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/Dialog";
 import {
   CheckCircle2,
   CircleCheck,
@@ -17,13 +24,18 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { toast } from "sonner";
+import { AxiosError } from "axios";
 import api from "@/lib/axios";
 import { useTranslation } from "@/hooks/useTranslation";
 import InvitationPreview from "../../_component/InvitationPreview";
 import { useQueryPublicInvitation } from "../../_api/queries/useQueryInvitations";
-import { useRespondInvitation } from "../../_api/mutations/useInvitationMutations";
+import {
+  useMatchGuest,
+  useRespondInvitation,
+} from "../../_api/mutations/useInvitationMutations";
 import IconHeading from "@/components/ui/text/IconHeading";
 import { SectionHeading } from "@/components/ui/text/SectionHeading";
+import type { RsvpStatus } from "../../_types/invitation_types";
 
 export default function PublicInvitationClient() {
   const { t } = useTranslation();
@@ -31,19 +43,31 @@ export default function PublicInvitationClient() {
   const router = useRouter();
   const { data, isLoading, isError } = useQueryPublicInvitation(token);
   const respond = useRespondInvitation();
+  const matchGuest = useMatchGuest();
   const [acceptedOpen, setAcceptedOpen] = useState(false);
+  const [emailGateOpen, setEmailGateOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
+  // A guest resolved by matching the visitor's email against the guest list —
+  // used when they arrived via a generic share link (no per-guest token).
+  const [matchedGuest, setMatchedGuest] = useState<{
+    name: string;
+    rsvp_status: RsvpStatus;
+    token: string;
+  } | null>(null);
 
   // RSVP is only possible for personally invited guests (their email link
   // carries a per-guest token). A generic share link resolves the invitation
-  // but has no guest attached, so it is view-only.
-  const guestToken = data?.guest?.token;
+  // but has no guest attached — such visitors must confirm their email against
+  // the guest list before they can respond.
+  const guest = data?.guest ?? matchedGuest;
+  const guestToken = guest?.token;
   const replyExpired = data?.invitation?.reply_by
     ? data?.invitation?.reply_by < new Date().toISOString()
     : false;
   const canRespond = !!guestToken && !replyExpired;
   const alreadyResponded =
-    data?.guest?.rsvp_status === "accepted" ||
-    data?.guest?.rsvp_status === "declined";
+    guest?.rsvp_status === "accepted" || guest?.rsvp_status === "declined";
 
   const handleRespond = (status: "accepted" | "declined") => {
     if (!guestToken) return;
@@ -53,6 +77,36 @@ export default function PublicInvitationClient() {
         onSuccess: () => {
           if (status === "accepted") setAcceptedOpen(true);
           else toast.success(t("invitations.public.responseRecorded"));
+          setMatchedGuest((prev) =>
+            prev ? { ...prev, rsvp_status: status } : prev
+          );
+        },
+      }
+    );
+  };
+
+  const handleMatchGuest = () => {
+    const trimmed = email.trim();
+    if (!trimmed) {
+      setEmailError(t("invitations.public.emailRequired"));
+      return;
+    }
+    setEmailError(null);
+    matchGuest.mutate(
+      { token, email: trimmed },
+      {
+        onSuccess: (resolved) => {
+          setMatchedGuest(resolved);
+          setEmailGateOpen(false);
+          setEmail("");
+        },
+        onError: (err) => {
+          const status = (err as AxiosError)?.response?.status;
+          setEmailError(
+            status === 404
+              ? t("invitations.public.notOnGuestList")
+              : t("invitations.public.matchError")
+          );
         },
       }
     );
@@ -110,21 +164,32 @@ export default function PublicInvitationClient() {
             />
 
             {!canRespond ? (
-              <div className="mt-6 flex flex-col items-center gap-3">
-                <Card className="w-full p-5 text-center text-sm text-primary-dark">
-                  {t("invitations.public.viewOnly")}
-                </Card>
-                {/* {data.invitation.has_wishlist && (
-                  <Button onClick={handleSeeWishlist}>
-                    <Gift className="size-4" />{" "}
-                    {t("invitations.public.seeWishlist")}
+              replyExpired ? (
+                <div className="mt-6 flex flex-col items-center gap-3">
+                  <Card className="w-full p-5 text-center text-sm text-primary-dark">
+                    {t("invitations.public.viewOnly")}
+                  </Card>
+                </div>
+              ) : (
+                <div className="mt-6 flex flex-col items-center gap-3">
+                  <Card className="w-full p-5 text-center text-sm text-primary-dark">
+                    {t("invitations.public.viewOnly")}
+                  </Card>
+                  <Button
+                    onClick={() => {
+                      setEmailError(null);
+                      setEmailGateOpen(true);
+                    }}
+                  >
+                    <Mail className="size-4" />
+                    {t("invitations.public.rsvpCta")}
                   </Button>
-                )} */}
-              </div>
+                </div>
+              )
             ) : alreadyResponded ? (
               <Card className="mt-6 p-5 text-center text-sm text-primary-dark">
                 {t("invitations.public.alreadyResponded", {
-                  status: t(`invitations.status.${data.guest!.rsvp_status}`),
+                  status: t(`invitations.status.${guest!.rsvp_status}`),
                 })}
               </Card>
             ) : (
@@ -163,6 +228,58 @@ export default function PublicInvitationClient() {
           </>
         )}
       </div>
+
+      <Dialog
+        open={emailGateOpen}
+        onOpenChange={(open) => {
+          setEmailGateOpen(open);
+          if (!open) setEmailError(null);
+        }}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <div className="mx-auto mb-2 flex size-14 items-center justify-center rounded-full bg-primary-light">
+              <Mail className="size-7 text-primary" />
+            </div>
+            <DialogTitle className="text-center text-lg font-bold text-primary-dark">
+              {t("invitations.public.emailGateTitle")}
+            </DialogTitle>
+            <DialogDescription className="text-center text-sm text-text-secondary">
+              {t("invitations.public.emailGateDesc")}
+            </DialogDescription>
+          </DialogHeader>
+          <form
+            className="mt-2 flex flex-col gap-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleMatchGuest();
+            }}
+          >
+            <Input
+              type="email"
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("invitations.public.emailPlaceholder")}
+              aria-invalid={!!emailError}
+            />
+            {emailError && (
+              <p className="text-sm text-red-600">{emailError}</p>
+            )}
+            <Button
+              type="submit"
+              className="w-full justify-center"
+              disabled={matchGuest.isPending}
+            >
+              {matchGuest.isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                t("invitations.public.emailSubmit")
+              )}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={acceptedOpen} onOpenChange={setAcceptedOpen}>
         <DialogContent className="max-w-md text-center">

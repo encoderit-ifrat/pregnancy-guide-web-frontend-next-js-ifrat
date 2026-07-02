@@ -102,6 +102,22 @@ export const useSendInvitation = () => {
   });
 };
 
+export const useMatchGuest = () =>
+  useMutation({
+    mutationKey: ["event-invitations", "match-guest"],
+    mutationFn: async ({ token, email }: { token: string; email: string }) => {
+      const res = await api.post(
+        `/public/event-invitations/${token}/match-guest`,
+        { email }
+      );
+      return res.data.data as {
+        name: string;
+        rsvp_status: "pending" | "viewed" | "accepted" | "declined";
+        token: string;
+      };
+    },
+  });
+
 export const useRespondInvitation = () => {
   const qc = useQueryClient();
   return useMutation({
