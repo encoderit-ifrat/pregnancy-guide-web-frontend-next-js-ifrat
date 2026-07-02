@@ -348,9 +348,11 @@ export default function WishlistDetailClient() {
                               </TooltipTrigger>
                               <TooltipContent
                                 side="left"
-                                className="bg-white border border-[#F3E8FF]"
+                                className="bg-white border border-[#F3E8FF] max-w-[200px]"
                               >
-                                <p>{item.description || "—"}</p>
+                                <p className="text-sm! font-normal!">
+                                  {item.description || "—"}
+                                </p>
                               </TooltipContent>
                             </Tooltip>
                             <div

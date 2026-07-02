@@ -296,9 +296,7 @@ export default function PublicInvitationClient() {
               placeholder={t("invitations.public.emailPlaceholder")}
               aria-invalid={!!emailError}
             />
-            {emailError && (
-              <p className="text-sm text-red-600">{emailError}</p>
-            )}
+            {emailError && <p className="text-sm text-red-600">{emailError}</p>}
             <Button
               type="submit"
               className="w-full justify-center"

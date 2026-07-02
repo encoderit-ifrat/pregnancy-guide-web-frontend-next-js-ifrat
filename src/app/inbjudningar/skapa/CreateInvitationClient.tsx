@@ -257,7 +257,6 @@ export default function CreateInvitationClient() {
       );
     }
   };
-
   return (
     <PageContainer>
       <div className="mx-auto max-w-6xl ">

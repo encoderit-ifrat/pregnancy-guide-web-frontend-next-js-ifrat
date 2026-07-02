@@ -145,7 +145,7 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
           <p>{inv.rsvp_rate || 0} RSVPs</p>
         </div>
         <Link
-          href="/wishlists"
+          href={inv.wishlist ? `/onskelistor/${inv.wishlist}` : "/onskelistor"}
           className="w-fit mt-[15px] mb-5 font-normal bg-transparent border border-[#E9D4FF] text-base text-primary px-2.5 py-[4px] rounded-[5px] inline-flex items-center justify-center gap-2"
         >
           <Gift size={18} className="text-primary" />

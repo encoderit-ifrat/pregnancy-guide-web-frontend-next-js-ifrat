@@ -121,8 +121,8 @@ export default function PublicWishlistClient() {
                         return (
                           <tr
                             key={item._id}
-                            onClick={() => setClaimItem(item)}
-                            className="border-b last:border-0 cursor-pointer"
+                            onClick={() => !claimed && setClaimItem(item)}
+                            className={`border-b last:border-0 ${!claimed ? "cursor-pointer" : ""}`}
                           >
                             <td className="px-5 py-3 font-medium text-primary-dark">
                               {item.title}
@@ -158,7 +158,9 @@ export default function PublicWishlistClient() {
                                     <ExternalLink className="size-3.5" />
                                   </a>
                                 ) : (
-                                  <span className="text-text-secondary">—</span>
+                                  <p className="min-w-[110px] text-text-secondary">
+                                    —
+                                  </p>
                                 )}
                                 <Tooltip>
                                   <TooltipTrigger asChild>
@@ -188,8 +190,10 @@ export default function PublicWishlistClient() {
                   {wishlist.items.map((item) => (
                     <div
                       key={item._id}
-                      onClick={() => setClaimItem(item)}
-                      className="flex flex-col gap-4 border border-[#F3E8FF] rounded-[15px] py-[11px] px-[13px] cursor-pointer"
+                      onClick={() =>
+                        item.claim_status !== "claimed" && setClaimItem(item)
+                      }
+                      className={`flex flex-col gap-4 border border-[#F3E8FF] rounded-[15px] py-[11px] px-[13px] ${item.claim_status === "claimed" ? "cursor-not-allowed" : "cursor-pointer"}`}
                     >
                       <div className="flex justify-between items-center">
                         <div>
@@ -217,9 +221,11 @@ export default function PublicWishlistClient() {
                           </TooltipTrigger>
                           <TooltipContent
                             side="left"
-                            className="bg-white border border-[#F3E8FF]"
+                            className="bg-white border border-[#F3E8FF] max-w-[200px]"
                           >
-                            <p>{item.description || "—"}</p>
+                            <p className="text-sm! font-normal!">
+                              {item.description || "—"}
+                            </p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
