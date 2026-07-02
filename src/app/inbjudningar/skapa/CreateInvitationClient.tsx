@@ -134,6 +134,22 @@ export default function CreateInvitationClient() {
       toast.error(t("invitations.builder.titleRequired"));
       return;
     }
+    if (step === 0 && !date) {
+      toast.error(t("invitations.builder.dateRequired"));
+      return;
+    }
+    if (step === 0 && !time) {
+      toast.error(t("invitations.builder.timeRequired"));
+      return;
+    }
+    if (step === 0 && !replyBy) {
+      toast.error(t("invitations.builder.replyByRequired"));
+      return;
+    }
+    if (step === 0 && !location.trim()) {
+      toast.error(t("invitations.builder.locationRequired"));
+      return;
+    }
     if (step === 3 && recipients.length === 0) {
       toast.error(t("invitations.builder.recipientRequired"));
       return;
@@ -552,10 +568,10 @@ export default function CreateInvitationClient() {
                             alt=""
                             className="h-[76px] w-full object-cover rounded-[5px]"
                           />
-                          <p className="font-outfit! block text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5! line-clamp-1">
+                          <p className="font-outfit! text-center! text-[11px]! font-semibold! text-primary-dark mt-1.5! mb-0.5! line-clamp-1">
                             {w.title}
                           </p>
-                          <p className="font-outfit! block text-[10px]! text-center! font-medium! text-primary-dark line-clamp-2">
+                          <p className="font-outfit! text-[10px]! text-center! font-medium! text-primary-dark line-clamp-2">
                             {w.description}
                           </p>
                         </button>

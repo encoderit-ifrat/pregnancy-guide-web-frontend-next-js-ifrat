@@ -101,8 +101,12 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
                 <div
                   onClick={() =>
                     duplicateInvitation(inv._id, {
-                      onSuccess: () => {
+                      onSuccess: (res: any) => {
                         toast.success("Invitation duplicated");
+                        const newId = res?.data?.data?._id;
+                        if (newId) {
+                          router.push(`/inbjudningar/edit/${newId}`);
+                        }
                       },
                     })
                   }

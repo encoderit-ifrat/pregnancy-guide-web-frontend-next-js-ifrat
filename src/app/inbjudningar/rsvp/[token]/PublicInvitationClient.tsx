@@ -37,7 +37,10 @@ export default function PublicInvitationClient() {
   // carries a per-guest token). A generic share link resolves the invitation
   // but has no guest attached, so it is view-only.
   const guestToken = data?.guest?.token;
-  const canRespond = !!guestToken;
+  const replyExpired = data?.invitation?.reply_by
+    ? data?.invitation?.reply_by < new Date().toISOString()
+    : false;
+  const canRespond = !!guestToken && !replyExpired;
   const alreadyResponded =
     data?.guest?.rsvp_status === "accepted" ||
     data?.guest?.rsvp_status === "declined";
@@ -111,12 +114,12 @@ export default function PublicInvitationClient() {
                 <Card className="w-full p-5 text-center text-sm text-primary-dark">
                   {t("invitations.public.viewOnly")}
                 </Card>
-                {data.invitation.has_wishlist && (
+                {/* {data.invitation.has_wishlist && (
                   <Button onClick={handleSeeWishlist}>
                     <Gift className="size-4" />{" "}
                     {t("invitations.public.seeWishlist")}
                   </Button>
-                )}
+                )} */}
               </div>
             ) : alreadyResponded ? (
               <Card className="mt-6 p-5 text-center text-sm text-primary-dark">
