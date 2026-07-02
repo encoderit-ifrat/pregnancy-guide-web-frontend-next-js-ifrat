@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
@@ -85,6 +85,25 @@ export default function PublicInvitationClient() {
     );
   };
 
+  // Client requirement: when a visitor arrives via the generic share link
+  // (untrackable — no per-guest token), automatically show the email popup so
+  // they can be matched against the guest list before responding. Only once —
+  // if dismissed, the RSVP button below the invitation reopens it.
+  const autoOpenedRef = useRef(false);
+  useEffect(() => {
+    if (
+      !autoOpenedRef.current &&
+      !isLoading &&
+      data &&
+      !data.guest &&
+      !matchedGuest &&
+      !replyExpired
+    ) {
+      autoOpenedRef.current = true;
+      setEmailGateOpen(true);
+    }
+  }, [isLoading, data, matchedGuest, replyExpired]);
+
   const handleMatchGuest = () => {
     const trimmed = email.trim();
     if (!trimmed) {
@@ -99,6 +118,11 @@ export default function PublicInvitationClient() {
           setMatchedGuest(resolved);
           setEmailGateOpen(false);
           setEmail("");
+          // Swap the share-token URL for the guest's personal link so a
+          // reload keeps them matched instead of re-asking for their email.
+          if (resolved.token !== token) {
+            router.replace(`/inbjudningar/rsvp/${resolved.token}`);
+          }
         },
         onError: (err) => {
           const status = (err as AxiosError)?.response?.status;
@@ -173,7 +197,7 @@ export default function PublicInvitationClient() {
               ) : (
                 <div className="mt-6 flex flex-col items-center gap-3">
                   <Card className="w-full p-5 text-center text-sm text-primary-dark">
-                    {t("invitations.public.viewOnly")}
+                    {t("invitations.public.emailGatePrompt")}
                   </Card>
                   <Button
                     onClick={() => {
