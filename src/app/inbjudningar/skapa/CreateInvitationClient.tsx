@@ -946,6 +946,7 @@ function SummaryRow({
   value: string | null;
   icon: React.ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex justify-between bg-[#FAFAFD] rounded-[5px] px-[15px] py-2.5">
       <div className="flex items-center gap-[10px]">
@@ -953,7 +954,7 @@ function SummaryRow({
         <span className="font-outfit! text-text-secondary">{label}</span>
       </div>
       <span className="font-outfit! font-medium text-primary-dark">
-        {value || "custom"}
+        {value || t("invitations.builder.custom")}
       </span>
     </div>
   );

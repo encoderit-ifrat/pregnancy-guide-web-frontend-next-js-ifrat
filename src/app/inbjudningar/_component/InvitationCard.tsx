@@ -77,10 +77,12 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
       <div className="py-[15px] px-2 flex flex-col flex-1">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-xl font-bold text-primary-dark! line-clamp-1">
+            <h3 className="text-lg! md:text-xl! font-semibold! text-primary-dark! line-clamp-1">
               {inv.title}
             </h3>
-            <p className="text-base font-normal line-clamp-1">{inv.subtitle}</p>
+            <p className="text-sm! md:text-base! font-normal! line-clamp-1">
+              {inv.subtitle}
+            </p>
           </div>
           <div className="shrink-0">
             <Popover>
@@ -132,21 +134,25 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
         </div>
         <div className="flex items-center gap-2 mt-[15px] mb-2">
           <Calendar size={16} className="text-primary" />
-          <p>
+          <p className="text-sm! md:text-base! font-normal!">
             {formatDate(inv.event_date || "", "P")} at {inv.event_time}
           </p>
         </div>
         <div className="flex items-center gap-2 mb-2 ">
           <MapPin size={16} className="text-primary shrink-0" />
-          <p className="line-clamp-1">{inv.location}</p>
+          <p className="text-sm! md:text-base! font-normal! line-clamp-1">
+            {inv.location}
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Users size={16} className="text-primary" />
-          <p>{inv.rsvp_rate || 0} RSVPs</p>
+          <p className="text-sm! md:text-base! font-normal!">
+            {inv.rsvp_rate || 0} RSVPs
+          </p>
         </div>
         <Link
           href={inv.wishlist ? `/onskelistor/${inv.wishlist}` : "/onskelistor"}
-          className="w-fit mt-[15px] mb-5 font-normal bg-transparent border border-[#E9D4FF] text-base text-primary px-2.5 py-[4px] rounded-[5px] inline-flex items-center justify-center gap-2"
+          className="w-fit mt-[15px] mb-5 font-normal bg-transparent border border-[#E9D4FF] text-sm md:text-base text-primary px-2.5 py-[4px] rounded-[5px] inline-flex items-center justify-center gap-2"
         >
           <Gift size={18} className="text-primary" />
           {t("invitations.wishlistAttached")}
@@ -154,7 +160,7 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
         <div className="flex items-center w-full gap-2 mt-auto">
           <Link
             href={`/inbjudningar/${inv._id}`}
-            className="flex-1 font-semibold bg-[#F6F0FB] border border-primary text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center justify-center gap-2"
+            className="flex-1 font-semibold bg-[#F6F0FB] border border-primary text-base md:text-lg text-primary px-4 py-[9px] md:py-2.5 rounded-full shadow-invitation-box inline-flex items-center justify-center gap-2"
           >
             {t("invitations.viewDetails")}
           </Link>
