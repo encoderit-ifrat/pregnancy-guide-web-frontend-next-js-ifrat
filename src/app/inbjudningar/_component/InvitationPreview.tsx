@@ -83,29 +83,27 @@ export default function InvitationPreview({
         </h3>
 
         <p className="font-outfit! text-[11px]! md:text-base! text-primary">
-          {subtitle || t("invitations.preview.eventSubtitle")}
+          {subtitle || ""}
         </p>
 
         <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! text-text-secondary mt-2 mb-[9px] line-clamp-2">
-          {message || t("invitations.preview.defaultMessage")}
+          {message || ""}
         </p>
 
         <div className="grid grid-cols-3 border-y border-y-[#ECE8F5] gap-3 py-2 text-primary-dark">
           <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! border-r border-r-[#ECE8F5]! font-semibold!">
             <CalendarDays className="size-3.5 text-primary shrink-0" />{" "}
-            <span>{fmtDate || t("invitations.preview.defaultdate")}</span>
+            <span>{fmtDate || ""}</span>
           </p>
 
           <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold! border-r border-r-[#ECE8F5]!">
             <Clock className="size-3.5 text-primary shrink-0" />{" "}
-            <span>{time || t("invitations.preview.defaulttime")}</span>
+            <span>{time || ""}</span>
           </p>
 
           <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
             <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
-            <p className="leading-[24px] line-clamp-2">
-              {location || t("invitations.preview.defaultlocation")}
-            </p>
+            <p className="leading-[24px] line-clamp-2">{location || ""}</p>
           </p>
         </div>
 

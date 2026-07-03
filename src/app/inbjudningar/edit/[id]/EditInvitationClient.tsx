@@ -41,6 +41,7 @@ import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
   DeliveryOption,
+  InvitationStatus,
   InvitationTemplate,
   Recipient,
 } from "../../_types/invitation_types";
@@ -111,6 +112,7 @@ export default function EditInvitationClient() {
   const [scheduleAt, setScheduleAt] = useState<Date | undefined>();
   const [scheduleTime, setScheduleTime] = useState("");
   const [sendLater, setSendLater] = useState(false);
+  const [status, setStatus] = useState<InvitationStatus>("sent");
   const [coverImage, setCoverImage] = useState<string | undefined>();
   const [coverImageName, setCoverImageName] = useState<string>("");
   const [emailError, setEmailError] = useState(false);
@@ -130,10 +132,11 @@ export default function EditInvitationClient() {
       setMessage(inv.message || "");
       setLocation(inv.location || "");
       setTime(inv.event_time || "");
-      setTemplate(inv.template || null);
+      setTemplate(templates.find((t) => t.slug === inv.template)?._id || null);
       setWishlistId(inv.wishlist || undefined);
       setDelivery(inv.delivery_options || ["email"]);
       setSendLater(!!inv.scheduled_at);
+      setStatus(inv.status || "sent");
       if (inv.scheduled_at) {
         const d = new Date(inv.scheduled_at);
         setScheduleAt(d);
@@ -160,6 +163,10 @@ export default function EditInvitationClient() {
       }
     }
   }, [invitationDetail]);
+
+  useEffect(() => {
+    setStatus(sendLater ? "scheduled" : "sent");
+  }, [sendLater]);
 
   useEffect(() => {
     if (
@@ -267,6 +274,7 @@ export default function EditInvitationClient() {
       location: location.trim() || undefined,
       wishlist: wishlistId,
       delivery_options: delivery,
+      status,
     };
 
     if (JSON.stringify(recipients) !== JSON.stringify(originalRecipients)) {
@@ -375,6 +383,7 @@ export default function EditInvitationClient() {
                         onChange={setDate}
                         placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                        fromDate={new Date()}
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
@@ -392,6 +401,7 @@ export default function EditInvitationClient() {
                       onChange={setReplyBy}
                       placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
                       inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                      fromDate={new Date()}
                     />
                   </Field>
                   <Field label={t("invitations.builder.location")}>
@@ -784,6 +794,26 @@ export default function EditInvitationClient() {
                     </div>
                   </Field>
 
+                  <Field label={t("invitations.builder.status")}>
+                    <select
+                      value={status}
+                      onChange={(e) =>
+                        setStatus(e.target.value as InvitationStatus)
+                      }
+                      className="font-outfit! w-full rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-3 py-2.5 text-sm text-primary-dark"
+                    >
+                      <option value="sent">
+                        {t("invitations.builder.sent")}
+                      </option>
+                      <option value="scheduled">
+                        {t("invitations.builder.scheduled")}
+                      </option>
+                      <option value="draft">
+                        {t("invitations.builder.draft")}
+                      </option>
+                    </select>
+                  </Field>
+
                   <Field label={""}>
                     <p className="font-outfit! font-semibold! text-primary-dark! mb-2">
                       {t("invitations.builder.scheduleSend")}
@@ -811,6 +841,7 @@ export default function EditInvitationClient() {
                             onChange={setScheduleAt}
                             placeholder="dd-mm-yyy"
                             inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                            fromDate={new Date()}
                           />
                         </Field>
 

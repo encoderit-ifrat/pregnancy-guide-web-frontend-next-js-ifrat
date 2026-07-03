@@ -26,6 +26,7 @@ import { useDeleteContractionSession } from "../_api/mutations/useContractionMut
 import Link from "next/link";
 import { fmtDuration, fmtFullDuration } from "../_lib/format";
 import { formatDate } from "date-fns";
+import Pagination from "@/components/base/Pagination";
 
 export default function ContractionHistory({
   onViewStats,
@@ -165,24 +166,29 @@ export default function ContractionHistory({
           )}
 
           {(data?.pagination.last_page ?? 1) > 1 && (
-            <div className="flex justify-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page <= 1}
-                onClick={() => setPage((p) => p - 1)}
-              >
-                {t("contractionCounter.history.previous")}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page >= (data?.pagination.last_page ?? 1)}
-                onClick={() => setPage((p) => p + 1)}
-              >
-                {t("contractionCounter.history.next")}
-              </Button>
-            </div>
+            <Pagination
+              currentPage={data?.pagination.current_page}
+              totalPages={data?.pagination.last_page}
+              onPageChange={setPage}
+            />
+            // <div className="flex justify-center gap-2">
+            //   <Button
+            //     variant="outline"
+            //     size="sm"
+            //     disabled={page <= 1}
+            //     onClick={() => setPage((p) => p - 1)}
+            //   >
+            //     {t("contractionCounter.history.previous")}
+            //   </Button>
+            //   <Button
+            //     variant="outline"
+            //     size="sm"
+            //     disabled={page >= ( ?? 1)}
+            //     onClick={() => setPage((p) => p + 1)}
+            //   >
+            //     {t("contractionCounter.history.next")}
+            //   </Button>
+            // </div>
           )}
         </div>
 

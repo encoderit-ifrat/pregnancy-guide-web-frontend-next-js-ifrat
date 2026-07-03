@@ -182,6 +182,7 @@ export default function CreateWishlistModal({
                 onChange={setReplyBy}
                 placeholder="dd-mm-yyy"
                 inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                fromDate={new Date()}
               />
             </Field>
           </div>

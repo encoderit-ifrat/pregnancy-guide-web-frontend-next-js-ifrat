@@ -17,12 +17,14 @@ export function DatePicker({
   placeholder,
   disabled,
   inputClassName,
+  fromDate,
 }: {
   value?: Date;
   onChange: (date?: Date) => void;
   placeholder?: string;
   disabled?: boolean;
   inputClassName?: string;
+  fromDate?: Date;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -78,6 +80,11 @@ export function DatePicker({
           captionLayout="dropdown"
           startMonth={new Date(1980, 0)} // January 1980
           endMonth={new Date(2130, 11)} // December 2030
+          disabled={
+            fromDate
+              ? { before: new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) }
+              : undefined
+          }
           onSelect={(date) => {
             if (date) {
               const localDate = toLocalDate(date);

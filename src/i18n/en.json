@@ -816,7 +816,10 @@
       "insights": "Insights",
       "whenToCall": "When to call your doctor",
       "startNew": "Start New Session",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "soft": "Soft",
+      "hard": "Hard",
+      "mixed": "Mixed"
     }
   },
   "contractionCounter": {
@@ -1087,6 +1090,9 @@
       "guestName": "Guest Name",
       "guestNamePlaceholder": "Enter guest name",
       "email": "Email",
+      "sent": "Sent",
+      "scheduled": "Scheduled",
+      "draft": "Draft",
       "emailPlaceholder": "Enter email address",
       "add": "Add",
       "totalGuests": "Total Guests",

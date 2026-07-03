@@ -234,7 +234,13 @@ export default function KickStatistics({
                   </div>
 
                   <span className=" px-3 py-1 text-xl! font-semibold! capitalize text-primary-dark!">
-                    {s.label || t("kickCounter.stats.unknown")}
+                    {s.label === "soft"
+                      ? t("kickCounter.stats.soft")
+                      : s.label === "hard"
+                        ? t("kickCounter.stats.hard")
+                        : s.label === "mixed"
+                          ? t("kickCounter.stats.mixed")
+                          : t("kickCounter.stats.unknown")}
                   </span>
                 </div>
               ))}

@@ -348,6 +348,7 @@ export default function CreateInvitationClient() {
                         onChange={setDate}
                         placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                        fromDate={new Date()}
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
@@ -365,6 +366,7 @@ export default function CreateInvitationClient() {
                       onChange={setReplyBy}
                       placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                       inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                      fromDate={new Date()}
                     />
                   </Field>
                   <Field label={t("invitations.builder.location")}>
@@ -788,6 +790,7 @@ export default function CreateInvitationClient() {
                             onChange={setScheduleAt}
                             placeholder="dd-mm-yyy"
                             inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
+                            fromDate={new Date()}
                           />
                         </Field>
 

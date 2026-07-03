@@ -803,7 +803,10 @@
       "insights": "Insikter",
       "whenToCall": "When to call your doctor",
       "startNew": "Starta ny session",
-      "unknown": "Okänd"
+      "unknown": "Okänd",
+      "soft": "Mjuk",
+      "hard": "Hård",
+      "mixed": "Blandad"
     }
   },
   "contractionCounter": {
@@ -1075,6 +1078,9 @@
       "guestName": "Gästens namn",
       "guestNamePlaceholder": "Ange gästens namn",
       "email": "E-post",
+      "sent": "Skickat",
+      "scheduled": "Schemalagd",
+      "draft": "Utkast",
       "emailPlaceholder": "Ange e-postadress",
       "add": "Lägg till",
       "totalGuests": "Totalt antal gäster",
