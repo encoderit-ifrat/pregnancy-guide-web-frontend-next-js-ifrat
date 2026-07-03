@@ -1,3 +1,5 @@
+import { LaravelPagination } from "@/types/pagination";
+
 export interface Contraction {
   _id: string;
   session: string;
@@ -60,4 +62,5 @@ export interface ContractionStatistics {
     avg_duration_sec: number;
     avg_interval_sec: number;
   }[];
+  recent_sessions_pagination: LaravelPagination;
 }

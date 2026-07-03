@@ -12,6 +12,7 @@ import InvitationCard from "./_component/InvitationCard";
 import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { useQueryInvitations } from "./_api/queries/useQueryInvitations";
+import Pagination from "@/components/base/Pagination";
 
 type InvitatioinsClientPageProps = object;
 
@@ -41,7 +42,8 @@ function SkeletonInvitationCard() {
 export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("all");
-  const { data, isLoading } = useQueryInvitations(activeTab);
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useQueryInvitations(activeTab, page);
 
   const invitations = data?.data ?? [];
   // console.log("invitations", invitations);
@@ -81,7 +83,7 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
         <div className="bg-transparent md:bg-white border-0 md:border border-[#E5E7EB] rounded-2xl px-2.5 lg:px-6 pt-6 pb-6 shadow-none md:shadow-sm">
           <Tabs
             value={activeTab}
-            onValueChange={setActiveTab}
+            onValueChange={(v) => { setActiveTab(v); setPage(1); }}
             className="w-full lg:px-0 xl:px-[66px] lg:py-[65px]"
           >
             <div className="flex flex-col lg:flex-row justify-between items-center gap-3 pb-4 mb-4">
@@ -164,7 +166,7 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                     ))}
                   </div>
                 </>
-              ) : (
+                ) : (
                 <div className="h-[373px] w-full flex flex-col items-center justify-center">
                   <Image
                     src={"/images/icons/no-inv.png"}
@@ -180,6 +182,13 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                     {t("invitations.noInvitationsDesc")}
                   </p>
                 </div>
+              )}
+              {data && invitations.length > 0 && (
+                <Pagination
+                  currentPage={data.pagination.current_page}
+                  totalPages={data.pagination.last_page}
+                  onPageChange={setPage}
+                />
               )}
             </TabsContent>
             <TabsContent
@@ -253,6 +262,13 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                   </p>
                 </div>
               )}
+              {data && invitations.length > 0 && (
+                <Pagination
+                  currentPage={data.pagination.current_page}
+                  totalPages={data.pagination.last_page}
+                  onPageChange={setPage}
+                />
+              )}
             </TabsContent>
             <TabsContent
               value="sent"
@@ -325,6 +341,13 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                   </p>
                 </div>
               )}
+              {data && invitations.length > 0 && (
+                <Pagination
+                  currentPage={data.pagination.current_page}
+                  totalPages={data.pagination.last_page}
+                  onPageChange={setPage}
+                />
+              )}
             </TabsContent>
             <TabsContent
               value="scheduled"
@@ -396,6 +419,13 @@ export default function InvitatioinsClientPage({}: InvitatioinsClientPageProps) 
                     {t("invitations.noInvitationsDesc")}
                   </p>
                 </div>
+              )}
+              {data && invitations.length > 0 && (
+                <Pagination
+                  currentPage={data.pagination.current_page}
+                  totalPages={data.pagination.last_page}
+                  onPageChange={setPage}
+                />
               )}
             </TabsContent>
           </Tabs>

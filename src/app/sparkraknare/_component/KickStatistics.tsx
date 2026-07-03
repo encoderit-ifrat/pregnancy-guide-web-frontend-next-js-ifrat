@@ -30,6 +30,8 @@ import { Spinner } from "@/components/ui/Spinner";
 import Link from "next/link";
 import { useQueryContractionSettings } from "@/app/varkraknare/_api/queries/useQueryContraction";
 import { formatDate } from "date-fns";
+import Pagination from "@/components/base/Pagination";
+import { useState } from "react";
 
 export default function KickStatistics({
   onBack,
@@ -39,7 +41,8 @@ export default function KickStatistics({
   onStart: () => void;
 }) {
   const { t } = useTranslation();
-  const { data: stats, isLoading } = useQueryKickStatistics("week");
+  const [page, setPage] = useState(1);
+  const { data: stats, isLoading } = useQueryKickStatistics("week", page);
   const { data: settings } = useQueryContractionSettings();
 
   if (isLoading || !stats) {
@@ -236,6 +239,11 @@ export default function KickStatistics({
                 </div>
               ))}
             </div>
+            <Pagination
+              currentPage={stats.session_history_pagination.current_page}
+              totalPages={stats.session_history_pagination.last_page}
+              onPageChange={setPage}
+            />
           </Card>
         </div>
 

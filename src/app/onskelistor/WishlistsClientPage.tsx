@@ -19,12 +19,14 @@ import { Slider } from "@/components/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { toast } from "sonner";
+import Pagination from "@/components/base/Pagination";
 
 export default function WishlistsClientPage() {
   const { t } = useTranslation();
   const { isAuthenticated, isLoading: userLoading } = useCurrentUser();
   const [createOpen, setCreateOpen] = useState(false);
-  const { data, isLoading } = useQueryWishlists();
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useQueryWishlists(page);
 
   const wishlists = data?.data ?? [];
 
@@ -120,6 +122,11 @@ export default function WishlistsClientPage() {
                   <WishlistCard key={w._id} wishlist={w} />
                 ))}
               </div>
+              <Pagination
+                currentPage={data?.pagination?.current_page ?? 1}
+                totalPages={data?.pagination?.last_page ?? 1}
+                onPageChange={setPage}
+              />
             </>
           )}
         </Card>

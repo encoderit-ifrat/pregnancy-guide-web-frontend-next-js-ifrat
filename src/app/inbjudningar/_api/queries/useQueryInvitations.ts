@@ -16,7 +16,7 @@ export const invitationKeys = {
   public: (token: string) => ["event-invitations", "public", token] as const,
 };
 
-export const useQueryInvitations = (status = "all", page = 1, limit = 12) =>
+export const useQueryInvitations = (status = "all", page = 1, limit = 6) =>
   useQuery({
     queryKey: invitationKeys.list(status, page),
     queryFn: async () => {

@@ -32,6 +32,7 @@ import {
 import { fmtDuration } from "../_lib/format";
 import { LaborProgress } from "../_types/contraction_types";
 import { useRouter } from "next/navigation";
+import Pagination from "@/components/base/Pagination";
 
 export default function ContractionStatistics() {
   const { t } = useTranslation();
@@ -39,9 +40,11 @@ export default function ContractionStatistics() {
   const [view, setView] = useState<"frequency" | "duration" | "interval">(
     "frequency"
   );
+  const [page, setPage] = useState(1);
   const { data: stats, isLoading } = useQueryContractionStatistics(
     "week",
-    view
+    view,
+    page
   );
   const router = useRouter();
 
@@ -197,6 +200,11 @@ export default function ContractionStatistics() {
                 </div>
               ))}
             </div>
+            <Pagination
+              currentPage={stats.recent_sessions_pagination.current_page}
+              totalPages={stats.recent_sessions_pagination.last_page}
+              onPageChange={setPage}
+            />
           </Card>
         </div>
 

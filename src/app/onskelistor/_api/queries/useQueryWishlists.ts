@@ -14,7 +14,7 @@ export const wishlistKeys = {
   public: (token: string) => ["wishlists", "public", token] as const,
 };
 
-export const useQueryWishlists = (page = 1, limit = 12) =>
+export const useQueryWishlists = (page = 1, limit = 8) =>
   useQuery({
     queryKey: wishlistKeys.list(page),
     queryFn: async () => {

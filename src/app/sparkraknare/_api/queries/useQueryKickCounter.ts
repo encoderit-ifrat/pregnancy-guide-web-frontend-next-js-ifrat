@@ -12,7 +12,8 @@ export const kickKeys = {
   active: ["kick-counter", "active"] as const,
   sessions: (page?: number) => ["kick-counter", "sessions", page] as const,
   summary: ["kick-counter", "summary-today"] as const,
-  statistics: (range: string) => ["kick-counter", "statistics", range] as const,
+  statistics: (range: string, page: number) =>
+    ["kick-counter", "statistics", range, page] as const,
   statisticsInfinite: (range: string) =>
     ["kick-counter", "statistics-infinite", range] as const,
 };
@@ -49,12 +50,16 @@ export const useQueryKickTodaySummary = () =>
     },
   });
 
-export const useQueryKickStatistics = (range: "week" | "month" = "week") =>
+export const useQueryKickStatistics = (
+  range: "week" | "month" = "week",
+  page = 1,
+  limit = 10
+) =>
   useQuery({
-    queryKey: kickKeys.statistics(range),
+    queryKey: kickKeys.statistics(range, page),
     queryFn: async () => {
       const res = await api.get("/kick-counter/statistics", {
-        params: { range },
+        params: { range, page, limit },
       });
       return res.data.data as KickStatistics;
     },

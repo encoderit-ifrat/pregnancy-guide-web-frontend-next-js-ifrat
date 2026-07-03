@@ -13,8 +13,8 @@ export const contractionKeys = {
   sessions: (page?: number) =>
     ["contraction-counter", "sessions", page] as const,
   summary: ["contraction-counter", "summary"] as const,
-  statistics: (range: string, view: string) =>
-    ["contraction-counter", "statistics", range, view] as const,
+  statistics: (range: string, view: string, page: number) =>
+    ["contraction-counter", "statistics", range, view, page] as const,
 };
 
 export const useQueryActiveContractionSession = () =>
@@ -59,13 +59,15 @@ export const useQueryContractionSettings = () =>
 
 export const useQueryContractionStatistics = (
   range: "week" | "month" = "week",
-  view: "frequency" | "duration" | "interval" = "frequency"
+  view: "frequency" | "duration" | "interval" = "frequency",
+  page = 1,
+  limit = 10
 ) =>
   useQuery({
-    queryKey: contractionKeys.statistics(range, view),
+    queryKey: contractionKeys.statistics(range, view, page),
     queryFn: async () => {
       const res = await api.get("/contraction-counter/statistics", {
-        params: { range, view },
+        params: { range, view, limit, page },
       });
       return res.data.data as ContractionStatistics;
     },
