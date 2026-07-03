@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/Tooltip";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
+import Pagination from "@/components/base/Pagination";
 import { useQueryWishlistDetail } from "../_api/queries/useQueryWishlists";
 import { useDeleteWishlistItem } from "../_api/mutations/useWishlistMutations";
 import AddEditItemModal from "../_component/AddEditItemModal";
@@ -51,8 +52,11 @@ import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 export default function WishlistDetailClient() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const { data: wishlist, isLoading } = useQueryWishlistDetail(id);
+  const [page, setPage] = useState(1);
+  const { data: wishlist, isLoading } = useQueryWishlistDetail(id, page);
   const del = useDeleteWishlistItem();
+
+  const items = wishlist?.items.data ?? [];
 
   const [itemModalOpen, setItemModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<WishlistItem | null>(null);
@@ -200,7 +204,7 @@ export default function WishlistDetailClient() {
                       </tr>
                     </thead>
                     <tbody>
-                      {wishlist.items.length === 0 && (
+                      {items.length === 0 && (
                         <tr>
                           <td
                             colSpan={6}
@@ -210,7 +214,7 @@ export default function WishlistDetailClient() {
                           </td>
                         </tr>
                       )}
-                      {wishlist.items.map((item) => (
+                      {items.map((item) => (
                         <tr
                           key={item._id}
                           className="border-b  border-b-[#F3E8FF] last:border-0"
@@ -302,7 +306,7 @@ export default function WishlistDetailClient() {
                   </table>
                 </div>
                 <div className="lg:hidden space-y-4">
-                  {wishlist.items.map((item) => (
+                  {items.map((item) => (
                     <div
                       key={item._id}
                       className="flex flex-col gap-4 border border-[#F3E8FF] rounded-[15px] py-[11px] px-[13px]"
@@ -413,6 +417,11 @@ export default function WishlistDetailClient() {
                     </div>
                   ))}
                 </div>
+                <Pagination
+                  currentPage={wishlist.items.pagination.current_page}
+                  totalPages={wishlist.items.pagination.last_page}
+                  onPageChange={setPage}
+                />
               </Card>
             </>
           )}

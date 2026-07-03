@@ -1,3 +1,5 @@
+import { Paginated } from "@/types/pagination";
+
 export type ClaimStatus = "available" | "claimed";
 
 export interface WishlistProgress {
@@ -39,7 +41,7 @@ export interface WishlistItem {
 
 export interface WishlistDetail extends Wishlist {
   progress: WishlistProgress;
-  items: WishlistItem[];
+  items: Paginated<WishlistItem>;
 }
 
 export interface PublicWishlistItem {
