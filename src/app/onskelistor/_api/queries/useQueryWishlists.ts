@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   PublicWishlist,
   WishlistDetail,
@@ -9,7 +9,8 @@ import { Paginated } from "@/types/pagination";
 
 export const wishlistKeys = {
   list: (page?: number) => ["wishlists", "list", page] as const,
-  detail: (id: string) => ["wishlists", "detail", id] as const,
+  detail: (id: string, page?: number) =>
+    ["wishlists", "detail", id, page] as const,
   public: (token: string) => ["wishlists", "public", token] as const,
 };
 
@@ -22,12 +23,15 @@ export const useQueryWishlists = (page = 1, limit = 12) =>
     },
   });
 
-export const useQueryWishlistDetail = (id: string) =>
+export const useQueryWishlistDetail = (id: string, page = 1, limit = 10) =>
   useQuery({
-    queryKey: wishlistKeys.detail(id),
+    queryKey: wishlistKeys.detail(id, page),
     enabled: !!id,
+    placeholderData: keepPreviousData,
     queryFn: async () => {
-      const res = await api.get(`/wishlists/${id}`);
+      const res = await api.get(`/wishlists/${id}`, {
+        params: { page, limit },
+      });
       return res.data.data as WishlistDetail;
     },
   });
