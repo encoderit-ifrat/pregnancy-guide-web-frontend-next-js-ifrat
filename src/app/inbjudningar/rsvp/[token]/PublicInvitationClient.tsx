@@ -70,7 +70,11 @@ export default function PublicInvitationClient() {
   const replyExpired = data?.invitation?.reply_by
     ? (() => {
         const replyDate = new Date(data.invitation.reply_by);
-        if (data.invitation.event_time) {
+        const sameDay =
+          data.invitation.event_date &&
+          data.invitation.reply_by.slice(0, 10) ===
+            data.invitation.event_date.slice(0, 10);
+        if (sameDay && data.invitation.event_time) {
           const [hours, minutes] = data.invitation.event_time.split(":").map(Number);
           replyDate.setUTCHours(hours, minutes, 0, 0);
         }
