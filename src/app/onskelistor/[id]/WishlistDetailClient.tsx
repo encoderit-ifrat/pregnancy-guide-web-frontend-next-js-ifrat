@@ -368,20 +368,20 @@ export default function WishlistDetailClient() {
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <p className="text-base text-primary-dark! font-semibold!">
-                            Price:{" "}
+                            {t("wishlists.detail.price")}:{" "}
                             <span className="font-normal!">
                               {item.price} {item.currency}
                             </span>
                           </p>
                           <p className="text-base text-primary-dark! font-semibold!">
-                            Quantity:{" "}
+                            {t("wishlists.detail.quantity")}:{" "}
                             <span className="font-normal!">
                               {String(item.quantity).padStart(2, "0")}
                             </span>
                           </p>
                         </div>
                         <p className="text-base text-primary-dark! font-semibold!">
-                          Status:{" "}
+                          {t("wishlists.detail.status")}:{" "}
                           {item.claim_status === "claimed" ? (
                             <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
                               {item.claimed_by

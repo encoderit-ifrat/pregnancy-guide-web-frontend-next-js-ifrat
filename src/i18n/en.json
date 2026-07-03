@@ -965,6 +965,8 @@
       "itemsName": "Items Name",
       "claimStatus": "Claim Status",
       "price": "Price",
+      "status": "Status",
+      "quantity": "Quantity",
       "pcs": "Pcs",
       "productLink": "Product Link",
       "action": "Action",

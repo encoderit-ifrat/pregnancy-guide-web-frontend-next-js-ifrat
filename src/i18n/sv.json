@@ -952,6 +952,8 @@
       "itemsName": "Föremål",
       "claimStatus": "Reservationsstatus",
       "price": "Pris",
+      "status": "Status",
+      "quantity": "Antal",
       "pcs": "Antal",
       "productLink": "Produktlänk",
       "action": "Åtgärd",
