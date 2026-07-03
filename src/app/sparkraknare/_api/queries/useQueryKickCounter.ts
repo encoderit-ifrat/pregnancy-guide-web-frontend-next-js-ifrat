@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   ActiveKickSession,
   KickSessionListItem,
@@ -13,6 +13,8 @@ export const kickKeys = {
   sessions: (page?: number) => ["kick-counter", "sessions", page] as const,
   summary: ["kick-counter", "summary-today"] as const,
   statistics: (range: string) => ["kick-counter", "statistics", range] as const,
+  statisticsInfinite: (range: string) =>
+    ["kick-counter", "statistics-infinite", range] as const,
 };
 
 export const useQueryActiveKickSession = (enabled = false) =>

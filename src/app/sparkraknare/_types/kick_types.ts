@@ -1,3 +1,5 @@
+import { LaravelPagination } from "@/types/pagination";
+
 export type KickType = "soft" | "hard" | "unsure";
 
 export interface KickEvent {
@@ -49,4 +51,5 @@ export interface KickStatistics {
     label: "soft" | "hard" | "mixed" | null;
     started_at: string;
   }[];
+  session_history_pagination: LaravelPagination;
 }
