@@ -327,15 +327,32 @@ export default function ContractionCounter({
             {session && (
               <Button
                 variant="ghost"
-                onClick={() =>
-                  endSession.mutate(session._id, {
-                    onSuccess: () =>
-                      toast.success(
-                        t("contractionCounter.counter.sessionEnded")
-                      ),
-                  })
-                }
-                disabled={endSession.isPending}
+                onClick={() => {
+                  const doEndSession = () => {
+                    endSession.mutate(session._id, {
+                      onSuccess: () =>
+                        toast.success(
+                          t("contractionCounter.counter.sessionEnded")
+                        ),
+                    });
+                  };
+
+                  if (running) {
+                    stopContraction.mutate(
+                      { sessionId: session._id, contractionId: running._id },
+                      {
+                        onSuccess: doEndSession,
+                        onError: () =>
+                          toast.error(
+                            t("contractionCounter.counter.stopError")
+                          ),
+                      }
+                    );
+                  } else {
+                    doEndSession();
+                  }
+                }}
+                disabled={endSession.isPending || stopContraction.isPending}
                 className="w-full justify-center"
               >
                 {t("contractionCounter.counter.endSession")}

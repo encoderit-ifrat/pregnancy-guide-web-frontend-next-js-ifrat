@@ -68,7 +68,14 @@ export default function PublicInvitationClient() {
   const guest = data?.guest ?? matchedGuest;
   const guestToken = guest?.token;
   const replyExpired = data?.invitation?.reply_by
-    ? data?.invitation?.reply_by < new Date().toISOString()
+    ? (() => {
+        const replyDate = new Date(data.invitation.reply_by);
+        if (data.invitation.event_time) {
+          const [hours, minutes] = data.invitation.event_time.split(":").map(Number);
+          replyDate.setUTCHours(hours, minutes, 0, 0);
+        }
+        return replyDate.getTime() < Date.now();
+      })()
     : false;
   const alreadyResponded =
     guest?.rsvp_status === "accepted" || guest?.rsvp_status === "declined";
