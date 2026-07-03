@@ -90,6 +90,7 @@ export type CreateInvitationPayload = {
   wishlist?: string;
   delivery_options?: DeliveryOption[];
   recipients?: Recipient[];
+  status?: InvitationStatus;
 };
 
 export interface PublicInvitationView {
