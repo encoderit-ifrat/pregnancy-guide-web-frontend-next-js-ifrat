@@ -2,9 +2,12 @@ import api from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { omitEmpty } from "@/lib/utils";
 import {
+  PublicWishlist,
+  PublicWishlistItem,
   WishlistFormValues,
   WishlistItemFormValues,
 } from "../../_types/wishlist_types";
+import { wishlistKeys } from "../queries/useQueryWishlists";
 
 export const useCreateWishlist = () => {
   const qc = useQueryClient();
@@ -107,7 +110,29 @@ export const useClaimWishlistItem = () => {
         `/public/wishlists/${token}/items/${itemId}/claim`,
         omitEmpty(body)
       ),
-    onSuccess: (_d, v) =>
-      qc.invalidateQueries({ queryKey: ["wishlists", "public", v.token] }),
+    onSuccess: (res, v) => {
+      // Update the cache directly from the claim response so the list reflects
+      // the reservation immediately, instead of depending on refetch timing.
+      const claimStatus = res?.data?.data?.claim_status as
+        | PublicWishlistItem["claim_status"]
+        | undefined;
+      if (claimStatus) {
+        qc.setQueryData<PublicWishlist>(
+          wishlistKeys.public(v.token),
+          (old) =>
+            old
+              ? {
+                  ...old,
+                  items: old.items.map((it) =>
+                    it._id === v.itemId
+                      ? { ...it, claim_status: claimStatus }
+                      : it
+                  ),
+                }
+              : old
+        );
+      }
+      qc.invalidateQueries({ queryKey: wishlistKeys.public(v.token) });
+    },
   });
 };
