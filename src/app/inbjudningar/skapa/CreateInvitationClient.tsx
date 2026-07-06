@@ -139,6 +139,7 @@ export default function CreateInvitationClient() {
   const draftIdRef = useRef<string | null>(null);
   const creatingRef = useRef(false); // guards against a duplicate initial create
   const finalizingRef = useRef(false); // pauses autosave during final send
+  const draftCreated = useRef(false); // guards initial draft creation to one-time only
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">(
     "idle"
   );
@@ -227,10 +228,13 @@ export default function CreateInvitationClient() {
     }
   }, [buildPayload, create, update]);
 
-  // Debounce: save ~1s after the host stops changing fields.
+  // Create the initial draft once when the host enters meaningful input.
+  // Subsequent saves only happen on next/prev clicks or final send.
   useEffect(() => {
-    if (!hasMeaningfulInput || finalizingRef.current) return;
+    if (!hasMeaningfulInput || finalizingRef.current || draftCreated.current)
+      return;
     const handle = setTimeout(() => {
+      draftCreated.current = true;
       void persistDraft();
     }, 1000);
     return () => clearTimeout(handle);
@@ -261,10 +265,12 @@ export default function CreateInvitationClient() {
       toast.error(t("invitations.builder.recipientRequired"));
       return;
     }
+    void persistDraft();
     window.scrollTo(0, 0);
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
   };
   const back = () => {
+    void persistDraft();
     window.scrollTo(0, 0);
     setStep((s) => Math.max(0, s - 1));
   };
@@ -327,12 +333,13 @@ export default function CreateInvitationClient() {
         draftIdRef.current = created._id;
         setDraftId(created._id);
       }
-
-      await send.mutateAsync({
-        id,
-        schedule_at: scheduleAtIso(),
-        delivery_options: delivery,
-      });
+      if (id) {
+        await send.mutateAsync({
+          id,
+          schedule_at: scheduleAtIso(),
+          delivery_options: delivery,
+        });
+      }
       setSentOpen(true);
     } catch {
       // The draft is already persisted; sending just failed validation, so
@@ -447,7 +454,7 @@ export default function CreateInvitationClient() {
                       <DatePicker
                         value={date}
                         onChange={setDate}
-                        placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
+                        placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                         fromDate={new Date()}
                       />
@@ -461,7 +468,7 @@ export default function CreateInvitationClient() {
                             const minute = time ? time.split(":")[1] : "00";
                             setTime(`${hour}:${minute}`);
                           }}
-                          className="h-12 text-base w-full max-w-[50px] appearance-none"
+                          className="h-12 text-base w-full max-w-[50px] appearance-none focus:outline-none"
                         >
                           <option value="" disabled>
                             HH
@@ -484,7 +491,7 @@ export default function CreateInvitationClient() {
                             const hour = time ? time.split(":")[0] : "00";
                             setTime(`${hour}:${minute}`);
                           }}
-                          className="h-12 text-base w-full max-w-[60px] appearance-none"
+                          className="h-12 text-base w-full max-w-[60px] appearance-none focus:outline-none"
                         >
                           <option value="" disabled>
                             mm
@@ -504,7 +511,7 @@ export default function CreateInvitationClient() {
                     <DatePicker
                       value={replyBy}
                       onChange={setReplyBy}
-                      placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
+                      placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
                       inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                       fromDate={new Date()}
                     />
@@ -928,7 +935,7 @@ export default function CreateInvitationClient() {
                           <DatePicker
                             value={scheduleAt}
                             onChange={setScheduleAt}
-                            placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
+                            placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
                             inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                             fromDate={new Date()}
                           />

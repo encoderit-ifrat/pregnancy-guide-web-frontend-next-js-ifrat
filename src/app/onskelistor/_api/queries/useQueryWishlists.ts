@@ -25,7 +25,12 @@ export const useQueryWishlists = (page = 1, limit = 8) =>
     },
   });
 
-export const useQueryWishlistDetail = (id: string, page = 1, limit = 10, search?: string) =>
+export const useQueryWishlistDetail = (
+  id: string,
+  page = 1,
+  limit = 10,
+  search?: string
+) =>
   useQuery({
     queryKey: wishlistKeys.detail(id, page, search),
     enabled: !!id,
@@ -55,9 +60,7 @@ export const useQueryInvitationWishlist = (token: string) =>
     queryKey: wishlistKeys.invitation(token),
     enabled: !!token,
     queryFn: async () => {
-      const res = await api.get(
-        `/public/event-invitations/${token}/wishlist`
-      );
+      const res = await api.get(`/public/event-invitations/${token}/wishlist`);
       return res.data.data as MemberWishlist;
     },
   });

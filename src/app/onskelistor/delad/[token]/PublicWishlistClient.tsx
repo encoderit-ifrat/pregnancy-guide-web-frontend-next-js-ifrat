@@ -158,9 +158,7 @@ export default function PublicWishlistClient() {
                                     <ExternalLink className="size-3.5" />
                                   </a>
                                 ) : (
-                                  <p className="min-w-[110px] text-text-secondary">
-                                    —
-                                  </p>
+                                  <p className="min-w-[110px] text-text-secondary"></p>
                                 )}
                                 <Tooltip>
                                   <TooltipTrigger asChild>

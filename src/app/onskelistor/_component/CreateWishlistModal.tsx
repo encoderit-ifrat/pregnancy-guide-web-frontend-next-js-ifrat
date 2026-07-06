@@ -181,7 +181,7 @@ export default function CreateWishlistModal({
               <DatePicker
                 value={replyBy}
                 onChange={setReplyBy}
-                placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
+                placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
                 inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                 fromDate={new Date()}
               />

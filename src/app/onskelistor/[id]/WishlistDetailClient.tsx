@@ -322,7 +322,7 @@ export default function WishlistDetailClient() {
                                 <ExternalLink className="size-3.5" />
                               </a>
                             ) : (
-                              <span className="text-text-secondary">—</span>
+                              <span className="text-text-secondary"></span>
                             )}
                           </td>
                           <td className="px-5 py-3">
