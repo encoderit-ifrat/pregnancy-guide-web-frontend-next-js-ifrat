@@ -75,7 +75,9 @@ export default function PublicInvitationClient() {
           data.invitation.reply_by.slice(0, 10) ===
             data.invitation.event_date.slice(0, 10);
         if (sameDay && data.invitation.event_time) {
-          const [hours, minutes] = data.invitation.event_time.split(":").map(Number);
+          const [hours, minutes] = data.invitation.event_time
+            .split(":")
+            .map(Number);
           replyDate.setUTCHours(hours, minutes, 0, 0);
         }
         return replyDate.getTime() < Date.now();
@@ -99,13 +101,13 @@ export default function PublicInvitationClient() {
           setEmailGateOpen(false);
           setEmail("");
           setPendingStatus(null);
-          const wishlistToken = res.data?.data?.wishlist_token;
-          if (fromEmailGate && status === "accepted" && wishlistToken) {
-            // Requirement: after a successful gated accept, go straight to
-            // the shared wishlist.
-            router.push(`/onskelistor/delad/${wishlistToken}`);
-            return;
-          }
+          // const wishlistToken = res.data?.data?.wishlist_token;
+          // if (fromEmailGate && status === "accepted" && wishlistToken) {
+          //   // Requirement: after a successful gated accept, go straight to
+          //   // the shared wishlist.
+          //   router.push(`/onskelistor/delad/${wishlistToken}`);
+          //   return;
+          // }
           if (status === "accepted") setAcceptedOpen(true);
           else toast.success(t("invitations.public.responseRecorded"));
         },
@@ -170,10 +172,15 @@ export default function PublicInvitationClient() {
     );
   };
 
-  const handleSeeWishlist = () => {
-    // Members view the wishlist through the invitation (not the anonymous
-    // official list) so they can see who has reserved each gift.
-    router.push(`/inbjudningar/rsvp/${token}/onskelista`);
+  const handleSeeWishlist = async () => {
+    try {
+      const res = await api.get(`/public/event-invitations/${token}/wishlist`);
+      const shareToken = res.data?.data?.share_token;
+      if (shareToken) router.push(`/onskelistor/delad/${shareToken}`);
+      else toast.error(t("invitations.public.noWishlist"));
+    } catch {
+      toast.error(t("invitations.public.wishlistError"));
+    }
   };
 
   return (

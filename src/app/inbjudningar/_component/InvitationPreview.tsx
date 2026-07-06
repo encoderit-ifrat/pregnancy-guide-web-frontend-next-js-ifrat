@@ -6,6 +6,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { InvitationTemplate } from "../_types/invitation_types";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { formatDate } from "date-fns";
+import { sv } from "date-fns/locale";
 
 interface Props {
   title?: string;
@@ -33,7 +34,7 @@ export default function InvitationPreview({
   templatePreviewUrl,
 }: Props) {
   const { t } = useTranslation();
-  const fmtDate = date ? formatDate(date, "MMMM dd,yyyy") : "";
+  const fmtDate = date ? formatDate(date, "MMMM dd, yyyy", { locale: sv }) : "";
   // console.log("templatePreviewUrl", templatePreviewUrl);
   // console.log("coverImage", coverImage);
   // console.log("template", template);
@@ -103,14 +104,18 @@ export default function InvitationPreview({
 
           <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
             <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
-            <p className="leading-[24px] line-clamp-2">{location || ""}</p>
+            <p className="text-[11px]! md:text-base! font-semibold! line-clamp-2">
+              {location || ""}
+            </p>
           </p>
         </div>
 
         <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
           <CalendarDays className="size-3.5 text-primary shrink-0" />
           {t("invitations.preview.latestReply", {
-            date: replyBy ? formatDate(replyBy, "MMMM dd,yyyy") : "",
+            date: replyBy
+              ? formatDate(replyBy, "MMMM dd, yyyy", { locale: sv })
+              : "",
           })}
         </p>
       </div>

@@ -43,7 +43,7 @@ export default function ClaimModal({
 }) {
   const { t } = useTranslation();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [done, setDone] = useState(false);
 
@@ -52,7 +52,7 @@ export default function ClaimModal({
   const close = (v: boolean) => {
     if (!v) {
       setName("");
-      setEmail("");
+      // setEmail("");
       setMessage("");
       setDone(false);
     }
@@ -62,7 +62,7 @@ export default function ClaimModal({
   const handleSubmit = () => {
     if (!item) return;
     if (!name.trim()) return toast.error(t("wishlists.claim.nameRequired"));
-    if (!email.trim()) return toast.error(t("wishlists.claim.emailRequired"));
+    // if (!email.trim()) return toast.error(t("wishlists.claim.emailRequired"));
 
     claim.mutate(
       {
@@ -70,7 +70,7 @@ export default function ClaimModal({
         itemId: item._id,
         body: {
           claimer_name: name.trim(),
-          claimer_email: email.trim(),
+          // claimer_email: email.trim(),
           message: message.trim() || undefined,
         },
       },
@@ -134,16 +134,16 @@ export default function ClaimModal({
             </p>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label={t("wishlists.claim.yourName")}>
-                  <Input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="rounded-[5px]!"
-                    placeholder={t("wishlists.claim.namePlaceholder")}
-                  />
-                </Field>
-                <Field label={t("wishlists.claim.emailAddress")}>
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
+              <Field label={t("wishlists.claim.yourName")}>
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="rounded-[5px]!"
+                  placeholder={t("wishlists.claim.namePlaceholder")}
+                />
+              </Field>
+              {/* <Field label={t("wishlists.claim.emailAddress")}>
                   <Input
                     type="email"
                     value={email}
@@ -151,8 +151,8 @@ export default function ClaimModal({
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t("wishlists.claim.emailPlaceholder")}
                   />
-                </Field>
-              </div>
+                </Field> */}
+              {/* </div> */}
               <Field label={t("wishlists.claim.optionalMessage")}>
                 <Textarea
                   value={message}

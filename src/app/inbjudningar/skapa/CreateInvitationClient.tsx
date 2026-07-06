@@ -154,9 +154,13 @@ export default function CreateInvitationClient() {
       toast.error(t("invitations.builder.recipientRequired"));
       return;
     }
+    window.scrollTo(0, 0);
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
   };
-  const back = () => setStep((s) => Math.max(0, s - 1));
+  const back = () => {
+    window.scrollTo(0, 0);
+    setStep((s) => Math.max(0, s - 1));
+  };
 
   const addRecipient = () => {
     if (!guestName.trim() || !guestEmail.trim()) {
@@ -346,25 +350,64 @@ export default function CreateInvitationClient() {
                       <DatePicker
                         value={date}
                         onChange={setDate}
-                        placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
+                        placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                         fromDate={new Date()}
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
-                      <Input
-                        type="time"
-                        value={time}
-                        className="rounded-[5px]"
-                        onChange={(e) => setTime(e.target.value)}
-                      />
+                      <div className="flex gap-2 items-center rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-4">
+                        <select
+                          value={time ? time.split(":")[0] : ""}
+                          onChange={(e) => {
+                            const hour = e.target.value;
+                            const minute = time ? time.split(":")[1] : "00";
+                            setTime(`${hour}:${minute}`);
+                          }}
+                          className="h-12 text-base w-full max-w-[50px] appearance-none"
+                        >
+                          <option value="" disabled>
+                            HH
+                          </option>
+                          {Array.from({ length: 24 }, (_, i) =>
+                            String(i).padStart(2, "0")
+                          ).map((h) => (
+                            <option key={h} value={h}>
+                              {h}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="text-lg pr-4 font-medium text-gray-500">
+                          :
+                        </span>
+                        <select
+                          value={time ? time.split(":")[1] : ""}
+                          onChange={(e) => {
+                            const minute = e.target.value;
+                            const hour = time ? time.split(":")[0] : "00";
+                            setTime(`${hour}:${minute}`);
+                          }}
+                          className="h-12 text-base w-full max-w-[60px] appearance-none"
+                        >
+                          <option value="" disabled>
+                            mm
+                          </option>
+                          {Array.from({ length: 60 }, (_, i) =>
+                            String(i).padStart(2, "0")
+                          ).map((m) => (
+                            <option key={m} value={m}>
+                              {m}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </Field>
                   </div>
                   <Field label={t("invitations.builder.latestReply")}>
                     <DatePicker
                       value={replyBy}
                       onChange={setReplyBy}
-                      placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
+                      placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
                       inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                       fromDate={new Date()}
                     />
@@ -788,19 +831,66 @@ export default function CreateInvitationClient() {
                           <DatePicker
                             value={scheduleAt}
                             onChange={setScheduleAt}
-                            placeholder="dd-mm-yyy"
+                            placeholder={`${formatDate(new Date(), "dd-MM-yyyy")}`}
                             inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                             fromDate={new Date()}
                           />
                         </Field>
 
                         <Field label={t("invitations.builder.time")}>
-                          <Input
-                            type="time"
-                            value={scheduleTime}
-                            className="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]! h-11!"
-                            onChange={(e) => setScheduleTime(e.target.value)}
-                          />
+                          <div className="flex gap-2 items-center rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-4">
+                            <select
+                              value={
+                                scheduleTime ? scheduleTime.split(":")[0] : ""
+                              }
+                              onChange={(e) => {
+                                const hour = e.target.value;
+                                const minute = scheduleTime
+                                  ? scheduleTime.split(":")[1]
+                                  : "00";
+                                setScheduleTime(`${hour}:${minute}`);
+                              }}
+                              className="h-11 md:h-12 pr-4 text-base w-full appearance-none"
+                            >
+                              <option value="" disabled>
+                                HH
+                              </option>
+                              {Array.from({ length: 24 }, (_, i) =>
+                                String(i).padStart(2, "0")
+                              ).map((h) => (
+                                <option key={h} value={h}>
+                                  {h}
+                                </option>
+                              ))}
+                            </select>
+                            <span className="text-lg font-medium text-gray-500">
+                              :
+                            </span>
+                            <select
+                              value={
+                                scheduleTime ? scheduleTime.split(":")[1] : ""
+                              }
+                              onChange={(e) => {
+                                const minute = e.target.value;
+                                const hour = scheduleTime
+                                  ? scheduleTime.split(":")[0]
+                                  : "00";
+                                setScheduleTime(`${hour}:${minute}`);
+                              }}
+                              className="h-11 md:h-12 px-4 text-base w-full appearance-none"
+                            >
+                              <option value="" disabled>
+                                mm
+                              </option>
+                              {Array.from({ length: 60 }, (_, i) =>
+                                String(i).padStart(2, "0")
+                              ).map((m) => (
+                                <option key={m} value={m}>
+                                  {m}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </Field>
                       </div>
                     )}
@@ -851,7 +941,10 @@ export default function CreateInvitationClient() {
                 <div className="flex w-full flex-1 gap-2 sm:justify-end">
                   <Button
                     variant="outline"
-                    onClick={() => setStep(3)}
+                    onClick={() => {
+                      setStep(3);
+                      window.scrollTo(0, 0);
+                    }}
                     className="flex-1 sm:flex-none w-full md:max-w-[243px] py-2.5 justify-center"
                   >
                     <SkipForward />

@@ -149,7 +149,7 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
     );
   };
   return (
-    <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] shadow-none rounded-[15px]!">
+    <Card className="overflow-hidden p-1.5 border border-[#F3E8FF] shadow-none rounded-[15px]! flex flex-col h-[370px] md:h-full">
       <div className="relative h-[152px] md:h-[255px] w-full bg-primary-light rounded-[10px] overflow-hidden">
         <Image
           src={
@@ -157,57 +157,59 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
           }
           alt={wishlist.title}
           fill
-          className="object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
-      <div className="py-[14px] px-2">
+      <div className="py-[14px] px-2 flex-1 flex flex-col">
         <h3 className="text-lg font-semibold text-primary-dark line-clamp-1">
           {wishlist.title}
         </h3>
         {wishlist.description && (
-          <p className="mt-1 text-sm text-text-secondary line-clamp-1">
+          <p className="mt-1 mb-5 text-sm text-text-secondary line-clamp-1">
             {wishlist.description}
           </p>
         )}
 
-        <div className="mt-4 mb-[14px] px-3 py-1.5 rounded-[10px] bg-[#F8F7FC]">
-          <div className="mb-2 flex justify-between">
-            <span className="text-primary-dark font-medium text-xs">
-              {t("wishlists.progress")}
-            </span>
-            <span className="font-medium text-xs text-primary">
-              {t("wishlists.itemsClaimed", {
-                claimed: progress.claimed,
-                total: progress.total,
-              })}
-            </span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-primary-light">
-            <div
-              className="h-full rounded-full bg-primary"
-              style={{ width: `${progress.percentage}%` }}
-            />
-          </div>
-        </div>
-
-        <div className=" flex items-center w-full gap-2 mt-auto">
-          <Link
-            href={`/onskelistor/${wishlist._id}`}
-            className="flex-1 font-semibold bg-[#F6F0FB] border border-primary text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center justify-center gap-2"
-          >
-            {t("wishlists.viewDetails")}
-          </Link>
-          <Button
-            variant="outline"
-            onClick={() =>
-              handleShare(wishlist.share_token ? wishlist.share_token : null)
-            }
-            className="bg-primary-light2 p-0 overflow-hidden justify-center"
-          >
-            <div className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center">
-              <Share2 className="w-6 h-6 text-primary " />
+        <div className="mt-auto">
+          <div className="mb-[14px] px-3 py-1.5 rounded-[10px] bg-[#F8F7FC]">
+            <div className="mb-2 flex justify-between">
+              <span className="text-primary-dark font-medium text-xs">
+                {t("wishlists.progress")}
+              </span>
+              <span className="font-medium text-xs text-primary">
+                {t("wishlists.itemsClaimed", {
+                  claimed: progress.claimed,
+                  total: progress.total,
+                })}
+              </span>
             </div>
-          </Button>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-primary-light">
+              <div
+                className="h-full rounded-full bg-primary"
+                style={{ width: `${progress.percentage}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center w-full gap-2">
+            <Link
+              href={`/onskelistor/${wishlist._id}`}
+              className="flex-1 font-semibold bg-[#F6F0FB] border border-primary text-lg text-primary px-4 py-2.5 rounded-full shadow-invitation-box inline-flex items-center justify-center gap-2"
+            >
+              {t("wishlists.viewDetails")}
+            </Link>
+            <Button
+              variant="outline"
+              onClick={() =>
+                handleShare(wishlist.share_token ? wishlist.share_token : null)
+              }
+              className="bg-primary-light2 p-0 overflow-hidden justify-center"
+            >
+              <div className="rounded-full bg-[#FAF5FF] w-12 h-12 flex justify-center items-center">
+                <Share2 className="w-6 h-6 text-primary " />
+              </div>
+            </Button>
+          </div>
         </div>
       </div>
     </Card>

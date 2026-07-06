@@ -26,8 +26,10 @@ import {
   Pen,
   Pencil,
   Plus,
+  Search,
   Share2,
   Trash2,
+  X,
 } from "lucide-react";
 import {
   Popover,
@@ -44,16 +46,28 @@ import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import Pagination from "@/components/base/Pagination";
 import { useQueryWishlistDetail } from "../_api/queries/useQueryWishlists";
-import { useDeleteWishlistItem } from "../_api/mutations/useWishlistMutations";
+import {
+  useDeleteWishlistItem,
+  useUpdateWishlist,
+} from "../_api/mutations/useWishlistMutations";
 import AddEditItemModal from "../_component/AddEditItemModal";
-import { WishlistItem } from "../_types/wishlist_types";
+import { PublicWishlistItem, WishlistItem } from "../_types/wishlist_types";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { Input } from "@/components/ui/Input";
+import EditWishlistModal from "../_component/EditWishlistModal";
 
 export default function WishlistDetailClient() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [page, setPage] = useState(1);
-  const { data: wishlist, isLoading } = useQueryWishlistDetail(id, page);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
+  const { data: wishlist, isLoading } = useQueryWishlistDetail(
+    id,
+    page,
+    10,
+    search || undefined
+  );
   const del = useDeleteWishlistItem();
 
   const items = wishlist?.items.data ?? [];
@@ -62,6 +76,17 @@ export default function WishlistDetailClient() {
   const [editItem, setEditItem] = useState<WishlistItem | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [infoOpenId, setInfoOpenId] = useState<string | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const handleSearch = () => {
+    setSearch(searchTerm);
+    setPage(1);
+  };
+  const handleClear = () => {
+    setSearchTerm("");
+    setSearch("");
+    setPage(1);
+  };
 
   const handleShare = () => {
     if (!wishlist) return;
@@ -154,6 +179,14 @@ export default function WishlistDetailClient() {
                       </span>
                       {t("wishlists.detail.shareWishlist")}
                     </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setEditOpen(true)}
+                      className="bg-primary-light2 py-2.5 justify-center"
+                    >
+                      <Pen className="size-4" />
+                      {t("wishlists.detail.edit")}
+                    </Button>
                     <Button onClick={openAdd} className="py-2.5">
                       {t("wishlists.detail.addItem")}
                       <Plus className="size-6 p-1 bg-white text-primary rounded-full" />
@@ -163,21 +196,55 @@ export default function WishlistDetailClient() {
               </Card>
 
               <Card className="mt-6 overflow-x-auto py-[25px] px-2.5 lg:px-[35px] xl:px-[62px] lg:py-10 shadow-week-details border-0">
-                <div className="flex flex-col mb-[35px]">
-                  <p className="text-[25px]! md:text-[30px]! text-primary-dark! font-semibold!">
-                    {" "}
-                    {wishlist.title}
-                  </p>
-                  {wishlist.reply_by && (
-                    <p className="text-primary-dark! text-base! md:text-[22px]! font-bold">
-                      {t("wishlists.detail.latestPurchase", { date: "" })}
-                      <span className="text-primary-dark! text-base! font-normal!">
-                        {new Date(wishlist.reply_by).toLocaleDateString(
-                          "sv-SE"
-                        )}
-                      </span>
+                <div className="flex flex-col md:flex-row items-center md:justify-between gap-6 mb-[35px]">
+                  <div className="flex flex-col items-start w-full md:w-auto">
+                    <p className="text-[25px]! md:text-[30px]! text-primary-dark! font-semibold!">
+                      {" "}
+                      {wishlist.title}
                     </p>
-                  )}
+                    {wishlist.reply_by && (
+                      <p className="text-primary-dark! text-base! md:text-[22px]! font-bold">
+                        {t("wishlists.detail.latestPurchase", { date: "" })}
+                        <span className="text-primary-dark! text-base! font-normal!">
+                          {new Date(wishlist.reply_by).toLocaleDateString(
+                            "sv-SE"
+                          )}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (!searchTerm) return;
+                      handleSearch();
+                    }}
+                    className={`transition-all duration-300 ease-in-out overflow-hidden w-full sm:w-2xs lg:w-96 opacity-100`}
+                  >
+                    <Input
+                      placeholder={t("header.search")}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      prepend={<Search className="size-4 md:size-5" />}
+                      className="rounded-[25px]"
+                      append={
+                        <div className="flex items-center gap-2">
+                          {searchTerm && (
+                            <X
+                              onClick={handleClear}
+                              className="h-5 w-5 cursor-pointer"
+                            />
+                          )}
+                          <Button
+                            type="submit"
+                            className="-mr-3 h-11 rounded-[25px] text-sm px-4 bg-primary text-white hover:bg-primary/90 flex items-center justify-center cursor-pointer"
+                          >
+                            Sök
+                          </Button>
+                        </div>
+                      }
+                    />
+                  </form>
                 </div>
                 <div className="overflow-hidden rounded-2xl lg:border border-[#F3E8FF]">
                   <table className="hidden lg:table w-full min-w-[720px] text-sm">
@@ -224,17 +291,17 @@ export default function WishlistDetailClient() {
                           </td>
                           <td className="px-5 py-3">
                             {item.claim_status === "claimed" ? (
-                              <p className="rounded-full! bg-primary-light! px-2.5 py-1 text-xs! font-medium! text-primary!">
-                                {item.claimed_by
-                                  ? t("wishlists.detail.claimedBy", {
-                                      name: item.claimed_by,
-                                    })
-                                  : t("wishlists.detail.claimed")}
+                              <p className="w-fit! rounded-full! bg-primary-light! px-2.5 py-1 text-xs! font-medium! text-primary!">
+                                {item.claimed_by &&
+                                  t("wishlists.detail.claimed")}
                               </p>
                             ) : (
                               <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
                                 {t("wishlists.detail.available")}
                               </span>
+                            )}
+                            {item.claim_status === "claimed" && (
+                              <ReserverInfo item={item} />
                             )}
                           </td>
                           <td className="px-5 py-3 text-text-secondary">
@@ -264,7 +331,7 @@ export default function WishlistDetailClient() {
                                 <Button
                                   onClick={() => setDeleteId(item._id)}
                                   variant="outline"
-                                  className="p-1.5! px-2! border-0 bg-[#FFEFF0] rounded-full text-destructive"
+                                  className="p-1.5! px-2.5! h-auto! border-0 bg-[#FFEFF0] rounded-full text-destructive"
                                 >
                                   <Trash2 className="size-4" />
                                   {t("wishlists.detail.removeTitle")}
@@ -388,11 +455,7 @@ export default function WishlistDetailClient() {
                           {t("wishlists.detail.status")}:{" "}
                           {item.claim_status === "claimed" ? (
                             <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
-                              {item.claimed_by
-                                ? t("wishlists.detail.claimedBy", {
-                                    name: item.claimed_by,
-                                  })
-                                : t("wishlists.detail.claimed")}
+                              {item.claimed_by && t("wishlists.detail.claimed")}
                             </span>
                           ) : (
                             <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
@@ -400,8 +463,11 @@ export default function WishlistDetailClient() {
                             </span>
                           )}
                         </p>
+                        {item.claim_status === "claimed" && (
+                          <ReserverInfo item={item} />
+                        )}
                       </div>
-                      {item.product_url ? (
+                      {item.product_url && (
                         <a
                           href={item.product_url}
                           target="_blank"
@@ -411,8 +477,6 @@ export default function WishlistDetailClient() {
                           {t("wishlists.detail.viewProduct")}{" "}
                           <ExternalLink className="size-3.5 text-primary" />
                         </a>
-                      ) : (
-                        <span className="text-text-secondary">—</span>
                       )}
                     </div>
                   ))}
@@ -469,7 +533,34 @@ export default function WishlistDetailClient() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        {wishlist && (
+          <EditWishlistModal
+            open={editOpen}
+            onOpenChange={setEditOpen}
+            wishlist={wishlist}
+          />
+        )}
       </PageContainer>
     </TooltipProvider>
+  );
+}
+
+function ReserverInfo({ item }: { item: PublicWishlistItem }) {
+  const { t } = useTranslation();
+  if (item.claim_status !== "claimed" || !item.claimed_by) return null;
+  return (
+    <div className="mt-2 rounded-[6px] bg-[#F5F1FB] px-3 py-2 text-left">
+      <p className="text-xs! font-semibold! mb-0!">
+        {t("wishlists.public.reservedBy", { name: item.claimed_by })}
+      </p>
+      {item.claim_message && (
+        <p className="mt-0.5! text-xs! text-text-secondary! mb-0!">
+          <span className="font-medium">
+            {t("wishlists.public.reserverNote")}:
+          </span>{" "}
+          {item.claim_message}
+        </p>
+      )}
+    </div>
   );
 }

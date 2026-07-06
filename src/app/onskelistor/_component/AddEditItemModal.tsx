@@ -63,8 +63,8 @@ export default function AddEditItemModal({
       quantity,
       price: priceNum,
       currency: "SEK",
-      product_url: productUrl.trim() || undefined,
-      description: description.trim() || undefined,
+      product_url: productUrl.trim() || "",
+      description: description.trim() || "",
     };
 
     const onSuccess = () => {
