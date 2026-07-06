@@ -10,8 +10,8 @@ import { Paginated } from "@/types/pagination";
 
 export const wishlistKeys = {
   list: (page?: number) => ["wishlists", "list", page] as const,
-  detail: (id: string, page?: number) =>
-    ["wishlists", "detail", id, page] as const,
+  detail: (id: string, page?: number, search?: string) =>
+    ["wishlists", "detail", id, page, search] as const,
   public: (token: string) => ["wishlists", "public", token] as const,
   invitation: (token: string) => ["wishlists", "invitation", token] as const,
 };
@@ -25,14 +25,14 @@ export const useQueryWishlists = (page = 1, limit = 8) =>
     },
   });
 
-export const useQueryWishlistDetail = (id: string, page = 1, limit = 10) =>
+export const useQueryWishlistDetail = (id: string, page = 1, limit = 10, search?: string) =>
   useQuery({
-    queryKey: wishlistKeys.detail(id, page),
+    queryKey: wishlistKeys.detail(id, page, search),
     enabled: !!id,
     placeholderData: keepPreviousData,
     queryFn: async () => {
       const res = await api.get(`/wishlists/${id}`, {
-        params: { page, limit },
+        params: { page, limit, search },
       });
       return res.data.data as WishlistDetail;
     },

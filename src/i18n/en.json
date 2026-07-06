@@ -984,6 +984,7 @@
       "removeDesc": "This will permanently remove the item from your wishlist.",
       "cancel": "Cancel",
       "remove": "Remove",
+      "edit": "Edit",
       "linkCopied": "Share link copied to clipboard",
       "copyFailed": "Could not copy link",
       "itemRemoved": "Item removed"

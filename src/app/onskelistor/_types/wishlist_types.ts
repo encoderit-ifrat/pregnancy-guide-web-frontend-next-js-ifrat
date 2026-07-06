@@ -55,6 +55,9 @@ export interface PublicWishlistItem {
   category: string | null;
   image: string | null;
   claim_status: ClaimStatus;
+  claimed_by?: string | null;
+  claim_message?: string | null;
+  claimed_at?: string | null;
 }
 
 export interface PublicWishlist {

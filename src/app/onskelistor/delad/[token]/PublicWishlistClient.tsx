@@ -231,14 +231,11 @@ export default function PublicWishlistClient() {
                       </div>
                       <div>
                         <p className="text-base text-primary-dark! font-semibold! mb-1">
-                          Status:{" "}
+                          {t("wishlists.detail.status")}:{" "}
                           {item.claim_status === "claimed" ? (
                             <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-medium text-primary">
-                              {item.claim_status
-                                ? t("wishlists.detail.claimedBy", {
-                                    name: item.claim_status,
-                                  })
-                                : t("wishlists.detail.claimed")}
+                              {item.claim_status &&
+                                t("wishlists.detail.claimed")}
                             </span>
                           ) : (
                             <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
@@ -248,20 +245,20 @@ export default function PublicWishlistClient() {
                         </p>
                         <div className="flex items-center gap-3">
                           <p className="text-base text-primary-dark! font-semibold!">
-                            Price:{" "}
+                            {t("wishlists.detail.price")}:{" "}
                             <span className="font-normal!">
                               {item.price} {item.currency}
                             </span>
                           </p>
                           <p className="text-base text-primary-dark! font-semibold!">
-                            Quantity:{" "}
+                            {t("wishlists.detail.quantity")}:{" "}
                             <span className="font-normal!">
                               {String(item.quantity).padStart(2, "0")}
                             </span>
                           </p>
                         </div>
                       </div>
-                      {item.product_url ? (
+                      {item.product_url && (
                         <a
                           href={item.product_url}
                           target="_blank"
@@ -272,8 +269,6 @@ export default function PublicWishlistClient() {
                           {t("wishlists.detail.viewProduct")}{" "}
                           <ExternalLink className="size-3.5 text-primary" />
                         </a>
-                      ) : (
-                        <span className="text-text-secondary">—</span>
                       )}
                     </div>
                   ))}

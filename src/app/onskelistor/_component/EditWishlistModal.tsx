@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,18 +14,21 @@ import { DatePicker } from "@/components/ui/DatePicker";
 import { CircleX, Gift, Info, Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useCreateWishlist } from "../_api/mutations/useWishlistMutations";
+import { useUpdateWishlist } from "../_api/mutations/useWishlistMutations";
 import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import Image from "next/image";
 import { formatDate } from "date-fns";
+import { WishlistDetail } from "../_types/wishlist_types";
 
-export default function CreateWishlistModal({
+export default function EditWishlistModal({
   open,
   onOpenChange,
+  wishlist,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
+  wishlist: WishlistDetail;
 }) {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
@@ -34,16 +37,20 @@ export default function CreateWishlistModal({
   const [coverPreview, setCoverPreview] = useState<string | undefined>();
   const [replyBy, setReplyBy] = useState<Date | undefined>();
 
-  const create = useCreateWishlist();
+  const update = useUpdateWishlist();
   const upload = useFileUploadTempFolder();
 
   const reset = () => {
-    setTitle("");
-    setDescription("");
+    setTitle(wishlist.title);
+    setDescription(wishlist.description ?? "");
     setCoverImage(undefined);
-    setCoverPreview(undefined);
-    setReplyBy(undefined);
+    setCoverPreview(wishlist.cover_image ?? undefined);
+    setReplyBy(wishlist.reply_by ? new Date(wishlist.reply_by) : undefined);
   };
+
+  useEffect(() => {
+    if (open) reset();
+  }, [open]);
 
   const handleFileSelect = (file?: File) => {
     if (!file) return;
@@ -71,17 +78,18 @@ export default function CreateWishlistModal({
       toast.error(t("wishlists.create.titleRequired"));
       return;
     }
-    create.mutate(
-      {
-        title: title.trim(),
-        description: description.trim() || undefined,
-        cover_image: coverImage,
-        reply_by: replyBy ? replyBy.toISOString() : undefined,
-      },
+    const body: Record<string, unknown> = {
+      title: title.trim(),
+    };
+    if (description.trim()) body.description = description.trim();
+    if (coverImage) body.cover_image = coverImage;
+    if (replyBy) body.reply_by = replyBy.toISOString();
+
+    update.mutate(
+      { id: wishlist._id, body },
       {
         onSuccess: () => {
           toast.success(t("wishlists.create.created"));
-          reset();
           onOpenChange(false);
         },
       }
@@ -92,12 +100,12 @@ export default function CreateWishlistModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="max-w-[350px] md:max-w-lg bg-white p-0 gap-0"
+        className="max-w-[350px] sm:max-w-[350px] md:max-w-lg bg-white p-0 gap-0"
       >
         <div className="px-2.5 sm:px-[30px] py-5 border-b flex items-center justify-between border-b-[#F0EDF8]">
           <DialogTitle asChild>
             <h3 className="text-[25px]! sm:text-[30px]! text-[#3D3177] font-semibold!">
-              {t("wishlists.create.title")}
+              Edit Wishlist
             </h3>
           </DialogTitle>
           <CircleX
@@ -126,13 +134,13 @@ export default function CreateWishlistModal({
 
             <Field label={t("wishlists.create.coverImage")}>
               {coverPreview ? (
-                <div className="relative rounded-xl overflow-hidden">
+                <div className="w-full relative rounded-xl overflow-hidden">
                   <Image
                     src={coverPreview}
                     alt="Cover"
                     width={500}
                     height={200}
-                    className="w-full h-40 object-cover rounded-xl"
+                    className="w-[320px] md:w-full h-40 object-cover rounded-xl max-w-full"
                   />
                   <button
                     type="button"
@@ -199,9 +207,9 @@ export default function CreateWishlistModal({
             <Button
               className="flex-1 justify-center py-2.5"
               onClick={handleSubmit}
-              disabled={create.isPending || upload.isPending}
+              disabled={update.isPending || upload.isPending}
             >
-              {(create.isPending || upload.isPending) && (
+              {(update.isPending || upload.isPending) && (
                 <Loader2 className="size-4 animate-spin" />
               )}
               <span>{t("wishlists.create.submit")}</span>

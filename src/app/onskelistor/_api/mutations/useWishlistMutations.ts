@@ -34,8 +34,13 @@ export const useUpdateWishlist = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationKey: ["wishlists", "update"],
-    mutationFn: ({ id, body }: { id: string; body: Partial<WishlistFormValues> }) =>
-      api.patch(`/wishlists/${id}`, omitEmpty(body)),
+    mutationFn: ({
+      id,
+      body,
+    }: {
+      id: string;
+      body: Partial<WishlistFormValues>;
+    }) => api.patch(`/wishlists/${id}`, omitEmpty(body)),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["wishlists"] }),
   });
 };
@@ -54,7 +59,7 @@ export const useAddWishlistItem = () => {
   return useMutation({
     mutationKey: ["wishlists", "add-item"],
     mutationFn: ({ id, body }: { id: string; body: WishlistItemFormValues }) =>
-      api.post(`/wishlists/${id}/items`, omitEmpty(body)),
+      api.post(`/wishlists/${id}/items`, body),
     onSuccess: (_d, v) =>
       qc.invalidateQueries({ queryKey: ["wishlists", "detail", v.id] }),
   });
@@ -72,7 +77,7 @@ export const useUpdateWishlistItem = () => {
       id: string;
       itemId: string;
       body: Partial<WishlistItemFormValues>;
-    }) => api.patch(`/wishlists/${id}/items/${itemId}`, omitEmpty(body)),
+    }) => api.patch(`/wishlists/${id}/items/${itemId}`, body),
     onSuccess: (_d, v) =>
       qc.invalidateQueries({ queryKey: ["wishlists", "detail", v.id] }),
   });
@@ -102,7 +107,7 @@ export const useClaimWishlistItem = () => {
       itemId: string;
       body: {
         claimer_name: string;
-        claimer_email: string;
+        claimer_email?: string;
         message?: string;
       };
     }) =>
@@ -117,19 +122,17 @@ export const useClaimWishlistItem = () => {
         | PublicWishlistItem["claim_status"]
         | undefined;
       if (claimStatus) {
-        qc.setQueryData<PublicWishlist>(
-          wishlistKeys.public(v.token),
-          (old) =>
-            old
-              ? {
-                  ...old,
-                  items: old.items.map((it) =>
-                    it._id === v.itemId
-                      ? { ...it, claim_status: claimStatus }
-                      : it
-                  ),
-                }
-              : old
+        qc.setQueryData<PublicWishlist>(wishlistKeys.public(v.token), (old) =>
+          old
+            ? {
+                ...old,
+                items: old.items.map((it) =>
+                  it._id === v.itemId
+                    ? { ...it, claim_status: claimStatus }
+                    : it
+                ),
+              }
+            : old
         );
       }
       qc.invalidateQueries({ queryKey: wishlistKeys.public(v.token) });
