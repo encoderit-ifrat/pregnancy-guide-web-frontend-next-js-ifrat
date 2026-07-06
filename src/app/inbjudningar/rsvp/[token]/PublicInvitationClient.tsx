@@ -170,15 +170,10 @@ export default function PublicInvitationClient() {
     );
   };
 
-  const handleSeeWishlist = async () => {
-    try {
-      const res = await api.get(`/public/event-invitations/${token}/wishlist`);
-      const shareToken = res.data?.data?.share_token;
-      if (shareToken) router.push(`/onskelistor/delad/${shareToken}`);
-      else toast.error(t("invitations.public.noWishlist"));
-    } catch {
-      toast.error(t("invitations.public.wishlistError"));
-    }
+  const handleSeeWishlist = () => {
+    // Members view the wishlist through the invitation (not the anonymous
+    // official list) so they can see who has reserved each gift.
+    router.push(`/inbjudningar/rsvp/${token}/onskelista`);
   };
 
   return (

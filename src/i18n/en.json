@@ -1001,7 +1001,9 @@
       "available": "Available",
       "viewProduct": "View Product",
       "claimGift": "Claim the gift",
-      "claimedBtn": "Claimed"
+      "claimedBtn": "Claimed",
+      "reservedBy": "Reserved by {name}",
+      "reserverNote": "Note"
     },
     "claim": {
       "claimedTitle": "Gift Claimed",

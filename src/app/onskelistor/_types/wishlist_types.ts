@@ -68,6 +68,18 @@ export interface PublicWishlist {
   items: PublicWishlistItem[];
 }
 
+// Member (event-invitation) view. Unlike the anonymous public list, reserved
+// items also expose who reserved them and the message they left.
+export interface MemberWishlistItem extends PublicWishlistItem {
+  claimed_by: string | null;
+  claim_message: string | null;
+  claimed_at: string | null;
+}
+
+export interface MemberWishlist extends Omit<PublicWishlist, "items"> {
+  items: MemberWishlistItem[];
+}
+
 export type WishlistFormValues = {
   title: string;
   description?: string;

@@ -32,11 +32,14 @@ export default function ClaimModal({
   item,
   open,
   onOpenChange,
+  onReserved,
 }: {
   token: string;
   item: PublicWishlistItem | null;
   open: boolean;
   onOpenChange: (v: boolean) => void;
+  /** Called after a successful reservation (e.g. to refresh a member view). */
+  onReserved?: () => void;
 }) {
   const { t } = useTranslation();
   const [name, setName] = useState("");
@@ -71,7 +74,12 @@ export default function ClaimModal({
           message: message.trim() || undefined,
         },
       },
-      { onSuccess: () => setDone(true) }
+      {
+        onSuccess: () => {
+          setDone(true);
+          onReserved?.();
+        },
+      }
     );
   };
 

@@ -988,7 +988,9 @@
       "available": "Tillgänglig",
       "viewProduct": "Visa produkt",
       "claimGift": "Reservera gåvan",
-      "claimedBtn": "Reserverad"
+      "claimedBtn": "Reserverad",
+      "reservedBy": "Reserverad av {name}",
+      "reserverNote": "Meddelande"
     },
     "claim": {
       "claimedTitle": "Gåva reserverad",

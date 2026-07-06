@@ -1,6 +1,7 @@
 import api from "@/lib/axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
+  MemberWishlist,
   PublicWishlist,
   WishlistDetail,
   WishlistListItem,
@@ -12,6 +13,7 @@ export const wishlistKeys = {
   detail: (id: string, page?: number) =>
     ["wishlists", "detail", id, page] as const,
   public: (token: string) => ["wishlists", "public", token] as const,
+  invitation: (token: string) => ["wishlists", "invitation", token] as const,
 };
 
 export const useQueryWishlists = (page = 1, limit = 8) =>
@@ -43,5 +45,19 @@ export const useQueryPublicWishlist = (token: string) =>
     queryFn: async () => {
       const res = await api.get(`/public/wishlists/${token}`);
       return res.data.data as PublicWishlist;
+    },
+  });
+
+// Member view resolved through an event-invitation token. Includes reserver
+// name and message on reserved items (the anonymous public list does not).
+export const useQueryInvitationWishlist = (token: string) =>
+  useQuery({
+    queryKey: wishlistKeys.invitation(token),
+    enabled: !!token,
+    queryFn: async () => {
+      const res = await api.get(
+        `/public/event-invitations/${token}/wishlist`
+      );
+      return res.data.data as MemberWishlist;
     },
   });
