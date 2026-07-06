@@ -1129,6 +1129,8 @@
       "enterNameEmail": "Enter both name and email",
       "dateRequired": "Event date is required to send",
       "savedDraft": "Invitation saved as draft",
+      "autosaving": "Saving draft…",
+      "autosaved": "Draft saved",
       "eventDetails": "Event Details",
       "emailStatus": "Email Status",
       "readyToSend": "Ready to Send",

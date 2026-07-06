@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
@@ -49,6 +49,7 @@ import {
 import {
   useCreateInvitation,
   useSendInvitation,
+  useUpdateInvitation,
 } from "../_api/mutations/useInvitationMutations";
 import { useQueryInvitationTemplates } from "../_api/queries/useQueryInvitations";
 import { useQueryWishlists } from "@/app/onskelistor/_api/queries/useQueryWishlists";
@@ -125,9 +126,115 @@ export default function CreateInvitationClient() {
   }, [templatesData]);
 
   const create = useCreateInvitation();
+  const update = useUpdateInvitation();
   const send = useSendInvitation();
   const uploadTemp = useFileUploadTempFolder();
   const submitting = create.isPending || send.isPending || uploadTemp.isPending;
+
+  // ─── Auto-save to draft ─────────────────────────────────────────────────────
+  // The invitation is persisted as a DRAFT as soon as the host enters any real
+  // content, then continuously PATCHed as they progress, so nothing is lost if
+  // they navigate away or get interrupted mid-wizard.
+  const [draftId, setDraftId] = useState<string | null>(null);
+  const draftIdRef = useRef<string | null>(null);
+  const creatingRef = useRef(false); // guards against a duplicate initial create
+  const finalizingRef = useRef(false); // pauses autosave during final send
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">(
+    "idle"
+  );
+
+  const selectedTemplate = templates.find((tpl) => tpl._id === template);
+
+  const buildPayload = useCallback(
+    (): Record<string, unknown> => ({
+      title: title.trim(),
+      subtitle: subtitle.trim() || undefined,
+      message: message.trim() || undefined,
+      event_date: date ? date.toISOString() : undefined,
+      event_time: time || undefined,
+      reply_by: replyBy ? replyBy.toISOString() : undefined,
+      location: location.trim() || undefined,
+      template: coverImage ? "custom" : selectedTemplate?.slug,
+      cover_image: coverImage ? coverImage : selectedTemplate?.preview_url,
+      wishlist: wishlistId,
+      delivery_options: delivery,
+      recipients,
+    }),
+    [
+      title,
+      subtitle,
+      message,
+      date,
+      time,
+      replyBy,
+      location,
+      coverImage,
+      selectedTemplate?.slug,
+      selectedTemplate?.preview_url,
+      wishlistId,
+      delivery,
+      recipients,
+    ]
+  );
+
+  // Only content the host actually entered counts — template/delivery default
+  // themselves, so they must not trigger a draft on their own.
+  const hasMeaningfulInput = useMemo(
+    () =>
+      !!title.trim() ||
+      !!subtitle.trim() ||
+      !!message.trim() ||
+      !!date ||
+      !!time ||
+      !!replyBy ||
+      !!location.trim() ||
+      recipients.length > 0 ||
+      !!wishlistId ||
+      !!coverImage,
+    [
+      title,
+      subtitle,
+      message,
+      date,
+      time,
+      replyBy,
+      location,
+      recipients.length,
+      wishlistId,
+      coverImage,
+    ]
+  );
+
+  const persistDraft = useCallback(async () => {
+    if (finalizingRef.current || creatingRef.current) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const payload = buildPayload() as any;
+    try {
+      setSaveState("saving");
+      if (!draftIdRef.current) {
+        creatingRef.current = true;
+        const created = await create.mutateAsync(payload);
+        draftIdRef.current = created._id;
+        setDraftId(created._id);
+        creatingRef.current = false;
+      } else {
+        await update.mutateAsync({ id: draftIdRef.current, body: payload });
+      }
+      setSaveState("saved");
+    } catch {
+      creatingRef.current = false;
+      setSaveState("idle");
+    }
+  }, [buildPayload, create, update]);
+
+  // Debounce: save ~1s after the host stops changing fields.
+  useEffect(() => {
+    if (!hasMeaningfulInput || finalizingRef.current) return;
+    const handle = setTimeout(() => {
+      void persistDraft();
+    }, 1000);
+    return () => clearTimeout(handle);
+  }, [buildPayload, hasMeaningfulInput, persistDraft]);
 
   const next = () => {
     if (step === 0 && !title.trim()) {
@@ -180,81 +287,55 @@ export default function CreateInvitationClient() {
       d.includes(opt) ? d.filter((x) => x !== opt) : [...d, opt]
     );
 
-  const handleSubmit = () => {
+  const scheduleAtIso = () =>
+    sendLater && scheduleAt
+      ? (() => {
+          const d = new Date(scheduleAt);
+          if (scheduleTime) {
+            const [hours, minutes] = scheduleTime.split(":");
+            d.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+          }
+          return d.toISOString();
+        })()
+      : undefined;
+
+  const handleSubmit = async () => {
     if (!date) {
       toast.error(t("invitations.builder.dateRequired"));
       setStep(0);
       return;
     }
+    if (!template && !coverImage) return;
 
-    const onSuccess = (created: { _id: string }) => {
-      send.mutate(
-        {
-          id: created._id,
-          schedule_at:
-            sendLater && scheduleAt
-              ? (() => {
-                  const d = new Date(scheduleAt);
-                  if (scheduleTime) {
-                    const [hours, minutes] = scheduleTime.split(":");
-                    d.setHours(
-                      parseInt(hours, 10),
-                      parseInt(minutes, 10),
-                      0,
-                      0
-                    );
-                  }
-                  return d.toISOString();
-                })()
-              : undefined,
-          delivery_options: delivery,
-        },
-        {
-          onSuccess: () => setSentOpen(true),
-          onError: () => {
-            toast.success(t("invitations.builder.savedDraft"));
-            router.push("/inbjudningar");
-          },
-        }
-      );
-    };
+    // Stop autosave from racing the final create/send, then reuse the draft
+    // already created during the wizard instead of making a duplicate.
+    finalizingRef.current = true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const payload = buildPayload() as any;
 
-    if (template) {
-      create.mutate(
-        {
-          title: title.trim(),
-          subtitle: subtitle.trim() || undefined,
-          message: message.trim() || undefined,
-          event_date: date.toISOString(),
-          event_time: time || undefined,
-          reply_by: replyBy ? replyBy.toISOString() : undefined,
-          location: location.trim() || undefined,
-          template: templates.find((t) => t._id === template)?.slug,
-          cover_image: templates.find((t) => t._id === template)?.preview_url,
-          wishlist: wishlistId,
-          delivery_options: delivery,
-          recipients,
-        },
-        { onSuccess }
-      );
-    } else if (coverImage) {
-      create.mutate(
-        {
-          title: title.trim(),
-          subtitle: subtitle.trim() || undefined,
-          message: message.trim() || undefined,
-          event_date: date.toISOString(),
-          event_time: time || undefined,
-          reply_by: replyBy ? replyBy.toISOString() : undefined,
-          location: location.trim() || undefined,
-          template: "custom",
-          cover_image: coverImage,
-          wishlist: wishlistId,
-          delivery_options: delivery,
-          recipients,
-        },
-        { onSuccess }
-      );
+    try {
+      let id = draftIdRef.current;
+      if (id) {
+        await update.mutateAsync({ id, body: payload });
+      } else {
+        const created = await create.mutateAsync(payload);
+        id = created._id;
+        draftIdRef.current = created._id;
+        setDraftId(created._id);
+      }
+
+      await send.mutateAsync({
+        id,
+        schedule_at: scheduleAtIso(),
+        delivery_options: delivery,
+      });
+      setSentOpen(true);
+    } catch {
+      // The draft is already persisted; sending just failed validation, so
+      // keep it as a draft the host can finish later.
+      finalizingRef.current = false;
+      toast.success(t("invitations.builder.savedDraft"));
+      router.push("/inbjudningar");
     }
   };
   return (
@@ -269,6 +350,22 @@ export default function CreateInvitationClient() {
           <p className="font-outfit! text-sm md:text-base text-text-secondary">
             {t("invitations.builder.subtitle")}
           </p>
+
+          {(saveState !== "idle" || draftId) && (
+            <div className="font-outfit! mt-2 flex items-center gap-1.5 text-xs text-text-secondary">
+              {saveState === "saving" ? (
+                <>
+                  <Loader2 className="size-3.5 animate-spin" />
+                  <span>{t("invitations.builder.autosaving")}</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="size-3.5 text-primary" />
+                  <span>{t("invitations.builder.autosaved")}</span>
+                </>
+              )}
+            </div>
+          )}
 
           <div className="mt-6 flex items-center justify-between">
             {STEPS.map((stepItem, i) => (

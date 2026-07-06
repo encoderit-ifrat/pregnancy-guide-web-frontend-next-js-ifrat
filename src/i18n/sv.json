@@ -1116,6 +1116,8 @@
       "enterNameEmail": "Ange både namn och e-post",
       "dateRequired": "Eventdatum krävs för att skicka",
       "savedDraft": "Inbjudan sparad som utkast",
+      "autosaving": "Sparar utkast…",
+      "autosaved": "Utkast sparat",
       "eventDetails": "Event Details",
       "emailStatus": "E-poststatus",
       "readyToSend": "Redo att skicka",
