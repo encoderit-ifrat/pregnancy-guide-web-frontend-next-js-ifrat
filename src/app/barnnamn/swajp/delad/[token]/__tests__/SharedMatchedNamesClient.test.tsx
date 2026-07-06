@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SharedMatchedNamesClient } from "../SharedMatchedNamesClient";
 import React from "react";
-import { useQueryGetMatchingNames } from "../../matched-names/_api/useQueryGetMatchingNames";
+import { useQueryGetMatchingNames } from "../../matchade/_api/useQueryGetMatchingNames";
 
 // ─── Mocks ───────────────────────────────────────────────────────────────────
 
@@ -25,13 +25,13 @@ jest.mock("@/hooks/useGuestId", () => ({
 }));
 
 // Mock API Query Hook
-jest.mock("../../matched-names/_api/useQueryGetMatchingNames", () => ({
+jest.mock("../../matchade/_api/useQueryGetMatchingNames", () => ({
   useQueryGetMatchingNames: jest.fn(),
 }));
 
-// Mock Mutation Hook
-jest.mock("../../for-name-tinder/_api/mutations/useMutationSwipeTinderName", () => ({
-  useMutationSwipeTinderName: () => ({
+// Mock Mutation Hook (shared-list voting)
+jest.mock("../../_api/mutations/useMutationVoteListName", () => ({
+  useMutationVoteListName: () => ({
     mutate: jest.fn(),
     isPending: false,
   }),
@@ -88,7 +88,7 @@ describe("SharedMatchedNamesClient Component", () => {
     expect(screen.getByText("matchedNames.mostLoved")).toBeInTheDocument();
   });
 
-  it("renders the list of liked names by default (when initialFilter is liked)", () => {
+  it("shows ALL matched names on the liked tab (tabs sort, they do not filter)", () => {
     (useQueryGetMatchingNames as jest.Mock).mockReturnValue({
       data: mockData,
       isLoading: false,
@@ -100,12 +100,13 @@ describe("SharedMatchedNamesClient Component", () => {
       />
     );
 
+    // Every matched name is shown regardless of tab; the tab only re-sorts.
     expect(screen.getByText("Oliver")).toBeInTheDocument();
     expect(screen.getByText("Emma")).toBeInTheDocument();
-    expect(screen.queryByText("Liam")).not.toBeInTheDocument();
+    expect(screen.getByText("Liam")).toBeInTheDocument();
   });
 
-  it("switches to loved tab and displays loved names", async () => {
+  it("keeps showing all names after switching to the loved (sort) tab", async () => {
     const user = userEvent.setup();
     (useQueryGetMatchingNames as jest.Mock).mockReturnValue({
       data: mockData,
@@ -118,13 +119,14 @@ describe("SharedMatchedNamesClient Component", () => {
       />
     );
 
-    // Switch to Loved tab
+    // Switch to the "most loved" sort tab
     const lovedTab = screen.getByText("matchedNames.mostLoved");
     await user.click(lovedTab);
 
-    // After switching tab, Liam should be visible
+    // All names remain visible — the tab only changes the sort order.
     expect(await screen.findByText("Liam")).toBeInTheDocument();
-    expect(screen.queryByText("Oliver")).not.toBeInTheDocument();
+    expect(screen.getByText("Oliver")).toBeInTheDocument();
+    expect(screen.getByText("Emma")).toBeInTheDocument();
   });
 
   it("shows loading state with skeletons", () => {

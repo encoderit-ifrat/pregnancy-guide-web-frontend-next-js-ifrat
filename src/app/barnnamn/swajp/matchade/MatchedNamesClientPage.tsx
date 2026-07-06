@@ -107,24 +107,24 @@ function NameCard({ item }: { item: MatchingType }) {
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
-      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-3 sm:p-4">
-        <div className="flex flex-row items-center gap-3 sm:gap-4">
+      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-2 sm:p-2.5">
+        <div className="flex flex-row items-center gap-2 sm:gap-3">
           {/* Left: name + meta */}
-          <div className="flex-1 flex flex-col justify-between gap-1">
-            <h3 className="text-base sm:text-lg font-semibold text-primary-color leading-tight">
+          <div className="flex-1 flex flex-col justify-between gap-0.5">
+            <h3 className="text-sm sm:text-[15px] font-semibold text-primary-color leading-tight">
               {item.name}
             </h3>
 
             {/* Footer Stats Area */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-primary-color text-xs sm:text-sm">
-              <div className="flex items-center gap-1.5">
-                <Heart className="size-3.5 sm:size-4 fill-rose-500 text-rose-500" />
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-primary-color text-[11px] sm:text-xs">
+              <div className="flex items-center gap-1">
+                <Heart className="size-3 sm:size-3.5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
                   {item.loved_count} {t("forNameTinder.love")}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <ThumbsUp className="size-3.5 sm:size-4 text-primary" />
+              <div className="flex items-center gap-1">
+                <ThumbsUp className="size-3 sm:size-3.5 text-primary" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>
@@ -207,7 +207,7 @@ function NameCard({ item }: { item: MatchingType }) {
                 >
                   <Heart
                     className={cn(
-                      "size-5 transition-colors",
+                      "size-4 transition-colors",
                       activeAction === "love"
                         ? "fill-rose-500 stroke-rose-500"
                         : "stroke-current"
@@ -224,7 +224,7 @@ function NameCard({ item }: { item: MatchingType }) {
                 >
                   <ThumbsUp
                     className={cn(
-                      "size-5 transition-colors",
+                      "size-4 transition-colors",
                       activeAction === "like"
                         ? "fill-primary stroke-primary"
                         : "stroke-current"
@@ -376,7 +376,7 @@ export default function MatchedNamesClientPage() {
                 <TabsContent
                   key={tab}
                   value={tab}
-                  className="m-0 flex flex-col gap-6"
+                  className="m-0 flex flex-col gap-2.5"
                 >
                   {isLoading && (
                     <>

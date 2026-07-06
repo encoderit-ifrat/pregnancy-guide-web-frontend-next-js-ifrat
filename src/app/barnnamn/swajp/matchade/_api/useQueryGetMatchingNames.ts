@@ -7,8 +7,11 @@ export type MatchingType = {
   _id: string;
   name: string;
   gender: Gender;
+  /** Votes cast on THIS shared list (not global) — see backend list-vote scoping. */
   liked_count: number;
   loved_count: number;
+  /** The current viewer's own vote on this list, echoed back for selected state. */
+  my_action?: "like" | "love" | null;
   category_id: {
     _id: string;
     name: string;
@@ -41,10 +44,18 @@ export const useQueryGetMatchingNames = (
   user_id?: string,
   partner_id?: string,
   isPublic: boolean = false,
-  initialData?: any
+  initialData?: any,
+  guest_id?: string | null
 ) => {
   return useQuery({
-    queryKey: ["tinder-names-matching", filter, user_id, partner_id, isPublic],
+    queryKey: [
+      "tinder-names-matching",
+      filter,
+      user_id,
+      partner_id,
+      isPublic,
+      guest_id,
+    ],
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchOnMount: true,
@@ -54,7 +65,7 @@ export const useQueryGetMatchingNames = (
         ? "/tinder-names/matching/public"
         : "/tinder-names/matching";
       const res = await api.get<MatchingNamesResponse>(endpoint, {
-        params: { filter, user_id, partner_id },
+        params: { filter, user_id, partner_id, guest_id },
       });
       // Normalise: API may return a single object or an array
       const raw = res.data.data;

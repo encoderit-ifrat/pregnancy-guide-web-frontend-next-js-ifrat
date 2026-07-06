@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { Heart, InfoIcon, ThumbsUp } from "lucide-react";
@@ -16,7 +16,7 @@ import {
   MatchingType,
 } from "../../matchade/_api/useQueryGetMatchingNames";
 import { useGuestId } from "@/hooks/useGuestId";
-import { useMutationSwipeTinderName } from "../../_api/mutations/useMutationSwipeTinderName";
+import { useMutationVoteListName } from "../../_api/mutations/useMutationVoteListName";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 
@@ -84,32 +84,37 @@ function SkeletonCard() {
 function NameCard({
   item,
   guestId,
+  listOwnerId,
 }: {
   item: MatchingType;
   guestId: string | null;
+  listOwnerId?: string;
 }) {
   const { t } = useTranslation();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [activeAction, setActiveAction] = useState<"like" | "love" | null>(
-    null
+    item.my_action ?? null
   );
-  const { mutate: swipe, isPending: isSwiping } = useMutationSwipeTinderName();
+  const { mutate: vote, isPending: isVoting } = useMutationVoteListName();
 
-  // Toggle: clicking the same action again clears it; clicking a different action switches.
-  const handleToggle = (action: "like" | "love") => {
-    if (!item._id) return;
+  // Keep the selected state in sync with the server-echoed vote so a page reload
+  // shows the visitor's existing vote (instead of resetting and letting a second
+  // click silently toggle it off).
+  useEffect(() => {
+    setActiveAction(item.my_action ?? null);
+  }, [item.my_action]);
 
-    if (activeAction === action) {
-      // Deselect — optimistically clear the UI; backend may or may not support un-swipe
-      setActiveAction(null);
-      return;
-    }
+  // Toggle a vote on this shared list. Sending the currently-active action again
+  // removes it server-side; a different action switches. The server returns the
+  // resulting vote as `my_action`, which we use as the source of truth.
+  const submitVote = (action: "like" | "love") => {
+    if (!item._id || !listOwnerId) return;
 
-    swipe(
-      { id: item._id, action, guestId },
+    vote(
+      { id: item._id, action, listOwnerId, guestId },
       {
-        onSuccess: () => {
-          setActiveAction(action);
+        onSuccess: (res) => {
+          setActiveAction(res.data.my_action ?? null);
           toast.success(t("matchedNames.swipeSuccess"));
         },
         onError: (err: any) => {
@@ -123,21 +128,21 @@ function NameCard({
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
-      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-3 sm:p-4">
-        <div className="flex flex-row items-center gap-3 sm:gap-4">
-          <div className="flex-1 flex flex-col justify-between gap-1">
-            <h3 className="text-base sm:text-lg font-semibold text-primary-color leading-tight">
+      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-2 sm:p-2.5">
+        <div className="flex flex-row items-center gap-2 sm:gap-3">
+          <div className="flex-1 flex flex-col justify-between gap-0.5">
+            <h3 className="text-sm sm:text-[15px] font-semibold text-primary-color leading-tight">
               {item.name}
             </h3>
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-primary-color text-xs sm:text-sm">
-              <div className="flex items-center gap-1.5">
-                <Heart className="size-3.5 sm:size-4 fill-rose-500 text-rose-500" />
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-primary-color text-[11px] sm:text-xs">
+              <div className="flex items-center gap-1">
+                <Heart className="size-3 sm:size-3.5 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
                   {item.loved_count} {t("forNameTinder.love")}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <ThumbsUp className="size-3.5 sm:size-4 text-primary" />
+              <div className="flex items-center gap-1">
+                <ThumbsUp className="size-3 sm:size-3.5 text-primary" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>
@@ -154,13 +159,14 @@ function NameCard({
                 type="single"
                 value={activeAction || ""}
                 onValueChange={(value) => {
-                  if (value) handleToggle(value as "like" | "love");
-                  else {
-                    // ToggleGroup already deselected (value is empty string)
-                    setActiveAction(null);
+                  if (value) submitVote(value as "like" | "love");
+                  else if (activeAction) {
+                    // Deselecting the active pill: re-send it so the server
+                    // toggles the vote off (keeps counts in sync).
+                    submitVote(activeAction);
                   }
                 }}
-                disabled={isSwiping}
+                disabled={isVoting}
                 className="gap-2 sm:gap-3"
               >
                 <ToggleGroupItem
@@ -172,7 +178,7 @@ function NameCard({
                 >
                   <Heart
                     className={cn(
-                      "size-5 transition-colors",
+                      "size-4 transition-colors",
                       activeAction === "love"
                         ? "fill-rose-500 stroke-rose-500"
                         : "stroke-current"
@@ -189,7 +195,7 @@ function NameCard({
                 >
                   <ThumbsUp
                     className={cn(
-                      "size-5 transition-colors",
+                      "size-4 transition-colors",
                       activeAction === "like"
                         ? "fill-primary stroke-primary"
                         : "stroke-current"
@@ -263,12 +269,14 @@ export function SharedMatchedNamesClient({
   const guestId = useGuestId();
 
   // Always fetch the full matched list; the tab only controls sort order.
+  // guestId is passed so the API can echo back this visitor's own vote.
   const { data, isLoading, isError } = useQueryGetMatchingNames(
     "all",
     user_id,
     partner_id,
     true,
-    initialData
+    initialData,
+    guestId
   );
 
   const items = data?.items ?? [];
@@ -321,7 +329,7 @@ export function SharedMatchedNamesClient({
             <TabsContent
               key={tab}
               value={tab}
-              className="m-0 flex flex-col gap-6"
+              className="m-0 flex flex-col gap-2.5"
             >
               {isLoading && (
                 <>
@@ -347,6 +355,7 @@ export function SharedMatchedNamesClient({
                   key={`${nameItem.name}-${idx}`}
                   item={nameItem}
                   guestId={guestId}
+                  listOwnerId={user_id}
                 />
               ))}
             </TabsContent>
