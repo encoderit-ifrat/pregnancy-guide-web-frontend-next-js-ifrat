@@ -8,6 +8,13 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { DatePicker } from "@/components/ui/DatePicker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
 import {
   AlertDialog,
@@ -460,50 +467,50 @@ export default function CreateInvitationClient() {
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
-                      <div className="flex gap-2 items-center rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-4">
-                        <select
-                          value={time ? time.split(":")[0] : ""}
-                          onChange={(e) => {
-                            const hour = e.target.value;
+                      <div className="flex items-center gap-1 rounded-[5px] bg-[#FBF8FF] px-2">
+                        <Select
+                          value={time ? time.split(":")[0] : undefined}
+                          onValueChange={(hour) => {
                             const minute = time ? time.split(":")[1] : "00";
                             setTime(`${hour}:${minute}`);
                           }}
-                          className="h-12 text-base w-full max-w-[50px] appearance-none focus:outline-none"
                         >
-                          <option value="" disabled>
-                            HH
-                          </option>
-                          {Array.from({ length: 24 }, (_, i) =>
-                            String(i).padStart(2, "0")
-                          ).map((h) => (
-                            <option key={h} value={h}>
-                              {h}
-                            </option>
-                          ))}
-                        </select>
-                        <span className="text-lg pr-4 font-medium text-gray-500">
+                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                            <SelectValue placeholder="HH" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 24 }, (_, i) =>
+                              String(i).padStart(2, "0")
+                            ).map((h) => (
+                              <SelectItem key={h} value={h}>
+                                {h}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <span className="text-lg font-medium text-gray-400">
                           :
                         </span>
-                        <select
-                          value={time ? time.split(":")[1] : ""}
-                          onChange={(e) => {
-                            const minute = e.target.value;
+                        <Select
+                          value={time ? time.split(":")[1] : undefined}
+                          onValueChange={(minute) => {
                             const hour = time ? time.split(":")[0] : "00";
                             setTime(`${hour}:${minute}`);
                           }}
-                          className="h-12 text-base w-full max-w-[60px] appearance-none focus:outline-none"
                         >
-                          <option value="" disabled>
-                            mm
-                          </option>
-                          {Array.from({ length: 60 }, (_, i) =>
-                            String(i).padStart(2, "0")
-                          ).map((m) => (
-                            <option key={m} value={m}>
-                              {m}
-                            </option>
-                          ))}
-                        </select>
+                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                            <SelectValue placeholder="mm" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 60 }, (_, i) =>
+                              String(i).padStart(2, "0")
+                            ).map((m) => (
+                              <SelectItem key={m} value={m}>
+                                {m}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                     </Field>
                   </div>
@@ -942,58 +949,62 @@ export default function CreateInvitationClient() {
                         </Field>
 
                         <Field label={t("invitations.builder.time")}>
-                          <div className="flex gap-2 items-center rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-4">
-                            <select
+                          <div className="flex items-center rounded-[5px] bg-[#FBF8FF] px-2 gap-1">
+                            <Select
                               value={
-                                scheduleTime ? scheduleTime.split(":")[0] : ""
+                                scheduleTime
+                                  ? scheduleTime.split(":")[0]
+                                  : undefined
                               }
-                              onChange={(e) => {
-                                const hour = e.target.value;
+                              onValueChange={(hour) => {
                                 const minute = scheduleTime
                                   ? scheduleTime.split(":")[1]
                                   : "00";
                                 setScheduleTime(`${hour}:${minute}`);
                               }}
-                              className="h-11 md:h-12 pr-4 text-base w-full appearance-none"
                             >
-                              <option value="" disabled>
-                                HH
-                              </option>
-                              {Array.from({ length: 24 }, (_, i) =>
-                                String(i).padStart(2, "0")
-                              ).map((h) => (
-                                <option key={h} value={h}>
-                                  {h}
-                                </option>
-                              ))}
-                            </select>
-                            <span className="text-lg font-medium text-gray-500">
+                              <SelectTrigger className="h-11 md:h-12 w-[72px]  border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                                <SelectValue placeholder="HH" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Array.from({ length: 24 }, (_, i) =>
+                                  String(i).padStart(2, "0")
+                                ).map((h) => (
+                                  <SelectItem key={h} value={h}>
+                                    {h}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <span className="text-lg font-medium text-gray-400">
                               :
                             </span>
-                            <select
+                            <Select
                               value={
-                                scheduleTime ? scheduleTime.split(":")[1] : ""
+                                scheduleTime
+                                  ? scheduleTime.split(":")[1]
+                                  : undefined
                               }
-                              onChange={(e) => {
-                                const minute = e.target.value;
+                              onValueChange={(minute) => {
                                 const hour = scheduleTime
                                   ? scheduleTime.split(":")[0]
                                   : "00";
                                 setScheduleTime(`${hour}:${minute}`);
                               }}
-                              className="h-11 md:h-12 px-4 text-base w-full appearance-none"
                             >
-                              <option value="" disabled>
-                                mm
-                              </option>
-                              {Array.from({ length: 60 }, (_, i) =>
-                                String(i).padStart(2, "0")
-                              ).map((m) => (
-                                <option key={m} value={m}>
-                                  {m}
-                                </option>
-                              ))}
-                            </select>
+                              <SelectTrigger className="h-11 md:h-12 w-[72px]  border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                                <SelectValue placeholder="mm" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Array.from({ length: 60 }, (_, i) =>
+                                  String(i).padStart(2, "0")
+                                ).map((m) => (
+                                  <SelectItem key={m} value={m}>
+                                    {m}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </div>
                         </Field>
                       </div>

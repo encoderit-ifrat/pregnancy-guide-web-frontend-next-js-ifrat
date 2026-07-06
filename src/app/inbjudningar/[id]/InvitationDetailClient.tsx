@@ -460,7 +460,17 @@ export default function InvitationDetailClient({}: pageProps) {
                       t("invitations.preview.eventSubtitle")}
                   </p>
 
-                  <p className="font-outfit! mx-auto max-w-sm text-base! text-text-secondary mt-2 mb-[9px] line-clamp-2">
+                  <p
+                    className="font-outfit! mx-auto max-w-sm text-base! text-text-secondary mt-2 mb-[9px]"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                      overflow: "hidden",
+                      marginBlockEnd: "9px",
+                      lineHeight: "24px",
+                    }}
+                  >
                     {captureInv.message ||
                       t("invitations.preview.defaultMessage")}
                   </p>

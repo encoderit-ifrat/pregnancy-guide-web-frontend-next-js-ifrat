@@ -60,7 +60,7 @@ export function DatePicker({
           )}
         >
           {value ? (
-            value.toLocaleDateString()
+            value.toLocaleDateString("en-GB")
           ) : (
             <p className="text-[#445B6A]! font-normal! text-sm!">
               {placeholder}

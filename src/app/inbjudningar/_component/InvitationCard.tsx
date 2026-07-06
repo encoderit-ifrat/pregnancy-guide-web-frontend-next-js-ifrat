@@ -135,7 +135,8 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
         <div className="flex items-center gap-2 mt-[15px] mb-2">
           <Calendar size={16} className="text-primary" />
           <p className="text-sm! md:text-base! font-normal!">
-            {formatDate(inv.event_date || "", "P")} at {inv.event_time}
+            {inv?.event_date ? formatDate(inv?.event_date, "P") : ""}
+            {inv?.event_time ? ` at ${inv.event_time}` : ""}
           </p>
         </div>
         <div className="flex items-center gap-2 mb-2 ">
