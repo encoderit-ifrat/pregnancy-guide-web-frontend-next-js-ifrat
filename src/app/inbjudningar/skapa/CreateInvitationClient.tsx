@@ -467,7 +467,7 @@ export default function CreateInvitationClient() {
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
-                      <div className="flex items-center gap-1 rounded-[5px] bg-[#FBF8FF] px-2">
+                      <div className="flex items-center gap-1 rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2">
                         <Select
                           value={time ? time.split(":")[0] : undefined}
                           onValueChange={(hour) => {
@@ -949,7 +949,7 @@ export default function CreateInvitationClient() {
                         </Field>
 
                         <Field label={t("invitations.builder.time")}>
-                          <div className="flex items-center rounded-[5px] bg-[#FBF8FF] px-2 gap-1">
+                          <div className="flex items-center rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2 gap-1">
                             <Select
                               value={
                                 scheduleTime
