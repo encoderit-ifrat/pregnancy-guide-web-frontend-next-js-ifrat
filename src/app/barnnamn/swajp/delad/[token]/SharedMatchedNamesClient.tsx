@@ -123,31 +123,31 @@ function NameCard({
 
   return (
     <Dialog open={openInfoDialog} onOpenChange={setOpenInfoDialog}>
-      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-4 sm:p-6 md:pt-8 md:pr-13 md:pb-10 md:pl-12">
-        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-9">
-          <div className="flex-1 flex flex-col justify-between space-y-3 sm:space-y-2">
-            <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary-color leading-tight">
+      <Card className="w-full border border-border shadow-[0px_4px_54px_-2px_rgba(169,122,236,0.15)] rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all p-3 sm:p-4">
+        <div className="flex flex-row items-center gap-3 sm:gap-4">
+          <div className="flex-1 flex flex-col justify-between gap-1">
+            <h3 className="text-base sm:text-lg font-semibold text-primary-color leading-tight">
               {item.name}
             </h3>
-            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-color text-sm sm:text-base">
-              <div className="flex items-center gap-2">
-                <Heart className="size-4 sm:size-5 fill-rose-500 text-rose-500" />
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-primary-color text-xs sm:text-sm">
+              <div className="flex items-center gap-1.5">
+                <Heart className="size-3.5 sm:size-4 fill-rose-500 text-rose-500" />
                 <span className="font-medium">
                   {item.loved_count} {t("forNameTinder.love")}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <ThumbsUp className="size-4 sm:size-5 text-primary" />
+              <div className="flex items-center gap-1.5">
+                <ThumbsUp className="size-3.5 sm:size-4 text-primary" />
                 <span className="font-medium">
                   {item.liked_count} {t("threads.like")}
                 </span>
               </div>
             </div>
           </div>
-          <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-6 pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
-            <div className="flex items-center gap-4">
+          <div className="shrink-0 flex items-center justify-end gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <DialogTrigger asChild>
-                <InfoIcon className="size-5 cursor-pointer text-primary-color hover:text-primary transition-colors" />
+                <InfoIcon className="size-4 cursor-pointer text-primary-color hover:text-primary transition-colors" />
               </DialogTrigger>
 
               <ToggleGroup
@@ -161,7 +161,7 @@ function NameCard({
                   }
                 }}
                 disabled={isSwiping}
-                className="gap-4"
+                className="gap-2 sm:gap-3"
               >
                 <ToggleGroupItem
                   value="love"
@@ -172,7 +172,7 @@ function NameCard({
                 >
                   <Heart
                     className={cn(
-                      "size-6 transition-colors",
+                      "size-5 transition-colors",
                       activeAction === "love"
                         ? "fill-rose-500 stroke-rose-500"
                         : "stroke-current"
@@ -189,7 +189,7 @@ function NameCard({
                 >
                   <ThumbsUp
                     className={cn(
-                      "size-6 transition-colors",
+                      "size-5 transition-colors",
                       activeAction === "like"
                         ? "fill-primary stroke-primary"
                         : "stroke-current"
@@ -262,23 +262,34 @@ export function SharedMatchedNamesClient({
   const [activeTab, setActiveTab] = useState(initialFilter);
   const guestId = useGuestId();
 
-  const tabFilterMap: Record<string, "liked" | "loved" | "all"> = {
-    liked: "liked",
-    loved: "loved",
-  };
-
+  // Always fetch the full matched list; the tab only controls sort order.
   const { data, isLoading, isError } = useQueryGetMatchingNames(
-    tabFilterMap[activeTab] ?? "all",
+    "all",
     user_id,
     partner_id,
     true,
-    activeTab === initialFilter ? initialData : undefined
+    initialData
   );
 
   const items = data?.items ?? [];
   const firstItem = items[0];
-  const listToRender =
-    activeTab === "liked" ? firstItem?.liked : firstItem?.loved;
+
+  // Show ALL matched names regardless of tab. "Mest gillade" / "Mest älskade"
+  // are only sort buttons, not filters.
+  const listToRender = React.useMemo(() => {
+    const map = new Map<string, MatchingType>();
+    [...(firstItem?.loved ?? []), ...(firstItem?.liked ?? [])].forEach(
+      (n: MatchingType) => {
+        if (n?._id && !map.has(n._id)) map.set(n._id, n);
+      }
+    );
+    const list = Array.from(map.values());
+    return list.sort((a, b) =>
+      activeTab === "loved"
+        ? (b.loved_count ?? 0) - (a.loved_count ?? 0)
+        : (b.liked_count ?? 0) - (a.liked_count ?? 0)
+    );
+  }, [firstItem, activeTab]);
 
   return (
     <div className="w-full max-w-327 pb-20 mx-auto px-4 sm:px-0 mt-16">

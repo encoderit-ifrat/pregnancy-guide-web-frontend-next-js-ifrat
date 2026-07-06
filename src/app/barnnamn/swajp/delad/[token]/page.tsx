@@ -89,11 +89,8 @@ export default async function SharedMatchedNamesPage({
       : undefined;
   const initialFilter = filterParam === "love" ? "loved" : "liked";
 
-  const initialData = await fetchInitialData(
-    initialFilter,
-    user_id,
-    partner_id
-  );
+  // Fetch the full matched list; the tab only controls sort order client-side.
+  const initialData = await fetchInitialData("all", user_id, partner_id);
 
   return (
     <SharedMatchedNamesClient
