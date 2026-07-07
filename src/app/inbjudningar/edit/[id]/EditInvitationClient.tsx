@@ -19,6 +19,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/AlertDialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/Switch";
 import { Label } from "@/components/ui/Label";
@@ -69,7 +76,7 @@ export default function EditInvitationClient() {
   const { data: invitationDetail } = useQueryInvitationDetail(id);
   const { data: templatesData } = useQueryInvitationTemplates();
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [sentOpen, setSentOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
 
@@ -162,7 +169,7 @@ export default function EditInvitationClient() {
         );
       }
     }
-  }, [invitationDetail]);
+  }, [invitationDetail, templates]);
 
   useEffect(() => {
     setStatus(sendLater ? "scheduled" : "sent");
@@ -227,6 +234,12 @@ export default function EditInvitationClient() {
     }
 
     const onSuccess = () => {
+      if (status === "draft") {
+        toast.success(t("invitations.builder.savedDraft"));
+        router.push("/inbjudningar");
+        return;
+      }
+
       send.mutate(
         {
           id: id,
@@ -381,25 +394,70 @@ export default function EditInvitationClient() {
                       <DatePicker
                         value={date}
                         onChange={setDate}
-                        placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
+                        placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                         fromDate={new Date()}
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
-                      <Input
+                      {/* <Input
                         type="time"
                         value={time}
                         className="rounded-[5px]"
                         onChange={(e) => setTime(e.target.value)}
-                      />
+                      /> */}
+                      <div className="flex items-center gap-1 rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2">
+                        <Select
+                          value={time ? time.split(":")[0] : undefined}
+                          onValueChange={(hour) => {
+                            const minute = time ? time.split(":")[1] : "00";
+                            setTime(`${hour}:${minute}`);
+                          }}
+                        >
+                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                            <SelectValue placeholder="HH" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 24 }, (_, i) =>
+                              String(i).padStart(2, "0")
+                            ).map((h) => (
+                              <SelectItem key={h} value={h}>
+                                {h}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <span className="text-lg font-medium text-gray-400">
+                          :
+                        </span>
+                        <Select
+                          value={time ? time.split(":")[1] : undefined}
+                          onValueChange={(minute) => {
+                            const hour = time ? time.split(":")[0] : "00";
+                            setTime(`${hour}:${minute}`);
+                          }}
+                        >
+                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                            <SelectValue placeholder="mm" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 60 }, (_, i) =>
+                              String(i).padStart(2, "0")
+                            ).map((m) => (
+                              <SelectItem key={m} value={m}>
+                                {m}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </Field>
                   </div>
                   <Field label={t("invitations.builder.latestReply")}>
                     <DatePicker
                       value={replyBy}
                       onChange={setReplyBy}
-                      placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
+                      placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                       inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                       fromDate={new Date()}
                     />
@@ -839,19 +897,76 @@ export default function EditInvitationClient() {
                           <DatePicker
                             value={scheduleAt}
                             onChange={setScheduleAt}
-                            placeholder="dd-mm-yyy"
+                            placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                             inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                             fromDate={new Date()}
                           />
                         </Field>
 
                         <Field label={t("invitations.builder.time")}>
-                          <Input
+                          {/* <Input
                             type="time"
                             value={scheduleTime}
                             className="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]! h-11!"
                             onChange={(e) => setScheduleTime(e.target.value)}
-                          />
+                          /> */}
+                          <div className="flex items-center rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2 gap-1">
+                            <Select
+                              value={
+                                scheduleTime
+                                  ? scheduleTime.split(":")[0]
+                                  : undefined
+                              }
+                              onValueChange={(hour) => {
+                                const minute = scheduleTime
+                                  ? scheduleTime.split(":")[1]
+                                  : "00";
+                                setScheduleTime(`${hour}:${minute}`);
+                              }}
+                            >
+                              <SelectTrigger className="h-11 md:h-12 w-[72px]  border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                                <SelectValue placeholder="HH" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Array.from({ length: 24 }, (_, i) =>
+                                  String(i).padStart(2, "0")
+                                ).map((h) => (
+                                  <SelectItem key={h} value={h}>
+                                    {h}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <span className="text-lg font-medium text-gray-400">
+                              :
+                            </span>
+                            <Select
+                              value={
+                                scheduleTime
+                                  ? scheduleTime.split(":")[1]
+                                  : undefined
+                              }
+                              onValueChange={(minute) => {
+                                const hour = scheduleTime
+                                  ? scheduleTime.split(":")[0]
+                                  : "00";
+                                setScheduleTime(`${hour}:${minute}`);
+                              }}
+                            >
+                              <SelectTrigger className="h-11 md:h-12 w-[72px]  border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                                <SelectValue placeholder="mm" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Array.from({ length: 60 }, (_, i) =>
+                                  String(i).padStart(2, "0")
+                                ).map((m) => (
+                                  <SelectItem key={m} value={m}>
+                                    {m}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </Field>
                       </div>
                     )}

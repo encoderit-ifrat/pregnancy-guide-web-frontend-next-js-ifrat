@@ -176,14 +176,17 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <AlertDialogContent className="bg-white border border-[#E8E4F8] rounded-[15px] p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Invitation</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("invitations.deleteTitle")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this invitation? This action
-              cannot be undone.
+              {t("invitations.deleteDesc")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("invitations.deleteCancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-white hover:bg-destructive/90"
               onClick={(e) => {
@@ -196,7 +199,7 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
                 });
               }}
             >
-              {isPending ? <Spinner /> : "Delete"}
+              {isPending ? <Spinner /> : t("invitations.deleteConfirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

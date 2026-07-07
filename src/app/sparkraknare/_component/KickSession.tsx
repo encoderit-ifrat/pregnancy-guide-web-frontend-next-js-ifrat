@@ -15,6 +15,7 @@ import {
 } from "../_api/mutations/useKickMutations";
 import Image from "next/image";
 import { formatDate } from "date-fns";
+import { sv } from "date-fns/locale";
 
 const TYPE_ICON: Record<KickType, React.ReactNode> = {
   soft: <Feather className="size-4 text-primary" />,
@@ -171,7 +172,9 @@ export default function KickSession({
                   </span>
                   <p className="flex flex-col items-end">
                     <span className="text-sm font-semibold text-primary-dark">
-                      {formatDate(k.occurred_at, "MMMM dd, yyyy")}
+                      {formatDate(k.occurred_at, "MMMM dd, yyyy", {
+                        locale: sv,
+                      })}
                     </span>
                     <span className="text-sm font-normal! text-primary-dark">
                       {formatDate(k.occurred_at, "p")}

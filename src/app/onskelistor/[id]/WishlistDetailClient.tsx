@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -55,9 +55,12 @@ import { PublicWishlistItem, WishlistItem } from "../_types/wishlist_types";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { Input } from "@/components/ui/Input";
 import EditWishlistModal from "../_component/EditWishlistModal";
+import { formatDate } from "date-fns";
+import { sv } from "date-fns/locale";
 
 export default function WishlistDetailClient() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -110,15 +113,16 @@ export default function WishlistDetailClient() {
     <TooltipProvider>
       <PageContainer>
         <div className="mx-auto max-w-6xl">
-          <Link
-            href={"/onskelistor"}
-            className="flex items-center gap-2 mb-[35px] md:my-[53px]"
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="flex items-center gap-2 mb-[35px] md:my-[53px] cursor-pointer"
           >
             <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
             <p className="text-base font-normal">
               {t("wishlists.detail.back")}
             </p>
-          </Link>
+          </button>
 
           {isLoading || !wishlist ? (
             <div className="flex justify-center py-20">
@@ -205,10 +209,10 @@ export default function WishlistDetailClient() {
                     {wishlist.reply_by && (
                       <p className="text-primary-dark! text-base! md:text-[22px]! font-bold">
                         {t("wishlists.detail.latestPurchase", { date: "" })}
-                        <span className="text-primary-dark! text-base! font-normal!">
-                          {new Date(wishlist.reply_by).toLocaleDateString(
-                            "sv-SE"
-                          )}
+                        <span className="text-primary-dark! text-base! font-normal! capitalize">
+                          {formatDate(wishlist.reply_by, "MMMM dd, yyyy", {
+                            locale: sv,
+                          })}
                         </span>
                       </p>
                     )}
@@ -502,7 +506,7 @@ export default function WishlistDetailClient() {
           open={!!deleteId}
           onOpenChange={(v) => !v && setDeleteId(null)}
         >
-          <AlertDialogContent>
+          <AlertDialogContent className="bg-white border border-[#E8E4F8] rounded-[15px] p-6">
             <AlertDialogHeader>
               <AlertDialogTitle>
                 {t("wishlists.detail.removeTitle")}
@@ -516,6 +520,7 @@ export default function WishlistDetailClient() {
                 {t("wishlists.detail.cancel")}
               </AlertDialogCancel>
               <AlertDialogAction
+                className="bg-destructive text-white hover:bg-destructive/90"
                 onClick={() => {
                   if (!deleteId) return;
                   del.mutate(
@@ -554,7 +559,7 @@ function ReserverInfo({ item }: { item: PublicWishlistItem }) {
         {t("wishlists.public.reservedBy", { name: item.claimed_by })}
       </p>
       {item.claim_message && (
-        <p className="mt-0.5! text-xs! text-text-secondary! mb-0!">
+        <p className="mt-0.5! text-xs! text-text-secondary! max-w-[200px] line-clamp-3 mb-0!">
           <span className="font-medium">
             {t("wishlists.public.reserverNote")}:
           </span>{" "}

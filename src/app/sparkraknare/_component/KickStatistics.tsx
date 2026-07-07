@@ -32,6 +32,8 @@ import { useQueryContractionSettings } from "@/app/varkraknare/_api/queries/useQ
 import { formatDate } from "date-fns";
 import Pagination from "@/components/base/Pagination";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { sv } from "date-fns/locale";
 
 export default function KickStatistics({
   onBack,
@@ -41,6 +43,7 @@ export default function KickStatistics({
   onStart: () => void;
 }) {
   const { t } = useTranslation();
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const { data: stats, isLoading } = useQueryKickStatistics("week", page);
   const { data: settings } = useQueryContractionSettings();
@@ -228,7 +231,10 @@ export default function KickStatistics({
                         {t("kickCounter.stats.kicksCount", { count: s.count })}
                       </p>
                       <p className="text-base! font-normal! text-primary-dark!">
-                        {formatDate(s.started_at, "MMMM d, yyyy 'at' h:mm a")}
+                        {formatDate(s.started_at, "MMMM d, yyyy", {
+                          locale: sv,
+                        })}{" "}
+                        at {formatDate(s.started_at, "h:mm a")}
                       </p>
                     </div>
                   </div>
@@ -303,9 +309,19 @@ export default function KickStatistics({
             />
           </Card>
 
-          <Button onClick={onStart} className="w-full justify-center">
-            {t("kickCounter.stats.startNew")}
-          </Button>
+          <div className="space-y-2">
+            <Button onClick={onStart} className="w-full justify-center">
+              {t("kickCounter.stats.startNew")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => router.push("/sparkraknare/historik")}
+              className="w-full justify-center"
+            >
+              <Clock className="size-4" />{" "}
+              {t("contractionCounter.counter.viewHistory")}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

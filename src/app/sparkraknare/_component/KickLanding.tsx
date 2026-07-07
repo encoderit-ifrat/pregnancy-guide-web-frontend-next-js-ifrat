@@ -17,6 +17,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { useQueryKickStatistics } from "../_api/queries/useQueryKickCounter";
+import { formatDate } from "date-fns";
+import { sv } from "date-fns/locale";
 
 interface Props {
   onStart: () => void;
@@ -31,7 +33,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
 
   const week = user?.details?.current_pregnancy_data?.running_week;
   const dueDate = user?.details?.due_date
-    ? new Date(user.details.due_date).toLocaleDateString("sv-SE")
+    ? formatDate(user.details.due_date, "MMMM dd, yyyy", { locale: sv })
     : "—";
 
   const breakdown = stats?.this_week_breakdown;

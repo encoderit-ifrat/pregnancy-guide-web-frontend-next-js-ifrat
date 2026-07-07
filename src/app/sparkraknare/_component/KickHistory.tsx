@@ -7,16 +7,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/AlertDialog";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
@@ -25,22 +15,20 @@ import {
   ArrowLeft,
   Calendar,
   ChevronDown,
-  ChevronUp,
   Clock,
-  Droplet,
-  Timer,
-  Trash2,
+  Footprints,
 } from "lucide-react";
-import { toast } from "sonner";
-import { useQueryContractionSessions } from "../_api/queries/useQueryContraction";
-import { useDeleteContractionSession } from "../_api/mutations/useContractionMutations";
+import {
+  useQueryKickSessions,
+  useQueryKickTodaySummary,
+} from "../_api/queries/useQueryKickCounter";
 import Link from "next/link";
-import { fmtDuration, fmtFullDuration } from "../_lib/format";
+import { fmtDuration, fmtFullDuration } from "@/app/varkraknare/_lib/format";
 import { formatDate } from "date-fns";
 import Pagination from "@/components/base/Pagination";
-import { sv } from "date-fns/locale";
+import { useQueryContractionSettings } from "@/app/varkraknare/_api/queries/useQueryContraction";
 
-export default function ContractionHistory({
+export default function KickHistory({
   onViewStats,
   onViewSession,
 }: {
@@ -49,31 +37,31 @@ export default function ContractionHistory({
 }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const { data, isLoading } = useQueryContractionSessions(page);
-  const del = useDeleteContractionSession();
+  const { data, isLoading } = useQueryKickSessions(page);
+  const { data: todaySummary } = useQueryKickTodaySummary();
+  const { data: settings } = useQueryContractionSettings();
 
   const sessions = data?.data ?? [];
-  const summary = data?.summary ?? [];
   const total = data?.pagination.total ?? 0;
 
   return (
     <div className="space-y-6">
-      <Link href={"/varkraknare"} className="flex items-center gap-2 my-[35px]">
+      <Link
+        href={"/sparkraknare"}
+        className="flex items-center gap-2 my-[35px]"
+      >
         <ArrowLeft className="w-8 h-8 bg-primary/10 p-2 text-primary-dark rounded-full" />
-        <p className="text-base font-normal">
-          {t("contractionCounter.history.back")}
-        </p>
+        <p className="text-base font-normal">{t("kickCounter.history.back")}</p>
       </Link>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] md:px-[35px] py-[25px]">
           <div>
             <h2 className="text-[25px]! md:text-[30px]! font-semibold text-primary-dark!">
-              {t("contractionCounter.history.title")}
+              {t("kickCounter.history.title")}
             </h2>
             <p className="text-base! font-normal! text-primary-dark!">
-              {t("contractionCounter.history.subtitle")}
+              {t("kickCounter.history.subtitle")}
             </p>
           </div>
 
@@ -83,7 +71,7 @@ export default function ContractionHistory({
             </div>
           ) : sessions.length === 0 ? (
             <Card className="p-10 text-center text-sm text-text-secondary">
-              {t("contractionCounter.history.noSessions")}
+              {t("kickCounter.history.noSessions")}
             </Card>
           ) : (
             <Accordion
@@ -100,17 +88,14 @@ export default function ContractionHistory({
                     <div className="flex items-start justify-between">
                       <div className="flex items-start md:items-center gap-1 md:gap-3">
                         <span className="flex size-9 items-center justify-center rounded-full bg-primary-light">
-                          <Timer className="size-4 text-primary" />
+                          <Footprints className="size-4 text-primary" />
                         </span>
                         <div>
                           <p className="text-sm! md:text-[20px]! font-semibold! text-primary-dark! flex items-center gap-1">
                             <span className="w-[140px] md:w-auto truncate">
-                              {t(
-                                "contractionCounter.history.contractionsCount",
-                                {
-                                  count: s.total_count,
-                                }
-                              )}
+                              {t("kickCounter.history.kicksCount", {
+                                count: s.total_kicks,
+                              })}
                             </span>
                             <span className="bg-primary-light2 text-xs! px-2 py-0.5 rounded-full !text-primary ml-1 whitespace-nowrap">
                               {fmtFullDuration(
@@ -127,25 +112,17 @@ export default function ContractionHistory({
                           <div className="flex flex-col md:flex-row gap-1 md:gap-2.5">
                             <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
                               <Calendar className="size-3" />
-                              {formatDate(s.started_at, "MMMM dd, yyyy", {
-                                locale: sv,
-                              })}
+                              {formatDate(s.started_at, "PP")}
                             </p>
                             <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
                               <Clock className="size-3" />
-                              {formatDate(s.started_at, "p")} -{" "}
+                              {formatDate(s.started_at, "p")}-
                               {s.ended_at ? formatDate(s.ended_at, "p") : "..."}
                             </p>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center justify-around gap-1 md:gap-2">
-                        <button
-                          onClick={() => setDeleteId(s._id)}
-                          className="text-destructive cursor-pointer p-1 md:p-2 rounded-[5px] border border-[#f3e8ff] flex items-center justify-center"
-                        >
-                          <Trash2 className="size-4" />
-                        </button>
                         <AccordionTrigger className="text-primary bg-primary-light2 rounded-full p-1.5 border border-[#f3e8ff] flex items-center justify-center flex-none gap-0 hover:no-underline w-auto">
                           <ChevronDown className="size-4" />
                         </AccordionTrigger>
@@ -154,16 +131,32 @@ export default function ContractionHistory({
                     <AccordionContent className="py-5 px-1 text-base! font-normal! [&>div]:pt-0">
                       <div className="grid grid-cols-3 gap-2 pt-4 text-center">
                         <Mini
-                          label={t("contractionCounter.history.avgDuration")}
-                          value={fmtDuration(s.avg_duration_sec)}
+                          label={t("kickCounter.history.totalKicks")}
+                          value={String(s.total_kicks)}
                         />
                         <Mini
-                          label={t("contractionCounter.history.avgInterval")}
-                          value={fmtDuration(s.avg_interval_sec)}
+                          label={t("kickCounter.history.type")}
+                          value={
+                            s.type_label === "soft"
+                              ? t("kickCounter.stats.soft")
+                              : s.type_label === "hard"
+                                ? t("kickCounter.stats.hard")
+                                : s.type_label === "mixed"
+                                  ? t("kickCounter.stats.mixed")
+                                  : t("kickCounter.stats.unknown")
+                          }
                         />
                         <Mini
-                          label={t("contractionCounter.history.totalCount")}
-                          value={String(s.total_count)}
+                          label={t("kickCounter.history.sessionDuration")}
+                          value={fmtDuration(
+                            s.ended_at
+                              ? Math.floor(
+                                  (new Date(s.ended_at).getTime() -
+                                    new Date(s.started_at).getTime()) /
+                                    1000
+                                )
+                              : 0
+                          )}
                         />
                       </div>
                     </AccordionContent>
@@ -179,114 +172,55 @@ export default function ContractionHistory({
               totalPages={data?.pagination.last_page}
               onPageChange={setPage}
             />
-            // <div className="flex justify-center gap-2">
-            //   <Button
-            //     variant="outline"
-            //     size="sm"
-            //     disabled={page <= 1}
-            //     onClick={() => setPage((p) => p - 1)}
-            //   >
-            //     {t("contractionCounter.history.previous")}
-            //   </Button>
-            //   <Button
-            //     variant="outline"
-            //     size="sm"
-            //     disabled={page >= ( ?? 1)}
-            //     onClick={() => setPage((p) => p + 1)}
-            //   >
-            //     {t("contractionCounter.history.next")}
-            //   </Button>
-            // </div>
           )}
         </div>
 
         <div className="space-y-6">
           <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-[10px]">
             <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
-              {t("contractionCounter.history.summary")}
+              {t("kickCounter.history.summary")}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-1 gap-[13px]">
               <Row
-                label={t("contractionCounter.history.totalSessions")}
-                value={summary.total_sessions}
+                label={t("kickCounter.history.totalSessions")}
+                value={todaySummary?.sessions ?? total}
               />
               <Row
-                label={t("contractionCounter.history.thisWeek")}
-                value={summary.this_week}
-              />
-              <Row
-                label={t("contractionCounter.history.totalContractions")}
-                value={summary.total_contractions}
+                label={t("kickCounter.history.totalKicksToday")}
+                value={todaySummary?.total_kicks ?? "—"}
               />
             </div>
             <Button
               onClick={onViewSession}
               className="mt-5 w-full justify-center"
             >
-              <Timer className="size-4 mr-2" />{" "}
-              {t("contractionCounter.history.newSession")}
+              <Footprints className="size-4 mr-2" />{" "}
+              {t("kickCounter.history.newSession")}
             </Button>
             <Button
               onClick={onViewStats}
               variant="outline"
               className="mt-5 w-full justify-center"
             >
-              {t("contractionCounter.history.viewFullStats")}
+              {t("kickCounter.history.viewFullStats")}
             </Button>
           </Card>
           <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-[10px]">
-            <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
-              💡 {t("contractionCounter.history.noteTitle")}
-            </h3>
-            <p className="text-base! font-normal! text-primary-dark!">
-              {t("contractionCounter.history.noteDesc")}
-            </p>
+            <div className="flex items-center gap-2">
+              💡
+              <h3 className="text-[25px]! font-semibold! text-primary-dark!">
+                {t("kickCounter.stats.whenToCall")}
+              </h3>
+            </div>
+            <div
+              className="mt-3 space-y-2 text-sm text-text-secondary"
+              dangerouslySetInnerHTML={{
+                __html: settings?.kickCounter?.whenToCallDescription,
+              }}
+            />
           </Card>
         </div>
       </div>
-
-      <AlertDialog
-        open={!!deleteId}
-        onOpenChange={(o) => !o && setDeleteId(null)}
-      >
-        <AlertDialogContent className="bg-white border border-[#E8E4F8] rounded-[15px] p-6">
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t("contractionCounter.history.deleteTitle")}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("contractionCounter.history.deleteDesc")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>
-              {t("contractionCounter.history.deleteCancel")}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-destructive text-white hover:bg-destructive/90"
-              onClick={(e) => {
-                e.preventDefault();
-                if (deleteId) {
-                  del.mutate(deleteId, {
-                    onSuccess: () => {
-                      toast.success(
-                        t("contractionCounter.history.sessionDeleted")
-                      );
-                      setDeleteId(null);
-                    },
-                  });
-                }
-              }}
-            >
-              {del.isPending ? (
-                <Spinner />
-              ) : (
-                t("contractionCounter.history.deleteConfirm")
-              )}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }
@@ -302,7 +236,7 @@ function Mini({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Row({ label, value }: { label: string; value: number }) {
+function Row({ label, value }: { label: string; value: number | string }) {
   return (
     <Card className="py-[18px] px-[25px] md:p-0 border-0 shadow-week-details md:shadow-none bg-white rounded-[10px] flex flex-col md:flex-row items-center justify-center md:justify-between">
       <span className="text-primary-dark! font-normal! text-lg! md:text-base! text-center! md:max-w-[220px] md:truncate hyphens-auto">

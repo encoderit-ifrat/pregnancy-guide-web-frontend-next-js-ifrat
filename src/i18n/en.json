@@ -820,6 +820,23 @@
       "soft": "Soft",
       "hard": "Hard",
       "mixed": "Mixed"
+    },
+    "history": {
+      "back": "Back to Kick Counter",
+      "title": "Session History",
+      "subtitle": "Review all your past kick-counting sessions",
+      "noSessions": "No sessions recorded yet.",
+      "kicksCount": "{count} Kicks",
+      "totalKicks": "Total Kicks",
+      "sessionDuration": "Session Duration",
+      "type": "Type",
+      "summary": "Summary",
+      "totalSessions": "Total Sessions",
+      "totalKicksToday": "Total Kicks Today",
+      "viewFullStats": "View Full Stats",
+      "newSession": "New Session",
+      "noteTitle": "Note",
+      "noteDesc": "All session data is stored locally on your device."
     }
   },
   "contractionCounter": {
@@ -905,6 +922,10 @@
       "previous": "Previous",
       "next": "Next",
       "sessionDeleted": "Session deleted",
+      "deleteTitle": "Delete Session",
+      "deleteDesc": "Are you sure you want to delete this session? This action cannot be undone.",
+      "deleteCancel": "Cancel",
+      "deleteConfirm": "Delete",
       "newSession": "New Session",
       "noteTitle": "Note",
       "noteDesc": "All session data is stored locally on your device. Export your history before clearing your browser data."
@@ -958,6 +979,7 @@
       "add": "Add Item",
       "titleRequired": "Please enter a product title",
       "priceInvalid": "Please enter a valid price",
+      "urlInvalid": "Please enter a valid URL",
       "updated": "Item updated",
       "added": "Item added"
     },
@@ -1042,6 +1064,11 @@
     "rsvps": "{accepted}/{total} RSVPs ({rate}%)",
     "wishlistAttached": "Wishlist attached",
     "viewDetails": "View Details",
+    "deleteTitle": "Delete Invitation",
+    "deleteDesc": "Are you sure you want to delete this invitation? This action cannot be undone.",
+    "deleteCancel": "Cancel",
+    "deleteConfirm": "Delete",
+    "deleted": "Invitation deleted",
     "statusDraft": "Draft",
     "statusScheduled": "Scheduled",
     "statusSent": "Sent",

@@ -60,7 +60,7 @@ export function DatePicker({
           )}
         >
           {value ? (
-            value.toLocaleDateString("en-GB")
+            value.toLocaleDateString("en-US")
           ) : (
             <p className="text-[#445B6A]! font-normal! text-sm!">
               {placeholder}
@@ -82,7 +82,13 @@ export function DatePicker({
           endMonth={new Date(2130, 11)} // December 2030
           disabled={
             fromDate
-              ? { before: new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) }
+              ? {
+                  before: new Date(
+                    fromDate.getFullYear(),
+                    fromDate.getMonth(),
+                    fromDate.getDate()
+                  ),
+                }
               : undefined
           }
           onSelect={(date) => {

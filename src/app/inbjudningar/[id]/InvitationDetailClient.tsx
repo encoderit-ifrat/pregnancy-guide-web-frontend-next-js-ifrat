@@ -475,7 +475,7 @@ export default function InvitationDetailClient({}: pageProps) {
                     style={{
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3,
                       overflow: "hidden",
                       marginBlockEnd: "15px",
                       lineHeight: "24px",
@@ -505,7 +505,16 @@ export default function InvitationDetailClient({}: pageProps) {
 
                     <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold!">
                       <MapPinned className="size-[25px] text-primary shrink-0" />{" "}
-                      <span className="leading-[24px] text-primary-dark!">
+                      <span
+                        style={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          WebkitLineClamp: 3,
+                          overflow: "hidden",
+                          textAlign: "start",
+                        }}
+                        className="leading-[24px] text-primary-dark!"
+                      >
                         {captureInv.location ||
                           t("invitations.preview.defaultlocation")}
                       </span>

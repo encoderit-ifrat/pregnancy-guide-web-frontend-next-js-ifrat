@@ -58,6 +58,9 @@ export default function AddEditItemModal({
     if (Number.isNaN(priceNum) || priceNum <= 0)
       return toast.error(t("wishlists.item.priceInvalid"));
 
+    if (productUrl.trim() && !/^https?:\/\/.+/i.test(productUrl.trim()))
+      return toast.error(t("wishlists.item.urlInvalid"));
+
     const body = {
       title: title.trim(),
       quantity,

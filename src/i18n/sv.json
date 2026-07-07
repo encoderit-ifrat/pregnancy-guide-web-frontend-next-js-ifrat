@@ -807,6 +807,23 @@
       "soft": "Mjuk",
       "hard": "Hård",
       "mixed": "Blandad"
+    },
+    "history": {
+      "back": "Tillbaka till Sparkräknaren",
+      "title": "Sessionshistorik",
+      "subtitle": "Granska alla dina tidigare sparkräkningssessioner",
+      "noSessions": "Inga sessioner registrerade ännu.",
+      "kicksCount": "{count} sparkar",
+      "totalKicks": "Totalt antal sparkar",
+      "sessionDuration": "Sessionstid",
+      "type": "Typ",
+      "summary": "Sammanfattning",
+      "totalSessions": "Totalt antal sessioner",
+      "totalKicksToday": "Totalt antal sparkar idag",
+      "viewFullStats": "Visa fullständig statistik",
+      "newSession": "Ny session",
+      "noteTitle": "Note",
+      "noteDesc": "All session data is stored locally on your device."
     }
   },
   "contractionCounter": {
@@ -892,6 +909,10 @@
       "previous": "Föregående",
       "next": "Nästa",
       "sessionDeleted": "Sessionen raderad",
+      "deleteTitle": "Ta bort session",
+      "deleteDesc": "Är du säker på att du vill ta bort denna session? Denna åtgärd kan inte ångras.",
+      "deleteCancel": "Avbryt",
+      "deleteConfirm": "Ta bort",
       "newSession": "Ny session",
       "noteTitle": "Note",
       "noteDesc": "All session data is stored locally on your device. Export your history before clearing your browser data."
@@ -945,6 +966,7 @@
       "add": "Lägg till föremål",
       "titleRequired": "Ange en produkttitel",
       "priceInvalid": "Ange ett giltigt pris",
+      "urlInvalid": "Ange en giltig URL",
       "updated": "Föremål uppdaterat",
       "added": "Föremål tillagt"
     },
@@ -1029,6 +1051,11 @@
     "rsvps": "{accepted}/{total} OSA ({rate}%)",
     "wishlistAttached": "Önskelista bifogad",
     "viewDetails": "Visa detaljer",
+    "deleteTitle": "Radera inbjudan",
+    "deleteDesc": "Är du säker på att du vill radera denna inbjudan? Denna åtgärd kan inte ångras.",
+    "deleteCancel": "Avbryt",
+    "deleteConfirm": "Radera",
+    "deleted": "Inbjudan raderad",
     "statusDraft": "Utkast",
     "statusScheduled": "Schemalagd",
     "statusSent": "Skickad",

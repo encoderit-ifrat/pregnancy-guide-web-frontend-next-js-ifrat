@@ -65,6 +65,7 @@ import Image from "next/image";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
 import { useFileUploadTempFolder } from "@/app/min-profil/_api/mutations/useFileUploadTempFolder";
 import { formatDate } from "date-fns";
+import CreateWishlistModal from "@/app/onskelistor/_component/CreateWishlistModal";
 
 export default function CreateInvitationClient() {
   const { t } = useTranslation();
@@ -99,6 +100,7 @@ export default function CreateInvitationClient() {
 
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [createOpen, setCreateOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
   const [time, setTime] = useState("");
   const [replyBy, setReplyBy] = useState<Date | undefined>();
@@ -461,7 +463,7 @@ export default function CreateInvitationClient() {
                       <DatePicker
                         value={date}
                         onChange={setDate}
-                        placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
+                        placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                         inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                         fromDate={new Date()}
                       />
@@ -733,7 +735,7 @@ export default function CreateInvitationClient() {
                       ))}
                     </div>
                     <button
-                      onClick={() => setLeaveOpen(true)}
+                      onClick={() => setCreateOpen(true)}
                       className="flex w-full items-center justify-center md:justify-start gap-3 rounded-[10px] border p-3 text-left border-primary bg-primary-light/30"
                     >
                       <Plus className="size-8 text-white p-1.5 rounded-full bg-primary" />
@@ -745,6 +747,10 @@ export default function CreateInvitationClient() {
                           {t("invitations.builder.createWishlistDesc")}
                         </span>
                       </div>
+                      <CreateWishlistModal
+                        open={createOpen}
+                        onOpenChange={setCreateOpen}
+                      />
                     </button>
 
                     <AlertDialog open={leaveOpen} onOpenChange={setLeaveOpen}>
@@ -942,7 +948,7 @@ export default function CreateInvitationClient() {
                           <DatePicker
                             value={scheduleAt}
                             onChange={setScheduleAt}
-                            placeholder={`${formatDate(new Date(), "dd/MM/yyyy")}`}
+                            placeholder={`${formatDate(new Date(), "MM/dd/yyyy")}`}
                             inputClassName="rounded-[5px] bg-[#FBF8FF]! border! border-[#F3EAFF]!"
                             fromDate={new Date()}
                           />
