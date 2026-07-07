@@ -451,23 +451,33 @@ export default function InvitationDetailClient({}: pageProps) {
                   </div>
                 )}
                 <div className="absolute bottom-0 left-0 w-full p-4 text-center">
-                  <h3 className="font-outfit! text-[22px]! font-semibold! text-primary-dark">
+                  <h3
+                    className="font-outfit! text-[22px]! font-semibold! text-primary-dark!"
+                    style={{
+                      marginBlockEnd: "11px",
+                    }}
+                  >
                     {captureInv.title || t("invitations.preview.eventTitle")}
                   </h3>
 
-                  <p className="font-outfit! text-base! text-primary">
+                  <p
+                    className="font-outfit! text-lg! font-semibold! text-primary-dark!"
+                    style={{
+                      marginBlockEnd: "11px",
+                    }}
+                  >
                     {captureInv.subtitle ||
                       t("invitations.preview.eventSubtitle")}
                   </p>
 
                   <p
-                    className="font-outfit! mx-auto max-w-sm text-base! text-text-secondary mt-2 mb-[9px]"
+                    className="font-outfit! mx-auto max-w-sm text-base! text-primary-dark! font-normal!"
                     style={{
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
                       WebkitLineClamp: 2,
                       overflow: "hidden",
-                      marginBlockEnd: "9px",
+                      marginBlockEnd: "15px",
                       lineHeight: "24px",
                     }}
                   >
@@ -475,9 +485,9 @@ export default function InvitationDetailClient({}: pageProps) {
                       t("invitations.preview.defaultMessage")}
                   </p>
 
-                  <div className="grid grid-cols-3 border-y border-y-[#ECE8F5] gap-3 py-2 text-primary-dark">
-                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! border-r border-r-[#ECE8F5]! font-semibold!">
-                      <CalendarDays className="size-3.5 text-primary shrink-0" />{" "}
+                  <div className="grid grid-cols-[1fr_100px_1fr] border-y border-y-[#ECE8F5] gap-3 py-5 text-primary-dark">
+                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! border-r text-primary-dark! border-r-[#ECE8F5]! font-semibold!">
+                      <CalendarDays className="size-[25px] text-primary! shrink-0" />{" "}
                       <span>
                         {captureInv.event_date
                           ? formatDate(captureInv.event_date, "MMMM MM,yyyy")
@@ -485,8 +495,8 @@ export default function InvitationDetailClient({}: pageProps) {
                       </span>
                     </p>
 
-                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold! border-r border-r-[#ECE8F5]!">
-                      <Clock className="size-3.5 text-primary shrink-0" />{" "}
+                    <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold! border-r text-primary-dark! border-r-[#ECE8F5]!">
+                      <Clock className="size-[25px] text-primary! shrink-0" />{" "}
                       <span>
                         {captureInv.event_time ||
                           t("invitations.preview.defaulttime")}
@@ -494,15 +504,20 @@ export default function InvitationDetailClient({}: pageProps) {
                     </p>
 
                     <p className="font-outfit! flex items-center justify-center gap-1 text-base! leading-normal! font-semibold!">
-                      <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
-                      <span className="leading-[24px]">
+                      <MapPinned className="size-[25px] text-primary shrink-0" />{" "}
+                      <span className="leading-[24px] text-primary-dark!">
                         {captureInv.location ||
                           t("invitations.preview.defaultlocation")}
                       </span>
                     </p>
                   </div>
 
-                  <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
+                  <p
+                    className="font-outfit! flex items-center justify-center gap-1 pt-1 text-base! leading-normal! font-semibold! text-primary-dark!"
+                    style={{
+                      marginBlockStart: "10px",
+                    }}
+                  >
                     <CalendarDays className="size-3.5 text-primary shrink-0" />
                     {t("invitations.preview.latestReply", {
                       date: captureInv.reply_by

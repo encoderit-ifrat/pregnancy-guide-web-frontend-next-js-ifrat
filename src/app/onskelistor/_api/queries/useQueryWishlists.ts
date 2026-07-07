@@ -48,7 +48,11 @@ export const useQueryPublicWishlist = (token: string) =>
     queryKey: wishlistKeys.public(token),
     enabled: !!token,
     queryFn: async () => {
-      const res = await api.get(`/public/wishlists/${token}`);
+      const res = await api.get(`/public/wishlists/${token}`, {
+        params: {
+          _cb: Date.now(),
+        },
+      });
       return res.data.data as PublicWishlist;
     },
   });

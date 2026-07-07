@@ -79,38 +79,38 @@ export default function InvitationPreview({
         </div>
       )}
       <div className="absolute bottom-0 left-0 w-full p-4 text-center">
-        <h3 className="font-outfit! text-sm! md:text-[22px]! font-semibold! text-primary-dark">
+        <h3 className="font-outfit! text-sm! md:text-[22px]! font-semibold! text-primary-dark! mb-[11px]!">
           {title || t("invitations.preview.eventTitle")}
         </h3>
 
-        <p className="font-outfit! text-[11px]! md:text-base! text-primary">
+        <p className="font-outfit! text-[11px]! md:text-lg! font-semibold! text-primary-dark! mb-[11px]!">
           {subtitle || ""}
         </p>
 
-        <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! text-text-secondary mt-2 mb-[9px] line-clamp-2">
+        <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! font-normal! text-primary-dark! mb-[15px]! line-clamp-2">
           {message || ""}
         </p>
 
-        <div className="grid grid-cols-3 border-y border-y-[#ECE8F5] gap-3 py-2 text-primary-dark">
-          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! border-r border-r-[#ECE8F5]! font-semibold!">
-            <CalendarDays className="size-3.5 text-primary shrink-0" />{" "}
+        <div className="grid grid-cols-[1fr_100px_1fr] border-y border-y-[#ECE8F5] gap-3 py-2 md:py-5 text-primary-dark">
+          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! border-r border-r-[#ECE8F5]! text-primary-dark! font-semibold!">
+            <CalendarDays className="size-3.5 md:size-[25px] text-primary! shrink-0" />{" "}
             <span>{fmtDate || ""}</span>
           </p>
 
-          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold! border-r border-r-[#ECE8F5]!">
-            <Clock className="size-3.5 text-primary shrink-0" />{" "}
+          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold! border-r border-r-[#ECE8F5]! text-primary-dark!">
+            <Clock className="size-3.5 md:size-[25px] text-primary! shrink-0" />{" "}
             <span>{time || ""}</span>
           </p>
 
           <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
-            <MapPinned className="size-3.5 text-primary shrink-0" />{" "}
-            <p className="text-[11px]! md:text-base! font-semibold! line-clamp-2">
+            <MapPinned className="size-3.5 md:size-[25px] text-primary shrink-0" />{" "}
+            <p className="text-[11px]! md:text-base! font-semibold! line-clamp-2 text-primary-dark!">
               {location || ""}
             </p>
           </p>
         </div>
 
-        <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! leading-normal! font-semibold! text-primary-dark! mt-2">
+        <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! leading-normal! font-semibold! text-primary-dark! mt-2.5">
           <CalendarDays className="size-3.5 text-primary shrink-0" />
           {t("invitations.preview.latestReply", {
             date: replyBy

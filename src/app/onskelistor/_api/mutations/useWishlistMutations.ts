@@ -135,7 +135,16 @@ export const useClaimWishlistItem = () => {
             : old
         );
       }
-      qc.invalidateQueries({ queryKey: wishlistKeys.public(v.token).slice(0, 2) });
+      qc.invalidateQueries({
+        queryKey: wishlistKeys.public(v.token).slice(0, 2),
+      });
+    },
+    onSettled: (_data, _error, variables) => {
+      if (variables?.token) {
+        qc.invalidateQueries({
+          queryKey: wishlistKeys.public(variables.token).slice(0, 2),
+        });
+      }
     },
   });
 };

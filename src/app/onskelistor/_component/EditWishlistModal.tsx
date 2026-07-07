@@ -44,7 +44,7 @@ export default function EditWishlistModal({
     setTitle(wishlist.title);
     setDescription(wishlist.description ?? "");
     setCoverImage(undefined);
-    setCoverPreview(wishlist.cover_image ?? undefined);
+    setCoverPreview(imageLinkGenerator(wishlist.cover_image));
     setReplyBy(wishlist.reply_by ? new Date(wishlist.reply_by) : undefined);
   };
 
