@@ -78,7 +78,7 @@ export default function ContractionStatistics() {
         <div className="space-y-6 lg:col-span-2 ">
           <div className="space-y-6 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px] md:p-[35px]">
             <div>
-              <h2 className="text-xl! font-semibold! text-primary-dark!">
+              <h2 className="text-xl! md:text-[30px]! font-semibold! text-primary-dark!">
                 {t("contractionCounter.stats.title")}
               </h2>
               <p className="text-base! font-normal! text-primary-dark!">
@@ -155,7 +155,7 @@ export default function ContractionStatistics() {
           </Card>
 
           <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl ">
-            <h3 className="mb-4 font-semibold text-primary-dark">
+            <h3 className="mb-4 font-semibold! text-xl! md:text-[25px]! text-primary-dark!">
               {t("contractionCounter.stats.recentSessions")}
             </h3>
             <div className="space-y-2">
@@ -210,7 +210,7 @@ export default function ContractionStatistics() {
 
         <div className="space-y-6">
           <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl">
-            <h3 className="mb-4 font-semibold text-primary-dark">
+            <h3 className="mb-4 text-lg! md:text-xl! font-semibold! text-primary-dark!">
               {t("contractionCounter.stats.laborProgress")}
             </h3>
             <div className="space-y-3">
@@ -279,12 +279,12 @@ export default function ContractionStatistics() {
           >
             <div className="flex items-center gap-2">
               <TriangleAlert className={cn("size-5", "text-destructive")} />
-              <h3 className="font-semibold text-primary-dark">
+              <h3 className="text-lg! md:text-[25px]! font-semibold! text-destructive!">
                 {t("contractionCounter.stats.timeToGo")}
               </h3>
             </div>
             <p
-              className="mt-2 text-sm text-primary-dark!"
+              className="mt-2 text-sm! md:text-base! font-normal! text-primary-dark!"
               dangerouslySetInnerHTML={{
                 __html: settings?.contractionCounter?.timeToGoDescription || "",
               }}
@@ -348,7 +348,7 @@ function StatCard({
           {icon}
         </div>
         <div>
-          <p className="text-sm! text-primary-dark!">{label}</p>
+          <p className="text-sm! md:text-base! text-primary-dark!">{label}</p>
           <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
           <span
             className={`text-base! font-normal! ${color === "default" ? "text-[#3D3177]" : color === "success" ? "text-[#00A63E]" : "text-error"}`}
@@ -364,8 +364,10 @@ function StatCard({
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-text-secondary">{label}</span>
-      <span className="font-medium text-primary-dark">{value}</span>
+      <span className="text-base! font-normal! text-primary-dark!">
+        {label}
+      </span>
+      <span className="text-base! font-semibold! text-[#0A0A0A]!">{value}</span>
     </div>
   );
 }

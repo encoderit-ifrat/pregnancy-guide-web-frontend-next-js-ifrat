@@ -192,7 +192,7 @@ export default function ContractionCounter({
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="space-y-6 lg:col-span-2">
         <Card className="px-[9px] py-[25px] md:p-8 text-center shadow-none border border-[#EEE4F9]">
-          <p className="mt-1 text-sm! text-primary-dark!">
+          <p className="mt-1 text-sm! mb:text-base! text-primary-dark!">
             {t("contractionCounter.counter.readyNext")}
           </p>
 
@@ -215,16 +215,15 @@ export default function ContractionCounter({
           <Button
             onClick={handleToggle}
             disabled={busy}
-            size="lg"
             variant={"default"}
-            className="min-w-52 justify-center"
+            className="min-w-52 px-[22px]! py-1! text-lg! font-semibold! justify-center"
           >
             {busy ? (
               <Loader2 className="size-5 animate-spin" />
             ) : running ? (
-              <Square className="size-5" />
+              <Square strokeWidth={3} className="size-5" />
             ) : (
-              <Play className="size-5" />
+              <Play strokeWidth={3} className="size-5" />
             )}
             <span>
               {running

@@ -196,7 +196,7 @@ export default function EditWishlistModal({
             </Field>
           </div>
 
-          <div className="mt-[30px] flex flex-col w-full gap-3">
+          <div className="mt-[30px] flex flex-col md:flex-row w-full gap-3">
             <Button
               variant="outline"
               className="flex-1 justify-center py-2.5 bg-primary-light2!"

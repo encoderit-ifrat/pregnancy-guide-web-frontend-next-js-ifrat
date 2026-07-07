@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import { formatDate } from "date-fns";
 import { sv } from "date-fns/locale";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const TYPE_ICON: Record<KickType, React.ReactNode> = {
   soft: <Feather className="size-4 text-primary" />,
@@ -45,6 +46,11 @@ export default function KickSession({
   const { t } = useTranslation();
   const { data: summary } = useQueryKickTodaySummary();
   const addKick = useAddKick();
+  const { user } = useCurrentUser();
+  const week = user?.details?.current_pregnancy_data?.running_week;
+  const dueDate = user?.details?.due_date
+    ? formatDate(user.details.due_date, "MMMM dd, yyyy", { locale: sv })
+    : "—";
   const stop = useStopKickSession();
   const [pendingType, setPendingType] = useState<KickType | null>(null);
 
@@ -97,7 +103,7 @@ export default function KickSession({
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
-        <Card className="p-8 border border-primary-light3">
+        <Card className="p-8 border border-primary-[#F3E8FF] shadow-none">
           <div className="text-start">
             {/* <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary">
               <span className="size-2 animate-pulse rounded-full bg-primary" />
@@ -136,7 +142,7 @@ export default function KickSession({
             ))}
           </div>
         </Card>
-        <Card className="p-8 border border-primary-light3">
+        <Card className="p-8 border border-primary-[#F3E8FF] shadow-none">
           <div className="">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-[25px]! font-semibold! text-primary-dark!">
@@ -202,11 +208,22 @@ export default function KickSession({
       </div>
 
       <div className="space-y-6">
-        <Card className="p-6">
-          <h3 className="font-semibold text-primary-dark">
-            {t("kickCounter.session.todaySummary")}
+        <Card className="p-6 border border-primary-[#F3E8FF] shadow-none">
+          <h3 className="text-[25px]! font-semibold! text-primary-dark!">
+            {t("kickCounter.landing.pregnancyInfo")}
           </h3>
           <div className="mt-4 space-y-3 text-sm">
+            <Row
+              label={t("kickCounter.landing.currentWeek")}
+              value={week ? t("kickCounter.landing.week", { week }) : "—"}
+            />
+            <Row label={t("kickCounter.landing.dueDate")} value={dueDate} />
+          </div>
+
+          <div className="space-y-3 mt-5 border-t border-t-[#F3E8FF] pt-4 text-sm">
+            <h3 className=" text-base! md:text-[20px]! font-semibold! text-primary-dark!">
+              {t("kickCounter.session.todaySummary")}
+            </h3>
             <Row
               label={t("kickCounter.session.totalKicks")}
               value={summary?.total_kicks ?? 0}
@@ -235,11 +252,13 @@ export default function KickSession({
   );
 }
 
-function Row({ label, value }: { label: string; value: number }) {
+function Row({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-text-secondary">{label}</span>
-      <span className="text-lg font-semibold text-primary-dark">{value}</span>
+      <span className="text-base! font-normal! text-primary-dark!">
+        {label}
+      </span>
+      <span className="text-base! font-semibold! text-[#0A0A0A]!">{value}</span>
     </div>
   );
 }

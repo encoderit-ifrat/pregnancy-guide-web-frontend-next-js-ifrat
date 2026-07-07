@@ -187,7 +187,7 @@ export default function InvitationDetailClient({}: pageProps) {
                   </div>
                   <div>
                     <p className="text-base! font-normal!">Date & Time</p>
-                    <p className="text-base! font-semibold!">
+                    <p className="text-base! font-semibold! text-primary-dark!">
                       {inv?.event_date
                         ? formatDate(inv.event_date, "PPPP")
                         : ""}
@@ -201,7 +201,9 @@ export default function InvitationDetailClient({}: pageProps) {
                   </div>
                   <div>
                     <p className="text-base! font-normal!">Location</p>
-                    <p className="text-base! font-semibold!">{inv?.location}</p>
+                    <p className="text-base! font-semibold! text-primary-dark!">
+                      {inv?.location}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -266,7 +268,7 @@ export default function InvitationDetailClient({}: pageProps) {
                 inv.guests.map((guest) => (
                   <div className="flex flex-col gap-3" key={guest._id}>
                     <div className="px-5 py-[15px] mx-0 md:mx-6 mb-0 md:mb-5 flex flex-col md:flex-row items-start md:items-center justify-between bg-[#FCFAFF] rounded-[15px]">
-                      <div className="grid grid-cols-[48px_1fr] gap-4">
+                      <div className="grid grid-cols-[48px_1fr] gap-2 md:gap-4">
                         <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center">
                           <UserRound className=" text-primary" />
                         </div>
@@ -274,7 +276,7 @@ export default function InvitationDetailClient({}: pageProps) {
                           <p className="text-xl! font-semibold! text-primary-dark! max-w-52 md:max-w-2xs truncate">
                             {guest.name}
                           </p>
-                          <p className="text-base! font-normal text-primary-dark! max-w-52 md:max-w-2xs truncate">
+                          <p className="text-base! font-normal text-primary-dark! max-w-[230px] md:max-w-[300px] truncate">
                             {guest.email}
                           </p>
                         </div>
@@ -307,7 +309,7 @@ export default function InvitationDetailClient({}: pageProps) {
           </div>
           <div className="px-2.5 h-max bg-white border border-[#F3E8FF] rounded-[25px]">
             <div className="px-2 md:px-7 py-[25px] border-b border-b-[#F3E8FF]">
-              <p className="text-[25px]! font-semibold mb-5">
+              <p className="text-[25px]! font-semibold! text-primary-dark! mb-5">
                 {t("invitations.detail.actions")}
               </p>
               <div className="flex flex-col gap-[13px] w-full">
@@ -339,40 +341,49 @@ export default function InvitationDetailClient({}: pageProps) {
                 </Button>
                 <Link
                   href={`/inbjudningar/edit/${inv?._id}`}
-                  className="text-lg font-semibold w-full flex items-center text-primary py-2 rounded-full border border-primary bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
+                  className="text-lg font-semibold w-full flex items-center gap-2 text-primary py-2 rounded-full border border-primary bg-primary-light2 hover:bg-primary-light2/80 justify-center!"
                 >
-                  <SquarePen />
-                  Edit Invitation
+                  <SquarePen /> Edit Invitation
                 </Link>
               </div>
             </div>
             <div className="px-2 md:px-7 py-[25px]">
-              <p className="text-[25px]! font-semibold mb-5">
+              <p className="text-[25px]! font-semibold! text-primary-dark! mb-5">
                 {t("invitations.detail.statistics")}
               </p>
               <div className="flex flex-col gap-[13px]">
                 <div className="flex items-center justify-between">
-                  <p>{t("invitations.detail.totalSent")}</p>
+                  <p className="text-base! text-primary-dark! font-normal!">
+                    {t("invitations.detail.totalSent")}
+                  </p>
                   <p className="font-semibold!">{inv?.statistics.total_sent}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>{t("invitations.detail.viewed")}</p>
+                  <p className="text-base! text-primary-dark! font-normal!">
+                    {t("invitations.detail.viewed")}
+                  </p>
                   <p className="font-semibold!">{inv?.statistics.viewed}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>{t("invitations.detail.accepted")}</p>
+                  <p className="text-base! text-primary-dark! font-normal!">
+                    {t("invitations.detail.accepted")}
+                  </p>
                   <p className="text-[#00A63E]! font-semibold!">
                     {inv?.statistics.accepted}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>{t("invitations.detail.declined")}</p>
+                  <p className="text-base! text-primary-dark! font-normal!">
+                    {t("invitations.detail.declined")}
+                  </p>
                   <p className="text-[#E7000B]! font-semibold!">
                     {inv?.statistics.declined}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>{t("invitations.detail.pending")}</p>
+                  <p className="text-base! text-primary-dark! font-normal!">
+                    {t("invitations.detail.pending")}
+                  </p>
                   <p className="font-semibold!">{inv?.statistics.pending}</p>
                 </div>
               </div>

@@ -66,15 +66,16 @@ export default function WishlistsClientPage() {
 
         <Card className="px-[9px] py-[25px] lg:px-[35px] xl:px-[66px] lg:py-[63px] shadow-week-details border-none rounded-2xl">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-primary-dark">
+            <h2 className="text-xl md:text-[30px] font-semibold text-primary-dark">
               {t("wishlists.yourWishlists")}
             </h2>
             {isAuthenticated && (
               <Button
                 onClick={() => setCreateOpen(true)}
-                className="hidden md:flex"
+                className="hidden md:flex bg-white text-lg! font-semibold! text-primary shadow-[2px_2px_24px_-2px_#1B13431A]"
               >
-                {t("wishlists.createWishlist")} <Plus className="size-4" />
+                {t("wishlists.createWishlist")}{" "}
+                <Plus className="size-4 bg-primary text-white rounded-full p-1 w-6 h-6" />
               </Button>
             )}
           </div>
@@ -161,11 +162,11 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
         />
       </div>
       <div className="py-[14px] px-2 flex-1 flex flex-col">
-        <h3 className="text-lg font-semibold text-primary-dark line-clamp-1">
+        <h3 className="text-xl! md:text-[25px]! font-semibold text-primary-dark! line-clamp-1">
           {wishlist.title}
         </h3>
         {wishlist.description && (
-          <p className="mt-1 mb-5 text-sm text-text-secondary line-clamp-1">
+          <p className="mt-1 mb-5 text-sm! md:text-base! font-normal! text-primary-dark! line-clamp-1">
             {wishlist.description}
           </p>
         )}
@@ -173,10 +174,10 @@ function WishlistCard({ wishlist }: { wishlist: WishlistListItem }) {
         <div className="mt-auto">
           <div className="mb-[14px] px-3 py-1.5 rounded-[10px] bg-[#F8F7FC]">
             <div className="mb-2 flex justify-between">
-              <span className="text-primary-dark font-medium text-xs">
+              <span className="text-primary-dark font-medium text-xs md:text-lg">
                 {t("wishlists.progress")}
               </span>
-              <span className="font-medium text-xs text-primary">
+              <span className="font-medium text-xs md:text-base text-primary">
                 {t("wishlists.itemsClaimed", {
                   claimed: progress.claimed,
                   total: progress.total,

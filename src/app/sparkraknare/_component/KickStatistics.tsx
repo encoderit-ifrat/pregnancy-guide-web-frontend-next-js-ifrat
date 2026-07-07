@@ -79,7 +79,7 @@ export default function KickStatistics({
         <div className="space-y-6 lg:col-span-2">
           <div className="space-y-6 lg:col-span-2 bg-white rounded-2xl border border-[#F3E8FF] px-[9px] py-[25px] md:p-[35px]">
             <div>
-              <h2 className="text-xl! font-semibold! text-primary-dark!">
+              <h2 className="text-xl! md:text-[30px]! font-semibold! text-primary-dark!">
                 {t("kickCounter.stats.title")}
               </h2>
               <p className="text-base! font-normal! text-primary-dark!">
@@ -163,7 +163,7 @@ export default function KickStatistics({
           </Card>
 
           <Card className="md:p-6 px-2 py-[25px]  border border-[#F3E8FF] shadow-none bg-white rounded-2xl ">
-            <h3 className="mb-4 font-semibold text-primary-dark">
+            <h3 className="mb-4 text-xl! md:text-[25px]! font-semibold! text-primary-dark">
               {t("kickCounter.stats.sessionHistory")}
             </h3>
             <div className="space-y-2">
@@ -261,7 +261,7 @@ export default function KickStatistics({
 
         <div className="space-y-6">
           <Card className="p-6">
-            <h3 className="font-semibold text-primary-dark">
+            <h3 className="font-semibold! text-xl! text-primary-dark!">
               {t("kickCounter.stats.thisWeek")}
             </h3>
             <div className="mt-4 space-y-4">
@@ -348,7 +348,9 @@ function StatCard({
           {icon}
         </div>
         <div>
-          <p className="text-sm! text-primary-dark!">{label}</p>
+          <p className="text-sm! md:text-base! font-normal!  text-primary-dark!">
+            {label}
+          </p>
           <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
           <span
             className={`text-base! font-normal! ${color === "default" ? "text-[#3D3177]" : color === "success" ? "text-[#00A63E]" : "text-error"}`}
@@ -366,8 +368,12 @@ function BreakdownBar({ label, value }: { label: string; value: number }) {
   return (
     <div>
       <div className="mb-1 flex justify-between text-sm">
-        <span className="text-text-secondary">{label}</span>
-        <span className="font-medium text-primary-dark">{pct}%</span>
+        <span className="text-base! font-normal! text-primary-dark!">
+          {label}
+        </span>
+        <span className="text-base! font-semibold! text-[#0A0A0A]!">
+          {pct}%
+        </span>
       </div>
       <div className="h-2 w-full overflow-hidden rounded-full bg-primary-light">
         <div

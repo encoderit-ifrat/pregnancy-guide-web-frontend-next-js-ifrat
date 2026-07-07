@@ -205,7 +205,7 @@ export default function ContractionHistory({
             <h3 className="mb-4 text-[25px]! font-semibold! text-primary-dark!">
               {t("contractionCounter.history.summary")}
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-[13px]">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-[13px] md:gap-3">
               <Row
                 label={t("contractionCounter.history.totalSessions")}
                 value={summary.total_sessions}

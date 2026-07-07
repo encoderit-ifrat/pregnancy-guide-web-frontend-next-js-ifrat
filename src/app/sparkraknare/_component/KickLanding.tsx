@@ -19,6 +19,7 @@ import {
 import { useQueryKickStatistics } from "../_api/queries/useQueryKickCounter";
 import { formatDate } from "date-fns";
 import { sv } from "date-fns/locale";
+import { useRouter } from "next/navigation";
 
 interface Props {
   onStart: () => void;
@@ -29,6 +30,7 @@ interface Props {
 export default function KickLanding({ onStart, starting, onViewStats }: Props) {
   const { t } = useTranslation();
   const { user } = useCurrentUser();
+  const router = useRouter();
   const { data: stats } = useQueryKickStatistics("week");
 
   const week = user?.details?.current_pregnancy_data?.running_week;
@@ -42,7 +44,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
   return (
     <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6 bg-white h-fit border border-[#F3E8FF] rounded-2xl px-[9px] py-[11px]">
-        <Card className="relative flex flex-col md:flex-row min-h-[280px] lg:min-h-[397px] rounded-[12px] overflow-hidden p-0">
+        <Card className="relative flex flex-col md:flex-row min-h-[280px] lg:min-h-[397px] rounded-[12px] overflow-hidden p-0 shadow-none">
           <Image
             src="/kick_counter_bg.png"
             alt=""
@@ -53,13 +55,13 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
           />
           <div className="relative md:w-1/2 md:h-full md:absolute md:right-0 md:top-0 z-10 order-1 md:order-2 bg-[#F3E7F9] md:bg-transparent flex min-h-[280px] items-center justify-end p-5 sm:p-6">
             <div className="w-full text-center lg:text-left">
-              <span className="bg-white text-primary px-2.5 py-1 rounded-full text-base! font-semibold!">
+              <span className="bg-white text-primary px-2.5 py-1 md:px-[22px]! md:py-2 rounded-full text-base! font-medium!">
                 {week ? t("kickCounter.landing.week", { week }) : "—"}
               </span>
-              <h2 className="text-[25px]! font-semibold text-primary-dark font-poppins! mt-6">
+              <h2 className="text-[25px]! font-semibold text-primary-dark! font-poppins! mt-6">
                 {t("kickCounter.landing.ready")}
               </h2>
-              <p className="mx-auto mt-2 max-w-md text-base! font-poppins! text-text-secondary">
+              <p className="mx-auto mt-2 max-w-md text-base! font-poppins! text-primary-dark! font-normal!">
                 {t("kickCounter.landing.readyDesc")}
               </p>
               <Button
@@ -84,11 +86,13 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
             icon={<Activity className="size-5 text-primary" />}
             title={t("kickCounter.landing.trackKicks")}
             desc={t("kickCounter.landing.trackKicksDesc")}
+            onClick={onStart}
           />
           <FeatureCard
             icon={<Clock4 className="size-5 text-primary" />}
             title={t("kickCounter.landing.monitorTime")}
             desc={t("kickCounter.landing.monitorTimeDesc")}
+            onClick={() => router.push("/sparkraknare/historik")}
           />
           <FeatureCard
             icon={<TrendingUp className="size-5 text-primary" />}
@@ -101,7 +105,7 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
 
       <div className="space-y-6">
         <Card className="p-6 bg-white border border-[#EEE4F9] shadow-none">
-          <h3 className="font-semibold text-primary-dark">
+          <h3 className="text-[25px]! font-semibold! text-primary-dark!">
             {t("kickCounter.landing.pregnancyInfo")}
           </h3>
           <div className="mt-4 space-y-3 text-sm">
@@ -111,8 +115,8 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
             />
             <Row label={t("kickCounter.landing.dueDate")} value={dueDate} />
           </div>
-          <div className="mt-5 border-t pt-4">
-            <p className="mb-3 text-sm font-medium text-primary-dark">
+          <div className="mt-5 border-t border-t-[#F3E8FF] pt-4">
+            <p className="mb-3 text-base! md:text-[20px]! font-semibold! text-primary-dark!">
               {t("kickCounter.landing.thisWeek")}
             </p>
             <div className="space-y-2">
@@ -166,11 +170,11 @@ export default function KickLanding({ onStart, starting, onViewStats }: Props) {
           <div className="relative z-10 max-w-[70%] p-6 pb-20">
             <div className="flex items-center gap-2">
               <Lightbulb className="size-5 text-primary" />
-              <h3 className="font-semibold text-primary-dark">
+              <h3 className="text-xl! md:text-[22px]! font-semibold! text-primary-dark!">
                 {t("kickCounter.landing.trackingTip")}
               </h3>
             </div>
-            <p className="mt-2 text-sm text-text-secondary text-left">
+            <p className="mt-2 text-sm! md:text-base! font-normal! text-primary-dark! text-left">
               {t("kickCounter.landing.trackingTipText")}
             </p>
           </div>
@@ -197,15 +201,15 @@ function FeatureCard({
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       className={cn(
-        "bg-primary-light3 rounded-[10px] flex h-full flex-col items-center gap-2 p-5 text-center",
+        "bg-primary-light3 rounded-[10px] flex h-full flex-col items-center gap-2 p-5 text-center shadow-none cursor-pointer",
         onClick && "cursor-pointer transition-colors hover:border-primary"
       )}
     >
       <div className="flex size-[50px] items-center justify-center rounded-full bg-white">
         {icon}
       </div>
-      <p className="font-medium text-primary-dark">{title}</p>
-      <p className="text-xs text-text-secondary">{desc}</p>
+      <p className="font-semibold! text-[22px]! text-primary-dark!">{title}</p>
+      <p className="text-base! font-normal! text-primary-dark!">{desc}</p>
     </Card>
   );
 }
@@ -213,8 +217,10 @@ function FeatureCard({
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-text-secondary">{label}</span>
-      <span className="font-medium text-primary-dark">{value}</span>
+      <span className="text-base! font-normal! text-primary-dark!">
+        {label}
+      </span>
+      <span className="text-base! font-semibold! text-[#0A0A0A]!">{value}</span>
     </div>
   );
 }

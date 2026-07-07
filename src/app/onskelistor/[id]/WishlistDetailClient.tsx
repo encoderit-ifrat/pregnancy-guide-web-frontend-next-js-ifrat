@@ -143,11 +143,11 @@ export default function WishlistDetailClient() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-1.5 md:py-[18px] md:px-6 w-full flex flex-col justify-end">
                     <div className="w-full md:max-w-[468px] bg-[#3D3177A1] rounded-[10px]! text-white px-2.5 py-1 md:py-[14px] md:px-5">
-                      <h1 className="text-xl! font-semibold! mb-0! truncate">
+                      <h1 className="text-xl! md:text-[35px]! font-semibold! mb-0! truncate">
                         {wishlist.title}
                       </h1>
                       {wishlist.description && (
-                        <p className="text-base! font-normal! text-white! truncate">
+                        <p className="text-base! md:text-xl! font-normal! text-white! truncate">
                           {wishlist.description}
                         </p>
                       )}
@@ -290,7 +290,7 @@ export default function WishlistDetailClient() {
                           key={item._id}
                           className="border-b  border-b-[#F3E8FF] last:border-0"
                         >
-                          <td className="px-5 py-3 font-medium text-primary-dark">
+                          <td className="px-5 py-3 font-medium text-base text-primary-dark">
                             {item.title}
                           </td>
                           <td className="px-5 py-3">
@@ -308,10 +308,10 @@ export default function WishlistDetailClient() {
                               <ReserverInfo item={item} />
                             )}
                           </td>
-                          <td className="px-5 py-3 text-text-secondary">
+                          <td className="px-5 py-3 text-base text-primary-dark">
                             {item.price} {item.currency}
                           </td>
-                          <td className="px-5 py-3 text-text-secondary">
+                          <td className="px-5 py-3 text-base text-primary-dark">
                             {String(item.quantity).padStart(2, "0")}
                           </td>
                           <td className="px-5 py-3">
@@ -320,10 +320,10 @@ export default function WishlistDetailClient() {
                                 href={item.product_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-primary hover:underline"
+                                className="inline-flex items-center no-underline gap-1 text-base text-primary-dark hover:underline"
                               >
                                 {t("wishlists.detail.viewProduct")}{" "}
-                                <ExternalLink className="size-3.5" />
+                                <ExternalLink className="size-3.5 text-primary" />
                               </a>
                             ) : (
                               <span className="text-text-secondary"></span>
