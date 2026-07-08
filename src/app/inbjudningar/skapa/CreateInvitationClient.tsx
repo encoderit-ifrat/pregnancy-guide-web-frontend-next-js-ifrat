@@ -165,7 +165,11 @@ export default function CreateInvitationClient() {
       reply_by: replyBy ? replyBy.toISOString() : undefined,
       location: location.trim() || undefined,
       template: coverImage ? "custom" : selectedTemplate?.slug,
-      cover_image: coverImage ? coverImage : selectedTemplate?.preview_url,
+      cover_image: coverImage
+        ? coverImage
+        : step >= 1
+          ? selectedTemplate?.preview_url
+          : "",
       wishlist: wishlistId,
       delivery_options: delivery,
       recipients,
@@ -184,6 +188,7 @@ export default function CreateInvitationClient() {
       wishlistId,
       delivery,
       recipients,
+      step,
     ]
   );
 
