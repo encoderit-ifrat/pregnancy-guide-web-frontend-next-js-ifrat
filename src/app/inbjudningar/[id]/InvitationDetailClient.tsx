@@ -39,6 +39,7 @@ import { RsvpStatus } from "../_types/invitation_types";
 import { toast } from "sonner";
 import { formatDate } from "date-fns";
 import { imageLinkGenerator } from "@/helpers/imageLinkGenerator";
+import { sv } from "date-fns/locale";
 
 type pageProps = object;
 
@@ -504,7 +505,9 @@ export default function InvitationDetailClient({}: pageProps) {
                       <CalendarDays className="size-[25px] text-primary! shrink-0" />{" "}
                       <span>
                         {captureInv.event_date
-                          ? formatDate(captureInv.event_date, "MMMM MM,yyyy")
+                          ? formatDate(captureInv.event_date, "MMMM dd,yyyy", {
+                              locale: sv,
+                            })
                           : t("invitations.preview.defaultdate")}
                       </span>
                     </p>
@@ -544,7 +547,9 @@ export default function InvitationDetailClient({}: pageProps) {
                     <CalendarDays className="size-3.5 text-primary shrink-0" />
                     {t("invitations.preview.latestReply", {
                       date: captureInv.reply_by
-                        ? formatDate(captureInv.reply_by, "MMMM MM,yyyy")
+                        ? formatDate(captureInv.reply_by, "MMMM dd,yyyy", {
+                            locale: sv,
+                          })
                         : "",
                     })}
                   </p>

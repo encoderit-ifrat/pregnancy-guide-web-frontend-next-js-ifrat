@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
@@ -191,6 +191,61 @@ export default function EditInvitationClient() {
   const uploadTemp = useFileUploadTempFolder();
   const submitting = update.isPending || send.isPending || uploadTemp.isPending;
 
+  // ─── Auto-save ──────────────────────────────────────────────────────────────
+  const finalizingRef = useRef(false); // pauses autosave during final send
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">(
+    "idle"
+  );
+
+  const selectedTemplate = templates.find((tpl) => tpl._id === template);
+
+  const buildPayload = useCallback(
+    (): Record<string, unknown> => ({
+      title: title.trim(),
+      subtitle: subtitle.trim() || undefined,
+      message: message.trim() || undefined,
+      event_date: date ? date.toISOString() : undefined,
+      event_time: time || undefined,
+      reply_by: replyBy ? replyBy.toISOString() : undefined,
+      location: location.trim() || undefined,
+      template: selectedTemplate ? selectedTemplate.slug : "custom",
+      cover_image: coverImage || selectedTemplate?.preview_url,
+      wishlist: wishlistId,
+      delivery_options: delivery,
+      recipients,
+      status,
+    }),
+    [
+      title,
+      subtitle,
+      message,
+      date,
+      time,
+      replyBy,
+      location,
+      coverImage,
+      selectedTemplate?.slug,
+      selectedTemplate?.preview_url,
+      wishlistId,
+      delivery,
+      recipients,
+      status,
+    ]
+  );
+
+  const persistDraft = useCallback(async () => {
+    if (finalizingRef.current) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const payload = buildPayload() as any;
+    try {
+      setSaveState("saving");
+      await update.mutateAsync({ id, body: payload });
+      setSaveState("saved");
+    } catch {
+      setSaveState("idle");
+    }
+  }, [buildPayload, id, update]);
+
   const next = () => {
     if (step === 0 && !title.trim()) {
       toast.error(t("invitations.builder.titleRequired"));
@@ -200,9 +255,15 @@ export default function EditInvitationClient() {
       toast.error(t("invitations.builder.recipientRequired"));
       return;
     }
+    void persistDraft();
+    window.scrollTo(0, 0);
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
   };
-  const back = () => setStep((s) => Math.max(0, s - 1));
+  const back = () => {
+    void persistDraft();
+    window.scrollTo(0, 0);
+    setStep((s) => Math.max(0, s - 1));
+  };
 
   const addRecipient = () => {
     if (!guestName.trim() || !guestEmail.trim()) {
@@ -232,6 +293,9 @@ export default function EditInvitationClient() {
       setStep(0);
       return;
     }
+
+    // Stop autosave from racing the final update/send.
+    finalizingRef.current = true;
 
     const onSuccess = () => {
       if (status === "draft") {
@@ -317,6 +381,22 @@ export default function EditInvitationClient() {
           <p className="font-outfit! text-sm md:text-base text-text-secondary">
             {t("invitations.builder.subtitle")}
           </p>
+
+          {saveState !== "idle" && (
+            <div className="font-outfit! mt-2 flex items-center gap-1.5 text-xs text-text-secondary">
+              {saveState === "saving" ? (
+                <>
+                  <Loader2 className="size-3.5 animate-spin" />
+                  <span>{t("invitations.builder.autosaving")}</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="size-3.5 text-primary" />
+                  <span>{t("invitations.builder.autosaved")}</span>
+                </>
+              )}
+            </div>
+          )}
 
           <div className="mt-6 flex items-center justify-between">
             {STEPS.map((stepItem, i) => (

@@ -65,7 +65,18 @@ export const useQueryGetMatchingNames = (
         ? "/tinder-names/matching/public"
         : "/tinder-names/matching";
       const res = await api.get<MatchingNamesResponse>(endpoint, {
-        params: { filter, user_id, partner_id, guest_id },
+        params: {
+          filter,
+          user_id,
+          partner_id,
+          guest_id,
+          _t: Date.now(), // Cache buster
+        },
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0",
+        },
       });
       // Normalise: API may return a single object or an array
       const raw = res.data.data;
