@@ -466,6 +466,7 @@ export default function InvitationDetailClient({}: pageProps) {
                     className="font-outfit! text-[22px]! font-semibold! text-primary-dark!"
                     style={{
                       marginBlockEnd: "11px",
+                      WebkitLineClamp: 2,
                     }}
                   >
                     {captureInv.title || t("invitations.preview.eventTitle")}
@@ -475,21 +476,23 @@ export default function InvitationDetailClient({}: pageProps) {
                     className="font-outfit! text-lg! font-semibold! text-primary-dark!"
                     style={{
                       marginBlockEnd: "11px",
+                      WebkitLineClamp: 2,
                     }}
                   >
                     {captureInv.subtitle ||
                       t("invitations.preview.eventSubtitle")}
                   </p>
-
                   <p
-                    className="font-outfit! mx-auto max-w-sm text-base! text-primary-dark! font-normal!"
+                    className="font-outfit! mx-auto max-w-[400px] text-base! text-primary-dark! font-normal!"
                     style={{
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
                       WebkitLineClamp: 3,
                       overflow: "hidden",
                       marginBlockEnd: "15px",
-                      lineHeight: "24px",
+                      lineHeight: "26px",
+                      maxHeight: "82px", // 26 * 3 + small safety space
+                      paddingBottom: "4px",
                     }}
                   >
                     {captureInv.message ||

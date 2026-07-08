@@ -559,7 +559,7 @@ function ReserverInfo({ item }: { item: PublicWishlistItem }) {
         {t("wishlists.public.reservedBy", { name: item.claimed_by })}
       </p>
       {item.claim_message && (
-        <p className="mt-0.5! text-xs! text-text-secondary! max-w-[200px] line-clamp-3 mb-0!">
+        <p className="mt-0.5! text-xs! text-text-secondary! max-w-[200px] mb-0!">
           <span className="font-medium">
             {t("wishlists.public.reserverNote")}:
           </span>{" "}

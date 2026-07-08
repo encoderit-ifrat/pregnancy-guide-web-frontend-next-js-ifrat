@@ -76,7 +76,7 @@ export default function EditInvitationClient() {
   const { data: invitationDetail } = useQueryInvitationDetail(id);
   const { data: templatesData } = useQueryInvitationTemplates();
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [sentOpen, setSentOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
 

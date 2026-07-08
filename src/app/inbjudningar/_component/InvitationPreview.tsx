@@ -87,7 +87,7 @@ export default function InvitationPreview({
           {subtitle || ""}
         </p>
 
-        <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! font-normal! text-primary-dark! mb-[15px]! line-clamp-2">
+        <p className="font-outfit! mx-auto max-w-sm text-sm md:text-base! font-normal! text-primary-dark! mb-[15px]! line-clamp-3">
           {message || ""}
         </p>
 
