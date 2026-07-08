@@ -61,6 +61,7 @@ import ChecklistForm from "./CheckListForm";
 import { ChecklistFormData } from "../_types/checklist_page_types";
 import api from "@/lib/axios";
 import Image from "next/image";
+import { sv } from "date-fns/locale";
 
 // Interceptor to strip validation-blocking fields from checklist PATCH body payloads
 api.interceptors.request.use((config) => {
@@ -510,7 +511,9 @@ export default function CheckList({
                         {/* {t("checklists.overdue", {
                           days: format(isDetailOpen.task.date, "io LLL RRR"),
                         })} */}
-                        {format(isDetailOpen.task.date, "io LLL RRR")}
+                        {format(isDetailOpen.task.date, "do LLL RRRR", {
+                          locale: sv,
+                        })}
                       </p>
                     ) : (
                       <span className="text-sm text-gray-400">

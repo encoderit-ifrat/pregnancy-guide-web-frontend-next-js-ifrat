@@ -38,6 +38,7 @@ import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTi
 import IconLike from "@/components/svg-icon/icon-like";
 import { useMutationDeleteMatchingName } from "./_api/useMutationDeleteMatchingName";
 import { useQueryClient } from "@tanstack/react-query";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 function SkeletonCard() {
   return (
@@ -94,12 +95,14 @@ function NameCard({ item }: { item: MatchingType }) {
         onError: (error: any) => {
           toast.error(
             error?.response?.data?.message ||
-            t("matchedNames.failedUpdateStatus")
+              t("matchedNames.failedUpdateStatus")
           );
         },
         onSettled: () => {
           queryClient.invalidateQueries({ queryKey: ["tinder-names"] });
-          queryClient.invalidateQueries({ queryKey: ["tinder-names-matching"] });
+          queryClient.invalidateQueries({
+            queryKey: ["tinder-names-matching"],
+          });
         },
       }
     );
@@ -267,6 +270,7 @@ export default function MatchedNamesClientPage() {
   const { data, isLoading, isError } = useQueryGetMatchingNames("all");
   const items = data?.items ?? [];
   const firstItem = items[0];
+  const { user } = useCurrentUser();
 
   // Show ALL matched names regardless of tab. "Mest gillade" / "Mest älskade"
   // are only sort buttons, not filters.
@@ -287,7 +291,7 @@ export default function MatchedNamesClientPage() {
 
   React.useEffect(() => {
     if (firstItem) {
-      const link = `${window.location.origin}/barnnamn/swajp/delad/${firstItem.user_id}-${firstItem.partner_id}?filter=love`;
+      const link = `${window.location.origin}/barnnamn/swajp/delad/${user.roles[0].name === "user" ? `${firstItem.user_id}-${firstItem.partner_id}` : `${firstItem.partner_id}-${firstItem.user_id}`}?filter=love`;
       setShareLink(link);
     } else {
       setShareLink("");
@@ -340,7 +344,9 @@ export default function MatchedNamesClientPage() {
               {shareLink && (
                 <div className="flex items-center gap-2 rounded-md border border-primary text-primary bg-primary/10 w-full max-w-xl px-3 py-2">
                   <Link2 className="shrink-0 size-5" />
-                  <span className="truncate flex-1 text-sm sm:text-base">{shareLink}</span>
+                  <span className="truncate flex-1 text-sm sm:text-base">
+                    {shareLink}
+                  </span>
                   <Copy
                     onClick={handleCopy}
                     className="ml-auto cursor-pointer hover:opacity-70 transition-opacity shrink-0 size-5"
