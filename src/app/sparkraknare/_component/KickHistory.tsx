@@ -7,6 +7,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/AlertDialog";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
@@ -17,7 +27,9 @@ import {
   ChevronDown,
   Clock,
   Footprints,
+  Trash2,
 } from "lucide-react";
+import { toast } from "sonner";
 import {
   useQueryKickSessions,
   useQueryKickTodaySummary,
@@ -27,6 +39,7 @@ import { fmtDuration, fmtFullDuration } from "@/app/varkraknare/_lib/format";
 import { formatDate } from "date-fns";
 import Pagination from "@/components/base/Pagination";
 import { useQueryContractionSettings } from "@/app/varkraknare/_api/queries/useQueryContraction";
+import { useDeleteKickSession } from "../_api/mutations/useKickMutations";
 
 export default function KickHistory({
   onViewStats,
@@ -37,7 +50,9 @@ export default function KickHistory({
 }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const { data, isLoading } = useQueryKickSessions(page);
+  const del = useDeleteKickSession();
   const { data: todaySummary } = useQueryKickTodaySummary();
   const { data: settings } = useQueryContractionSettings();
 
@@ -115,14 +130,22 @@ export default function KickHistory({
                               {formatDate(s.started_at, "PP")}
                             </p>
                             <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
-                              <Clock className="size-3" />
-                              {formatDate(s.started_at, "p")}-
-                              {s.ended_at ? formatDate(s.ended_at, "p") : "..."}
+                              <Clock className="size-3 shrink-0" />
+                              {formatDate(s.started_at, "HH:mm")}-
+                              {s.ended_at
+                                ? formatDate(s.ended_at, "HH:mm")
+                                : "..."}
                             </p>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center justify-around gap-1 md:gap-2">
+                        <button
+                          onClick={() => setDeleteId(s._id)}
+                          className="text-destructive cursor-pointer p-1 md:p-2 rounded-[5px] border border-[#f3e8ff] flex items-center justify-center"
+                        >
+                          <Trash2 className="size-4" />
+                        </button>
                         <AccordionTrigger className="text-primary bg-primary-light2 rounded-full p-1.5 border border-[#f3e8ff] flex items-center justify-center flex-none gap-0 hover:no-underline w-auto">
                           <ChevronDown className="size-4" />
                         </AccordionTrigger>
@@ -221,6 +244,49 @@ export default function KickHistory({
           </Card>
         </div>
       </div>
+
+      <AlertDialog
+        open={!!deleteId}
+        onOpenChange={(o) => !o && setDeleteId(null)}
+      >
+        <AlertDialogContent className="bg-white border border-[#E8E4F8] rounded-[15px] p-6">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("kickCounter.history.deleteTitle")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("kickCounter.history.deleteDesc")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              {t("kickCounter.history.deleteCancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-white hover:bg-destructive/90"
+              onClick={(e) => {
+                e.preventDefault();
+                if (deleteId) {
+                  del.mutate(deleteId, {
+                    onSuccess: () => {
+                      toast.success(
+                        t("kickCounter.history.sessionDeleted")
+                      );
+                      setDeleteId(null);
+                    },
+                  });
+                }
+              }}
+            >
+              {del.isPending ? (
+                <Spinner />
+              ) : (
+                t("kickCounter.history.deleteConfirm")
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

@@ -835,6 +835,11 @@
       "totalKicksToday": "Total Kicks Today",
       "viewFullStats": "View Full Stats",
       "newSession": "New Session",
+      "sessionDeleted": "Session deleted",
+      "deleteTitle": "Delete Session",
+      "deleteDesc": "Are you sure you want to delete this session? This action cannot be undone.",
+      "deleteCancel": "Cancel",
+      "deleteConfirm": "Delete",
       "noteTitle": "Note",
       "noteDesc": "All session data is stored locally on your device."
     }

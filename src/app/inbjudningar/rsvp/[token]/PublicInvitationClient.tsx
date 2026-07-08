@@ -282,7 +282,7 @@ export default function PublicInvitationClient() {
           }
         }}
       >
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-[350px] bg-white md:max-w-md">
           <DialogHeader>
             <div className="mx-auto mb-2 flex size-14 items-center justify-center rounded-full bg-primary-light">
               <Mail className="size-7 text-primary" />
@@ -326,7 +326,7 @@ export default function PublicInvitationClient() {
       </Dialog>
 
       <Dialog open={acceptedOpen} onOpenChange={setAcceptedOpen}>
-        <DialogContent className="max-w-md text-center">
+        <DialogContent className="max-w-[350px] bg-white md:max-w-md text-center">
           <div className="mx-auto mb-2 flex size-16 items-center justify-center rounded-full bg-primary-light">
             <CheckCircle2 className="size-8 text-primary" />
           </div>

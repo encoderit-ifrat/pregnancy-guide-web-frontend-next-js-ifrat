@@ -133,8 +133,10 @@ export default function ContractionHistory({
                             </p>
                             <p className="text-base! font-normal! flex gap-1 items-center text-primary-dark!">
                               <Clock className="size-3" />
-                              {formatDate(s.started_at, "p")} -{" "}
-                              {s.ended_at ? formatDate(s.ended_at, "p") : "..."}
+                              {formatDate(s.started_at, "HH:mm")} -{" "}
+                              {s.ended_at
+                                ? formatDate(s.ended_at, "HH:mm")
+                                : "..."}
                             </p>
                           </div>
                         </div>

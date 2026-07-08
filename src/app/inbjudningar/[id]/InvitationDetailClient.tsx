@@ -505,7 +505,7 @@ export default function InvitationDetailClient({}: pageProps) {
                       <CalendarDays className="size-[25px] text-primary! shrink-0" />{" "}
                       <span>
                         {captureInv.event_date
-                          ? formatDate(captureInv.event_date, "MMMM dd,yyyy", {
+                          ? formatDate(captureInv.event_date, "MMMM dd, yyyy", {
                               locale: sv,
                             })
                           : t("invitations.preview.defaultdate")}
@@ -547,7 +547,7 @@ export default function InvitationDetailClient({}: pageProps) {
                     <CalendarDays className="size-3.5 text-primary shrink-0" />
                     {t("invitations.preview.latestReply", {
                       date: captureInv.reply_by
-                        ? formatDate(captureInv.reply_by, "MMMM dd,yyyy", {
+                        ? formatDate(captureInv.reply_by, "MMMM dd, yyyy", {
                             locale: sv,
                           })
                         : "",

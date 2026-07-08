@@ -822,6 +822,11 @@
       "totalKicksToday": "Totalt antal sparkar idag",
       "viewFullStats": "Visa fullständig statistik",
       "newSession": "Ny session",
+      "sessionDeleted": "Sessionen raderad",
+      "deleteTitle": "Ta bort session",
+      "deleteDesc": "Är du säker på att du vill ta bort denna session? Denna åtgärd kan inte ångras.",
+      "deleteCancel": "Avbryt",
+      "deleteConfirm": "Ta bort",
       "noteTitle": "Note",
       "noteDesc": "All session data is stored locally on your device."
     }
