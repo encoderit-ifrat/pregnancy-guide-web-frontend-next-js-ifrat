@@ -126,6 +126,7 @@ export default function EditInvitationClient() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const templateInitialized = useRef(false);
   const coverPreviewUrl = coverImage;
+  const isInitializedRef = useRef(false);
 
   const { data: wishlistsData } = useQueryWishlists();
   const wishlists = wishlistsData?.data ?? [];
@@ -168,6 +169,7 @@ export default function EditInvitationClient() {
           }))
         );
       }
+      isInitializedRef.current = true;
     }
   }, [invitationDetail, templates]);
 
@@ -235,7 +237,6 @@ export default function EditInvitationClient() {
 
   const persistDraft = useCallback(async () => {
     if (finalizingRef.current) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload = buildPayload() as any;
     try {
       setSaveState("saving");
@@ -245,6 +246,25 @@ export default function EditInvitationClient() {
       setSaveState("idle");
     }
   }, [buildPayload, id, update]);
+
+  // Auto-save on step 0 field changes
+  useEffect(() => {
+    if (step !== 0 || !isInitializedRef.current || finalizingRef.current) return;
+    const handle = setTimeout(() => {
+      void persistDraft();
+    }, 1000);
+    return () => clearTimeout(handle);
+  }, [
+    step,
+    title,
+    subtitle,
+    date,
+    time,
+    replyBy,
+    location,
+    message,
+    persistDraft,
+  ]);
 
   const next = () => {
     if (step === 0 && !title.trim()) {

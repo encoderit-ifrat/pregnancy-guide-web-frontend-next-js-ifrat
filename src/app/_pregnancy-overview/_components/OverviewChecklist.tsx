@@ -57,6 +57,7 @@ import { CheckBox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import Image from "next/image";
+import { sv } from "date-fns/locale";
 
 export default function OverviewChecklist({
   checkLists,
@@ -589,7 +590,9 @@ export default function OverviewChecklist({
                     </div>
                     {isDetailOpen.task.date ? (
                       <p className="text-base font-semibold text-[#3D3177]">
-                        {format(isDetailOpen.task.date, "io LLL RRR")}
+                        {format(isDetailOpen.task.date, "do LLL RRRR", {
+                          locale: sv,
+                        })}
                       </p>
                     ) : (
                       <span className="text-sm text-gray-400">

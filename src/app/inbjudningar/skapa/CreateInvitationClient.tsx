@@ -148,7 +148,7 @@ export default function CreateInvitationClient() {
   const draftIdRef = useRef<string | null>(null);
   const creatingRef = useRef(false); // guards against a duplicate initial create
   const finalizingRef = useRef(false); // pauses autosave during final send
-  const draftCreated = useRef(false); // guards initial draft creation to one-time only
+  const prevRecipientsLengthRef = useRef(recipients.length);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">(
     "idle"
   );
@@ -222,7 +222,6 @@ export default function CreateInvitationClient() {
 
   const persistDraft = useCallback(async () => {
     if (finalizingRef.current || creatingRef.current) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload = buildPayload() as any;
     try {
       setSaveState("saving");
@@ -242,17 +241,50 @@ export default function CreateInvitationClient() {
     }
   }, [buildPayload, create, update]);
 
-  // Create the initial draft once when the host enters meaningful input.
-  // Subsequent saves only happen on next/prev clicks or final send.
+  // Auto-save on step 0 field changes when the host enters meaningful input.
   useEffect(() => {
-    if (!hasMeaningfulInput || finalizingRef.current || draftCreated.current)
-      return;
+    if (step !== 0 || !hasMeaningfulInput || finalizingRef.current) return;
     const handle = setTimeout(() => {
-      draftCreated.current = true;
       void persistDraft();
     }, 1000);
     return () => clearTimeout(handle);
-  }, [buildPayload, hasMeaningfulInput, persistDraft]);
+  }, [
+    step,
+    title,
+    subtitle,
+    date,
+    time,
+    replyBy,
+    location,
+    message,
+    hasMeaningfulInput,
+    persistDraft,
+  ]);
+
+  // Auto-save on step 1 entry or when template/coverImage changes
+  useEffect(() => {
+    if (step !== 1 || !hasMeaningfulInput || finalizingRef.current) return;
+    const handle = setTimeout(() => {
+      void persistDraft();
+    }, 1000);
+    return () => clearTimeout(handle);
+  }, [
+    step,
+    template,
+    coverImage,
+    coverImageName,
+    hasMeaningfulInput,
+    persistDraft,
+  ]);
+
+  // Auto-save on step 3 when a guest is added
+  useEffect(() => {
+    if (step !== 3 || finalizingRef.current) return;
+    if (recipients.length > prevRecipientsLengthRef.current) {
+      void persistDraft();
+    }
+    prevRecipientsLengthRef.current = recipients.length;
+  }, [step, recipients, persistDraft]);
 
   const next = () => {
     if (step === 0 && !title.trim()) {
@@ -334,7 +366,6 @@ export default function CreateInvitationClient() {
     // Stop autosave from racing the final create/send, then reuse the draft
     // already created during the wizard instead of making a duplicate.
     finalizingRef.current = true;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload = buildPayload() as any;
 
     try {
