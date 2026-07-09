@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/Button";
@@ -119,7 +119,7 @@ export default function EditInvitationClient() {
   const [scheduleAt, setScheduleAt] = useState<Date | undefined>();
   const [scheduleTime, setScheduleTime] = useState("");
   const [sendLater, setSendLater] = useState(false);
-  const [status, setStatus] = useState<InvitationStatus>("sent");
+  const [status, setStatus] = useState<InvitationStatus | null>(null);
   const [coverImage, setCoverImage] = useState<string | undefined>();
   const [coverImageName, setCoverImageName] = useState<string>("");
   const [emailError, setEmailError] = useState(false);
@@ -130,7 +130,7 @@ export default function EditInvitationClient() {
 
   const { data: wishlistsData } = useQueryWishlists();
   const wishlists = wishlistsData?.data ?? [];
-  const templates = templatesData ?? [];
+  const templates = useMemo(() => templatesData ?? [], [templatesData]);
 
   useEffect(() => {
     if (invitationDetail) {
@@ -144,7 +144,7 @@ export default function EditInvitationClient() {
       setWishlistId(inv.wishlist || undefined);
       setDelivery(inv.delivery_options || ["email"]);
       setSendLater(!!inv.scheduled_at);
-      setStatus(inv.status || "sent");
+      setStatus(inv.status || null);
       if (inv.scheduled_at) {
         const d = new Date(inv.scheduled_at);
         setScheduleAt(d);
@@ -174,10 +174,6 @@ export default function EditInvitationClient() {
   }, [invitationDetail, templates]);
 
   useEffect(() => {
-    setStatus(sendLater ? "scheduled" : "sent");
-  }, [sendLater]);
-
-  useEffect(() => {
     if (
       templates?.length &&
       !templateInitialized.current &&
@@ -200,6 +196,21 @@ export default function EditInvitationClient() {
   );
 
   const selectedTemplate = templates.find((tpl) => tpl._id === template);
+
+  const hasChanges =
+    title.trim() !== (invitationDetail?.title || "") ||
+    subtitle.trim() !== (invitationDetail?.subtitle || "") ||
+    message.trim() !== (invitationDetail?.message || "") ||
+    location.trim() !== (invitationDetail?.location || "") ||
+    time !== (invitationDetail?.event_time || "") ||
+    (date ? new Date(date).getTime() : 0) !==
+      (invitationDetail?.event_date
+        ? new Date(invitationDetail.event_date).getTime()
+        : 0) ||
+    (replyBy ? new Date(replyBy).getTime() : 0) !==
+      (invitationDetail?.reply_by
+        ? new Date(invitationDetail.reply_by).getTime()
+        : 0);
 
   const buildPayload = useCallback(
     (): Record<string, unknown> => ({
@@ -249,10 +260,17 @@ export default function EditInvitationClient() {
 
   // Auto-save on step 0 field changes
   useEffect(() => {
-    if (step !== 0 || !isInitializedRef.current || finalizingRef.current) return;
+    if (
+      step !== 0 ||
+      !isInitializedRef.current ||
+      !hasChanges ||
+      !title.trim() ||
+      finalizingRef.current
+    )
+      return;
     const handle = setTimeout(() => {
       void persistDraft();
-    }, 1000);
+    }, 3000);
     return () => clearTimeout(handle);
   }, [
     step,
@@ -508,7 +526,7 @@ export default function EditInvitationClient() {
                       /> */}
                       <div className="flex items-center gap-1 rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2">
                         <Select
-                          value={time ? time.split(":")[0] : undefined}
+                          value={time ? time.split(":")[0] : ""}
                           onValueChange={(hour) => {
                             const minute = time ? time.split(":")[1] : "00";
                             setTime(`${hour}:${minute}`);
@@ -531,7 +549,7 @@ export default function EditInvitationClient() {
                           :
                         </span>
                         <Select
-                          value={time ? time.split(":")[1] : undefined}
+                          value={time ? time.split(":")[1] : ""}
                           onValueChange={(minute) => {
                             const hour = time ? time.split(":")[0] : "00";
                             setTime(`${hour}:${minute}`);
@@ -954,7 +972,7 @@ export default function EditInvitationClient() {
 
                   <Field label={t("invitations.builder.status")}>
                     <select
-                      value={status}
+                      value={status ? status : "draft"}
                       onChange={(e) =>
                         setStatus(e.target.value as InvitationStatus)
                       }

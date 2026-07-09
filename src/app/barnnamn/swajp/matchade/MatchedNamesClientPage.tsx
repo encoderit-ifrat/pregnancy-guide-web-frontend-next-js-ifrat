@@ -38,7 +38,7 @@ import { useMutationSwipeTinderName } from "../_api/mutations/useMutationSwipeTi
 import IconLike from "@/components/svg-icon/icon-like";
 import { useMutationDeleteMatchingName } from "./_api/useMutationDeleteMatchingName";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+
 
 function SkeletonCard() {
   return (
@@ -265,12 +265,13 @@ function NameCard({ item }: { item: MatchingType }) {
 
 export default function MatchedNamesClientPage() {
   const [activeTab, setActiveTab] = useState("liked");
-  const { user } = useCurrentUser();
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const role = storedUser?.roles?.[0]?.name || "user";
 
   // Always fetch the full matched list; the tab only controls sort order.
   const { data, isLoading, isError } = useQueryGetMatchingNames(
     "all",
-    user.roles[0].name === "user" ? "" : user.inviter_id
+    role === "user" ? "" : storedUser.inviter_id
   );
   const items = data?.items ?? [];
   const firstItem = items[0];
@@ -294,7 +295,7 @@ export default function MatchedNamesClientPage() {
 
   React.useEffect(() => {
     if (firstItem) {
-      const link = `${window.location.origin}/barnnamn/swajp/delad/${user.roles[0].name === "user" ? `${firstItem.user_id}-${firstItem.partner_id}` : `${firstItem.partner_id}-${firstItem.user_id}`}?filter=love`;
+      const link = `${window.location.origin}/barnnamn/swajp/delad/${storedUser?.roles?.[0]?.name === "user" ? `${firstItem.user_id}-${firstItem.partner_id}` : `${firstItem.partner_id}-${firstItem.user_id}`}?filter=love`;
       setShareLink(link);
     } else {
       setShareLink("");

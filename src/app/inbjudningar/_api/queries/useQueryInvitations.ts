@@ -51,6 +51,11 @@ export const useQueryPublicInvitation = (token: string) =>
   useQuery({
     queryKey: invitationKeys.public(token),
     enabled: !!token,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
     queryFn: async () => {
       const res = await api.get(`/public/event-invitations/${token}`);
       return res.data.data as PublicInvitationView;

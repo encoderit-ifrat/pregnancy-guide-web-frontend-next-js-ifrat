@@ -102,12 +102,12 @@ export default function InvitationPreview({
             <span>{time || ""}</span>
           </p>
 
-          <p className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
+          <div className="font-outfit! flex items-center justify-center gap-1 text-[11px]! md:text-base! font-semibold!">
             <MapPinned className="size-3.5 md:size-[25px] text-primary shrink-0" />{" "}
             <p className="text-[11px]! md:text-base! font-semibold! text-start! line-clamp-3 text-primary-dark!">
               {location || ""}
             </p>
-          </p>
+          </div>
         </div>
 
         <p className="font-outfit! flex items-center justify-center gap-1 pt-1 text-[11px]! md:text-base! leading-normal! font-semibold! text-primary-dark! mt-2.5">
