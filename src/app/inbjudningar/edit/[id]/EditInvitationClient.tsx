@@ -270,7 +270,7 @@ export default function EditInvitationClient() {
       return;
     const handle = setTimeout(() => {
       void persistDraft();
-    }, 3000);
+    }, 1000);
     return () => clearTimeout(handle);
   }, [
     step,
