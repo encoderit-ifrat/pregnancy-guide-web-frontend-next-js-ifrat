@@ -57,7 +57,10 @@ export const useQueryPublicInvitation = (token: string) =>
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
     queryFn: async () => {
-      const res = await api.get(`/public/event-invitations/${token}`);
+      const res = await api.get(`/public/event-invitations/${token}`, {
+        headers: { "Cache-Control": "no-cache" },
+        params: { _t: Date.now() },
+      });
       return res.data.data as PublicInvitationView;
     },
   });
