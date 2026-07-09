@@ -91,7 +91,11 @@ export default function ContractionStatistics() {
                 icon={<Timer className="size-5 text-primary" />}
                 value={String(stats.totals.total_this_week)}
                 label={t("contractionCounter.stats.totalThisWeek")}
-                changes={`${stats?.totals.percentage_change > 0 ? "↑ Increasing frequency" : "↓ Decreasing frequency"}`}
+                changes={
+                  stats?.totals.percentage_change > 0
+                    ? `↑ ${t("contractionCounter.stats.increasingFrequency")}`
+                    : `↓ ${t("contractionCounter.stats.decreasingFrequency")}`
+                }
                 color={
                   stats?.totals.percentage_change > 0 ? "success" : "error"
                 }
@@ -100,13 +104,13 @@ export default function ContractionStatistics() {
                 icon={<Hourglass className="size-5 text-primary" />}
                 value={fmtDuration(stats.totals.avg_duration_sec)}
                 label={t("contractionCounter.stats.avgDuration")}
-                changes="per contraction"
+                changes={t("contractionCounter.stats.perContraction")}
               />
               <StatCard
                 icon={<Clock className="size-5 text-primary" />}
                 value={fmtDuration(stats.totals.avg_interval_sec)}
                 label={t("contractionCounter.stats.avgInterval")}
-                changes="between contractions"
+                changes={t("contractionCounter.stats.betweenContractions")}
               />
             </div>
           </div>
@@ -351,7 +355,7 @@ function StatCard({
           <p className="text-sm! md:text-base! text-primary-dark!">{label}</p>
           <p className=" text-[30px]! font-bold! text-primary-dark!">{value}</p>
           <span
-            className={`text-base! font-normal! ${color === "default" ? "text-[#3D3177]" : color === "success" ? "text-[#00A63E]" : "text-error"}`}
+            className={`text-sm! font-normal! ${color === "default" ? "text-[#3D3177]" : color === "success" ? "text-[#00A63E]" : "text-destructive"}`}
           >
             {changes}
           </span>

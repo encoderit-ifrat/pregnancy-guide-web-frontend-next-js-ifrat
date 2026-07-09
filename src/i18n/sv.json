@@ -895,7 +895,11 @@
       "current": "(Nuvarande)",
       "patternAnalysis": "Mönsteranalys",
       "timeToGo": "Dags att åka?",
-      "callHospital": "Ring sjukhuset"
+      "callHospital": "Ring sjukhuset",
+      "increasingFrequency": "Ökande frekvens",
+      "decreasingFrequency": "Minskande frekvens",
+      "perContraction": "per sammandragning",
+      "betweenContractions": "mellan sammandragningar"
     },
     "history": {
       "back": "Tillbaka till Värkräknaren",

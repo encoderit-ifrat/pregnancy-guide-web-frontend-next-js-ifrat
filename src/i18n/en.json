@@ -908,7 +908,11 @@
       "current": "(Current)",
       "patternAnalysis": "Pattern Analysis",
       "timeToGo": "Time to Go?",
-      "callHospital": "Call Hospital"
+      "callHospital": "Call Hospital",
+      "increasingFrequency": "Increasing frequency",
+      "decreasingFrequency": "Decreasing frequency",
+      "perContraction": "per contraction",
+      "betweenContractions": "between contractions"
     },
     "history": {
       "back": "Back to Contraction Counter",
