@@ -127,7 +127,6 @@ export default function EditInvitationClient() {
   const templateInitialized = useRef(false);
   const coverPreviewUrl = coverImage;
   const isInitializedRef = useRef(false);
-
   const { data: wishlistsData } = useQueryWishlists();
   const wishlists = wishlistsData?.data ?? [];
   const templates = useMemo(() => templatesData ?? [], [templatesData]);
@@ -153,10 +152,18 @@ export default function EditInvitationClient() {
         );
       }
       if (inv.event_date) {
-        setDate(new Date(inv.event_date));
+        const eventDate = inv.event_date;
+        setDate((prev) => {
+          const d = new Date(eventDate);
+          return prev && prev.getTime() === d.getTime() ? prev : d;
+        });
       }
       if (inv.reply_by) {
-        setReplyBy(new Date(inv.reply_by));
+        const replyByDate = inv.reply_by;
+        setReplyBy((prev) => {
+          const d = new Date(replyByDate);
+          return prev && prev.getTime() === d.getTime() ? prev : d;
+        });
       }
       if (inv.cover_image) {
         setCoverImage(inv.cover_image);
@@ -197,23 +204,38 @@ export default function EditInvitationClient() {
 
   const selectedTemplate = templates.find((tpl) => tpl._id === template);
 
-  const hasChanges =
-    title.trim() !== (invitationDetail?.title || "") ||
-    subtitle.trim() !== (invitationDetail?.subtitle || "") ||
-    message.trim() !== (invitationDetail?.message || "") ||
-    location.trim() !== (invitationDetail?.location || "") ||
-    time !== (invitationDetail?.event_time || "") ||
-    (date ? new Date(date).getTime() : 0) !==
-      (invitationDetail?.event_date
-        ? new Date(invitationDetail.event_date).getTime()
-        : 0) ||
-    (replyBy ? new Date(replyBy).getTime() : 0) !==
-      (invitationDetail?.reply_by
-        ? new Date(invitationDetail.reply_by).getTime()
-        : 0);
+  const hasChanges = useMemo(() => {
+    if (!invitationDetail) return false;
+    return (
+      title.trim() !== (invitationDetail.title || "") ||
+      subtitle.trim() !== (invitationDetail.subtitle || "") ||
+      message.trim() !== (invitationDetail.message || "") ||
+      location.trim() !== (invitationDetail.location || "") ||
+      time !== (invitationDetail.event_time || "") ||
+      (date ? new Date(date).getTime() : 0) !==
+        (invitationDetail.event_date
+          ? new Date(invitationDetail.event_date).getTime()
+          : 0) ||
+      (replyBy ? new Date(replyBy).getTime() : 0) !==
+        (invitationDetail.reply_by
+          ? new Date(invitationDetail.reply_by).getTime()
+          : 0)
+    );
+  }, [
+    title,
+    subtitle,
+    message,
+    location,
+    time,
+    date,
+    replyBy,
+    invitationDetail,
+  ]);
+  const hasChangesRef = useRef(hasChanges);
+  hasChangesRef.current = hasChanges;
 
-  const buildPayload = useCallback(
-    (): Record<string, unknown> => ({
+  const buildPayload = useCallback((): Record<string, unknown> => {
+    const payload: Record<string, unknown> = {
       title: title.trim(),
       subtitle: subtitle.trim() || undefined,
       message: message.trim() || undefined,
@@ -221,30 +243,34 @@ export default function EditInvitationClient() {
       event_time: time || undefined,
       reply_by: replyBy ? replyBy.toISOString() : undefined,
       location: location.trim() || undefined,
-      template: selectedTemplate ? selectedTemplate.slug : "custom",
-      cover_image: coverImage || selectedTemplate?.preview_url,
       wishlist: wishlistId,
       delivery_options: delivery,
       recipients,
       status,
-    }),
-    [
-      title,
-      subtitle,
-      message,
-      date,
-      time,
-      replyBy,
-      location,
-      coverImage,
-      selectedTemplate?.slug,
-      selectedTemplate?.preview_url,
-      wishlistId,
-      delivery,
-      recipients,
-      status,
-    ]
-  );
+    };
+
+    if (step >= 1) {
+      payload.template = selectedTemplate ? selectedTemplate.slug : "custom";
+      payload.cover_image = coverImage || selectedTemplate?.preview_url;
+    }
+
+    return payload;
+  }, [
+    step,
+    title,
+    subtitle,
+    message,
+    date,
+    time,
+    replyBy,
+    location,
+    selectedTemplate,
+    coverImage,
+    wishlistId,
+    delivery,
+    recipients,
+    status,
+  ]);
 
   const persistDraft = useCallback(async () => {
     if (finalizingRef.current) return;
@@ -257,32 +283,17 @@ export default function EditInvitationClient() {
       setSaveState("idle");
     }
   }, [buildPayload, id, update]);
+  const persistDraftRef = useRef(persistDraft);
+  persistDraftRef.current = persistDraft;
 
-  // Auto-save on step 0 field changes
+  // Auto-save on page leave (unmount only)
   useEffect(() => {
-    if (
-      step !== 0 ||
-      !isInitializedRef.current ||
-      !hasChanges ||
-      !title.trim() ||
-      finalizingRef.current
-    )
-      return;
-    const handle = setTimeout(() => {
-      void persistDraft();
-    }, 1000);
-    return () => clearTimeout(handle);
-  }, [
-    step,
-    title,
-    subtitle,
-    date,
-    time,
-    replyBy,
-    location,
-    message,
-    persistDraft,
-  ]);
+    return () => {
+      if (hasChangesRef.current && !finalizingRef.current) {
+        void persistDraftRef.current();
+      }
+    };
+  }, []);
 
   const next = () => {
     if (step === 0 && !title.trim()) {
@@ -420,7 +431,7 @@ export default function EditInvitationClient() {
             {t("invitations.builder.subtitle")}
           </p>
 
-          {saveState !== "idle" && (
+          {/* {saveState !== "idle" && (
             <div className="font-outfit! mt-2 flex items-center gap-1.5 text-xs text-text-secondary">
               {saveState === "saving" ? (
                 <>
@@ -434,7 +445,7 @@ export default function EditInvitationClient() {
                 </>
               )}
             </div>
-          )}
+          )} */}
 
           <div className="mt-6 flex items-center justify-between">
             {STEPS.map((stepItem, i) => (
@@ -518,57 +529,12 @@ export default function EditInvitationClient() {
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
-                      {/* <Input
+                      <Input
                         type="time"
                         value={time}
                         className="rounded-[5px]"
                         onChange={(e) => setTime(e.target.value)}
-                      /> */}
-                      <div className="flex items-center gap-1 rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2">
-                        <Select
-                          value={time ? time.split(":")[0] : ""}
-                          onValueChange={(hour) => {
-                            const minute = time ? time.split(":")[1] : "00";
-                            setTime(`${hour}:${minute}`);
-                          }}
-                        >
-                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
-                            <SelectValue placeholder="HH" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Array.from({ length: 24 }, (_, i) =>
-                              String(i).padStart(2, "0")
-                            ).map((h) => (
-                              <SelectItem key={h} value={h}>
-                                {h}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <span className="text-lg font-medium text-gray-400">
-                          :
-                        </span>
-                        <Select
-                          value={time ? time.split(":")[1] : ""}
-                          onValueChange={(minute) => {
-                            const hour = time ? time.split(":")[0] : "00";
-                            setTime(`${hour}:${minute}`);
-                          }}
-                        >
-                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
-                            <SelectValue placeholder="mm" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Array.from({ length: 60 }, (_, i) =>
-                              String(i).padStart(2, "0")
-                            ).map((m) => (
-                              <SelectItem key={m} value={m}>
-                                {m}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
+                      />
                     </Field>
                   </div>
                   <Field label={t("invitations.builder.latestReply")}>

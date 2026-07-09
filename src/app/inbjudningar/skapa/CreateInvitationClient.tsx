@@ -155,8 +155,8 @@ export default function CreateInvitationClient() {
 
   const selectedTemplate = templates.find((tpl) => tpl._id === template);
 
-  const buildPayload = useCallback(
-    (): Record<string, unknown> => ({
+  const buildPayload = useCallback((): Record<string, unknown> => {
+    const payload: Record<string, unknown> = {
       title: title.trim(),
       subtitle: subtitle.trim() || undefined,
       message: message.trim() || undefined,
@@ -164,33 +164,34 @@ export default function CreateInvitationClient() {
       event_time: time || undefined,
       reply_by: replyBy ? replyBy.toISOString() : undefined,
       location: location.trim() || undefined,
-      template: coverImage ? "custom" : selectedTemplate?.slug,
-      cover_image: coverImage
-        ? coverImage
-        : step >= 1
-          ? selectedTemplate?.preview_url
-          : "",
       wishlist: wishlistId,
       delivery_options: delivery,
       recipients,
-    }),
-    [
-      title,
-      subtitle,
-      message,
-      date,
-      time,
-      replyBy,
-      location,
-      coverImage,
-      selectedTemplate?.slug,
-      selectedTemplate?.preview_url,
-      wishlistId,
-      delivery,
-      recipients,
-      step,
-    ]
-  );
+    };
+
+    if (step >= 1) {
+      payload.template = coverImage ? "custom" : selectedTemplate?.slug;
+      payload.cover_image = coverImage
+        ? coverImage
+        : selectedTemplate?.preview_url;
+    }
+
+    return payload;
+  }, [
+    step,
+    title,
+    subtitle,
+    message,
+    date,
+    time,
+    replyBy,
+    location,
+    coverImage,
+    selectedTemplate,
+    wishlistId,
+    delivery,
+    recipients,
+  ]);
 
   // Only content the host actually entered counts — template/delivery default
   // themselves, so they must not trigger a draft on their own.
@@ -219,6 +220,8 @@ export default function CreateInvitationClient() {
       coverImage,
     ]
   );
+  const hasMeaningfulInputRef = useRef(hasMeaningfulInput);
+  hasMeaningfulInputRef.current = hasMeaningfulInput;
 
   const persistDraft = useCallback(async () => {
     if (finalizingRef.current || creatingRef.current) return;
@@ -240,51 +243,26 @@ export default function CreateInvitationClient() {
       setSaveState("idle");
     }
   }, [buildPayload, create, update]);
+  const persistDraftRef = useRef(persistDraft);
+  persistDraftRef.current = persistDraft;
 
-  // Auto-save on step 0 field changes when the host enters meaningful input.
+  // Auto-save on page leave (unmount only)
   useEffect(() => {
-    if (step !== 0 || !hasMeaningfulInput || finalizingRef.current) return;
-    const handle = setTimeout(() => {
-      void persistDraft();
-    }, 1000);
-    return () => clearTimeout(handle);
-  }, [
-    step,
-    title,
-    subtitle,
-    date,
-    time,
-    replyBy,
-    location,
-    message,
-    hasMeaningfulInput,
-    persistDraft,
-  ]);
-
-  // Auto-save on step 1 entry or when template/coverImage changes
-  useEffect(() => {
-    if (step !== 1 || !hasMeaningfulInput || finalizingRef.current) return;
-    const handle = setTimeout(() => {
-      void persistDraft();
-    }, 1000);
-    return () => clearTimeout(handle);
-  }, [
-    step,
-    template,
-    coverImage,
-    coverImageName,
-    hasMeaningfulInput,
-    persistDraft,
-  ]);
+    return () => {
+      if (hasMeaningfulInputRef.current && !finalizingRef.current) {
+        void persistDraftRef.current();
+      }
+    };
+  }, []);
 
   // Auto-save on step 3 when a guest is added
   useEffect(() => {
     if (step !== 3 || finalizingRef.current) return;
     if (recipients.length > prevRecipientsLengthRef.current) {
-      void persistDraft();
+      void persistDraftRef.current();
     }
     prevRecipientsLengthRef.current = recipients.length;
-  }, [step, recipients, persistDraft]);
+  }, [step, recipients]);
 
   const next = () => {
     if (step === 0 && !title.trim()) {
@@ -407,7 +385,7 @@ export default function CreateInvitationClient() {
             {t("invitations.builder.subtitle")}
           </p>
 
-          {(saveState !== "idle" || draftId) && (
+          {/* {(saveState !== "idle" || draftId) && (
             <div className="font-outfit! mt-2 flex items-center gap-1.5 text-xs text-text-secondary">
               {saveState === "saving" ? (
                 <>
@@ -421,7 +399,7 @@ export default function CreateInvitationClient() {
                 </>
               )}
             </div>
-          )}
+          )} */}
 
           <div className="mt-6 flex items-center justify-between">
             {STEPS.map((stepItem, i) => (
