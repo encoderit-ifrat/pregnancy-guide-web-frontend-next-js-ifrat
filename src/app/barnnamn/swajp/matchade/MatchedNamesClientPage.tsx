@@ -295,7 +295,7 @@ export default function MatchedNamesClientPage() {
 
   React.useEffect(() => {
     if (firstItem) {
-      const link = `${window.location.origin}/barnnamn/swajp/delad/${storedUser?.roles?.[0]?.name === "user" ? `${firstItem.user_id}-${firstItem.partner_id}` : `${firstItem.partner_id}-${firstItem.user_id}`}?filter=love`;
+      const link = `${window.location.origin}/barnnamn/swajp/delad/${firstItem.user_id}-${firstItem.partner_id}?filter=love`;
       setShareLink(link);
     } else {
       setShareLink("");
