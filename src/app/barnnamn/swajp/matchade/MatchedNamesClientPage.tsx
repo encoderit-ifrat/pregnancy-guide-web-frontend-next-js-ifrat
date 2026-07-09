@@ -265,12 +265,15 @@ function NameCard({ item }: { item: MatchingType }) {
 
 export default function MatchedNamesClientPage() {
   const [activeTab, setActiveTab] = useState("liked");
+  const { user } = useCurrentUser();
 
   // Always fetch the full matched list; the tab only controls sort order.
-  const { data, isLoading, isError } = useQueryGetMatchingNames("all");
+  const { data, isLoading, isError } = useQueryGetMatchingNames(
+    "all",
+    user.roles[0].name === "user" ? "" : user.inviter_id
+  );
   const items = data?.items ?? [];
   const firstItem = items[0];
-  const { user } = useCurrentUser();
 
   // Show ALL matched names regardless of tab. "Mest gillade" / "Mest älskade"
   // are only sort buttons, not filters.
