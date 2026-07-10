@@ -376,12 +376,9 @@ export default function EditInvitationClient() {
       setStep(0);
       return;
     }
-    if (
-      (status === "scheduled" || status === "sent") &&
-      (!scheduleAt || !scheduleTime)
-    ) {
+    if (status === "scheduled" && (!scheduleAt || !scheduleTime)) {
       toast.error(t("invitations.builder.scheduleRequired"));
-      setStep(0);
+      setStep(4);
       return;
     }
 
