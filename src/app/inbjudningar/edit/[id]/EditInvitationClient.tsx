@@ -219,7 +219,18 @@ export default function EditInvitationClient() {
       (replyBy ? new Date(replyBy).getTime() : 0) !==
         (invitationDetail.reply_by
           ? new Date(invitationDetail.reply_by).getTime()
-          : 0)
+          : 0) ||
+      (selectedTemplate ? selectedTemplate.slug : "custom") !==
+        (invitationDetail.template || "custom") ||
+      (coverImage ?? null) !== (invitationDetail.cover_image ?? null) ||
+      (wishlistId ?? null) !== (invitationDetail.wishlist ?? null) ||
+      JSON.stringify(recipients) !==
+        JSON.stringify(
+          invitationDetail.guests?.map((g) => ({
+            name: g.name,
+            email: g.email,
+          }))
+        )
     );
   }, [
     title,
@@ -229,6 +240,10 @@ export default function EditInvitationClient() {
     time,
     date,
     replyBy,
+    selectedTemplate,
+    coverImage,
+    wishlistId,
+    recipients,
     invitationDetail,
   ]);
   const hasChangesRef = useRef(hasChanges);

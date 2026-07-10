@@ -396,13 +396,15 @@ export default function WishlistDetailClient() {
                             align="end"
                             className="w-[100px] rounded-[5px] p-0"
                           >
-                            <div
-                              onClick={() => openEdit(item)}
-                              className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
-                            >
-                              <Pen size={18} className="text-primary" />{" "}
-                              <p className="text-sm font-normal">Edit</p>
-                            </div>
+                            {item.claim_status !== "claimed" && (
+                              <div
+                                onClick={() => openEdit(item)}
+                                className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
+                              >
+                                <Pen size={18} className="text-primary" />{" "}
+                                <p className="text-sm font-normal">Edit</p>
+                              </div>
+                            )}
                             <Tooltip
                               open={infoOpenId === item._id}
                               onOpenChange={(v) => !v && setInfoOpenId(null)}
