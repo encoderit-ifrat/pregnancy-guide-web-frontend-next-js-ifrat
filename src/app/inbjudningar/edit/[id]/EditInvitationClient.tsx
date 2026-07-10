@@ -261,7 +261,10 @@ export default function EditInvitationClient() {
       wishlist: wishlistId,
       delivery_options: delivery,
       recipients,
-      status,
+      status:
+        status === "scheduled" && (!sendLater || !scheduleAt || !scheduleTime)
+          ? undefined
+          : status,
     };
 
     if (step >= 1) {
@@ -285,6 +288,9 @@ export default function EditInvitationClient() {
     delivery,
     recipients,
     status,
+    sendLater,
+    scheduleAt,
+    scheduleTime,
   ]);
 
   const persistDraft = useCallback(async () => {
