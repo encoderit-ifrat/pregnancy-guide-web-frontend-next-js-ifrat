@@ -801,9 +801,12 @@
       "hardKicks": "Hårda sparkar",
       "unsure": "Osäker",
       "insights": "Insikter",
-      "whenToCall": "When to call your doctor",
+      "whenToCall": "När du ska ringa din läkare",
       "startNew": "Starta ny session",
       "unknown": "Okänd",
+      "fromLastWeek": "Frånra förra veckan",
+      "kicksPerDay": "sparkar per dag",
+      "mostActiveTime": "Mest aktiva timme",
       "soft": "Mjuk",
       "hard": "Hård",
       "mixed": "Blandad"

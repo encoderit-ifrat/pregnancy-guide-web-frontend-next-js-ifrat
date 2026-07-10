@@ -817,6 +817,9 @@
       "whenToCall": "When to call your doctor",
       "startNew": "Start New Session",
       "unknown": "Unknown",
+      "fromLastWeek": "From last week",
+      "kicksPerDay": "kicks per day",
+      "mostActiveTime": "Most active time",
       "soft": "Soft",
       "hard": "Hard",
       "mixed": "Mixed"

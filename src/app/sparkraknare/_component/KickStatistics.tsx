@@ -92,7 +92,7 @@ export default function KickStatistics({
                 icon={<Activity className="size-5 text-primary" />}
                 value={stats.totals.total_this_week}
                 label={t("kickCounter.stats.totalThisWeek")}
-                changes={`${stats?.totals.percentage_change > 0 ? "↑ " : "↓ "}${stats?.totals.percentage_change}% from last week`}
+                changes={`${stats?.totals.percentage_change > 0 ? "↑ " : "↓ "}${stats?.totals.percentage_change}% ${t("kickCounter.stats.fromLastWeek")}`}
                 color={
                   stats?.totals.percentage_change > 0 ? "success" : "error"
                 }
@@ -101,13 +101,13 @@ export default function KickStatistics({
                 icon={<TrendingUp className="size-5 text-primary" />}
                 value={stats.totals.daily_average}
                 label={t("kickCounter.stats.dailyAverage")}
-                changes="kicks per day"
+                changes={t("kickCounter.stats.kicksPerDay")}
               />
               <StatCard
                 icon={<Clock4 className="size-5 text-primary" />}
                 value={stats.totals.peak_hour}
                 label={t("kickCounter.stats.peakHour")}
-                changes="Most active time"
+                changes={` ${t("kickCounter.stats.mostActiveTime")} `}
               />
             </div>
           </div>
