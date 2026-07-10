@@ -35,8 +35,17 @@ export const useUpdateInvitation = () => {
       id: string;
       body: Partial<CreateInvitationPayload>;
     }) => api.patch(`/event-invitations/${id}`, omitEmpty(body)),
-    onSuccess: (_data, variables) =>
-      qc.invalidateQueries({ queryKey: ["event-invitations", "detail", variables.id] }),
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({
+        queryKey: ["event-invitations", "detail", variables.id],
+      });
+      qc.invalidateQueries({ queryKey: ["event-invitations"] });
+      qc.invalidateQueries({ queryKey: ["event-invitations", "list"] });
+    },
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: ["event-invitations"] });
+      qc.invalidateQueries({ queryKey: ["event-invitations", "list"] });
+    },
   });
 };
 
@@ -100,7 +109,9 @@ export const useSendInvitation = () => {
         omitEmpty({ schedule_at, delivery_options })
       ),
     onSuccess: (_data, variables) => {
-      qc.invalidateQueries({ queryKey: ["event-invitations", "detail", variables.id] });
+      qc.invalidateQueries({
+        queryKey: ["event-invitations", "detail", variables.id],
+      });
       qc.invalidateQueries({ queryKey: ["event-invitations", "list"] });
     },
   });

@@ -342,6 +342,21 @@ export default function EditInvitationClient() {
       setStep(0);
       return;
     }
+    if ((status === "sent" || status === "scheduled") && !replyBy) {
+      toast.error(t("invitations.builder.replyByRequired"));
+      setStep(0);
+      return;
+    }
+    if ((status === "sent" || status === "scheduled") && !location) {
+      toast.error(t("invitations.builder.locationRequired"));
+      setStep(0);
+      return;
+    }
+    if ((status === "scheduled" || status === "sent") && !time) {
+      toast.error(t("invitations.builder.timeRequired"));
+      setStep(0);
+      return;
+    }
 
     // Stop autosave from racing the final update/send.
     finalizingRef.current = true;
@@ -529,12 +544,51 @@ export default function EditInvitationClient() {
                       />
                     </Field>
                     <Field label={t("invitations.builder.time")}>
-                      <Input
-                        type="time"
-                        value={time}
-                        className="rounded-[5px]"
-                        onChange={(e) => setTime(e.target.value)}
-                      />
+                      <div className="flex items-center gap-1 rounded-[5px] border border-[#F3EAFF] bg-[#FBF8FF] px-2">
+                        <Select
+                          value={time ? time.split(":")[0] : undefined}
+                          onValueChange={(hour) => {
+                            const minute = time ? time.split(":")[1] : "00";
+                            setTime(`${hour}:${minute}`);
+                          }}
+                        >
+                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                            <SelectValue placeholder="HH" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 24 }, (_, i) =>
+                              String(i).padStart(2, "0")
+                            ).map((h) => (
+                              <SelectItem key={h} value={h}>
+                                {h}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <span className="text-lg font-medium text-gray-400">
+                          :
+                        </span>
+                        <Select
+                          value={time ? time.split(":")[1] : undefined}
+                          onValueChange={(minute) => {
+                            const hour = time ? time.split(":")[0] : "00";
+                            setTime(`${hour}:${minute}`);
+                          }}
+                        >
+                          <SelectTrigger className="w-[72px] border-0 focus:border-0 focus-visible:border-0 focus:bg-[#FBF8FF] data-[state=open]:bg-[#FBF8FF] focus-visible:bg-[#FBF8FF] justify-center text-center px-1">
+                            <SelectValue placeholder="mm" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 60 }, (_, i) =>
+                              String(i).padStart(2, "0")
+                            ).map((m) => (
+                              <SelectItem key={m} value={m}>
+                                {m}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </Field>
                   </div>
                   <Field label={t("invitations.builder.latestReply")}>
