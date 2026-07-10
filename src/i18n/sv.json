@@ -1152,6 +1152,7 @@
       "goToInvitations": "Gå till inbjudningar",
       "titleRequired": "Ange en eventtitel",
       "timeRequired": "Ange en eventtid",
+      "scheduleRequired": "Ange en eventtid",
       "replyByRequired": "Ange ett svarsdatum",
       "locationRequired": "Ange en eventplats",
       "recipientRequired": "Lägg till minst en mottagare",

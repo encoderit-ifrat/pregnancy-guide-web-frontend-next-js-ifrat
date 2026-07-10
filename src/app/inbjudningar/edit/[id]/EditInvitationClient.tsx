@@ -376,6 +376,14 @@ export default function EditInvitationClient() {
       setStep(0);
       return;
     }
+    if (
+      (status === "scheduled" || status === "sent") &&
+      (!scheduleAt || !scheduleTime)
+    ) {
+      toast.error(t("invitations.builder.scheduleRequired"));
+      setStep(0);
+      return;
+    }
 
     // Stop autosave from racing the final update/send.
     finalizingRef.current = true;

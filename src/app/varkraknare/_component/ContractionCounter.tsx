@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -58,13 +58,18 @@ export default function ContractionCounter({
     [session?.contractions]
   );
 
+  const runningRef = useRef(running);
+  runningRef.current = running;
+  const runningId = running?._id ?? null;
+
   const [elapsed, setElapsed] = useState(0);
   useEffect(() => {
-    if (!running) {
+    if (!runningId) {
       setElapsed(0);
       return;
     }
-    const startedAt = new Date(running.start_time).getTime();
+    const r = runningRef.current;
+    const startedAt = new Date(r!.start_time).getTime();
     const serverTimeOffset = getServerTimeOffset();
     const initial = Math.max(
       0,
@@ -73,13 +78,24 @@ export default function ContractionCounter({
     setElapsed(initial);
 
     const id = setInterval(() => {
-      const now = Math.floor(
-        (Date.now() + getServerTimeOffset() - startedAt) / 1000
-      );
-      setElapsed(Math.max(0, now));
+      setElapsed((prev) => prev + 1);
     }, 1000);
-    return () => clearInterval(id);
-  }, [running]);
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        const now = Math.floor(
+          (Date.now() + getServerTimeOffset() - startedAt) / 1000
+        );
+        setElapsed(Math.max(0, now));
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [runningId]);
 
   const handleViewStats = () => {
     if (session) {

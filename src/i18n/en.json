@@ -1165,6 +1165,7 @@
       "goToInvitations": "Go to Invitations",
       "titleRequired": "Please enter an event title",
       "timeRequired": "Please enter an event time",
+      "scheduleRequired": "Please enter schedule time.",
       "replyByRequired": "Please enter a reply by date",
       "locationRequired": "Please enter an event location",
       "recipientRequired": "Add at least one recipient",
