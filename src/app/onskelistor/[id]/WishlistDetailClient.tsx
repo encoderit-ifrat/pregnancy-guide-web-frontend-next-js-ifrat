@@ -402,7 +402,9 @@ export default function WishlistDetailClient() {
                                 className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
                               >
                                 <Pen size={18} className="text-primary" />{" "}
-                                <p className="text-sm font-normal">Edit</p>
+                                <p className="text-sm font-normal">
+                                  {t("wishlists.detail.edit")}
+                                </p>
                               </div>
                             )}
                             <Tooltip
@@ -420,7 +422,9 @@ export default function WishlistDetailClient() {
                                   className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
                                 >
                                   <Info size={18} className="text-primary" />{" "}
-                                  <p className="text-sm font-normal">Info</p>
+                                  <p className="text-sm font-normal">
+                                    {t("wishlists.detail.info")}
+                                  </p>
                                 </div>
                               </TooltipTrigger>
                               <TooltipContent
@@ -437,7 +441,9 @@ export default function WishlistDetailClient() {
                               className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
                             >
                               <Trash2 size={18} className="text-primary" />{" "}
-                              <p className="text-sm font-normal">Delete</p>
+                              <p className="text-sm font-normal">
+                                {t("wishlists.detail.delete")}
+                              </p>
                             </div>
                           </PopoverContent>
                         </Popover>

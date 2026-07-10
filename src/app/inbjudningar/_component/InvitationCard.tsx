@@ -98,7 +98,9 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
                   className="px-[11px] py-2 hover:bg-primary/10 border-b border-b-[#E8E4F8] flex items-center gap-2 cursor-pointer"
                 >
                   <Pen size={18} className="text-primary" />{" "}
-                  <p className="text-sm font-normal">Edit</p>
+                  <p className="text-sm font-normal">
+                    {t("invitations.detail.edit")}
+                  </p>
                 </Link>
                 <div
                   onClick={() =>
@@ -119,14 +121,18 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
                   ) : (
                     <Copy size={18} className="text-primary" />
                   )}
-                  <p className="text-sm font-normal">Duplicate</p>
+                  <p className="text-sm font-normal">
+                    {t("invitations.detail.duplicate")}
+                  </p>
                 </div>
                 <div
                   onClick={() => setIsDeleteOpen(true)}
                   className="px-[11px] py-2 hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
                 >
                   <Trash2 size={18} className="text-primary" />{" "}
-                  <p className="text-sm font-normal">Delete</p>
+                  <p className="text-sm font-normal">
+                    {t("invitations.detail.delete")}
+                  </p>
                 </div>
               </PopoverContent>
             </Popover>
@@ -176,9 +182,7 @@ function InvitationCard({ inv }: { inv: EventInvitation }) {
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <AlertDialogContent className="bg-white border border-[#E8E4F8] rounded-[15px] p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t("invitations.deleteTitle")}
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t("invitations.deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
               {t("invitations.deleteDesc")}
             </AlertDialogDescription>

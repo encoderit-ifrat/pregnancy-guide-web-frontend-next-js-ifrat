@@ -1077,6 +1077,7 @@ export default function CreateInvitationClient() {
                   <Button
                     variant="outline"
                     onClick={() => {
+                      setWishlistId(undefined);
                       setStep(3);
                       window.scrollTo(0, 0);
                     }}

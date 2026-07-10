@@ -319,12 +319,16 @@ export default function EditInvitationClient() {
       toast.error(t("invitations.builder.recipientRequired"));
       return;
     }
-    void persistDraft();
+    if (hasChanges) {
+      void persistDraft();
+    }
     window.scrollTo(0, 0);
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
   };
   const back = () => {
-    void persistDraft();
+    if (hasChanges) {
+      void persistDraft();
+    }
     window.scrollTo(0, 0);
     setStep((s) => Math.max(0, s - 1));
   };
@@ -1170,7 +1174,10 @@ export default function EditInvitationClient() {
                 <div className="flex w-full flex-1 gap-2 sm:justify-end">
                   <Button
                     variant="outline"
-                    onClick={() => setStep(3)}
+                    onClick={() => {
+                      setWishlistId(undefined);
+                      setStep(3);
+                    }}
                     className="flex-1 sm:flex-none w-full md:max-w-[243px] py-2.5 justify-center"
                   >
                     Skip

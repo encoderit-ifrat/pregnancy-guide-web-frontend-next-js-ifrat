@@ -1016,6 +1016,8 @@
       "cancel": "Cancel",
       "remove": "Remove",
       "edit": "Edit",
+      "info": "Info",
+      "delete": "Delete",
       "linkCopied": "Share link copied to clipboard",
       "copyFailed": "Could not copy link",
       "itemRemoved": "Item removed"
@@ -1190,6 +1192,9 @@
     },
     "detail": {
       "back": "Back to Invitations",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
       "eventDetails": "Event Details",
       "wishlistAttached": "Wishlist attached",
       "guestList": "Guest List ({count})",

@@ -1003,6 +1003,8 @@
       "cancel": "Avbryt",
       "remove": "Ta bort",
       "edit": "Redigera",
+      "info": "Info",
+      "delete": "Ta bort",
       "linkCopied": "Delningslänk kopierad",
       "copyFailed": "Kunde inte kopiera länken",
       "itemRemoved": "Föremål borttaget"
@@ -1177,6 +1179,9 @@
     },
     "detail": {
       "back": "Tillbaka till inbjudningar",
+      "edit": "Redigera",
+      "duplicate": "Duplicera",
+      "delete": "Ta bort",
       "eventDetails": "Eventdetaljer",
       "wishlistAttached": "Önskelista bifogad",
       "guestList": "Gästlista ({count})",
