@@ -33,6 +33,8 @@ import { fmtDuration } from "../_lib/format";
 import { LaborProgress } from "../_types/contraction_types";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/base/Pagination";
+import { formatDate } from "date-fns";
+import { sv } from "date-fns/locale";
 
 export default function ContractionStatistics() {
   const { t } = useTranslation();
@@ -182,6 +184,12 @@ export default function ContractionStatistics() {
                         count: s.count,
                       })}
                     </span>
+                    <p className="text-base! font-normal! text-primary-dark!">
+                      {formatDate(s.started_at, "MMMM d, yyyy", {
+                        locale: sv,
+                      })}{" "}
+                      at {formatDate(s.started_at, "HH:mm")}
+                    </p>
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       <div className="flex flex-col items-start">
                         <p className="text-lg! font-normal! text-primary-dark!">

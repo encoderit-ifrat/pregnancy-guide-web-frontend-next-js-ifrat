@@ -61,6 +61,7 @@ export interface ContractionStatistics {
     count: number;
     avg_duration_sec: number;
     avg_interval_sec: number;
+    started_at: string;
   }[];
   recent_sessions_pagination: LaravelPagination;
 }

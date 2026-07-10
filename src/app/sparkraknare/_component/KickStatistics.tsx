@@ -234,7 +234,7 @@ export default function KickStatistics({
                         {formatDate(s.started_at, "MMMM d, yyyy", {
                           locale: sv,
                         })}{" "}
-                        at {formatDate(s.started_at, "h:mm a")}
+                        at {formatDate(s.started_at, "HH:mm")}
                       </p>
                     </div>
                   </div>
