@@ -1176,6 +1176,7 @@ export default function EditInvitationClient() {
                     variant="outline"
                     onClick={() => {
                       setWishlistId(undefined);
+                      void persistDraft();
                       setStep(3);
                     }}
                     className="flex-1 sm:flex-none w-full md:max-w-[243px] py-2.5 justify-center"

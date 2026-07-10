@@ -1078,6 +1078,7 @@ export default function CreateInvitationClient() {
                     variant="outline"
                     onClick={() => {
                       setWishlistId(undefined);
+                      void persistDraft();
                       setStep(3);
                       window.scrollTo(0, 0);
                     }}

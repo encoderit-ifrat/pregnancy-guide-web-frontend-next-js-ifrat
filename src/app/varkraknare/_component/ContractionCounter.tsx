@@ -73,7 +73,10 @@ export default function ContractionCounter({
     setElapsed(initial);
 
     const id = setInterval(() => {
-      setElapsed((prev) => prev + 1);
+      const now = Math.floor(
+        (Date.now() + getServerTimeOffset() - startedAt) / 1000
+      );
+      setElapsed(Math.max(0, now));
     }, 1000);
     return () => clearInterval(id);
   }, [running]);
