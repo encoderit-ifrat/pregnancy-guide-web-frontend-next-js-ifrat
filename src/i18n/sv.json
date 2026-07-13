@@ -110,32 +110,32 @@
     "step3Desc": "Swajpa namn tillsammans med din partner. De namn ni båda gillar hamnar på en gemensam lista som närstående sedan kan rösta på."
   },
   "stats": {
-    "ourVolunteer": "Våra Volontärer",
-    "happyChildren": "Glada Barn",
+    "ourVolunteer": "Våra volontärer",
+    "happyChildren": "Glada barn",
     "titel_1": "Artiklar för varje graviditetsvecka",
     "titel_2": "Bebis, mamma och partner",
     "titel_3": "Medicinskt granskade artiklar",
     "titel_4": "Gravida som använder appen dagligen"
   },
   "trackWeek": {
-    "label": "Vestibulum",
-    "title": "Följ Din Vecka",
+    "label": "Din graviditet",
+    "title": "Följ din vecka",
     "labelUserLoggedOut": "Gemenskap",
     "titleUserLoggedOut": "Du är inte ensam i det du känner"
   },
   "whyChooseUs": {
-    "label": "Välj Oss",
-    "title": "Varför Välja Oss",
+    "label": "Välj oss",
+    "title": "Varför välja oss",
     "labelUserLoggedOut": "Medicinskt granskade",
     "titleUserLoggedOut": "Utvalda artiklar",
-    "securePrivate": "Säker & Privat",
+    "securePrivate": "Säker och privat",
     "securePrivateDesc": "Verifierad & professionell.",
     "cloudSync": "Molnsynkronisering",
-    "cloudSyncDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
-    "fastResponsive": "Snabb & Responsiv",
-    "fastResponsiveDesc": "Suspendisse vitae risus Cras nulla blandit Praesent",
+    "cloudSyncDesc": "Kom åt dina data när som helst, på valfri enhet.",
+    "fastResponsive": "Snabb och responsiv",
+    "fastResponsiveDesc": "Ett snabbt och smidigt gränssnitt på alla enheter.",
     "support247": "Support dygnet runt",
-    "support247Desc": "Suspendisse vitae risus Cras nulla blandit Praesent"
+    "support247Desc": "Vårt team finns här för att hjälpa dig hela vägen."
   },
   "downloadCta": {
     "label": "Kom igång",
@@ -150,7 +150,7 @@
     "title": "Logga in",
     "description": "Logga in på ditt befintliga Familj-konto.",
     "email": "E-post",
-    "emailPlaceholder": "Användarens e-post",
+    "emailPlaceholder": "Din e-postadress",
     "password": "Lösenord",
     "passwordPlaceholder": "Ange lösenord",
     "rememberMe": "Kom ihåg i 30 dagar",
@@ -168,7 +168,7 @@
   },
   "signUp": {
     "title": "Registrera dig",
-    "description": "Skapa ett konto och få tillgång till hundratal medicinskt granskade artiklar och en massa verktyg som vägleder och stöttar dig i graviditeten.",
+    "description": "Skapa ett konto och få tillgång till hundratals medicinskt granskade artiklar och en massa verktyg som vägleder och stöttar dig i graviditeten.",
     "userName": "Användarnamn",
     "userEmail": "E-post",
     "password": "Lösenord",
@@ -210,19 +210,19 @@
     }
   },
   "changePassword": {
-    "title": "Byt Lösenord",
+    "title": "Byt lösenord",
     "description": "Ange ditt nuvarande lösenord och välj ett nytt säkert lösenord för ditt konto."
   },
   "contact": {
     "contactDetails": "Kontaktuppgifter",
     "feedbackTitle": "Lämna din feedback",
-    "feedbackDesc": "Curabitur id mauris laoreet nulla semper posuere eu eu dui. Praesent faucibus, elit a euismod rhoncus.",
+    "feedbackDesc": "Vi vill gärna höra vad du tycker. Din feedback hjälper oss att göra Familj ännu bättre.",
     "rateExperience": "Betygsätt din upplevelse",
     "firstName": "Förnamn",
     "email": "E-post",
     "phone": "Telefon",
     "location": "Plats",
-    "yourMessage": "Ditt Meddelande",
+    "yourMessage": "Ditt meddelande",
     "confirm": "Bekräfta",
     "feedbackSuccess": "Feedback har skapats"
   },
@@ -241,8 +241,8 @@
     "addList": "Lägg till lista",
     "deleteList": "Radera lista",
     "addTask": "Lägg till uppgift",
-    "finalizedTasks": "Slutförda Uppgifter",
-    "addChecklist": "Skapa Checklista",
+    "finalizedTasks": "Slutförda uppgifter",
+    "addChecklist": "Skapa checklista",
     "updateChecklist": "Uppdatera checklista",
     "deleteTitle": "Är du helt säker?",
     "deleteDescription": "Denna åtgärd kan inte ångras. Detta kommer permanent att radera din checklista.",
@@ -277,7 +277,7 @@
       "updateSuccess": "Checklistan har uppdaterats!",
       "saveSuccess": "Checklistan har sparats!",
       "validation": {
-        "titleRequired": "Checklist-titel krävs",
+        "titleRequired": "Checklistans titel krävs",
         "titleMin": "Titeln måste vara minst 2 tecken",
         "titleMax": "Titeln får bara vara 100 tecken lång",
         "descriptionMax": "Beskrivningen får bara vara 500 tecken lång",
@@ -382,8 +382,8 @@
     "myPublished": "Mina publicerade ämnen",
     "myPublished1": "Mina ämnen",
     "communityThreads": "Ämnen",
-    "mostLiked": "Mest Gillade",
-    "mostViewed": "Mest Visade",
+    "mostLiked": "Mest gillade",
+    "mostViewed": "Mest visade",
     "mostLoved": "Mest älskade",
     "newest": "Senaste",
     "reply": "Svara",
@@ -446,8 +446,8 @@
     "startThread": "Nytt ämne",
     "myPublished": "Mina publicerade trådar",
     "communityThreads": "Ämnen",
-    "mostLiked": "Mest Gillade",
-    "mostViewed": "Mest Visade",
+    "mostLiked": "Mest gillade",
+    "mostViewed": "Mest visade",
     "mostLoved": "Mest älskade",
     "newest": "Senaste",
     "threadLatestHaveReply": "Senaste svar",
@@ -521,9 +521,9 @@
     },
     "weekSelector": "Vecka",
     "question": "Fråga",
-    "questionOfTheWeek": "Veckans Fråga",
+    "questionOfTheWeek": "Veckans fråga",
     "weekQuestion": "Graviditetsvecka {week}",
-    "seeAll": "Visa Alla",
+    "seeAll": "Visa alla",
     "noInfo": "Ingen graviditetsinformation hittades.",
     "error": "Ett fel uppstod vid hämtning av graviditetsdata.",
     "startJourney": "Välkommen 💜",
@@ -538,7 +538,7 @@
     "bannerArticle": "Mat & kostråd",
     "ourArticles": "Utvalda artiklar",
     "specialArticles": "Efter förlossningen",
-    "viewAll": "Visa Alla",
+    "viewAll": "Visa alla",
     "previousWeek": "Föregående vecka",
     "nextWeek": "Nästa vecka",
     "searchResultFound": "Här är vad vi hittade för",
@@ -558,10 +558,10 @@
   "hero2": {
     "label": "Förlossning",
     "title": "Användbara artiklar för varje steg i din graviditet",
-    "subtitle": "Expert-skrivna guider, tips och insikter för att stödja dig från graviditet till föräldraskap."
+    "subtitle": "Expertskrivna guider, tips och insikter för att stödja dig från graviditet till föräldraskap."
   },
   "weeklyQuestion": {
-    "title": "Veckans Fråga",
+    "title": "Veckans fråga",
     "description": "Delta i diskussionen och dela dina tankar om den här veckans fråga.",
     "pageTitle": "Fråga",
     "pageHeading": "Veckans fråga",
@@ -569,7 +569,7 @@
     "submit": "Skicka",
     "submitting": "Skickar...",
     "submitAnswer": "Skicka svar",
-    "seeAnswers": "Visa Svar",
+    "seeAnswers": "Visa svar",
     "seeAnswersComments": "Visa svar och kommentarer",
     "percentage": "av personerna valde detta",
     "shareComment": "Dela din kommentar",
@@ -608,17 +608,17 @@
     "edit": "Redigera",
     "delete": "Radera",
     "deleteConfirmTitle": "Radera babyprofil",
-    "deleteConfirmDesc": "Är du säker på att du vill radera. Denna åtgärd kan inte ångras.",
-    "deleteSuccess": "Profilen raderades framgångsrikt",
+    "deleteConfirmDesc": "Är du säker på att du vill radera? Denna åtgärd kan inte ångras.",
+    "deleteSuccess": "Profilen har raderats",
     "addBabyProfile": "Lägg till babyprofil",
     "noProfiles": "Inga babyprofiler än",
-    "updateSuccess": "Profilen uppdaterades framgångsrikt",
+    "updateSuccess": "Profilen har uppdaterats",
     "updateFailed": "Misslyckades med att uppdatera profilen",
     "uploadErrorImage": "Vänligen ladda upp en bildfil",
     "uploadErrorSize": "Bildstorleken bör vara mindre än 5MB"
   },
   "partner": {
-    "inviteTitle": " Bjud in",
+    "inviteTitle": "Bjud in",
     "inviteSubTitle": "Så de kan följa din graviditet",
     "emailPlaceholder": "Ange e-post.....",
     "rolePartner": "Partner",
@@ -627,7 +627,7 @@
     "emailAddress": "E-postadress",
     "statusInvited": "inbjuden",
     "statusPending": "Väntar",
-    "statusCancelled": "Avbryten",
+    "statusCancelled": "Avbruten",
     "statusAccepted": "Accepterad"
   },
   "formProfile": {
@@ -648,12 +648,12 @@
   },
   "features": {
     "secure": {
-      "title": "Säker & Privat",
+      "title": "Säker och privat",
       "description": "Din graviditetsresa är privat och säker hos oss."
     },
     "fast": {
-      "title": "Snabb & Responsiv",
-      "description": "Upplev ett snabb och smidigt gränssnitt på alla enheter."
+      "title": "Snabb och responsiv",
+      "description": "Upplev ett snabbt och smidigt gränssnitt på alla enheter."
     },
     "userFriendly": {
       "title": "Användarvänligt gränssnitt",
@@ -701,8 +701,8 @@
   "matchedNames": {
     "title": "Matchade namn",
     "subtitle": "Granska och hantera dina matchade namn.",
-    "cannotSwipe": "Kan inte svajpa på det här objektet",
-    "swipeSuccess": "Svepningen lyckades",
+    "cannotSwipe": "Kan inte swajpa på det här objektet",
+    "swipeSuccess": "Swajpningen lyckades",
     "failedUpdateStatus": "Det gick inte att uppdatera namnets status",
     "removeThisName": "Ta bort det här namnet",
     "deletedForever": "Det kommer att raderas för alltid.",
@@ -716,9 +716,9 @@
     "mostLiked": "Mest gillade",
     "mostLoved": "Mest älskade",
     "failedLoad": "Det gick inte att ladda matchade namn. Försök igen.",
-    "noNamesYet": "Inga matchade namn ännu. Börja svajpa!",
+    "noNamesYet": "Inga matchade namn ännu. Börja swajpa!",
     "linkCopied": "Länken kopierad till urklipp!",
-    "failedSwipe": "Svepningen misslyckades",
+    "failedSwipe": "Swajpningen misslyckades",
     "category": "Kategori",
     "gender": "Kön",
     "stats": "Statistik",
@@ -731,7 +731,7 @@
   "high": "Hög",
   "kickCounter": {
     "badge": "Sparkräknare",
-    "badge01": "Session Aktiv",
+    "badge01": "Session aktiv",
     "title": "Spåra din bebis rörelser",
     "title01": "Följer bebisens sparkar",
     "subtitle": "Följ din bebis sparkar och rörelser under graviditeten. Håll koll på mönster och känn dig nära din lilla.",
@@ -778,7 +778,7 @@
       "viewFullStats": "Visa fullständig statistik",
       "recordError": "Kunde inte registrera rörelsen",
       "saved": "Sessionen sparad",
-      "viewAll": "Visa Alla"
+      "viewAll": "Visa alla"
     },
     "stats": {
       "back": "Tillbaka till Sparkräknaren",
@@ -804,7 +804,7 @@
       "whenToCall": "När du ska ringa din läkare",
       "startNew": "Starta ny session",
       "unknown": "Okänd",
-      "fromLastWeek": "Frånra förra veckan",
+      "fromLastWeek": "Från förra veckan",
       "kicksPerDay": "sparkar per dag",
       "mostActiveTime": "Mest aktiva timme",
       "soft": "Mjuk",
@@ -830,14 +830,14 @@
       "deleteDesc": "Är du säker på att du vill ta bort denna session? Denna åtgärd kan inte ångras.",
       "deleteCancel": "Avbryt",
       "deleteConfirm": "Ta bort",
-      "noteTitle": "Note",
-      "noteDesc": "All session data is stored locally on your device."
+      "noteTitle": "Observera",
+      "noteDesc": "All sessionsdata sparas lokalt på din enhet."
     }
   },
   "contractionCounter": {
     "badge": "Värkräknare",
     "title": "Tajma dina sammandragningar",
-    "subtitle": "Spåra längd och frekvens på dina sammandragningar och vet när det är dags att åka till sjukhuset.",
+    "subtitle": "Spåra längd och frekvens på dina sammandragningar så du vet när det är dags att åka till sjukhuset.",
     "loginPrompt": "Logga in för att använda Värkräknaren.",
     "login": "Logga in",
     "startError": "Kunde inte starta",
@@ -866,9 +866,9 @@
       "tip1": "Spåra från början av en sammandragning till början av nästa",
       "tip2": "Notera längden på varje sammandragning",
       "tip3": "Vila mellan sammandragningarna",
-      "tip4": "Your baby is most active in the evening",
-      "tip5": "Kick count is consistent and healthy",
-      "tip6": "Average session duration: 42 minutes",
+      "tip4": "Sammandragningar som kommer tätare och mer regelbundet kan vara ett tecken på att förlossningen har startat",
+      "tip5": "Kontakta din barnmorska eller förlossningen om du känner dig osäker",
+      "tip6": "Försök att slappna av och andas lugnt under varje sammandragning",
       "endSession": "Avsluta session",
       "stopError": "Kunde inte stoppa sammandragningen",
       "startError": "Kunde inte starta sammandragningen",
@@ -926,7 +926,7 @@
       "deleteCancel": "Avbryt",
       "deleteConfirm": "Ta bort",
       "newSession": "Ny session",
-      "noteTitle": "Note",
+      "noteTitle": "Observera",
       "noteDesc": "All sessionsdata sparas lokalt på din enhet. Exportera din historik innan du rensar webbläsardatan."
     }
   },
@@ -955,7 +955,7 @@
       "uploadHint": "PNG, JPG upp till 10MB",
       "imageUploaded": "Bild uppladdad ✓",
       "imageOptional": "Bilden är valfri",
-      "latestReply": "Senaste svarsdatum",
+      "latestReply": "Sista svarsdatum",
       "cancel": "Avbryt",
       "submit": "Skapa önskelista",
       "titleRequired": "Ange en titel för önskelistan",
@@ -984,7 +984,7 @@
     },
     "detail": {
       "back": "Tillbaka till önskelistor",
-      "latestPurchase": "Senaste inköpsdag: {date}",
+      "latestPurchase": "Sista inköpsdag: {date}",
       "itemsClaimed": "föremål reserverade",
       "shareWishlist": "Dela önskelista",
       "addItem": "Lägg till föremål",
@@ -1015,7 +1015,7 @@
     "public": {
       "heading": "Önskelista",
       "notFound": "Denna önskelista kunde inte hittas eller är inte längre tillgänglig.",
-      "latestPurchase": "Senaste inköpsdag: {date}",
+      "latestPurchase": "Sista inköpsdag: {date}",
       "itemsName": "Föremål",
       "price": "Pris",
       "pcs": "Antal",
@@ -1079,7 +1079,7 @@
       "subtitle": "Designa och dela en vacker inbjudan till din fest",
       "stepEventInfo": {
         "title": "Eventinfo",
-        "subtitle": "Basala uppgifter"
+        "subtitle": "Grundläggande uppgifter"
       },
       "stepTemplate": {
         "title": "Mall",
@@ -1105,7 +1105,7 @@
       "subtitlePlaceholder": "Babyshower",
       "date": "Datum",
       "time": "Tid",
-      "latestReply": "Senaste svarsdatum",
+      "latestReply": "Sista svarsdatum",
       "location": "Plats",
       "locationPlaceholder": "Rosendals trädgård, Stockholm",
       "customMessage": "Eget meddelande",
@@ -1113,7 +1113,7 @@
       "customMessagePlaceholder": "Vi är glada att få fira denna speciella resa…",
       "chooseTemplate": "Välj inbjudningsmall",
       "chooseTemplateBelow": "Välj designstil för din inbjudan",
-      "stepPreviewDes": "Review all details and send your beautiful invitation to guests.",
+      "stepPreviewDes": "Granska alla detaljer och skicka din vackra inbjudan till dina gäster.",
       "attachWishlist": "Bifoga önskelista",
       "attachWishlistDesc": "Hjälp dina gäster att veta exakt vad ni behöver till er bebis.",
       "noWishlist": "Ingen önskelista (hoppa över)",
@@ -1153,7 +1153,7 @@
       "titleRequired": "Ange en eventtitel",
       "timeRequired": "Ange en eventtid",
       "scheduleRequired": "Ange en eventtid",
-      "replyByRequired": "Ange ett svarsdatum",
+      "replyByRequired": "Ange ett sista svarsdatum",
       "locationRequired": "Ange en eventplats",
       "recipientRequired": "Lägg till minst en mottagare",
       "enterNameEmail": "Ange både namn och e-post",
@@ -1161,7 +1161,7 @@
       "savedDraft": "Inbjudan sparad som utkast",
       "autosaving": "Sparar utkast…",
       "autosaved": "Utkast sparat",
-      "eventDetails": "Event Details",
+      "eventDetails": "Eventdetaljer",
       "emailStatus": "E-poststatus",
       "readyToSend": "Redo att skicka",
       "createWishlist": "Skapa ny önskelista",
@@ -1174,12 +1174,12 @@
     },
     "preview": {
       "eventTitle": "Eventtitel",
-      "eventSubtitle": "Event Subtitle",
+      "eventSubtitle": "Underrubrik",
       "defaultdate": "28 maj 2026",
-      "defaulttime": "03:00 PM",
+      "defaulttime": "15:00",
       "defaultlocation": "Rosendals trädgård",
       "defaultMessage": "Vi är så glada att få fira denna speciella resa med dig.",
-      "latestReply": "Senaste svarsdatum: {date}"
+      "latestReply": "Sista svarsdatum: {date}"
     },
     "detail": {
       "back": "Tillbaka till inbjudningar",
