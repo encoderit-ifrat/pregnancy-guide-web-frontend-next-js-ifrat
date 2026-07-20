@@ -39,7 +39,6 @@ import IconLike from "@/components/svg-icon/icon-like";
 import { useMutationDeleteMatchingName } from "./_api/useMutationDeleteMatchingName";
 import { useQueryClient } from "@tanstack/react-query";
 
-
 function SkeletonCard() {
   return (
     <div className="w-full border border-border rounded-lg p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12 animate-pulse">
@@ -191,7 +190,7 @@ function NameCard({ item }: { item: MatchingType }) {
                   </div>
                 </DialogContent>
               </Dialog>
-              <ToggleGroup
+              {/* <ToggleGroup
                 type="single"
                 value={activeAction || ""}
                 onValueChange={(value) => {
@@ -234,7 +233,7 @@ function NameCard({ item }: { item: MatchingType }) {
                     )}
                   />
                 </ToggleGroupItem>
-              </ToggleGroup>
+              </ToggleGroup> */}
             </div>
           </div>
         </div>
