@@ -261,6 +261,7 @@ export default function PublicInvitationClient() {
                   variant="outline"
                   onClick={() => handleRespond("declined")}
                   disabled={respond.isPending}
+                  className="bg-[#F6F0FB]!"
                 >
                   <CircleX />
                   {t("invitations.public.deny")}
