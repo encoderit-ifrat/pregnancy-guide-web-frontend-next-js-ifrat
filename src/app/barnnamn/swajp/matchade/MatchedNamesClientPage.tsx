@@ -39,7 +39,6 @@ import IconLike from "@/components/svg-icon/icon-like";
 import { useMutationDeleteMatchingName } from "./_api/useMutationDeleteMatchingName";
 import { useQueryClient } from "@tanstack/react-query";
 
-
 function SkeletonCard() {
   return (
     <div className="w-full border border-border rounded-lg p-5 sm:pt-8 sm:pr-13 sm:pb-10 sm:pl-12 animate-pulse">
@@ -61,7 +60,13 @@ function SkeletonCard() {
   );
 }
 
-function NameCard({ item }: { item: MatchingType }) {
+function NameCard({
+  item,
+  remove = false,
+}: {
+  item: MatchingType;
+  remove?: boolean;
+}) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
@@ -191,50 +196,52 @@ function NameCard({ item }: { item: MatchingType }) {
                   </div>
                 </DialogContent>
               </Dialog>
-              <ToggleGroup
-                type="single"
-                value={activeAction || ""}
-                onValueChange={(value) => {
-                  if (value) handleToggle(value as "like" | "love");
-                  else setActiveAction(null);
-                }}
-                disabled={isSwiping}
-                className="gap-2 sm:gap-3"
-              >
-                <ToggleGroupItem
-                  value="love"
-                  aria-label="Toggle love"
-                  variant="default"
-                  size="sm"
-                  className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+              {!remove && (
+                <ToggleGroup
+                  type="single"
+                  value={activeAction || ""}
+                  onValueChange={(value) => {
+                    if (value) handleToggle(value as "like" | "love");
+                    else setActiveAction(null);
+                  }}
+                  disabled={isSwiping}
+                  className="gap-2 sm:gap-3"
                 >
-                  <Heart
-                    className={cn(
-                      "size-4 transition-colors",
-                      activeAction === "love"
-                        ? "fill-rose-500 stroke-rose-500"
-                        : "stroke-current"
-                    )}
-                  />
-                </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value="love"
+                    aria-label="Toggle love"
+                    variant="default"
+                    size="sm"
+                    className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+                  >
+                    <Heart
+                      className={cn(
+                        "size-4 transition-colors",
+                        activeAction === "love"
+                          ? "fill-rose-500 stroke-rose-500"
+                          : "stroke-current"
+                      )}
+                    />
+                  </ToggleGroupItem>
 
-                <ToggleGroupItem
-                  value="like"
-                  aria-label="Toggle like"
-                  variant="default"
-                  size="sm"
-                  className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
-                >
-                  <ThumbsUp
-                    className={cn(
-                      "size-4 transition-colors",
-                      activeAction === "like"
-                        ? "fill-primary stroke-primary"
-                        : "stroke-current"
-                    )}
-                  />
-                </ToggleGroupItem>
-              </ToggleGroup>
+                  <ToggleGroupItem
+                    value="like"
+                    aria-label="Toggle like"
+                    variant="default"
+                    size="sm"
+                    className="p-0 hover:bg-transparent data-[state=on]:bg-transparent"
+                  >
+                    <ThumbsUp
+                      className={cn(
+                        "size-4 transition-colors",
+                        activeAction === "like"
+                          ? "fill-primary stroke-primary"
+                          : "stroke-current"
+                      )}
+                    />
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              )}
             </div>
           </div>
         </div>
@@ -408,7 +415,11 @@ export default function MatchedNamesClientPage() {
                       </p>
                     )}
                   {listToRender?.map((nameItem: MatchingType, idx: number) => (
-                    <NameCard key={`${nameItem.name}-${idx}`} item={nameItem} />
+                    <NameCard
+                      key={`${nameItem.name}-${idx}`}
+                      item={nameItem}
+                      remove={true}
+                    />
                   ))}
                 </TabsContent>
               ))}
