@@ -40,7 +40,7 @@ export default function InvitationPreview({
   // console.log("template", template);
 
   return (
-    <div className="relative overflow-hidden h-[433px] md:h-[755px] rounded-[8px] border bg-white shadow-week-details">
+    <div className="relative overflow-hidden h-[433px] md:h-[828px] md:max-w-[578px] w-full rounded-[8px] border bg-white shadow-week-details">
       {coverImage ? (
         <Image
           src={

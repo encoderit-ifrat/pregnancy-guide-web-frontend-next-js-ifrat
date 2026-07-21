@@ -230,26 +230,61 @@ export default function ContractionCounter({
               </span>
             )}
           </div>
+          <div className="flex flex-col gap-3 items-center">
+            <Button
+              onClick={handleToggle}
+              disabled={busy}
+              variant={"default"}
+              className="min-w-52 px-[22px]! py-1! text-lg! font-semibold! justify-center"
+            >
+              {busy ? (
+                <Loader2 className="size-5 animate-spin" />
+              ) : running ? (
+                <Square strokeWidth={3} className="size-5" />
+              ) : (
+                <Play strokeWidth={3} className="size-5" />
+              )}
+              <span>
+                {running
+                  ? t("contractionCounter.counter.stop")
+                  : t("contractionCounter.counter.start")}
+              </span>
+            </Button>
+            {session && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  const doEndSession = () => {
+                    endSession.mutate(session._id, {
+                      onSuccess: () =>
+                        toast.success(
+                          t("contractionCounter.counter.sessionEnded")
+                        ),
+                    });
+                  };
 
-          <Button
-            onClick={handleToggle}
-            disabled={busy}
-            variant={"default"}
-            className="min-w-52 px-[22px]! py-1! text-lg! font-semibold! justify-center"
-          >
-            {busy ? (
-              <Loader2 className="size-5 animate-spin" />
-            ) : running ? (
-              <Square strokeWidth={3} className="size-5" />
-            ) : (
-              <Play strokeWidth={3} className="size-5" />
+                  if (running) {
+                    stopContraction.mutate(
+                      { sessionId: session._id, contractionId: running._id },
+                      {
+                        onSuccess: doEndSession,
+                        onError: () =>
+                          toast.error(
+                            t("contractionCounter.counter.stopError")
+                          ),
+                      }
+                    );
+                  } else {
+                    doEndSession();
+                  }
+                }}
+                disabled={endSession.isPending || stopContraction.isPending}
+                className="min-w-56 px-[22px]! py-0.5! text-lg! font-semibold! justify-center"
+              >
+                {t("contractionCounter.counter.endSession")}
+              </Button>
             )}
-            <span>
-              {running
-                ? t("contractionCounter.counter.stop")
-                : t("contractionCounter.counter.start")}
-            </span>
-          </Button>
+          </div>
 
           <div className="mt-8 grid grid-cols-3 gap-4 border-y border-y-[#EEE4F9] py-3 md:py-6">
             <Stat
@@ -342,40 +377,7 @@ export default function ContractionCounter({
               )}{" "}
               {t("contractionCounter.counter.viewHistory")}
             </Button>
-            {session && (
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  const doEndSession = () => {
-                    endSession.mutate(session._id, {
-                      onSuccess: () =>
-                        toast.success(
-                          t("contractionCounter.counter.sessionEnded")
-                        ),
-                    });
-                  };
 
-                  if (running) {
-                    stopContraction.mutate(
-                      { sessionId: session._id, contractionId: running._id },
-                      {
-                        onSuccess: doEndSession,
-                        onError: () =>
-                          toast.error(
-                            t("contractionCounter.counter.stopError")
-                          ),
-                      }
-                    );
-                  } else {
-                    doEndSession();
-                  }
-                }}
-                disabled={endSession.isPending || stopContraction.isPending}
-                className="w-full justify-center"
-              >
-                {t("contractionCounter.counter.endSession")}
-              </Button>
-            )}
             {/* <Button
               variant="outline"
               asChild

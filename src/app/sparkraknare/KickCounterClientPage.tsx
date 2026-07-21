@@ -11,8 +11,12 @@ import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 import {
   useQueryActiveKickSession,
+  useQueryKickStatistics,
 } from "./_api/queries/useQueryKickCounter";
-import { useAddKick, useStartKickSession } from "./_api/mutations/useKickMutations";
+import {
+  useAddKick,
+  useStartKickSession,
+} from "./_api/mutations/useKickMutations";
 import { KickType } from "./_types/kick_types";
 import KickLanding from "./_component/KickLanding";
 import KickSession from "./_component/KickSession";
@@ -34,6 +38,10 @@ export default function KickCounterClientPage() {
     isLoading,
     isFetching,
   } = useQueryActiveKickSession(!!sessionId);
+  const { data: stats, isFetching: statsIsFetching } = useQueryKickStatistics(
+    "week",
+    1
+  );
   const start = useStartKickSession();
   const addKick = useAddKick();
 
@@ -65,7 +73,11 @@ export default function KickCounterClientPage() {
         {view != "stats" && (
           <div className="thread-header mb-8 flex flex-col items-center text-center">
             <IconHeading
-              text={showKickSession || session ? t("kickCounter.badge01") : t("kickCounter.badge")}
+              text={
+                showKickSession || session
+                  ? t("kickCounter.badge01")
+                  : t("kickCounter.badge")
+              }
               image={
                 showKickSession || session
                   ? "/images/icons/kick-02.png"
@@ -74,11 +86,15 @@ export default function KickCounterClientPage() {
               className="text-primary justify-center"
             />
             <SectionHeading className="my-2 mb-6">
-              {showKickSession || session ? t("kickCounter.title01") : t("kickCounter.title")}
+              {showKickSession || session
+                ? t("kickCounter.title01")
+                : t("kickCounter.title")}
             </SectionHeading>
 
             <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
-              {showKickSession || session ? t("kickCounter.subtitle01") : t("kickCounter.subtitle")}
+              {showKickSession || session
+                ? t("kickCounter.subtitle01")
+                : t("kickCounter.subtitle")}
             </p>
           </div>
         )}
@@ -95,8 +111,16 @@ export default function KickCounterClientPage() {
             </Button>
           </Card>
         ) : view === "stats" ? (
-          <KickStatistics onBack={() => setView("")} onStart={() => { setShowKickSession(true); setView(""); }} />
-        ) : showKickSession || session ? (
+          <KickStatistics
+            onBack={() => setView("")}
+            onStart={() => {
+              setShowKickSession(true);
+              setView("");
+            }}
+          />
+        ) : showKickSession ||
+          session ||
+          (stats?.session_history?.length ?? 0) > 0 ? (
           <KickSession
             session={session ?? null}
             onStop={handleStop}

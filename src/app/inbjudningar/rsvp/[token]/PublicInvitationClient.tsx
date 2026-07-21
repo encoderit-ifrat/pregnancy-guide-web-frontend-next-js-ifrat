@@ -20,6 +20,7 @@ import {
   CircleX,
   Gift,
   Loader2,
+  LockKeyhole,
   Mail,
   ShieldCheck,
 } from "lucide-react";
@@ -196,7 +197,7 @@ export default function PublicInvitationClient() {
             {t("invitations.public.title")}
           </SectionHeading>
 
-          <p className="text-sm text-primary-color text-center mb-4 max-w-3xl mx-auto">
+          <p className="text-sm! md:text-base! text-primary-dark! font-normal! text-center mb-4 max-w-3xl mx-auto">
             {t("invitations.public.subtitle")}
           </p>
         </div>
@@ -210,31 +211,49 @@ export default function PublicInvitationClient() {
             {t("invitations.public.notFound")}
           </Card>
         ) : (
-          <>
-            <InvitationPreview
-              title={data.invitation.title}
-              subtitle={data.invitation.subtitle}
-              message={data.invitation.message}
-              date={data.invitation.event_date}
-              time={data.invitation.event_time}
-              location={data.invitation.location}
-              replyBy={data.invitation.reply_by}
-              template={data.invitation.template}
-              coverImage={data.invitation.cover_image}
-            />
+          <div className="w-full">
+            <div className="flex flex-col items-center">
+              <InvitationPreview
+                title={data.invitation.title}
+                subtitle={data.invitation.subtitle}
+                message={data.invitation.message}
+                date={data.invitation.event_date}
+                time={data.invitation.event_time}
+                location={data.invitation.location}
+                replyBy={data.invitation.reply_by}
+                template={data.invitation.template}
+                coverImage={data.invitation.cover_image}
+              />
+            </div>
 
             {replyExpired ? (
-              <div className="mt-6 flex flex-col items-center gap-3">
-                <Card className="w-full p-5 text-center text-sm text-primary-dark">
-                  {t("invitations.public.viewOnly")}
-                </Card>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                <div className="flex flex-col items-center gap-3">
+                  <Card className="w-full p-5 text-center text-sm text-primary-dark">
+                    {t("invitations.public.viewOnly")}
+                  </Card>
+                </div>
+                {data.invitation.has_wishlist && (
+                  <Button onClick={handleSeeWishlist}>
+                    <Gift className="size-4" />{" "}
+                    {t("invitations.public.seeWishlist")}
+                  </Button>
+                )}
               </div>
             ) : alreadyResponded ? (
-              <Card className="mt-6 p-5 text-center text-sm text-primary-dark">
-                {t("invitations.public.alreadyResponded", {
-                  status: t(`invitations.status.${guest!.rsvp_status}`),
-                })}
-              </Card>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                <Card className="p-5 text-center text-sm text-primary-dark">
+                  {t("invitations.public.alreadyResponded", {
+                    status: t(`invitations.status.${guest!.rsvp_status}`),
+                  })}
+                </Card>
+                {data.invitation.has_wishlist && (
+                  <Button onClick={handleSeeWishlist}>
+                    <Gift className="size-4" />{" "}
+                    {t("invitations.public.seeWishlist")}
+                  </Button>
+                )}
+              </div>
             ) : (
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Button
@@ -264,11 +283,11 @@ export default function PublicInvitationClient() {
                 )}
               </div>
             )}
-            <p className="mt-3 flex items-center justify-center gap-1 text-xs text-text-secondary">
-              <ShieldCheck className="size-3.5" />{" "}
+            <p className="mt-3 flex items-center justify-center gap-1 text-xs text-primary-dark!">
+              <LockKeyhole className="size-3.5" />{" "}
               {t("invitations.public.privateSecure")}
             </p>
-          </>
+          </div>
         )}
       </div>
 
