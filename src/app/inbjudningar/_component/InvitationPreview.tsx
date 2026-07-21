@@ -19,6 +19,7 @@ interface Props {
   template?: InvitationTemplate | null;
   coverImage?: string | null;
   templatePreviewUrl?: string | null;
+  customHeight?: string | null;
 }
 
 export default function InvitationPreview({
@@ -32,6 +33,7 @@ export default function InvitationPreview({
   template = null,
   coverImage,
   templatePreviewUrl,
+  customHeight = "md:h-[755px]",
 }: Props) {
   const { t } = useTranslation();
   const fmtDate = date ? formatDate(date, "MMMM dd, yyyy", { locale: sv }) : "";
@@ -40,7 +42,9 @@ export default function InvitationPreview({
   // console.log("template", template);
 
   return (
-    <div className="relative overflow-hidden h-[433px] md:h-[828px] md:max-w-[578px] w-full rounded-[8px] border bg-white shadow-week-details">
+    <div
+      className={`relative overflow-hidden h-[433px]  md:max-w-[578px] w-full rounded-[8px] border bg-white shadow-week-details ${customHeight}`}
+    >
       {coverImage ? (
         <Image
           src={

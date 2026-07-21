@@ -223,6 +223,7 @@ export default function PublicInvitationClient() {
                 replyBy={data.invitation.reply_by}
                 template={data.invitation.template}
                 coverImage={data.invitation.cover_image}
+                customHeight="md:h-[828px]"
               />
             </div>
 
@@ -241,7 +242,7 @@ export default function PublicInvitationClient() {
                 )}
               </div>
             ) : alreadyResponded ? (
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <div className="mt-6 flex flex-col flex-wrap items-center justify-center gap-3">
                 <Card className="p-5 text-center text-sm text-primary-dark">
                   {t("invitations.public.alreadyResponded", {
                     status: t(`invitations.status.${guest!.rsvp_status}`),
