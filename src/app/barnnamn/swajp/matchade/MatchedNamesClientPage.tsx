@@ -159,7 +159,7 @@ function NameCard({
                     </button>
                   </DialogTrigger>
                 </div>
-                <DialogContent className="w-[95vw] sm:max-w-xl text-center bg-white p-5 sm:p-8 max-h-[90vh] overflow-y-auto">
+                <DialogContent className="w-[95vw] sm:max-w-xl text-center bg-white p-5 pt-8 sm:p-8 max-h-[90vh] overflow-y-auto">
                   <DialogTitle className="sr-only">
                     {t("matchedNames.removeThisName")}
                   </DialogTitle>
@@ -173,7 +173,7 @@ function NameCard({
                     <Button
                       variant="outline"
                       onClick={() => setOpenDeleteDialog(false)}
-                      className="w-full sm:w-41.25"
+                      className="w-full sm:w-41.25 justify-center"
                     >
                       {t("matchedNames.cancel")}
                     </Button>
